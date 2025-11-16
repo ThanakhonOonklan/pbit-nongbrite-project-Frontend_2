@@ -60,7 +60,8 @@ const TopThreePodium: React.FC<TopThreePodiumProps> = ({ topThree, className }) 
 
   return (
     <Container
-      className={cn("pt-6 px-6 pb-4 mt-4 overflow-hidden", className)}
+      variant="white"
+      className={cn("pt-6 px-6 pb-4 overflow-hidden rounded-b-none", className)}
     >
       {/* Podium Container */}
       <div className="flex items-end justify-center gap-6 overflow-visible ">
@@ -75,13 +76,13 @@ const TopThreePodium: React.FC<TopThreePodiumProps> = ({ topThree, className }) 
           } as React.CSSProperties;
 
           return (
-            <div
-              key={user.id}
-              className={cn(
-                "relative flex flex-col items-center transition-all duration-300",
-                user.rank === 1 ? "w-[140px]" : "w-[120px]"
-              )}
-            >
+          <div
+            key={user.id}
+            className={cn(
+              "relative flex flex-col items-center transition-all duration-300",
+              user.rank === 1 ? "w-[140px]" : "w-[120px]"
+            )}
+          >
             {/* Avatar */}
             <div
               className={cn(
@@ -149,7 +150,7 @@ const TopThreePodium: React.FC<TopThreePodiumProps> = ({ topThree, className }) 
                 </span>
               </div>
             </div>
-            </div>
+          </div>
           );
         })}
       </div>

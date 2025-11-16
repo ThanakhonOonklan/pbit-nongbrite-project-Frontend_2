@@ -41,9 +41,8 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
   if (!myRank) {
     return (
       <Container
-        className={cn(
-          "p-6 flex flex-col items-center justify-center",
-          className
+        variant="white"
+        className={cn("p-6 flex flex-col items-center justify-center",className
         )}
       >
         <div className="text-[48px] mb-2">📊</div>
@@ -78,6 +77,7 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
 
   return (
     <Container
+      variant="white"
       className={cn("flex flex-col", className)}
     >
       {/* Scrollable Content */}

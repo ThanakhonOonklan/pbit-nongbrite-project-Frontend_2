@@ -19,7 +19,7 @@ export const ProgressList: React.FC<ProgressListProps> = ({
   className,
 }) => {
   return (
-    <Container variant="white" className={cn("p-6", className)}>
+    <Container variant="white" className={cn("p-6 rounded-t-none", className)}>
       <div className="space-y-3">
         {items.map((item, index) => (
           <ProgressItem

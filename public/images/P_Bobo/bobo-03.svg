@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 175.47 247.74">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d8d6d6;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        isolation: isolate;
+      }
+
+      .cls-4 {
+        fill: #606161;
+        mix-blend-mode: multiply;
+        opacity: .25;
+      }
+
+      .cls-5 {
+        fill: #2f2e33;
+      }
+    </style>
+  </defs>
+  <g class="cls-3">
+    <g id="Layer_2" data-name="Layer 2">
+      <g id="_หมี" data-name="หมี">
+        <g>
+          <ellipse class="cls-4" cx="88.7" cy="238.23" rx="55.98" ry="9.51"/>
+          <circle class="cls-2" cx="34.52" cy="21.73" r="21.73"/>
+          <circle class="cls-1" cx="34.52" cy="21.73" r="14.08"/>
+          <circle class="cls-2" cx="141.67" cy="21.73" r="21.73"/>
+          <circle class="cls-1" cx="141.67" cy="21.73" r="14.08"/>
+          <ellipse class="cls-2" cx="87.74" cy="78.43" rx="87.74" ry="72.98"/>
+          <ellipse class="cls-1" cx="88.09" cy="96.19" rx="21.73" ry="14.3"/>
+          <circle cx="88.1" cy="87.92" r="3.64"/>
+          <rect x="86.77" y="88.93" width="2.66" height="9.21"/>
+          <rect x="79.08" y="97.47" width="18.04" height="2.66" rx=".89" ry=".89"/>
+          <path class="cls-2" d="M49.89,205.25h32v16c0,8.83-7.17,16-16,16h0c-8.83,0-16-7.17-16-16v-16h0Z"/>
+          <rect class="cls-2" x="42.33" y="183.56" width="8.83" height="17.36" rx="3.35" ry="3.35"/>
+          <path class="cls-2" d="M50.44,132.75v66.87l-27.13-27.91c-2.97-3.06-2.97-7.99,0-11.05l27.13-27.91Z"/>
+          <rect class="cls-2" x="126.24" y="183.56" width="8.83" height="17.36" rx="3.35" ry="3.35" transform="translate(261.31 384.49) rotate(180)"/>
+          <path class="cls-2" d="M126.96,132.75v66.87s27.13-27.91,27.13-27.91c2.97-3.06,2.97-7.99,0-11.05l-27.13-27.91Z"/>
+          <path class="cls-2" d="M95.49,205.25h32v16c0,8.83-7.17,16-16,16h0c-8.83,0-16-7.17-16-16v-16h0Z"/>
+          <rect class="cls-2" x="49.82" y="142.48" width="77.76" height="65.4"/>
+          <rect class="cls-1" x="72.3" y="155.85" width="32.8" height="37.71" rx="11.24" ry="11.24"/>
+        </g>
+        <circle class="cls-5" cx="64.3" cy="69.1" r="5.11"/>
+        <circle class="cls-5" cx="110.3" cy="69.1" r="5.11"/>
+      </g>
+    </g>
+  </g>
+</svg>

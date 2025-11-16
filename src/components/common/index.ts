@@ -29,3 +29,7 @@ export type { AnimatedListProps } from "./AnimatedList";
 export { Container } from "./Container";
 export type { ContainerProps } from "./Container";
 export { EditButton } from "./EditButton";
+export { Ripple } from "./Ripple";
+export type { RippleProps } from "./Ripple";
+export { DifficultyIndicator } from "./DifficultyIndicator";
+export type { DifficultyIndicatorProps } from "./DifficultyIndicator";

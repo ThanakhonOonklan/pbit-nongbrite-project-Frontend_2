@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198.11 213.54">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #aa4817;
+      }
+
+      .cls-2 {
+        fill: #fcaa59;
+      }
+
+      .cls-3 {
+        fill: #ffb361;
+      }
+
+      .cls-4 {
+        isolation: isolate;
+      }
+
+      .cls-5 {
+        fill: #f77b00;
+      }
+
+      .cls-6 {
+        fill: #3b1b11;
+      }
+
+      .cls-7 {
+        fill: #606161;
+        mix-blend-mode: multiply;
+        opacity: .25;
+      }
+
+      .cls-8 {
+        fill: none;
+        stroke: #3b1b11;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <g class="cls-4">
+    <g id="Layer_2" data-name="Layer 2">
+      <g id="_หมา" data-name="หมา">
+        <circle class="cls-2" cx="42.39" cy="159.78" r="14.92"/>
+        <path class="cls-2" d="M64.28,108.31h2.07v54.43h-24.28v-32.22c0-12.26,9.95-22.21,22.21-22.21Z" transform="translate(68.91 -9.7) rotate(27.58)"/>
+        <g>
+          <g>
+            <path class="cls-2" d="M135.47,110.34v66.87s27.13-27.91,27.13-27.91c2.97-3.06,2.97-7.99,0-11.05l-27.13-27.91Z"/>
+            <circle class="cls-2" cx="139.66" cy="164.82" r="13"/>
+          </g>
+          <path class="cls-1" d="M21.9,17.14h9.34c20.22,0,36.64,16.42,36.64,36.64v.71c0,12.55-10.18,22.73-22.73,22.73H2.07v-40.26c0-10.94,8.88-19.82,19.82-19.82Z" transform="translate(93.43 52.9) rotate(132.13)"/>
+          <path class="cls-1" d="M130.12,15.67h43.07c12.55,0,22.73,10.18,22.73,22.73v.71c0,20.22-16.42,36.64-36.64,36.64h-9.34c-10.94,0-19.82-8.88-19.82-19.82V15.67h0Z" transform="translate(80.07 -101.89) rotate(45)"/>
+          <ellipse class="cls-7" cx="99.42" cy="204.4" rx="53.81" ry="9.15"/>
+          <path class="cls-3" d="M62.12,172.7h30.76v19.79c0,6.05-4.91,10.97-10.97,10.97h-8.82c-6.05,0-10.97-4.91-10.97-10.97v-19.79h0Z"/>
+          <path class="cls-3" d="M105.95,172.7h30.76v19.79c0,6.05-4.91,10.97-10.97,10.97h-8.82c-6.05,0-10.97-4.91-10.97-10.97v-19.79h0Z"/>
+          <rect class="cls-3" x="62.05" y="112.36" width="74.74" height="62.86"/>
+          <rect class="cls-1" x="83.66" y="125.21" width="31.53" height="36.25" rx="11.24" ry="11.24"/>
+          <rect class="cls-3" x="25.12" width="148.6" height="113.36" rx="19.83" ry="19.83"/>
+          <path class="cls-5" d="M89.24,79.09h20v18c0,5.52-4.48,10-10,10h0c-5.52,0-10-4.48-10-10v-18h0Z"/>
+          <g>
+            <path class="cls-1" d="M80.08,97.82h0c-4.5-3.97-4.5-10.41,0-14.39l19.2-16.95,16.3,14.39-19.2,16.95c-4.5,3.97-11.8,3.97-16.3,0Z"/>
+            <path class="cls-1" d="M118.76,97.89h0c-4.5,3.97-11.8,3.97-16.3,0l-19.2-16.95,16.3-14.39,19.2,16.95c4.5,3.97,4.5,10.41,0,14.39Z"/>
+          </g>
+          <circle class="cls-6" cx="99.42" cy="68.4" r="5.47"/>
+        </g>
+        <path class="cls-8" d="M78.7,52.56c0,2.18-2.34,3.95-5.24,3.95s-5.24-1.77-5.24-3.95"/>
+        <path class="cls-8" d="M130.5,52.56c0,2.18-2.34,3.95-5.24,3.95s-5.24-1.77-5.24-3.95"/>
+      </g>
+    </g>
+  </g>
+</svg>

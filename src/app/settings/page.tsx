@@ -19,8 +19,9 @@ export default function SettingsPage() {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main className="flex-1 bg-[#F6F7FB] overflow-auto flex items-start justify-start pl-12 pt-12">
-        <Container variant="white" className="w-[875px] h-auto py-[48px] px-[64px] gap-[24px] flex flex-col items-start">
+      <main className="flex-1 bg-[#E5F2FA] overflow-auto">
+        <div className="h-full p-6">
+          <Container variant="white" className="w-[875px] h-auto py-[48px] px-[64px] gap-[24px] flex flex-col items-start">
           {/* Header */}
           <div className="w-full">
             <h2 className="text-[28px] leading-[40px] font-bold text-[#3C3C3C]">ตั้งค่า</h2>
@@ -70,13 +71,13 @@ export default function SettingsPage() {
           <div className="w-full flex justify-end">
             <GlossyGreenButton 
               size="sm"
-              onClick={handleLogout}
-              className="!bg-[#FF4D4D] !shadow-[0px_4px_0px_0px_#E63939,0px_6px_12px_rgba(255,77,77,0.3)] hover:!bg-[#FF5C5C] active:!shadow-[0px_2px_0px_0px_#E63939,0px_4px_8px_rgba(255,77,77,0.3)] !h-[35px] !px-[30px] !text-[14px]"
+              variant="red-outline"
             >
               ออกจากบัญชี
             </GlossyGreenButton>
           </div>
         </Container>
+        </div>
       </main>
     </div>
   );

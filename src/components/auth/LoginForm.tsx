@@ -147,7 +147,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       {/* Login Button */}
       <GlossyGreenButton
         type="submit"
-        className="h-[40px] w-full px-4 py-[10px] rounded-[8px] bg-[#1cb0f6] shadow-[0px_4px_0px_0px_#1093cc,0px_6px_12px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] active:translate-y-[2px] active:shadow-[0px_2px_0px_0px_#1093cc,0px_4px_8px_rgba(28,176,246,0.3)]"
+        size="default"
+        className="w-full h-[60px]"
       >
         เข้าสู่ระบบ
       </GlossyGreenButton>

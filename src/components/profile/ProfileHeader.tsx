@@ -10,13 +10,23 @@ export interface ProfileHeaderProps {
   className?: string;
   name: string;
   joinedText?: string;
+  rankBadge?: string;
+  score?: number;
+  streakDays?: number;
 }
 
-export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className, name, joinedText }) => {
+export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ 
+  className, 
+  name, 
+  joinedText,
+  rankBadge,
+  score,
+  streakDays,
+}) => {
   return (
     <Container
       variant="white"
-      className={cn("px-6 py-8 min-h-[160px]", className)}
+      className={cn("px-6 py-8 min-h-[160px] rounded-b-none", className)}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -51,7 +61,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className, name, j
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-[16px] leading-[20px] font-bold text-[#3C3C3C]">
-              ผู้เริ่มต้นที่ดี
+              {rankBadge || "ผู้เริ่มต้นที่ดี"}
             </span>
             <span className="text-[13px] leading-[18px] font-medium text-[#AFAFAF]">
               แรงค์ทั้งหมด
@@ -66,7 +76,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className, name, j
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-[16px] leading-[20px] font-bold text-[#3C3C3C]">
-              5,672
+              {score?.toLocaleString() || "0"}
             </span>
             <span className="text-[13px] leading-[18px] font-medium text-[#AFAFAF]">
               คะแนนทั้งหมด
@@ -81,7 +91,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className, name, j
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-[16px] leading-[20px] font-bold text-[#3C3C3C]">
-              0
+              {streakDays || 0}
             </span>
             <span className="text-[13px] leading-[18px] font-medium text-[#AFAFAF]">
               วันที่เล่นต่อเนื่อง

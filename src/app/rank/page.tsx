@@ -124,20 +124,21 @@ const mockLeaderboardData: LeaderboardData = {
 
 export default function RankPage() {
   return (
-    <div className="flex h-screen bg-gradient-to-br from-[#F9FBFF] via-[#F6FAFF] to-[#F4F8FF]">
+    <div className="flex h-screen bg-[#E5F2FA]">
       <Sidebar />
       <main className="flex-1 overflow-hidden">
         <div className="h-full p-6">
           <div className="grid grid-cols-[1fr_360px] gap-6 h-full">
             <div className="flex flex-col gap-6 overflow-hidden">
+              
               <TopThreePodium
                 topThree={mockLeaderboardData.topThree}
-                className="flex-shrink-0 -mt-0"
+                className="flex-shrink-0"
               />
 
               <LeaderboardList
                 items={mockLeaderboardData.topTen}
-                className="flex-1 min-h-0 -mt-3"
+                className="flex-1 min-h-0 -mt-4"
                 displayScrollbar={true}
                 enableArrowNavigation={true}
               />

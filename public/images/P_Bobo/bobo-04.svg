@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198.85 247.74">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d8d6d6;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: #2f2e33;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+
+      .cls-4 {
+        fill: #f2f2f2;
+      }
+
+      .cls-5 {
+        isolation: isolate;
+      }
+
+      .cls-6 {
+        fill: #606161;
+        mix-blend-mode: multiply;
+        opacity: .25;
+      }
+
+      .cls-7 {
+        fill: #2f2e33;
+      }
+    </style>
+  </defs>
+  <g class="cls-5">
+    <g id="Layer_2" data-name="Layer 2">
+      <g id="_หมี" data-name="หมี">
+        <path class="cls-2" d="M195.9,142.31l-.85-3.51c-2.17-8.95-11.88-14.28-21.68-11.9l-73.07,17.74-2.19,11.06,83.98,7.13c9.8-2.38,15.98-11.57,13.81-20.52Z"/>
+        <g>
+          <ellipse class="cls-6" cx="88.7" cy="238.23" rx="55.98" ry="9.51"/>
+          <circle class="cls-2" cx="34.52" cy="21.73" r="21.73"/>
+          <circle class="cls-1" cx="34.52" cy="21.73" r="14.08"/>
+          <circle class="cls-2" cx="141.67" cy="21.73" r="21.73"/>
+          <circle class="cls-1" cx="141.67" cy="21.73" r="14.08"/>
+          <ellipse class="cls-2" cx="87.74" cy="78.43" rx="87.74" ry="72.98"/>
+          <ellipse class="cls-1" cx="88.09" cy="96.19" rx="21.73" ry="14.3"/>
+          <circle class="cls-7" cx="88.1" cy="87.92" r="3.64"/>
+          <rect class="cls-7" x="86.77" y="88.93" width="2.66" height="9.21"/>
+          <path class="cls-2" d="M49.89,205.25h32v16c0,8.83-7.17,16-16,16h0c-8.83,0-16-7.17-16-16v-16h0Z"/>
+          <rect class="cls-2" x="42.33" y="183.56" width="8.83" height="17.36" rx="3.35" ry="3.35"/>
+          <path class="cls-2" d="M50.44,132.75v66.87l-27.13-27.91c-2.97-3.06-2.97-7.99,0-11.05l27.13-27.91Z"/>
+          <path class="cls-2" d="M95.49,205.25h32v16c0,8.83-7.17,16-16,16h0c-8.83,0-16-7.17-16-16v-16h0Z"/>
+          <rect class="cls-2" x="49.82" y="142.48" width="77.76" height="65.4"/>
+          <rect class="cls-1" x="72.3" y="155.85" width="32.8" height="37.71" rx="11.24" ry="11.24"/>
+        </g>
+        <g>
+          <polyline class="cls-3" points="115.85 68.76 101.85 68.76 115.85 74.23"/>
+          <polyline class="cls-3" points="115.85 68.76 101.85 68.76 115.85 63.1"/>
+        </g>
+        <g>
+          <polyline class="cls-3" points="58.85 68.76 72.85 68.76 58.85 74.23"/>
+          <polyline class="cls-3" points="58.85 68.76 72.85 68.76 58.85 63.1"/>
+        </g>
+        <path class="cls-7" d="M96.98,96.89c0,4.29-4.07,7.78-9.09,7.78s-9.09-3.48-9.09-7.78"/>
+        <rect class="cls-1" x="179.48" y="120.89" width="10.5" height="17.06" rx="5.25" ry="5.25"/>
+        <ellipse class="cls-4" cx="180.08" cy="144.66" rx="18.78" ry="18.11"/>
+      </g>
+    </g>
+  </g>
+</svg>

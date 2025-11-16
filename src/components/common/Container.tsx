@@ -17,7 +17,7 @@ const Container: React.FC<ContainerProps> = ({
   as: Component = "section",
 }) => {
   const baseStyles =
-    "rounded-[20px] border-2 border-[#000000] shadow-sm";
+    "rounded-[20px] shadow-[0px_2px_8px_rgba(0,0,0,0.04),0px_1px_4px_rgba(0,0,0,0.02)]";
   
   const variantStyles = {
     default:

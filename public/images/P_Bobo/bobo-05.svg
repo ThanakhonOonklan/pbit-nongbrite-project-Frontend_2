@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 207.17 247.74">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #2f2e33;
+        stroke-linecap: round;
+      }
+
+      .cls-3 {
+        fill: #d8d6d6;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+
+      .cls-5 {
+        isolation: isolate;
+      }
+
+      .cls-6 {
+        fill: #606161;
+        mix-blend-mode: multiply;
+        opacity: .25;
+      }
+
+      .cls-7 {
+        fill: #2f2e33;
+      }
+    </style>
+  </defs>
+  <g class="cls-5">
+    <g id="Layer_2" data-name="Layer 2">
+      <g id="_หมี" data-name="หมี">
+        <g>
+          <ellipse class="cls-6" cx="88.7" cy="238.23" rx="55.98" ry="9.51"/>
+          <circle class="cls-4" cx="34.52" cy="21.73" r="21.73"/>
+          <circle class="cls-3" cx="34.52" cy="21.73" r="14.08"/>
+          <circle class="cls-4" cx="141.67" cy="21.73" r="21.73"/>
+          <circle class="cls-3" cx="141.67" cy="21.73" r="14.08"/>
+          <ellipse class="cls-4" cx="87.74" cy="78.43" rx="87.74" ry="72.98"/>
+          <ellipse class="cls-3" cx="88.09" cy="96.19" rx="21.73" ry="14.3"/>
+          <circle class="cls-7" cx="88.1" cy="87.92" r="3.64"/>
+          <rect class="cls-7" x="86.77" y="88.93" width="2.66" height="9.21"/>
+          <path class="cls-4" d="M49.89,205.25h32v16c0,8.83-7.17,16-16,16h0c-8.83,0-16-7.17-16-16v-16h0Z"/>
+          <rect class="cls-4" x="42.33" y="183.56" width="8.83" height="17.36" rx="3.35" ry="3.35"/>
+          <path class="cls-4" d="M50.44,132.75v66.87l-27.13-27.91c-2.97-3.06-2.97-7.99,0-11.05l27.13-27.91Z"/>
+          <path class="cls-4" d="M95.49,205.25h32v16c0,8.83-7.17,16-16,16h0c-8.83,0-16-7.17-16-16v-16h0Z"/>
+          <rect class="cls-4" x="49.82" y="142.48" width="77.76" height="65.4"/>
+          <rect class="cls-3" x="72.3" y="155.85" width="32.8" height="37.71" rx="11.24" ry="11.24"/>
+        </g>
+        <path class="cls-4" d="M203.53,101.95l-2.32-2.77c-5.92-7.05-16.99-7.52-24.71-1.03l-57.58,48.36,2.95,10.88,78.41-30.92c7.72-6.49,9.18-17.46,3.26-24.52Z"/>
+        <circle class="cls-7" cx="66.14" cy="69.72" r="5.11"/>
+        <g>
+          <polyline class="cls-2" points="115.85 68.76 101.85 68.76 115.85 74.23"/>
+          <polyline class="cls-2" points="115.85 68.76 101.85 68.76 115.85 63.1"/>
+        </g>
+        <path class="cls-1" d="M96.18,92.61c0,3.44-3.7,6.23-8.26,6.23s-8.26-2.79-8.26-6.23"/>
+      </g>
+    </g>
+  </g>
+</svg>
