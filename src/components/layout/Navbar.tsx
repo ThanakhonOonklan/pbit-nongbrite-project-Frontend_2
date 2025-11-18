@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Image } from "@/components/common/Image";
-import { GlossyGreenButton } from "@/components/common/GlossyGreenButton";
+import { PrimaryButton } from "@/components/common";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -44,16 +44,16 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
       <div className="flex items-center gap-4">
         {/* Login Button - Yellow */}
         <Link href="/login">
-          <GlossyGreenButton variant="yellow" size="full">
+          <PrimaryButton variant="yellow" size="full">
             Login
-          </GlossyGreenButton>
+          </PrimaryButton>
         </Link>
 
         {/* Start Button - Blue */}
         <Link href="/courses">
-          <GlossyGreenButton size="full">
+          <PrimaryButton size="full">
             Start
-          </GlossyGreenButton>
+          </PrimaryButton>
         </Link>
       </div>
     </nav>

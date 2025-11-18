@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Star, ChevronDown } from "lucide-react";
+import { Star, CaretDown } from "phosphor-react";
 import { cn } from "@/lib/utils";
 
 export interface ProgressItemProps {
@@ -25,9 +25,9 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({ title, current, tota
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <Star className="w-5 h-5 text-[#FFD300]" />
+        <Star className="w-5 h-5 text-[#FFD300]" weight="fill" />
         <button className="w-7 h-7 inline-flex items-center justify-center rounded-full bg-white border border-neutral-200 hover:bg-neutral-50">
-          <ChevronDown className="w-4 h-4 text-[#7F7F7F]" />
+          <CaretDown className="w-4 h-4 text-[#7F7F7F]" />
         </button>
       </div>
     </div>

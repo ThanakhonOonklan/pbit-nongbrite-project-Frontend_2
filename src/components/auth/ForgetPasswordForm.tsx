@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import { Image } from "@/components/common/Image";
-import { Form } from "@/components/common/Form";
+import { FormCard } from "@/components/common";
 import { InputField } from "@/components/common/InputField";
 import { PasswordField } from "@/components/common/PasswordField";
-import { Button } from "@/components/common/Button";
+import { PrimaryButton } from "@/components/common";
 import { OTPInput } from "@/components/common/OTPInput";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "phosphor-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -240,9 +240,9 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       </div>
 
       {/* Submit Button */}
-      <Button type="submit" size="full">
+      <PrimaryButton type="submit" size="full">
         ส่งลิ้งรีเซ็ต
-      </Button>
+      </PrimaryButton>
     </>
   );
 
@@ -312,9 +312,9 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       </div>
 
       {/* Submit Button */}
-      <Button type="submit" size="full">
+      <PrimaryButton type="submit" size="full">
         ยืนยันรหัส
-      </Button>
+      </PrimaryButton>
     </>
   );
 
@@ -418,9 +418,9 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       </div>
 
       {/* Submit Button */}
-      <Button type="submit" size="full" className="mt-[10px]">
+      <PrimaryButton type="submit" size="full" className="mt-[10px]">
         อัปเดตรหัสผ่าน
-      </Button>
+      </PrimaryButton>
     </>
   );
 
@@ -453,18 +453,18 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       </div>
 
       {/* Action Button */}
-      <Button 
+      <PrimaryButton 
         type="button" 
         onClick={() => router.push("/login")} 
         size="full"
       >
         ดำเนินการต่อ
-      </Button>
+      </PrimaryButton>
     </>
   );
 
   return (
-    <Form 
+    <FormCard 
       onSubmit={
         currentStep === 1 
           ? handleStep1Submit 
@@ -485,7 +485,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       {currentStep === 2 && renderStep2()}
       {currentStep === 3 && renderStep3()}
       {currentStep === 4 && renderStep4()}
-    </Form>
+    </FormCard>
   );
 };
 

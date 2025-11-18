@@ -3,6 +3,7 @@ import AnimatedList from "@/components/common/AnimatedList";
 import { Container } from "@/components/common/Container";
 import { RankUser } from "@/types";
 import { cn } from "@/lib/utils";
+import { Medal, Trophy } from "phosphor-react";
 
 export interface LeaderboardListProps {
   items?: RankUser[];
@@ -14,12 +15,12 @@ export interface LeaderboardListProps {
   initialSelectedIndex?: number;
 }
 
-  const getMedalIcon = (rank: number) => {
-    if (rank === 1) return "🥇";
-    if (rank === 2) return "🥈";
-    if (rank === 3) return "🥉";
-    return "🏅";
-  };
+const getMedalIcon = (rank: number) => {
+  if (rank === 1) return <Medal className="w-8 h-8 text-[#FBBF24]" weight="fill" />;
+  if (rank === 2) return <Medal className="w-8 h-8 text-[#A1A1AA]" weight="fill" />;
+  if (rank === 3) return <Medal className="w-8 h-8 text-[#D97706]" weight="fill" />;
+  return <Medal className="w-7 h-7 text-[#60A5FA]" weight="bold" />;
+};
 
 const LeaderboardList: React.FC<LeaderboardListProps> = ({
   items = [],
@@ -74,13 +75,13 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
             </div>
 
             <div className="flex-shrink-0">
-              <span className="text-[28px]">{getMedalIcon(user.rank)}</span>
+              {getMedalIcon(user.rank)}
             </div>
           </Container>
         )}
         emptyState={
           <div className="flex flex-col items-center justify-center h-full py-12">
-            <div className="text-[48px] mb-2">🏆</div>
+            <Trophy className="w-12 h-12 mb-2 text-[#FBBF24]" weight="fill" />
             <p className="text-[14px] text-[#909090] text-center">
               ยังไม่มีข้อมูลอันดับ
             </p>

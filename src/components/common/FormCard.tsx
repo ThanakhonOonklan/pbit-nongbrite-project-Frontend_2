@@ -1,12 +1,12 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface BorderedFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
+export interface FormCardProps extends React.FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode;
   className?: string;
 }
 
-const BorderedForm = React.forwardRef<HTMLFormElement, BorderedFormProps>(
+const FormCard = React.forwardRef<HTMLFormElement, FormCardProps>(
   ({ children, className, ...props }, ref) => {
     return (
       <form
@@ -24,7 +24,7 @@ const BorderedForm = React.forwardRef<HTMLFormElement, BorderedFormProps>(
   }
 );
 
-BorderedForm.displayName = "BorderedForm";
+FormCard.displayName = "FormCard";
 
-export { BorderedForm };
+export { FormCard };
 

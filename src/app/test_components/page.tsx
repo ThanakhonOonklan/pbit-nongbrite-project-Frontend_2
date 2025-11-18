@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/common/Button";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,25 +8,30 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
-import { Input } from "@/components/common/Input";
-import { Label } from "@/components/common/Label";
-import { InputField } from "@/components/common/InputField";
-import { PasswordField } from "@/components/common/PasswordField";
-import { Divider } from "@/components/common/Divider";
-import { Stepper } from "@/components/common/Stepper";
-import { Form } from "@/components/common/Form";
-import { SocialButton } from "@/components/common/SocialButton";
-import { Image } from "@/components/common/Image";
-import { OTPInput } from "@/components/common/OTPInput";
-import { GlossyGreenButton } from "@/components/common/GlossyGreenButton";
-import { StatCard } from "@/components/profile/StatCard";
-import { BorderedForm } from "@/components/common/BorderedForm";
-import { RoundButton } from "@/components/common/RoundButton";
-import { Lock, Check } from "lucide-react";
-import { LeaderboardList } from "@/components/rank";
+
+import {
+  Input,
+  InputField,
+  PasswordField,
+  Divider,
+  Stepper,
+  FormCard,
+  SocialButton,
+  Image,
+  PrimaryButton,
+  GameButton,
+  Container,
+  Counter,
+  CountUp,
+  DifficultyIndicator,
+  OTPInput,
+} from "@/components/common";
+import { getLabelClassName } from "@/lib/label";
+import { StatCard, ProgressList, StreakCalendar, ProfileHeader } from "@/components/profile";
+import { Lock, Check, DiamondsFour, Heart, Lightning, Flame } from "phosphor-react";
+import { LeaderboardList, TopThreePodium, MyRankCard } from "@/components/rank";
 import { RankUser } from "@/types";
-import { Container } from "@/components/common/Container";
-import { EditButton } from "@/components/common/EditButton";  
+import { MainContentForm } from "@/components/courses";  
 
 interface CharacterPosition {
   x: number;
@@ -123,7 +127,7 @@ export default function TestComponentsPage() {
   const animateText = () => {
     const element = document.getElementById("text-animation");
     if (!element) return;
-
+    
     gsap.fromTo(
       element,
       { opacity: 0, y: -20, scale: 0.5 },
@@ -399,27 +403,25 @@ export default function TestComponentsPage() {
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Button</h2>
             
-            {/* Button Styles */}
+            {/* PrimaryButton Styles */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">Styles</h3>
               <div className="flex flex-wrap gap-4">
-                <Button>Button Default</Button>
-                <Button variant="outline">Button Outline</Button>
-                <Button variant="secondary">Button Secondary</Button>
-                <Button variant="destructive">Button Destructive</Button>
-                <Button variant="ghost">Button Ghost</Button>
-                <Button variant="link">Button Link</Button>
-                <Button size="auto">Auto Width</Button>
+                <PrimaryButton>Button </PrimaryButton>
+                <PrimaryButton variant="outline">Button Outline</PrimaryButton>
+                <PrimaryButton variant="yellow">Button Yellow</PrimaryButton>
+                <PrimaryButton variant="red-outline">Button Red Outline</PrimaryButton>
+                <PrimaryButton size="full">Full Width</PrimaryButton>
               </div>
             </div>
 
-            {/* Button Sizes */}
+            {/* PrimaryButton Sizes */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">Sizes</h3>
               <div className="flex flex-wrap gap-4 items-center">
-                <Button size="sm">Small</Button>
-                <Button>Default</Button>
-                <Button size="lg">Large</Button>
+                <PrimaryButton size="sm">Small</PrimaryButton>
+                <PrimaryButton size="default">Default</PrimaryButton>
+                <PrimaryButton size="lg">Large</PrimaryButton>
+                <PrimaryButton size="full">Full Width</PrimaryButton>
               </div>
             </div>
           </section>
@@ -440,12 +442,13 @@ export default function TestComponentsPage() {
               </div>
             </div>
 
-            {/* Label */}
+            {/* Label (using utility function) */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">Label</h3>
+              <h3 className="text-lg font-semibold text-gray-700">Label (Utility Function)</h3>
               <div className="flex flex-wrap gap-4">
-                <Label>Label Default</Label>
-                <Label htmlFor="input1">Label for Input</Label>
+                <label className={getLabelClassName()}>Label Default</label>
+                <label htmlFor="input1" className={getLabelClassName()}>Label for Input</label>
+                <label className={getLabelClassName("text-red-500")}>Label with Custom Style</label>
               </div>
             </div>
 
@@ -519,14 +522,14 @@ export default function TestComponentsPage() {
               </div>
             </div>
 
-            {/* Form */}
+            {/* FormCard */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">Form</h3>
+              <h3 className="text-lg font-semibold text-gray-700">FormCard</h3>
               <div className="flex flex-col gap-4">
-                <Form className="w-[387px]">
+                <FormCard className="w-[387px]">
                   <InputField label="Email" placeholder="email@example.com" />
-                  <Button>Submit</Button>
-                </Form>
+                  <PrimaryButton>Submit</PrimaryButton>
+                </FormCard>
               </div>
             </div>
           </section>
@@ -580,7 +583,7 @@ export default function TestComponentsPage() {
                   length={6}
                   value={otpValue}
                   onChange={setOtpValue}
-                  onComplete={(value) => console.log("OTP Complete:", value)}
+                  onComplete={(value: string) => console.log("OTP Complete:", value)}
                 />
                 <OTPInput
                   length={6}
@@ -591,27 +594,6 @@ export default function TestComponentsPage() {
               </div>
             </div>
 
-            {/* Image */}
-            <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">Image</h3>
-              <div className="flex flex-wrap gap-4 items-start">
-                <Image
-                  src="/icons/logo.png"
-                  alt="Logo"
-                  fill
-                  containerClassName="w-[93px] h-[93px] rounded-full"
-                  priority
-                  sizes="93px"
-                />
-                <Image
-                  src="/images/finish.png"
-                  alt="Finish"
-                  fill
-                  containerClassName="w-[120px] h-[120px] rounded-lg"
-                  sizes="120px"
-                />
-              </div>
-            </div>
           </section>
         </Container>
 
@@ -620,18 +602,20 @@ export default function TestComponentsPage() {
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Custom Buttons</h2>
             
-            {/* GlossyGreenButton */}
+            {/* PrimaryButton */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">GlossyGreenButton</h3>
+              <h3 className="text-lg font-semibold text-gray-700">PrimaryButton</h3>
               <div className="flex flex-wrap gap-6 items-center justify-center bg-gray-50 p-8 rounded-xl">
-                <GlossyGreenButton size="lg">Start</GlossyGreenButton>
-                <GlossyGreenButton size="default">เริ่มกันเลย</GlossyGreenButton>
-                <GlossyGreenButton size="sm">เริ่ม</GlossyGreenButton>
+                <PrimaryButton size="lg">Start</PrimaryButton>
+                <PrimaryButton size="default">เริ่มกันเลย</PrimaryButton>
+                <PrimaryButton size="sm">เริ่ม</PrimaryButton>
               </div>
               
               <div className="flex flex-wrap gap-6 items-center justify-center bg-gray-100 p-8 rounded-xl">
-                <GlossyGreenButton variant="outline" size="lg">Outline</GlossyGreenButton>
-                <GlossyGreenButton size="full">Full Width Button</GlossyGreenButton>
+                <PrimaryButton variant="outline" size="lg">Outline</PrimaryButton>
+                <PrimaryButton size="full">Full Width Button</PrimaryButton>
+                <PrimaryButton variant="yellow" size="default">Yellow Variant</PrimaryButton>
+                <PrimaryButton variant="red-outline" size="default">Red Outline</PrimaryButton>
               </div>
             </div>
           </section>
@@ -667,7 +651,7 @@ export default function TestComponentsPage() {
                   description="แรงค์ของคุณในระบบ" 
                 />
                 <StatCard 
-                  emoji="💎" 
+                  icon={<DiamondsFour className="w-7 h-7 text-[#8B5CF6]" weight="fill" />} 
                   title="Premium Member" 
                   description="Unlock all premium features" 
                   iconBgColor="bg-[#E8F4FF]"
@@ -682,11 +666,11 @@ export default function TestComponentsPage() {
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Form Containers</h2>
             
-            {/* BorderedForm */}
+            {/* FormCard */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">BorderedForm</h3>
+              <h3 className="text-lg font-semibold text-gray-700">FormCard</h3>
               <div className="flex flex-wrap gap-6 items-start">
-                <BorderedForm className="w-[376px] h-auto">
+                <FormCard className="w-[376px] h-auto">
                   <div className="w-full">
                     <h3 className="text-[20px] font-bold text-[#3C3C3C] mb-4">ตัวอย่างฟอร์ม</h3>
                   </div>
@@ -699,43 +683,43 @@ export default function TestComponentsPage() {
                     placeholder="example@email.com"
                     type="email"
                   />
-                  <Button size="auto" className="w-full">
+                  <PrimaryButton size="full">
                     ส่งข้อมูล
-                  </Button>
-                </BorderedForm>
+                  </PrimaryButton>
+                </FormCard>
 
-                <BorderedForm className="w-[376px] h-auto py-[20px] px-[24px]">
+                <FormCard className="w-[376px] h-auto py-[20px] px-[24px]">
                   <div className="w-full flex items-center justify-between px-4">
                     <div className="flex items-center gap-2">
-                      <span className="text-[24px]">❤️</span>
+                      <Heart className="w-6 h-6 text-[#FF4D4D]" weight="fill" />
                       <span className="text-[20px] font-bold text-[#FF4D4D]">5</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[24px]">⚡</span>
+                      <Lightning className="w-6 h-6 text-[#FFD300]" weight="fill" />
                       <span className="text-[20px] font-bold text-[#FFD300]">100</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[24px]">🔥</span>
+                      <Flame className="w-6 h-6 text-[#FF7A00]" weight="fill" />
                       <span className="text-[20px] font-bold text-[#FF7A00]">7</span>
                     </div>
                   </div>
-                </BorderedForm>
+                </FormCard>
               </div>
             </div>
           </section>
         </Container>
 
-        {/* RoundButton */}
+        {/* GameButton */}
         <Container variant="white" className="p-6">
           <section className="flex flex-col gap-6">
-            <h2 className="text-2xl font-bold text-[#242E39]">RoundButton</h2>
+            <h2 className="text-2xl font-bold text-[#242E39]">GameButton</h2>
             <div className="flex flex-col gap-6">
               {/* Blue variant */}
               <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-8 rounded-xl">
                 <h3 className="text-lg font-bold mb-6 text-[#1CB0F6]">สีฟ้า (Game 1: Path Navigation)</h3>
                 <div className="flex flex-wrap gap-6 items-center">
                   <div className="flex items-center gap-4">
-                    <RoundButton 
+                    <GameButton 
                       variant="blue"
                       size="default" 
                       icon={<Check className="w-8 h-8 text-white stroke-[3]" />}
@@ -743,7 +727,7 @@ export default function TestComponentsPage() {
                     <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1 (Unlocked)</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <RoundButton 
+                    <GameButton 
                       variant="blue-locked"
                       size="default" 
                       icon={<Lock className="w-7 h-7 text-white" />}
@@ -758,7 +742,7 @@ export default function TestComponentsPage() {
                 <h3 className="text-lg font-bold mb-6 text-[#19C371]">สีเขียว (Game 2: Asking Question)</h3>
                 <div className="flex flex-wrap gap-6 items-center">
                   <div className="flex items-center gap-4">
-                    <RoundButton 
+                    <GameButton 
                       variant="green"
                       size="default" 
                       icon={<Check className="w-8 h-8 text-white stroke-[3]" />}
@@ -766,7 +750,7 @@ export default function TestComponentsPage() {
                     <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1 (Unlocked)</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <RoundButton 
+                    <GameButton 
                       variant="green-locked"
                       size="default" 
                       icon={<Lock className="w-7 h-7 text-white" />}
@@ -781,21 +765,21 @@ export default function TestComponentsPage() {
                 <h3 className="text-lg font-bold mb-6 text-[#8B7355]">สีเบจ (Default)</h3>
                 <div className="flex flex-wrap gap-6 items-center">
                   <div className="flex items-center gap-4">
-                    <RoundButton 
+                    <GameButton 
                       size="sm" 
                       icon={<span className="text-[16px] font-bold text-[#8B7355]">S</span>}
                     />
                     <span className="text-[14px]">Small</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <RoundButton 
+                    <GameButton 
                       size="default" 
                       icon={<span className="text-[20px] font-bold text-[#8B7355]">M</span>}
                     />
                     <span className="text-[16px]">Default</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <RoundButton 
+                    <GameButton 
                       size="lg" 
                       icon={<span className="text-[24px] font-bold text-[#8B7355]">L</span>}
                     />
@@ -855,19 +839,6 @@ export default function TestComponentsPage() {
               </div>
             </div>
 
-            {/* EditButton */}
-            <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">EditButton</h3>
-              <div className="flex flex-wrap gap-4 items-center">
-                <EditButton />
-                <EditButton onClick={() => console.log("Edit clicked")} />
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-600">Profile Name:</span>
-                  <span className="font-bold">John Doe</span>
-                  <EditButton />
-                </div>
-              </div>
-            </div>
           </section>
         </Container>
 
@@ -1123,11 +1094,11 @@ export default function TestComponentsPage() {
                 <GSAPTestBox id="rotate" label="Rotate" />
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button onClick={() => animateBox("fade", "fade")}>Fade In/Out</Button>
-                <Button onClick={() => animateBox("slide", "slide")}>Slide</Button>
-                <Button onClick={() => animateBox("scale", "scale")}>Scale</Button>
-                <Button onClick={() => animateBox("rotate", "rotate")}>Rotate</Button>
-                <Button onClick={() => resetAllBoxes()}>Reset All</Button>
+                <PrimaryButton onClick={() => animateBox("fade", "fade")}>Fade In/Out</PrimaryButton>
+                <PrimaryButton onClick={() => animateBox("slide", "slide")}>Slide</PrimaryButton>
+                <PrimaryButton onClick={() => animateBox("scale", "scale")}>Scale</PrimaryButton>
+                <PrimaryButton onClick={() => animateBox("rotate", "rotate")}>Rotate</PrimaryButton>
+                <PrimaryButton onClick={() => resetAllBoxes()}>Reset All</PrimaryButton>
               </div>
             </div>
 
@@ -1141,8 +1112,8 @@ export default function TestComponentsPage() {
                 <div id="timeline-box-4" className="w-16 h-16 bg-orange-500 rounded-lg"></div>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button onClick={playTimeline}>Play Timeline</Button>
-                <Button onClick={resetTimeline}>Reset Timeline</Button>
+                <PrimaryButton onClick={playTimeline}>Play Timeline</PrimaryButton>
+                <PrimaryButton onClick={resetTimeline}>Reset Timeline</PrimaryButton>
               </div>
             </div>
 
@@ -1158,8 +1129,8 @@ export default function TestComponentsPage() {
                 ))}
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button onClick={playStagger}>Play Stagger</Button>
-                <Button onClick={resetStagger}>Reset Stagger</Button>
+                <PrimaryButton onClick={playStagger}>Play Stagger</PrimaryButton>
+                <PrimaryButton onClick={resetStagger}>Reset Stagger</PrimaryButton>
               </div>
             </div>
 
@@ -1326,8 +1297,8 @@ export default function TestComponentsPage() {
                 </span>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button onClick={animateText}>Animate Text</Button>
-                <Button onClick={resetText}>Reset Text</Button>
+                <PrimaryButton onClick={animateText}>Animate Text</PrimaryButton>
+                <PrimaryButton onClick={resetText}>Reset Text</PrimaryButton>
               </div>
             </div>
 
@@ -1345,8 +1316,152 @@ export default function TestComponentsPage() {
                 <EasingBox id="ease-8" label="Sine" easing="sine.out" />
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button onClick={playAllEasing}>Play All Easing</Button>
-                <Button onClick={resetAllEasing}>Reset All</Button>
+                <PrimaryButton onClick={playAllEasing}>Play All Easing</PrimaryButton>
+                <PrimaryButton onClick={resetAllEasing}>Reset All</PrimaryButton>
+              </div>
+            </div>
+          </section>
+        </Container>
+
+        {/* Additional Components */}
+        <Container variant="white" className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">Additional Components</h2>
+            
+            {/* Counter */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Counter</h3>
+              <div className="flex flex-wrap gap-6 items-center">
+                <Counter value={123} fontSize={48} />
+                <Counter value={4567} fontSize={64} textColor="#1CB0F6" />
+                <Counter value={999} fontSize={32} textColor="#19C371" />
+              </div>
+            </div>
+
+            {/* CountUp */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">CountUp</h3>
+              <div className="flex flex-col gap-4">
+                <div className="text-4xl font-bold">
+                  <CountUp to={1000} from={0} duration={2} />
+                </div>
+                <div className="text-2xl font-bold text-blue-600">
+                  <CountUp to={5672} from={0} duration={3} separator="," />
+                </div>
+                <div className="text-xl font-bold text-green-600">
+                  Score: <CountUp to={15420} from={0} duration={2.5} />
+                </div>
+              </div>
+            </div>
+
+            {/* DifficultyIndicator */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">DifficultyIndicator</h3>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                  <span className="w-24">Level 1:</span>
+                  <DifficultyIndicator level={1} />
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="w-24">Level 2:</span>
+                  <DifficultyIndicator level={2} />
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="w-24">Level 3:</span>
+                  <DifficultyIndicator level={3} />
+                </div>
+              </div>
+            </div>
+
+            {/* MainContentForm */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">MainContentForm</h3>
+              <div className="flex flex-wrap gap-6">
+                <MainContentForm
+                  levelTitle="Level 1: Splitting Parts"
+                  difficulty={1}
+                  difficultyText="ง่าย"
+                  timeLimit="120 วินาที"
+                  buttonText="Start"
+                />
+                <MainContentForm
+                  levelTitle="Level 5: Advanced Challenge"
+                  difficulty={3}
+                  difficultyText="ยาก"
+                  timeLimit="60 วินาที"
+                  buttonText="เริ่มเกม"
+                />
+              </div>
+            </div>
+
+            {/* Rank Components */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Rank Components</h3>
+              <div className="flex flex-col gap-6">
+                <div>
+                  <h4 className="text-md font-medium mb-4">TopThreePodium</h4>
+                  <TopThreePodium
+                    topThree={[
+                      { id: "1", rank: 1, name: "น้องมิ้นท์", score: 15420, badge: "นักเรียนยอดเยี่ยม" },
+                      { id: "2", rank: 2, name: "น้องปิ๊ก", score: 14280 },
+                      { id: "3", rank: 3, name: "น้องแบงค์", score: 13150 },
+                    ]}
+                  />
+                </div>
+                <div>
+                  <h4 className="text-md font-medium mb-4">MyRankCard</h4>
+                  <MyRankCard
+                    myRank={{
+                      id: "5",
+                      rank: 5,
+                      name: "น้องไบร์",
+                      score: 5672,
+                      badge: "ผู้เริ่มต้นที่ดี",
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+        </Container>
+
+        {/* Profile Components */}
+        <Container variant="white" className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">Profile Components</h2>
+            
+            {/* ProfileHeader */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">ProfileHeader</h3>
+              <ProfileHeader
+                name="Thaanakhon OonkIan"
+                joinedText="วันที่เข้าร่วม February 2023"
+                rankBadge="ผู้เริ่มต้นที่ดี"
+                score={5672}
+                streakDays={7}
+              />
+            </div>
+
+            {/* ProgressList */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">ProgressList</h3>
+              <div className="max-w-2xl">
+                <ProgressList
+                  items={[
+                    { title: "เกมการนำทาง", current: 8, total: 27 },
+                    { title: "เกมการจับและจำแนกรูปกรง", current: 6, total: 27 },
+                    { title: "เกมจับคู่เชื่อมโยง", current: 18, total: 27 },
+                    { title: "เรียงลำดับวงจรชีวิต", current: 26, total: 27 },
+                  ]}
+                />
+              </div>
+            </div>
+
+            {/* StreakCalendar */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">StreakCalendar</h3>
+              <div className="max-w-2xl">
+                <StreakCalendar />
               </div>
             </div>
           </section>

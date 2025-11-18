@@ -4,9 +4,20 @@ import * as React from "react";
 import { Container } from "@/components/common/Container";
 import AnimatedList from "@/components/common/AnimatedList";
 import { cn } from "@/lib/utils";
+import {
+  Leaf,
+  Trophy,
+  Flame,
+  ShieldCheck,
+  Book,
+  Target,
+  Lightning,
+  Crown,
+  CheckCircle,
+} from "phosphor-react";
 
 export interface AchievementItem {
-  icon: string;
+  icon: React.ReactNode;
   name: string;
   completed: boolean;
 }
@@ -18,14 +29,14 @@ export interface AchievementsProps {
 }
 
 const defaultAchievements: AchievementItem[] = [
-  { icon: "🌱", name: "ผู้เริ่มต้น", completed: true },
-  { icon: "🏆", name: "ชนะ 10 ครั้ง", completed: true },
-  { icon: "🔥", name: "สตรีค 7 วัน", completed: true },
-  { icon: "💯", name: "คะแนนเต็ม", completed: false },
-  { icon: "📚", name: "เรียน 100 ครั้ง", completed: false },
-  { icon: "🎯", name: "ชนะ 50 ครั้ง", completed: false },
-  { icon: "⚡", name: "สตรีค 30 วัน", completed: false },
-  { icon: "👑", name: "ระดับสูงสุด", completed: false },
+  { icon: <Leaf className="w-6 h-6 text-[#19C371]" weight="fill" />, name: "ผู้เริ่มต้น", completed: true },
+  { icon: <Trophy className="w-6 h-6 text-[#FBBF24]" weight="fill" />, name: "ชนะ 10 ครั้ง", completed: true },
+  { icon: <Flame className="w-6 h-6 text-[#FF7A00]" weight="fill" />, name: "สตรีค 7 วัน", completed: true },
+  { icon: <ShieldCheck className="w-6 h-6 text-[#2563EB]" weight="fill" />, name: "คะแนนเต็ม", completed: false },
+  { icon: <Book className="w-6 h-6 text-[#7C3AED]" weight="fill" />, name: "เรียน 100 ครั้ง", completed: false },
+  { icon: <Target className="w-6 h-6 text-[#DC2626]" weight="fill" />, name: "ชนะ 50 ครั้ง", completed: false },
+  { icon: <Lightning className="w-6 h-6 text-[#FACC15]" weight="fill" />, name: "สตรีค 30 วัน", completed: false },
+  { icon: <Crown className="w-6 h-6 text-[#F59E0B]" weight="fill" />, name: "ระดับสูงสุด", completed: false },
 ];
 
 export const Achievements: React.FC<AchievementsProps> = ({
@@ -67,7 +78,7 @@ export const Achievements: React.FC<AchievementsProps> = ({
               {achievement.name}
             </span>
             {achievement.completed && (
-              <span className="text-[#19C371] text-[18px]">✓</span>
+              <CheckCircle className="w-5 h-5 text-[#19C371]" weight="fill" />
             )}
           </>
         )}

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { RoundButton } from "@/components/common/RoundButton";
-import { Lock, Check } from "lucide-react";
+import { GameButton } from "@/components/common";
+import { Lock, Check } from "phosphor-react";
 import { levelData } from "@/constants/levelData";
 
 interface GameSection1Props {
@@ -24,7 +24,7 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
 
       {/* Game 1 - Level 9 (Locked) */}
       <div className="absolute top-[4000px] left-[43%] flex items-center gap-4">
-        <RoundButton
+        <GameButton
           variant="blue-locked"
           size="default"
           onClick={() => handleLevelClick(9)}
@@ -37,7 +37,7 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
 
       {/* Game 1 - Level 8 (Locked) */}
       <div className="absolute top-[4140px] left-[52%] flex items-center gap-4">
-        <RoundButton
+        <GameButton
           variant="blue-locked"
           size="default"
           onClick={() => handleLevelClick(8)}
@@ -50,7 +50,7 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
 
       {/* Game 1 - Level 7 (Locked) */}
       <div className="absolute top-[4280px] left-[44%] flex items-center gap-4">
-        <RoundButton
+        <GameButton
           variant="blue-locked"
           size="default"
           onClick={() => handleLevelClick(7)}
@@ -63,7 +63,7 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
 
       {/* Game 1 - Level 6 (Locked) */}
       <div className="absolute top-[4420px] left-[54%] flex items-center gap-4">
-        <RoundButton
+        <GameButton
           variant="blue-locked"
           size="default"
           onClick={() => handleLevelClick(6)}
@@ -76,7 +76,7 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
 
       {/* Game 1 - Level 5 (Locked) */}
       <div className="absolute top-[4560px] left-[46%] flex items-center gap-4">
-        <RoundButton
+        <GameButton
           variant="blue-locked"
           size="default"
           onClick={() => handleLevelClick(5)}
@@ -89,7 +89,7 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
 
       {/* Game 1 - Level 4 (Locked) */}
       <div className="absolute top-[4700px] left-[42%] flex items-center gap-4">
-        <RoundButton
+        <GameButton
           variant="blue-locked"
           size="default"
           onClick={() => handleLevelClick(4)}
@@ -102,7 +102,7 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
 
       {/* Game 1 - Level 3 (Unlocked) */}
       <div className="absolute top-[4840px] left-[50%] -translate-x-1/2 flex items-center gap-4">
-        <RoundButton
+        <GameButton
           variant="blue"
           size="default"
           onClick={() => handleLevelClick(3)}
@@ -115,7 +115,7 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
 
       {/* Game 1 - Level 2 (Unlocked) */}
       <div className="absolute top-[4980px] left-[44%] flex items-center gap-4">
-        <RoundButton
+        <GameButton
           variant="blue"
           size="default"
           onClick={() => handleLevelClick(2)}
@@ -128,7 +128,7 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
 
       {/* Game 1 - Level 1 (Unlocked - START HERE) */}
       <div className="absolute top-[5120px] left-[52%] flex items-center gap-4">
-        <RoundButton
+        <GameButton
           variant="blue"
           size="default"
           onClick={() => handleLevelClick(1)}
@@ -141,3 +141,4 @@ export const GameSection1: React.FC<GameSection1Props> = ({ markerRef, onLevelCl
     </>
   );
 };
+

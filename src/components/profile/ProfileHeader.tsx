@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Image } from "@/components/common/Image";
 import { Container } from "@/components/common/Container";
-import { EditButton } from "@/components/common/EditButton";
+import { IconEditButton } from "@/components/common";
 import { cn } from "@/lib/utils";
 import { Divider } from "../common";
-import { Zap, Shield, Flame } from "lucide-react";
+import { Lightning, Shield, Flame } from "phosphor-react";
 
 export interface ProfileHeaderProps {
   className?: string;
@@ -46,7 +46,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             )}
           </div>
         </div>
-        <EditButton />
+        <IconEditButton />
       </div>
       <div className="mt-8">
         <Divider />
@@ -72,7 +72,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         {/* Points Card */}
         <Container variant="white" className="p-6 flex items-center gap-4">
           <div className="flex items-center justify-center min-w-[56px] w-[56px] h-[56px] rounded-[14px] bg-gradient-to-br from-[#FFF7CC] to-[#FFE699]">
-            <Zap className="w-7 h-7 text-[#FFD300]" />
+            <Lightning className="w-7 h-7 text-[#FFD300]" />
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-[16px] leading-[20px] font-bold text-[#3C3C3C]">

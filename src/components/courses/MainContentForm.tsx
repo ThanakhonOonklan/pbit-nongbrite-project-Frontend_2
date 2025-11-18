@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import { Container } from "@/components/common/Container";
-import { GlossyGreenButton } from "@/components/common/GlossyGreenButton";
+import { PrimaryButton } from "@/components/common";
 import { DifficultyIndicator } from "@/components/common/DifficultyIndicator";
-import CountUp from "@/components/CountUp";
-import Counter from "@/components/Counter";
+import { CountUp, Counter } from "@/components/common";
+import { extractLevelNumber, extractTimeNumber, getDifficultyBadgeColor, getCounterPlaces } from "@/utils/level";
+import { Timer } from "phosphor-react";
 
 export interface MainContentFormProps {
   levelTitle?: string;
@@ -24,36 +25,9 @@ export const MainContentForm: React.FC<MainContentFormProps> = ({
   buttonText = "Start",
   className,
 }) => {
-  // Color mapping based on difficulty level (same as DifficultyIndicator)
-  const levelColors: Record<number, string> = {
-    1: "#22C55E", // Green
-    2: "#EAB308", // Yellow
-    3: "#EF4444", // Red
-  };
-
-  const normalizedDifficulty = Math.max(1, Math.min(3, difficulty));
-  const badgeColor = levelColors[normalizedDifficulty] || levelColors[1];
-
-  // Extract level number from levelTitle (e.g., "Level 1" -> 1)
-  const extractLevelNumber = (title?: string): number => {
-    if (!title) return 1;
-    const match = title.match(/Level\s+(\d+)/i);
-    return match ? parseInt(match[1], 10) : 1;
-  };
-
+  const badgeColor = getDifficultyBadgeColor(difficulty);
   const levelNumber = extractLevelNumber(levelTitle);
-  
-  // Determine places based on level number (no leading zero)
-  const counterPlaces = levelNumber >= 10 ? [10, 1] : [1];
-
-  // Extract number from timeLimit (e.g., "120 วินาที" -> 120)
-  const extractTimeNumber = (timeStr?: string): number => {
-    if (!timeStr) return 0;
-    const match = timeStr.match(/\d+/);
-    return match ? parseInt(match[0], 10) : 0;
-  };
-
-  // Extract number from timeLimit (e.g., "120 วินาที" -> 120)
+  const counterPlaces = getCounterPlaces(levelNumber);
   const timeNumber = extractTimeNumber(timeLimit);
   const previousTimeRef = React.useRef(timeNumber);
   const [fromTime, setFromTime] = React.useState(timeNumber);
@@ -128,7 +102,7 @@ export const MainContentForm: React.FC<MainContentFormProps> = ({
 
         {/* Time Limit */}
         <div className="flex items-center gap-3 p-3 rounded-[12px] bg-white/60 backdrop-blur-sm">
-          <span className="text-[30px]">⏱️</span>
+          <Timer className="text-[#1CB0F6]" size={28} weight="fill" />
           <div className="flex flex-col">
             <span className="text-[12px] font-medium text-[#3C3C3C] opacity-80">
               เวลา
@@ -151,13 +125,13 @@ export const MainContentForm: React.FC<MainContentFormProps> = ({
 
       {/* Start Button */}
       <div className="w-full flex justify-center">
-        <GlossyGreenButton 
+        <PrimaryButton 
           size="full" 
           className="bg-gradient-to-r from-[#1CB0F6] to-[#4FC3F7] text-white text-[18px] font-bold py-4 rounded-[16px] shadow-[0px_6px_0px_0px_#1899D6,0px_8px_16px_rgba(28,176,246,0.4)] hover:bg-gradient-to-r hover:from-[#4FC3F7] hover:to-[#81D4FA] hover:translate-y-[2px] hover:shadow-[0px_4px_0px_0px_#1899D6,0px_6px_12px_rgba(28,176,246,0.3)] active:translate-y-[6px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none transform transition-all duration-150"
         >
 
           {buttonText}
-        </GlossyGreenButton>
+        </PrimaryButton>
       </div>
 
       {/* Achievements Section */}

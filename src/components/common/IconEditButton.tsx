@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { Pencil } from "lucide-react";
+import { PencilSimple } from "phosphor-react";
 import { cn } from "@/lib/utils";
 
-const EditButton = React.forwardRef<
+const IconEditButton = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >(
@@ -19,13 +19,13 @@ const EditButton = React.forwardRef<
         )}
         {...props}
       >
-        <Pencil className="w-4 h-4" />
+        <PencilSimple className="w-4 h-4" />
       </button>
     );
   }
 );
 
-EditButton.displayName = "EditButton";
+IconEditButton.displayName = "IconEditButton";
 
-export { EditButton };
+export { IconEditButton };
 

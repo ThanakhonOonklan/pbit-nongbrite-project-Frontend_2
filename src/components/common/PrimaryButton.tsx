@@ -3,7 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const glossyGreenButtonVariants = cva(
+const primaryButtonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap font-bold ring-offset-background transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
@@ -31,18 +31,18 @@ const glossyGreenButtonVariants = cva(
   }
 );
 
-export interface GlossyGreenButtonProps
+export interface PrimaryButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof glossyGreenButtonVariants> {
+    VariantProps<typeof primaryButtonVariants> {
   asChild?: boolean;
 }
 
-const GlossyGreenButton = React.forwardRef<HTMLButtonElement, GlossyGreenButtonProps>(
+const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonProps>(
   ({ className, variant, size, asChild = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(glossyGreenButtonVariants({ variant, size, className }))}
+        className={cn(primaryButtonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       >
@@ -52,7 +52,7 @@ const GlossyGreenButton = React.forwardRef<HTMLButtonElement, GlossyGreenButtonP
   }
 );
 
-GlossyGreenButton.displayName = "GlossyGreenButton";
+PrimaryButton.displayName = "PrimaryButton";
 
-export { GlossyGreenButton, glossyGreenButtonVariants };
+export { PrimaryButton, primaryButtonVariants };
 

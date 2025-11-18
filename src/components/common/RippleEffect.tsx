@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface RippleProps {
+export interface RippleEffectProps {
   /**
    * Size of the ripple (width and height)
    */
@@ -46,7 +46,7 @@ export interface RippleProps {
   className?: string;
 }
 
-export const Ripple: React.FC<RippleProps> = ({
+export const RippleEffect: React.FC<RippleEffectProps> = ({
   size = 80,
   borderWidth = 10,
   borderColor = "black",
@@ -84,5 +84,5 @@ export const Ripple: React.FC<RippleProps> = ({
   );
 };
 
-Ripple.displayName = "Ripple";
+RippleEffect.displayName = "RippleEffect";
 

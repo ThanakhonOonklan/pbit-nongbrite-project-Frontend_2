@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Container } from "@/components/common/Container";
 import { cn } from "@/lib/utils";
+import { Bird, CrownSimple, Mountains, Star, Question } from "phosphor-react";
 
 export interface SkillCard {
   id: string;
@@ -31,7 +32,7 @@ export const VocabularySkills: React.FC<VocabularySkillsProps> = ({
       icon: (
         <div className="relative w-full h-full flex items-center justify-center">
           <div className="absolute inset-0 bg-gradient-to-b from-blue-300 to-blue-400 rounded-lg"></div>
-          <div className="relative z-10 text-4xl">🐣</div>
+          <Bird className="relative z-10 w-12 h-12 text-white" weight="fill" />
         </div>
       ),
       background: "bg-blue-200",
@@ -42,7 +43,7 @@ export const VocabularySkills: React.FC<VocabularySkillsProps> = ({
       icon: (
         <div className="relative w-full h-full flex items-center justify-center">
           <div className="absolute inset-0 bg-gradient-to-b from-orange-300 to-orange-400 rounded-lg"></div>
-          <div className="relative z-10 text-4xl">🎩</div>
+          <CrownSimple className="relative z-10 w-12 h-12 text-white" weight="fill" />
         </div>
       ),
       background: "bg-orange-200",
@@ -53,7 +54,7 @@ export const VocabularySkills: React.FC<VocabularySkillsProps> = ({
       icon: (
         <div className="relative w-full h-full flex items-center justify-center">
           <div className="absolute inset-0 bg-gradient-to-b from-blue-300 to-blue-400 rounded-lg"></div>
-          <div className="relative z-10 text-4xl">🏔️</div>
+          <Mountains className="relative z-10 w-12 h-12 text-white" weight="fill" />
         </div>
       ),
       background: "bg-blue-200",
@@ -66,7 +67,7 @@ export const VocabularySkills: React.FC<VocabularySkillsProps> = ({
         <div className="relative w-full h-full flex items-center justify-center">
           <div className="absolute inset-0 bg-gradient-to-b from-purple-300 to-purple-400"></div>
           <div className="relative z-10 flex flex-col items-center justify-center">
-            <span className="text-4xl mb-1">⭐</span>
+            <Star className="text-white w-10 h-10 mb-1" weight="fill" />
             <span className="text-white font-bold text-lg">1k</span>
           </div>
         </div>
@@ -123,7 +124,7 @@ export const VocabularySkills: React.FC<VocabularySkillsProps> = ({
               </div>
             ) : (
               <div className="w-full h-full border-2 border-blue-300 bg-white flex items-center justify-center rounded-full">
-                <span className="text-5xl text-gray-400 font-bold">?</span>
+                <Question className="w-10 h-10 text-gray-400" />
               </div>
             )}
           </div>

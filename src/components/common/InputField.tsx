@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Input } from "./Input";
-import { Label } from "./Label";
+import { getLabelClassName } from "@/lib/label";
 import { cn } from "@/lib/utils";
 
 export interface InputFieldProps
@@ -31,9 +31,9 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
     return (
         <div className={cn("flex flex-col gap-1 w-full", containerClassName)}>
         {label && (
-          <Label htmlFor={inputId} className="text-[12px] leading-[18px] font-semibold text-[#334E68]">
+          <label htmlFor={inputId} className={getLabelClassName("text-[12px] leading-[18px] font-semibold text-[#334E68]")}>
             {label}
-          </Label>
+          </label>
         )}
         <Input
           id={inputId}

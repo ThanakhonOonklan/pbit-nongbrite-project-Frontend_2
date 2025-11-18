@@ -1,126 +1,70 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { StickyGameHeader, RightArea } from "@/components/courses";
-import { useEffect, useRef, useState } from "react";
-import { GameSection1 } from "./GameSection1";
-import { GameSection2 } from "./GameSection2";
-import { GameSection3 } from "./GameSection3";
-import { GameSection4 } from "./GameSection4";
-
-interface GameInfo {
-  part: number;
-  title: string;
-  color: string;
-  shadowColor: string;
-}
-
-const games: GameInfo[] = [
-  {
-    part: 4,
-    title: "Sequencing",
-    color: "#9B59B6",
-    shadowColor: "#7D3C98",
-  },
-  {
-    part: 3,
-    title: "Conditional Matching",
-    color: "#FF9500",
-    shadowColor: "#E68600",
-  },
-  {
-    part: 2,
-    title: "Counting & Classification",
-    color: "#19C371",
-    shadowColor: "#14A35E",
-  },
-  {
-    part: 1,
-    title: "Path Navigation",
-    color: "#1CB0F6",
-    shadowColor: "#1899D6",
-  },
-];
+import { MainContentForm } from "@/components/courses";
+import { Container } from "@/components/common/Container";
+import { useState } from "react";
+import { Heart, Lightning, Flame } from "phosphor-react";
+import { getLevelData } from "@/constants/levelData";
 
 export default function CoursesPage() {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const game1Ref = useRef<HTMLDivElement>(null);
-  const game2Ref = useRef<HTMLDivElement>(null);
-  const game3Ref = useRef<HTMLDivElement>(null);
-  const game4Ref = useRef<HTMLDivElement>(null);
-  const divider1Ref = useRef<HTMLDivElement>(null);
-  const divider2Ref = useRef<HTMLDivElement>(null);
-  const divider3Ref = useRef<HTMLDivElement>(null);
-  const [selectedLevel, setSelectedLevel] = useState<number | null>(1);
+  const [selectedLevel] = useState<number | null>(1);
+  const levelData = selectedLevel ? getLevelData(selectedLevel) : null;
 
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop =
-        scrollContainerRef.current.scrollHeight;
-    }
-  }, []);
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main className="flex-1  bg-[#E5F2FA] overflow-auto flex">
-        <div
-          ref={scrollContainerRef}
-          className="flex-1 relative overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-        >
-          <div className="flex justify-center w-full">
-            <div
-              className="relative pt-12 pb-24 w-full max-w-[800px]"
-              style={{ height: "5360px" }}
-            >
-              <GameSection4 markerRef={game4Ref} />
-
-              <div
-                ref={divider3Ref} 
-                className="absolute top-[1300px] left-0 right-0 px-12"
-              >
-                <StickyGameHeader
-                  part={games[1].part}
-                  title={games[1].title}
-                  color={games[1].color}
-                  shadowColor={games[1].shadowColor}
-                />
-              </div>
-
-              <GameSection3 markerRef={game3Ref} />
-
-              <div
-                ref={divider2Ref}
-                className="absolute top-[2600px] left-0 right-0 px-12"
-              >
-                <StickyGameHeader
-                  part={games[2].part}
-                  title={games[2].title}
-                  color={games[2].color}
-                  shadowColor={games[2].shadowColor}
-                />
-              </div>
-
-              <GameSection2 markerRef={game2Ref} />
-
-              <div
-                ref={divider1Ref}
-                className="absolute top-[3900px] left-0 right-0 px-12"
-              >
-                <StickyGameHeader
-                  part={games[3].part}
-                  title={games[3].title}
-                  color={games[3].color}
-                  shadowColor={games[3].shadowColor}
-                />
-              </div>
-
-              <GameSection1 markerRef={game1Ref} onLevelClick={setSelectedLevel} />
-            </div>
-          </div>
-        </div>
-
-        <RightArea selectedLevel={selectedLevel} />
+      
+      {/* Center Area - Empty Space */}
+      <main className="flex-1 bg-[#E5F2FA] overflow-auto">
+        {/* พื้นที่ว่างตรงกลาง */}
       </main>
+
+      {/* RightArea */}
+      <div className="flex flex-col gap-2 p-12 bg-[#E5F2FA]">
+        {/* Stats Form */}
+        <Container
+          variant="white"
+          className="w-[376px] h-auto py-[20px] px-[24px] flex flex-col gap-3 rounded-b-none"
+        >
+          <div className="w-full flex items-center justify-between gap-3">
+            {/* Heart Container */}
+            <Container
+              variant="white"
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2"
+            >
+              <Heart className="w-6 h-6 text-[#FF4D4D]" weight="fill" />
+              <span className="text-[20px] font-bold text-[#FF4D4D]">5</span>
+            </Container>
+
+            {/* Gems Container */}
+            <Container
+              variant="white"
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2"
+            >
+              <Lightning className="w-6 h-6 text-[#FFD300]" weight="fill" />
+              <span className="text-[20px] font-bold text-[#FFD300]">100</span>
+            </Container>
+
+            {/* Streak Container */}
+            <Container
+              variant="white"
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2"
+            >
+              <Flame className="w-6 h-6 text-[#FF7A00]" weight="fill" />
+              <span className="text-[20px] font-bold text-[#FF7A00]">7</span>
+            </Container>
+          </div>
+        </Container>
+
+        {/* Main Content Form */}
+        <MainContentForm
+          levelTitle={levelData?.title || "Level 1: Splitting Parts"}
+          difficulty={levelData?.difficulty || 1}
+          difficultyText={levelData?.difficultyText || "ง่าย"}
+          timeLimit={levelData?.timeLimit || "120 วินาที"}
+        />
+      </div>
     </div>
   );
 }

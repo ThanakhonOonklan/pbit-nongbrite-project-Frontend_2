@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { Image } from "@/components/common/Image";
-import { Form } from "@/components/common/Form";
+import { FormCard } from "@/components/common";
 import { InputField } from "@/components/common/InputField";
 import { PasswordField } from "@/components/common/PasswordField";
 import { Divider } from "@/components/common/Divider";
-import { GlossyGreenButton } from "@/components/common/GlossyGreenButton";
+import { PrimaryButton } from "@/components/common";
 import Link from "next/link";
 
 export interface LoginFormProps {
@@ -73,7 +73,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit} className="gap-[15px] w-[400px] h-[580px]">
+    <FormCard onSubmit={handleSubmit} className="gap-[15px] w-[400px] h-[580px]">
       {/* Logo */}
       <div className="flex flex-col items-center gap-[8px] w-full">
         <Image
@@ -145,13 +145,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       <Divider />
 
       {/* Login Button */}
-      <GlossyGreenButton
+      <PrimaryButton
         type="submit"
         size="default"
         className="w-full h-[60px]"
       >
         เข้าสู่ระบบ
-      </GlossyGreenButton>
+      </PrimaryButton>
 
       {/* Footer Links */}
       <div className="flex flex-col gap-[8px] items-center w-full">
@@ -174,7 +174,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           </Link>
         </div>
       </div>
-    </Form>
+    </FormCard>
   );
 };
 

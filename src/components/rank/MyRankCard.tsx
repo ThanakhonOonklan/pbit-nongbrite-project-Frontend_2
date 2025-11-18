@@ -5,6 +5,21 @@ import AnimatedList from "@/components/common/AnimatedList";
 import { Container } from "@/components/common/Container";
 import { RankUser } from "@/types";
 import { cn } from "@/lib/utils";
+import {
+  Trophy,
+  Flame,
+  ShieldCheck,
+  Leaf,
+  Book,
+  Target,
+  Lightning,
+  Crown,
+  ChartLine,
+  Medal,
+  CheckCircle,
+  ArrowUp,
+  ArrowDown,
+} from "phosphor-react";
 
 export interface MyRankCardProps {
   myRank: RankUser | null;
@@ -12,20 +27,20 @@ export interface MyRankCardProps {
 }
 
 interface AchievementItem {
-  icon: string;
+  icon: React.ReactNode;
   name: string;
   completed: boolean;
 }
 
 const defaultAchievements: AchievementItem[] = [
-  { icon: "🌱", name: "ผู้เริ่มต้น", completed: true },
-  { icon: "🏆", name: "ชนะ 10 ครั้ง", completed: true },
-  { icon: "🔥", name: "สตรีค 7 วัน", completed: true },
-  { icon: "💯", name: "คะแนนเต็ม", completed: false },
-  { icon: "📚", name: "เรียน 100 ครั้ง", completed: false },
-  { icon: "🎯", name: "ชนะ 50 ครั้ง", completed: false },
-  { icon: "⚡", name: "สตรีค 30 วัน", completed: false },
-  { icon: "👑", name: "ระดับสูงสุด", completed: false },
+  { icon: <Leaf className="w-6 h-6 text-[#19C371]" weight="fill" />, name: "ผู้เริ่มต้น", completed: true },
+  { icon: <Trophy className="w-6 h-6 text-[#FBBF24]" weight="fill" />, name: "ชนะ 10 ครั้ง", completed: true },
+  { icon: <Flame className="w-6 h-6 text-[#FF7A00]" weight="fill" />, name: "สตรีค 7 วัน", completed: true },
+  { icon: <ShieldCheck className="w-6 h-6 text-[#2563EB]" weight="fill" />, name: "คะแนนเต็ม", completed: false },
+  { icon: <Book className="w-6 h-6 text-[#7C3AED]" weight="fill" />, name: "เรียน 100 ครั้ง", completed: false },
+  { icon: <Target className="w-6 h-6 text-[#DC2626]" weight="fill" />, name: "ชนะ 50 ครั้ง", completed: false },
+  { icon: <Lightning className="w-6 h-6 text-[#FACC15]" weight="fill" />, name: "สตรีค 30 วัน", completed: false },
+  { icon: <Crown className="w-6 h-6 text-[#F59E0B]" weight="fill" />, name: "ระดับสูงสุด", completed: false },
 ];
 
 // Rank tiers data
@@ -45,7 +60,7 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
         className={cn("p-6 flex flex-col items-center justify-center",className
         )}
       >
-        <div className="text-[48px] mb-2">📊</div>
+        <ChartLine className="w-16 h-16 mb-2 text-[#9CA3AF]" weight="fill" />
         <h3 className="text-[18px] font-bold text-[#3c3c3c] mb-2">
           ยังไม่มีอันดับ
         </h3>
@@ -93,16 +108,19 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
                   : "bg-[#FF4B4B]/10 text-[#FF4B4B]"
               )}
             >
-              {myRank.change > 0 ? "↑" : "↓"} {Math.abs(myRank.change)}
+              {myRank.change > 0 ? (
+                <ArrowUp className="w-3.5 h-3.5" weight="bold" />
+              ) : (
+                <ArrowDown className="w-3.5 h-3.5" weight="bold" />
+              )}
+              {Math.abs(myRank.change)}
             </div>
           </div>
         )}
 
         {/* Medal Section - Center Large */}
         <div className="flex flex-col items-center justify-center ">
-          <div className="text-[120px] leading-none mb-1 drop-shadow-lg ">
-            🏅
-          </div>
+          <Medal className="w-32 h-32 leading-none mb-1 drop-shadow-lg text-[#FACC15]" weight="fill" />
           <h3 className="text-[28px] font-bold text-[#1cb0f6] ">
             อันดับ #{myRank.rank} 
           </h3>
@@ -145,9 +163,9 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
           ) : (
             <Container
               variant="default"
-              className="bg-gradient-to-br from-[#FFD300]/10 to-[#FFD300]/5 border-[#FFD300]/30 rounded-[12px] p-3 text-center"
+              className="bg-gradient-to-br from-[#FFD300]/10 to-[#FFD300]/5 border-[#FFD300]/30 rounded-[12px] p-3 text-center flex flex-col items-center gap-1"
             >
-              <span className="text-[24px]">👑</span>
+              <Crown className="w-8 h-8 text-[#FACC15]" weight="fill" />
               <p className="text-[13px] font-bold text-[#3c3c3c] mt-1">
                 คุณอยู่ในแรงค์สูงสุดแล้ว!
               </p>
@@ -187,7 +205,7 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
                 {achievement.name}
               </span>
               {achievement.completed && (
-                <span className="text-[#19C371] text-[18px]">✓</span>
+                <CheckCircle className="w-5 h-5 text-[#19C371]" weight="fill" />
               )}
             </>
           )}

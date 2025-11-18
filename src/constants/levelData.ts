@@ -16,7 +16,7 @@ export const levelData: LevelData[] = [
     difficulty: 1,
     difficultyText: "ง่าย",
     isLocked: false,
-  },
+  },  
   {
     level: 2,
     title: "Level 2",

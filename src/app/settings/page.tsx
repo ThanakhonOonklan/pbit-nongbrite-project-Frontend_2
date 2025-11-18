@@ -5,7 +5,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { Container } from "@/components/common/Container";
 import { Divider } from "@/components/common/Divider";
 
-import { GlossyGreenButton } from "@/components/common/GlossyGreenButton";
+import { PrimaryButton } from "@/components/common";
 
 export default function SettingsPage() {
   const [langOn, setLangOn] = React.useState(false);
@@ -69,12 +69,12 @@ export default function SettingsPage() {
 
           {/* Logout Button */}
           <div className="w-full flex justify-end">
-            <GlossyGreenButton 
+            <PrimaryButton 
               size="sm"
               variant="red-outline"
             >
               ออกจากบัญชี
-            </GlossyGreenButton>
+            </PrimaryButton>
           </div>
         </Container>
         </div>

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeSlash } from "phosphor-react";
 import { Input } from "./Input";
-import { Label } from "./Label";
+import { getLabelClassName } from "@/lib/label";
 import { cn } from "@/lib/utils";
 
 export interface PasswordFieldProps
@@ -33,9 +33,9 @@ const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
     return (
       <div className={cn("flex flex-col gap-1 w-full", containerClassName)}>
         {label && (
-          <Label htmlFor={inputId} className="text-[10px] leading-[18px] font-semibold text-[#334E68]">
+          <label htmlFor={inputId} className={getLabelClassName("text-[10px] leading-[18px] font-semibold text-[#334E68]")}>
             {label}
-          </Label>
+          </label>
         )}
         <div className="relative">
           <Input
@@ -60,7 +60,7 @@ const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? (
-              <EyeOff className="w-4 h-4 text-[#829AB1]" />
+              <EyeSlash className="w-4 h-4 text-[#829AB1]" />
             ) : (
               <Eye className="w-4 h-4 text-[#829AB1]" />
             )}

@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { Image } from "@/components/common/Image";
-import { Form } from "@/components/common/Form";
+import { FormCard } from "@/components/common";
 import { InputField } from "@/components/common/InputField";
 import { PasswordField } from "@/components/common/PasswordField";
 import { Divider } from "@/components/common/Divider";
-import { GlossyGreenButton } from "@/components/common/GlossyGreenButton";
+import { PrimaryButton } from "@/components/common";
 import { SocialButton } from "@/components/common/SocialButton";
 import { Stepper, type Step } from "@/components/common/Stepper";
 import { cn } from "@/lib/utils";
@@ -306,12 +306,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       <Divider />
 
       {/* Register Button */}
-      <GlossyGreenButton
+      <PrimaryButton
         type="submit"
         className="h-[40px] w-full px-4 py-[10px] rounded-[8px] bg-[#1cb0f6] shadow-[0px_4px_0px_0px_#1093cc,0px_6px_12px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] active:translate-y-[2px] active:shadow-[0px_2px_0px_0px_#1093cc,0px_4px_8px_rgba(28,176,246,0.3)]"
       >
         สร้างบัญชี
-      </GlossyGreenButton>
+      </PrimaryButton>
 
       {/* Footer Links */}
       <div className="flex gap-[8px] items-center justify-center w-full">
@@ -419,13 +419,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       </div>
 
       {/* Next Button */}
-      <GlossyGreenButton
+      <PrimaryButton
         type="button"
         onClick={handleStep2Next}
         className="h-[40px] w-full px-4 py-[10px] rounded-[8px] bg-[#1cb0f6] shadow-[0px_4px_0px_0px_#1093cc,0px_6px_12px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] active:translate-y-[2px] active:shadow-[0px_2px_0px_0px_#1093cc,0px_4px_8px_rgba(28,176,246,0.3)]"
       >
         ถัดไป
-      </GlossyGreenButton>
+      </PrimaryButton>
     </>
   );
 
@@ -457,7 +457,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
 
       {/* Action Button - Centered */}
       <div className="flex items-center justify-center w-full -mt-[5px]">
-        <GlossyGreenButton 
+        <PrimaryButton 
           type="button" 
           onClick={() => {
             router.push("/login");
@@ -465,13 +465,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
           className="h-[40px] w-[150px] px-4 py-[10px] rounded-[8px] bg-[#1cb0f6] shadow-[0px_4px_0px_0px_#1093cc,0px_6px_12px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] active:translate-y-[2px] active:shadow-[0px_2px_0px_0px_#1093cc,0px_4px_8px_rgba(28,176,246,0.3)]"
         >
           เริ่มกันเลย
-        </GlossyGreenButton>
+        </PrimaryButton>
       </div>
     </>
   );
 
   return (
-    <Form 
+    <FormCard 
       onSubmit={currentStep === 1 ? handleStep1Submit : (e) => e.preventDefault()} 
       className={cn(
         currentStep === 3 ? "gap-[32px] w-[480px] h-[440px]" : "gap-[18px] w-[480px] h-[640px]"
@@ -484,7 +484,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       {currentStep === 1 && renderStep1()}
       {currentStep === 2 && renderStep2()}
       {currentStep === 3 && renderStep3()}
-    </Form>
+    </FormCard>
   );
 };
 

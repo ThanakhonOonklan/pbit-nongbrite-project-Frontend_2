@@ -1,7 +1,7 @@
 import { useInView, useMotionValue, useSpring } from 'motion/react';
 import { useCallback, useEffect, useRef } from 'react';
 
-interface CountUpProps {
+export interface CountUpProps {
   to: number;
   from?: number;
   direction?: 'up' | 'down';
@@ -14,7 +14,7 @@ interface CountUpProps {
   onEnd?: () => void;
 }
 
-export default function CountUp({
+export const CountUp: React.FC<CountUpProps> = ({
   to,
   from = 0,
   direction = 'up',
@@ -25,7 +25,7 @@ export default function CountUp({
   separator = '',
   onStart,
   onEnd
-}: CountUpProps) {
+}) => {
   const ref = useRef<HTMLSpanElement>(null);
   const motionValue = useMotionValue(direction === 'down' ? to : from);
 
@@ -115,4 +115,5 @@ export default function CountUp({
   }, [springValue, formatValue]);
 
   return <span className={className} ref={ref} />;
-}
+};
+

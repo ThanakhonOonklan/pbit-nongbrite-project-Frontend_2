@@ -5,6 +5,7 @@ import { Image } from "@/components/common/Image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { House, Trophy, UserCircle, Gear } from "phosphor-react";
 
 export interface SidebarProps {
   className?: string;
@@ -17,22 +18,22 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     {
       label: "หน้าหลัก",
       path: "/courses",
-      emoji: "🏠",
+      icon: <House className="w-5 h-5" weight="fill" />,
     },
     {
       label: "แรงค์",
       path: "/rank",
-      emoji: "🏆",
+      icon: <Trophy className="w-5 h-5" weight="fill" />,
     },
     {
       label: "โปรไฟล์",
       path: "/profile",
-      emoji: "👤",
+      icon: <UserCircle className="w-5 h-5" weight="fill" />,
     },
     {
       label: "ตั้งค่า",
       path: "/settings",
-      emoji: "⚙️",
+      icon: <Gear className="w-5 h-5" weight="fill" />,
     },
   ];
 
@@ -91,13 +92,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               {isActive && (
                 <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[6px] h-[70%] rounded-r-[6px] bg-[#1cb0f6]" />
               )}
-              {/* Emoji */}
+              {/* Icon */}
               <div
                 className={cn(
-                  "w-[36px] h-[36px] mr-[4px] flex items-center justify-center text-[22px] rounded-[10px] transition-colors"
+                  "w-[36px] h-[36px] mr-[4px] flex items-center justify-center rounded-[10px] transition-colors text-[#1cb0f6]"
                 )}
               >
-                {item.emoji}
+                {item.icon}
               </div>
 
               {/* Label */}

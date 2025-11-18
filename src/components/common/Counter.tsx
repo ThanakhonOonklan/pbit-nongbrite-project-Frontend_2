@@ -63,7 +63,7 @@ function Digit({ place, value, height, digitStyle }: DigitProps) {
   );
 }
 
-interface CounterProps {
+export interface CounterProps {
   value: number;
   fontSize?: number;
   padding?: number;
@@ -83,7 +83,7 @@ interface CounterProps {
   bottomGradientStyle?: React.CSSProperties;
 }
 
-export default function Counter({
+export const Counter: React.FC<CounterProps> = ({
   value,
   fontSize = 100,
   padding = 0,
@@ -101,7 +101,7 @@ export default function Counter({
   gradientTo = 'transparent',
   topGradientStyle,
   bottomGradientStyle
-}: CounterProps) {
+}) => {
   const height = fontSize + padding;
 
   const defaultContainerStyle: React.CSSProperties = {
@@ -157,4 +157,5 @@ export default function Counter({
       </div>
     </div>
   );
-}
+};
+
