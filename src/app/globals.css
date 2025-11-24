@@ -55,7 +55,13 @@
   
   body {
     @apply bg-background text-foreground;
-    background-color: var(--app-background);
+    background-image: repeating-linear-gradient(
+      90deg,
+      #C2E9FA 0px,
+      #C2E9FA 60px,
+      #C8F0FA 60px,
+      #C8F0FA 120px
+    );
     font-family: var(--font-line-seed-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -64,6 +70,15 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+
+  .layout-debug div {
+    outline: 1px dashed rgba(0, 0, 0, 0.25);
+    outline-offset: -2px;
+  }
+
+  .layout-debug div > div {
+    outline-color: rgba(0, 0, 0, 0.15);
   }
 }
 

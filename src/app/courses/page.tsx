@@ -1,7 +1,7 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { MainContentForm } from "@/components/courses";
+import { MainContentForm, OuterContainer } from "@/components/courses";
 import { Container } from "@/components/common/Container";
 import { useState } from "react";
 import { Heart, Lightning, Flame } from "phosphor-react";
@@ -12,12 +12,17 @@ export default function CoursesPage() {
   const levelData = selectedLevel ? getLevelData(selectedLevel) : null;
 
   return (
-    <div className="flex h-screen">
+    <div className=" flex h-screen">
       <Sidebar />
       
       {/* Center Area - Empty Space */}
-      <main className="flex-1 overflow-auto">
-        {/* พื้นที่ว่างตรงกลาง */}
+      <main className="flex-1 overflow-auto flex items-center justify-center p-6">
+        <OuterContainer
+          widthClassName="max-w-[900px] rounded-[30px] p-2 border-[3px] border-[#DB9148]"
+          heightClassName="min-h-[350px]"
+        >
+          {/* content */}
+        </OuterContainer>
       </main>
 
       {/* RightArea */}
