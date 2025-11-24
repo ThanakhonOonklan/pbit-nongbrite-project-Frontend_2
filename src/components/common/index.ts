@@ -23,8 +23,6 @@ export type { AnimatedListProps } from "./AnimatedList";
 export { Container } from "./Container";
 export type { ContainerProps } from "./Container";
 export { IconEditButton } from "./IconEditButton";
-export { RippleEffect } from "./RippleEffect";
-export type { RippleEffectProps } from "./RippleEffect";
 export { DifficultyIndicator } from "./DifficultyIndicator";
 export type { DifficultyIndicatorProps } from "./DifficultyIndicator";
 export { Counter } from "./Counter";
