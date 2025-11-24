@@ -4,18 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const socialButtonVariants = cva(
-  "inline-flex items-center justify-center gap-[3px] whitespace-nowrap rounded-[8px] text-[12px] leading-[18px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
+  "inline-flex items-center justify-center gap-[3px] whitespace-nowrap rounded-[8px] text-[12px] leading-[18px] font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
   {
     variants: {
       variant: {
         default:
-          "bg-white border border-[#D0D5DD] text-[#344054] shadow-[0px_1px_2px_rgba(16,24,40,0.05)] hover:bg-gray-50",
+          "bg-white border border-[rgba(208,213,221,0.5)] text-[#344054] shadow-[0px_2px_0px_0px_rgba(156,163,175,0.3)] hover:bg-gray-50",
         selected:
-          "bg-[#EAF8FF] border border-[#1CB0F6] text-[#344054] shadow-[0px_1px_2px_rgba(16,24,40,0.05)]",
+          "bg-[#EAF8FF] border border-[rgba(28,176,246,0.5)] text-[#1CB0F6] shadow-[0px_2px_0px_0px_rgba(14,165,233,0.3)]",
         female:
-          "bg-[#FCE7F3] border border-[#F8BBD0] text-[#344054] shadow-[0px_1px_2px_rgba(16,24,40,0.05)]",
+          "bg-[#FCE7F3] border border-[rgba(248,187,208,0.5)] text-[#EC4899] shadow-[0px_2px_0px_0px_rgba(244,143,177,0.3)]",
         "not-specified":
-          "bg-[#F3F4F6] border border-[#D1D5DB] text-[#344054] shadow-[0px_1px_2px_rgba(16,24,40,0.05)]",
+          "bg-[#F3F4F6] border border-[rgba(209,213,219,0.5)] text-[#344054] shadow-[0px_2px_0px_0px_rgba(156,163,175,0.3)]",
       },
     },
     defaultVariants: {
@@ -61,7 +61,7 @@ const SocialButton = React.forwardRef<HTMLButtonElement, SocialButtonProps>(
         className={cn(socialButtonVariants({ variant: currentVariant, className }))}
         ref={ref}
         style={{
-          width: "130px",
+          width: "180px",
           height: "38px",
           padding: "10px 16px",
         }}

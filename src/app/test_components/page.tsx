@@ -7,7 +7,6 @@ import {
   PasswordField,
   Divider,
   Stepper,
-  FormCard,
   SocialButton,
   PrimaryButton,
   GameButton,
@@ -16,10 +15,10 @@ import {
 } from "@/components/common";
 import { getLabelClassName } from "@/lib/label";
 import { StatCard } from "@/components/profile";
-import { Lock, Check, Heart, Lightning, Flame } from "phosphor-react";
+import { Check, Heart } from "phosphor-react";
 
 export default function TestComponentsPage() {
-  const [selectedGender, setSelectedGender] = useState<"male" | "female" | "not-specified" | null>(null);
+  const [selectedGenders, setSelectedGenders] = useState<Set<"male" | "female" | "not-specified">>(new Set());
   const [otpValue, setOtpValue] = useState<string[]>([]);
 
   const steps = [
@@ -29,7 +28,7 @@ export default function TestComponentsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#E5F2FA] p-8">
+    <div className="min-h-screen p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="mb-8">
@@ -45,11 +44,15 @@ export default function TestComponentsPage() {
             {/* PrimaryButton Styles */}
             <div className="flex flex-col gap-4">
               <div className="flex flex-wrap gap-4">
-                <PrimaryButton>Button </PrimaryButton>
-                <PrimaryButton variant="outline">Button Outline</PrimaryButton>
-                <PrimaryButton variant="yellow">Button Yellow</PrimaryButton>
-                <PrimaryButton variant="red-outline">Button Red Outline</PrimaryButton>
-                <PrimaryButton size="full">Full Width</PrimaryButton>
+                <PrimaryButton variant="amethyst">Amethyst</PrimaryButton>
+                <PrimaryButton variant="slate-blue">Slate Blue</PrimaryButton>
+                <PrimaryButton variant="summer-sky">Summer Sky</PrimaryButton>
+                <PrimaryButton variant="downy">Downy</PrimaryButton>
+                <PrimaryButton variant="pastel-green">Pastel Green</PrimaryButton>
+                <PrimaryButton variant="texas-rose">Texas Rose</PrimaryButton>
+                <PrimaryButton variant="mona-lisa">Mona Lisa</PrimaryButton>
+                <PrimaryButton variant="illusion">Illusion</PrimaryButton>
+                <PrimaryButton variant="sky-blue">Sky Blue</PrimaryButton>
               </div>
             </div>
 
@@ -76,8 +79,6 @@ export default function TestComponentsPage() {
               <h3 className="text-lg font-semibold text-gray-700">Input</h3>
               <div className="flex flex-wrap gap-4">
                 <Input placeholder="Input default" />
-                <Input type="email" placeholder="Email input" />
-                <Input type="number" placeholder="Number input" />
               </div>
             </div>
 
@@ -100,16 +101,6 @@ export default function TestComponentsPage() {
                   placeholder="zazajayzaza123@gmail.c.com"
                   type="email"
                 />
-                <InputField
-                  label="Display Name"
-                  placeholder="Enter display name"
-                />
-                <InputField
-                  label="Age"
-                  placeholder="Enter age"
-                  type="number"
-                  error="กรุณากรอกอายุ"
-                />
               </div>
             </div>
 
@@ -120,11 +111,6 @@ export default function TestComponentsPage() {
                 <PasswordField
                   label="Password"
                   placeholder="Enter password"
-                />
-                <PasswordField
-                  label="Confirm Password"
-                  placeholder="Confirm password"
-                  error="รหัสผ่านไม่ตรงกัน"
                 />
               </div>
             </div>
@@ -141,8 +127,6 @@ export default function TestComponentsPage() {
               <h3 className="text-lg font-semibold text-gray-700">Divider</h3>
               <div className="flex flex-col gap-4 max-w-md">
                 <Divider />
-                <Divider text="หรือ" />
-                <Divider text="หรือดำเนินการต่อด้วย" />
               </div>
             </div>
 
@@ -161,16 +145,6 @@ export default function TestComponentsPage() {
               </div>
             </div>
 
-            {/* FormCard */}
-            <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">FormCard</h3>
-              <div className="flex flex-col gap-4">
-                <FormCard className="w-[387px]">
-                  <InputField label="Email" placeholder="email@example.com" />
-                  <PrimaryButton>Submit</PrimaryButton>
-                </FormCard>
-              </div>
-            </div>
           </section>
         </Container>
 
@@ -183,34 +157,50 @@ export default function TestComponentsPage() {
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">SocialButton</h3>
               <div className="flex flex-wrap gap-4">
-                <SocialButton>Default</SocialButton>
-                <SocialButton selected>Selected</SocialButton>
                 <SocialButton
-                  selected={selectedGender === "male"}
+                  selected={selectedGenders.has("male")}
                   onSelect={(selected) => {
-                    setSelectedGender(selected ? "male" : null);
+                    const newSet = new Set(selectedGenders);
+                    if (selected) {
+                      newSet.add("male");
+                    } else {
+                      newSet.delete("male");
+                    }
+                    setSelectedGenders(newSet);
                   }}
                 >
                   เพศชาย
                 </SocialButton>
                 <SocialButton
-                  variant="female"
-                  selected={selectedGender === "female"}
+                  selected={selectedGenders.has("female")}
                   onSelect={(selected) => {
-                    setSelectedGender(selected ? "female" : null);
+                    const newSet = new Set(selectedGenders);
+                    if (selected) {
+                      newSet.add("female");
+                    } else {
+                      newSet.delete("female");
+                    }
+                    setSelectedGenders(newSet);   
                   }}
                 >
                   เพศหญิง
                 </SocialButton>
                 <SocialButton
-                  variant="not-specified"
-                  selected={selectedGender === "not-specified"}
+                  selected={selectedGenders.has("not-specified")}
                   onSelect={(selected) => {
-                    setSelectedGender(selected ? "not-specified" : null);
+                    const newSet = new Set(selectedGenders);
+                    if (selected) {
+                      newSet.add("not-specified");
+                    } else {
+                      newSet.delete("not-specified");
+                    }
+                    setSelectedGenders(newSet);
                   }}
                 >
-                  ไม่ระบุตัวตน
+                 ไม่ระบุตัวตน
                 </SocialButton>
+         
+             
               </div>
             </div>
 
@@ -224,41 +214,13 @@ export default function TestComponentsPage() {
                   onChange={setOtpValue}
                   onComplete={(value: string) => console.log("OTP Complete:", value)}
                 />
-                <OTPInput
-                  length={6}
-                  value={[]}
-                  onChange={() => {}}
-                  hasError
-                />
+                
               </div>
             </div>
 
           </section>
         </Container>
 
-        {/* Custom Buttons */}
-        <Container variant="white" className="p-6">
-          <section className="flex flex-col gap-6">
-            <h2 className="text-2xl font-bold text-[#242E39]">Custom Buttons</h2>
-            
-            {/* PrimaryButton */}
-            <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">PrimaryButton</h3>
-              <div className="flex flex-wrap gap-6 items-center justify-center bg-gray-50 p-8 rounded-xl">
-                <PrimaryButton size="lg">Start</PrimaryButton>
-                <PrimaryButton size="default">เริ่มกันเลย</PrimaryButton>
-                <PrimaryButton size="sm">เริ่ม</PrimaryButton>
-              </div>
-              
-              <div className="flex flex-wrap gap-6 items-center justify-center bg-gray-100 p-8 rounded-xl">
-                <PrimaryButton variant="outline" size="lg">Outline</PrimaryButton>
-                <PrimaryButton size="full">Full Width Button</PrimaryButton>
-                <PrimaryButton variant="yellow" size="default">Yellow Variant</PrimaryButton>
-                <PrimaryButton variant="red-outline" size="default">Red Outline</PrimaryButton>
-              </div>
-            </div>
-          </section>
-        </Container>
 
         {/* Cards & Display Components */}
         <Container variant="white" className="p-6">
@@ -300,101 +262,53 @@ export default function TestComponentsPage() {
           </section>
         </Container>
 
-        {/* Form Components */}
-        <Container variant="white" className="p-6">
-          <section className="flex flex-col gap-6">
-            <h2 className="text-2xl font-bold text-[#242E39]">Form Containers</h2>
-            
-            {/* FormCard */}
-            <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">FormCard</h3>
-              <div className="flex flex-wrap gap-6 items-start">
-                <FormCard className="w-[376px] h-auto">
-                  <div className="w-full">
-                    <h3 className="text-[20px] font-bold text-[#3C3C3C] mb-4">ตัวอย่างฟอร์ม</h3>
-                  </div>
-                  <InputField
-                    label="ชื่อผู้ใช้"
-                    placeholder="กรอกชื่อผู้ใช้"
-                  />
-                  <InputField
-                    label="อีเมล"
-                    placeholder="example@email.com"
-                    type="email"
-                  />
-                  <PrimaryButton size="full">
-                    ส่งข้อมูล
-                  </PrimaryButton>
-                </FormCard>
-
-                <FormCard className="w-[376px] h-auto py-[20px] px-[24px]">
-                  <div className="w-full flex items-center justify-between px-4">
-                    <div className="flex items-center gap-2">
-                      <Heart className="w-6 h-6 text-[#FF4D4D]" weight="fill" />
-                      <span className="text-[20px] font-bold text-[#FF4D4D]">5</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Lightning className="w-6 h-6 text-[#FFD300]" weight="fill" />
-                      <span className="text-[20px] font-bold text-[#FFD300]">100</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Flame className="w-6 h-6 text-[#FF7A00]" weight="fill" />
-                      <span className="text-[20px] font-bold text-[#FF7A00]">7</span>
-                    </div>
-                  </div>
-                </FormCard>
-              </div>
-            </div>
-          </section>
-        </Container>
-
         {/* GameButton */}
         <Container variant="white" className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">GameButton</h2>
             <div className="flex flex-col gap-6">
-              {/* Blue variant */}
+              {/* Color Palette Variants */}
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-semibold text-gray-700">Color Palette Variants</h3>
+                <div className="flex flex-wrap gap-4 items-center">
+                  <GameButton variant="amethyst" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                  <GameButton variant="slate-blue" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                  <GameButton variant="summer-sky" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                  <GameButton variant="downy" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                  <GameButton variant="pastel-green" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                  <GameButton variant="texas-rose" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                  <GameButton variant="mona-lisa" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                  <GameButton variant="illusion" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                  <GameButton variant="sky-blue" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                </div>
+              </div>
+
+              {/* Sky Blue variant */}
               <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-8 rounded-xl">
                 <h3 className="text-lg font-bold mb-6 text-[#1CB0F6]">สีฟ้า (Game 1: Path Navigation)</h3>
                 <div className="flex flex-wrap gap-6 items-center">
                   <div className="flex items-center gap-4">
                     <GameButton 
-                      variant="blue"
+                      variant="sky-blue"
                       size="default" 
                       icon={<Check className="w-8 h-8 text-white stroke-[3]" />}
                     />
-                    <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1 (Unlocked)</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <GameButton 
-                      variant="blue-locked"
-                      size="default" 
-                      icon={<Lock className="w-7 h-7 text-white" />}
-                    />
-                    <span className="text-[16px] font-medium text-[#AFAFAF]">Level 4 (Locked)</span>
+                    <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1</span>
                   </div>
                 </div>
               </div>
 
-              {/* Green variant */}
+              {/* Pastel Green variant */}
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-xl">
-                <h3 className="text-lg font-bold mb-6 text-[#19C371]">สีเขียว (Game 2: Asking Question)</h3>
+                <h3 className="text-lg font-bold mb-6 text-[#75D06A]">สีเขียว (Game 2: Asking Question)</h3>
                 <div className="flex flex-wrap gap-6 items-center">
                   <div className="flex items-center gap-4">
                     <GameButton 
-                      variant="green"
+                      variant="pastel-green"
                       size="default" 
                       icon={<Check className="w-8 h-8 text-white stroke-[3]" />}
                     />
-                    <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1 (Unlocked)</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <GameButton 
-                      variant="green-locked"
-                      size="default" 
-                      icon={<Lock className="w-7 h-7 text-white" />}
-                    />
-                    <span className="text-[16px] font-medium text-[#AFAFAF]">Level 5 (Locked)</span>
+                    <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1</span>
                   </div>
                 </div>
               </div>
@@ -423,6 +337,80 @@ export default function TestComponentsPage() {
                       icon={<span className="text-[24px] font-bold text-[#8B7355]">L</span>}
                     />
                     <span className="text-[18px]">Large</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </Container>
+
+        {/* Color Palette */}
+        <Container variant="white" className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">Color Palette</h2>
+            
+            {/* Color Swatches */}
+            <div className="flex flex-col gap-6">
+              {/* Row 1 */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-24 rounded-lg" style={{ backgroundColor: "#9956DE" }}></div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-700">Amethyst</p>
+                    <p className="text-xs text-gray-500">#9956DE</p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-24 rounded-lg" style={{ backgroundColor: "#7274ED" }}></div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-700">Slate Blue</p>
+                    <p className="text-xs text-gray-500">#7274ED</p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-24 rounded-lg" style={{ backgroundColor: "#1FA7E1" }}></div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-700">Summer Sky</p>
+                    <p className="text-xs text-gray-500">#1FA7E1</p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-24 rounded-lg" style={{ backgroundColor: "#6ED1CF" }}></div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-700">Downy</p>
+                    <p className="text-xs text-gray-500">#6ED1CF</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 2 */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-24 rounded-lg" style={{ backgroundColor: "#75D06A" }}></div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-700">Pastel Green</p>
+                    <p className="text-xs text-gray-500">#75D06A</p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-24 rounded-lg" style={{ backgroundColor: "#FFB356" }}></div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-700">Texas Rose</p>
+                    <p className="text-xs text-gray-500">#FFB356</p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-24 rounded-lg" style={{ backgroundColor: "#FF8B8B" }}></div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-700">Mona Lisa</p>
+                    <p className="text-xs text-gray-500">#FF8B8B</p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-24 rounded-lg" style={{ backgroundColor: "#FB96BB" }}></div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-700">Illusion</p>
+                    <p className="text-xs text-gray-500">#FB96BB</p>
                   </div>
                 </div>
               </div>

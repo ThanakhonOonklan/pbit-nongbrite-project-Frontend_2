@@ -1,36 +1,25 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { ProfileHeader, ProgressList, Achievements, StreakCalendar } from "@/components/profile";
-import { mockMyRank, mockStreakDays, mockProgressItems } from "@/constants/mocks";
+import { Container } from "@/components/common/Container";
+import { ProfileHeader, ProgressList } from "@/components/profile";
+import { mockProgressItems } from "@/constants/mocks";
 
 export default function ProfilePage() {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main className="flex-1 overflow-hidden bg-[#E5F2FA]">
+      <main className="flex-1 overflow-hidden">
         <div className="h-full p-6">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px] h-full">
-          
-            <section className="space-y-2">
-             
-                <ProfileHeader
-                  name="Thaanakhon OonkIan"
-                  joinedText="วันที่เข้าร่วม February 2023"
-                  rankBadge={mockMyRank.badge}
-                  score={mockMyRank.score}
-                  streakDays={mockStreakDays}
-                />
+          <div className="flex flex-col gap-6 h-full">
+            <ProfileHeader className="w-full" />
 
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <ProgressList items={mockProgressItems} />
-            </section>
-
-            {/* Right Column */}
-            <aside className="space-y-2">
-              <StreakCalendar />
-
-              <Achievements />
-            </aside>
+              <Container variant="white" className="p-6 min-h-[200px]">
+                <div className="min-h-[160px]" aria-hidden="true" />
+              </Container>
+            </div>
           </div>
         </div>
       </main>

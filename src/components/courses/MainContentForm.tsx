@@ -127,7 +127,6 @@ export const MainContentForm: React.FC<MainContentFormProps> = ({
       <div className="w-full flex justify-center">
         <PrimaryButton 
           size="full" 
-          className="bg-gradient-to-r from-[#1CB0F6] to-[#4FC3F7] text-white text-[18px] font-bold py-4 rounded-[16px] shadow-[0px_6px_0px_0px_#1899D6,0px_8px_16px_rgba(28,176,246,0.4)] hover:bg-gradient-to-r hover:from-[#4FC3F7] hover:to-[#81D4FA] hover:translate-y-[2px] hover:shadow-[0px_4px_0px_0px_#1899D6,0px_6px_12px_rgba(28,176,246,0.3)] active:translate-y-[6px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none transform transition-all duration-150"
         >
 
           {buttonText}

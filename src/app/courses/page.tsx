@@ -16,12 +16,12 @@ export default function CoursesPage() {
       <Sidebar />
       
       {/* Center Area - Empty Space */}
-      <main className="flex-1 bg-[#E5F2FA] overflow-auto">
+      <main className="flex-1 overflow-auto">
         {/* พื้นที่ว่างตรงกลาง */}
       </main>
 
       {/* RightArea */}
-      <div className="flex flex-col gap-2 p-12 bg-[#E5F2FA]">
+      <div className="flex flex-col gap-2 p-12">
         {/* Stats Form */}
         <Container
           variant="white"

@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
 
   const navItems = [
     {
-      label: "หน้าหลัก",
+      label: "เรียนรู้",
       path: "/courses",
       icon: <House className="w-5 h-5" weight="fill" />,
     },
@@ -40,9 +40,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   return (
     <aside
       className={cn(
-        "h-screen w-[254px] flex flex-col border-r-2 border-neutral-200",
-        // Soft kid-friendly gradient background
-        "bg-gradient-to-b from-[#F9FBFF] via-[#F6FAFF] to-[#F4F8FF]",
+        "h-screen w-[254px] flex flex-col border-neutral-200 shadow-[0_0px_5px_rgba(0,0,0,0.12)]",
+        "bg-white",
         className
       )}
     >
@@ -71,7 +70,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex flex-col gap-[10px] px-[16px] mt-1">
+      <nav className="flex flex-col gap-[10px] px-[16px] mt-7">
         {navItems.map((item) => {
           const isActive = pathname === item.path;
 
@@ -95,7 +94,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               {/* Icon */}
               <div
                 className={cn(
-                  "w-[36px] h-[36px] mr-[4px] flex items-center justify-center rounded-[10px] transition-colors text-[#1cb0f6]"
+                  "w-[44px] h-[44px] mr-[4px] flex items-center justify-center rounded-[12px] transition-colors",
+                  isActive ? "text-[#1cb0f6]" : "text-[#1c1c1c]"
                 )}
               >
                 {item.icon}
@@ -115,24 +115,26 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         })}
       </nav>
 
-      {/* Friendly footer card */}
-      <div className="mt-auto p-4">
-        <div className="w-full rounded-[14px] bg-white border border-[#EAF0F6] shadow-[0_4px_10px_rgba(0,0,0,0.04)] p-3 flex items-center gap-3">
-          <div className="relative w-[36px] h-[36px]">
+      {/* User footer */}
+      <div className="mt-auto px-4 py-5 border-t border-[#E2E8F0]">
+        <div className="flex items-center gap-3">
+          <div className="relative w-[42px] h-[42px]">
             <Image
               src="/icons/logo.png"
-              alt="Mascot"
+              alt="User Avatar"
               fill
-              containerClassName="w-[36px] h-[36px] rounded-full"
+              containerClassName="w-[42px] h-[42px] rounded-full bg-[#EAF8FF]"
               className="object-cover"
-              sizes="36px"
+              sizes="42px"
             />
           </div>
-          <div className="flex flex-col leading-tight">
-            <span className="text-[12px] text-[#7f7f7f]">พร้อมเรียนรู้ไหม?</span>
-            <span className="text-[13px] font-bold text-[#1cb0f6]">
-              ไปต่อกันเลย!
+          <div className="flex flex-col">
+            <span className="text-[15px] font-bold text-[#242E39] leading-tight">
+              Thanakhon OonkIan
             </span>
+            <button className="text-[14px] font-medium text-[#1a73e8] hover:underline text-left">
+              sign out
+            </button>
           </div>
         </div>
       </div>
