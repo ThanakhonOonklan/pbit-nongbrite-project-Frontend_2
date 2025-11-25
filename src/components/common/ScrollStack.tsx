@@ -72,7 +72,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
   itemDistance = 100,
 
-  itemScale = 0.03,
+  itemScale = 0.01,
 
   itemStackDistance = 30,
 

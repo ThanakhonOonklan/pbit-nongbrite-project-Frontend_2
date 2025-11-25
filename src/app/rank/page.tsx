@@ -7,7 +7,7 @@ import { mockLeaderboardData } from "@/constants/mocks";
 
 export default function RankPage() {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen layout-debug">
       <Sidebar />
       <main className="flex-1 overflow-hidden">
         <div className="h-full p-6">

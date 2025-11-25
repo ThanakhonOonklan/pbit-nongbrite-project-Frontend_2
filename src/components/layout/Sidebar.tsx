@@ -5,7 +5,7 @@ import { Image } from "@/components/common/Image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { House, Trophy, UserCircle, Gear } from "phosphor-react";
+import { House, Trophy, UserCircle, Gear, CaretLeft, CaretRight } from "phosphor-react";
 
 export interface SidebarProps {
   className?: string;
@@ -13,6 +13,7 @@ export interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const pathname = usePathname();
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
 
   const navItems = [
     {
@@ -40,15 +41,19 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   return (
     <aside
       className={cn(
-        "h-screen w-[254px] flex flex-col border-neutral-200 shadow-[0_0px_5px_rgba(0,0,0,0.12)]",
-        "bg-white",
+        "h-screen flex flex-col border-neutral-200 shadow-[0_0px_5px_rgba(0,0,0,0.12)]",
+        "bg-white transition-all duration-300 ease-in-out overflow-hidden",
+        isCollapsed ? "w-[80px]" : "w-[254px]",
         className
       )}
     >
       {/* Brand Section */}
-      <div className="relative h-[100px] flex items-center px-[21px]">
+      <div className={cn(
+        "relative h-[100px] flex items-center transition-all duration-300",
+        isCollapsed ? "px-2 justify-center" : "px-[21px]"
+      )}>
         {/* Logo */}
-        <div className="relative w-[49px] h-[49px]">
+        <div className="relative w-[49px] h-[49px] flex-shrink-0">
           <Image
             src="/icons/logo.png"
             alt="Logo"
@@ -60,17 +65,44 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           />
         </div>
 
-        {/* Brand Name */}
-        <div className="ml-[8px]">
-          <p className="text-[18px] leading-[28px] font-bold whitespace-nowrap">
-            <span className="text-[#1cb0f6]">P&apos;Bit </span>
-            <span className="text-[#ffd300]">Nong Brite</span>
-          </p>
-        </div>
+        {/* Brand Name and Toggle Button */}
+        {!isCollapsed ? (
+          <div className="ml-[8px] flex items-center gap-2 flex-1 min-w-0">
+            <p className="text-[18px] leading-[28px] font-bold whitespace-nowrap">
+              <span className="text-[#1cb0f6]">P&apos;Bit </span>
+              <span className="text-[#ffd300]">Nong Brite</span>
+            </p>
+            {/* Toggle Button */}
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className={cn(
+                "flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md",
+                "hover:bg-gray-100 transition-colors duration-200",
+                "text-gray-600 hover:text-gray-900"
+              )}
+              aria-label="Collapse sidebar"
+            >
+              <CaretLeft className="w-4 h-4" weight="bold" />
+            </button>
+          </div>
+        ) : (
+          /* Toggle Button when collapsed - centered */
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className={cn(
+              "absolute right-2 top-1/2 -translate-y-1/2 flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md",
+              "hover:bg-gray-100 transition-colors duration-200",
+              "text-gray-600 hover:text-gray-900"
+            )}
+            aria-label="Expand sidebar"
+          >
+            <CaretRight className="w-4 h-4" weight="bold" />
+          </button>
+        )}
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex flex-col gap-[10px] px-[16px] mt-7">
+      <nav className={cn("flex flex-col gap-[10px] mt-7 transition-all duration-300", isCollapsed ? "px-2" : "px-[16px]")}>
         {navItems.map((item) => {
           const isActive = pathname === item.path;
 
@@ -81,11 +113,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               prefetch={true}
               className={cn(
                 // Card-like nav item
-                "relative h-[52px] w-[222px] rounded-[14px] flex items-center px-[14px] transition-all duration-200 border-2",
+                "relative h-[52px] rounded-[14px] flex items-center transition-all duration-200 border-2",
+                isCollapsed ? "w-full justify-center px-0" : "w-[222px] px-[14px]",
                 isActive
                   ? "bg-[#EAF8FF] border-[#84d8ff] shadow-sm"
                   : "border-transparent hover:bg-[#F4F9FF] hover:border-[#E0F2FF] hover:shadow-[0_2px_6px_rgba(28,176,246,0.08)] active:bg-[#EAF8FF] active:border-[#CCE9FF]"
               )}
+              title={isCollapsed ? item.label : undefined}
             >
               {/* Active left indicator */}
               {isActive && (
@@ -94,7 +128,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               {/* Icon */}
               <div
                 className={cn(
-                  "w-[44px] h-[44px] mr-[4px] flex items-center justify-center rounded-[12px] transition-colors",
+                  "flex items-center justify-center rounded-[12px] transition-colors",
+                  isCollapsed ? "w-[44px] h-[44px]" : "w-[44px] h-[44px] mr-[4px]",
                   isActive ? "text-[#1cb0f6]" : "text-[#1c1c1c]"
                 )}
               >
@@ -102,23 +137,25 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               </div>
 
               {/* Label */}
-              <span
-                className={cn(
-                  "ml-[10px] text-[14px] leading-[25px] font-bold tracking-[0.8px] uppercase whitespace-nowrap",
-                  isActive ? "text-[#1cb0f6]" : "text-[#616161]"
-                )}
-              >
-                {item.label}
-              </span>
+              {!isCollapsed && (
+                <span
+                  className={cn(
+                    "ml-[10px] text-[14px] leading-[25px] font-bold tracking-[0.8px] uppercase whitespace-nowrap",
+                    isActive ? "text-[#1cb0f6]" : "text-[#616161]"
+                  )}
+                >
+                  {item.label}
+                </span>
+              )}
             </Link>
           );
         })}
       </nav>
 
       {/* User footer */}
-      <div className="mt-auto px-4 py-5 border-t border-[#E2E8F0]">
-        <div className="flex items-center gap-3">
-          <div className="relative w-[42px] h-[42px]">
+      <div className={cn("mt-auto border-t border-[#E2E8F0] transition-all duration-300", isCollapsed ? "px-2 py-4" : "px-4 py-5")}>
+        <div className={cn("flex items-center transition-all duration-300", isCollapsed ? "justify-center" : "gap-3")}>
+          <div className="relative w-[42px] h-[42px] flex-shrink-0">
             <Image
               src="/icons/logo.png"
               alt="User Avatar"
@@ -128,14 +165,16 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               sizes="42px"
             />
           </div>
-          <div className="flex flex-col">
-            <span className="text-[15px] font-bold text-[#242E39] leading-tight">
-              Thanakhon OonkIan
-            </span>
-            <button className="text-[14px] font-medium text-[#1a73e8] hover:underline text-left">
-              sign out
-            </button>
-          </div>
+          {!isCollapsed && (
+            <div className="flex flex-col min-w-0">
+              <span className="text-[15px] font-bold text-[#242E39] leading-tight truncate">
+                Thanakhon OonkIan
+              </span>
+              <button className="text-[14px] font-medium text-[#1a73e8] hover:underline text-left">
+                sign out
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </aside>
