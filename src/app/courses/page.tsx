@@ -1,7 +1,8 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { MainContentForm, OuterContainer } from "@/components/courses";
+import { MainContentForm } from "@/components/courses/MainContentForm";
+import { OuterContainer } from "@/components/courses/OuterContainer";
 import { Container } from "@/components/common/Container";
 import { useState } from "react";
 import { Heart, Lightning, Flame } from "phosphor-react";
@@ -12,25 +13,28 @@ export default function CoursesPage() {
   const levelData = selectedLevel ? getLevelData(selectedLevel) : null;
 
   return (
-    <div className=" flex h-screen">
+    <div className="flex h-screen">
       <Sidebar />
       
       {/* Center Area - Empty Space */}
-      <main className="flex-1 overflow-auto flex items-center justify-center p-6">
+      <main className="flex-1 overflow-auto flex items-center justify-center">
         <OuterContainer
-          widthClassName="max-w-[900px] rounded-[30px] p-2 border-[3px] border-[#DB9148]"
+          widthClassName="max-w-[750px] rounded-[30px] p-2 border-[3px] border-[#DB9148]"
           heightClassName="min-h-[350px]"
         >
           {/* content */}
         </OuterContainer>
+
+
+        
       </main>
 
       {/* RightArea */}
-      <div className="flex flex-col gap-2 p-12">
+      <div className="flex flex-col gap-1 p-12">
         {/* Stats Form */}
         <Container
           variant="white"
-          className="w-[376px] h-auto py-[20px] px-[24px] flex flex-col gap-3 rounded-b-none"
+          className="w-[320px] h-auto py-[20px] px-[24px] flex flex-col gap-3 rounded-b-none"
         >
           <div className="w-full flex items-center justify-between gap-3">
             {/* Heart Container */}

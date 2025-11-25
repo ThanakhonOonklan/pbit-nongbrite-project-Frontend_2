@@ -20,7 +20,7 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
   return (
     <div
       className={cn(
-        "relative flex w-full justify-center px-6 py-10",
+        "relative flex w-full justify-center",
         className
       )}
       {...props}
@@ -32,12 +32,12 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
         )}
       >
         <div className="absolute inset-[-3px] -z-10 rounded-[34px] bg-gradient-to-br from-[#f5b75a] to-[#fdd086]" />
-        <div className="absolute left-[20px] -top-[-247px] z-20 w-32 drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]">
+        <div className="absolute left-[20px] -top-[-286px] z-20 w-[100px] drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]">
           <Image
             src="/images/P_Bit/bit-01.svg"
             alt="P'Bit mascot"
-            width={180}
-            height={180}
+            width={140}
+            height={140}
             className="w-full h-auto"
             priority={false}
           />

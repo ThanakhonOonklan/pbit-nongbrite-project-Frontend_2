@@ -51,7 +51,7 @@ export const MainContentForm: React.FC<MainContentFormProps> = ({
   return (
     <Container
       variant="white"
-      className={`w-[376px] h-auto py-[32px] px-[24px] flex flex-col gap-[24px] rounded-t-none ${className || ""}`}
+      className={`w-[320px] h-auto py-[32px] px-[24px] flex flex-col gap-[24px] rounded-t-none ${className || ""}`}
     >
       {/* Level Info Box */}
       <div className="w-full p-6 rounded-[20px] bg-gradient-to-br from-[#E3F2FD] via-[#E8F5FF] to-[#E0F2FE] border-2 border-[#B8E6FF] ">

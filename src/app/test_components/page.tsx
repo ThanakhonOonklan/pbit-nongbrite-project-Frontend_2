@@ -16,6 +16,7 @@ import {
 import { getLabelClassName } from "@/lib/label";
 import { StatCard } from "@/components/profile";
 import { Check, Heart } from "phosphor-react";
+import { ScrollStack, ScrollStackItem } from "@/components/common";
 
 export default function TestComponentsPage() {
   const [selectedGenders, setSelectedGenders] = useState<Set<"male" | "female" | "not-specified">>(new Set());
@@ -446,6 +447,63 @@ export default function TestComponentsPage() {
               </div>
             </div>
 
+          </section>
+        </Container>
+
+        {/* ScrollStack Component */}
+        <Container variant="white" className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">ScrollStack</h2>
+            <p className="text-gray-600">Scroll animation component with stacking cards effect</p>
+            
+            <div className="w-full h-[800px] border border-gray-200 rounded-lg overflow-hidden">
+              <ScrollStack className="h-full">
+                <ScrollStackItem>
+                  <div className="flex flex-col gap-4">
+                    <h3 className="text-2xl font-bold text-[#242E39]">Card 1</h3>
+                    <p className="text-gray-600">
+                      This is the first card in the scroll stack. Scroll down to see the stacking animation effect.
+                    </p>
+                  </div>
+                </ScrollStackItem>
+                
+                <ScrollStackItem>
+                  <div className="flex flex-col gap-4">
+                    <h3 className="text-2xl font-bold text-[#242E39]">Card 2</h3>
+                    <p className="text-gray-600">
+                      The second card will stack on top of the first one as you scroll. Notice the smooth scaling and positioning.
+                    </p>
+                  </div>
+                </ScrollStackItem>
+                
+                <ScrollStackItem>
+                  <div className="flex flex-col gap-4">
+                    <h3 className="text-2xl font-bold text-[#242E39]">Card 3</h3>
+                    <p className="text-gray-600">
+                      Each card scales down and stacks beautifully. The animation is powered by Lenis smooth scrolling.
+                    </p>
+                  </div>
+                </ScrollStackItem>
+                
+                <ScrollStackItem>
+                  <div className="flex flex-col gap-4">
+                    <h3 className="text-2xl font-bold text-[#242E39]">Card 4</h3>
+                    <p className="text-gray-600">
+                      Continue scrolling to see more cards stack on top of each other with smooth transitions.
+                    </p>
+                  </div>
+                </ScrollStackItem>
+                
+                <ScrollStackItem>
+                  <div className="flex flex-col gap-4">
+                    <h3 className="text-2xl font-bold text-[#242E39]">Card 5</h3>
+                    <p className="text-gray-600">
+                      This is the last card in the demo. The ScrollStack component provides a beautiful visual effect for showcasing content.
+                    </p>
+                  </div>
+                </ScrollStackItem>
+              </ScrollStack>
+            </div>
           </section>
         </Container>
               

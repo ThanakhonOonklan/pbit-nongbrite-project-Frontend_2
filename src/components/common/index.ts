@@ -31,3 +31,5 @@ export { CountUp } from "./CountUp";
 export type { CountUpProps } from "./CountUp";
 export { OTPInput } from "./OTPInput";
 export type { OTPInputProps } from "./OTPInput";
+export { default as ScrollStack, ScrollStackItem } from "./ScrollStack";
+export type { ScrollStackProps, ScrollStackItemProps } from "./ScrollStack";
