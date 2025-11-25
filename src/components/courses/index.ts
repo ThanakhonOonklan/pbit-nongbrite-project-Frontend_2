@@ -1,2 +1,2 @@
 export * from "./MainContentForm";
-export * from "./OuterContainer";
+export * from "../common/OuterContainer";

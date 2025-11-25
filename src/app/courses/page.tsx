@@ -2,7 +2,7 @@
 
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MainContentForm } from "@/components/courses/MainContentForm";
-import { OuterContainer } from "@/components/courses/OuterContainer";
+import { OuterContainer } from "@/components/common/OuterContainer";
 import { Container } from "@/components/common/Container";
 import { useState } from "react";
 import { Heart, Lightning, Flame } from "phosphor-react";

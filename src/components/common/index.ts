@@ -33,3 +33,5 @@ export { OTPInput } from "./OTPInput";
 export type { OTPInputProps } from "./OTPInput";
 export { default as ScrollStack, ScrollStackItem } from "./ScrollStack";
 export type { ScrollStackProps, ScrollStackItemProps } from "./ScrollStack";
+export { OuterContainer } from "./OuterContainer";
+export type { OuterContainerProps } from "./OuterContainer";

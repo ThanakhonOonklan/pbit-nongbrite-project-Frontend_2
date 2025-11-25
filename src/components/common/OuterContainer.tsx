@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Image } from "@/components/common/Image";
+import { Image } from "./Image";
 
 export interface OuterContainerProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -19,10 +19,7 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
 }) => {
   return (
     <div
-      className={cn(
-        "relative flex w-full justify-center",
-        className
-      )}
+      className={cn("relative flex w-full justify-center", className)}
       {...props}
     >
       <div
@@ -39,7 +36,6 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
             width={140}
             height={140}
             className="w-full h-auto"
-            priority={false}
           />
         </div>
 
