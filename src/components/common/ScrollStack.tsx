@@ -4,35 +4,56 @@ import type { ReactNode } from 'react';
 
 import Lenis from 'lenis';
 
+import { OuterContainer } from './OuterContainer';
+
+import type { OuterContainerProps } from './OuterContainer';
+
 export interface ScrollStackItemProps {
 
   itemClassName?: string;
 
   children: ReactNode;
 
+  useOuterContainer?: boolean;
+
+  outerContainerProps?: Partial<OuterContainerProps>;
+
 }
 
-export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({ children, itemClassName = '' }) => (
+export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({ 
+  children, 
+  itemClassName = '',
+  useOuterContainer = false,
+  outerContainerProps = {}
+}) => {
+  const baseClassName = `scroll-stack-card relative w-full origin-top will-change-transform ${itemClassName}`.trim();
+  
+  const baseStyle: React.CSSProperties = {
+    backfaceVisibility: 'hidden',
+    transformStyle: 'preserve-3d'
+  };
 
-  <div
+  if (useOuterContainer) {
+    return (
+      <OuterContainer
+        className={baseClassName}
+        style={baseStyle}
+        {...outerContainerProps}
+      >
+        {children}
+      </OuterContainer>
+    );
+  }
 
-    className={`scroll-stack-card relative w-full h-80 my-8 p-12 rounded-[40px] shadow-[0_0_30px_rgba(0,0,0,0.1)] box-border origin-top will-change-transform ${itemClassName}`.trim()}
-
-    style={{
-
-      backfaceVisibility: 'hidden',
-
-      transformStyle: 'preserve-3d'
-
-    }}
-
-  >
-
-    {children}
-
-  </div>
-
-);
+  return (
+    <div
+      className={`${baseClassName} h-80 my-8 p-12 rounded-[40px] shadow-[0_0_30px_rgba(0,0,0,0.1)] box-border`.trim()}
+      style={baseStyle}
+    >
+      {children}
+    </div>
+  );
+};
 
 export interface ScrollStackProps {
 
@@ -72,11 +93,11 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
   itemDistance = 100,
 
-  itemScale = 0.01,
+  itemScale = 0.04,
 
   itemStackDistance = 30,
 
-  stackPosition = '20%',
+  stackPosition = '15%',
 
   scaleEndPosition = '10%',
 
@@ -86,7 +107,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
   rotationAmount = 0,
 
-  blurAmount = 0,
+  blurAmount = 0.5,
 
   useWindowScroll = false,
 
@@ -575,7 +596,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     <div
 
-      className={`relative w-full h-full overflow-y-auto overflow-x-visible ${className}`.trim()}
+      className={`relative w-full h-full overflow-y-auto overflow-x-visible [&::-webkit-scrollbar]:hidden ${className}`.trim()}
 
       ref={scrollerRef}
 
@@ -591,13 +612,15 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
         transform: 'translateZ(0)',
 
-        willChange: 'scroll-position'
+        willChange: 'scroll-position',
+
+        scrollbarWidth: 'none'
 
       }}
 
     >
 
-      <div className="scroll-stack-inner pt-[20vh] px-20 pb-[50rem] min-h-screen">
+      <div className="scroll-stack-inner pt-[1vh] px-3 pb-[50rem] min-h-screen">
 
         {children}
 

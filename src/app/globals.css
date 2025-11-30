@@ -55,13 +55,9 @@
   
   body {
     @apply bg-background text-foreground;
-    background-image: repeating-linear-gradient(
-      90deg,
-      #C2E9FA 0px,
-      #C2E9FA 60px,
-      #C8F0FA 60px,
-      #C8F0FA 120px
-    );
+    /* Background now handled by Squares component in layout */
+    background-color: #EBFAFF;
+    position: relative;
     font-family: var(--font-line-seed-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

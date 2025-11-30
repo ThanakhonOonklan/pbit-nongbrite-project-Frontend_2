@@ -4,7 +4,7 @@ import * as React from "react";
 import { Container } from "@/components/common/Container";
 import { Image } from "@/components/common/Image";
 import { cn } from "@/lib/utils";
-import { Check } from "phosphor-react";
+import { FaCheck } from "react-icons/fa";
 
 export interface DayData {
   day: string;
@@ -48,7 +48,7 @@ export const StreakCalendar: React.FC<StreakCalendarProps> = ({
   const statusStyles = {
     completed: {
       bg: "bg-[#1CB0F6]",
-      icon: <Check weight="bold" className="text-white" size={14} />,
+      icon: <FaCheck className="w-[14px] h-[14px] text-white" />,
     },
     missed: {
       bg: "bg-[#E5E7EB]",

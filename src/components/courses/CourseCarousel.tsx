@@ -96,11 +96,14 @@ const CarouselCard: React.FC<CarouselCardProps> = ({
         src={item.imageSrc}
         alt={item.imageAlt || item.title || "Carousel image"}
         fill
-        className={`object-cover ${round ? "opacity-100" : ""}`}
+        sizes={`${itemWidth}px`}
+        className={`object-cover pointer-events-none ${round ? "opacity-100" : ""}`}
+        loading={index === 0 ? "eager" : "lazy"}
+        priority={index === 0}
       />
 
       {!round && (
-        <div className="relative z-10 mt-auto p-4 bg-gradient-to-t from-[#00000088] via-transparent to-transparent text-white">
+        <div className="relative z-10 mt-auto p-4 bg-gradient-to-t from-[#00000] via-transparent to-transparent text-00000">
           <div className="text-sm font-semibold">{item.title}</div>
           <p className="text-xs opacity-90">{item.description}</p>
         </div>
@@ -145,31 +148,41 @@ const Carousel: React.FC<CarouselProps> = ({
   }, [pauseOnHover]);
 
   React.useEffect(() => {
-    if (autoplay && (!pauseOnHover || !isHovered)) {
+    if (autoplay && (!pauseOnHover || !isHovered) && !isResetting) {
       const timer = setInterval(() => {
         setCurrentIndex((prev) => {
-          if (prev === items.length - 1 && loop) {
+          // ถ้า loop mode และอยู่ที่ item สุดท้าย ให้ไปที่ duplicate item
+          if (loop && prev === items.length - 1) {
             return prev + 1;
           }
+          // ถ้าอยู่ที่ duplicate item (carouselItems.length - 1) ให้ reset กลับไปที่ 0
           if (prev === carouselItems.length - 1) {
-            return loop ? 0 : prev;
+            return 0;
           }
+          // เลื่อนไปหน้าถัดไป
           return prev + 1;
         });
       }, autoplayDelay);
 
       return () => clearInterval(timer);
     }
-  }, [autoplay, autoplayDelay, isHovered, loop, items.length, carouselItems.length, pauseOnHover]);
+  }, [autoplay, autoplayDelay, isHovered, loop, items.length, carouselItems.length, pauseOnHover, isResetting]);
 
   const effectiveTransition = isResetting ? { duration: 0 } : SPRING_OPTIONS;
 
   const handleAnimationComplete = () => {
     if (loop && currentIndex === carouselItems.length - 1) {
+      // Reset กลับไปที่ index 0 โดยไม่แสดง animation
       setIsResetting(true);
-      x.set(0);
-      setCurrentIndex(0);
-      setTimeout(() => setIsResetting(false), 50);
+      // ใช้ requestAnimationFrame เพื่อให้ reset เกิดขึ้นหลังจาก render เสร็จ
+      requestAnimationFrame(() => {
+        x.set(0);
+        setCurrentIndex(0);
+        // รอให้ state update เสร็จก่อนจึงจะปิด reset flag
+        requestAnimationFrame(() => {
+          setIsResetting(false);
+        });
+      });
     }
   };
 
@@ -242,33 +255,38 @@ const Carousel: React.FC<CarouselProps> = ({
         ))}
       </motion.div>
 
-      <div
-        className={`flex w-full justify-center ${
-          round ? "absolute bottom-12 left-1/2 -translate-x-1/2 z-10" : ""
-        }`}
-      >
-        <div className="mt-4 flex w-[140px] justify-between px-8">
-          {items.map((_, index) => (
-            <motion.div
-              key={index}
-              className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
-                currentIndex % items.length === index
-                  ? round
-                    ? "bg-white"
-                    : "bg-[#333333]"
-                  : round
-                    ? "bg-[#555]"
-                    : "bg-[rgba(0, 0, 0, 0.4)]"
-              }`}
-              animate={{
-                scale: currentIndex % items.length === index ? 1.2 : 1,
-              }}
-              onClick={() => setCurrentIndex(index)}
-              transition={{ duration: 0.2 }}
-            />
-          ))}
+      {items.length > 0 && (
+        <div
+          className={`flex w-full justify-center ${
+            round ? "absolute bottom-12 left-1/2 -translate-x-1/2 z-10" : ""
+          }`}
+        >
+          <div className="mt-4 flex w-[140px] justify-between px-8">
+            {items.map((_, index) => {
+              const isActive = currentIndex % items.length === index;
+              return (
+                <motion.div
+                  key={index}
+                  className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
+                    isActive
+                      ? round
+                        ? "bg-white"
+                        : "bg-[#333333]"
+                      : round
+                        ? "bg-[#666666]"
+                        : "bg-[#666666]"
+                  }`}
+                  animate={{
+                    scale: isActive ? 1.2 : 1,
+                  }}
+                  onClick={() => setCurrentIndex(index)}
+                  transition={{ duration: 0.2 }}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

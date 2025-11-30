@@ -124,7 +124,7 @@ export interface OuterContainerProps
   image4Position?: string;
   image4Rotation?: number;
   // Header props
-  headerText?: string;
+  headerText?: string | React.ReactNode;
   headerColor?: string;
   headerClassName?: string;
 }
@@ -186,10 +186,10 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
       {...props}
     >
       {headerText && (
-        <div className="pointer-events-none absolute inset-x-0 top-[-20px]  z-30 flex justify-center">
+        <div className="pointer-events-none absolute inset-x-0 z-30 flex justify-center">
           <div
             className={cn(
-              "inline-flex items-center gap-2 rounded-[10px] px-[100px] py-3 text-lg font-bold",
+              "inline-flex items-center gap-2 rounded-[10px] px-20 py-3 text-lg font-bold",
               headerStyles.className,
               headerClassName
             )}
@@ -201,7 +201,8 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
       )}
       <div
         className={cn(
-          "relative w-full rounded-[32px] bg-[#FDC369] p-4 shadow-[0px_10px_30px_rgba(0,0,0,0.2)]",
+          "relative w-full rounded-[32px] bg-[#FDC369] p-4 ",
+          headerText && "mt-6",
           widthClassName
         )}
       >
@@ -217,7 +218,7 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
               alt={imageAlt || "Image"}
               width={imageWidth}
               height={imageHeight}
-              className={cn("w-full h-auto", imageClassName)}
+              className={cn("h-auto", imageClassName)}
             />
           </div>
         )}
@@ -231,7 +232,7 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
               alt={image1Alt || "Image 1"}
               width={image1Width}
               height={image1Height}
-              className={cn("w-full h-auto", image1ClassName)}
+              className={cn("h-auto", image1ClassName)}
             />
           </div>
         )}
@@ -245,7 +246,7 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
               alt={image2Alt || "Image 2"}
               width={image2Width}
               height={image2Height}
-              className={cn("w-full h-auto", image2ClassName)}
+              className={cn("h-auto", image2ClassName)}
             />
           </div>
         )}
@@ -259,7 +260,7 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
               alt={image3Alt || "Image 3"}
               width={image3Width}
               height={image3Height}
-              className={cn("w-full h-auto", image3ClassName)}
+              className={cn("h-auto", image3ClassName)}
             />
           </div>
         )}
@@ -273,7 +274,7 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
               alt={image4Alt || "Image 4"}
               width={image4Width}
               height={image4Height}
-              className={cn("w-full h-auto", image4ClassName)}
+              className={cn("h-auto", image4ClassName)}
             />
           </div>
         )}

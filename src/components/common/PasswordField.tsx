@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Eye, EyeSlash } from "phosphor-react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Input } from "./Input";
 import { getLabelClassName } from "@/lib/label";
 import { cn } from "@/lib/utils";
@@ -60,9 +60,9 @@ const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? (
-              <EyeSlash className="w-4 h-4 text-[#829AB1]" />
+              <FaEyeSlash className="w-4 h-4 text-[#829AB1]" />
             ) : (
-              <Eye className="w-4 h-4 text-[#829AB1]" />
+              <FaEye className="w-4 h-4 text-[#829AB1]" />
             )}
           </button>
         </div>

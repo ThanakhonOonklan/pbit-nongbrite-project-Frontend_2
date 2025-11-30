@@ -3,7 +3,7 @@ import AnimatedList from "@/components/common/AnimatedList";
 import { Container } from "@/components/common/Container";
 import { RankUser } from "@/types";
 import { cn } from "@/lib/utils";
-import { Medal, Trophy } from "phosphor-react";
+import { FaMedal, FaTrophy } from "react-icons/fa";
 
 export interface LeaderboardListProps {
   items?: RankUser[];
@@ -16,10 +16,10 @@ export interface LeaderboardListProps {
 }
 
 const getMedalIcon = (rank: number) => {
-  if (rank === 1) return <Medal className="w-8 h-8 text-[#FBBF24]" weight="fill" />;
-  if (rank === 2) return <Medal className="w-8 h-8 text-[#A1A1AA]" weight="fill" />;
-  if (rank === 3) return <Medal className="w-8 h-8 text-[#D97706]" weight="fill" />;
-  return <Medal className="w-7 h-7 text-[#60A5FA]" weight="bold" />;
+  if (rank === 1) return <FaMedal className="w-8 h-8 text-[#FBBF24]" />;
+  if (rank === 2) return <FaMedal className="w-8 h-8 text-[#A1A1AA]" />;
+  if (rank === 3) return <FaMedal className="w-8 h-8 text-[#D97706]" />;
+  return <FaMedal className="w-7 h-7 text-[#60A5FA]" />;
 };
 
 const LeaderboardList: React.FC<LeaderboardListProps> = ({
@@ -81,7 +81,7 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
         )}
         emptyState={
           <div className="flex flex-col items-center justify-center h-full py-12">
-            <Trophy className="w-12 h-12 mb-2 text-[#FBBF24]" weight="fill" />
+            <FaTrophy className="w-12 h-12 mb-2 text-[#FBBF24]" />
             <p className="text-[14px] text-[#909090] text-center">
               ยังไม่มีข้อมูลอันดับ
             </p>

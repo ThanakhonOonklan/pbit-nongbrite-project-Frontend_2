@@ -5,7 +5,12 @@ import { Image } from "@/components/common/Image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { House, Trophy, UserCircle, Gear, CaretLeft, CaretRight } from "phosphor-react";
+import {
+  FaHome,
+  FaTrophy,
+  FaUserCircle,
+  FaCog,
+} from "react-icons/fa";
 
 export interface SidebarProps {
   className?: string;
@@ -19,22 +24,22 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     {
       label: "เรียนรู้",
       path: "/courses",
-      icon: <House className="w-5 h-5" weight="fill" />,
+      icon: <FaHome className="w-5 h-5" />,
     },
     {
       label: "แรงค์",
       path: "/rank",
-      icon: <Trophy className="w-5 h-5" weight="fill" />,
+      icon: <FaTrophy className="w-5 h-5" />,
     },
     {
       label: "โปรไฟล์",
       path: "/profile",
-      icon: <UserCircle className="w-5 h-5" weight="fill" />,
+      icon: <FaUserCircle className="w-5 h-5" />,
     },
     {
       label: "ตั้งค่า",
       path: "/settings",
-      icon: <Gear className="w-5 h-5" weight="fill" />,
+      icon: <FaCog className="w-5 h-5" />,
     },
   ];
 
@@ -42,67 +47,54 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     <aside
       className={cn(
         "h-screen flex flex-col border-neutral-200 shadow-[0_0px_5px_rgba(0,0,0,0.12)]",
-        "bg-white transition-all duration-300 ease-in-out overflow-hidden",
+        "bg-white transition-all duration-300 ease-in-out overflow-x-visible overflow-y-hidden",
         isCollapsed ? "w-[80px]" : "w-[254px]",
         className
       )}
     >
       {/* Brand Section */}
-      <div className={cn(
-        "relative h-[100px] flex items-center transition-all duration-300",
-        isCollapsed ? "px-2 justify-center" : "px-[21px]"
-      )}>
+      <div
+        className={cn(
+          "relative h-[100px] flex items-center transition-all duration-300",
+          isCollapsed ? "px-2 justify-center" : "px-[18px] justify-start"
+        )}
+      >
         {/* Logo */}
-        <div className="relative w-[49px] h-[49px] flex-shrink-0">
+        <div
+          className={cn(
+            "relative flex-shrink-0 rounded-full transition-transform duration-300",
+            isCollapsed ? "w-[42px] h-[42px]" : "w-[49px] h-[49px] translate-y-[2px]"
+          )}
+        >
           <Image
             src="/icons/logo.png"
             alt="Logo"
             fill
-            containerClassName="w-[49px] h-[49px] rounded-full"
+            containerClassName="w-full h-full rounded-full"
             className="object-cover"
             priority
             sizes="49px"
           />
         </div>
 
-        {/* Brand Name and Toggle Button */}
-        {!isCollapsed ? (
-          <div className="ml-[8px] flex items-center gap-2 flex-1 min-w-0">
+        {/* Brand Name */}
+        {!isCollapsed && (
+          <div className="ml-[12px] flex items-center flex-1 min-w-0">
             <p className="text-[18px] leading-[28px] font-bold whitespace-nowrap">
               <span className="text-[#1cb0f6]">P&apos;Bit </span>
               <span className="text-[#ffd300]">Nong Brite</span>
             </p>
-            {/* Toggle Button */}
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className={cn(
-                "flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md",
-                "hover:bg-gray-100 transition-colors duration-200",
-                "text-gray-600 hover:text-gray-900"
-              )}
-              aria-label="Collapse sidebar"
-            >
-              <CaretLeft className="w-4 h-4" weight="bold" />
-            </button>
           </div>
-        ) : (
-          /* Toggle Button when collapsed - centered */
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className={cn(
-              "absolute right-2 top-1/2 -translate-y-1/2 flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md",
-              "hover:bg-gray-100 transition-colors duration-200",
-              "text-gray-600 hover:text-gray-900"
-            )}
-            aria-label="Expand sidebar"
-          >
-            <CaretRight className="w-4 h-4" weight="bold" />
-          </button>
         )}
       </div>
 
       {/* Navigation Links */}
-      <nav className={cn("flex flex-col gap-[10px] mt-7 transition-all duration-300", isCollapsed ? "px-2" : "px-[16px]")}>
+      <nav
+        className={cn(
+          "flex flex-col gap-[10px] mt-7 transition-all duration-300",
+          isCollapsed ? "px-2" : "px-[16px]"
+        )}
+      >
         {navItems.map((item) => {
           const isActive = pathname === item.path;
 
@@ -114,7 +106,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               className={cn(
                 // Card-like nav item
                 "relative h-[52px] rounded-[14px] flex items-center transition-all duration-200 border-2",
-                isCollapsed ? "w-full justify-center px-0" : "w-[222px] px-[14px]",
+                isCollapsed
+                  ? "w-full justify-center px-0"
+                  : "w-[222px] px-[14px]",
                 isActive
                   ? "bg-[#EAF8FF] border-[#84d8ff] shadow-sm"
                   : "border-transparent hover:bg-[#F4F9FF] hover:border-[#E0F2FF] hover:shadow-[0_2px_6px_rgba(28,176,246,0.08)] active:bg-[#EAF8FF] active:border-[#CCE9FF]"
@@ -129,7 +123,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               <div
                 className={cn(
                   "flex items-center justify-center rounded-[12px] transition-colors",
-                  isCollapsed ? "w-[44px] h-[44px]" : "w-[44px] h-[44px] mr-[4px]",
+                  isCollapsed
+                    ? "w-[44px] h-[44px]"
+                    : "w-[44px] h-[44px] mr-[4px]",
                   isActive ? "text-[#1cb0f6]" : "text-[#1c1c1c]"
                 )}
               >
@@ -153,8 +149,18 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       </nav>
 
       {/* User footer */}
-      <div className={cn("mt-auto border-t border-[#E2E8F0] transition-all duration-300", isCollapsed ? "px-2 py-4" : "px-4 py-5")}>
-        <div className={cn("flex items-center transition-all duration-300", isCollapsed ? "justify-center" : "gap-3")}>
+      <div
+        className={cn(
+          "mt-auto border-t border-[#E2E8F0] transition-all duration-300",
+          isCollapsed ? "px-2 py-4" : "px-4 py-5"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center transition-all duration-300",
+            isCollapsed ? "justify-center" : "gap-3"
+          )}
+        >
           <div className="relative w-[42px] h-[42px] flex-shrink-0">
             <Image
               src="/icons/logo.png"
@@ -184,4 +190,3 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
 Sidebar.displayName = "Sidebar";
 
 export { Sidebar };
-

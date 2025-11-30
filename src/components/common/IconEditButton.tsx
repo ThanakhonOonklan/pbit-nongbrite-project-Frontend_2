@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { PencilSimple } from "phosphor-react";
+import { FaPencilAlt } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 
 const IconEditButton = React.forwardRef<
@@ -19,7 +19,7 @@ const IconEditButton = React.forwardRef<
         )}
         {...props}
       >
-        <PencilSimple className="w-4 h-4" />
+        <FaPencilAlt className="w-4 h-4" />
       </button>
     );
   }

@@ -6,7 +6,7 @@ import { mockStreakDays, mockProgressItems } from "@/constants/mocks";
 
 export default function ProfilePage() {
   return (
-    <div className="flex h-screen layout-debug">
+    <div className="flex h-screen">
       <Sidebar />
       <main className="flex-1 overflow-hidden">
         <div className="h-full p-6">
@@ -15,7 +15,6 @@ export default function ProfilePage() {
               <ProfileHeader />
               <ProgressList items={mockProgressItems} />
             </section>
-
             <aside className="space-y-4">
               <StreakCalendar days={mockStreakDays} />
               <LanguageSelector />

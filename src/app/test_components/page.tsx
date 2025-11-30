@@ -10,13 +10,16 @@ import {
   SocialButton,
   PrimaryButton,
   GameButton,
+  GameButton_2,
   Container,
   OTPInput,
   ScrollStackItem,
+  ResourceBar,
+  ScrollStack,
 } from "@/components/common";
 import { getLabelClassName } from "@/lib/label";
 import { StatCard } from "@/components/profile";
-import { Check, Heart } from "phosphor-react";
+import { FaCheck, FaHeart } from "react-icons/fa";
 
 export default function TestComponentsPage() {
   const [selectedGenders, setSelectedGenders] = useState<Set<"male" | "female" | "not-specified">>(new Set());
@@ -219,6 +222,16 @@ export default function TestComponentsPage() {
               </div>
             </div>
 
+            {/* ResourceBar */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">ResourceBar</h3>
+              <div className="flex flex-wrap gap-4 items-center">
+                <ResourceBar number={5} variant="heart" />
+                <ResourceBar number={200} variant="score" />
+                <ResourceBar number={30} variant="fire" />
+              </div>
+            </div>
+
           </section>
         </Container>
 
@@ -253,7 +266,7 @@ export default function TestComponentsPage() {
                   description="แรงค์ของคุณในระบบ" 
                 />
                 <StatCard 
-                  icon={<Heart className="w-7 h-7 text-[#FF4D4D]" weight="fill" />} 
+                  icon={<FaHeart className="w-7 h-7 text-[#FF4D4D]" />} 
                   title="Premium Member" 
                   description="Unlock all premium features" 
                   iconBgColor="bg-[#E8F4FF]"
@@ -272,15 +285,15 @@ export default function TestComponentsPage() {
               <div className="flex flex-col gap-4">
                 <h3 className="text-lg font-semibold text-gray-700">Color Palette Variants</h3>
                 <div className="flex flex-wrap gap-4 items-center">
-                  <GameButton variant="amethyst" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
-                  <GameButton variant="slate-blue" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
-                  <GameButton variant="summer-sky" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
-                  <GameButton variant="downy" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
-                  <GameButton variant="pastel-green" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
-                  <GameButton variant="texas-rose" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
-                  <GameButton variant="mona-lisa" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
-                  <GameButton variant="illusion" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
-                  <GameButton variant="sky-blue" size="default" icon={<Check className="w-8 h-8 text-white stroke-[3]" />} />
+                  <GameButton variant="amethyst" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
+                  <GameButton variant="slate-blue" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
+                  <GameButton variant="summer-sky" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
+                  <GameButton variant="downy" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
+                  <GameButton variant="pastel-green" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
+                  <GameButton variant="texas-rose" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
+                  <GameButton variant="mona-lisa" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
+                  <GameButton variant="illusion" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
+                  <GameButton variant="sky-blue" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
                 </div>
               </div>
 
@@ -292,7 +305,7 @@ export default function TestComponentsPage() {
                     <GameButton 
                       variant="sky-blue"
                       size="default" 
-                      icon={<Check className="w-8 h-8 text-white stroke-[3]" />}
+                      icon={<FaCheck className="w-8 h-8 text-white" />}
                     />
                     <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1</span>
                   </div>
@@ -307,7 +320,7 @@ export default function TestComponentsPage() {
                     <GameButton 
                       variant="pastel-green"
                       size="default" 
-                      icon={<Check className="w-8 h-8 text-white stroke-[3]" />}
+                      icon={<FaCheck className="w-8 h-8 text-white" />}
                     />
                     <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1</span>
                   </div>
@@ -523,6 +536,165 @@ export default function TestComponentsPage() {
                     </div>
                   </ScrollStackItem>
                 </Container>
+              </div>
+            </div>
+          </section>
+        </Container>
+
+        {/* ScrollStack with OuterContainer */}
+        <Container variant="white" className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">ScrollStack with OuterContainer</h2>
+            <p className="text-gray-600">
+              ScrollStack component with OuterContainer items - scroll to see OuterContainer items stack and animate smoothly
+            </p>
+            
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">OuterContainer Scroll Stack</h3>
+              <div className="w-full h-[800px] border border-gray-200 rounded-lg overflow-hidden">
+                <ScrollStack
+                  className="w-full h-full"
+                  itemDistance={800}
+                  itemStackDistance={0}
+                  stackPosition="20%"
+                  baseScale={1}
+                  useWindowScroll={false}
+                >
+                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
+                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
+                    heightClassName: "min-h-[350px]",
+                    headerText: "Path Navigation",
+                    headerColor: "sky-blue",
+                    imageSrc: "/images/P_Bit/bit-01.svg",
+                    imageAlt: "P'Bit mascot",
+                    imageWidth: 140,
+                    imageHeight: 140,
+                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    imageRotation: 0,
+                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
+                    image1Alt: "Nong Brite",
+                    image1Width: 60,
+                    image1Height: 66,
+                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    image1Rotation: 0,
+                  }}>
+                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+                      {Array.from({ length: 9 }).map((_, index) => (
+                        <div key={index} className="flex items-center justify-center">
+                          <GameButton_2 />
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollStackItem>
+
+                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
+                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
+                    heightClassName: "min-h-[350px]",
+                    headerText: "Path Navigation",
+                    headerColor: "sky-blue",
+                    imageSrc: "/images/P_Bit/bit-01.svg",
+                    imageAlt: "P'Bit mascot",
+                    imageWidth: 140,
+                    imageHeight: 140,
+                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    imageRotation: 0,
+                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
+                    image1Alt: "Nong Brite",
+                    image1Width: 60,
+                    image1Height: 66,
+                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    image1Rotation: 0,
+                  }}>
+                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+                      {Array.from({ length: 9 }).map((_, index) => (
+                        <div key={index} className="flex items-center justify-center">
+                          <GameButton_2 />
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollStackItem>
+
+                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
+                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
+                    heightClassName: "min-h-[350px]",
+                    headerText: "Path Navigation",
+                    headerColor: "sky-blue",
+                    imageSrc: "/images/P_Bit/bit-01.svg",
+                    imageAlt: "P'Bit mascot",
+                    imageWidth: 140,
+                    imageHeight: 140,
+                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    imageRotation: 0,
+                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
+                    image1Alt: "Nong Brite",
+                    image1Width: 60,
+                    image1Height: 66,
+                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    image1Rotation: 0,
+                  }}>
+                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+                      {Array.from({ length: 9 }).map((_, index) => (
+                        <div key={index} className="flex items-center justify-center">
+                          <GameButton_2 />
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollStackItem>
+
+                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
+                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
+                    heightClassName: "min-h-[350px]",
+                    headerText: "Path Navigation",
+                    headerColor: "sky-blue",
+                    imageSrc: "/images/P_Bit/bit-01.svg",
+                    imageAlt: "P'Bit mascot",
+                    imageWidth: 140,
+                    imageHeight: 140,
+                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    imageRotation: 0,
+                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
+                    image1Alt: "Nong Brite",
+                    image1Width: 60,
+                    image1Height: 66,
+                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    image1Rotation: 0,
+                  }}>
+                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+                      {Array.from({ length: 9 }).map((_, index) => (
+                        <div key={index} className="flex items-center justify-center">
+                          <GameButton_2 />
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollStackItem>
+
+                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
+                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
+                    heightClassName: "min-h-[350px]",
+                    headerText: "Path Navigation",
+                    headerColor: "sky-blue",
+                    imageSrc: "/images/P_Bit/bit-01.svg",
+                    imageAlt: "P'Bit mascot",
+                    imageWidth: 140,
+                    imageHeight: 140,
+                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    imageRotation: 0,
+                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
+                    image1Alt: "Nong Brite",
+                    image1Width: 60,
+                    image1Height: 66,
+                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                    image1Rotation: 0,
+                  }}>
+                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+                      {Array.from({ length: 9 }).map((_, index) => (
+                        <div key={index} className="flex items-center justify-center">
+                          <GameButton_2 />
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollStackItem>
+                </ScrollStack>
               </div>
             </div>
           </section>

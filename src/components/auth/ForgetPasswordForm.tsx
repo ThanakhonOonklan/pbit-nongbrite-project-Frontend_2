@@ -7,7 +7,7 @@ import { InputField } from "@/components/common/InputField";
 import { PasswordField } from "@/components/common/PasswordField";
 import { PrimaryButton } from "@/components/common";
 import { OTPInput } from "@/components/common/OTPInput";
-import { ArrowLeft } from "phosphor-react";
+import { FaArrowLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -189,7 +189,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
             className="absolute left-0 top-0 w-[25px] h-[25px] flex items-center justify-center hover:opacity-70 transition-opacity"
             aria-label="Go back"
           >
-            <ArrowLeft className="w-[18px] h-[16px] text-[#3c3c3c]" />
+            <FaArrowLeft className="w-[18px] h-[16px] text-[#3c3c3c]" />
           </button>
           
           {/* Logo */}
@@ -264,7 +264,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
             className="absolute left-0 top-0 w-[25px] h-[25px] flex items-center justify-center hover:opacity-70 transition-opacity"
             aria-label="Go back"
           >
-            <ArrowLeft className="w-[18px] h-[16px] text-[#3c3c3c]" />
+            <FaArrowLeft className="w-[18px] h-[16px] text-[#3c3c3c]" />
           </button>
 
           {/* Title */}
@@ -337,7 +337,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
             className="absolute left-0 top-0 w-[25px] h-[25px] flex items-center justify-center hover:opacity-70 transition-opacity"
             aria-label="Go back"
           >
-            <ArrowLeft className="w-[18px] h-[16px] text-[#3c3c3c]" />
+            <FaArrowLeft className="w-[18px] h-[16px] text-[#3c3c3c]" />
           </button>
 
           {/* Title */}
