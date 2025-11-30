@@ -5,16 +5,16 @@ import { Container } from "@/components/common/Container";
 import AnimatedList from "@/components/common/AnimatedList";
 import { cn } from "@/lib/utils";
 import {
-  Leaf,
-  Trophy,
-  Flame,
-  ShieldCheck,
-  Book,
-  Target,
-  Lightning,
-  Crown,
-  CheckCircle,
-} from "phosphor-react";
+  FaSeedling,
+  FaTrophy,
+  FaFire,
+  FaShieldAlt,
+  FaBook,
+  FaBullseye,
+  FaBolt,
+  FaCrown,
+  FaCheckCircle,
+} from "react-icons/fa";
 
 export interface AchievementItem {
   icon: React.ReactNode;
@@ -29,14 +29,14 @@ export interface AchievementsProps {
 }
 
 const defaultAchievements: AchievementItem[] = [
-  { icon: <Leaf className="w-6 h-6 text-[#19C371]" weight="fill" />, name: "ผู้เริ่มต้น", completed: true },
-  { icon: <Trophy className="w-6 h-6 text-[#FBBF24]" weight="fill" />, name: "ชนะ 10 ครั้ง", completed: true },
-  { icon: <Flame className="w-6 h-6 text-[#FF7A00]" weight="fill" />, name: "สตรีค 7 วัน", completed: true },
-  { icon: <ShieldCheck className="w-6 h-6 text-[#2563EB]" weight="fill" />, name: "คะแนนเต็ม", completed: false },
-  { icon: <Book className="w-6 h-6 text-[#7C3AED]" weight="fill" />, name: "เรียน 100 ครั้ง", completed: false },
-  { icon: <Target className="w-6 h-6 text-[#DC2626]" weight="fill" />, name: "ชนะ 50 ครั้ง", completed: false },
-  { icon: <Lightning className="w-6 h-6 text-[#FACC15]" weight="fill" />, name: "สตรีค 30 วัน", completed: false },
-  { icon: <Crown className="w-6 h-6 text-[#F59E0B]" weight="fill" />, name: "ระดับสูงสุด", completed: false },
+  { icon: <FaSeedling className="w-6 h-6 text-[#19C371]" />, name: "ผู้เริ่มต้น", completed: true },
+  { icon: <FaTrophy className="w-6 h-6 text-[#FBBF24]" />, name: "ชนะ 10 ครั้ง", completed: true },
+  { icon: <FaFire className="w-6 h-6 text-[#FF7A00]" />, name: "สตรีค 7 วัน", completed: true },
+  { icon: <FaShieldAlt className="w-6 h-6 text-[#2563EB]" />, name: "คะแนนเต็ม", completed: false },
+  { icon: <FaBook className="w-6 h-6 text-[#7C3AED]" />, name: "เรียน 100 ครั้ง", completed: false },
+  { icon: <FaBullseye className="w-6 h-6 text-[#DC2626]" />, name: "ชนะ 50 ครั้ง", completed: false },
+  { icon: <FaBolt className="w-6 h-6 text-[#FACC15]" />, name: "สตรีค 30 วัน", completed: false },
+  { icon: <FaCrown className="w-6 h-6 text-[#F59E0B]" />, name: "ระดับสูงสุด", completed: false },
 ];
 
 export const Achievements: React.FC<AchievementsProps> = ({
@@ -78,7 +78,7 @@ export const Achievements: React.FC<AchievementsProps> = ({
               {achievement.name}
             </span>
             {achievement.completed && (
-              <CheckCircle className="w-5 h-5 text-[#19C371]" weight="fill" />
+              <FaCheckCircle className="w-5 h-5 text-[#19C371]" />
             )}
           </>
         )}

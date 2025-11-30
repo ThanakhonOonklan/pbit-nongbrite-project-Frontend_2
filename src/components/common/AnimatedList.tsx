@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion, useInView } from "motion/react";
 import { cn } from "@/lib/utils";
-import { Trophy } from "phosphor-react";
+import { FaTrophy } from "react-icons/fa";
 
 type ItemClassNameResolver<T> = (args: {
   item: T;
@@ -182,7 +182,7 @@ function AnimatedList<T>({
         {items.length === 0 ? (
           emptyState ?? (
             <div className="flex flex-col items-center justify-center h-full py-12">
-              <Trophy className="w-12 h-12 mb-2 text-[#FBBF24]" weight="fill" />
+              <FaTrophy className="w-12 h-12 mb-2 text-[#FBBF24]" />
               <p className="text-[14px] text-[#909090] text-center">ยังไม่มีข้อมูล</p>
             </div>
           )

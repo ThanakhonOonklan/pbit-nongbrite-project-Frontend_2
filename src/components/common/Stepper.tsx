@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check } from "phosphor-react";
+import { FaCheck } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 
 export type StepStatus = "completed" | "active" | "default";
@@ -38,7 +38,7 @@ const Stepper: React.FC<StepperProps> = ({ steps, className }) => {
                   <div className="relative w-[32px] h-[32px]">
                     <div className="absolute left-0 top-0 w-[29px] h-[29px] bg-[#1CB0F6] border-2 border-[#1CB0F6] rounded-full"></div>
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                      <Check className="w-[23px] h-[23px] text-white stroke-[2]" />
+                      <FaCheck className="w-[23px] h-[23px] text-white" />
                     </div>
                   </div>
                 ) : (

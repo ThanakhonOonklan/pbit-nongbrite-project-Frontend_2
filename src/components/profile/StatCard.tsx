@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Trophy, Lightning, Flame, Star } from "phosphor-react";
+import { FaTrophy, FaBolt, FaFire, FaStar } from "react-icons/fa";
 
 export type StatType = "rank" | "points" | "streak" | "exp" | "custom";
 
@@ -14,10 +14,10 @@ export interface StatCardProps {
 }
 
 const typeConfig: Record<StatType, { icon: React.ReactNode; bgColor: string }> = {
-  rank: { icon: <Trophy className="w-7 h-7 text-[#1CB0F6]" weight="fill" />, bgColor: "bg-[#F6F9F8]" },
-  points: { icon: <Lightning className="w-7 h-7 text-[#FFD300]" weight="fill" />, bgColor: "bg-[#F6F9F8]" },
-  streak: { icon: <Flame className="w-7 h-7 text-[#FF7A00]" weight="fill" />, bgColor: "bg-[#F6F9F8]" },
-  exp: { icon: <Star className="w-7 h-7 text-[#FFB703]" weight="fill" />, bgColor: "bg-[#F6F9F8]" },
+  rank: { icon: <FaTrophy className="w-7 h-7 text-[#1CB0F6]" />, bgColor: "bg-[#F6F9F8]" },
+  points: { icon: <FaBolt className="w-7 h-7 text-[#FFD300]" />, bgColor: "bg-[#F6F9F8]" },
+  streak: { icon: <FaFire className="w-7 h-7 text-[#FF7A00]" />, bgColor: "bg-[#F6F9F8]" },
+  exp: { icon: <FaStar className="w-7 h-7 text-[#FFB703]" />, bgColor: "bg-[#F6F9F8]" },
   custom: { icon: null, bgColor: "bg-[#F6F9F8]" },
 };
 

@@ -1,47 +1,21 @@
 "use client";
 
 import * as React from "react";
-import AnimatedList from "@/components/common/AnimatedList";
 import { Container } from "@/components/common/Container";
 import { RankUser } from "@/types";
 import { cn } from "@/lib/utils";
 import {
-  Trophy,
-  Flame,
-  ShieldCheck,
-  Leaf,
-  Book,
-  Target,
-  Lightning,
-  Crown,
-  ChartLine,
-  Medal,
-  CheckCircle,
-  ArrowUp,
-  ArrowDown,
-} from "phosphor-react";
+  FaCrown,
+  FaChartLine,
+  FaMedal,
+  FaArrowUp,
+  FaArrowDown,
+} from "react-icons/fa";
 
 export interface MyRankCardProps {
   myRank: RankUser | null;
   className?: string;
 }
-
-interface AchievementItem {
-  icon: React.ReactNode;
-  name: string;
-  completed: boolean;
-}
-
-const defaultAchievements: AchievementItem[] = [
-  { icon: <Leaf className="w-6 h-6 text-[#19C371]" weight="fill" />, name: "ผู้เริ่มต้น", completed: true },
-  { icon: <Trophy className="w-6 h-6 text-[#FBBF24]" weight="fill" />, name: "ชนะ 10 ครั้ง", completed: true },
-  { icon: <Flame className="w-6 h-6 text-[#FF7A00]" weight="fill" />, name: "สตรีค 7 วัน", completed: true },
-  { icon: <ShieldCheck className="w-6 h-6 text-[#2563EB]" weight="fill" />, name: "คะแนนเต็ม", completed: false },
-  { icon: <Book className="w-6 h-6 text-[#7C3AED]" weight="fill" />, name: "เรียน 100 ครั้ง", completed: false },
-  { icon: <Target className="w-6 h-6 text-[#DC2626]" weight="fill" />, name: "ชนะ 50 ครั้ง", completed: false },
-  { icon: <Lightning className="w-6 h-6 text-[#FACC15]" weight="fill" />, name: "สตรีค 30 วัน", completed: false },
-  { icon: <Crown className="w-6 h-6 text-[#F59E0B]" weight="fill" />, name: "ระดับสูงสุด", completed: false },
-];
 
 // Rank tiers data
 const rankTiers = [
@@ -60,7 +34,7 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
         className={cn("p-6 flex flex-col items-center justify-center",className
         )}
       >
-        <ChartLine className="w-16 h-16 mb-2 text-[#9CA3AF]" weight="fill" />
+        <FaChartLine className="w-16 h-16 mb-2 text-[#9CA3AF]" />
         <h3 className="text-[18px] font-bold text-[#3c3c3c] mb-2">
           ยังไม่มีอันดับ
         </h3>
@@ -88,8 +62,6 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
       100
     : 100;
 
-  const achievements = defaultAchievements;
-
   return (
     <Container
       variant="white"
@@ -109,9 +81,9 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
               )}
             >
               {myRank.change > 0 ? (
-                <ArrowUp className="w-3.5 h-3.5" weight="bold" />
+                <FaArrowUp className="w-3.5 h-3.5" />
               ) : (
-                <ArrowDown className="w-3.5 h-3.5" weight="bold" />
+                <FaArrowDown className="w-3.5 h-3.5" />
               )}
               {Math.abs(myRank.change)}
             </div>
@@ -120,7 +92,7 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
 
         {/* Medal Section - Center Large */}
         <div className="flex flex-col items-center justify-center ">
-          <Medal className="w-32 h-32 leading-none mb-1 drop-shadow-lg text-[#FACC15]" weight="fill" />
+          <FaMedal className="w-32 h-32 leading-none mb-1 drop-shadow-lg text-[#FACC15]" />
           <h3 className="text-[28px] font-bold text-[#1cb0f6] ">
             อันดับ #{myRank.rank} 
           </h3>
@@ -165,51 +137,13 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
               variant="default"
               className="bg-gradient-to-br from-[#FFD300]/10 to-[#FFD300]/5 border-[#FFD300]/30 rounded-[12px] p-3 text-center flex flex-col items-center gap-1"
             >
-              <Crown className="w-8 h-8 text-[#FACC15]" weight="fill" />
+              <FaCrown className="w-8 h-8 text-[#FACC15]" />
               <p className="text-[13px] font-bold text-[#3c3c3c] mt-1">
                 คุณอยู่ในแรงค์สูงสุดแล้ว!
               </p>
             </Container>
           )}
         </Container>
-      </div>
-
-      {/* Achievements List */}
-      <div className="p-6 pt-0 flex-shrink-0">
-        <h4 className="text-[16px] font-bold text-[#3c3c3c] mb-3">
-          ความสำเร็จ
-        </h4>
-        <AnimatedList<AchievementItem>
-          items={achievements}
-          enableArrowNavigation={false}
-          displayScrollbar
-          className="max-h-[200px]"
-          listClassName="max-h-[200px] space-y-2"
-          itemClassName={({ item: achievement }) =>
-            cn(
-              "flex items-center gap-3 rounded-[12px] border-2 p-3 transition-all",
-              achievement.completed
-                ? "bg-gradient-to-br from-[#E8F5FF] to-[#F0F9FF] border-[#1cb0f6]/30"
-                : "bg-white border-[#E0E0E0] opacity-60"
-            )
-          }
-          renderItem={({ item: achievement }) => (
-            <>
-              <span className="text-[24px]">{achievement.icon}</span>
-              <span
-                className={cn(
-                  "text-[14px] font-bold flex-1",
-                  achievement.completed ? "text-[#3c3c3c]" : "text-[#909090]"
-                )}
-              >
-                {achievement.name}
-              </span>
-              {achievement.completed && (
-                <CheckCircle className="w-5 h-5 text-[#19C371]" weight="fill" />
-              )}
-            </>
-          )}
-        />
       </div>
     </Container>
   );

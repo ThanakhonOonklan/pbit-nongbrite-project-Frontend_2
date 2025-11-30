@@ -19,7 +19,7 @@ export default function SettingsPage() {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main className="flex-1 bg-[#E5F2FA] overflow-auto">
+      <main className="flex-1 overflow-auto">
         <div className="h-full p-6">
           <Container variant="white" className="w-[875px] h-auto py-[48px] px-[64px] gap-[24px] flex flex-col items-start">
           {/* Header */}

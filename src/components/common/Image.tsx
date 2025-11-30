@@ -2,14 +2,15 @@ import * as React from "react";
 import NextImage, { ImageProps as NextImageProps } from "next/image";
 import { cn } from "@/lib/utils";
 
-export interface ImageProps extends Omit<NextImageProps, "className"> {
+export interface ImageProps extends Omit<NextImageProps, "className" | "style"> {
   className?: string;
   containerClassName?: string;
   aspectRatio?: "square" | "video" | "auto";
+  style?: React.CSSProperties;
 }
 
 const Image = React.forwardRef<HTMLDivElement, ImageProps>(
-  (
+    (
     {
       src,
       alt,
@@ -21,6 +22,7 @@ const Image = React.forwardRef<HTMLDivElement, ImageProps>(
       aspectRatio,
       priority = false,
       loading,
+      style,
       ...props
     },
     ref
@@ -76,6 +78,7 @@ const Image = React.forwardRef<HTMLDivElement, ImageProps>(
           priority={priority}
           loading={loading || (priority ? "eager" : "lazy")}
           sizes={props.sizes || (width ? `${width}px` : "100vw")}
+          style={style}
           {...props}
         />
       </div>

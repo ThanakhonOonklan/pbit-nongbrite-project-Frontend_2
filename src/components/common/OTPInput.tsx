@@ -106,12 +106,12 @@ const OTPInput = React.forwardRef<HTMLDivElement, OTPInputProps>(
               onPaste={handlePaste}
               onFocus={() => handleFocus(index)}
               className={cn(
-                "w-[56px] h-[60px] rounded-[8px] border border-solid text-center text-[20px] font-medium leading-[18px] text-[#344054]",
-                "font-['Inter'] font-medium",
+                "w-[56px] h-[60px] rounded-[8px] border border-solid text-center text-[20px] font-bold leading-[18px]",
+                "font-['Inter']",
                 "focus:outline-none focus:ring-0 transition-colors",
-                hasError && "border-red-500",
-                !hasError && "bg-white border-[#d0d5dd]",
-                isFocused && !hasError && "bg-[#eaf8ff] border-[#1cb0f6]",
+                hasError && "border-[rgba(239,68,68,0.5)] shadow-[0px_2px_0px_0px_rgba(185,28,28,0.3)] text-[#DC2626]",
+                !hasError && "bg-white border-[rgba(208,213,221,0.5)] shadow-[0px_2px_0px_0px_rgba(156,163,175,0.3)] text-[#344054]",
+                isFocused && !hasError && "bg-[#eaf8ff] border-[rgba(28,176,246,0.5)] shadow-[0px_2px_0px_0px_rgba(14,165,233,0.3)] text-[#1CB0F6]",
                 inputClassName
               )}
               aria-label={`OTP digit ${index + 1}`}
