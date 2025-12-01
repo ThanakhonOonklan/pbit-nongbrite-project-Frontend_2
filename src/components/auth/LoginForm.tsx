@@ -167,7 +167,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         <div className="flex gap-[8px] items-center text-[10px] leading-[18px] font-bold">
           <span className="text-[#486581]">หรือ</span>
           <Link
-            href="/forgot-password"
+            href="/forget-password"
             className="text-[#127fbf] underline decoration-solid underline-offset-2 hover:text-[#0d6ba3] transition-colors"
           >
             ลืมรหัสผ่าน?

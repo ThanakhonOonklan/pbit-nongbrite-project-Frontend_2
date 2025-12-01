@@ -12,8 +12,7 @@ export default function SettingsPage() {
   const [soundOn, setSoundOn] = React.useState(true);
 
   const handleLogout = () => {
-    console.log("Logout clicked");
-    // Add your logout logic here
+    // TODO: Add your logout logic here
   };
 
   return (

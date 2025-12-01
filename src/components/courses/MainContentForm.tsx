@@ -27,7 +27,7 @@ export const MainContentForm: React.FC<MainContentFormProps> = ({
   return (
     <div
       className={cn(
-        "w-[350px] h-[500px] pt-[24px] pb-[32px] px-[24px] flex flex-col gap-[12px] rounded-[24px] bg-white shadow-sm border border-[#E4E9F2]",
+        "w-[350px] h-[500px] pt-[24px] pb-[32px] px-[24px] flex flex-col gap-[12px] rounded-[24px] bg-white shadow-sm border border-[#E4E9F2] ",
         className
       )}
     >

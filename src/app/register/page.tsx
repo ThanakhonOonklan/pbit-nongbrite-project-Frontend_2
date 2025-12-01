@@ -4,8 +4,7 @@ import { RegisterForm } from "@/components/auth/RegisterForm";
 
 export default function RegisterPage() {
   const handleRegister = (email: string, password: string, confirmPassword: string) => {
-    console.log({ email, password, confirmPassword });
-    // Add your register logic here
+    // TODO: Add your register logic here
   };
 
   return (

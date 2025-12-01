@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface GameButton_2Props
+export interface StarGameButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   stars?: number; // 0-3 ดาวที่ได้จากด่าน
@@ -20,7 +20,7 @@ const darkenColor = (color: string, percent: number): string => {
   return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
 };
 
-const GameButton_2 = React.forwardRef<HTMLButtonElement, GameButton_2Props>(
+const StarGameButton = React.forwardRef<HTMLButtonElement, StarGameButtonProps>(
   ({ className, stars = 0, buttonColor, ...props }, ref) => {
     // จำกัดค่า stars ระหว่าง 0-3
     const starCount = Math.max(0, Math.min(3, stars));
@@ -106,7 +106,7 @@ const GameButton_2 = React.forwardRef<HTMLButtonElement, GameButton_2Props>(
   }
 );
 
-GameButton_2.displayName = "GameButton_2";
+StarGameButton.displayName = "StarGameButton";
 
-export { GameButton_2 };
+export { StarGameButton };
 

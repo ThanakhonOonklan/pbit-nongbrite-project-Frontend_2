@@ -73,8 +73,6 @@ export interface ScrollStackProps {
 
   baseScale?: number;
 
-  scaleDuration?: number;
-
   rotationAmount?: number;
 
   blurAmount?: number;
@@ -102,8 +100,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   scaleEndPosition = '10%',
 
   baseScale = 0.85,
-
-  scaleDuration = 0.5,
 
   rotationAmount = 0,
 
@@ -166,9 +162,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
         scrollTop: window.scrollY,
 
-        containerHeight: window.innerHeight,
-
-        scrollContainer: document.documentElement
+        containerHeight: window.innerHeight
 
       };
 
@@ -180,9 +174,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
         scrollTop: scroller ? scroller.scrollTop : 0,
 
-        containerHeight: scroller ? scroller.clientHeight : 0,
-
-        scrollContainer: scroller
+        containerHeight: scroller ? scroller.clientHeight : 0
 
       };
 
@@ -218,7 +210,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     isUpdatingRef.current = true;
 
-    const { scrollTop, containerHeight, scrollContainer } = getScrollData();
+    const { scrollTop, containerHeight } = getScrollData();
 
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
 
@@ -508,7 +500,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     cardsRef.current = cards;
 
-    const transformsCache = lastTransformsRef.current;
+    const transformsMap = lastTransformsRef.current;
 
     cards.forEach((card, i) => {
 
@@ -556,7 +548,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
       cardsRef.current = [];
 
-      transformsCache.clear();
+      transformsMap.clear();
 
       isUpdatingRef.current = false;
 
@@ -575,8 +567,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     scaleEndPosition,
 
     baseScale,
-
-    scaleDuration,
 
     rotationAmount,
 

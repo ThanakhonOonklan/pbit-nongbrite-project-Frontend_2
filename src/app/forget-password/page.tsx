@@ -9,12 +9,7 @@ export default function ForgotPasswordPage() {
     password: string, 
     confirmPassword: string
   ) => {
-    console.log("Forgot password complete");
-    console.log("Email:", email);
-    console.log("OTP:", otp);
-    console.log("Password:", password);
-    console.log("Confirm Password:", confirmPassword);
-    // Add your forgot password logic here
+    // TODO: Add your forgot password logic here
   };
 
   return (
