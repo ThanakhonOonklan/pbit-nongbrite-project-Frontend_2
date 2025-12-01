@@ -1,1 +1,1 @@
-export * from "./MainContentForm";
+export * from "./CourseRightPanel";

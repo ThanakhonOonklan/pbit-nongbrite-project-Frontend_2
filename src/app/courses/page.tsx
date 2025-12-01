@@ -1,12 +1,10 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { MainContentForm } from "@/components/courses/MainContentForm";
+import { CourseRightPanel } from "@/components/courses/CourseRightPanel";
 import { useRef } from "react";
 import { getLevelData } from "@/constants/levelData";
-import { Container } from "@/components/common/Container";
 import {
-  ResourceBar,
   StarGameButton,
   ScrollStack,
   ScrollStackItem,
@@ -53,7 +51,7 @@ export default function CoursesPage() {
                 heightClassName: "min-h-[350px]",
                 headerText: (
                   <span className="flex items-center gap-2">
-                    <FaRoute className="w-5 h-5" /> 
+                    <FaRoute className="w-5 h-5" />
                     Path Navigation
                   </span>
                 ),
@@ -355,27 +353,15 @@ export default function CoursesPage() {
         </div>
       </main>
 
-      {/* RightArea */}
-      <div className="flex flex-col gap-4 px-5 pb-5 pt-4 justify-start">
-        {/* Resource Bars */}
-        <Container
-          variant="white"
-          className="w-[350px] h-auto py-4 px-4 flex flex-col gap-4  border border-[#E4E9F2]"
-        >
-          <div className="flex items-center justify-between gap-4 w-full">
-            <ResourceBar number={5} variant="heart" />
-            <ResourceBar number={6000} variant="score" />
-            <ResourceBar number={3} variant="fire" />
-          </div>
-        </Container>
-
-        {/* Main Content Form */}
-        <MainContentForm
-          levelTitle={levelData?.title || "Level 1: Splitting Parts"}
-          difficulty={levelData?.difficulty || 1}
-          difficultyText={levelData?.difficultyText || "ง่าย"}
-        />
-      </div>
+      {/* Main Content Form with Resource Bars */}
+      <CourseRightPanel
+        levelTitle={levelData?.title || "Level 1: Splitting Parts"}
+        difficulty={levelData?.difficulty || 1}
+        difficultyText={levelData?.difficultyText || "ง่าย"}
+        heartCount={5}
+        scoreCount={6000}
+        fireCount={3}
+      />
     </div>
   );
 }
