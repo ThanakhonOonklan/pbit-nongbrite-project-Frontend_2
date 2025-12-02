@@ -353,14 +353,12 @@ export default function CoursesPage() {
         </div>
       </main>
 
-      {/* Main Content Form with Resource Bars */}
+      {/*CourseRightPanel */}
       <CourseRightPanel
         levelTitle={levelData?.title || "Level 1: Splitting Parts"}
         difficulty={levelData?.difficulty || 1}
         difficultyText={levelData?.difficultyText || "ง่าย"}
-        heartCount={5}
-        scoreCount={6000}
-        fireCount={3}
+        gameTitle="Path Navigation"
       />
     </div>
   );

@@ -6,6 +6,8 @@ import { getDifficultyBadgeColor } from "@/utils/level";
 import { cn } from "@/lib/utils";
 import Carousel from "@/components/courses/CourseCarousel";
 import { Container, ResourceBar } from "@/components/common";
+import { getGameData } from "@/constants/mocks/gameData";
+import { getUserData } from "@/constants/mocks/userData";
 
 export interface CourseRightPanelProps {
   levelTitle?: string;
@@ -16,6 +18,7 @@ export interface CourseRightPanelProps {
   heartCount?: number;
   scoreCount?: number;
   fireCount?: number;
+  gameTitle?: string;
 }
 
 export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
@@ -27,9 +30,22 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
   heartCount,
   scoreCount,
   fireCount,
+  gameTitle,
 }) => {
   const badgeColor = getDifficultyBadgeColor(difficulty);
   const displayLevel = difficulty ?? 1;
+
+  // Get game title from gameData if gameTitle is provided
+  const gameData = gameTitle ? getGameData(gameTitle) : null;
+  const displayTitle = gameData?.title || "Path Navigation";
+
+  // Get user data (heartCount, scoreCount, fireCount) from userData
+  const userData = getUserData();
+  
+  // Use data from userData, or fallback to props (backward compatible)
+  const displayHeartCount = userData?.heartCount ?? heartCount ?? 0;
+  const displayScoreCount = userData?.scoreCount ?? scoreCount ?? 0;
+  const displayFireCount = userData?.fireCount ?? fireCount ?? 0;
 
   return (
     <div
@@ -39,17 +55,17 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
       )}
     >
       {/* Resource Bars */}
-      {(heartCount !== undefined ||
-        scoreCount !== undefined ||
-        fireCount !== undefined) && (
+      {(displayHeartCount > 0 ||
+        displayScoreCount > 0 ||
+        displayFireCount > 0) && (
         <Container
           variant="white"
           className="w-[350px] h-auto py-4 px-4 flex flex-col gap-4 border border-[#E4E9F2]"
         >
           <div className="flex items-center justify-between gap-4 w-full">
-            <ResourceBar number={heartCount ?? 0} variant="heart" />
-            <ResourceBar number={scoreCount ?? 0} variant="score" />
-            <ResourceBar number={fireCount ?? 0} variant="fire" />
+            <ResourceBar number={displayHeartCount} variant="heart" />
+            <ResourceBar number={displayScoreCount} variant="score" />
+            <ResourceBar number={displayFireCount} variant="fire" />
           </div>
         </Container>
       )}
@@ -67,10 +83,10 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
           />
         </div>
 
-        {/* Path Navigation Title */}
+        {/* Game Title */}
         <div className="flex items-center justify-between -mt-1">
           <span className="text-[15px] font-bold text-[#3C3C3C] drop-shadow-sm">
-            Path Navigation
+            {displayTitle}
           </span>
         </div>
 
