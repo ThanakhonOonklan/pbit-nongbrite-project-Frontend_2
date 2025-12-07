@@ -1,17 +1,18 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { MainContentForm } from "@/components/courses/MainContentForm";
-import { useRef, useState, useEffect } from "react";
+import { CourseRightPanel } from "@/components/courses/CourseRightPanel";
+import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getLevelData } from "@/constants/levelData";
-import { Container } from "@/components/common/Container";
+import { useHeaderColor } from "@/contexts/HeaderColorContext";
 import {
-  ResourceBar,
-  GameButton_2,
+  StarGameButton,
   ScrollStack,
   ScrollStackItem,
+  PrimaryButton,
 } from "@/components/common";
-import { BackgroundSquares } from "@/components/common/BackgroundSquares";
+import type { GameButtonStatus } from "@/components/common/StarGameButton";
 import {
   FaRoute,
   FaSquare,
@@ -22,100 +23,152 @@ import {
   FaPalette,
 } from "react-icons/fa";
 
+// Helper function to determine button status and stars
+// ด่าน 1-3: completed (มีดาว), ด่าน 4: available (สีตามเกม), ด่าน 5-9: locked
+const getButtonStatus = (levelNumber: number): GameButtonStatus => {
+  if (levelNumber <= 3) {
+    return "completed"; // ด่าน 1-3: เล่นผ่านแล้ว (สีทอง)
+  } else if (levelNumber === 4) {
+    return "available"; // ด่าน 4: ยังไม่ได้เล่น (สีตามเกม) - มีเพียงอันเดียว
+  } else {
+    return "locked"; // ด่าน 5-9: ล็อค (สีเทา)
+  }
+};
+
+// Helper function to get stars for completed levels (mock data)
+const getStarsForLevel = (levelNumber: number): number => {
+  // Mock: ด่าน 1 ได้ 3 ดาว, ด่าน 2 ได้ 2 ดาว, ด่าน 3 ได้ 1 ดาว
+  if (levelNumber === 1) return 3;
+  if (levelNumber === 2) return 2;
+  if (levelNumber === 3) return 1;
+  return 0;
+};
+
+// Component for custom tooltip content for completed levels
+const CompletedTooltipContent: React.FC<{ levelNumber: number }> = ({ levelNumber }) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handlePlayAgain = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    
+    // Simulate loading for 1-2 seconds
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    // Navigate to game page
+    router.push(`/games/path-navigation/${levelNumber}`);
+  };
+
+  return (
+    <div className="space-y-3">
+      <h3 className="text-lg font-semibold text-gray-800">
+        ด่าน {levelNumber}
+      </h3>
+      <p className="text-sm text-gray-600">
+        คุณได้ผ่านด่านนี้แล้ว สามารถเล่นอีกครั้งเพื่อปรับปรุงคะแนน
+      </p>
+      <PrimaryButton
+        className="w-full py-1.5 px-3 text-sm pointer-events-auto"
+        variant="default"
+        size="sm"
+        onClick={handlePlayAgain}
+        disabled={isLoading}
+      >
+        {isLoading ? "กำลังโหลด..." : "เล่นอีกครั้ง"}
+      </PrimaryButton>
+    </div>
+  );
+};
+
+// Helper function to lighten a color (make it lighter/pastel)
+const lightenColor = (color: string, percent: number = 50): string => {
+  // Remove # if present
+  const hex = color.replace("#", "");
+  
+  // Parse RGB
+  const num = parseInt(hex, 16);
+  const R = (num >> 16) & 255;
+  const G = (num >> 8) & 255;
+  const B = num & 255;
+  
+  // Lighten by blending with white
+  // percent = 0 means no change, percent = 100 means pure white
+  const factor = percent / 100;
+  const newR = Math.round(R + (255 - R) * factor);
+  const newG = Math.round(G + (255 - G) * factor);
+  const newB = Math.round(B + (255 - B) * factor);
+  
+  return `#${newR.toString(16).padStart(2, "0")}${newG.toString(16).padStart(2, "0")}${newB.toString(16).padStart(2, "0")}`;
+};
+
 export default function CoursesPage() {
   const selectedLevel = 1;
   const levelData = getLevelData(selectedLevel);
   const scrollStackRef = useRef<HTMLDivElement>(null);
-  const [activeCardIndex, setActiveCardIndex] = useState(1);
-
-  // Color mapping for each item
-  const itemColors = [
-    "#1CB0F6", // Item 1: Path Navigation - sky-blue
-    "#FB96BB", // Item 2: Counting & Classification - pink
-    "#FFB356", // Item 3: Conditional Matching - orange
-    "#9956DE", // Item 4: Sequencing - purple
-    "#6ED1CF", // Item 5: Step Counting - teal
-    "#FF8B8B", // Item 6: Fruit Matching Grid Game - pink-red
-    "#FFD700", // Item 7: Grid-based Coloring - yellow
+  
+  // Game titles array matching the order of ScrollStackItems
+  const gameTitles = [
+    "Path Navigation",
+    "Counting & Classification",
+    "Conditional Matching",
+    "Sequencing",
+    "Step Counting",
+    "Fruit Matching Grid Game",
+    "Grid-based Coloring",
   ];
-
-  // Helper function to lighten a color
-  const lightenColor = (color: string, percent: number): string => {
-    const num = parseInt(color.replace("#", ""), 16);
-    const amt = Math.round(2.55 * percent);
-    const R = Math.max(0, Math.min(255, (num >> 16) + amt));
-    const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
-    const B = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
-    return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
+  
+  // Game icons array matching the order of ScrollStackItems
+  const gameIcons = [
+    FaRoute,
+    FaSquare,
+    FaLink,
+    FaRecycle,
+    FaRuler,
+    FaTh,
+    FaPalette,
+  ];
+  
+  // Use context to track current header color for CourseRightPanel and BackgroundSquares
+  const { setHeaderColor } = useHeaderColor();
+  const [currentHeaderColor, setCurrentHeaderColor] = useState<string | undefined>(undefined);
+  const [currentGameTitle, setCurrentGameTitle] = useState<string>("Path Navigation");
+  const [currentGameIconIndex, setCurrentGameIconIndex] = useState<number>(0);
+  
+  // Callback when section changes
+  const handleSectionChange = (index: number, headerColor?: string) => {
+    // Reset to default when at top (before first section)
+    if (index === -1) {
+      setCurrentHeaderColor(undefined);
+      setHeaderColor(undefined);
+      setCurrentGameTitle("Path Navigation");
+      setCurrentGameIconIndex(0);
+      return;
+    }
+    
+    // Update game title and icon based on section index
+    if (index >= 0 && index < gameTitles.length) {
+      setCurrentGameTitle(gameTitles[index]);
+      setCurrentGameIconIndex(index);
+    }
+    
+    // Convert "sky-blue" to actual color if needed
+    let colorToUse = headerColor;
+    if (headerColor === "sky-blue") {
+      colorToUse = "#1CB0F6";
+    }
+    setCurrentHeaderColor(colorToUse);
+    // Lighten color for background (make it 60% lighter for pastel effect)
+    const lightenedColor = colorToUse ? lightenColor(colorToUse, 60) : undefined;
+    // Update context for BackgroundSquares with lightened color
+    setHeaderColor(lightenedColor);
   };
-
-  // Get current colors based on active card
-  const currentColor = itemColors[activeCardIndex - 1] || itemColors[0];
-  const borderColor = lightenColor(currentColor, 35);
-  const hoverFillColor = lightenColor(currentColor, 40);
-  const gradientStartColor = lightenColor(currentColor, 25);
-  const gradientEndColor = lightenColor(currentColor, 30);
-
-  // Track active card using IntersectionObserver
-  useEffect(() => {
-    const scrollContainer = scrollStackRef.current?.querySelector(
-      ".scroll-stack-inner"
-    )?.parentElement;
-
-    if (!scrollContainer) return;
-
-    // Add data-card-index to each card
-    const cards = scrollContainer.querySelectorAll(".scroll-stack-card");
-    cards.forEach((card, index) => {
-      card.setAttribute("data-card-index", (index + 1).toString());
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the most visible card
-        let maxRatio = 0;
-        let activeIndex = 1;
-
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-            maxRatio = entry.intersectionRatio;
-            const target = entry.target as HTMLElement;
-            if (target) {
-              const cardIndex = parseInt(
-                target.getAttribute("data-card-index") || "1"
-              );
-              activeIndex = cardIndex;
-            }
-          }
-        });
-
-        if (maxRatio > 0) {
-          setActiveCardIndex(activeIndex);
-        }
-      },
-      {
-        root: scrollContainer,
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-        rootMargin: "-15% 0px", // Use stackPosition
-      }
-    );
-
-    // Observe all scroll-stack-card elements
-    cards.forEach((card) => observer.observe(card));
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   return (
     <div className="flex h-screen ">
-      <BackgroundSquares 
-        borderColor={borderColor} 
-        hoverFillColor={hoverFillColor}
-        gradientStartColor={gradientStartColor}
-        gradientEndColor={gradientEndColor}
-      />
       <Sidebar />
 
       {/* Center Area - ScrollStack */}
@@ -130,6 +183,7 @@ export default function CoursesPage() {
             baseScale={1}
             itemScale={0.001}
             useWindowScroll={false}
+            onSectionChange={handleSectionChange}
           >
             {/* Item 1: Path Navigation */}
             <ScrollStackItem
@@ -163,14 +217,29 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <GameButton_2 buttonColor="#1CB0F6" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#1CB0F6"
+                        stars={stars}
+                        tooltipContent={
+                          status === "completed"
+                            ? <CompletedTooltipContent levelNumber={levelNumber} />
+                            : undefined
+                        }
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -189,7 +258,7 @@ export default function CoursesPage() {
                   </span>
                 ),
                 headerColor: "#FB96BB",
-                imageSrc: "/images/P_Minnie/minnie-01.svg", 
+                imageSrc: "/images/P_Minnie/minnie-01.svg",
                 imageAlt: "Minnie",
                 imageWidth: 100,
                 imageHeight: 160,
@@ -206,14 +275,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <GameButton_2 buttonColor="#FB96BB" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#FB96BB"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -249,14 +328,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <GameButton_2 buttonColor="#FFB356" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#FFB356"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -275,7 +364,7 @@ export default function CoursesPage() {
                   </span>
                 ),
                 headerColor: "#9956DE",
-                imageSrc: "/images/P_Momo/momo-03.svg", 
+                imageSrc: "/images/P_Momo/momo-03.svg",
                 imageAlt: "Momo",
                 imageWidth: 100,
                 imageHeight: 160,
@@ -283,7 +372,7 @@ export default function CoursesPage() {
                   "absolute left-[30px] -top-[-288px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
                 imageRotation: 0,
                 image1Src: "",
-                image1Alt: "Nong Brite",  
+                image1Alt: "Nong Brite",
                 image1Width: 60,
                 image1Height: 66,
                 image1Position:
@@ -292,14 +381,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <GameButton_2 buttonColor="#9956DE" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#9956DE"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -318,7 +417,7 @@ export default function CoursesPage() {
                   </span>
                 ),
                 headerColor: "#6ED1CF",
-                imageSrc: "/images/P_Bobo/bobo-05.svg", 
+                imageSrc: "/images/P_Bobo/bobo-05.svg",
                 imageAlt: "Bobo",
                 imageWidth: 110,
                 imageHeight: 123,
@@ -329,14 +428,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <GameButton_2 buttonColor="#6ED1CF" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#6ED1CF"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -355,12 +464,12 @@ export default function CoursesPage() {
                   </span>
                 ),
                 headerColor: "#FF8B8B",
-                imageSrc: "/images/P_PingPing/pingping-05.svg", 
+                imageSrc: "/images/P_PingPing/pingping-05.svg",
                 imageAlt: "PingPing",
                 imageWidth: 100,
                 imageHeight: 120,
                 imagePosition:
-                  "absolute left-[530px] -top-[80px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]", 
+                  "absolute left-[530px] -top-[80px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
                 imageRotation: 0,
                 image1Src: "/images/P_PingPing/pingping-05.svg",
                 image1Alt: "PingPing",
@@ -372,14 +481,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <GameButton_2 buttonColor="#FF8B8B" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#FF8B8B"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -405,7 +524,7 @@ export default function CoursesPage() {
                 imagePosition:
                   "absolute left-[10px] -top-[-320px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
                 imageRotation: 0,
-                image1Src: "/images/Nong_brite/nong-brite-01.svg", 
+                image1Src: "/images/Nong_brite/nong-brite-01.svg",
                 image1Alt: "Nong Brite",
                 image1Width: 60,
                 image1Height: 66,
@@ -419,8 +538,8 @@ export default function CoursesPage() {
                 image2Position:
                   "absolute left-[720px] -top-[-288px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
                 image2Rotation: 0,
-                image3Src: "/images/P_Minnie/minnie-04.svg",    // minnie-04.svg  E:\pbit-nongbrite-project-Frontend_2\public\images\P_Minnie\minnie-04.svg
-                image3Alt: "Coco", 
+                image3Src: "/images/P_Minnie/minnie-04.svg", // minnie-04.svg  E:\pbit-nongbrite-project-Frontend_2\public\images\P_Minnie\minnie-04.svg
+                image3Alt: "Coco",
                 image3Width: 100,
                 image3Height: 100,
                 image3Position:
@@ -429,41 +548,39 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <GameButton_2 buttonColor="#FFD700" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#FFD700"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
           </ScrollStack>
         </div>
       </main>
 
-      {/* RightArea */}
-      <div className="flex flex-col gap-4 px-5 pb-5 pt-4 justify-start">
-        {/* Resource Bars */}
-        <Container
-          variant="white"
-          className="w-[350px] h-auto py-4 px-4 flex flex-col gap-4  border border-[#E4E9F2]"
-        >
-          <div className="flex items-center justify-between gap-4 w-full">
-            <ResourceBar number={5} variant="heart" />
-            <ResourceBar number={6000} variant="score" />
-            <ResourceBar number={3} variant="fire" />
-          </div>
-        </Container>
-
-        {/* Main Content Form */}
-        <MainContentForm
-          levelTitle={levelData?.title || "Level 1: Splitting Parts"}
-          difficulty={levelData?.difficulty || 1}
-          difficultyText={levelData?.difficultyText || "ง่าย"}
-        />
-      </div>
+      {/*CourseRightPanel */}
+      <CourseRightPanel
+        levelTitle={levelData?.title || "Level 1: Splitting Parts"}
+        difficulty={levelData?.difficulty || 1}
+        difficultyText={levelData?.difficultyText || "ง่าย"}
+        gameTitle={currentGameTitle}
+        gameIcon={gameIcons[currentGameIconIndex]}
+        headerColor={currentHeaderColor}
+      />
     </div>
   );
 }

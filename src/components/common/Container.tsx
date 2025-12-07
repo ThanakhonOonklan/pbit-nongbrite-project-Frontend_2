@@ -17,7 +17,6 @@ export interface ContainerProps {
   stackPosition?: string;
   scaleEndPosition?: string;
   baseScale?: number;
-  scaleDuration?: number;
   rotationAmount?: number;
   blurAmount?: number;
   useWindowScroll?: boolean;
@@ -36,7 +35,6 @@ const Container: React.FC<ContainerProps> = ({
   stackPosition,
   scaleEndPosition,
   baseScale,
-  scaleDuration,
   rotationAmount,
   blurAmount,
   useWindowScroll,
@@ -59,7 +57,6 @@ const Container: React.FC<ContainerProps> = ({
     stackPosition !== undefined ||
     scaleEndPosition !== undefined ||
     baseScale !== undefined ||
-    scaleDuration !== undefined ||
     rotationAmount !== undefined ||
     blurAmount !== undefined ||
     useWindowScroll !== undefined ||
@@ -79,7 +76,6 @@ const Container: React.FC<ContainerProps> = ({
           stackPosition={stackPosition}
           scaleEndPosition={scaleEndPosition}
           baseScale={baseScale}
-          scaleDuration={scaleDuration}
           rotationAmount={rotationAmount}
           blurAmount={blurAmount}
           useWindowScroll={useWindowScroll}

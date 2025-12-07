@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useLayoutEffect, useRef, useCallback } from 'react';
 
 import type { ReactNode } from 'react';
@@ -73,8 +75,6 @@ export interface ScrollStackProps {
 
   baseScale?: number;
 
-  scaleDuration?: number;
-
   rotationAmount?: number;
 
   blurAmount?: number;
@@ -82,6 +82,8 @@ export interface ScrollStackProps {
   useWindowScroll?: boolean;
 
   onStackComplete?: () => void;
+
+  onSectionChange?: (index: number, headerColor?: string) => void;
 
 }
 
@@ -103,15 +105,15 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
   baseScale = 0.85,
 
-  scaleDuration = 0.5,
-
   rotationAmount = 0,
 
   blurAmount = 0.5,
 
   useWindowScroll = false,
 
-  onStackComplete
+  onStackComplete,
+
+  onSectionChange
 
 }) => {
 
@@ -124,6 +126,10 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   const lenisRef = useRef<Lenis | null>(null);
 
   const cardsRef = useRef<HTMLElement[]>([]);
+
+  const headerColorsRef = useRef<(string | undefined)[]>([]);
+
+  const currentSectionRef = useRef<number>(-1);
 
     interface CardTransform {
     translateY: number;
@@ -166,9 +172,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
         scrollTop: window.scrollY,
 
-        containerHeight: window.innerHeight,
-
-        scrollContainer: document.documentElement
+        containerHeight: window.innerHeight
 
       };
 
@@ -180,9 +184,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
         scrollTop: scroller ? scroller.scrollTop : 0,
 
-        containerHeight: scroller ? scroller.clientHeight : 0,
-
-        scrollContainer: scroller
+        containerHeight: scroller ? scroller.clientHeight : 0
 
       };
 
@@ -218,7 +220,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     isUpdatingRef.current = true;
 
-    const { scrollTop, containerHeight, scrollContainer } = getScrollData();
+    const { scrollTop, containerHeight } = getScrollData();
 
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
 
@@ -232,6 +234,9 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     const endElementTop = endElement ? getElementOffset(endElement) : 0;
 
+    // Track which section is currently active for onSectionChange callback
+    let activeSectionIndex = -1;
+
     cardsRef.current.forEach((card, i) => {
 
       if (!card) return;
@@ -239,6 +244,11 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       const cardTop = getElementOffset(card);
 
       const triggerStart = cardTop - stackPositionPx - itemStackDistance * i;
+
+      // Check if this section is active (scroll has passed its triggerStart)
+      if (scrollTop >= triggerStart) {
+        activeSectionIndex = i;
+      }
 
       const triggerEnd = cardTop - scaleEndPositionPx;
 
@@ -358,6 +368,13 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     });
 
+    // Call onSectionChange if section has changed
+    if (onSectionChange && activeSectionIndex !== currentSectionRef.current) {
+      currentSectionRef.current = activeSectionIndex;
+      const headerColor = headerColorsRef.current[activeSectionIndex];
+      onSectionChange(activeSectionIndex, headerColor);
+    }
+
     isUpdatingRef.current = false;
 
   }, [
@@ -379,6 +396,8 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     useWindowScroll,
 
     onStackComplete,
+
+    onSectionChange,
 
     calculateProgress,
 
@@ -508,7 +527,10 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     cardsRef.current = cards;
 
-    const transformsCache = lastTransformsRef.current;
+    const transformsMap = lastTransformsRef.current;
+
+    // Extract headerColor from each card (stored in data attribute)
+    const headerColors: (string | undefined)[] = [];
 
     cards.forEach((card, i) => {
 
@@ -517,6 +539,10 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         card.style.marginBottom = `${itemDistance}px`;
 
       }
+
+      // Get headerColor from data attribute
+      const headerColor = card.getAttribute('data-header-color') || undefined;
+      headerColors.push(headerColor);
 
       card.style.willChange = 'transform, filter';
 
@@ -533,6 +559,8 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       card.style.webkitPerspective = '1000px';
 
     });
+
+    headerColorsRef.current = headerColors;
 
     setupLenis();
 
@@ -556,7 +584,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
       cardsRef.current = [];
 
-      transformsCache.clear();
+      transformsMap.clear();
 
       isUpdatingRef.current = false;
 
@@ -575,8 +603,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     scaleEndPosition,
 
     baseScale,
-
-    scaleDuration,
 
     rotationAmount,
 

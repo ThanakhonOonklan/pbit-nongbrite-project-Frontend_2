@@ -10,7 +10,7 @@ import {
   SocialButton,
   PrimaryButton,
   GameButton,
-  GameButton_2,
+  StarGameButton,
   Container,
   OTPInput,
   ScrollStackItem,
@@ -581,7 +581,7 @@ export default function TestComponentsPage() {
                     <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
                       {Array.from({ length: 9 }).map((_, index) => (
                         <div key={index} className="flex items-center justify-center">
-                          <GameButton_2 />
+                          <StarGameButton />
                         </div>
                       ))}
                     </div>
@@ -608,7 +608,7 @@ export default function TestComponentsPage() {
                     <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
                       {Array.from({ length: 9 }).map((_, index) => (
                         <div key={index} className="flex items-center justify-center">
-                          <GameButton_2 />
+                          <StarGameButton />
                         </div>
                       ))}
                     </div>
@@ -635,7 +635,7 @@ export default function TestComponentsPage() {
                     <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
                       {Array.from({ length: 9 }).map((_, index) => (
                         <div key={index} className="flex items-center justify-center">
-                          <GameButton_2 />
+                          <StarGameButton />
                         </div>
                       ))}
                     </div>
@@ -662,7 +662,7 @@ export default function TestComponentsPage() {
                     <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
                       {Array.from({ length: 9 }).map((_, index) => (
                         <div key={index} className="flex items-center justify-center">
-                          <GameButton_2 />
+                          <StarGameButton />
                         </div>
                       ))}
                     </div>
@@ -689,7 +689,7 @@ export default function TestComponentsPage() {
                     <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
                       {Array.from({ length: 9 }).map((_, index) => (
                         <div key={index} className="flex items-center justify-center">
-                          <GameButton_2 />
+                          <StarGameButton />
                         </div>
                       ))}
                     </div>

@@ -183,6 +183,7 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
   return (
     <div
       className={cn("relative flex w-full justify-center", className)}
+      data-header-color={headerColor}
       {...props}
     >
       {headerText && (

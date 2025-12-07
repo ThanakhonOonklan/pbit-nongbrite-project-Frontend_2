@@ -133,14 +133,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
     };
     const formattedGender = gender ? genderMap[gender] || "" : "";
     
-    // Log step 2 data
+    // TODO: Process step 2 data
     const step2Data = {
       token: "",
       name: displayName,
       age: age ? parseInt(age, 10) : 0,
       gender: formattedGender,
     };
-    console.log(step2Data);
     
     // Move to step 3 or complete registration
     setCurrentStep(3);

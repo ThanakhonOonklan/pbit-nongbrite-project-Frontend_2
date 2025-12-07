@@ -1,72 +1,82 @@
+"use client";
+
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const gameButtonVariants = cva(
-  "inline-flex items-center justify-center ring-offset-background transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        // Default variants (beige)
-        default:
-          "rounded-[16px] bg-[#EDD0AE] shadow-[0px_4px_0px_0px_#D9BA94,0px_6px_12px_rgba(217,186,148,0.3)] hover:bg-[#F0D7B8] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none",
-        
-        // Color Palette variants
-        amethyst:
-          "rounded-[16px] bg-[#9956DE] shadow-[0px_4px_0px_0px_#6B3D9E,0px_6px_12px_rgba(153,86,222,0.3)] hover:bg-[#8A4FC8] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none text-white",
-        "slate-blue":
-          "rounded-[16px] bg-[#7274ED] shadow-[0px_4px_0px_0px_#4A4C9D,0px_6px_12px_rgba(114,116,237,0.3)] hover:bg-[#6264D8] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none text-white",
-        "summer-sky":
-          "rounded-[16px] bg-[#1FA7E1] shadow-[0px_4px_0px_0px_#156A98,0px_6px_12px_rgba(31,167,225,0.3)] hover:bg-[#1B95CA] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none text-white",
-        downy:
-          "rounded-[16px] bg-[#6ED1CF] shadow-[0px_4px_0px_0px_#478F8D,0px_6px_12px_rgba(110,209,207,0.3)] hover:bg-[#5FB8B6] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none text-white",
-        "pastel-green":
-          "rounded-[16px] bg-[#75D06A] shadow-[0px_4px_0px_0px_#4D8F45,0px_6px_12px_rgba(117,208,106,0.3)] hover:bg-[#66BB5A] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none text-white",
-        "texas-rose":
-          "rounded-[16px] bg-[#FFB356] shadow-[0px_4px_0px_0px_#B37D3A,0px_6px_12px_rgba(255,179,86,0.3)] hover:bg-[#E6A04D] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none text-white",
-        "mona-lisa":
-          "rounded-[16px] bg-[#FF8B8B] shadow-[0px_4px_0px_0px_#B35A5A,0px_6px_12px_rgba(255,139,139,0.3)] hover:bg-[#E67A7A] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none text-white",
-        illusion:
-          "rounded-[16px] bg-[#FB96BB] shadow-[0px_4px_0px_0px_#B0667F,0px_6px_12px_rgba(251,150,187,0.3)] hover:bg-[#E085A6] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none text-white",
-        "sky-blue":
-          "rounded-[16px] bg-[#1CB0F6] shadow-[0px_4px_0px_0px_#1699D6,0px_6px_12px_rgba(28,176,246,0.3)] hover:bg-[#1FB5F8] hover:translate-y-[4px] hover:shadow-[0px_0px_0px_0px_transparent] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_transparent] active:transition-none text-white",
-      },
-      size: {
-        default: "min-w-[90px] h-[60px] px-[20px]",
-        sm: "min-w-[86px] h-[48px] px-[18px]",
-        lg: "min-w-[134px] h-[72px] px-[30px]",
-      },
-    },
-    defaultVariants: {  
-      variant: "default",
-      size: "default",
-    },
-  }
-);
+export type GameButtonStatus = "completed" | "locked" | "available";
 
-export interface GameButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof gameButtonVariants> {
-  asChild?: boolean;
-  icon?: React.ReactNode;
+export interface GameButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  mainColor: string;
+  darkColor: string;
+  borderColor: string;
+  status?: GameButtonStatus;
+  className?: string;
+  buttonRef?: React.MutableRefObject<HTMLButtonElement | null>;
 }
 
-const GameButton = React.forwardRef<HTMLButtonElement, GameButtonProps>(
-  ({ className, variant, size, asChild = false, icon, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+export const GameButton = React.forwardRef<HTMLButtonElement, GameButtonProps>(
+  ({ mainColor, darkColor, borderColor, status = "available", className, buttonRef, disabled, children, ...props }, ref) => {
+    const isDisabled = disabled && status !== "locked";
+
     return (
-      <Comp
-        className={cn(gameButtonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      >
-        {icon || children}
-      </Comp>
+      <>
+        <button
+          ref={(node) => {
+            if (buttonRef) {
+              buttonRef.current = node;
+            }
+            if (typeof ref === "function") {
+              ref(node);
+            } else if (ref) {
+              (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+            }
+          }}
+          disabled={isDisabled}
+          className={cn(
+            "relative w-[80px] h-[80px] border-none rounded-[20px] group z-10",
+            isDisabled && "cursor-not-allowed opacity-60",
+            !isDisabled && "cursor-pointer",
+            status === "locked" && "opacity-80",
+            className
+          )}
+          style={{
+            backgroundColor: darkColor,
+            // CSS Variables
+            "--button_radius": "20px",
+            "--button_color": mainColor,
+            "--button_outline_color": darkColor,
+          } as React.CSSProperties}
+          {...props}
+        >
+          <span 
+            className={cn(
+              "button_top block box-border border-[5px] rounded-[20px] w-full h-full -translate-y-[3.2px] transition-transform duration-100 ease-in-out flex items-center justify-center pointer-events-none p-4",
+              !isDisabled && status !== "locked" && "group-hover:-translate-y-[5px] group-active:translate-y-0"
+            )}
+            style={{
+              borderColor: borderColor,
+              backgroundColor: mainColor,
+            }}
+          >
+            {children}
+          </span>
+        </button>
+        
+        {/* Elliptical shadow below button */}
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          style={{
+            width: '80px',
+            height: '20px',
+            background: 'rgba(0, 0, 0, 0.25)',
+            borderRadius: '50%',
+            transform: 'translateX(-50%) translateY(8px)',
+            zIndex: 0,
+          }}
+        />
+      </>
     );
   }
 );
+
 GameButton.displayName = "GameButton";
-
-export { GameButton, gameButtonVariants };
-

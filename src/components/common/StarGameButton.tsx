@@ -1,0 +1,269 @@
+"use client";
+
+import * as React from "react";
+import { useState, useRef, useEffect } from "react";
+import { FaLock } from "react-icons/fa";
+import { PrimaryButton } from "./PrimaryButton";
+import { GameTooltip } from "./GameTooltip";
+import { GameButton } from "./GameButton";
+
+export type GameButtonStatus = "completed" | "locked" | "available";
+
+export interface StarGameButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  className?: string;
+  level?: number; // 1-9 เลขด่าน
+  status?: GameButtonStatus; // สถานะของด่าน
+  baseColor?: string; // สี base ของเกม (ใช้สำหรับ available status)
+  buttonColor?: string; // Custom button color (hex format) - สำหรับ backward compatibility
+  stars?: number; // 0-3 จำนวนดาวที่ได้จากด่าน (แสดงด้านบน)
+  tooltipContent?: React.ReactNode; // Custom tooltip content
+}
+
+// Helper function to darken a color
+const darkenColor = (color: string, percent: number): string => {
+  const num = parseInt(color.replace("#", ""), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const B = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
+};
+
+// Helper component for star icon
+const StarIcon: React.FC<{ 
+  isEarned: boolean; 
+  size?: number;
+  showEarnedColor?: boolean;
+}> = ({ isEarned, size = 24, showEarnedColor = false }) => {
+  const starColor = showEarnedColor && isEarned ? "#FFD700" : "#AAAAAA";
+  const starOpacity = isEarned ? "1" : "0.8";
+  const strokeColor = showEarnedColor && isEarned ? "#B8860B" : "#888888";
+  
+  return (
+    <svg
+      viewBox="0 0 576 512"
+      width={size}
+      height={size}
+      xmlns="http://www.w3.org/2000/svg"
+      className="pointer-events-none"
+    >
+      <path
+        d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+        fill={starColor}
+        fillOpacity={starOpacity}
+        stroke={strokeColor}
+        strokeWidth="2"
+      />
+    </svg>
+  );
+};
+
+const StarGameButton = React.forwardRef<HTMLButtonElement, StarGameButtonProps>(
+  ({ className, level, status = "available", baseColor, buttonColor, stars = 0, disabled, onClick, tooltipContent, ...props }, ref) => {
+    // State สำหรับ tooltip
+    const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+    const tooltipRef = useRef<HTMLDivElement | null>(null);
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
+    
+    // จำกัดค่า level ระหว่าง 1-9
+    const levelNumber = level ? Math.max(1, Math.min(9, level)) : undefined;
+    // จำกัดค่า stars ระหว่าง 0-3
+    const starCount = Math.max(0, Math.min(3, stars));
+
+    // กำหนดสีตาม status
+    let mainColor: string;
+    let darkColor: string;
+    let borderColor: string;
+    // Locked status กดได้แต่เล่นไม่ได้ (ไม่ disabled)
+    const isDisabled = disabled && status !== "locked";
+
+    // Handler สำหรับ button click - toggle tooltip
+    const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      if (!isDisabled) {
+        setIsTooltipOpen((prev) => !prev);
+      }
+      // เรียก onClick จาก props ถ้ามี
+      onClick?.(e);
+    };
+
+    // ปิด tooltip เมื่อ click นอก component
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          isTooltipOpen &&
+          tooltipRef.current &&
+          buttonRef.current &&
+          !tooltipRef.current.contains(event.target as Node) &&
+          !buttonRef.current.contains(event.target as Node)
+        ) {
+          setIsTooltipOpen(false);
+        }
+      };
+
+      if (isTooltipOpen) {
+        document.addEventListener("mousedown", handleClickOutside);
+      }
+
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [isTooltipOpen]);
+
+    if (status === "completed") {
+      // สีตาม baseColor ของแต่ละเกมสำหรับด่านที่เล่นผ่านแล้ว
+      const colorToUse = baseColor || buttonColor || "#1CB0F6";
+      mainColor = colorToUse;
+      darkColor = darkenColor(colorToUse, -20);
+      borderColor = darkenColor(colorToUse, -10);
+    } else if (status === "locked") {
+      // สีเทาสำหรับด่านที่ล็อค
+      mainColor = "#9E9E9E";
+      darkColor = "#757575";
+      borderColor = "#BDBDBD";
+    } else {
+      // สีตาม baseColor ของแต่ละเกมสำหรับด่านที่ยังไม่ได้เล่น (available)
+      const colorToUse = baseColor || buttonColor || "#1CB0F6";
+      mainColor = colorToUse;
+      darkColor = darkenColor(colorToUse, -20);
+      borderColor = darkenColor(colorToUse, -10);
+    }
+
+    return (
+      <div className="relative inline-block pt-3">
+        {/* Stars above button - แสดงจำนวนดาวที่ได้ (0-3 ดาว) สำหรับทุกสถานะ */}
+        <div className="absolute -top-[18px] left-1/2 -translate-x-1/2 flex items-center gap-1 pointer-events-none z-20 ">
+          {Array.from({ length: 3 }).map((_, index) => {
+            const isEarned = index < starCount;
+            // สำหรับ completed: ดาวที่ได้ = สีทอง, ดาวที่ไม่ได้ = สีเทาจาง
+            // สำหรับ available และ locked: ดาวทั้งหมด = สีเทาจาง
+            return (
+              <StarIcon
+                key={index}
+                isEarned={isEarned}
+                size={23}
+                showEarnedColor={status === "completed"}
+              />
+            );
+          })}
+        </div>
+
+        <GameButton
+          ref={ref}
+          buttonRef={buttonRef}
+          mainColor={mainColor}
+          darkColor={darkColor}
+          borderColor={borderColor}
+          status={status}
+          disabled={disabled}
+          onClick={handleButtonClick}
+          className={className}
+          {...props}
+        >
+          {/* แสดง icon ล็อคสำหรับ locked status */}
+          {status === "locked" ? (
+            <FaLock className="text-[32px] text-white" />
+          ) : (
+            /* แสดงเลขด่าน 1-9 สำหรับ completed และ available */
+            levelNumber && (
+              <span className="text-[32px] font-bold leading-none select-none text-white">
+                {levelNumber}
+              </span>
+            )
+          )}
+        </GameButton>
+
+        {/* Tooltip Popup */}
+        {isTooltipOpen && (
+          <GameTooltip tooltipRef={tooltipRef}>
+            {tooltipContent !== undefined ? (
+              // Use custom tooltip content if provided
+              tooltipContent
+            ) : (
+              // Default tooltip content based on status
+              status === "locked" ? (
+                // Locked state: แสดงข้อความล็อค
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    แบบฝึกหัดสำหรับคุณ
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    ทำทุกระดับด้านบนให้เสร็จเพื่อ
+                    <br />
+                    ปลดล็อกทักษะนี้!
+                  </p>  
+                  <PrimaryButton
+                    className="w-full py-1.5 px-3 text-sm"
+                    variant="default"
+                    size="sm"
+                    disabled
+                  >
+                    ล็อกอยู่
+                  </PrimaryButton>
+                </div>
+              ) : status === "completed" ? (
+                // Completed state: แสดงเลขด่าน, จำนวนดาวที่ได้
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    ด่าน {levelNumber}
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-600">ได้ดาว:</span>
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: 3 }).map((_, index) => {
+                        const isEarned = index < starCount;
+                        return (
+                          <StarIcon
+                            key={index}
+                            isEarned={isEarned}
+                            size={16}
+                            showEarnedColor={true}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <PrimaryButton
+                    className="w-full py-1.5 px-3 text-sm pointer-events-auto"
+                    variant="default"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    เล่นอีกครั้ง
+                  </PrimaryButton>
+                </div>
+              ) : (
+                // Available state: แสดงเลขด่าน และปุ่มเริ่มเล่น
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    ด่าน {levelNumber}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    เริ่มผจภัยกันเลย!
+                  </p>
+                  <PrimaryButton
+                    className="w-full py-1.5 px-3 text-sm pointer-events-auto"
+                    variant="default"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    เริ่มเล่น
+                  </PrimaryButton>
+                </div>
+              )
+            )}
+          </GameTooltip>
+        )}
+      </div>
+    );
+  }
+);
+
+StarGameButton.displayName = "StarGameButton";
+
+export { StarGameButton };
