@@ -19,6 +19,7 @@ export interface CourseRightPanelProps {
   scoreCount?: number;
   fireCount?: number;
   gameTitle?: string;
+  headerColor?: string; // สี header จาก ScrollStack section ที่กำลังแสดง
 }
 
 export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
@@ -31,8 +32,10 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
   scoreCount,
   fireCount,
   gameTitle,
+  headerColor,
 }) => {
-  const badgeColor = getDifficultyBadgeColor(difficulty);
+  // Use headerColor if provided, otherwise use default difficulty badge color
+  const badgeColor = headerColor || getDifficultyBadgeColor(difficulty);
   const displayLevel = difficulty ?? 1;
 
   // Get game title from gameData if gameTitle is provided
@@ -108,6 +111,7 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
             className="flex items-center gap-1 px-3 py-1 rounded-full shadow-sm"
             style={{
               backgroundColor: badgeColor,
+              transition: "background-color 0.3s ease",
             }}
           >
             <span className="text-[14px] font-bold text-white">

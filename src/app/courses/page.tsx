@@ -2,13 +2,15 @@
 
 import { Sidebar } from "@/components/layout/Sidebar";
 import { CourseRightPanel } from "@/components/courses/CourseRightPanel";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { getLevelData } from "@/constants/levelData";
+import { useHeaderColor } from "@/contexts/HeaderColorContext";
 import {
   StarGameButton,
   ScrollStack,
   ScrollStackItem,
 } from "@/components/common";
+import type { GameButtonStatus } from "@/components/common/StarGameButton";
 import {
   FaRoute,
   FaSquare,
@@ -19,10 +21,77 @@ import {
   FaPalette,
 } from "react-icons/fa";
 
+// Helper function to determine button status and stars
+// ด่าน 1-3: completed (มีดาว), ด่าน 4: available (สีตามเกม), ด่าน 5-9: locked
+const getButtonStatus = (levelNumber: number): GameButtonStatus => {
+  if (levelNumber <= 3) {
+    return "completed"; // ด่าน 1-3: เล่นผ่านแล้ว (สีทอง)
+  } else if (levelNumber === 4) {
+    return "available"; // ด่าน 4: ยังไม่ได้เล่น (สีตามเกม) - มีเพียงอันเดียว
+  } else {
+    return "locked"; // ด่าน 5-9: ล็อค (สีเทา)
+  }
+};
+
+// Helper function to get stars for completed levels (mock data)
+const getStarsForLevel = (levelNumber: number): number => {
+  // Mock: ด่าน 1 ได้ 3 ดาว, ด่าน 2 ได้ 2 ดาว, ด่าน 3 ได้ 1 ดาว
+  if (levelNumber === 1) return 3;
+  if (levelNumber === 2) return 2;
+  if (levelNumber === 3) return 1;
+  return 0;
+};
+
+// Helper function to lighten a color (make it lighter/pastel)
+const lightenColor = (color: string, percent: number = 50): string => {
+  // Remove # if present
+  const hex = color.replace("#", "");
+  
+  // Parse RGB
+  const num = parseInt(hex, 16);
+  const R = (num >> 16) & 255;
+  const G = (num >> 8) & 255;
+  const B = num & 255;
+  
+  // Lighten by blending with white
+  // percent = 0 means no change, percent = 100 means pure white
+  const factor = percent / 100;
+  const newR = Math.round(R + (255 - R) * factor);
+  const newG = Math.round(G + (255 - G) * factor);
+  const newB = Math.round(B + (255 - B) * factor);
+  
+  return `#${newR.toString(16).padStart(2, "0")}${newG.toString(16).padStart(2, "0")}${newB.toString(16).padStart(2, "0")}`;
+};
+
 export default function CoursesPage() {
   const selectedLevel = 1;
   const levelData = getLevelData(selectedLevel);
   const scrollStackRef = useRef<HTMLDivElement>(null);
+  
+  // Use context to track current header color for CourseRightPanel and BackgroundSquares
+  const { setHeaderColor } = useHeaderColor();
+  const [currentHeaderColor, setCurrentHeaderColor] = useState<string | undefined>(undefined);
+  
+  // Callback when section changes
+  const handleSectionChange = (index: number, headerColor?: string) => {
+    // Reset to default when at top (before first section)
+    if (index === -1) {
+      setCurrentHeaderColor(undefined);
+      setHeaderColor(undefined);
+      return;
+    }
+    
+    // Convert "sky-blue" to actual color if needed
+    let colorToUse = headerColor;
+    if (headerColor === "sky-blue") {
+      colorToUse = "#1CB0F6";
+    }
+    setCurrentHeaderColor(colorToUse);
+    // Lighten color for background (make it 60% lighter for pastel effect)
+    const lightenedColor = colorToUse ? lightenColor(colorToUse, 60) : undefined;
+    // Update context for BackgroundSquares with lightened color
+    setHeaderColor(lightenedColor);
+  };
 
   return (
     <div className="flex h-screen ">
@@ -40,6 +109,7 @@ export default function CoursesPage() {
             baseScale={1}
             itemScale={0.001}
             useWindowScroll={false}
+            onSectionChange={handleSectionChange}
           >
             {/* Item 1: Path Navigation */}
             <ScrollStackItem
@@ -73,14 +143,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <StarGameButton buttonColor="#1CB0F6" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#1CB0F6"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -116,14 +196,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <StarGameButton buttonColor="#FB96BB" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#FB96BB"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -159,14 +249,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <StarGameButton buttonColor="#FFB356" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#FFB356"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -202,14 +302,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <StarGameButton buttonColor="#9956DE" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#9956DE"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -239,14 +349,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <StarGameButton buttonColor="#6ED1CF" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#6ED1CF"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -282,14 +402,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <StarGameButton buttonColor="#FF8B8B" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#FF8B8B"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
 
@@ -339,14 +469,24 @@ export default function CoursesPage() {
               }}
             >
               <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                {Array.from({ length: 9 }).map((_, buttonIndex) => (
-                  <div
-                    key={buttonIndex}
-                    className="flex items-center justify-center"
-                  >
-                    <StarGameButton buttonColor="#FFD700" />
-                  </div>
-                ))}
+                {Array.from({ length: 9 }).map((_, buttonIndex) => {
+                  const levelNumber = buttonIndex + 1;
+                  const status = getButtonStatus(levelNumber);
+                  const stars = status === "completed" ? getStarsForLevel(levelNumber) : 0;
+                  return (
+                    <div
+                      key={buttonIndex}
+                      className="flex items-center justify-center"
+                    >
+                      <StarGameButton 
+                        level={levelNumber} 
+                        status={status}
+                        baseColor="#FFD700"
+                        stars={stars}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollStackItem>
           </ScrollStack>
@@ -359,6 +499,7 @@ export default function CoursesPage() {
         difficulty={levelData?.difficulty || 1}
         difficultyText={levelData?.difficultyText || "ง่าย"}
         gameTitle="Path Navigation"
+        headerColor={currentHeaderColor}
       />
     </div>
   );

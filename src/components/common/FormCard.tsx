@@ -12,7 +12,7 @@ const FormCard = React.forwardRef<HTMLFormElement, FormCardProps>(
       <form
         ref={ref}
         className={cn(
-          "flex flex-col items-start py-[32px] px-[24px] gap-[14px] w-[387px] h-[591px] bg-white rounded-[12px] border border-[#E5E5E5]",
+          "flex flex-col items-start py-[32px] px-[24px] gap-[14px] w-[387px] h-[591px] bg-[#EAF9FF] rounded-[12px] border-2 border-white shadow-lg",
           "transition-all duration-300 ease-in-out",
           className
         )}

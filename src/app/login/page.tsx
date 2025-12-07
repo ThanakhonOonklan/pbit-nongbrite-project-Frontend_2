@@ -9,7 +9,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#98E8FF] p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#C9F3FF] to-[#6FD7FF] p-4 sm:p-8 layout-debug">
       <LoginForm onSubmit={handleLogin} />
     </div>
   );
