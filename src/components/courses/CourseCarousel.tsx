@@ -219,7 +219,7 @@ const Carousel: React.FC<CarouselProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden p-4 border border-[#222] ${round ? "rounded-full" : "rounded-[24px]"}`}
+      className={`relative overflow-hidden p-4  ${round ? "rounded-full" : "rounded-[24px]"}`}
       style={{
         width: `${baseWidth}px`,
         ...(round && { height: `${baseWidth}px` }),

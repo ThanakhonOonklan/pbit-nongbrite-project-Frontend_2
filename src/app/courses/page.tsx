@@ -3,12 +3,14 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 import { CourseRightPanel } from "@/components/courses/CourseRightPanel";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getLevelData } from "@/constants/levelData";
 import { useHeaderColor } from "@/contexts/HeaderColorContext";
 import {
   StarGameButton,
   ScrollStack,
   ScrollStackItem,
+  PrimaryButton,
 } from "@/components/common";
 import type { GameButtonStatus } from "@/components/common/StarGameButton";
 import {
@@ -42,6 +44,46 @@ const getStarsForLevel = (levelNumber: number): number => {
   return 0;
 };
 
+// Component for custom tooltip content for completed levels
+const CompletedTooltipContent: React.FC<{ levelNumber: number }> = ({ levelNumber }) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handlePlayAgain = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    
+    // Simulate loading for 1-2 seconds
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    // Navigate to game page
+    router.push(`/games/path-navigation/${levelNumber}`);
+  };
+
+  return (
+    <div className="space-y-3">
+      <h3 className="text-lg font-semibold text-gray-800">
+        ด่าน {levelNumber}
+      </h3>
+      <p className="text-sm text-gray-600">
+        คุณได้ผ่านด่านนี้แล้ว สามารถเล่นอีกครั้งเพื่อปรับปรุงคะแนน
+      </p>
+      <PrimaryButton
+        className="w-full py-1.5 px-3 text-sm pointer-events-auto"
+        variant="default"
+        size="sm"
+        onClick={handlePlayAgain}
+        disabled={isLoading}
+      >
+        {isLoading ? "กำลังโหลด..." : "เล่นอีกครั้ง"}
+      </PrimaryButton>
+    </div>
+  );
+};
+
 // Helper function to lighten a color (make it lighter/pastel)
 const lightenColor = (color: string, percent: number = 50): string => {
   // Remove # if present
@@ -68,9 +110,33 @@ export default function CoursesPage() {
   const levelData = getLevelData(selectedLevel);
   const scrollStackRef = useRef<HTMLDivElement>(null);
   
+  // Game titles array matching the order of ScrollStackItems
+  const gameTitles = [
+    "Path Navigation",
+    "Counting & Classification",
+    "Conditional Matching",
+    "Sequencing",
+    "Step Counting",
+    "Fruit Matching Grid Game",
+    "Grid-based Coloring",
+  ];
+  
+  // Game icons array matching the order of ScrollStackItems
+  const gameIcons = [
+    FaRoute,
+    FaSquare,
+    FaLink,
+    FaRecycle,
+    FaRuler,
+    FaTh,
+    FaPalette,
+  ];
+  
   // Use context to track current header color for CourseRightPanel and BackgroundSquares
   const { setHeaderColor } = useHeaderColor();
   const [currentHeaderColor, setCurrentHeaderColor] = useState<string | undefined>(undefined);
+  const [currentGameTitle, setCurrentGameTitle] = useState<string>("Path Navigation");
+  const [currentGameIconIndex, setCurrentGameIconIndex] = useState<number>(0);
   
   // Callback when section changes
   const handleSectionChange = (index: number, headerColor?: string) => {
@@ -78,7 +144,15 @@ export default function CoursesPage() {
     if (index === -1) {
       setCurrentHeaderColor(undefined);
       setHeaderColor(undefined);
+      setCurrentGameTitle("Path Navigation");
+      setCurrentGameIconIndex(0);
       return;
+    }
+    
+    // Update game title and icon based on section index
+    if (index >= 0 && index < gameTitles.length) {
+      setCurrentGameTitle(gameTitles[index]);
+      setCurrentGameIconIndex(index);
     }
     
     // Convert "sky-blue" to actual color if needed
@@ -157,6 +231,11 @@ export default function CoursesPage() {
                         status={status}
                         baseColor="#1CB0F6"
                         stars={stars}
+                        tooltipContent={
+                          status === "completed"
+                            ? <CompletedTooltipContent levelNumber={levelNumber} />
+                            : undefined
+                        }
                       />
                     </div>
                   );
@@ -498,7 +577,8 @@ export default function CoursesPage() {
         levelTitle={levelData?.title || "Level 1: Splitting Parts"}
         difficulty={levelData?.difficulty || 1}
         difficultyText={levelData?.difficultyText || "ง่าย"}
-        gameTitle="Path Navigation"
+        gameTitle={currentGameTitle}
+        gameIcon={gameIcons[currentGameIconIndex]}
         headerColor={currentHeaderColor}
       />
     </div>

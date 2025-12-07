@@ -5,7 +5,7 @@ import { DifficultyIndicator } from "@/components/common/DifficultyIndicator";
 import { getDifficultyBadgeColor } from "@/utils/level";
 import { cn } from "@/lib/utils";
 import Carousel from "@/components/courses/CourseCarousel";
-import { Container, ResourceBar } from "@/components/common";
+import { Container, ResourceBar, Divider } from "@/components/common";
 import { getGameData } from "@/constants/mocks/gameData";
 import { getUserData } from "@/constants/mocks/userData";
 
@@ -19,6 +19,7 @@ export interface CourseRightPanelProps {
   scoreCount?: number;
   fireCount?: number;
   gameTitle?: string;
+  gameIcon?: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   headerColor?: string; // สี header จาก ScrollStack section ที่กำลังแสดง
 }
 
@@ -32,6 +33,7 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
   scoreCount,
   fireCount,
   gameTitle,
+  gameIcon: GameIcon,
   headerColor,
 }) => {
   // Use headerColor if provided, otherwise use default difficulty badge color
@@ -40,7 +42,7 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
 
   // Get game title from gameData if gameTitle is provided
   const gameData = gameTitle ? getGameData(gameTitle) : null;
-  const displayTitle = gameData?.title || "Path Navigation";
+  const displayTitle = gameData?.title || gameTitle || "Path Navigation";
 
   // Get user data (heartCount, scoreCount, fireCount) from userData
   const userData = getUserData();
@@ -53,76 +55,90 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-4 px-5 pb-5 pt-4 justify-start",
+        "flex flex-col gap-4 px-5 pb-5 pt-4 mt-10 justify-start",
         className
       )}
     >
-      {/* Resource Bars */}
-      {(displayHeartCount > 0 ||
-        displayScoreCount > 0 ||
-        displayFireCount > 0) && (
-        <Container
-          variant="white"
-          className="w-[350px] h-auto py-4 px-4 flex flex-col gap-4 border border-[#E4E9F2]"
-        >
-          <div className="flex items-center justify-between gap-4 w-full">
-            <ResourceBar number={displayHeartCount} variant="heart" />
-            <ResourceBar number={displayScoreCount} variant="score" />
-            <ResourceBar number={displayFireCount} variant="fire" />
+      {/* Combined Container with Resource Bars and Main Content */}
+      <div className="w-[350px] rounded-[24px] bg-white shadow-sm border border-[#E4E9F2] flex flex-col">
+        {/* Resource Bars Section */}
+        {(displayHeartCount > 0 ||
+          displayScoreCount > 0 ||
+          displayFireCount > 0) && (
+          <>
+            <div className="py-4 px-4 flex flex-col gap-4">
+              <div className="flex items-center justify-between gap-4 w-full">
+                <ResourceBar number={displayHeartCount} variant="heart" />
+                <ResourceBar number={displayScoreCount} variant="score" />
+                <ResourceBar number={displayFireCount} variant="fire" />
+              </div>
+            </div>
+            <Divider />
+          </>
+        )}
+
+        {/* Main Content Section */}
+        <div className="pt-[24px] pb-[32px] px-[24px] flex flex-col gap-[12px]">
+          {/* Game Title */}
+          <div className="flex items-center justify-between -mt-1">
+            <div className="flex items-center gap-2">
+              {GameIcon && (
+                <GameIcon
+                  className="w-5 h-5"
+                  style={{ color: headerColor || "#3C3C3C" }}
+                />
+              )}
+              <span 
+                className="text-[17px] font-bold drop-shadow-sm"
+                style={{ color: headerColor || "#3C3C3C" }}
+              >
+                {displayTitle}
+              </span>
+            </div>
           </div>
-        </Container>
-      )}
 
-      {/* Main Content Form */}
-      <div className="w-[350px] h-[500px] pt-[24px] pb-[32px] px-[24px] flex flex-col gap-[12px] rounded-[24px] bg-white shadow-sm border border-[#E4E9F2]">
-        {/* Carousel at the top */}
-        <div className="flex flex-col items-center -mt-2">
-          <Carousel
-            baseWidth={302}
-            autoplay
-            autoplayDelay={3000}
-            pauseOnHover
-            loop={false}
-          />
-        </div>
-
-        {/* Game Title */}
-        <div className="flex items-center justify-between -mt-1">
-          <span className="text-[15px] font-bold text-[#3C3C3C] drop-shadow-sm">
-            {displayTitle}
-          </span>
-        </div>
-
-        {/* Level Info and Difficulty */}
-        <div className="flex items-center justify-between -mt-1">
-          <div className="flex items-center gap-2">
-            <span className="text-[15px] font-bold text-[#3C3C3C]">
-              {`Level ${displayLevel} :`}
-            </span>
-            <DifficultyIndicator
-              level={difficulty}
-              inactiveColor="#E3F2FD"
-              barWidth="14px"
-              barHeight="28px"
-              gap="5px"
+          {/* Carousel */}
+          <Container variant="white" className="flex flex-col items-center -mt-2 rounded-[24px]">
+            <Carousel
+              baseWidth={302}
+              autoplay
+              autoplayDelay={3000}
+              pauseOnHover
+              loop={false}
             />
-          </div>
-          <div
-            className="flex items-center gap-1 px-3 py-1 rounded-full shadow-sm"
-            style={{
-              backgroundColor: badgeColor,
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            <span className="text-[14px] font-bold text-white">
-              {difficultyText}
-            </span>
-          </div>
-        </div>
+          </Container>
 
-        {/* Game Detail Area */}
-        <div className="mt-auto rounded-[16px] bg-[#F5FBFF] border border-[#D5E9FF] p-4 min-h-[120px] text-[#325373] text-sm leading-6">
-          {gameDetail || null}
+          {/* Level Info and Difficulty */}
+          <div className="flex items-center justify-between -mt-1">
+            <div className="flex items-center gap-2">
+              <span className="text-[15px] font-bold text-[#3C3C3C]">
+                {`Level ${displayLevel} :`}
+              </span>
+              <DifficultyIndicator
+                level={difficulty}
+                inactiveColor="#E3F2FD"
+                barWidth="14px"
+                barHeight="28px"
+                gap="5px"
+              />
+            </div>
+            <div
+              className="flex items-center gap-1 px-3 py-1 rounded-full shadow-sm"
+              style={{
+                backgroundColor: badgeColor,
+                transition: "background-color 0.3s ease",
+              }}
+            >
+              <span className="text-[14px] font-bold text-white">
+                {difficultyText}
+              </span>
+            </div>
+          </div>
+
+          {/* Game Detail Area */}
+          <div className="mt-auto rounded-[16px] bg-[#F5FBFF] border border-[#D5E9FF] p-4 min-h-[120px] text-[#325373] text-sm leading-6">
+            {gameDetail || null}
+          </div>
         </div>
       </div>
     </div>

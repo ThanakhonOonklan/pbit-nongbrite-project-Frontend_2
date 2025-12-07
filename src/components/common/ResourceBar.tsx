@@ -20,17 +20,17 @@ const variantConfig: Record<
   heart: {
     emoji: "❤️",
     leftBg: "#FFD54F",
-    rightText: "#C25100",
+    rightText: "#FF6B6B", // Red pastel color
   },
   score: {
     emoji: "🏆",
     leftBg: "#FFD54F",
-    rightText: "#9B3B00",
+    rightText: "#FFD700", // Yellow pastel color
   },
   fire: {
     emoji: "🔥",
     leftBg: "#FF6B6B",
-    rightText: "#9C1E1E",
+    rightText: "#FF9800", // Orange pastel color
   },
 };
 
@@ -43,21 +43,22 @@ export const ResourceBar: React.FC<ResourceBarProps> = ({
 
   return (
     <div
-      className={`inline-flex w-[6em] h-[2.2em] items-stretch overflow-hidden rounded-[0.5em] border border-[#D9D9D9] bg-white shadow-[0px_1px_0px_rgba(45,45,45,0.1)] transition-all duration-200 hover:shadow-md hover:scale-105 cursor-pointer ${
+      className={`inline-flex w-[6em] h-[2.2em] items-stretch overflow-hidden rounded-[0.5em] bg-white ${
         className || ""
       }`}
     >
       {/* Left Part */}
       <div
-        className="flex w-[40%] items-center justify-center border-r border-[#D9D9D9]"
+        className="flex items-center justify-center"
       >
         <span className="text-[1.8em] leading-none">{config.emoji}</span>
       </div>
 
       {/* Right Part */}
-      <div className="flex w-[60%] items-center justify-center px-1.5">
+      <div className="flex items-center justify-start pl-1">
         <span
-          className="font-['Trebuchet_MS',sans-serif] text-[1em] font-bold text-[#3C3C3C]"
+          className="font-['Trebuchet_MS',sans-serif] text-[1em] font-bold"
+          style={{ color: config.rightText }}
         >
           {number}
         </span>
