@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
-import { FaLock } from "react-icons/fa";
 import { PrimaryButton } from "./PrimaryButton";
 import { GameTooltip } from "./GameTooltip";
 import { GameButton } from "./GameButton";
+import { Image } from "./Image";
 
 export type GameButtonStatus = "completed" | "locked" | "available";
 
@@ -161,9 +161,15 @@ const StarGameButton = React.forwardRef<HTMLButtonElement, StarGameButtonProps>(
           className={className}
           {...props}
         >
-          {/* แสดง icon ล็อคสำหรับ locked status */}
           {status === "locked" ? (
-            <FaLock className="text-[32px] text-white" />
+            <Image 
+              src="/icons/lock.png" 
+              alt="Locked" 
+              width={40} 
+              height={40}
+              className="object-contain w-full h-full"
+             
+            />
           ) : (
             /* แสดงเลขด่าน 1-9 สำหรับ completed และ available */
             levelNumber && (

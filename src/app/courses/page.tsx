@@ -45,7 +45,7 @@ const getStarsForLevel = (levelNumber: number): number => {
 };
 
 // Component for custom tooltip content for completed levels
-const CompletedTooltipContent: React.FC<{ levelNumber: number }> = ({ levelNumber }) => {
+const CompletedTooltipContent: React.FC<{ levelNumber: number; gameId: string }> = ({ levelNumber, gameId }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -59,8 +59,8 @@ const CompletedTooltipContent: React.FC<{ levelNumber: number }> = ({ levelNumbe
     // Simulate loading for 1-2 seconds
     await new Promise((resolve) => setTimeout(resolve, 1500));
     
-    // Navigate to game page
-    router.push(`/games/path-navigation/${levelNumber}`);
+    // Navigate to game page based on gameId
+    router.push(`/games/${gameId}/${levelNumber}`);
   };
 
   return (
@@ -119,6 +119,17 @@ export default function CoursesPage() {
     "Step Counting",
     "Fruit Matching Grid Game",
     "Grid-based Coloring",
+  ];
+
+  // Game IDs array matching the order of ScrollStackItems
+  const gameIds = [
+    "path-navigation",
+    "counting-classification",
+    "conditional-matching",
+    "sequencing",
+    "step-counting",
+    "fruit-matching-grid",
+    "grid-based-coloring",
   ];
   
   // Game icons array matching the order of ScrollStackItems
@@ -233,7 +244,7 @@ export default function CoursesPage() {
                         stars={stars}
                         tooltipContent={
                           status === "completed"
-                            ? <CompletedTooltipContent levelNumber={levelNumber} />
+                            ? <CompletedTooltipContent levelNumber={levelNumber} gameId={gameIds[0]} />
                             : undefined
                         }
                       />
@@ -289,6 +300,11 @@ export default function CoursesPage() {
                         status={status}
                         baseColor="#FB96BB"
                         stars={stars}
+                        tooltipContent={
+                          status === "completed"
+                            ? <CompletedTooltipContent levelNumber={levelNumber} gameId={gameIds[1]} />
+                            : undefined
+                        }
                       />
                     </div>
                   );
@@ -342,6 +358,11 @@ export default function CoursesPage() {
                         status={status}
                         baseColor="#FFB356"
                         stars={stars}
+                        tooltipContent={
+                          status === "completed"
+                            ? <CompletedTooltipContent levelNumber={levelNumber} gameId={gameIds[2]} />
+                            : undefined
+                        }
                       />
                     </div>
                   );
@@ -395,6 +416,11 @@ export default function CoursesPage() {
                         status={status}
                         baseColor="#9956DE"
                         stars={stars}
+                        tooltipContent={
+                          status === "completed"
+                            ? <CompletedTooltipContent levelNumber={levelNumber} gameId={gameIds[3]} />
+                            : undefined
+                        }
                       />
                     </div>
                   );
@@ -442,6 +468,11 @@ export default function CoursesPage() {
                         status={status}
                         baseColor="#6ED1CF"
                         stars={stars}
+                        tooltipContent={
+                          status === "completed"
+                            ? <CompletedTooltipContent levelNumber={levelNumber} gameId={gameIds[4]} />
+                            : undefined
+                        }
                       />
                     </div>
                   );
@@ -495,6 +526,11 @@ export default function CoursesPage() {
                         status={status}
                         baseColor="#FF8B8B"
                         stars={stars}
+                        tooltipContent={
+                          status === "completed"
+                            ? <CompletedTooltipContent levelNumber={levelNumber} gameId={gameIds[5]} />
+                            : undefined
+                        }
                       />
                     </div>
                   );
@@ -562,6 +598,11 @@ export default function CoursesPage() {
                         status={status}
                         baseColor="#FFD700"
                         stars={stars}
+                        tooltipContent={
+                          status === "completed"
+                            ? <CompletedTooltipContent levelNumber={levelNumber} gameId={gameIds[6]} />
+                            : undefined
+                        }
                       />
                     </div>
                   );
