@@ -19,14 +19,12 @@ type NavItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "หน้าหลัก", targetId: "hero" },
-  { label: "หลักสูตร", targetId: "courses" },
-  { label: "ไฮไลต์", targetId: "features" },
+  { label: "หลักสูตร", targetId: "features" },
   { label: "เนื้อหา", targetId: "content" },
   { label: "สถิติ", targetId: "stats" },
-  { label: "เริ่มเลย", targetId: "cta" },
 ];
 
-const OBSERVE_SECTIONS = ["hero", "features", "courses", "stats", "content", "cta"];
+const OBSERVE_SECTIONS = ["hero", "features", "content", "stats"];
 
 export const Navbar: React.FC<NavbarProps> = ({ className }) => {
   const [selectedLanguage, setSelectedLanguage] = useState<Language>("TH");
@@ -57,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
     };
   }, [isLanguageDropdownOpen]);
 
-  // Track scroll to toggle background/shadow
+
   useEffect(() => {
     const onScroll = () => {
       setIsScrolled(window.scrollY > 24);
@@ -67,7 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Scroll spy for active section
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -108,7 +106,14 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
   const handleNavClick = (targetId: string) => {
     const el = document.getElementById(targetId);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (targetId === "hero") {
+       
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+      
+        const offsetTop = el.offsetTop - 80;
+        window.scrollTo({ top: offsetTop, behavior: "smooth" });
+      }
     }
   };
 
@@ -155,7 +160,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
                     : "text-gray-700 border-transparent hover:text-[#1cb0f6]"
                 )}
               >
-                {selectedLanguage === "TH" ? item.label : item.label}
+                {item.label}
               </button>
             );
           })}
@@ -221,7 +226,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
             )}
           </div>
 
-          {/* Login Button - Simple */}
+          {/* Login Button */}
           <Link href="/login">
             <button
               type="button"

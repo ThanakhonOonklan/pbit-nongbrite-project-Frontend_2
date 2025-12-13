@@ -20,6 +20,8 @@ import {
   Image,
   OTPInput,
   ResourceBar,
+  LoadingSpinner,
+  LoadingOverlay,
 } from "@/components/common";
 import { getLabelClassName } from "@/lib/label";
 import { StatCard } from "@/components/profile";
@@ -29,7 +31,17 @@ export default function TestComponentsPage() {
   const [selectedGenders, setSelectedGenders] = useState<Set<"male" | "female" | "not-specified">>(new Set());
   const [otpValue, setOtpValue] = useState<string[]>([]);
   const [counterValue, setCounterValue] = useState(5);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
   const animatedItems = ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"];
+
+  // จำลองการโหลด
+  const simulateLoading = async (setState: (value: boolean) => void, duration: number) => {
+    setState(true);
+    await new Promise(resolve => setTimeout(resolve, duration));
+    setState(false);
+  };
   const gamePalettes = [
     { name: "Amethyst", main: "#9956DE", dark: "#7f45b8", border: "#8a4dc9" },
     { name: "Slate Blue", main: "#7274ED", dark: "#585aca", border: "#6668db" },
@@ -567,6 +579,83 @@ export default function TestComponentsPage() {
           </section>
         </Container>
 
+        {/* Loading Components */}
+        <Container variant="white" className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">Loading Components</h2>
+            
+            {/* LoadingSpinner Examples */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">LoadingSpinner - Sizes</h3>
+              <div className="flex flex-wrap gap-6 items-center">
+                <div className="flex flex-col items-center gap-2">
+                  <LoadingSpinner size="sm" className="border-[#1cb0f6] border-t-transparent" />
+                  <span className="text-sm text-gray-600">Small</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <LoadingSpinner size="md" className="border-[#1cb0f6] border-t-transparent" />
+                  <span className="text-sm text-gray-600">Medium</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <LoadingSpinner size="lg" className="border-[#1cb0f6] border-t-transparent" />
+                  <span className="text-sm text-gray-600">Large</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Button with Loading */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Button with Loading State</h3>
+              <div className="flex flex-wrap gap-4 items-center">
+                <PrimaryButton
+                  onClick={() => simulateLoading(setIsLoggingIn, 2000)}
+                  disabled={isLoggingIn}
+                  className="flex items-center gap-2"
+                >
+                  {isLoggingIn ? (
+                    <>
+                      <LoadingSpinner size="sm" className="border-white border-t-transparent" />
+                      <span>กำลังโหลด...</span>
+                    </>
+                  ) : (
+                    <span>เข้าสู่ระบบ</span>
+                  )}
+                </PrimaryButton>
+                
+                <PrimaryButton
+                  variant="summer-sky"
+                  onClick={() => simulateLoading(setIsStarting, 2000)}
+                  disabled={isStarting}
+                  className="flex items-center gap-2"
+                >
+                  {isStarting ? (
+                    <>
+                      <LoadingSpinner size="sm" className="border-white border-t-transparent" />
+                      <span>กำลังโหลด...</span>
+                    </>
+                  ) : (
+                    <span>เริ่มเรียนรู้</span>
+                  )}
+                </PrimaryButton>
+              </div>
+            </div>
+
+            {/* LoadingOverlay Example */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">LoadingOverlay</h3>
+              <div className="flex flex-wrap gap-4 items-center">
+                <PrimaryButton
+                  variant="illusion"
+                  onClick={() => simulateLoading(setShowOverlay, 3000)}
+                  disabled={showOverlay}
+                >
+                  {showOverlay ? "กำลังโหลด..." : "แสดง Loading Overlay"}
+                </PrimaryButton>
+              </div>
+            </div>
+          </section>
+        </Container>
+
         {/* OuterContainer */}
         <Container variant="white" className="p-6">
           <section className="flex flex-col gap-6">
@@ -591,9 +680,12 @@ export default function TestComponentsPage() {
 
 
        
-     
+       
               
       </div>
+      
+      {/* LoadingOverlay */}
+      <LoadingOverlay isLoading={showOverlay} message="กำลังโหลดข้อมูล..." />
     </div>
   );
 }

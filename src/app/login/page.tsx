@@ -1,16 +1,46 @@
 "use client";
 
 import { LoginForm } from "@/components/auth/LoginForm";
+import { Image } from "@/components/common/Image";
 
 export default function LoginPage() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleLogin = (email: string, password: string) => {
-    // TODO: Add your login logic here
+  
+  const handleLogin = (_email: string, _password: string) => {
+    // TODO: Implement login logic
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#C9F3FF] to-[#6FD7FF] p-4 sm:p-8 layout-debug">
-      <LoginForm onSubmit={handleLogin} />
+    <div className="min-h-screen flex items-center justify-center bg-[#EDF0F7] p-4 sm:p-6 md:p-8 relative overflow-hidden">
+      {/* Background Mascots - Decorative */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* P'Bit - Top Right */}
+        <div className="absolute top-10 right-10 w-[120px] h-[120px] md:w-[150px] md:h-[150px] lg:w-[180px] lg:h-[180px] opacity-20 md:opacity-30">
+          <Image
+            src="/images/P_Bit/bit-01.svg"
+            alt="P'Bit mascot"
+            fill
+            containerClassName="w-full h-full"
+            className="object-contain"
+            sizes="(max-width: 768px) 120px, (max-width: 1024px) 150px, 180px"
+          />
+        </div>
+        
+        {/* Nong Brite - Bottom Left */}
+        <div className="absolute bottom-10 left-10 w-[100px] h-[110px] md:w-[130px] md:h-[143px] lg:w-[160px] lg:h-[176px] opacity-20 md:opacity-30">
+          <Image
+            src="/images/Nong_brite/nong-brite-02.svg"
+            alt="Nong Brite mascot"
+            fill
+            containerClassName="w-full h-full"
+            className="object-contain"
+            sizes="(max-width: 768px) 100px, (max-width: 1024px) 130px, 160px"
+          />
+        </div>
+      </div>
+
+      <div className="relative z-10 w-full max-w-md">
+        <LoginForm onSubmit={handleLogin} />
+      </div>
     </div>
   );
 }

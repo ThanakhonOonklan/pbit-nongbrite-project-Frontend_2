@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+"use client";
+
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { motion } from 'motion/react';
 
-interface TrueFocusProps {
+export interface TrueFocusProps {
   sentence?: string;
   separator?: string;
   manualMode?: boolean;
@@ -19,7 +21,7 @@ interface FocusRect {
   height: number;
 }
 
-const TrueFocus: React.FC<TrueFocusProps> = ({
+export const TrueFocus: React.FC<TrueFocusProps> = ({
   sentence = 'True Focus',
   separator = ' ',
   manualMode = false,
@@ -29,7 +31,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   animationDuration = 0.5,
   pauseBetweenAnimations = 1
 }) => {
-  const words = sentence.split(separator);
+  const words = useMemo(() => sentence.split(separator), [sentence, separator]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [lastActiveIndex, setLastActiveIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -50,7 +52,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   }, [manualMode, animationDuration, pauseBetweenAnimations, words.length]);
 
   useEffect(() => {
-    if (currentIndex === null || currentIndex === -1) return;
+    if (currentIndex < 0 || currentIndex >= words.length) return;
     if (!wordRefs.current[currentIndex] || !containerRef.current) return;
 
     const parentRect = containerRef.current.getBoundingClientRect();
@@ -66,14 +68,14 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 
   const handleMouseEnter = (index: number) => {
     if (manualMode) {
-      setLastActiveIndex(index);
+      setLastActiveIndex(currentIndex);
       setCurrentIndex(index);
     }
   };
 
   const handleMouseLeave = () => {
-    if (manualMode) {
-      setCurrentIndex(lastActiveIndex!);
+    if (manualMode && lastActiveIndex !== null) {
+      setCurrentIndex(lastActiveIndex);
     }
   };
 
@@ -92,20 +94,12 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
               wordRefs.current[index] = el;
             }}
             className="relative text-[2.25rem] md:text-[2.6rem] lg:text-[3rem] font-black cursor-pointer"
-            style={
-              {
-                filter: manualMode
-                  ? isActive
-                    ? `blur(0px)`
-                    : `blur(${blurAmount}px)`
-                  : isActive
-                    ? `blur(0px)`
-                    : `blur(${blurAmount}px)`,
-                transition: `filter ${animationDuration}s ease`,
-                outline: 'none',
-                userSelect: 'none'
-              } as React.CSSProperties
-            }
+            style={{
+              filter: isActive ? 'blur(0px)' : `blur(${blurAmount}px)`,
+              transition: `filter ${animationDuration}s ease`,
+              outline: 'none',
+              userSelect: 'none'
+            } as React.CSSProperties}
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={handleMouseLeave}
           >
@@ -166,4 +160,3 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   );
 };
 
-export default TrueFocus;

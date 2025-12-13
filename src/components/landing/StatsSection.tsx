@@ -10,22 +10,22 @@ interface Stat {
 
 const stats: Stat[] = [
   {
-    value: 10000,
+    value: 1547,  // จาก leaderboard.totalUsers
     label: "ผู้เรียน",
     suffix: "+",
   },
   {
-    value: 50,
-    label: "คอร์สเรียน",
+    value: 63,     // ตามจำนวนเกม
+    label: "จำนวนด่าน",
     suffix: "+",
   },
   {
-    value: 100,
+    value: 7,     // จาก gameData.length
     label: "เกมการเรียนรู้",
     suffix: "+",
   },
   {
-    value: 95,
+    value: 95,    // คงค่าเดิม
     label: "ความพึงพอใจ",
     suffix: "%",
   },

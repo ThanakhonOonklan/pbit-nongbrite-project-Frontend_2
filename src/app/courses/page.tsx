@@ -2,6 +2,7 @@
 
 import { Sidebar } from "@/components/layout/Sidebar";
 import { CourseRightPanel } from "@/components/courses/CourseRightPanel";
+import { BackgroundSquaresWithColor } from "@/components/common/BackgroundSquaresWithColor";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getLevelData } from "@/constants/levelData";
@@ -180,6 +181,7 @@ export default function CoursesPage() {
 
   return (
     <div className="flex h-screen ">
+      <BackgroundSquaresWithColor />
       <Sidebar />
 
       {/* Center Area - ScrollStack */}

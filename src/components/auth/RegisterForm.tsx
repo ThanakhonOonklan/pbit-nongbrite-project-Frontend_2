@@ -125,21 +125,20 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
 
   const handleStep2Next = () => {
     // Validate step 2 data if needed
+    // TODO: Process step 2 data when implementing backend
     // Convert gender to uppercase format
-    const genderMap: Record<string, string> = {
-      "male": "MALE",
-      "female": "FEMALE",
-      "not-specified": "NOT_SPECIFIED",
-    };
-    const formattedGender = gender ? genderMap[gender] || "" : "";
-    
-    // TODO: Process step 2 data
-    const step2Data = {
-      token: "",
-      name: displayName,
-      age: age ? parseInt(age, 10) : 0,
-      gender: formattedGender,
-    };
+    // const genderMap: Record<string, string> = {
+    //   "male": "MALE",
+    //   "female": "FEMALE",
+    //   "not-specified": "NOT_SPECIFIED",
+    // };
+    // const formattedGender = gender ? genderMap[gender] || "" : "";
+    // const step2Data = {
+    //   token: "",
+    //   name: displayName,
+    //   age: age ? parseInt(age, 10) : 0,
+    //   gender: formattedGender,
+    // };
     
     // Move to step 3 or complete registration
     setCurrentStep(3);
@@ -175,36 +174,38 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const renderStep1 = () => (
     <>
       {/* Logo and Title Section */}
-      <div className="flex flex-col gap-[3px] items-center w-full">
-        <div className="flex flex-col items-center gap-[8px] w-full">
+      <div className="flex flex-col gap-2 md:gap-3 items-center w-full mb-4 md:mb-6">
+        <div className="flex flex-col items-center gap-2 w-full">
           <Image
             src="/icons/logo.png"
             alt="Logo"
             fill
-            containerClassName="w-[93px] h-[93px] rounded-full"
+            containerClassName="w-[70px] h-[70px] md:w-[80px] md:h-[80px] lg:w-[93px] lg:h-[93px] rounded-full"
             className="object-cover"
             priority
+            sizes="(max-width: 768px) 70px, (max-width: 1024px) 80px, 93px"
           />
         </div>
         
         {/* Title */}
-        <h1 className="text-[24px] leading-[36px] font-bold text-[#3c3c3c] text-center w-full">
+        <h1 className="text-[22px] md:text-[24px] leading-tight font-bold text-gray-800 text-center w-full">
           สร้างบัญชี
         </h1>
         
         {/* Subtitle */}
-        <p className="text-[14px] leading-[36px] font-bold text-[#909090] text-center w-full">
+        <p className="text-[13px] md:text-[14px] leading-tight font-semibold text-gray-500 text-center w-full">
           พร้อมที่จะเรียนรู้หรือยัง?
         </p>
       </div>
 
       {/* Input Fields */}
-      <div className="flex flex-col gap-[16px] w-full">
+      <div className="flex flex-col gap-4 md:gap-5 w-full">
         <InputField
           label="อีเมล"
           type="email"
-          placeholder="zazajayzaza123@gmail.c.com"
+          placeholder="กรุณากรอกอีเมลของคุณ"
           value={email}
+          className="h-[48px] md:h-[50px] bg-[#f8f8f8] border-2 border-[#e0e0e0] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
           onChange={(e) => {
             const value = e.target.value;
             setEmail(value);
@@ -233,9 +234,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
 
         <PasswordField
           label="รหัสผ่าน"
-          placeholder="**************"
+          placeholder="กรุณากรอกรหัสผ่านของคุณ"
           value={password}
           maxLength={20}
+          className="h-[48px] md:h-[50px] bg-[#f8f8f8] border-2 border-[#e0e0e0] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
           onChange={(e) => {
             const value = e.target.value;
             // Prevent Thai characters
@@ -268,9 +270,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
 
         <PasswordField
           label="ยืนยันรหัสผ่าน"
-          placeholder="**************"
+          placeholder="กรุณายืนยันรหัสผ่านของคุณ"
           value={confirmPassword}
           maxLength={20}
+          className="h-[48px] md:h-[50px] bg-[#f8f8f8] border-2 border-[#e0e0e0] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
           onChange={(e) => {
             const value = e.target.value;
             // Prevent Thai characters
@@ -307,19 +310,21 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       {/* Register Button */}
       <PrimaryButton
         type="submit"
-        className="h-[40px] w-full px-4 py-[10px] rounded-[8px] bg-[#1cb0f6] shadow-[0px_4px_0px_0px_#1093cc,0px_6px_12px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] active:translate-y-[2px] active:shadow-[0px_2px_0px_0px_#1093cc,0px_4px_8px_rgba(28,176,246,0.3)]"
+        variant="sky-blue"
+        size="lg"
+        className="mt-2 w-full h-[50px] md:h-[52px] rounded-[12px] md:rounded-[15px] text-[15px] md:text-[16px] font-semibold shadow-[0_4px_15px_rgba(28,176,246,0.3)] hover:shadow-[0_6px_20px_rgba(28,176,246,0.4)] transition-all"
       >
         สร้างบัญชี
       </PrimaryButton>
 
       {/* Footer Links */}
-      <div className="flex gap-[8px] items-center justify-center w-full">
-        <span className="text-[#486581] text-[10px] leading-[18px] font-bold">
+      <div className="flex gap-2 items-center justify-center w-full mt-4">
+        <span className="text-gray-600 text-[12px] md:text-[13px] leading-tight font-medium">
           มีบัญชีอยู่แล้ว?
         </span>
         <Link
           href="/login"
-          className="text-[#127fbf] text-[10px] leading-[18px] font-bold underline decoration-solid underline-offset-2 hover:text-[#0d6ba3] transition-colors"
+          className="text-[#1cb0f6] text-[12px] md:text-[13px] leading-tight font-semibold hover:text-[#17a3e3] transition-colors"
         >
           เข้าสู่ระบบ
         </Link>
@@ -331,34 +336,35 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const renderStep2 = () => (
     <>
       {/* Logo and Welcome Section */}
-      <div className="flex flex-col gap-[13px] items-center w-full">
-        <div className="flex flex-col items-center gap-[8px] w-full">
+      <div className="flex flex-col gap-3 md:gap-4 items-center w-full mb-4 md:mb-6">
+        <div className="flex flex-col items-center gap-2 w-full">
           <Image
             src="/icons/logo.png"
             alt="Logo"
             fill
-            containerClassName="w-[93px] h-[93px] rounded-full"
+            containerClassName="w-[70px] h-[70px] md:w-[80px] md:h-[80px] lg:w-[93px] lg:h-[93px] rounded-full"
             className="object-cover"
             priority
+            sizes="(max-width: 768px) 70px, (max-width: 1024px) 80px, 93px"
           />
         </div>
         
         {/* Welcome Message */}
-        <p className="text-[24px] leading-[36px] font-bold text-center w-full whitespace-pre-wrap">
-          <span className="text-[#3c3c3c]">ยินดีต้อนรับส</span>
-          <span>ู่ </span>
+        <p className="text-[20px] md:text-[22px] lg:text-[24px] leading-tight font-bold text-center w-full">
+          <span className="text-gray-800">ยินดีต้อนรับสู่ </span>
           <span className="text-[#1cb0f6]">P&apos;Bit </span>
           <span className="text-[#ffd300]">Nong Brite</span>
         </p>
       </div>
 
       {/* Form Fields */}
-      <div className="flex flex-col gap-[16px] w-full">
+      <div className="flex flex-col gap-4 md:gap-5 w-full">
         <InputField
           label="ชื่อที่แสดง"
           type="text"
-          placeholder="น้องไบร์"
+          placeholder="กรุณากรอกชื่อที่แสดง"
           value={displayName}
+          className="h-[48px] md:h-[50px] bg-[#f8f8f8] border-2 border-[#e0e0e0] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
           onChange={(e) => {
             const value = e.target.value;
             if (value.length <= 25) {
@@ -371,8 +377,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         <InputField
           label="อายุ"
           type="number"
-          placeholder="4"
+          placeholder="กรุณากรอกอายุ"
           value={age}
+          className="h-[48px] md:h-[50px] bg-[#f8f8f8] border-2 border-[#e0e0e0] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
           onChange={(e) => {
             const value = e.target.value;
             const numValue = parseInt(value, 10);
@@ -421,7 +428,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       <PrimaryButton
         type="button"
         onClick={handleStep2Next}
-        className="h-[40px] w-full px-4 py-[10px] rounded-[8px] bg-[#1cb0f6] shadow-[0px_4px_0px_0px_#1093cc,0px_6px_12px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] active:translate-y-[2px] active:shadow-[0px_2px_0px_0px_#1093cc,0px_4px_8px_rgba(28,176,246,0.3)]"
+        variant="sky-blue"
+        size="lg"
+        className="mt-2 w-full h-[50px] md:h-[52px] rounded-[12px] md:rounded-[15px] text-[15px] md:text-[16px] font-semibold shadow-[0_4px_15px_rgba(28,176,246,0.3)] hover:shadow-[0_6px_20px_rgba(28,176,246,0.4)] transition-all"
       >
         ถัดไป
       </PrimaryButton>
@@ -445,23 +454,25 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       </div>
 
       {/* Title */}
-      <p className="text-[24px] leading-[36px] font-bold text-[#3c3c3c] text-center w-full whitespace-pre-wrap">
+      <p className="text-[22px] md:text-[24px] leading-tight font-bold text-gray-800 text-center w-full">
         เสร็จสิ้น!
       </p>
 
       {/* Description */}
-      <p className="text-[14px] leading-[36px] font-bold text-[#909090] text-center w-full whitespace-pre-wrap -mt-[35px]">
+      <p className="text-[13px] md:text-[14px] leading-tight font-semibold text-gray-500 text-center w-full mt-2">
         ไปเริ่มเรียนรู้กันเลย!
       </p>
 
       {/* Action Button - Centered */}
-      <div className="flex items-center justify-center w-full -mt-[5px]">
+      <div className="flex items-center justify-center w-full mt-6">
         <PrimaryButton 
           type="button" 
           onClick={() => {
             router.push("/login");
           }}
-          className="h-[40px] w-[150px] px-4 py-[10px] rounded-[8px] bg-[#1cb0f6] shadow-[0px_4px_0px_0px_#1093cc,0px_6px_12px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] active:translate-y-[2px] active:shadow-[0px_2px_0px_0px_#1093cc,0px_4px_8px_rgba(28,176,246,0.3)]"
+          variant="sky-blue"
+          size="lg"
+          className="w-[150px] md:w-[180px] h-[50px] md:h-[52px] rounded-[12px] md:rounded-[15px] text-[15px] md:text-[16px] font-semibold shadow-[0_4px_15px_rgba(28,176,246,0.3)] hover:shadow-[0_6px_20px_rgba(28,176,246,0.4)] transition-all"
         >
           เริ่มกันเลย
         </PrimaryButton>
@@ -470,20 +481,38 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   );
 
   return (
-    <FormCard 
-      onSubmit={currentStep === 1 ? handleStep1Submit : (e) => e.preventDefault()} 
-      className={cn(
-        currentStep === 3 ? "gap-[32px] w-[480px] h-[440px]" : "gap-[18px] w-[480px] h-[640px]"
-      )}
-    >
-      {/* Stepper */}
-      <Stepper steps={getSteps()} />
+    <div className="relative w-full max-w-[480px]">
+      {/* Outer card with landing page theme */}
+      <div className="relative bg-white rounded-[32px] md:rounded-[40px] px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 shadow-[0_20px_50px_rgba(28,176,246,0.2)] overflow-hidden">
+        {/* Decorative shapes - matching landing page colors */}
+        <div className="pointer-events-none absolute -top-[70px] -right-[80px] w-[280px] h-[200px] md:w-[320px] md:h-[220px] bg-[#38bdf8] rounded-bl-[130px] opacity-20">
+          <div className="absolute top-8 -left-10 w-[280px] h-[180px] md:w-[320px] md:h-[200px] bg-[#1cb0f6] rounded-bl-[130px] opacity-30" />
+        </div>
+        <div className="pointer-events-none absolute -bottom-[110px] -left-[90px] w-[240px] h-[240px] md:w-[280px] md:h-[280px] bg-[#fbbf24] rounded-full opacity-15">
+          <div className="absolute top-6 left-8 w-[220px] h-[220px] md:w-[260px] md:h-[260px] bg-[#ffd300] rounded-full opacity-20" />
+        </div>
 
-      {/* Step Content */}
-      {currentStep === 1 && renderStep1()}
-      {currentStep === 2 && renderStep2()}
-      {currentStep === 3 && renderStep3()}
-    </FormCard>
+        <div className="relative z-10">
+          <FormCard 
+            onSubmit={currentStep === 1 ? handleStep1Submit : (e) => e.preventDefault()} 
+            className={cn(
+              "w-full h-auto p-0 gap-6 bg-transparent border-none shadow-none items-stretch",
+              currentStep === 3 ? "gap-8" : "gap-5 md:gap-6"
+            )}
+          >
+            {/* Stepper */}
+            <div className="w-full">
+              <Stepper steps={getSteps()} />
+            </div>
+
+            {/* Step Content */}
+            {currentStep === 1 && renderStep1()}
+            {currentStep === 2 && renderStep2()}
+            {currentStep === 3 && renderStep3()}
+          </FormCard>
+        </div>
+      </div>
+    </div>
   );
 };
 

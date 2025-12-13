@@ -8,23 +8,49 @@ export function CTAFooterSection() {
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col items-center text-center">
           {/* Mascots */}
-          <div className="relative w-full max-w-md mb-8 flex justify-center">
-            <div className="relative w-[200px] md:w-[250px] h-[200px] md:h-[250px]">
+          <div 
+            className="relative w-full max-w-md mb-8 h-[250px] md:h-[300px]"
+            style={{
+              '--pbit-left': '50%',
+              '--pbit-top': '50%',
+              '--pbit-translate-x': '-60%',
+              '--pbit-translate-y': '-50%',
+              '--nongbrite-left': '45%',
+              '--nongbrite-top': '63%',
+              '--nongbrite-translate-x': '20%',
+              '--nongbrite-translate-y': '-50%',
+            } as React.CSSProperties}
+          >
+            <div 
+              className="absolute w-[200px] md:w-[250px] h-[200px] md:h-[250px]"
+              style={{
+                left: 'var(--pbit-left)',
+                top: 'var(--pbit-top)',
+                transform: 'translate(var(--pbit-translate-x), var(--pbit-translate-y))',
+              }}
+            >
               <Image
-                src="/images/P_Bit/bit-01.svg"
+                src="/images/P_Bit/bit-05.svg"
                 alt="P'Bit mascot"
                 fill
                 containerClassName="w-full h-full"
-                className="object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.2)]"
+                className="object-contain"
               />
             </div>
-            <div className="absolute right-0 md:right-8 top-8 w-[120px] md:w-[150px] h-[132px] md:h-[165px]">
+            <div 
+              className="absolute w-[120px] md:w-[150px] h-[132px] md:h-[165px]"
+              style={{
+                left: 'var(--nongbrite-left)',
+                top: 'var(--nongbrite-top)',
+                transform: 'translate(var(--nongbrite-translate-x), var(--nongbrite-translate-y))',
+              }}
+            >
               <Image
-                src="/images/Nong_brite/nong-brite-02.svg"
+                src="/images/Nong_brite/nong-brite-01.svg"
                 alt="Nong Brite mascot"
                 fill
                 containerClassName="w-full h-full"
-                className="object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.2)]"
+                className="object-contain"
               />
             </div>
           </div>
@@ -38,7 +64,7 @@ export function CTAFooterSection() {
           </p>
 
           {/* CTA Button */}
-          <Link href="/courses">
+          <Link href="/login">
             <PrimaryButton 
               variant="yellow" 
               size="lg"

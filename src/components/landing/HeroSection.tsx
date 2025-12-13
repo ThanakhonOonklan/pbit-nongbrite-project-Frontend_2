@@ -3,9 +3,8 @@
 import { PrimaryButton } from "@/components/common";
 import { Image } from "@/components/common/Image";
 import Link from "next/link";
-import TrueFocus from "@/components/TrueFocus";
-import BlurText from "./BlurText";
-import TextType from "./TextType";
+import { TrueFocus } from "@/components/common";
+import { BlurText, TextType } from "@/components/common";
 
 export function HeroSection() {
   return (
@@ -24,7 +23,6 @@ export function HeroSection() {
                   glowColor="rgba(56, 189, 248, 0.6)"
                   animationDuration={0.6}
                   pauseBetweenAnimations={3}
-                 
                 />
               </div>
               <div className="flex flex-wrap items-baseline justify-center lg:justify-start gap-2">
@@ -68,7 +66,7 @@ export function HeroSection() {
                   เริ่มเรียนเลย
                 </PrimaryButton>
               </Link>
-              <Link href="/about" className="w-full sm:w-auto">
+              <Link href="#features" className="w-full sm:w-auto">
                 <PrimaryButton
                   variant="outline"
                   size="sm"
@@ -83,8 +81,7 @@ export function HeroSection() {
           {/* Right Side - Mascots */}
           <div className="relative flex items-center justify-center lg:justify-end ">
             <div className="relative w-full max-w-md aspect-square">
-
-               {/* Nong Brite Mascot */}
+              {/* Nong Brite Mascot */}
               <div className="absolute top-1/2 left-1/2 w-[85px] md:w-[115px] lg:w-[115px] h-[105px] md:h-[135px] lg:h-[135px] translate-x-[-32px] md:translate-x-[-50px] lg:translate-x-[-50px] -translate-y-[140px] md:-translate-y-[170px] lg:-translate-y-[170px]">
                 <div className="w-full h-full ">
                   <Image
@@ -125,7 +122,7 @@ export function HeroSection() {
                   />
                 </div>
               </div>
-            
+
               {/* P_Bobo Mascot หมี*/}
               <div className="absolute top-1/2 left-1/2 w-[130px] md:w-[165px] lg:w-[165px] h-[145px] md:h-[180px] lg:h-[180px] -translate-x-[160px] md:-translate-x-[220px] lg:-translate-x-[220px] -translate-y-[50px] md:-translate-y-[60px] lg:-translate-y-[60px]">
                 <div className="w-full h-full ">
@@ -181,7 +178,6 @@ export function HeroSection() {
                   />
                 </div>
               </div>
-             
             </div>
           </div>
         </div>

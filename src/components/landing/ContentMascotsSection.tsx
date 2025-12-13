@@ -1,4 +1,4 @@
-import { PrimaryButton, OuterContainer } from "@/components/common";
+import { PrimaryButton } from "@/components/common";
 import { Image } from "@/components/common/Image";
 import Link from "next/link";
 
@@ -39,7 +39,7 @@ const contentBlocks: ContentBlock[] = [
     imageSrc: "/images/P_Minnie/minnie-01.svg",
     imageAlt: "Nong Brite character",
     imageOnLeft: false,
-    accentColor: "#ec4899", // pink tone
+    accentColor: "#ec4899", 
     buttonVariant: "illusion",
     ctaText: "ลองเล่นมินิเกม",
     ctaHref: "/games",
@@ -60,7 +60,7 @@ const contentBlocks: ContentBlock[] = [
 
 export function ContentMascotsSection() {
   return (
-    <section className="py-16 md:py-24 px-4 md:px-10 lg:px-16 bg-[#F5F7FF] layout-debug">
+    <section className="py-16 md:py-24 px-4 md:px-10 lg:px-16 bg-[#F5F7FF]">
       <div className="max-w-7xl mx-auto flex flex-col gap-12 md:gap-16">
         {contentBlocks.map((block, index) => (
           // use padStart to present 01 / 02 / 03 on each frame
@@ -71,29 +71,19 @@ export function ContentMascotsSection() {
             {/* Image */}
             <div
               className={`flex justify-center ${
-                block.imageOnLeft ? "md:order-1" : "md:order-2"
+                block.imageOnLeft ? "md:order-0" : "md:order-2"
               }`}
             >
-              <div className="relative">
-                {/* Blob background */}
-                <div
-                  className="absolute -inset-10 md:-inset-12 -z-10 rounded-[45%] rotate-[-6deg]"
-                  style={{
-                    backgroundColor: `${block.accentColor}26`,
-                    boxShadow: "0 20px 40px rgba(0,0,0,0.12)",
-                  }}
-                />
-                <div className="relative w-[280px] md:w-[360px] min-h-[240px] md:min-h-[300px] flex items-center justify-center">
-                  <div className="relative w-[180px] h-[180px] md:w-[240px] md:h-[240px]">
-                    <Image
-                      src={block.imageSrc}
-                      alt={block.imageAlt}
-                      fill
-                      containerClassName="w-full h-full"
-                      className="object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.12)]"
-                      priority={index === 0}
-                    />
-                  </div>
+              <div className="relative w-[280px] md:w-[360px] min-h-[240px] md:min-h-[300px] flex items-center justify-center">
+                <div className="relative w-[180px] h-[180px] md:w-[240px] md:h-[240px]">
+                  <Image
+                    src={block.imageSrc}
+                    alt={block.imageAlt}
+                    fill
+                    containerClassName="w-full h-full"
+                    className="object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.12)]"
+                    priority={index === 0}
+                  />
                 </div>
               </div>
             </div>

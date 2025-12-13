@@ -5,13 +5,12 @@ import {
   useEffect,
   useRef,
   useState,
-  createElement,
   useMemo,
   useCallback,
 } from "react";
 import { gsap } from "gsap";
 
-interface TextTypeProps {
+export interface TextTypeProps {
   className?: string;
   showCursor?: boolean;
   hideCursorWhileTyping?: boolean;
@@ -32,7 +31,7 @@ interface TextTypeProps {
   reverseMode?: boolean;
 }
 
-const TextType = ({
+export const TextType = ({
   text,
   as: Component = "div",
   typingSpeed = 50,
@@ -185,32 +184,32 @@ const TextType = ({
     hideCursorWhileTyping &&
     (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
-  return createElement(
-    Component as keyof React.JSX.IntrinsicElements,
-    {
-      className: `inline-block whitespace-pre-wrap tracking-tight ${className}`,
-      ...props,
-    },
-    <span ref={containerRef} className="inline">
-      <span
-        className="inline"
-        style={{ color: getCurrentTextColor() || "inherit" }}
-      >
-        {displayedText}
-      </span>
-      {showCursor && (
+  const Element = Component as React.ElementType;
+
+  return (
+    <Element
+      className={`inline-block whitespace-pre-wrap tracking-tight ${className}`}
+      {...(props as React.HTMLAttributes<HTMLElement>)}
+    >
+      <span ref={containerRef} className="inline">
         <span
-          ref={cursorRef}
-          className={`ml-1 inline-block opacity-100 ${
-            shouldHideCursor ? "hidden" : ""
-          } ${cursorClassName}`}
+          className="inline"
+          style={{ color: getCurrentTextColor() || "inherit" }}
         >
-          {cursorCharacter}
+          {displayedText}
         </span>
-      )}
-    </span>
+        {showCursor && (
+          <span
+            ref={cursorRef}
+            className={`ml-1 inline-block opacity-100 ${
+              shouldHideCursor ? "hidden" : ""
+            } ${cursorClassName}`}
+          >
+            {cursorCharacter}
+          </span>
+        )}
+      </span>
+    </Element>
   );
 };
-
-export default TextType;
 

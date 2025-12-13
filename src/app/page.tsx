@@ -2,7 +2,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import {
   HeroSection,
   FeaturesSection,
-  CoursesPreviewSection,
   StatsSection,
   CTAFooterSection,
   ContentMascotsSection,
@@ -18,7 +17,6 @@ export default function LandingPage() {
       <div id="features">
         <FeaturesSection />
       </div>
-
       <div id="content">
         <ContentMascotsSection />
       </div>

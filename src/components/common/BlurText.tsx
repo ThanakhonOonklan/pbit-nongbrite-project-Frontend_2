@@ -1,9 +1,9 @@
- "use client";
+"use client";
 
 import { motion, Transition } from "motion/react";
 import { useEffect, useRef, useState, useMemo } from "react";
 
-type BlurTextProps = {
+export type BlurTextProps = {
   text?: string;
   delay?: number;
   className?: string;
@@ -34,7 +34,7 @@ const buildKeyframes = (
   return keyframes;
 };
 
-const BlurText: React.FC<BlurTextProps> = ({
+export const BlurText: React.FC<BlurTextProps> = ({
   text = "",
   delay = 200,
   className = "",
@@ -135,6 +135,4 @@ const BlurText: React.FC<BlurTextProps> = ({
     </p>
   );
 };
-
-export default BlurText;
 
