@@ -6,16 +6,20 @@ import {
   InputField,
   PasswordField,
   Divider,
-  Stepper,
   SocialButton,
   PrimaryButton,
   GameButton,
-  StarGameButton,
   Container,
+  FormCard,
+  GameTooltip,
+  AnimatedList,
+  DifficultyIndicator,
+  Counter,
+  CountUp,
+  OuterContainer,
+  Image,
   OTPInput,
-  ScrollStackItem,
   ResourceBar,
-  ScrollStack,
 } from "@/components/common";
 import { getLabelClassName } from "@/lib/label";
 import { StatCard } from "@/components/profile";
@@ -24,11 +28,18 @@ import { FaCheck, FaHeart } from "react-icons/fa";
 export default function TestComponentsPage() {
   const [selectedGenders, setSelectedGenders] = useState<Set<"male" | "female" | "not-specified">>(new Set());
   const [otpValue, setOtpValue] = useState<string[]>([]);
-
-  const steps = [
-    { label: "สร้างบัญชี", status: "completed" as const },
-    { label: "กรอกข้อมูล", status: "active" as const },
-    { label: "เสร็จสิ้น", status: "default" as const },
+  const [counterValue, setCounterValue] = useState(5);
+  const animatedItems = ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"];
+  const gamePalettes = [
+    { name: "Amethyst", main: "#9956DE", dark: "#7f45b8", border: "#8a4dc9" },
+    { name: "Slate Blue", main: "#7274ED", dark: "#585aca", border: "#6668db" },
+    { name: "Summer Sky", main: "#1FA7E1", dark: "#1584b4", border: "#1a95c9" },
+    { name: "Downy", main: "#6ED1CF", dark: "#54aba9", border: "#60c1bf" },
+    { name: "Pastel Green", main: "#75D06A", dark: "#5ea856", border: "#68c261" },
+    { name: "Texas Rose", main: "#FFB356", dark: "#d18f3f", border: "#e8a449" },
+    { name: "Mona Lisa", main: "#FF8B8B", dark: "#d17070", border: "#e77d7d" },
+    { name: "Illusion", main: "#FB96BB", dark: "#d27a99", border: "#e68aac" },
+    { name: "Sky Blue", main: "#61B6F6", dark: "#4a90c7", border: "#56a5e0" },
   ];
 
   return (
@@ -134,21 +145,6 @@ export default function TestComponentsPage() {
               </div>
             </div>
 
-            {/* Stepper */}
-            <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">Stepper</h3>
-              <div className="flex flex-col gap-4">
-                <Stepper steps={steps} />
-                <Stepper
-                  steps={[
-                    { label: "Step 1", status: "completed" },
-                    { label: "Step 2", status: "completed" },
-                    { label: "Step 3", status: "active" },
-                  ]}
-                />
-              </div>
-            </div>
-
           </section>
         </Container>
 
@@ -157,6 +153,16 @@ export default function TestComponentsPage() {
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Interactive Components</h2>
             
+            {/* GameTooltip */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">GameTooltip</h3>
+              <div className="flex flex-wrap gap-4">
+                <GameTooltip>
+                  <PrimaryButton>Hover me</PrimaryButton>
+                </GameTooltip>
+              </div>
+            </div>
+
             {/* SocialButton */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">SocialButton</h3>
@@ -241,6 +247,28 @@ export default function TestComponentsPage() {
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Cards & Display Components</h2>
             
+            {/* FormCard */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">FormCard</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormCard
+                >
+                  <h4 className="text-xl font-bold text-[#242E39]">เข้าสู่ระบบ</h4>
+                  <p className="text-gray-600">ทดสอบฟอร์มการ์ด</p>
+                  <Input placeholder="Email" />
+                  <PasswordField placeholder="Password" />
+                  <PrimaryButton className="mt-2">Login</PrimaryButton>
+                </FormCard>
+                <FormCard
+                >
+                  <h4 className="text-xl font-bold text-[#242E39]">อัปเดตโปรไฟล์</h4>
+                  <p className="text-gray-600">กรอกข้อมูลให้ครบถ้วน</p>
+                  <InputField label="Display name" placeholder="Nong Brite" />
+                  <InputField label="Email" placeholder="hello@example.com" />
+                </FormCard>
+              </div>
+            </div>
+
             {/* StatCard */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">StatCard</h3>
@@ -285,15 +313,18 @@ export default function TestComponentsPage() {
               <div className="flex flex-col gap-4">
                 <h3 className="text-lg font-semibold text-gray-700">Color Palette Variants</h3>
                 <div className="flex flex-wrap gap-4 items-center">
-                  <GameButton variant="amethyst" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
-                  <GameButton variant="slate-blue" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
-                  <GameButton variant="summer-sky" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
-                  <GameButton variant="downy" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
-                  <GameButton variant="pastel-green" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
-                  <GameButton variant="texas-rose" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
-                  <GameButton variant="mona-lisa" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
-                  <GameButton variant="illusion" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
-                  <GameButton variant="sky-blue" size="default" icon={<FaCheck className="w-8 h-8 text-white" />} />
+                  {gamePalettes.map((palette) => (
+                    <div key={palette.name} className="flex flex-col items-center gap-2">
+                      <GameButton
+                        mainColor={palette.main}
+                        darkColor={palette.dark}
+                        borderColor={palette.border}
+                      >
+                        <FaCheck className="w-8 h-8 text-white" />
+                      </GameButton>
+                      <span className="text-sm text-gray-700">{palette.name}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -303,10 +334,12 @@ export default function TestComponentsPage() {
                 <div className="flex flex-wrap gap-6 items-center">
                   <div className="flex items-center gap-4">
                     <GameButton 
-                      variant="sky-blue"
-                      size="default" 
-                      icon={<FaCheck className="w-8 h-8 text-white" />}
-                    />
+                      mainColor="#61B6F6"
+                      darkColor="#4a90c7"
+                      borderColor="#56a5e0"
+                    >
+                      <FaCheck className="w-8 h-8 text-white" />
+                    </GameButton>
                     <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1</span>
                   </div>
                 </div>
@@ -318,10 +351,12 @@ export default function TestComponentsPage() {
                 <div className="flex flex-wrap gap-6 items-center">
                   <div className="flex items-center gap-4">
                     <GameButton 
-                      variant="pastel-green"
-                      size="default" 
-                      icon={<FaCheck className="w-8 h-8 text-white" />}
-                    />
+                      mainColor="#75D06A"
+                      darkColor="#5ea856"
+                      borderColor="#68c261"
+                    >
+                      <FaCheck className="w-8 h-8 text-white" />
+                    </GameButton>
                     <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1</span>
                   </div>
                 </div>
@@ -333,23 +368,34 @@ export default function TestComponentsPage() {
                 <div className="flex flex-wrap gap-6 items-center">
                   <div className="flex items-center gap-4">
                     <GameButton 
-                      size="sm" 
-                      icon={<span className="text-[16px] font-bold text-[#8B7355]">S</span>}
-                    />
+                      mainColor="#D9C2A3"
+                      darkColor="#b39b7d"
+                      borderColor="#c7ad90"
+                      className="w-[64px] h-[64px]"
+                    >
+                      <span className="text-[16px] font-bold text-[#8B7355]">S</span>
+                    </GameButton>
                     <span className="text-[14px]">Small</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <GameButton 
-                      size="default" 
-                      icon={<span className="text-[20px] font-bold text-[#8B7355]">M</span>}
-                    />
+                      mainColor="#D9C2A3"
+                      darkColor="#b39b7d"
+                      borderColor="#c7ad90"
+                    >
+                      <span className="text-[20px] font-bold text-[#8B7355]">M</span>
+                    </GameButton>
                     <span className="text-[16px]">Default</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <GameButton 
-                      size="lg" 
-                      icon={<span className="text-[24px] font-bold text-[#8B7355]">L</span>}
-                    />
+                      mainColor="#D9C2A3"
+                      darkColor="#b39b7d"
+                      borderColor="#c7ad90"
+                      className="w-[96px] h-[96px]"
+                    >
+                      <span className="text-[24px] font-bold text-[#8B7355]">L</span>
+                    </GameButton>
                     <span className="text-[18px]">Large</span>
                   </div>
                 </div>
@@ -437,6 +483,15 @@ export default function TestComponentsPage() {
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Utility Components</h2>
             
+            {/* Image */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Image</h3>
+              <div className="flex flex-wrap gap-4 items-center">
+                <Image src="/images/P_Bit/bit-01.svg" alt="P'Bit" width={80} height={80} />
+                <Image src="/images/Nong_brite/nong-brite-02.svg" alt="Nong Brite" width={80} height={80} />
+              </div>
+            </div>
+
             {/* Container */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">Container</h3>
@@ -463,242 +518,80 @@ export default function TestComponentsPage() {
           </section>
         </Container>
 
-        {/* Container Component */}
+        {/* Animated & Indicators */}
         <Container variant="white" className="p-6">
           <section className="flex flex-col gap-6">
-            <h2 className="text-2xl font-bold text-[#242E39]">Container</h2>
-            <p className="text-gray-600">Container component with ScrollStack support - can use ScrollStack props for animated scrolling</p>
-            
-            {/* Normal Container Usage */}
+            <h2 className="text-2xl font-bold text-[#242E39]">Animated & Indicators</h2>
+
+            {/* AnimatedList */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">Normal Container</h3>
-              <Container variant="white" className="p-6">
-                <p className="text-gray-600">This is a normal Container without ScrollStack props.</p>
-              </Container>
+              <h3 className="text-lg font-semibold text-gray-700">AnimatedList</h3>
+              <AnimatedList
+                items={animatedItems}
+                renderItem={({ item }) => (
+                  <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
+                    {item}
+                  </div>
+                )}
+              />
             </div>
 
-            {/* Container with ScrollStack */}
+            {/* DifficultyIndicator */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">Container with ScrollStack</h3>
-              <div className="w-full h-[800px] border border-gray-200 rounded-lg overflow-hidden">
-                <Container 
-                  variant="white"
-                  className="h-full"
-                  itemDistance={800}
-                  itemStackDistance={3}
-                  stackPosition="20%"
-                  baseScale={1}
-                  rotationAmount={0}
-                  blurAmount={0}
-                >
-                  <ScrollStackItem>
-                    <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl font-bold text-[#242E39]">Card 1</h3>
-                      <p className="text-gray-600">
-                        This is the first card using Container with ScrollStack props. Scroll down to see the stacking animation effect.
-                      </p>
-                    </div>
-                  </ScrollStackItem>
-                  
-                  <ScrollStackItem>
-                    <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl font-bold text-[#242E39]">Card 2</h3>
-                      <p className="text-gray-600">
-                        The second card will stack on top of the first one as you scroll. Notice the smooth scaling and positioning.
-                      </p>
-                    </div>
-                  </ScrollStackItem>
-                  
-                  <ScrollStackItem>
-                    <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl font-bold text-[#242E39]">Card 3</h3>
-                      <p className="text-gray-600">
-                        Each card scales down and stacks beautifully. The animation is powered by Lenis smooth scrolling.
-                      </p>
-                    </div>
-                  </ScrollStackItem>
-                  
-                  <ScrollStackItem>
-                    <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl font-bold text-[#242E39]">Card 4</h3>
-                      <p className="text-gray-600">
-                        Continue scrolling to see more cards stack on top of each other with smooth transitions.
-                      </p>
-                    </div>
-                  </ScrollStackItem>
-                  
-                  <ScrollStackItem>
-                    <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl font-bold text-[#242E39]">Card 5</h3>
-                      <p className="text-gray-600">
-                        This is the last card in the demo. Container now supports ScrollStack functionality!
-                      </p>
-                    </div>
-                  </ScrollStackItem>
-                </Container>
+              <h3 className="text-lg font-semibold text-gray-700">DifficultyIndicator</h3>
+              <div className="flex flex-wrap gap-4 items-center">
+                <DifficultyIndicator level={1} />
+                <DifficultyIndicator level={2} />
+                <DifficultyIndicator level={3} />
               </div>
+            </div>
+
+            {/* Counter & CountUp */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Counter & CountUp</h3>
+              <div className="flex flex-wrap gap-6 items-center">
+                <div className="flex items-center gap-3">
+                  <Counter value={counterValue} />
+                  <PrimaryButton size="sm" onClick={() => setCounterValue((v) => v + 1)}>
+                    +1
+                  </PrimaryButton>
+                  <PrimaryButton size="sm" variant="illusion" onClick={() => setCounterValue((v) => Math.max(0, v - 1))}>
+                    -1
+                  </PrimaryButton>
+                </div>
+                <CountUp from={0} to={1234} duration={1.5} className="text-2xl font-bold text-[#242E39]" />
+              </div>
+            </div>
+
+           
+          </section>
+        </Container>
+
+        {/* OuterContainer */}
+        <Container variant="white" className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">OuterContainer</h2>
+        
+            <div className="flex flex-col gap-4">
+              <OuterContainer
+                widthClassName="max-w-[720px]"
+                heightClassName="min-h-[260px]"
+                headerText="Demo Card"
+                headerColor="summer-sky"
+            
+              >
+                <div className="p-4">
+                  <p className="text-gray-700"></p>
+                </div>
+              </OuterContainer>
             </div>
           </section>
         </Container>
 
-        {/* ScrollStack with OuterContainer */}
-        <Container variant="white" className="p-6">
-          <section className="flex flex-col gap-6">
-            <h2 className="text-2xl font-bold text-[#242E39]">ScrollStack with OuterContainer</h2>
-            <p className="text-gray-600">
-              ScrollStack component with OuterContainer items - scroll to see OuterContainer items stack and animate smoothly
-            </p>
-            
-            <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">OuterContainer Scroll Stack</h3>
-              <div className="w-full h-[800px] border border-gray-200 rounded-lg overflow-hidden">
-                <ScrollStack
-                  className="w-full h-full"
-                  itemDistance={800}
-                  itemStackDistance={0}
-                  stackPosition="20%"
-                  baseScale={1}
-                  useWindowScroll={false}
-                >
-                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
-                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                    heightClassName: "min-h-[350px]",
-                    headerText: "Path Navigation",
-                    headerColor: "sky-blue",
-                    imageSrc: "/images/P_Bit/bit-01.svg",
-                    imageAlt: "P'Bit mascot",
-                    imageWidth: 140,
-                    imageHeight: 140,
-                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    imageRotation: 0,
-                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
-                    image1Alt: "Nong Brite",
-                    image1Width: 60,
-                    image1Height: 66,
-                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    image1Rotation: 0,
-                  }}>
-                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                      {Array.from({ length: 9 }).map((_, index) => (
-                        <div key={index} className="flex items-center justify-center">
-                          <StarGameButton />
-                        </div>
-                      ))}
-                    </div>
-                  </ScrollStackItem>
 
-                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
-                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                    heightClassName: "min-h-[350px]",
-                    headerText: "Path Navigation",
-                    headerColor: "sky-blue",
-                    imageSrc: "/images/P_Bit/bit-01.svg",
-                    imageAlt: "P'Bit mascot",
-                    imageWidth: 140,
-                    imageHeight: 140,
-                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    imageRotation: 0,
-                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
-                    image1Alt: "Nong Brite",
-                    image1Width: 60,
-                    image1Height: 66,
-                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    image1Rotation: 0,
-                  }}>
-                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                      {Array.from({ length: 9 }).map((_, index) => (
-                        <div key={index} className="flex items-center justify-center">
-                          <StarGameButton />
-                        </div>
-                      ))}
-                    </div>
-                  </ScrollStackItem>
 
-                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
-                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                    heightClassName: "min-h-[350px]",
-                    headerText: "Path Navigation",
-                    headerColor: "sky-blue",
-                    imageSrc: "/images/P_Bit/bit-01.svg",
-                    imageAlt: "P'Bit mascot",
-                    imageWidth: 140,
-                    imageHeight: 140,
-                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    imageRotation: 0,
-                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
-                    image1Alt: "Nong Brite",
-                    image1Width: 60,
-                    image1Height: 66,
-                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    image1Rotation: 0,
-                  }}>
-                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                      {Array.from({ length: 9 }).map((_, index) => (
-                        <div key={index} className="flex items-center justify-center">
-                          <StarGameButton />
-                        </div>
-                      ))}
-                    </div>
-                  </ScrollStackItem>
-
-                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
-                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                    heightClassName: "min-h-[350px]",
-                    headerText: "Path Navigation",
-                    headerColor: "sky-blue",
-                    imageSrc: "/images/P_Bit/bit-01.svg",
-                    imageAlt: "P'Bit mascot",
-                    imageWidth: 140,
-                    imageHeight: 140,
-                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    imageRotation: 0,
-                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
-                    image1Alt: "Nong Brite",
-                    image1Width: 60,
-                    image1Height: 66,
-                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    image1Rotation: 0,
-                  }}>
-                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                      {Array.from({ length: 9 }).map((_, index) => (
-                        <div key={index} className="flex items-center justify-center">
-                          <StarGameButton />
-                        </div>
-                      ))}
-                    </div>
-                  </ScrollStackItem>
-
-                  <ScrollStackItem useOuterContainer={true} outerContainerProps={{
-                    widthClassName: "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                    heightClassName: "min-h-[350px]",
-                    headerText: "Path Navigation",
-                    headerColor: "sky-blue",
-                    imageSrc: "/images/P_Bit/bit-01.svg",
-                    imageAlt: "P'Bit mascot",
-                    imageWidth: 140,
-                    imageHeight: 140,
-                    imagePosition: "absolute left-[20px] -top-[-286px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    imageRotation: 0,
-                    image1Src: "/images/Nong_brite/nong-brite-02.svg",
-                    image1Alt: "Nong Brite",
-                    image1Width: 60,
-                    image1Height: 66,
-                    image1Position: "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
-                    image1Rotation: 0,
-                  }}>
-                    <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
-                      {Array.from({ length: 9 }).map((_, index) => (
-                        <div key={index} className="flex items-center justify-center">
-                          <StarGameButton />
-                        </div>
-                      ))}
-                    </div>
-                  </ScrollStackItem>
-                </ScrollStack>
-              </div>
-            </div>
-          </section>
-        </Container>
+       
+     
               
       </div>
     </div>

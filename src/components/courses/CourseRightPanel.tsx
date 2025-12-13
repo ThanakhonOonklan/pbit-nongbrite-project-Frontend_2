@@ -90,21 +90,20 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
           displayScoreCount > 0 ||
           displayFireCount > 0) && (
           <>
-            <div className="py-4 px-4 flex flex-col gap-4">
-              <div className="flex items-center justify-between gap-4 w-full">
+            <div className="py-4 px-3 flex flex-col gap-4">
+              <div className="flex items-center gap-1.5 w-full">
                 <PrimaryButton
                   variant="default"
                   size="sm"
                   disabled
-                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed"
+                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
                 >
                   <Image
-                    src="/icons/key.png"
+                    src="/icongame/key.svg"
                     alt="Heart"
-                    width={32}
-                    height={32}
-                
-                   
+                    width={25}
+                    height={25}
+                    className="object-contain"
                   />
                   {displayHeartCount}
                 </PrimaryButton>
@@ -112,14 +111,14 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
                   variant="default"
                   size="sm"
                   disabled
-                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed"
+                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
                 >
                   <Image
-                    src="/icons/gem.png"
+                    src="/icongame/gem.svg"
                     alt="Score"
-                    width={32}
-                    height={32}
-                   
+                    width={25}
+                    height={25}
+                    className="object-contain"
                   />
                   {displayScoreCount}
                 </PrimaryButton>
@@ -127,14 +126,14 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
                   variant="default"
                   size="sm"
                   disabled
-                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed"
+                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
                 >
                   <Image
-                    src="/icons/daystreak.png"
+                    src="/icongame/daystreak.svg"
                     alt="Fire"
-                    width={32}
-                    height={32}
-                   
+                    width={25}
+                    height={25}
+                    className="object-contain"
                   />
                   {displayFireCount}
                 </PrimaryButton>

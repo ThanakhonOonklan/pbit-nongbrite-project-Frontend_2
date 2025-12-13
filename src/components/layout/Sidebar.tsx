@@ -24,10 +24,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       path: "/courses",
       icon: (
         <Image
-          src="/icons/courses1.png"
+          src="/icongame/courses.svg"
           alt="Courses"
           width={32}
           height={32}
+          className="object-contain"
          
         />
       ),
@@ -37,10 +38,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       path: "/rank",
       icon: (
         <Image
-          src="/icons/rank1.png"
+          src="/icongame/rank.svg"
           alt="Rank"
           width={32}
           height={32}
+          className="object-contain"
    
         
         />
