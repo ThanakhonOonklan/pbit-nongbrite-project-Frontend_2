@@ -10,22 +10,22 @@ interface Stat {
 
 const stats: Stat[] = [
   {
-    value: 1547,  // จาก leaderboard.totalUsers
+    value: 1547,  
     label: "ผู้เรียน",
     suffix: "+",
   },
   {
-    value: 63,     // ตามจำนวนเกม
+    value: 63,     
     label: "จำนวนด่าน",
     suffix: "+",
   },
   {
-    value: 7,     // จาก gameData.length
+    value: 7,  
     label: "เกมการเรียนรู้",
     suffix: "+",
   },
   {
-    value: 95,    // คงค่าเดิม
+    value: 95,
     label: "ความพึงพอใจ",
     suffix: "%",
   },
@@ -33,8 +33,8 @@ const stats: Stat[] = [
 
 export function StatsSection() {
   return (
-    <section className="py-16 md:py-24 px-6 md:px-12 lg:px-16 bg-white">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 md:py-24 px-4 md:px-12 lg:px-16 bg-white">
+      <div className="max-w-7xl mx-auto min-h-[408px]">
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">

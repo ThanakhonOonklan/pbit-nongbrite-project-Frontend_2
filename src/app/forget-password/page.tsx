@@ -13,8 +13,10 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-8">
-      <ForgetPasswordForm onSubmit={handleForgotPassword} />
+    <div className="min-h-screen flex items-center justify-center bg-[#EDF0F7] p-4 sm:p-6 md:p-8 relative overflow-hidden">
+      <div className="relative z-10 w-full max-w-md">
+        <ForgetPasswordForm onSubmit={handleForgotPassword} />
+      </div>
     </div>
   );
 }

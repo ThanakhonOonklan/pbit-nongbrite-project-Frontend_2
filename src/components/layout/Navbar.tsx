@@ -4,7 +4,10 @@ import * as React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Image } from "@/components/common/Image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { LoadingOverlay } from "@/components/common";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export interface NavbarProps {
   className?: string;
@@ -13,24 +16,26 @@ export interface NavbarProps {
 type Language = "TH" | "EN";
 
 type NavItem = {
-  label: string;
   targetId: string;
+  translationKey: string;
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "หน้าหลัก", targetId: "hero" },
-  { label: "หลักสูตร", targetId: "features" },
-  { label: "เนื้อหา", targetId: "content" },
-  { label: "สถิติ", targetId: "stats" },
+  { targetId: "hero", translationKey: "navbar.navItems.home" },
+  { targetId: "features", translationKey: "navbar.navItems.courses" },
+  { targetId: "content", translationKey: "navbar.navItems.content" },
+  { targetId: "stats", translationKey: "navbar.navItems.stats" },
 ];
 
 const OBSERVE_SECTIONS = ["hero", "features", "content", "stats"];
 
 export const Navbar: React.FC<NavbarProps> = ({ className }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>("TH");
+  const router = useRouter();
+  const { language, setLanguage, t } = useLanguage();
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("hero");
+  const [isLoading, setIsLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const languages: { code: Language; label: string }[] = [
@@ -117,10 +122,18 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
     }
   };
 
+  const handleLoginClick = async () => {
+    setIsLoading(true);
+    // Simulate loading delay
+    await new Promise(resolve => setTimeout(resolve, 600));
+    router.push("/login");
+  };
+
   return (
-    <nav
-      className={cn(navBaseClasses, className)}
-    >
+    <>
+      <nav
+        className={cn(navBaseClasses, className)}
+      >
       {/* Logo and Brand */}
       <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
         <div className="relative w-[49px] h-[49px] transition-transform group-hover:scale-105">
@@ -160,7 +173,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
                     : "text-gray-700 border-transparent hover:text-[#1cb0f6]"
                 )}
               >
-                {item.label}
+                {t(item.translationKey)}
               </button>
             );
           })}
@@ -181,7 +194,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
                 "focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2"
               )}
             >
-              <span>{selectedLanguage}</span>
+              <span>{language}</span>
               <svg
                 className={cn(
                   "w-4 h-4 transition-transform",
@@ -208,13 +221,13 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
                     key={lang.code}
                     type="button"
                     onClick={() => {
-                      setSelectedLanguage(lang.code);
+                      setLanguage(lang.code);
                       setIsLanguageDropdownOpen(false);
                     }}
                     className={cn(
                       "w-full text-left px-4 py-2 text-[14px] transition-colors",
                       "hover:bg-[#1cb0f6]/10",
-                      selectedLanguage === lang.code
+                      language === lang.code
                         ? "text-[#1cb0f6] font-medium bg-[#1cb0f6]/5"
                         : "text-gray-700"
                     )}
@@ -227,22 +240,28 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
           </div>
 
           {/* Login Button */}
-          <Link href="/login">
-            <button
-              type="button"
-              className={cn(
-                "px-5 py-2 rounded-lg text-[14px] font-medium",
-                "bg-[#1cb0f6] text-white",
-                "hover:bg-[#17a3e3] transition-colors",
-                "focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2"
-              )}
-            >
-              {selectedLanguage === "TH" ? "เข้าสู่ระบบ" : "Login"}
-            </button>
-          </Link>
+          <button
+            type="button"
+            onClick={handleLoginClick}
+            disabled={isLoading}
+            className={cn(
+              "px-5 py-2 rounded-lg text-[14px] font-medium",
+              "bg-[#1cb0f6] text-white",
+              "hover:bg-[#17a3e3] transition-colors",
+              "focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2",
+              "disabled:opacity-50 disabled:cursor-not-allowed"
+            )}
+          >
+            {t("navbar.login")}
+          </button>
         </div>
       </div>
     </nav>
+    <LoadingOverlay 
+      isLoading={isLoading} 
+      message={t("navbar.loading")}
+    />
+    </>
   );
 };
 

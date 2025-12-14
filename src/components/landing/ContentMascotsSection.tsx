@@ -1,6 +1,9 @@
-import { PrimaryButton } from "@/components/common";
+"use client";
+
+import { useState } from "react";
+import { PrimaryButton, LoadingOverlay } from "@/components/common";
 import { Image } from "@/components/common/Image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type ContentBlock = {
   title: string;
@@ -30,7 +33,7 @@ const contentBlocks: ContentBlock[] = [
     accentColor: "#1cb0f6",
     buttonVariant: "sky-blue",
     ctaText: "เริ่มเรียนรู้",
-    ctaHref: "/courses",
+    ctaHref: "/login",
   },
   {
     title: "ท้าทายตัวเองด้วยมินิเกมดีไหม?",
@@ -42,7 +45,7 @@ const contentBlocks: ContentBlock[] = [
     accentColor: "#ec4899", 
     buttonVariant: "illusion",
     ctaText: "ลองเล่นมินิเกม",
-    ctaHref: "/games",
+    ctaHref: "/login",
   },
   {
     title: "เรียนซ้ำเมื่อไหร่ก็ได้ใช่ไหม?",
@@ -54,15 +57,26 @@ const contentBlocks: ContentBlock[] = [
     accentColor: "#22c55e",
     buttonVariant: "pastel-green",
     ctaText: "ดูแผนการเรียน",
-    ctaHref: "/about",
+    ctaHref: "/login",
   },
 ];
 
 export function ContentMascotsSection() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleButtonClick = async (href: string) => {
+    setIsLoading(true);
+    // Simulate loading delay
+    await new Promise(resolve => setTimeout(resolve, 600));
+    router.push(href);
+  };
+
   return (
-    <section className="py-16 md:py-24 px-4 md:px-10 lg:px-16 bg-[#F5F7FF]">
-      <div className="max-w-7xl mx-auto flex flex-col gap-12 md:gap-16">
-        {contentBlocks.map((block, index) => (
+    <>
+      <section className="py-16 md:py-24 px-4 md:px-10 lg:px-16 bg-[#F5F7FF]">
+        <div className="max-w-7xl mx-auto flex flex-col gap-12 md:gap-16">
+          {contentBlocks.map((block, index) => (
           // use padStart to present 01 / 02 / 03 on each frame
           <div
             key={index}
@@ -104,17 +118,26 @@ export function ContentMascotsSection() {
                 {block.description}
               </p>
               <div className="mt-2">
-                <Link href={block.ctaHref}>
-                  <PrimaryButton variant={block.buttonVariant} size="sm" className="w-full md:w-auto">
-                    {block.ctaText}
-                  </PrimaryButton>
-                </Link>
+                <PrimaryButton 
+                  variant={block.buttonVariant} 
+                  size="sm" 
+                  className="w-full md:w-auto"
+                  onClick={() => handleButtonClick(block.ctaHref)}
+                  disabled={isLoading}
+                >
+                  {block.ctaText}
+                </PrimaryButton>
               </div>
             </div>
           </div>
         ))}
       </div>
     </section>
+    <LoadingOverlay 
+      isLoading={isLoading} 
+      message="กำลังโหลด..."
+    />
+    </>
   );
 }
 

@@ -4,8 +4,8 @@ import { Image } from "@/components/common/Image";
 
 export function CTAFooterSection() {
   return (
-    <section className="py-16 md:py-24 px-6 md:px-12 lg:px-16 bg-gradient-to-br from-[#1cb0f6] to-[#0d8fc7]">
-      <div className="max-w-4xl mx-auto">
+    <section id="cta" className="py-16 md:py-24 px-6 md:px-12 lg:px-16 bg-gradient-to-br from-[#1cb0f6] to-[#0d8fc7]">
+      <div className="max-w-4xl mx-auto h-[470px]">
         <div className="flex flex-col items-center text-center">
           {/* Mascots */}
           <div 

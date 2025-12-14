@@ -1,12 +1,23 @@
 "use client";
 
-import { PrimaryButton } from "@/components/common";
+import { useState } from "react";
+import { PrimaryButton, LoadingOverlay } from "@/components/common";
 import { Image } from "@/components/common/Image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { TrueFocus } from "@/components/common";
 import { BlurText, TextType } from "@/components/common";
 
 export function HeroSection() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleStartLearningClick = async () => {
+    setIsLoading(true);
+    // Simulate loading delay
+    await new Promise(resolve => setTimeout(resolve, 600));
+    router.push("/courses");
+  };
   return (
     <section className="flex-1 bg-[#EDF0F7] py-12 md:py-20 px-6 md:px-12 lg:px-16">
       <div className="max-w-7xl mx-auto">
@@ -26,18 +37,18 @@ export function HeroSection() {
                 />
               </div>
               <div className="flex flex-wrap items-baseline justify-center lg:justify-start gap-2">
-                <BlurText
+            <BlurText
                   text="P'Bit"
-                  delay={150}
-                  animateBy="words"
-                  direction="top"
+              delay={150}
+              animateBy="words"
+              direction="top"
                   className="m-0 text-4xl md:text-4xl lg:text-5xl font-bold leading-tight text-[#38bdf8]"
-                />
-                <BlurText
+            />
+            <BlurText
                   text="Nong Brite"
                   delay={180}
-                  animateBy="words"
-                  direction="top"
+              animateBy="words"
+              direction="top"
                   className="m-0 text-4xl md:text-4xl lg:text-5xl font-bold leading-tight text-[#fbbf24]"
                 />
               </div>
@@ -57,18 +68,18 @@ export function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-row flex-wrap gap-3 justify-center lg:justify-start mt-4">
-              <Link href="/courses" className="w-full sm:w-auto">
-                <PrimaryButton
-                  variant="sky-blue"
-                  size="sm"
-                  className="w-full sm:w-auto min-w-[150px] px-4 py-3 text-base"
-                >
-                  เริ่มเรียนเลย
-                </PrimaryButton>
-              </Link>
+              <PrimaryButton 
+                variant="sky-blue" 
+                size="sm"
+                className="w-full sm:w-auto min-w-[150px] px-4 py-3 text-base"
+                onClick={handleStartLearningClick}
+                disabled={isLoading}
+              >
+                เริ่มเรียนเลย
+              </PrimaryButton>
               <Link href="#features" className="w-full sm:w-auto">
-                <PrimaryButton
-                  variant="outline"
+                <PrimaryButton 
+                  variant="outline" 
                   size="sm"
                   className="w-full sm:w-auto min-w-[150px] px-4 py-3 text-base"
                 >
@@ -182,6 +193,10 @@ export function HeroSection() {
           </div>
         </div>
       </div>
+      <LoadingOverlay 
+        isLoading={isLoading} 
+        message="กำลังโหลด..."
+      />
     </section>
   );
 }

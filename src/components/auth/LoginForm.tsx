@@ -4,7 +4,6 @@ import * as React from "react";
 import { FormCard, Image } from "@/components/common";
 import { InputField } from "@/components/common/InputField";
 import { PasswordField } from "@/components/common/PasswordField";
-import { PrimaryButton } from "@/components/common";
 import Link from "next/link";
 
 export interface LoginFormProps {
@@ -14,66 +13,18 @@ export interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  
-  // Validation errors
-  const [emailError, setEmailError] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState("");
-
-  const containsThai = (text: string): boolean => {
-    // Thai Unicode range: \u0E00-\u0E7F
-    const thaiRegex = /[\u0E00-\u0E7F]/;
-    return thaiRegex.test(text);
-  };
-
-  const validateEmail = (emailValue: string): boolean => {
-    if (!emailValue.includes("@gmail.com")) {
-      setEmailError("อีเมลต้องมี @gmail.com");
-      return false;
-    }
-    setEmailError("");
-    return true;
-  };
-
-  const validatePassword = (passwordValue: string): boolean => {
-    if (!passwordValue) {
-      setPasswordError("กรุณากรอกรหัสผ่าน");
-      return false;
-    }
-    if (containsThai(passwordValue)) {
-      setPasswordError("รหัสผ่านห้ามเป็นภาษาไทย");
-      return false;
-    }
-    if (passwordValue.length > 20) {
-      setPasswordError("รหัสผ่านห้ามเกิน 20 ตัวอักษร");
-      return false;
-    }
-    setPasswordError("");
-    return true;
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    // Reset errors
-    setEmailError("");
-    setPasswordError("");
-    
-    // Validate email
-    const isEmailValid = validateEmail(email);
-    
-    // Validate password
-    const isPasswordValid = validatePassword(password);
-    
-    // Only submit if all validations pass
-    if (isEmailValid && isPasswordValid && onSubmit) {
+    if (onSubmit) {
       onSubmit(email, password);
     }
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full ">
       {/* Outer card with landing page theme */}
-      <div className="relative bg-white rounded-[32px] md:rounded-[40px] px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 shadow-[0_20px_50px_rgba(28,176,246,0.2)] overflow-hidden">
+      <div className="relative bg-white rounded-[32px] md:rounded-[40px] px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 shadow-[0_20px_50px_rgba(28,176,246,0.2)] overflow-hidden ">
         {/* Decorative shapes - matching landing page colors */}
         <div className="pointer-events-none absolute -top-[70px] -right-[80px] w-[280px] h-[200px] md:w-[320px] md:h-[220px] bg-[#38bdf8] rounded-bl-[130px] opacity-20">
           <div className="absolute top-8 -left-10 w-[280px] h-[180px] md:w-[320px] md:h-[200px] bg-[#1cb0f6] rounded-bl-[130px] opacity-30" />
@@ -107,10 +58,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           {/* Welcome text */}
           <div className="mb-8 md:mb-10">
             <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight">
-              สวัสดี! <span className="inline-block">👋</span>
+              สวัสดี!
             </h1>
             <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight">
-              ยินดีต้อนรับกลับมา
+              ยินดีต้อนรับกลับมา!
             </h1>
           </div>
 
@@ -126,18 +77,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                 label="อีเมล"
                 placeholder="กรุณากรอกอีเมลของคุณ"
                 value={email}
-                className="h-[48px] md:h-[50px] bg-[#f8f8f8] border-2 border-[#e0e0e0] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setEmail(value);
-                  if (value && !value.includes("@gmail.com")) {
-                    setEmailError("อีเมลต้องมี @gmail.com");
-                  } else {
-                    setEmailError("");
-                  }
-                }}
-                onBlur={() => validateEmail(email)}
-                error={emailError}
+                className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
 
@@ -146,23 +87,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                   label="รหัสผ่าน"
                   placeholder="กรุณากรอกรหัสผ่านของคุณ"
                   value={password}
-                  maxLength={20}
-                  className="h-[48px] md:h-[50px] bg-[#f8f8f8] border-2 border-[#e0e0e0] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    // Prevent Thai characters
-                    if (containsThai(value)) {
-                      setPasswordError("รหัสผ่านห้ามเป็นภาษาไทย");
-                      return;
-                    }
-                    // Prevent exceeding 20 characters
-                    if (value.length > 20) {
-                      return;
-                    }
-                    setPassword(value);
-                    setPasswordError("");
-                  }}
-                  error={passwordError}
+                  className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
                 <div className="flex justify-end">
@@ -177,14 +103,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             </div>
 
             {/* Login Button */}
-            <PrimaryButton
+            <button
               type="submit"
-              variant="sky-blue"
-              size="lg"
-              className="mt-2 w-full h-[50px] md:h-[52px] rounded-[12px] md:rounded-[15px] text-[15px] md:text-[16px] font-semibold shadow-[0_4px_15px_rgba(28,176,246,0.3)] hover:shadow-[0_6px_20px_rgba(28,176,246,0.4)] transition-all"
+              className="mt-2 w-full h-[50px] md:h-[52px] rounded-[12px] md:rounded-[15px] text-[15px] md:text-[16px] font-semibold bg-[#1cb0f6] text-white border-2 border-[#1699D6] shadow-[0_4px_15px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] hover:border-[#1280B5] hover:shadow-[0_6px_20px_rgba(28,176,246,0.4)] active:translate-y-[2px] active:shadow-[0_2px_8px_rgba(28,176,246,0.3)] focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               เข้าสู่ระบบ
-            </PrimaryButton>
+            </button>
 
             {/* Footer Links */}
             <p className="mt-4 md:mt-6 text-center text-[13px] md:text-[14px] text-gray-600">
@@ -206,4 +130,3 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 LoginForm.displayName = "LoginForm";
 
 export { LoginForm };
-

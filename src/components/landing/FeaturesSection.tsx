@@ -114,30 +114,30 @@ export function FeaturesSection() {
       {/* Course Games Loop - Full Width */}
       <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] h-[250px] sm:h-[280px] md:h-[320px] lg:h-[350px] overflow-hidden">
         <CourseLoop
-          logos={gameCards}
-          speed={viewportSize.speed}
-          direction="left"
-          logoHeight={viewportSize.logoHeight}
-          gap={viewportSize.gap}
-          pauseOnHover={true}
-          hoverSpeed={60}
-          scaleOnHover={true}
-          fadeOut={false}
-          renderItem={(item, key) => {
-            if ('src' in item) {
-              return (
-                <GameCard
-                  key={key}
-                  src={item.src}
-                  alt={item.alt || item.title || 'Game'}
-                />
-              );
-            }
-            return null;
-          }}
-          ariaLabel="Course Games"
-          className="py-4"
-        />
+            logos={gameCards}
+            speed={viewportSize.speed}
+            direction="left"
+            logoHeight={viewportSize.logoHeight}
+            gap={viewportSize.gap}
+            pauseOnHover={true}
+            hoverSpeed={60}
+            scaleOnHover={true}
+            fadeOut={false}
+            renderItem={(item, key) => {
+              if ('src' in item) {
+                return (
+                  <GameCard
+                    key={key}
+                    src={item.src}
+                    alt={item.alt || item.title || 'Game'}
+                  />
+                );
+              }
+              return null;
+            }}
+            ariaLabel="Course Games"
+            className="py-4"
+          />
       </div>
     </section>
   );
