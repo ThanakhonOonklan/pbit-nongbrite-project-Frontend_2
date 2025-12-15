@@ -5,6 +5,7 @@ import { Image } from "@/components/common/Image";
 import { InputField } from "@/components/common/InputField";
 import { PasswordField } from "@/components/common/PasswordField";
 import { OTPInput } from "@/components/common/OTPInput";
+import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import Stepper, { Step } from "@/components/common/Stepper";
 import { useRouter } from "next/navigation";
 
@@ -14,6 +15,7 @@ export interface ForgetPasswordFormProps {
 
 const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = React.useState(false);
   
   // Step 1: Email
   const [email, setEmail] = React.useState("");
@@ -38,12 +40,16 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
   }, [countdown]);
 
   const handleFinalStepCompleted = () => {
+    if (isLoading) return;
+    setIsLoading(true);
     const otpString = otp.join("");
-    if (onSubmit) {
-      onSubmit(email, otpString, password, confirmPassword);
-    }
-    // Navigate to login page after completion
-    router.push("/login");
+    setTimeout(() => {
+      if (onSubmit) {
+        onSubmit(email, otpString, password, confirmPassword);
+      }
+      // Navigate to login page after completion
+      router.push("/login");
+    }, 1000);
   };
 
   const handleOTPChange = (value: string[]) => {
@@ -70,7 +76,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
   const renderStep1 = () => (
     <>
       {/* Title */}
-      <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight mb-1 text-center">
+      <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight mb-1 text-center mt-3">
         ลืมรหัสผ่าน?
       </h1>
       
@@ -80,30 +86,32 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       </p>
 
       {/* Input Field */}
-      <div className="flex flex-col gap-4 md:gap-5 w-full">
-        <InputField
-          label="อีเมล"
-          type="email"
-          placeholder="กรุณากรอกอีเมลของคุณ"
-          value={email}
-          className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+      <div className="flex flex-col gap-4 md:gap-5 w-full items-center mb-1 ">
+        <div className="w-[390px] max-w-[460px]">
+          <InputField
+            label="อีเมล"
+            type="email"
+            placeholder="กรุณากรอกอีเมลของคุณ"
+            value={email}
+            className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
       </div>
     </>
   );
 
   // Step 2: OTP Verification
   const renderStep2 = () => (
-    <>
+    <div className="flex flex-col w-full gap-4 md:gap-5 ">
       {/* Title */}
-      <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight mb-1 text-center">
+      <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight text-center mt-3">  
         ตรวจสอบอีเมลของคุณ
       </h1>
 
       {/* Description */}
-      <p className="text-[13px] md:text-[14px] text-gray-500 mb-4 md:mb-5 text-center">
+      <p className="text-[13px] md:text-[14px] text-gray-500 text-center">
         เราได้ส่งลิงก์รีเซ็ตไปที่ Email ของคุณเรียบร้อย<br />
         โปรดป้อนรหัส 6 หลักที่ระบุไว้ในอีเมล
       </p>
@@ -138,14 +146,14 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
           )}
         </p>
       </div>
-    </>
+    </div>
   );
 
   // Step 3: Reset Password
   const renderStep3 = () => (
     <>
       {/* Title */}
-      <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight mb-1 text-center">
+      <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight mb-1 text-center mt-3">
         ตั้งรหัสผ่านใหม่
       </h1>
 
@@ -155,24 +163,26 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       </p>
 
       {/* Password Fields */}
-      <div className="flex flex-col gap-4 md:gap-5 w-full">
-        <PasswordField
-          label="รหัสผ่าน"
-          placeholder="กรุณากรอกรหัสผ่านของคุณ"
-          value={password}
-          className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+      <div className="flex flex-col gap-4 md:gap-5 w-full items-center">
+        <div className="w-[390px] max-w-[460px] flex flex-col gap-4 md:gap-5 ">
+          <PasswordField
+            label="รหัสผ่าน"
+            placeholder="กรุณากรอกรหัสผ่านของคุณ"
+            value={password}
+            className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        <PasswordField
-          label="ยืนยันรหัสผ่าน"
-          placeholder="กรุณายืนยันรหัสผ่านของคุณ"
-          value={confirmPassword}
-          className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
+          <PasswordField
+            label="ยืนยันรหัสผ่าน"
+            placeholder="กรุณายืนยันรหัสผ่านของคุณ"
+            value={confirmPassword}
+            className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all mb-1"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+        </div>
       </div>
     </>
   );
@@ -208,7 +218,8 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
+      <LoadingOverlay isLoading={isLoading} message="กำลังดำเนินการ..." />
       <Stepper
         initialStep={1}
         onStepChange={(step) => {
@@ -223,6 +234,8 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
         stepContainerClassName="px-0"
         footerClassName="px-0"
         disableStepIndicators={true}
+        backButtonProps={{ disabled: isLoading }}
+        nextButtonProps={{ disabled: isLoading }}
       >
         {/* Step 1: Enter Email */}
         <Step>

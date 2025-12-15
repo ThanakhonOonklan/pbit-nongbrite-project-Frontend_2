@@ -3,7 +3,11 @@
 import { RegisterForm } from "@/components/auth/RegisterForm";
 
 export default function RegisterPage() {
-  const handleRegister = (_email: string, _password: string, _confirmPassword: string) => {
+  const handleRegister = (
+    _email: string,
+    _password: string,
+    _confirmPassword: string
+  ) => {
     // TODO: Add your register logic here
   };
 
@@ -15,4 +19,3 @@ export default function RegisterPage() {
     </div>
   );
 }
-

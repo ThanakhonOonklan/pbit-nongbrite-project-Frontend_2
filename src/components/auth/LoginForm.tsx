@@ -24,7 +24,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   return (
     <div className="relative w-full ">
       {/* Outer card with landing page theme */}
-      <div className="relative bg-white rounded-[32px] md:rounded-[40px] px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 shadow-[0_20px_50px_rgba(28,176,246,0.2)] overflow-hidden ">
+      <div className="relative bg-white rounded-[32px] md:rounded-[40px] px-4 py-8 sm:px-5 sm:py-10 md:px-6 md:py-12 shadow-[0_20px_50px_rgba(28,176,246,0.2)] overflow-hidden ">
         {/* Decorative shapes - matching landing page colors */}
         <div className="pointer-events-none absolute -top-[70px] -right-[80px] w-[280px] h-[200px] md:w-[320px] md:h-[220px] bg-[#38bdf8] rounded-bl-[130px] opacity-20">
           <div className="absolute top-8 -left-10 w-[280px] h-[180px] md:w-[320px] md:h-[200px] bg-[#1cb0f6] rounded-bl-[130px] opacity-30" />
@@ -56,7 +56,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           </div>
 
           {/* Welcome text */}
-          <div className="mb-8 md:mb-10">
+          <div className="mb-8 md:mb-7">
             <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight">
               สวัสดี!
             </h1>
@@ -68,10 +68,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           {/* Form content */}
           <FormCard
             onSubmit={handleSubmit}
-            className="w-full h-auto p-0 gap-6 bg-transparent border-none shadow-none items-stretch"
+            className="w-full h-auto p-0 gap-6 bg-transparent border-none shadow-none items-center"
           >
             {/* Input Fields */}
-            <div className="flex flex-col gap-5 md:gap-6 w-full">
+            <div className="flex flex-col gap-5 md:gap-6 w-full max-w-[460px]">
               <InputField
                 type="email"
                 label="อีเมล"
@@ -105,13 +105,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             {/* Login Button */}
             <button
               type="submit"
-              className="mt-2 w-full h-[50px] md:h-[52px] rounded-[12px] md:rounded-[15px] text-[15px] md:text-[16px] font-semibold bg-[#1cb0f6] text-white border-2 border-[#1699D6] shadow-[0_4px_15px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] hover:border-[#1280B5] hover:shadow-[0_6px_20px_rgba(28,176,246,0.4)] active:translate-y-[2px] active:shadow-[0_2px_8px_rgba(28,176,246,0.3)] focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-2 w-full max-w-[460px] h-[50px] md:h-[52px] rounded-[12px] md:rounded-[15px] text-[15px] md:text-[16px] font-semibold bg-[#1cb0f6] text-white border-2 border-[#1699D6] shadow-[0_4px_15px_rgba(28,176,246,0.3)] hover:bg-[#17a3e3] hover:border-[#1280B5] hover:shadow-[0_6px_20px_rgba(28,176,246,0.4)] active:translate-y-[2px] active:shadow-[0_2px_8px_rgba(28,176,246,0.3)] focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               เข้าสู่ระบบ
             </button>
 
             {/* Footer Links */}
-            <p className="mt-4 md:mt-6 text-center text-[13px] md:text-[14px] text-gray-600">
+            <p className="mt-4 md:mt-6 text-center text-[13px] md:text-[14px] text-gray-600 w-full max-w-[460px]">
               ยังไม่มีบัญชี?{" "}
               <Link
                 href="/register"

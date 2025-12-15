@@ -23,6 +23,8 @@ export interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   nextButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   backButtonText?: string;
   nextButtonText?: string;
+  completeButtonText?: string;
+  footerLeftContent?: ReactNode;
   disableStepIndicators?: boolean;
   renderStepIndicator?: (props: {
     step: number;
@@ -44,6 +46,8 @@ function Stepper({
   nextButtonProps = {},
   backButtonText = "Back",
   nextButtonText = "Continue",
+  completeButtonText = "Complete",
+  footerLeftContent,
   disableStepIndicators = false,
   renderStepIndicator,
   ...rest
@@ -84,21 +88,21 @@ function Stepper({
   };
 
   return (
-    <div className="relative w-full" {...rest}>
+    <div className="relative w-full " {...rest}>
       <div
-        className={`relative bg-white rounded-[32px] md:rounded-[40px] px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 shadow-[0_20px_50px_rgba(28,176,246,0.2)] overflow-hidden ${stepCircleContainerClassName}`}
+        className={`relative bg-white rounded-[32px] md:rounded-[40px] px-4 py-8 sm:px-5 sm:py-10 md:px-6 md:py-12 shadow-[0_20px_50px_rgba(28,176,246,0.2)] overflow-hidden ${stepCircleContainerClassName}`}
       >
         {/* Decorative shapes - matching landing page colors */}
-        <div className="pointer-events-none absolute -top-[70px] -right-[80px] w-[280px] h-[200px] md:w-[320px] md:h-[220px] bg-[#38bdf8] rounded-bl-[130px] opacity-20">
+        <div className="pointer-events-none absolute -top-[70px] -right-[80px] w-[280px] h-[200px] md:w-[320px] md:h-[220px] bg-[#38bdf8] rounded-bl-[130px] opacity-20 ">
           <div className="absolute top-8 -left-10 w-[280px] h-[180px] md:w-[320px] md:h-[200px] bg-[#1cb0f6] rounded-bl-[130px] opacity-30" />
         </div>
         <div className="pointer-events-none absolute -bottom-[110px] -left-[90px] w-[240px] h-[240px] md:w-[280px] md:h-[280px] bg-[#fbbf24] rounded-full opacity-15">
           <div className="absolute top-6 left-8 w-[220px] h-[220px] md:w-[260px] md:h-[260px] bg-[#ffd300] rounded-full opacity-20" />
         </div>
 
-        <div className="relative z-10">
+        <div className="relative z-10 ">
           <div
-            className={`${stepContainerClassName} flex w-full items-center p-1 mt-0`}
+            className={`${stepContainerClassName} flex w-full items-center p-1 mt-0 `}
           >
             {stepsArray.map((_, index) => {
               const stepNumber = index + 1;
@@ -137,19 +141,19 @@ function Stepper({
             isCompleted={isCompleted}
             currentStep={currentStep}
             direction={direction}
-            className={`space-y-2 ${contentClassName}`}
+            className={`px-4 sm:px-6 md:px-8 py-4 md:py-6 ${contentClassName}`}
           >
             {stepsArray[currentStep - 1]}
           </StepContentWrapper>
 
           {!isCompleted && (
-            <div className={`px-8  ${footerClassName}`}>
+            <div className={`px-4 sm:px-6 md:px-8  ${footerClassName}`}>
               <div
                 className={`mt-4 flex ${
-                  currentStep !== 1 ? "justify-between" : "justify-end"
-                }`}
+                  currentStep !== 1 ? "justify-between" : "justify-between"
+                } items-center`}
               >
-                {currentStep !== 1 && (
+                {currentStep !== 1 ? (
                   <button
                     onClick={handleBack}
                     className={`duration-350 rounded px-2 py-1 transition ${
@@ -161,13 +165,15 @@ function Stepper({
                   >
                     {backButtonText}
                   </button>
+                ) : (
+                  <div>{footerLeftContent || <div />}</div>
                 )}
                 <button
                   onClick={isLastStep ? handleComplete : handleNext}
                   className="duration-350 flex items-center justify-center rounded-full bg-[#1cb0f6] py-1.5 px-3.5 font-medium tracking-tight text-white transition hover:bg-[#17a3e3] active:bg-[#1280B5]"
                   {...nextButtonProps}
                 >
-                  {isLastStep ? "Complete" : nextButtonText}
+                  {isLastStep ? completeButtonText : nextButtonText}
                 </button>
               </div>
             </div>
@@ -304,7 +310,9 @@ function StepIndicator({
   return (
     <motion.div
       onClick={handleClick}
-      className={`relative outline-none focus:outline-none ${disableStepIndicators ? 'cursor-default' : 'cursor-pointer'}`}
+      className={`relative outline-none focus:outline-none ${
+        disableStepIndicators ? "cursor-default" : "cursor-pointer"
+      }`}
       animate={status}
       initial={false}
     >
@@ -340,7 +348,7 @@ function StepConnector({ isComplete }: StepConnectorProps) {
   };
 
   return (
-    <div className="relative mx-2 h-0.5 flex-1 overflow-hidden rounded bg-neutral-600">
+    <div className="relative mx-2 h-0.5 flex-1 overflow-hidden rounded bg-neutral-600 ">
       <motion.div
         className="absolute left-0 top-0 h-full"
         variants={lineVariants}
