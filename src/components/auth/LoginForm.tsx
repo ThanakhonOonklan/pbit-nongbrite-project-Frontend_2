@@ -49,7 +49,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             </div>
             <div>
               <p className="text-[20px] md:text-[24px] lg:text-[26px] leading-tight font-bold">
-                <span className="text-[#1cb0f6]">P&apos;Bit </span>
+                <span className="text-[#1cb0f6]">P&apos;Bit dfff</span>
                 <span className="text-[#ffd300]">Nong Brite</span>
               </p>
             </div>
