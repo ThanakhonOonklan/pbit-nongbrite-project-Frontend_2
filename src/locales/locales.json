@@ -1,0 +1,24 @@
+{
+  "navbar": {
+    "EN": {
+      "navItems": {
+        "home": "Home",
+        "courses": "Courses",
+        "content": "Content",
+        "stats": "Statistics"
+      },
+      "login": "Login",
+      "loading": "Loading..."
+    },
+    "TH": {
+      "navItems": {
+        "home": "หน้าหลัก",
+        "courses": "หลักสูตร",
+        "content": "เนื้อหา",
+        "stats": "สถิติ"
+      },
+      "login": "เข้าสู่ระบบ",
+      "loading": "กำลังโหลด..."
+    }
+  }
+}

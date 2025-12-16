@@ -5,9 +5,30 @@ import { DifficultyIndicator } from "@/components/common/DifficultyIndicator";
 import { getDifficultyBadgeColor } from "@/utils/level";
 import { cn } from "@/lib/utils";
 import Carousel from "@/components/courses/CourseCarousel";
-import { Container, ResourceBar, Divider } from "@/components/common";
+import { Container, Divider, PrimaryButton, Image } from "@/components/common";
 import { getGameData } from "@/constants/mocks/gameData";
 import { getUserData } from "@/constants/mocks/userData";
+
+// Helper function to lighten a color (make it lighter/pastel)
+const lightenColor = (color: string, percent: number = 50): string => {
+  // Remove # if present
+  const hex = color.replace("#", "");
+  
+  // Parse RGB
+  const num = parseInt(hex, 16);
+  const R = (num >> 16) & 255;
+  const G = (num >> 8) & 255;
+  const B = num & 255;
+  
+  // Lighten by blending with white
+  // percent = 0 means no change, percent = 100 means pure white
+  const factor = percent / 100;
+  const newR = Math.round(R + (255 - R) * factor);
+  const newG = Math.round(G + (255 - G) * factor);
+  const newB = Math.round(B + (255 - B) * factor);
+  
+  return `#${newR.toString(16).padStart(2, "0")}${newG.toString(16).padStart(2, "0")}${newB.toString(16).padStart(2, "0")}`;
+};
 
 export interface CourseRightPanelProps {
   levelTitle?: string;
@@ -44,6 +65,9 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
   const gameData = gameTitle ? getGameData(gameTitle) : null;
   const displayTitle = gameData?.title || gameTitle || "Path Navigation";
 
+  // Calculate lightened background color from headerColor (85% lighter for pastel effect)
+  const lightenedBgColor = headerColor ? lightenColor(headerColor, 85) : "#F5F5F5";
+
   // Get user data (heartCount, scoreCount, fireCount) from userData
   const userData = getUserData();
   
@@ -66,11 +90,53 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
           displayScoreCount > 0 ||
           displayFireCount > 0) && (
           <>
-            <div className="py-4 px-4 flex flex-col gap-4">
-              <div className="flex items-center justify-between gap-4 w-full">
-                <ResourceBar number={displayHeartCount} variant="heart" />
-                <ResourceBar number={displayScoreCount} variant="score" />
-                <ResourceBar number={displayFireCount} variant="fire" />
+            <div className="py-4 px-3 flex flex-col gap-4">
+              <div className="flex items-center gap-1.5 w-full">
+                <PrimaryButton
+                  variant="default"
+                  size="sm"
+                  disabled
+                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
+                >
+                  <Image
+                    src="/icongame/key.svg"
+                    alt="Heart"
+                    width={25}
+                    height={25}
+                    className="object-contain"
+                  />
+                  {displayHeartCount}
+                </PrimaryButton>
+                <PrimaryButton
+                  variant="default"
+                  size="sm"
+                  disabled
+                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
+                >
+                  <Image
+                    src="/icongame/gem.svg"
+                    alt="Score"
+                    width={25}
+                    height={25}
+                    className="object-contain"
+                  />
+                  {displayScoreCount}
+                </PrimaryButton>
+                <PrimaryButton
+                  variant="default"
+                  size="sm"
+                  disabled
+                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
+                >
+                  <Image
+                    src="/icongame/daystreak.svg"
+                    alt="Fire"
+                    width={25}
+                    height={25}
+                    className="object-contain"
+                  />
+                  {displayFireCount}
+                </PrimaryButton>
               </div>
             </div>
             <Divider />
@@ -81,16 +147,28 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
         <div className="pt-[24px] pb-[32px] px-[24px] flex flex-col gap-[12px]">
           {/* Game Title */}
           <div className="flex items-center justify-between -mt-1">
-            <div className="flex items-center gap-2">
+            <div 
+              className="flex items-center gap-2 px-3 py-1 rounded-lg"
+              style={{ 
+                backgroundColor: lightenedBgColor,
+                transition: "background-color 0.3s ease-in-out"
+              }}
+            >
               {GameIcon && (
                 <GameIcon
                   className="w-5 h-5"
-                  style={{ color: headerColor || "#3C3C3C" }}
+                  style={{ 
+                    color: headerColor || "#3C3C3C",
+                    transition: "color 0.3s ease-in-out"
+                  }}
                 />
               )}
               <span 
                 className="text-[17px] font-bold drop-shadow-sm"
-                style={{ color: headerColor || "#3C3C3C" }}
+                style={{ 
+                  color: headerColor || "#3C3C3C",
+                  transition: "color 0.3s ease-in-out"
+                }}
               >
                 {displayTitle}
               </span>

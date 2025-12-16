@@ -2,7 +2,7 @@ import "./globals.css";
 import { ReactNode } from "react";
 import localFont from "next/font/local";
 import { HeaderColorProvider } from "@/contexts/HeaderColorContext";
-import { BackgroundSquaresWithColor } from "@/components/common/BackgroundSquaresWithColor";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const lineSeedSans = localFont({
   src: [
@@ -30,10 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={lineSeedSans.variable} data-scroll-behavior="smooth">
       <body className={`antialiased ${lineSeedSans.className}`} suppressHydrationWarning>
-        <HeaderColorProvider>
-          <BackgroundSquaresWithColor />
-          {children}
-        </HeaderColorProvider>
+        <LanguageProvider>
+          <HeaderColorProvider>
+            {children}
+          </HeaderColorProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

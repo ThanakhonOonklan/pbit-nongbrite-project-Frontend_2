@@ -6,8 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
-  FaHome,
-  FaTrophy,
   FaUserCircle,
   FaCog,
 } from "react-icons/fa";
@@ -24,12 +22,31 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     {
       label: "เรียนรู้",
       path: "/courses",
-      icon: <FaHome className="w-5 h-5" />,
+      icon: (
+        <Image
+          src="/icongame/courses.svg"
+          alt="Courses"
+          width={32}
+          height={32}
+          className="object-contain"
+         
+        />
+      ),
     },
     {
       label: "แรงค์",
       path: "/rank",
-      icon: <FaTrophy className="w-5 h-5" />,
+      icon: (
+        <Image
+          src="/icongame/rank.svg"
+          alt="Rank"
+          width={32}
+          height={32}
+          className="object-contain"
+   
+        
+        />
+      ),
     },
     {
       label: "โปรไฟล์",
