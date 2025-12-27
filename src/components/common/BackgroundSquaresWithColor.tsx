@@ -1,6 +1,6 @@
 "use client";
 
-import { BackgroundSquares } from "./BackgroundSquares";
+import { BackgroundSquares } from "./BackgroundSquaresHome";
 import { useHeaderColor } from "@/contexts/HeaderColorContext";
 
 export function BackgroundSquaresWithColor() {
@@ -8,3 +8,4 @@ export function BackgroundSquaresWithColor() {
   return <BackgroundSquares backgroundColor={headerColor} />;
 }
 
+  

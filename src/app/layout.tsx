@@ -28,8 +28,8 @@ export default function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={lineSeedSans.variable} data-scroll-behavior="smooth">
-      <body className={`antialiased ${lineSeedSans.className}`} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${lineSeedSans.variable} h-full`} data-scroll-behavior="smooth">
+      <body className={`antialiased ${lineSeedSans.className} h-full`} suppressHydrationWarning>
         <LanguageProvider>
           <HeaderColorProvider>
             {children}

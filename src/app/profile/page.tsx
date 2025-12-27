@@ -1,29 +1,33 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { ProfileHeader, ProgressList, StreakCalendar, LanguageSelector } from "@/components/profile";
-import { mockStreakDays, mockProgressItems } from "@/constants/mocks";
+import { ProfileHeader, ProgressList } from "@/components/profile";
+import { mockProgressItems, mockMyRank } from "@/constants/mocks";
+import { BackgroundSquares } from "@/components/common";
 
 export default function ProfilePage() {
   return (
-    <div className="flex h-screen">
+    
+    <div
+      className="flex h-screen"
+      style={{
+        background: "linear-gradient(135deg, #E3F2FD 0%, #F0F7FF 50%, #E8F4F8 100%)",
+      }}
+    >
+      
       <Sidebar />
-      <main className="flex-1 overflow-hidden">
-        <div className="h-full p-6">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px] h-full">
-            <section className="space-y-4">
-              <ProfileHeader />
+      
+      <main className="flex-1 overflow-auto">
+        <div className="min-h-full p-4 sm:p-5 md:p-6 pb-[90px] lg:pb-6 relative">
+          <BackgroundSquares />
+          <div className="relative z-10 max-w-[880px]">
+            <section className="space-y-4 md:space-y-5">
+              <ProfileHeader myRank={mockMyRank} />
               <ProgressList items={mockProgressItems} />
             </section>
-            <aside className="space-y-4">
-              <StreakCalendar days={mockStreakDays} />
-              <LanguageSelector />
-            </aside>
           </div>
         </div>
       </main>
     </div>
   );
 }
-
-

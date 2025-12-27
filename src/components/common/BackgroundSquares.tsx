@@ -1,195 +1,180 @@
 "use client";
 
-import React, { useRef, useEffect, useMemo } from 'react';
+import React from "react";
 
-type CanvasStrokeStyle = string | CanvasGradient | CanvasPattern;
-
-interface GridOffset {
-  x: number;
-  y: number;
-}
-
-// Helper function to darken a color (make it darker)
-const darkenColor = (color: string, percent: number): string => {
-  const hex = color.replace("#", "");
-  const num = parseInt(hex, 16);
-  const amt = Math.round(2.55 * percent);
-  const R = Math.max(0, Math.min(255, (num >> 16) + amt));
-  const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
-  const B = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
-  return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
-};
-
-interface BackgroundSquaresProps {
-  direction?: 'diagonal' | 'up' | 'right' | 'down' | 'left';
-  speed?: number;
-  borderColor?: CanvasStrokeStyle;
-  squareSize?: number;
-  hoverFillColor?: CanvasStrokeStyle;
-  backgroundColor?: string; // สีพื้นหลังที่เปลี่ยนตาม headerColor
-}
-
-export function BackgroundSquares({
-  direction = 'diagonal',
-  speed = 0.1,
-  borderColor,
-  squareSize = 70,
-  hoverFillColor,
-  backgroundColor
-}: BackgroundSquaresProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const requestRef = useRef<number | null>(null);
-  const numSquaresX = useRef<number>(0);
-  const numSquaresY = useRef<number>(0);
-  const gridOffset = useRef<GridOffset>({ x: 0, y: 0 });
-  const hoveredSquareRef = useRef<GridOffset | null>(null);
-
-  // Default background color (light blue)
-  const defaultBgColor = '#C9F3FF';
-  const bgColor = backgroundColor || defaultBgColor;
-
-  // Calculate grid border color from background color (darker by 10-15%)
-  const calculatedBorderColor = useMemo(() => {
-    if (borderColor) return borderColor; // Use provided borderColor if exists
-    if (backgroundColor) {
-      // Make border color darker than background (10% darker)
-      return darkenColor(bgColor, -10);
-    }
-    return '#C2E9FA'; // Default border color
-  }, [borderColor, backgroundColor, bgColor]);
-
-  // Calculate hover fill color from background color (slightly lighter)
-  const calculatedHoverFillColor = useMemo(() => {
-    if (hoverFillColor) return hoverFillColor; // Use provided hoverFillColor if exists
-    if (backgroundColor) {
-      // Make hover color slightly lighter than background (5% lighter)
-      const hex = bgColor.replace("#", "");
-      const num = parseInt(hex, 16);
-      const R = Math.min(255, Math.max(0, (num >> 16) + 13));
-      const G = Math.min(255, Math.max(0, ((num >> 8) & 0x00ff) + 13));
-      const B = Math.min(255, Math.max(0, (num & 0x0000ff) + 13));
-      return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
-    }
-    return '#C8F0FA'; // Default hover fill color
-  }, [hoverFillColor, backgroundColor, bgColor]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    const resizeCanvas = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      numSquaresX.current = Math.ceil(canvas.width / squareSize) + 1;
-      numSquaresY.current = Math.ceil(canvas.height / squareSize) + 1;
-    };
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    const drawGrid = () => {
-      if (!ctx) return;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const startX = Math.floor(gridOffset.current.x / squareSize) * squareSize;
-      const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
-
-      for (let x = startX; x < canvas.width + squareSize; x += squareSize) {
-        for (let y = startY; y < canvas.height + squareSize; y += squareSize) {
-          const squareX = x - (gridOffset.current.x % squareSize);
-          const squareY = y - (gridOffset.current.y % squareSize);
-
-          if (
-            hoveredSquareRef.current &&
-            Math.floor((x - startX) / squareSize) === hoveredSquareRef.current.x &&
-            Math.floor((y - startY) / squareSize) === hoveredSquareRef.current.y
-          ) {
-            ctx.fillStyle = calculatedHoverFillColor;
-            ctx.fillRect(squareX, squareY, squareSize, squareSize);
-          }
-
-          ctx.strokeStyle = calculatedBorderColor;
-          ctx.strokeRect(squareX, squareY, squareSize, squareSize);
-        }
-      }
-    };
-
-    const updateAnimation = () => {
-      const effectiveSpeed = Math.max(speed, 0.1);
-      switch (direction) {
-        case 'right':
-          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
-          break;
-        case 'left':
-          gridOffset.current.x = (gridOffset.current.x + effectiveSpeed + squareSize) % squareSize;
-          break;
-        case 'up':
-          gridOffset.current.y = (gridOffset.current.y + effectiveSpeed + squareSize) % squareSize;
-          break;
-        case 'down':
-          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
-          break;
-        case 'diagonal':
-          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
-          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
-          break;
-        default:
-          break;
-      }
-
-      drawGrid();
-      requestRef.current = requestAnimationFrame(updateAnimation);
-    };
-
-    const handleMouseMove = (event: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left;
-      const mouseY = event.clientY - rect.top;
-
-      const startX = Math.floor(gridOffset.current.x / squareSize) * squareSize;
-      const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
-
-      const hoveredSquareX = Math.floor((mouseX + gridOffset.current.x - startX) / squareSize);
-      const hoveredSquareY = Math.floor((mouseY + gridOffset.current.y - startY) / squareSize);
-
-      if (
-        !hoveredSquareRef.current ||
-        hoveredSquareRef.current.x !== hoveredSquareX ||
-        hoveredSquareRef.current.y !== hoveredSquareY
-      ) {
-        hoveredSquareRef.current = { x: hoveredSquareX, y: hoveredSquareY };
-      }
-    };
-
-    const handleMouseLeave = () => {
-      hoveredSquareRef.current = null;
-    };
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
-    requestRef.current = requestAnimationFrame(updateAnimation);
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, [direction, speed, calculatedBorderColor, calculatedHoverFillColor, squareSize]);
-
+export function BackgroundSquares() {
   return (
-    <div className="fixed inset-0 w-full h-full -z-10 pointer-events-none">
-      {/* Background color overlay with transition */}
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
+      {/* ✨ วงกลม (Circles) - 3 วง */}
+      {/* Circle 1: มุมขวาบน */}
       <div
-        className="absolute inset-0 w-full h-full"
+        className="absolute rounded-full opacity-60 animate-float-settings"
         style={{
-          backgroundColor: bgColor,
-          transition: 'background-color 0.5s ease',
+          width: "300px",
+          height: "300px",
+          background: "linear-gradient(135deg, rgba(0, 168, 232, 0.2) 0%, rgba(79, 194, 247, 0.2) 100%)",
+          top: "-100px",
+          right: "15%",
         }}
-      />
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full border-none block"></canvas>
+      ></div>
+
+      {/* Circle 2: มุมซ้ายล่าง */}
+      <div
+        className="absolute rounded-full opacity-60 animate-float-reverse-settings"
+        style={{
+          width: "200px",
+          height: "200px",
+          background: "linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 224, 130, 0.1) 100%)",
+          bottom: "15%",
+          left: "-10%",
+          animationDelay: "2s",
+        }}
+      ></div>
+
+      {/* Circle 3: กลางขวา */}
+      <div
+        className="absolute rounded-full opacity-60 animate-float-settings"
+        style={{
+          width: "150px",
+          height: "150px",
+          background: "linear-gradient(135deg, rgba(129, 212, 250, 0.25) 0%, rgba(187, 222, 251, 0.1) 100%)",
+          top: "40%",
+          right: "5%",
+          animationDelay: "4s",
+        }}
+      ></div>
+
+      {/* 📦 สี่เหลี่ยม (Squares) - 2 อัน */}
+      {/* Square 1: มุมซ้ายบน */}
+      <div
+        className="absolute rounded-[20px] opacity-60 animate-rotate-settings"
+        style={{
+          width: "250px",
+          height: "250px",
+          background: "linear-gradient(135deg, rgba(0, 168, 232, 0.15) 0%, rgba(79, 194, 247, 0.38) 100%)",
+          top: "15%",
+          left: "-5%",
+          transform: "rotate(15deg)",
+        }}
+      ></div>
+
+      {/* Square 2: มุมขวาล่าง */}
+      <div
+        className="absolute rounded-[20px] opacity-60 animate-rotate-reverse-settings"
+        style={{
+          width: "180px",
+          height: "180px",
+          background: "linear-gradient(135deg, rgba(174, 213, 255, 0.2) 0%, rgba(227, 242, 253, 0.1) 100%)",
+          bottom: "25%",
+          right: "15%",
+          transform: "rotate(-20deg)",
+          animationDelay: "3s",
+        }}
+      ></div>
+
+      {/* 🔺 สามเหลี่ยม (Triangles) - 2 อัน */}
+      {/* Triangle 1: กลางซ้าย */}
+      <div
+        className="absolute opacity-60 animate-float-settings"
+        style={{
+          width: "0",
+          height: "0",
+          borderLeft: "100px solid transparent",
+          borderRight: "100px solid transparent",
+          borderBottom: "180px solid rgba(255, 193, 7, 0.15)",
+          top: "10%",
+          left: "35%",
+          animationDelay: "5s",
+        }}
+      ></div>
+
+      {/* Triangle 2: กลางขวาล่าง */}
+      <div
+        className="absolute opacity-60 animate-float-reverse-settings"
+        style={{
+          width: "0",
+          height: "0",
+          borderLeft: "80px solid transparent",
+          borderRight: "80px solid transparent",
+          borderBottom: "140px solid rgba(129, 212, 250, 0.18)",
+          bottom: "10%",
+          right: "30%",
+          transform: "rotate(180deg)",
+          animationDelay: "1s",
+        }}
+      ></div>
+
+      {/* ⭕ วงแหวน (Rings) - 2 วง */}
+      {/* Ring 1: กลางซ้าย */}
+      <div
+        className="absolute rounded-full opacity-60 animate-rotate-slow-settings"
+        style={{
+          width: "220px",
+          height: "220px",
+          border: "25px solid rgba(0, 168, 232, 0.15)",
+          top: "40%",
+          left: "15%",
+        }}
+      ></div>
+
+      {/* Ring 2: มุมขวาบน */}
+      <div
+        className="absolute rounded-full opacity-60 animate-rotate-slow-reverse-settings"
+        style={{
+          width: "160px",
+          height: "160px",
+          border: "25px solid rgba(255, 193, 7, 0.12)",
+          top: "5%",
+          right: "35%",
+          animationDelay: "2s",
+        }}
+      ></div>
+
+      {/* 🌙 ครึ่งวงกลม (Half Circles) - 2 อัน */}
+      {/* Half Circle 1: มุมขวาล่าง */}
+      <div
+        className="absolute rounded-t-full opacity-60 animate-float-settings"
+        style={{
+          width: "280px",
+          height: "140px",
+          borderRadius: "200px 200px 0 0",
+          background: "linear-gradient(135deg, rgba(174, 213, 255, 0.2) 0%, rgba(227, 242, 253, 0.08) 100%)",
+          bottom: "-70px",
+          right: "20%",
+          transform: "rotate(-15deg)",
+        }}
+      ></div>
+
+      {/* Half Circle 2: มุมซ้ายบน */}
+      <div
+        className="absolute rounded-t-full opacity-60 animate-float-reverse-settings"
+        style={{
+          width: "200px",
+          height: "100px",
+          borderRadius: "200px 200px 0 0",
+          background: "linear-gradient(135deg, rgba(255, 224, 130, 0.18) 0%, rgba(255, 249, 196, 0.34) 100%)",
+          top: "-50px",
+          left: "25%",
+          transform: "rotate(160deg)",
+          animationDelay: "6s",
+        }}
+      ></div>
+
+      {/* ⚫ ลายจุด (Dots Pattern) */}
+      <div
+        className="absolute opacity-60 animate-float-settings"
+        style={{
+          width: "200px",
+          height: "200px",
+          backgroundImage: "radial-gradient(circle, rgba(0, 168, 232, 0.15) 2px, transparent 2px)",
+          backgroundSize: "25px 25px",
+          top: "65%",
+          right: "8%",
+          animationDelay: "7s",
+        }}
+      ></div>
+
+    
     </div>
   );
 }

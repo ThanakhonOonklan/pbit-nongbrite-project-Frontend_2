@@ -279,10 +279,10 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
             />
           </div>
         )}
-        <div className="relative rounded-[26px] border-[4px] border-[#DB9148] bg-[#016A66] p-8 shadow-[inset_0_3px_8px_rgba(0,0,0,0.2)]">
+        <div className="relative rounded-[16px] sm:rounded-[20px] md:rounded-[24px] lg:rounded-[26px] border-[2px] sm:border-[3px] md:border-[3.5px] lg:border-[4px] border-[#DB9148] bg-[#016A66] p-3 sm:p-5 md:p-6 lg:p-8 shadow-[inset_0_3px_8px_rgba(0,0,0,0.2)]">
           <div
             className={cn(
-              "relative rounded-[18px] bg-[#016A66]/0",
+              "relative rounded-[12px] sm:rounded-[14px] md:rounded-[16px] lg:rounded-[18px] bg-[#016A66]/0",
               heightClassName
             )}
           >

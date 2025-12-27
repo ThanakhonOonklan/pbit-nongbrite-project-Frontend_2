@@ -3,7 +3,7 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 import { CourseRightPanel } from "@/components/courses/CourseRightPanel";
 import { BackgroundSquaresWithColor } from "@/components/common/BackgroundSquaresWithColor";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getLevelData } from "@/constants/levelData";
 import { useHeaderColor } from "@/contexts/HeaderColorContext";
@@ -150,6 +150,82 @@ export default function CoursesPage() {
   const [currentGameTitle, setCurrentGameTitle] = useState<string>("Path Navigation");
   const [currentGameIconIndex, setCurrentGameIconIndex] = useState<number>(0);
   
+  // Responsive state for mobile/tablet
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Calculate responsive values for ScrollStack
+  const itemDistance = isMobile ? 600 : isTablet ? 700 : 800;
+  const stackPosition = isMobile ? "10%" : isTablet ? "12%" : "15%";
+  
+  // Helper functions for responsive values
+  const getWidthClassName = () => {
+    if (isMobile) {
+      return "max-w-[850px] w-full mx-2 rounded-[20px] p-1.5 border-[2px] border-[#DB9148]";
+    } else if (isTablet) {
+      return "max-w-[850px] w-full mx-4 rounded-[25px] p-2 border-[2.5px] border-[#DB9148]";
+    }
+    return "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]";
+  };
+  
+  const getHeightClassName = () => {
+    if (isMobile) {
+      return "min-h-[280px]";
+    } else if (isTablet) {
+      return "min-h-[320px]";
+    }
+    return "min-h-[350px]";
+  };
+  
+  const getImageSize = () => {
+    if (isMobile) return 80;
+    if (isTablet) return 100;
+    return 140;
+  };
+  
+  const getImage1Size = () => {
+    if (isMobile) return 40;
+    if (isTablet) return 50;
+    return 60;
+  };
+  
+  const getImagePosition = (baseLeft: string, baseTop: string) => {
+    // Extract numeric values from strings like "left-[20px]" and "-top-[-308px]"
+    const leftMatch = baseLeft.match(/\[(\d+)px\]/);
+    const topMatch = baseTop.match(/\[-?(\d+)px\]/);
+    
+    if (!leftMatch || !topMatch) {
+      // Fallback to original if parsing fails
+      return `absolute ${baseLeft} ${baseTop} z-20 drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]`;
+    }
+    
+    const baseLeftValue = parseInt(leftMatch[1]);
+    const baseTopValue = parseInt(topMatch[1]);
+    
+    if (isMobile) {
+      const left = Math.round(baseLeftValue * 0.5);
+      const top = Math.round(baseTopValue * 0.65);
+      return `absolute left-[${left}px] -top-[-${top}px] z-20 drop-shadow-[0_4px_8px_rgba(0,0,0,0.25)]`;
+    } else if (isTablet) {
+      const left = Math.round(baseLeftValue * 0.7);
+      const top = Math.round(baseTopValue * 0.8);
+      return `absolute left-[${left}px] -top-[-${top}px] z-20 drop-shadow-[0_6px_10px_rgba(0,0,0,0.25)]`;
+    }
+    return `absolute ${baseLeft} ${baseTop} z-20 drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]`;
+  };
+  
   // Callback when section changes
   const handleSectionChange = (index: number, headerColor?: string) => {
     // Reset to default when at top (before first section)
@@ -187,12 +263,12 @@ export default function CoursesPage() {
       {/* Center Area - ScrollStack */}
       <main className="flex-1 relative overflow-hidden" ref={scrollStackRef}>
         {/* ScrollStack with padding-top */}
-        <div className="pt-[4px] h-full">
+        <div className="pt-[4px] h-full pb-[70px] lg:pb-0">
           <ScrollStack
             className="w-full h-full"
-            itemDistance={800}
+            itemDistance={itemDistance}
             itemStackDistance={0}
-            stackPosition="15%"
+            stackPosition={stackPosition}
             baseScale={1}
             itemScale={0.001}
             useWindowScroll={false}
@@ -203,9 +279,8 @@ export default function CoursesPage() {
               useOuterContainer={true}
               itemClassName="scroll-stack-card"
               outerContainerProps={{
-                widthClassName:
-                  "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                heightClassName: "min-h-[350px]",
+                widthClassName: getWidthClassName(),
+                heightClassName: getHeightClassName(),
                 headerText: (
                   <span className="flex items-center gap-2">
                     <FaRoute className="w-5 h-5" />
@@ -215,21 +290,19 @@ export default function CoursesPage() {
                 headerColor: "sky-blue",
                 imageSrc: "/images/P_Bit/bit-01.svg",
                 imageAlt: "P'Bit mascot",
-                imageWidth: 140,
-                imageHeight: 140,
-                imagePosition:
-                  "absolute left-[20px] -top-[-308px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                imageWidth: getImageSize(),
+                imageHeight: getImageSize(),
+                imagePosition: getImagePosition("left-[20px]", "-top-[-308px]"),
                 imageRotation: 0,
                 image1Src: "/images/Nong_brite/nong-brite-02.svg",
                 image1Alt: "Nong Brite",
-                image1Width: 60,
-                image1Height: 66,
-                image1Position:
-                  "absolute left-[110px] -top-[-382px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                image1Width: getImage1Size(),
+                image1Height: isMobile ? 44 : isTablet ? 55 : 66,
+                image1Position: getImagePosition("left-[110px]", "-top-[-382px]"),
                 image1Rotation: 0,
               }}
             >
-              <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-6 p-2 sm:p-3 md:p-4 lg:p-6 w-full h-full items-center justify-center">
                 {Array.from({ length: 9 }).map((_, buttonIndex) => {
                   const levelNumber = buttonIndex + 1;
                   const status = getButtonStatus(levelNumber);
@@ -261,9 +334,8 @@ export default function CoursesPage() {
               useOuterContainer={true}
               itemClassName="scroll-stack-card"
               outerContainerProps={{
-                widthClassName:
-                  "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                heightClassName: "min-h-[350px]",
+                widthClassName: getWidthClassName(),
+                heightClassName: getHeightClassName(),
                 headerText: (
                   <span className="flex items-center gap-2">
                     <FaSquare className="w-5 h-5" />
@@ -273,21 +345,19 @@ export default function CoursesPage() {
                 headerColor: "#FB96BB",
                 imageSrc: "/images/P_Minnie/minnie-01.svg",
                 imageAlt: "Minnie",
-                imageWidth: 100,
-                imageHeight: 160,
-                imagePosition:
-                  "absolute left-[720px] -top-[-288px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                imageWidth: isMobile ? 60 : isTablet ? 75 : 100,
+                imageHeight: isMobile ? 96 : isTablet ? 120 : 160,
+                imagePosition: getImagePosition("left-[720px]", "-top-[-288px]"),
                 imageRotation: 0,
                 image1Src: "/images/P_Minnie/minnie-05.svg",
                 image1Alt: "Minnie",
-                image1Width: 80,
-                image1Height: 71,
-                image1Position:
-                  "absolute left-[50px] -top-[73px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                image1Width: isMobile ? 50 : isTablet ? 65 : 80,
+                image1Height: isMobile ? 44 : isTablet ? 57 : 71,
+                image1Position: getImagePosition("left-[50px]", "-top-[73px]"),
                 image1Rotation: 0,
               }}
             >
-              <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-6 p-2 sm:p-3 md:p-4 lg:p-6 w-full h-full items-center justify-center">
                 {Array.from({ length: 9 }).map((_, buttonIndex) => {
                   const levelNumber = buttonIndex + 1;
                   const status = getButtonStatus(levelNumber);
@@ -319,9 +389,8 @@ export default function CoursesPage() {
               useOuterContainer={true}
               itemClassName="scroll-stack-card"
               outerContainerProps={{
-                widthClassName:
-                  "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                heightClassName: "min-h-[350px]",
+                widthClassName: getWidthClassName(),
+                heightClassName: getHeightClassName(),
                 headerText: (
                   <span className="flex items-center gap-2">
                     <FaLink className="w-5 h-5" />
@@ -331,21 +400,19 @@ export default function CoursesPage() {
                 headerColor: "#FFB356",
                 imageSrc: "/images/P_Coco/coco-03.svg",
                 imageAlt: "Coco",
-                imageWidth: 110,
-                imageHeight: 98,
-                imagePosition:
-                  "absolute left-[20px] -top-[-350px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                imageWidth: isMobile ? 70 : isTablet ? 85 : 110,
+                imageHeight: isMobile ? 62 : isTablet ? 75 : 98,
+                imagePosition: getImagePosition("left-[20px]", "-top-[-350px]"),
                 imageRotation: 0,
                 image1Src: "/images/Nong_brite/nong-brite-05.svg",
                 image1Alt: "Coco",
-                image1Width: 60,
-                image1Height: 66,
-                image1Position:
-                  "absolute left-[750px] -top-[-12px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                image1Width: getImage1Size(),
+                image1Height: isMobile ? 44 : isTablet ? 55 : 66,
+                image1Position: getImagePosition("left-[750px]", "-top-[-12px]"),
                 image1Rotation: 180,
               }}
             >
-              <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-6 p-2 sm:p-3 md:p-4 lg:p-6 w-full h-full items-center justify-center">
                 {Array.from({ length: 9 }).map((_, buttonIndex) => {
                   const levelNumber = buttonIndex + 1;
                   const status = getButtonStatus(levelNumber);
@@ -377,9 +444,8 @@ export default function CoursesPage() {
               useOuterContainer={true}
               itemClassName="scroll-stack-card"
               outerContainerProps={{
-                widthClassName:
-                  "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                heightClassName: "min-h-[350px]",
+                widthClassName: getWidthClassName(),
+                heightClassName: getHeightClassName(),
                 headerText: (
                   <span className="flex items-center gap-2">
                     <FaRecycle className="w-5 h-5" />
@@ -389,21 +455,19 @@ export default function CoursesPage() {
                 headerColor: "#9956DE",
                 imageSrc: "/images/P_Momo/momo-03.svg",
                 imageAlt: "Momo",
-                imageWidth: 100,
-                imageHeight: 160,
-                imagePosition:
-                  "absolute left-[30px] -top-[-288px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                imageWidth: isMobile ? 60 : isTablet ? 75 : 100,
+                imageHeight: isMobile ? 96 : isTablet ? 120 : 160,
+                imagePosition: getImagePosition("left-[30px]", "-top-[-288px]"),
                 imageRotation: 0,
                 image1Src: "",
                 image1Alt: "Nong Brite",
-                image1Width: 60,
-                image1Height: 66,
-                image1Position:
-                  "absolute left-[110px] -top-[-360px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                image1Width: getImage1Size(),
+                image1Height: isMobile ? 44 : isTablet ? 55 : 66,
+                image1Position: getImagePosition("left-[110px]", "-top-[-360px]"),
                 image1Rotation: 0,
               }}
             >
-              <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-6 p-2 sm:p-3 md:p-4 lg:p-6 w-full h-full items-center justify-center">
                 {Array.from({ length: 9 }).map((_, buttonIndex) => {
                   const levelNumber = buttonIndex + 1;
                   const status = getButtonStatus(levelNumber);
@@ -435,9 +499,8 @@ export default function CoursesPage() {
               useOuterContainer={true}
               itemClassName="scroll-stack-card"
               outerContainerProps={{
-                widthClassName:
-                  "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                heightClassName: "min-h-[350px]",
+                widthClassName: getWidthClassName(),
+                heightClassName: getHeightClassName(),
                 headerText: (
                   <span className="flex items-center gap-2">
                     <FaRuler className="w-5 h-5" />
@@ -447,15 +510,14 @@ export default function CoursesPage() {
                 headerColor: "#6ED1CF",
                 imageSrc: "/images/P_Bobo/bobo-05.svg",
                 imageAlt: "Bobo",
-                imageWidth: 110,
-                imageHeight: 123,
-                imagePosition:
-                  "absolute left-[30px] -top-[-324px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                imageWidth: isMobile ? 70 : isTablet ? 85 : 110,
+                imageHeight: isMobile ? 78 : isTablet ? 95 : 123,
+                imagePosition: getImagePosition("left-[30px]", "-top-[-324px]"),
                 imageRotation: 0,
                 image1Src: "",
               }}
             >
-              <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-6 p-2 sm:p-3 md:p-4 lg:p-6 w-full h-full items-center justify-center">
                 {Array.from({ length: 9 }).map((_, buttonIndex) => {
                   const levelNumber = buttonIndex + 1;
                   const status = getButtonStatus(levelNumber);
@@ -487,9 +549,8 @@ export default function CoursesPage() {
               useOuterContainer={true}
               itemClassName="scroll-stack-card"
               outerContainerProps={{
-                widthClassName:
-                  "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                heightClassName: "min-h-[350px]",
+                widthClassName: getWidthClassName(),
+                heightClassName: getHeightClassName(),
                 headerText: (
                   <span className="flex items-center gap-2">
                     <FaTh className="w-5 h-5" />
@@ -499,21 +560,19 @@ export default function CoursesPage() {
                 headerColor: "#FF8B8B",
                 imageSrc: "/images/P_PingPing/pingping-05.svg",
                 imageAlt: "PingPing",
-                imageWidth: 100,
-                imageHeight: 120,
-                imagePosition:
-                  "absolute left-[530px] -top-[80px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                imageWidth: isMobile ? 60 : isTablet ? 75 : 100,
+                imageHeight: isMobile ? 72 : isTablet ? 90 : 120,
+                imagePosition: getImagePosition("left-[530px]", "-top-[80px]"),
                 imageRotation: 0,
                 image1Src: "/images/P_PingPing/pingping-05.svg",
                 image1Alt: "PingPing",
-                image1Width: 100,
-                image1Height: 120,
-                image1Position:
-                  "absolute left-[710px] -top-[-350px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                image1Width: isMobile ? 60 : isTablet ? 75 : 100,
+                image1Height: isMobile ? 72 : isTablet ? 90 : 120,
+                image1Position: getImagePosition("left-[710px]", "-top-[-350px]"),
                 image1Rotation: 0,
               }}
             >
-              <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-6 p-2 sm:p-3 md:p-4 lg:p-6 w-full h-full items-center justify-center">
                 {Array.from({ length: 9 }).map((_, buttonIndex) => {
                   const levelNumber = buttonIndex + 1;
                   const status = getButtonStatus(levelNumber);
@@ -545,9 +604,8 @@ export default function CoursesPage() {
               useOuterContainer={true}
               itemClassName="scroll-stack-card"
               outerContainerProps={{
-                widthClassName:
-                  "max-w-[850px] rounded-[30px] p-2 border-[3px] border-[#DB9148]",
-                heightClassName: "min-h-[350px]",
+                widthClassName: getWidthClassName(),
+                heightClassName: getHeightClassName(),
                 headerText: (
                   <span className="flex items-center gap-2">
                     <FaPalette className="w-5 h-5" />
@@ -557,35 +615,31 @@ export default function CoursesPage() {
                 headerColor: "#FFD700",
                 imageSrc: "/images/P_Bit/bit-05.svg",
                 imageAlt: "P'Bit mascot",
-                imageWidth: 110,
-                imageHeight: 130,
-                imagePosition:
-                  "absolute left-[10px] -top-[-320px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                imageWidth: isMobile ? 70 : isTablet ? 85 : 110,
+                imageHeight: isMobile ? 83 : isTablet ? 100 : 130,
+                imagePosition: getImagePosition("left-[10px]", "-top-[-320px]"),
                 imageRotation: 0,
                 image1Src: "/images/Nong_brite/nong-brite-01.svg",
                 image1Alt: "Nong Brite",
-                image1Width: 60,
-                image1Height: 66,
-                image1Position:
-                  "absolute left-[150px] -top-[-12px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                image1Width: getImage1Size(),
+                image1Height: isMobile ? 44 : isTablet ? 55 : 66,
+                image1Position: getImagePosition("left-[150px]", "-top-[-12px]"),
                 image1Rotation: 180,
                 image2Src: "/images/P_Momo/momo-03.svg",
                 image2Alt: "Momo",
-                image2Width: 100,
-                image2Height: 160,
-                image2Position:
-                  "absolute left-[720px] -top-[-288px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                image2Width: isMobile ? 60 : isTablet ? 75 : 100,
+                image2Height: isMobile ? 96 : isTablet ? 120 : 160,
+                image2Position: getImagePosition("left-[720px]", "-top-[-288px]"),
                 image2Rotation: 0,
                 image3Src: "/images/P_Minnie/minnie-04.svg", // minnie-04.svg  E:\pbit-nongbrite-project-Frontend_2\public\images\P_Minnie\minnie-04.svg
                 image3Alt: "Coco",
-                image3Width: 100,
-                image3Height: 100,
-                image3Position:
-                  "absolute left-[700px] -top-[100px] z-20  drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]",
+                image3Width: isMobile ? 60 : isTablet ? 75 : 100,
+                image3Height: isMobile ? 60 : isTablet ? 75 : 100,
+                image3Position: getImagePosition("left-[700px]", "-top-[100px]"),
                 image3Rotation: 0,
               }}
             >
-              <div className="grid grid-cols-3 gap-6 p-6 w-full h-full items-center justify-center">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-6 p-2 sm:p-3 md:p-4 lg:p-6 w-full h-full items-center justify-center">
                 {Array.from({ length: 9 }).map((_, buttonIndex) => {
                   const levelNumber = buttonIndex + 1;
                   const status = getButtonStatus(levelNumber);
@@ -615,15 +669,17 @@ export default function CoursesPage() {
         </div>
       </main>
 
-      {/*CourseRightPanel */}
-      <CourseRightPanel
-        levelTitle={levelData?.title || "Level 1: Splitting Parts"}
-        difficulty={levelData?.difficulty || 1}
-        difficultyText={levelData?.difficultyText || "ง่าย"}
-        gameTitle={currentGameTitle}
-        gameIcon={gameIcons[currentGameIconIndex]}
-        headerColor={currentHeaderColor}
-      />
+      {/*CourseRightPanel - Desktop only */}
+      <div className="hidden lg:block">
+        <CourseRightPanel
+          levelTitle={levelData?.title || "Level 1: Splitting Parts"}
+          difficulty={levelData?.difficulty || 1}
+          difficultyText={levelData?.difficultyText || "ง่าย"}
+          gameTitle={currentGameTitle}
+          gameIcon={gameIcons[currentGameIconIndex]}
+          headerColor={currentHeaderColor}
+        />
+      </div>
     </div>
   );
 }

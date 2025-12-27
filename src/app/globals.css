@@ -25,6 +25,14 @@
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
     --app-background:  #EBFAFF;
+      --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
   }
 
   .dark {
@@ -47,6 +55,14 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.439 0 0);
   }
 
   * {
@@ -55,8 +71,8 @@
   
   body {
     @apply bg-background text-foreground;
-    /* Background handled by individual pages (e.g., BackgroundSquares in courses page) */
-    background-color: #EBFAFF;
+   
+    background-color: #EDF0F7;
     position: relative;
     font-family: var(--font-line-seed-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -281,4 +297,58 @@
   .loader-square:nth-of-type(7) {
     animation-delay: -8.5714285714s;
   }
+
+  /* Background Squares Settings Animations */
+  @keyframes float-settings {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(30px, -30px); }
+    66% { transform: translate(-20px, 20px); }
+  }
+
+  @keyframes float-reverse-settings {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(-30px, 30px); }
+    66% { transform: translate(20px, -20px); }
+  }
+
+  @keyframes rotate-slow-settings {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes rotate-slow-reverse-settings {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+
+  .animate-float-settings {
+    animation: float-settings 20s ease-in-out infinite;
+  }
+
+  .animate-float-reverse-settings {
+    animation: float-reverse-settings 18s ease-in-out infinite;
+  }
+
+  .animate-rotate-settings {
+    animation: rotate-slow-settings 25s ease-in-out infinite;
+  }
+
+  .animate-rotate-reverse-settings {
+    animation: rotate-slow-settings 20s ease-in-out infinite reverse;
+  }
+
+  .animate-rotate-slow-settings {
+    animation: rotate-slow-settings 30s linear infinite;
+  }
+
+  .animate-rotate-slow-reverse-settings {
+    animation: rotate-slow-reverse-settings 25s linear infinite;
+  }
 }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
+  

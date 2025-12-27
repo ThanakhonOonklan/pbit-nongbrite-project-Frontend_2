@@ -36,8 +36,7 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
   return (
     <Container
       as="aside"
-      variant="white"
-      className={cn("flex flex-col overflow-hidden rounded-t-none", className)}
+      className={cn("flex flex-col overflow-hidden rounded-t-none shadow-[0_2px_8px_rgba(0,0,0,0.08)]", className)}
     >
       <AnimatedList<RankUser>
         items={safeItems}
@@ -46,16 +45,14 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
         displayScrollbar={displayScrollbar}
         initialSelectedIndex={initialSelectedIndex}
         className="flex-1 min-h-0"
-        listClassName="px-3 py-4 pb-6 space-y-1.5"
+        listClassName="px-2 py-3 pb-4 sm:px-3 sm:py-4 sm:pb-5 md:px-3 md:py-4 md:pb-6 space-y-1.5"
         getKey={(user) => user.id}
         itemClassName={cn("", itemClassName)}
         renderItem={({ item: user }) => (
           <Container
-            variant="white"
             className="flex items-center gap-2 p-3"
           >
             <Container
-              variant="white"
               className="w-[36px] h-[36px] min-w-[36px] flex items-center justify-center p-0 rounded-full"
             >
               <span className="text-[14px] font-bold text-[#1CB0F6]">

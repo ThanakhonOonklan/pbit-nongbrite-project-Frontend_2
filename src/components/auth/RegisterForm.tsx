@@ -49,7 +49,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <LoadingOverlay isLoading={isLoading} message="กำลังดำเนินการ..." />
       <Stepper
         initialStep={1}
@@ -81,7 +81,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         {/* Step 1: Create Account */}
         <Step>
           {/* Logo / Brand */}
-          <div className="flex items-center justify-center gap-3 mb-4 md:mb-1 text-center">
+          <div className="flex items-center justify-center gap-3 mb-4 md:mb-1 text-center ">
             <div className="relative w-[40px] h-[40px] md:w-[49px] md:h-[49px]">
               <Image
                 src="/icons/logo.png"

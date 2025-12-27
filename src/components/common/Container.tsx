@@ -4,10 +4,10 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import ScrollStack from "./ScrollStack";
 
-export interface ContainerProps {
+export interface ContainerProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
   className?: string;
-  variant?: "default" | "white";
+  variant?: "default" | "card";
   as?: "section" | "aside" | "div";
   // ScrollStack props (optional)
   useScrollStack?: boolean;
@@ -39,17 +39,20 @@ const Container: React.FC<ContainerProps> = ({
   blurAmount,
   useWindowScroll,
   onStackComplete,
+   ...restProps
 }) => {
-  const baseStyles =
-    "rounded-[20px] shadow-[0px_2px_8px_rgba(0,0,0,0.04),0px_1px_4px_rgba(0,0,0,0.02)]";
-  
+  // Variant styles
   const variantStyles = {
-    default:
-      "bg-gradient-to-br from-[#F9FBFF] via-white to-[#F4F8FF]",
-    white: "bg-white",
+    default: "rounded-[16px]",
+    card: "rounded-[32px] md:rounded-[40px]",
   };
 
-  // Check if ScrollStack mode should be enabled
+  const baseStyles = `${variantStyles[variant]} bg-white`;
+  
+  // Shadow style for all variants
+  const defaultStyle = { boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" };
+
+ 
   const isScrollStackMode = useScrollStack || 
     itemDistance !== undefined ||
     itemScale !== undefined ||
@@ -62,14 +65,16 @@ const Container: React.FC<ContainerProps> = ({
     useWindowScroll !== undefined ||
     onStackComplete !== undefined;
 
-  // If ScrollStack mode, wrap with ScrollStack
+
   if (isScrollStackMode) {
     return (
       <Component
-        className={cn(baseStyles, variantStyles[variant], className)}
+        className={cn(baseStyles, className)}
+        style={{ ...defaultStyle, ...restProps.style }}
+        {...restProps}
       >
         <ScrollStack
-          className={cn("w-full h-full rounded-[inherit]", variantStyles[variant])}
+          className={cn("w-full h-full rounded-[inherit]", "bg-white")}
           itemDistance={itemDistance}
           itemScale={itemScale}
           itemStackDistance={itemStackDistance}
@@ -90,11 +95,9 @@ const Container: React.FC<ContainerProps> = ({
   // Normal Container mode
   return (
     <Component
-      className={cn(
-        baseStyles,
-        variantStyles[variant],
-        className
-      )}
+      className={cn(baseStyles, className)}
+      style={{ ...defaultStyle, ...restProps.style }}
+      {...restProps}
     >
       {children}
     </Component>
