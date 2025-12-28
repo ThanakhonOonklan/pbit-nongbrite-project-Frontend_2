@@ -84,7 +84,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
           <div className="flex items-center justify-center gap-3 mb-4 md:mb-1 text-center ">
             <div className="relative w-[40px] h-[40px] md:w-[49px] md:h-[49px]">
               <Image
-                src="/icons/logo.png"
+                src="/icons/misc/logo.png"
                 alt="Logo"
                 fill
                 containerClassName="w-full h-full rounded-full"

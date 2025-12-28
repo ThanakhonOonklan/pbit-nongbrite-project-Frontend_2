@@ -197,7 +197,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         >
           <div className="relative w-[42px] h-[42px] flex-shrink-0">
             <Image
-              src="/icons/logo.png"
+              src="/icons/misc/logo.png"
               alt="User Avatar"
               fill
               containerClassName="w-[42px] h-[42px] rounded-full bg-[#EAF8FF]"
