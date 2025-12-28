@@ -32,19 +32,19 @@ export interface CarouselProps {
 const DEFAULT_ITEMS: CarouselItem[] = [
   {
     id: 1,
-    imageSrc: "/icons/gameprofile_1.png",
+    imageSrc: "/icons/game/gameprofile.png",
   },
   {
     id: 2,
-    imageSrc: "/icons/gameprofile_1.png",
+    imageSrc: "/icons/game/gameprofile.png",
   },
   {
     id: 3,
-    imageSrc: "/icons/gameprofile_1.png",
+    imageSrc: "/icons/game/gameprofile.png",
   },
   {
     id: 4,
-    imageSrc: "/icons/gameprofile_1.png",
+    imageSrc: "/icons/game/gameprofile.png",
   },
 ];
 

@@ -7,43 +7,43 @@ import { Image } from "@/components/common/Image";
 // ข้อมูลเกมทั้ง 7 เกมในรูปแบบ LogoItem
 const gameCards: LogoItem[] = [
   {
-    src: "/icons/gameprofile_1.png",
+    src: "/icons/game/gameprofile.png",
     alt: "Path Navigation",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/gameprofile_1.png",
+    src: "/icons/game/gameprofile.png",
     alt: "Counting & Classification",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/gameprofile_1.png",
+    src: "/icons/game/gameprofile.png",
     alt: "Conditional Matching",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/gameprofile_1.png",
+    src: "/icons/game/gameprofile.png",
     alt: "Sequencing",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/gameprofile_1.png",
+    src: "/icons/game/gameprofile.png",
     alt: "Step Counting",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/gameprofile_1.png",
+    src: "/icons/game/gameprofile.png",
     alt: "Fruit Matching Grid",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/gameprofile_1.png",
+    src: "/icons/game/gameprofile.png",
     alt: "Grid-based Coloring",
     width: 320,
     height: 400,
