@@ -138,7 +138,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
       <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
         <div className="relative w-[49px] h-[49px] transition-transform group-hover:scale-105">
           <Image
-            src="/icons/logo.png"
+            src="/icons/logo.png"     
             alt="Logo"
             fill
             containerClassName="w-[49px] h-[49px] rounded-full"
