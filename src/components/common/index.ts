@@ -51,3 +51,8 @@ export { TextType } from "./TextType";
 export type { TextTypeProps } from "./TextType";
 export { TrueFocus } from "./TrueFocus";
 export type { TrueFocusProps } from "./TrueFocus";
+export { BackgroundSquares } from "./BackgroundSquares";
+export { LanguageDropdown } from "./LanguageDropdown";
+export type { LanguageDropdownProps, LanguageOption } from "./LanguageDropdown";
+export { SoundToggle } from "./SoundToggle";
+export type { SoundToggleProps } from "./SoundToggle";

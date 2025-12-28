@@ -27,6 +27,28 @@ import { getLabelClassName } from "@/lib/label";
 import { StatCard } from "@/components/profile";
 import { FaCheck, FaHeart } from "react-icons/fa";
 
+// shadcn UI components
+import { Button as UiButton } from "@/components/ui/button";
+import { Input as UiInput } from "@/components/ui/input";
+import {
+  Tooltip as UiTooltip,
+  TooltipTrigger as UiTooltipTrigger,
+  TooltipContent as UiTooltipContent,
+  TooltipProvider as UiTooltipProvider,
+} from "@/components/ui/tooltip";
+import { Separator as UiSeparator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetTrigger,
+  SheetFooter,
+} from "@/components/ui/sheet";
+import { Home, PanelLeft } from "lucide-react";
+
 export default function TestComponentsPage() {
   const [selectedGenders, setSelectedGenders] = useState<Set<"male" | "female" | "not-specified">>(new Set());
   const [otpValue, setOtpValue] = useState<string[]>([]);
@@ -64,7 +86,7 @@ export default function TestComponentsPage() {
         </div>
 
         {/* Button */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Button</h2>
             
@@ -97,7 +119,7 @@ export default function TestComponentsPage() {
         </Container>
 
         {/* Form Components */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Form Components</h2>
             
@@ -145,7 +167,7 @@ export default function TestComponentsPage() {
         </Container>
 
         {/* Layout Components */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Layout Components</h2>
             
@@ -161,7 +183,7 @@ export default function TestComponentsPage() {
         </Container>
 
         {/* Interactive Components */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Interactive Components</h2>
             
@@ -255,7 +277,7 @@ export default function TestComponentsPage() {
 
 
         {/* Cards & Display Components */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Cards & Display Components</h2>
             
@@ -317,7 +339,7 @@ export default function TestComponentsPage() {
         </Container>
 
         {/* GameButton */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">GameButton</h2>
             <div className="flex flex-col gap-6">
@@ -417,7 +439,7 @@ export default function TestComponentsPage() {
         </Container>
 
         {/* Color Palette */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Color Palette</h2>
             
@@ -491,7 +513,7 @@ export default function TestComponentsPage() {
         </Container>
 
         {/* Utility Components */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Utility Components</h2>
             
@@ -508,19 +530,19 @@ export default function TestComponentsPage() {
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">Container</h3>
               <div className="flex flex-col gap-4">
-                <Container variant="default" className="p-6">
-                  <h4 className="text-lg font-bold mb-2">Container Default (Gradient)</h4>
-                  <p className="text-gray-600">Container with default gradient background</p>
+                <Container className="p-6">
+                  <h4 className="text-lg font-bold mb-2">Container</h4>
+                  <p className="text-gray-600">Container with card style</p>
                 </Container>
-                <Container variant="white" className="p-6">
-                  <h4 className="text-lg font-bold mb-2">Container White</h4>
-                  <p className="text-gray-600">Container with white background</p>
+                <Container className="p-6">
+                  <h4 className="text-lg font-bold mb-2">Container</h4>
+                  <p className="text-gray-600">Container with card style</p>
                 </Container>
-                <Container variant="white" as="div" className="p-6">
+                <Container as="div" className="p-6">
                   <h4 className="text-lg font-bold mb-2">Container as div</h4>
                   <p className="text-gray-600">Container rendered as div element</p>
                 </Container>
-                <Container variant="white" as="aside" className="p-6">
+                <Container as="aside" className="p-6">
                   <h4 className="text-lg font-bold mb-2">Container as aside</h4>
                   <p className="text-gray-600">Container rendered as aside element</p>
                 </Container>
@@ -531,7 +553,7 @@ export default function TestComponentsPage() {
         </Container>
 
         {/* Animated & Indicators */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Animated & Indicators</h2>
 
@@ -580,7 +602,7 @@ export default function TestComponentsPage() {
         </Container>
 
         {/* Loading Components */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Loading Components</h2>
             
@@ -657,7 +679,7 @@ export default function TestComponentsPage() {
         </Container>
 
         {/* OuterContainer */}
-        <Container variant="white" className="p-6">
+        <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">OuterContainer</h2>
         
@@ -677,10 +699,371 @@ export default function TestComponentsPage() {
           </section>
         </Container>
 
+        {/* Shadcn UI Components */}
+        <Container className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">Shadcn UI Components</h2>
 
+            {/* Shadcn Button */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Button (shadcn)</h3>
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-wrap gap-3 items-center">
+                  <UiButton>Default</UiButton>
+                  <UiButton variant="destructive">Destructive</UiButton>
+                  <UiButton variant="outline">Outline</UiButton>
+                  <UiButton variant="secondary">Secondary</UiButton>
+                  <UiButton variant="ghost">Ghost</UiButton>
+                  <UiButton variant="link">Link</UiButton>
+                </div>
+                <div className="flex flex-wrap gap-3 items-center">
+                  <UiButton size="sm">Small</UiButton>
+                  <UiButton size="default">Default</UiButton>
+                  <UiButton size="lg">Large</UiButton>
+                  <UiButton size="icon" aria-label="Icon button">
+                    <FaCheck className="w-4 h-4" />
+                  </UiButton>
+                </div>
+              </div>
+            </div>
 
-       
-       
+            {/* Shadcn Input */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Input (shadcn)</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <UiInput placeholder="Text input" />
+                <UiInput type="email" placeholder="Email input" />
+                <UiInput type="password" placeholder="Password input" />
+                <UiInput type="number" placeholder="Number input" />
+                <UiInput disabled placeholder="Disabled input" />
+              </div>
+            </div>
+
+            {/* Shadcn Tooltip */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Tooltip (shadcn)</h3>
+              <UiTooltipProvider>
+                <div className="flex flex-wrap gap-4">
+                  <UiTooltip>
+                    <UiTooltipTrigger asChild>
+                      <UiButton>Top</UiButton>
+                    </UiTooltipTrigger>
+                    <UiTooltipContent side="top">Tooltip on top</UiTooltipContent>
+                  </UiTooltip>
+                  <UiTooltip>
+                    <UiTooltipTrigger asChild>
+                      <UiButton>Right</UiButton>
+                    </UiTooltipTrigger>
+                    <UiTooltipContent side="right">Tooltip on right</UiTooltipContent>
+                  </UiTooltip>
+                  <UiTooltip>
+                    <UiTooltipTrigger asChild>
+                      <UiButton>Bottom</UiButton>
+                    </UiTooltipTrigger>
+                    <UiTooltipContent side="bottom">Tooltip on bottom</UiTooltipContent>
+                  </UiTooltip>
+                  <UiTooltip>
+                    <UiTooltipTrigger asChild>
+                      <UiButton>Left</UiButton>
+                    </UiTooltipTrigger>
+                    <UiTooltipContent side="left">Tooltip on left</UiTooltipContent>
+                  </UiTooltip>
+                </div>
+              </UiTooltipProvider>
+            </div>
+
+            {/* Shadcn Separator */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Separator (shadcn)</h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-gray-600 mb-2">Horizontal</p>
+                  <UiSeparator />
+                </div>
+                <div className="flex items-center gap-4">
+                  <p className="text-sm text-gray-600">Vertical</p>
+                  <div className="h-8 flex items-center gap-4">
+                    <span className="text-sm text-gray-700">Item A</span>
+                    <UiSeparator orientation="vertical" />
+                    <span className="text-sm text-gray-700">Item B</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Shadcn Skeleton */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Skeleton (shadcn)</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Text skeleton */}
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                </div>
+                {/* Avatar skeleton */}
+                <div className="flex items-center gap-3">
+                  <Skeleton className="h-12 w-12 rounded-full" />
+                  <div className="space-y-2 flex-1">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                  </div>
+                </div>
+                {/* Card skeleton */}
+                <div className="space-y-3">
+                  <Skeleton className="h-32 w-full rounded-xl" />
+                  <Skeleton className="h-4 w-2/3" />
+                  <Skeleton className="h-4 w-1/3" />
+                </div>
+              </div>
+            </div>
+
+            {/* Shadcn Sheet */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Sheet (shadcn)</h3>
+              <div className="flex flex-wrap gap-4">
+                {/* Right sheet */}
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <UiButton variant="outline">Open Right Sheet</UiButton>
+                  </SheetTrigger>
+                  <SheetContent side="right">
+                    <SheetHeader>
+                      <SheetTitle>Right Sheet</SheetTitle>
+                      <SheetDescription>
+                        แผงแสดงผลเลื่อนจากด้านขวา เหมาะสำหรับเมนูหรือรายละเอียดเพิ่มเติม
+                      </SheetDescription>
+                    </SheetHeader>
+                    <div className="mt-4 space-y-2 text-sm text-gray-700">
+                      <p>คุณสามารถใช้ ฝSheet สำหรับ:</p>
+                      <ul className="list-disc list-inside space-y-1">
+                        <li>เมนูในมือถือ</li>
+                        <li>แบบฟอร์มแก้ไขข้อมูล</li>
+                        <li>รายละเอียดเพิ่มเติมของรายการ</li>
+                      </ul>
+                    </div>
+                    <SheetFooter className="mt-6">
+                      <UiButton>ยืนยัน</UiButton>
+                    </SheetFooter>
+                  </SheetContent>
+                </Sheet>
+
+                {/* Left sheet */}
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <UiButton variant="outline">Open Left Sheet</UiButton>
+                  </SheetTrigger>
+                  <SheetContent side="left">
+                    <SheetHeader>
+                      <SheetTitle>Left Sheet</SheetTitle>
+                      <SheetDescription>
+                        ใช้แทน sidebar ชั่วคราวหรือ navigation panel
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
+
+                {/* Top sheet */}
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <UiButton variant="outline">Open Top Sheet</UiButton>
+                  </SheetTrigger>
+                  <SheetContent side="top" className="max-h-[50vh]">
+                    <SheetHeader>
+                      <SheetTitle>Top Sheet</SheetTitle>
+                      <SheetDescription>
+                        เลื่อนจากด้านบน เหมาะกับ notification bar หรือ filter bar
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
+
+                {/* Bottom sheet */}
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <UiButton variant="outline">Open Bottom Sheet</UiButton>
+                  </SheetTrigger>
+                  <SheetContent side="bottom" className="max-h-[60vh]">
+                    <SheetHeader>
+                      <SheetTitle>Bottom Sheet</SheetTitle>
+                      <SheetDescription>
+                        ลักษณะเหมือน mobile bottom sheet เหมาะสำหรับ action ต่างๆ
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
+              </div>
+            </div>
+          </section>
+        </Container>
+
+        {/* Sidebar (shadcn UI) */}
+        <Container className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">Sidebar (shadcn UI)</h2>
+            <p className="text-gray-600">
+              Sidebar ถูกใช้แล้วใน layout ของแอปนี้ (ดู <code className="px-2 py-1 bg-gray-100 rounded text-sm">components/layout/Sidebar.tsx</code>)
+            </p>
+
+            <div className="flex flex-col gap-6">
+              {/* Example structure */}
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-semibold text-gray-700">โครงสร้างพื้นฐาน</h3>
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                  <p className="text-sm text-gray-700 mb-4">
+                    Sidebar ประกอบด้วยส่วนหลัก:
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#1cb0f6]">•</span>
+                      <span><code className="bg-white px-1.5 py-0.5 rounded">SidebarProvider</code> - Context provider สำหรับจัดการ state</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#1cb0f6]">•</span>
+                      <span><code className="bg-white px-1.5 py-0.5 rounded">Sidebar</code> - คอมโพเนนต์หลัก</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#1cb0f6]">•</span>
+                      <span><code className="bg-white px-1.5 py-0.5 rounded">SidebarHeader</code> - ส่วนหัวของ sidebar</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#1cb0f6]">•</span>
+                      <span><code className="bg-white px-1.5 py-0.5 rounded">SidebarContent</code> - เนื้อหาหลัก (เมนู)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#1cb0f6]">•</span>
+                      <span><code className="bg-white px-1.5 py-0.5 rounded">SidebarFooter</code> - ส่วนท้ายของ sidebar</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#1cb0f6]">•</span>
+                      <span><code className="bg-white px-1.5 py-0.5 rounded">SidebarMenu</code> - รายการเมนู</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#1cb0f6]">•</span>
+                      <span><code className="bg-white px-1.5 py-0.5 rounded">SidebarMenuItem</code> - รายการเมนูแต่ละตัว</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#1cb0f6]">•</span>
+                      <span><code className="bg-white px-1.5 py-0.5 rounded">SidebarMenuButton</code> - ปุ่มเมนู (รองรับ active state)</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Visual demo */}
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-semibold text-gray-700">ตัวอย่างโครงสร้าง Sidebar</h3>
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 bg-gray-50">
+                  <div className="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
+                    {/* Mock Sidebar Header */}
+                    <div className="bg-gradient-to-r from-[#1cb0f6] to-[#17a3e3] p-4 text-white">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                          <Home className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="font-bold">Sidebar Demo</div>
+                          <div className="text-xs opacity-80">shadcn/ui</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Mock Sidebar Content */}
+                    <div className="p-4 space-y-2">
+                      <div className="flex h-8 items-center gap-2 rounded-md px-2">
+                        <Skeleton className="size-4 rounded-md" />
+                        <Skeleton className="h-4 w-32 flex-1" />
+                      </div>
+                      <div className="flex h-8 items-center gap-2 rounded-md px-2">
+                        <Skeleton className="size-4 rounded-md" />
+                        <Skeleton className="h-4 w-28 flex-1" />
+                      </div>
+                      <div className="flex h-8 items-center gap-2 rounded-md px-2">
+                        <Skeleton className="size-4 rounded-md" />
+                        <Skeleton className="h-4 w-36 flex-1" />
+                      </div>
+                      <UiSeparator className="my-2" />
+                      <div className="flex h-8 items-center gap-2 rounded-md px-2">
+                        <Skeleton className="size-4 rounded-md" />
+                        <Skeleton className="h-4 w-24 flex-1" />
+                      </div>
+                      <div className="flex h-8 items-center gap-2 rounded-md px-2">
+                        <Skeleton className="size-4 rounded-md" />
+                        <Skeleton className="h-4 w-40 flex-1" />
+                      </div>
+                    </div>
+
+                    {/* Mock Sidebar Footer */}
+                    <div className="border-t p-4">
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="w-10 h-10 rounded-full" />
+                        <div className="flex-1 space-y-2">
+                          <Skeleton className="h-3 w-24" />
+                          <Skeleton className="h-2 w-16" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* SidebarTrigger demo */}
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-semibold text-gray-700">SidebarTrigger</h3>
+                <div className="flex flex-wrap gap-4 items-center">
+                  <UiButton variant="ghost" size="icon" className="h-7 w-7">
+                    <PanelLeft className="w-4 h-4" />
+                  </UiButton>
+                  <p className="text-sm text-gray-600">
+                    ปุ่มสำหรับเปิด/ปิด sidebar (ดูตัวอย่างจริงที่ sidebar ด้านซ้ายของแอป)
+                  </p>
+                </div>
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded text-sm text-gray-700">
+                  <strong>หมายเหตุ:</strong> SidebarTrigger ต้องใช้ภายใน SidebarProvider เท่านั้น ตัวอย่างข้างบนเป็นแค่ mock UI
+                </div>
+              </div>
+
+              {/* Features */}
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-semibold text-gray-700">ฟีเจอร์</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-800 mb-2">🎯 Responsive</h4>
+                    <p className="text-sm text-gray-600">
+                      ปรับตัวอัตโนมัติระหว่าง desktop และ mobile
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-800 mb-2">⌨️ Keyboard Shortcut</h4>
+                    <p className="text-sm text-gray-600">
+                      กด <kbd className="px-2 py-1 bg-white rounded border shadow-sm">Ctrl/Cmd + B</kbd> เพื่อเปิด/ปิด
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-800 mb-2">🔄 Collapsible</h4>
+                    <p className="text-sm text-gray-600">
+                      รองรับการยุบ/ขยาย sidebar ได้ 3 แบบ: offcanvas, icon, none
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-800 mb-2">💾 State Persistence</h4>
+                    <p className="text-sm text-gray-600">
+                      จดจำสถานะ open/closed ด้วย Cookie
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Usage note */}
+              <div className="bg-blue-50 border-l-4 border-[#1cb0f6] p-4 rounded">
+                <p className="text-sm text-gray-700">
+                  <strong>หมายเหตุ:</strong> Sidebar ในโปรเจกต์นี้ถูกใช้งานแล้วที่ <code className="px-2 py-1 bg-white rounded">app/layout.tsx</code> 
+                  ผ่าน <code className="px-2 py-1 bg-white rounded">SidebarProvider</code> และ implementation จริงอยู่ที่ <code className="px-2 py-1 bg-white rounded">components/layout/Sidebar.tsx</code>
+                </p>
+              </div>
+            </div>
+          </section>
+        </Container>
               
       </div>
       

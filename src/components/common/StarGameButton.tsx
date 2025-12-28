@@ -165,11 +165,11 @@ const StarGameButton = React.forwardRef<HTMLButtonElement, StarGameButtonProps>(
         >
           {status === "locked" ? (
             <Image
-              src="/icongame/lock.svg"
+              src="/icons/game/lock.svg"
               alt="Locked"
-              width={40}
-              height={40}
-              className="object-contain w-full h-full"
+              width={60}
+              height={60}
+              className="object-contain w-full h-full filter grayscale"
             />
           ) : (
             levelNumber && (

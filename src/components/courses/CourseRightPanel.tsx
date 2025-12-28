@@ -99,8 +99,8 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
                   className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
                 >
                   <Image
-                    src="/icongame/key.svg"
-                    alt="Heart"
+                    src="/icons/game/key.svg" 
+                    alt="key" 
                     width={25}
                     height={25}
                     className="object-contain"
@@ -114,8 +114,8 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
                   className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
                 >
                   <Image
-                    src="/icongame/gem.svg"
-                    alt="Score"
+                    src="/icons/game/gem.svg"
+                    alt="Score" 
                     width={25}
                     height={25}
                     className="object-contain"
@@ -129,8 +129,8 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
                   className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
                 >
                   <Image
-                    src="/icongame/daystreak.svg"
-                    alt="Fire"
+                    src="/icons/game/daystreak.svg"
+                    alt="daystreak"  
                     width={25}
                     height={25}
                     className="object-contain"
@@ -176,7 +176,7 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
           </div>
 
           {/* Carousel */}
-          <Container variant="white" className="flex flex-col items-center -mt-2 rounded-[24px]">
+          <Container className="flex flex-col items-center -mt-2 rounded-[24px]">
             <Carousel
               baseWidth={302}
               autoplay

@@ -60,8 +60,7 @@ const TopThreePodium: React.FC<TopThreePodiumProps> = ({ topThree, className }) 
 
   return (
     <Container
-      variant="white"
-      className={cn("pt-6 px-6 pb-4 overflow-hidden rounded-b-none", className)}
+      className={cn("pt-4 px-4 pb-3 sm:pt-5 sm:px-5 sm:pb-4 md:pt-6 md:px-6 md:pb-4 overflow-hidden rounded-b-none shadow-[0_2px_8px_rgba(0,0,0,0.08)]", className)}
     >
       {/* Podium Container */}
       <div className="flex items-end justify-center gap-6 overflow-visible ">

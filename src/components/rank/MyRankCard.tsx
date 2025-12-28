@@ -30,8 +30,7 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
   if (!myRank) {
     return (
       <Container
-        variant="white"
-        className={cn("p-6 flex flex-col items-center justify-center",className
+        className={cn("p-4 sm:p-5 md:p-6 flex flex-col items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.08)]",className
         )}
       >
         <FaChartLine className="w-16 h-16 mb-2 text-[#9CA3AF]" />
@@ -64,11 +63,10 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
 
   return (
     <Container
-      variant="white"
-      className={cn("flex flex-col", className)}
+      className={cn("flex flex-col shadow-[0_2px_8px_rgba(0,0,0,0.08)]", className)}
     >
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-[#1cb0f6]/30 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-5 md:p-6 space-y-3 sm:space-y-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-[#1cb0f6]/30 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
         {/* Change Badge */}
         {myRank.change !== undefined && myRank.change !== 0 && (
           <div className="flex justify-end">
@@ -100,7 +98,6 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
 
         {/* Rank Tier Card */}
         <Container
-          variant="white"
           className="rounded-[16px] p-4"
         >
           <div className="mb-3">
@@ -134,7 +131,6 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
             </>
           ) : (
             <Container
-              variant="default"
               className="bg-gradient-to-br from-[#FFD300]/10 to-[#FFD300]/5 border-[#FFD300]/30 rounded-[12px] p-3 text-center flex flex-col items-center gap-1"
             >
               <FaCrown className="w-8 h-8 text-[#FACC15]" />

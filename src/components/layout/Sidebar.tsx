@@ -5,10 +5,7 @@ import { Image } from "@/components/common/Image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import {
-  FaUserCircle,
-  FaCog,
-} from "react-icons/fa";
+import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 
 export interface SidebarProps {
   className?: string;
@@ -17,6 +14,23 @@ export interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  // Reset loading when navigation completes
+  React.useEffect(() => {
+    if (isLoading && pathname === "/courses") {
+      setIsLoading(false);
+    }
+  }, [pathname, isLoading]);
+
+  const userGender = "เพศชาย"; 
+  
+  // Get gender color based on gender value
+  const getGenderColor = (gender: string) => {
+    if (gender === "เพศชาย") return "text-[#1CB0F6]"; 
+    if (gender === "เพศหญิง") return "text-[#EC4899]";
+    return "text-[#344054]"; 
+  };
 
   const navItems = [
     {
@@ -24,7 +38,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       path: "/courses",
       icon: (
         <Image
-          src="/icongame/courses.svg"
+          src="/icons/game/courses.svg"
           alt="Courses"
           width={32}
           height={32}
@@ -38,7 +52,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       path: "/rank",
       icon: (
         <Image
-          src="/icongame/rank.svg"
+          src="/icons/game/rank.svg"
           alt="Rank"
           width={32}
           height={32}
@@ -51,64 +65,67 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     {
       label: "โปรไฟล์",
       path: "/profile",
-      icon: <FaUserCircle className="w-5 h-5" />,
+      icon: (
+        <Image
+          src="/icons/game/profile.svg"
+          alt="Profile"
+          width={32}
+          height={32}
+          className="object-contain"
+        />
+      ),
     },
     {
       label: "ตั้งค่า",
       path: "/settings",
-      icon: <FaCog className="w-5 h-5" />,
+      icon: (
+        <Image
+          src="/icons/game/settings.svg"  
+          alt="Settings"
+          width={32}
+          height={32}
+          className="object-contain"
+        />
+      ),
     },
   ];
 
   return (
-    <aside
-      className={cn(
-        "h-screen flex flex-col border-neutral-200 shadow-[0_0px_5px_rgba(0,0,0,0.12)]",
-        "bg-white transition-all duration-300 ease-in-out overflow-x-visible overflow-y-hidden",
-        isCollapsed ? "w-[80px]" : "w-[254px]",
-        className
-      )}
-    >
-      {/* Brand Section */}
-      <div
+    <>
+      {/* Desktop Sidebar */}
+      <aside
         className={cn(
-          "relative h-[100px] flex items-center transition-all duration-300",
-          isCollapsed ? "px-2 justify-center" : "px-[18px] justify-start"
+          "hidden lg:flex h-screen flex-col border-neutral-200 shadow-[0_0px_5px_rgba(0,0,0,0.12)]",
+          "bg-white  overflow-x-visible overflow-y-hidden ",
+          isCollapsed ? "w-[80px]" : "w-[254px]",
+          className
         )}
       >
-        {/* Logo */}
-        <div
-          className={cn(
-            "relative flex-shrink-0 rounded-full transition-transform duration-300",
-            isCollapsed ? "w-[42px] h-[42px]" : "w-[49px] h-[49px] translate-y-[2px]"
-          )}
-        >
-          <Image
-            src="/icons/logo.png"
-            alt="Logo"
-            fill
-            containerClassName="w-full h-full rounded-full"
-            className="object-cover"
-            priority
-            sizes="49px"
-          />
-        </div>
-
-        {/* Brand Name */}
-        {!isCollapsed && (
-          <div className="ml-[12px] flex items-center flex-1 min-w-0">
-            <p className="text-[18px] leading-[28px] font-bold whitespace-nowrap">
-              <span className="text-[#1cb0f6]">P&apos;Bit </span>
-              <span className="text-[#ffd300]">Nong Brite</span>
-            </p>
-          </div>
+      {/* Brand Section */}
+      <Link
+        href="/courses"
+        prefetch={true}
+        onClick={() => setIsLoading(true)}
+        className={cn(
+          "relative h-[100px] flex items-end justify-center cursor-pointer transition-all duration-200",
+          "hover:opacity-80 active:scale-95",
+          isCollapsed ? "px-2" : "px-[18px]"
         )}
-      </div>
+      >
+        <Image
+          src="/icons/misc/new_logo.svg"
+          alt="P'Bit Nong Brite Logo"
+          width={isCollapsed ? 70 : 220}
+          height={isCollapsed ? 70 : 65}
+          className="object-contain transition-transform duration-200"
+          sizes={isCollapsed ? "70px" : "220px"}
+        />
+      </Link>
 
       {/* Navigation Links */}
       <nav
         className={cn(
-          "flex flex-col gap-[10px] mt-7 transition-all duration-300",
+          "flex flex-col gap-[10px] mt-7 ",
           isCollapsed ? "px-2" : "px-[16px]"
         )}
       >
@@ -193,14 +210,56 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               <span className="text-[15px] font-bold text-[#242E39] leading-tight truncate">
                 Thanakhon OonkIan
               </span>
-              <button className="text-[14px] font-medium text-[#1a73e8] hover:underline text-left">
-                sign out
-              </button>
+              <span className={cn("text-[14px] font-medium", getGenderColor(userGender))}>
+                {userGender}
+              </span>
             </div>
           )}
         </div>
       </div>
-    </aside>
+      </aside>
+
+      {/* Mobile Bottom Navigation */}
+      <nav
+        className={cn(
+          "lg:hidden fixed bottom-0 left-0 right-0 h-[70px] flex flex-row items-center justify-around",
+          "bg-white border-t border-neutral-200 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] z-50",
+          className
+        )}
+      >
+        {navItems.map((item) => {
+          const isActive = pathname === item.path;
+
+          return (
+            <Link
+              key={item.path}
+              href={item.path}
+              prefetch={true}
+              className={cn(
+                "relative flex flex-col items-center justify-center py-3 px-4 rounded-[12px] transition-all duration-200 flex-1 max-w-[90px]",
+                isActive
+                  ? "text-[#1cb0f6] bg-[#EAF8FF]"
+                  : "text-[#616161] hover:bg-[#F4F9FF]"
+              )}
+            >
+              {/* Active indicator dot */}
+              {isActive && (
+                <span className="absolute top-1 w-1 h-1 rounded-full bg-[#1cb0f6]" />
+              )}
+              <div className={cn(
+                "w-[28px] h-[28px] flex items-center justify-center transition-transform",
+                isActive && "scale-110"
+              )}>
+                {item.icon}
+              </div>
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* Loading Overlay */}
+      <LoadingOverlay isLoading={isLoading} />
+    </>
   );
 };
 
