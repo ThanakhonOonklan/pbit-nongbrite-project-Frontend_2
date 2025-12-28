@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Container } from "@/components/common/Container";
+import { Divider } from "@/components/common/Divider";
 import { ProgressItem, LevelData } from "./ProgressItem";
 import { cn } from "@/lib/utils";
 
@@ -30,14 +31,23 @@ export const ProgressList: React.FC<ProgressListProps> = ({
   return (
     <Container
       className={cn(
-        "p-4 sm:p-5 md:p-4 lg:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.08)]",
+        "p-3 sm:p-4 md:p-3 lg:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.08)]",
         className
       )}
     >
+      {/* Header */}
+      <div className="w-full mb-4">
+        <h2 className="text-[18px] sm:text-[19px] md:text-[19px] lg:text-[20px] leading-[28px] font-bold text-gray-800">
+          ความคืบหน้า
+        </h2>
+        <div className="mt-1 mb-1">
+          <Divider />
+        </div>
+      </div>
       <div 
-        className="space-y-4 overflow-y-auto px-1 py-2 -mx-1 -my-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-[#1cb0f6]/30 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent"
+        className="space-y-4 overflow-y-auto px-1.5 py-2 -mx-1 -my-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-[#1cb0f6]/30 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent"
         style={{ 
-          maxHeight: '400px', 
+          maxHeight: '369px', 
         }}
       >
         {items.map((item, index) => (

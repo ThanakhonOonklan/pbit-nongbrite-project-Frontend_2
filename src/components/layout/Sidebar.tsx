@@ -5,6 +5,7 @@ import { Image } from "@/components/common/Image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 
 export interface SidebarProps {
   className?: string;
@@ -13,7 +14,14 @@ export interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
-  
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  // Reset loading when navigation completes
+  React.useEffect(() => {
+    if (isLoading && pathname === "/courses") {
+      setIsLoading(false);
+    }
+  }, [pathname, isLoading]);
 
   const userGender = "เพศชาย"; 
   
@@ -94,9 +102,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         )}
       >
       {/* Brand Section */}
-      <div
+      <Link
+        href="/courses"
+        prefetch={true}
+        onClick={() => setIsLoading(true)}
         className={cn(
-          "relative h-[100px] flex items-end justify-center ",
+          "relative h-[100px] flex items-end justify-center cursor-pointer transition-all duration-200",
+          "hover:opacity-80 active:scale-95",
           isCollapsed ? "px-2" : "px-[18px]"
         )}
       >
@@ -105,10 +117,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           alt="P'Bit Nong Brite Logo"
           width={isCollapsed ? 70 : 220}
           height={isCollapsed ? 70 : 65}
-          className="object-contain"
+          className="object-contain transition-transform duration-200"
           sizes={isCollapsed ? "70px" : "220px"}
         />
-      </div>
+      </Link>
 
       {/* Navigation Links */}
       <nav
@@ -244,6 +256,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           );
         })}
       </nav>
+
+      {/* Loading Overlay */}
+      <LoadingOverlay isLoading={isLoading} />
     </>
   );
 };

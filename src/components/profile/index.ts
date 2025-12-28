@@ -6,5 +6,7 @@ export { ProgressItem } from "./ProgressItem";
 export type { ProgressItemProps, LevelData } from "./ProgressItem";
 export { ProgressList } from "./ProgressList";
 export type { ProgressListProps, ProgressItemData } from "./ProgressList";
+export { EditProfileForm } from "./EditProfileForm";
+export type { EditProfileFormProps } from "./EditProfileForm";
 
 

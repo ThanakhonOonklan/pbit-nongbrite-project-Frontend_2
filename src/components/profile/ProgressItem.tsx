@@ -55,7 +55,7 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({
   };
   
   return (
-    <div className={cn("bg-white rounded-[14px]", className)}>
+    <div className={cn("bg-white rounded-[10px]", className)}>
       {/* Main section */}
       <div
         className="flex items-center gap-3 px-4 py-4 rounded-[14px] transition-colors duration-200 hover:bg-gray-50 cursor-pointer relative z-10"
