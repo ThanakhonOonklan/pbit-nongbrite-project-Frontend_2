@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           alt="Courses"
           width={32}
           height={32}
-          className="object-contain"
+          className="object-contain"  
          
         />
       ),
