@@ -81,24 +81,16 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         {/* Step 1: Create Account */}
         <Step>
           {/* Logo / Brand */}
-          <div className="flex items-center justify-center gap-3 mb-4 md:mb-1 text-center ">
-            <div className="relative w-[40px] h-[40px] md:w-[49px] md:h-[49px]">
-              <Image
-                src="/icons/misc/logo.png" 
-                alt="Logo"
-                fill
-                containerClassName="w-full h-full rounded-full"
-                className="object-cover"
-                priority
-                sizes="(max-width: 768px) 40px, 49px"
-              />
-            </div>
-            <div>
-              <p className="text-[20px] md:text-[24px] lg:text-[26px] leading-tight font-bold">
-                <span className="text-[#1cb0f6]">P&apos;Bit </span>
-                <span className="text-[#ffd300]">Nong Brite</span>
-              </p>
-            </div>
+          <div className="flex items-center justify-center mb-4 md:mb-1">
+            <Image
+              src="/icons/misc/new_logo.svg"
+              alt="P'Bit Nong Brite Logo"
+              width={200}
+              height={55}
+              className="object-contain w-[160px] md:w-[200px] h-auto"
+              priority
+              sizes="(max-width: 768px) 160px, 200px"
+            />
           </div>
 
           <h2 className="text-[22px] md:text-[24px] font-bold text-gray-800 mb-2 text-center">
