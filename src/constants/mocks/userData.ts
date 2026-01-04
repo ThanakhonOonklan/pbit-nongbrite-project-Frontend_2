@@ -1,24 +1,15 @@
-/**
- * Mock data for user information
- */
+import { MyRankData } from "@/types";
 
-export interface UserData {
-  heartCount: number;
-  scoreCount: number;
-  fireCount: number;
-}
-
-export const userData: UserData = {
+export const mockMyRankData: MyRankData = {
+  id: "user-1",
+  rank: 2,
+  name: "น้องมิ้นท์",
+  avatar: "/icons/icon-Profile/icon_P_Bit.png",
+  score: 2000,
+  gender: "เพศชาย",
+  daystate: 10,
+  joinDate: "เข้าร่วมเมื่อ วันที่ 1 มกราคม 2026",
+  rankBadge: "/icons/rank/diamond-dark.png",
   heartCount: 5,
-  scoreCount: 6000,
-  fireCount: 3,
-};
-
-/**
- * Get user data
- * @returns UserData
- */
-export const getUserData = (): UserData => {
-  return userData;
 };
 

@@ -2,7 +2,6 @@
 
 import { Sidebar } from "@/components/layout/Sidebar";
 import { ProfileHeader, ProgressList } from "@/components/profile";
-import { mockProgressItems, mockMyRank } from "@/constants/mocks";
 import { BackgroundSquares } from "@/components/common";
 
 export default function ProfilePage() {
@@ -21,8 +20,8 @@ export default function ProfilePage() {
           <BackgroundSquares />
           <div className="relative z-10 max-w-[880px]">
             <section className="space-y-4 ">
-              <ProfileHeader myRank={mockMyRank} />
-              <ProgressList items={mockProgressItems} />
+              <ProfileHeader />
+              <ProgressList />
             </section>
           </div>
         </div>

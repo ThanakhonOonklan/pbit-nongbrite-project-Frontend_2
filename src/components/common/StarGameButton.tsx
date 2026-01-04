@@ -30,6 +30,16 @@ const darkenColor = (color: string, percent: number): string => {
   return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
 };
 
+// ฟังก์ชันสำหรับทำให้สีสว่างขึ้น
+const lightenColor = (color: string, percent: number): string => {
+  const num = parseInt(color.replace("#", ""), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const B = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
+};
+
 /* Star icon */
 const StarIcon: React.FC<{
   isEarned: boolean;
@@ -122,7 +132,7 @@ const StarGameButton = React.forwardRef<HTMLButtonElement, StarGameButtonProps>(
       const colorToUse = baseColor || buttonColor || "#1CB0F6";
       mainColor = colorToUse;
       darkColor = darkenColor(colorToUse, -20);
-      borderColor = darkenColor(colorToUse, -10);
+      borderColor = lightenColor(colorToUse, 15); // ทำให้สีขอบสว่างขึ้น 15%
     } else if (status === "locked") {
       mainColor = "#9E9E9E";
       darkColor = "#757575";
@@ -131,7 +141,7 @@ const StarGameButton = React.forwardRef<HTMLButtonElement, StarGameButtonProps>(
       const colorToUse = baseColor || buttonColor || "#1CB0F6";
       mainColor = colorToUse;
       darkColor = darkenColor(colorToUse, -20);
-      borderColor = darkenColor(colorToUse, -10);
+      borderColor = lightenColor(colorToUse, 15); // ทำให้สีขอบสว่างขึ้น 15%
     }
 
     return (

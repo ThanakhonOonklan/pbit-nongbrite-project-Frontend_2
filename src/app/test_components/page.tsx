@@ -22,6 +22,7 @@ import {
   ResourceBar,
   LoadingSpinner,
   LoadingOverlay,
+  KawaiiProgressBar,
 } from "@/components/common";
 import { getLabelClassName } from "@/lib/label";
 import { StatCard } from "@/components/profile";
@@ -699,6 +700,8 @@ export default function TestComponentsPage() {
           </section>
         </Container>
 
+    
+
         {/* Shadcn UI Components */}
         <Container className="p-6">
           <section className="flex flex-col gap-6">
@@ -1060,6 +1063,148 @@ export default function TestComponentsPage() {
                   <strong>หมายเหตุ:</strong> Sidebar ในโปรเจกต์นี้ถูกใช้งานแล้วที่ <code className="px-2 py-1 bg-white rounded">app/layout.tsx</code> 
                   ผ่าน <code className="px-2 py-1 bg-white rounded">SidebarProvider</code> และ implementation จริงอยู่ที่ <code className="px-2 py-1 bg-white rounded">components/layout/Sidebar.tsx</code>
                 </p>
+              </div>
+            </div>
+          </section>
+        </Container>
+
+        {/* KawaiiProgressBar */}
+        <Container className="p-6">
+          <section className="flex flex-col gap-6">
+            <div>
+              <h2 className="text-2xl font-bold text-[#242E39] mb-2">Kawaii Progress Bar</h2>
+              <p className="text-gray-600">Progress bar สไตล์ kawaii พร้อมอนิเมชั่นและสีสันที่น่ารัก สำหรับแสดงความคืบหน้าจากข้อมูล API</p>
+            </div>
+
+            <div className="flex flex-col gap-8">
+              {/* Progress bars with different colors */}
+              <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">🎨 ตัวอย่างสีต่างๆ</h3>
+                <p className="text-sm text-gray-600 mb-4">แสดงความคืบหน้าด้วยสีที่แตกต่างกัน (จำลองข้อมูลจาก API)</p>
+                <div className="flex flex-col gap-6">
+                  <div>
+                    <p className="text-xs text-gray-500 mb-2">Path 1: 15/27 ดาว</p>
+                    <KawaiiProgressBar
+                      value={20}
+                      max={27}
+                      color="#9956DE"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 mb-2">Path 2: 8/27 ดาว</p>
+                    <KawaiiProgressBar
+                      value={8}
+                      max={27}
+                      color="#1cb0f6"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 mb-2">Path 3: 22/27 ดาว</p>
+                    <KawaiiProgressBar
+                      value={22}
+                      max={27}
+                      color="#6cc484"
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Different progress values */}
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-[#1cb0f6] rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">📊 ตัวอย่างความคืบหน้าต่างๆ</h3>
+                <div className="flex flex-col gap-6">
+                  <div>
+                    <p className="text-xs text-gray-500 mb-2">เริ่มต้น: 3/27 ดาว</p>
+                    <KawaiiProgressBar
+                      value={3}
+                      max={27}
+                      color="#fe8ce4"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 mb-2">กำลังทำ: 12/27 ดาว</p>
+                    <KawaiiProgressBar
+                      value={12}
+                      max={27}
+                      color="#FFB356"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 mb-2">เกือบเสร็จ: 24/27 ดาว</p>
+                    <KawaiiProgressBar
+                      value={24}
+                      max={27}
+                      color="#75D06A"
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Features */}
+              <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">✨ Features</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-gradient-to-br from-pink-50 to-purple-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-800 mb-2">🎨 Customizable Colors</h4>
+                    <p className="text-sm text-gray-600">
+                      ปรับสีได้ตามต้องการด้วย CSS Variables
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-800 mb-2">👀 Kawaii Design</h4>
+                    <p className="text-sm text-gray-600">
+                      มีหน้าตาน่ารักพร้อมดวงตาและรอยยิ้ม
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-800 mb-2">📊 Read-only</h4>
+                    <p className="text-sm text-gray-600">
+                      แสดงความคืบหน้าจากข้อมูล API แบบ read-only
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-800 mb-2">♿ Accessible</h4>
+                    <p className="text-sm text-gray-600">
+                      รองรับการใช้งานด้วย screen reader
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Usage Example */}
+              <div className="bg-gray-50 border-2 border-gray-200 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">📝 วิธีใช้งาน</h3>
+                <div className="bg-white p-4 rounded-lg font-mono text-xs">
+                  <pre className="text-gray-800 whitespace-pre-wrap">
+{`import { KawaiiProgressBar } from "@/components/common/KawaiiProgressBar";
+
+// ตัวอย่างข้อมูลจาก API
+const apiData = {
+  currentStars: 15,
+  totalStars: 27
+};
+
+<KawaiiProgressBar
+  value={apiData.currentStars}
+  max={apiData.totalStars}
+  color="#1cb0f6"
+  className="w-full"
+/>
+
+// หรือกำหนดค่าตรงๆ
+<KawaiiProgressBar
+  value={15}
+  max={27}
+  color="#9956DE"
+/>`}
+                  </pre>
+                </div>
               </div>
             </div>
           </section>
