@@ -87,8 +87,8 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
       <div className="grid grid-cols-[60px_1fr_100px_80px] sm:grid-cols-[70px_1fr_110px_90px] lg:grid-cols-[80px_1fr_120px_100px] gap-2 sm:gap-3 lg:gap-4 px-3 sm:px-4 lg:px-4 py-2 sm:py-2.5 lg:py-3 border border-gray-200 bg-gray-50">
         <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700">ลำดับ</div>
         <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 min-w-0">ชื่อที่แสดง</div>
-        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:text-left sm:pl-2 lg:pl-4">คะแนนสูงสุด</div>
-        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:pl-4 lg:pl-6">แรงค์</div>
+        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:text-left sm:pl-2 lg:pl-0">คะแนนสูงสุด</div>
+        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:pl-4 lg:pl-1">แรงค์</div>
       </div>
 
       {/* Table Rows */}

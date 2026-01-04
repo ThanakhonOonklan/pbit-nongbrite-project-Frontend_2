@@ -46,7 +46,7 @@ const defaultProgressItems: ProgressItemData[] = [
     total: 9,
     icon: <FaRoute className="w-5 h-5" />,
     color: "#1CB0F6",
-    levels: generateLevels(6),
+    levels: generateLevels(1),
   },
   {
     title: "Counting & Classification",
