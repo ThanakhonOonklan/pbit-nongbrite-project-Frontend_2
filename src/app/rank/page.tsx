@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { TopThreePodium, MyRankCard, LeaderboardList } from "@/components/rank";
+import { MyRankCard, LeaderboardList } from "@/components/rank";
 import { mockLeaderboardData } from "@/constants/mocks";
+import { mockMyRankData } from "@/constants/mocks/userData";
 import { BackgroundSquares } from "@/components/common";
 
 export default function RankPage() {
@@ -18,26 +19,24 @@ export default function RankPage() {
       <main className="flex-1 overflow-auto">
         <div className="min-h-full p-4 sm:p-5 md:p-6 pb-[90px] lg:pb-6 relative">
           <BackgroundSquares />
-          <div className="relative z-10 grid grid-cols-1 gap-4 md:gap-6 xl:grid-cols-[1fr_360px]">
-            <section className="flex flex-col gap-4 md:gap-6 overflow-visible xl:overflow-hidden">
-              <TopThreePodium
-                topThree={mockLeaderboardData.topThree}
-                className="flex-shrink-0"
-              />
-              <LeaderboardList
-                items={mockLeaderboardData.topTen}
-                className="flex-1 min-h-0 -mt-3 md:-mt-4"
-                displayScrollbar={true}
-                enableArrowNavigation={true}
-              />
-            </section>
+          <div className="relative z-10 max-w-[1300px]">
+            <div className="grid grid-cols-1 gap-4 md:gap-6 xl:grid-cols-[1fr_360px]">
+              <aside className="flex flex-col gap-4 md:gap-6 order-1 xl:order-2">
+                <MyRankCard
+                  myRank={mockMyRankData}
+                  className="xl:h-full"
+                />
+              </aside>
 
-            <aside className="flex flex-col gap-4 md:gap-6">
-              <MyRankCard
-                myRank={mockLeaderboardData.myRank}
-                className="xl:h-full"
-              />
-            </aside>
+              <section className="flex flex-col gap-4 md:gap-6 overflow-visible order-2 xl:order-1">
+                <LeaderboardList
+                  items={mockLeaderboardData.topTen}
+                  topThree={mockLeaderboardData.topThree}
+                  className="flex-1 min-h-0"
+                  displayScrollbar={true}
+                />
+              </section>
+            </div>
           </div>
         </div>
       </main>

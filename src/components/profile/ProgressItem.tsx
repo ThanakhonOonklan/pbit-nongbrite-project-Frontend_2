@@ -1,6 +1,7 @@
 import * as React from "react";
 import { FaStar, FaCaretDown } from "react-icons/fa";
 import { cn } from "@/lib/utils";
+import { KawaiiProgressBar } from "@/components/common/KawaiiProgressBar";
 
 export interface LevelData {
   level: number;
@@ -20,24 +21,9 @@ export interface ProgressItemProps {
   onToggle?: () => void;
 }
 
-// Helper function to lighten a color
-const lightenColor = (hex: string, percent: number): string => {
-  const num = parseInt(hex.replace('#', ''), 16);
-  const R = (num >> 16) & 255;
-  const G = (num >> 8) & 255;
-  const B = num & 255;
-  
-  const factor = percent / 100;
-  const newR = Math.round(R + (255 - R) * factor);
-  const newG = Math.round(G + (255 - G) * factor);
-  const newB = Math.round(B + (255 - B) * factor);
-  
-  return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
-};
-
-export const ProgressItem: React.FC<ProgressItemProps> = ({ 
-  title, 
-  total, 
+export const ProgressItem: React.FC<ProgressItemProps> = ({
+  title,
+  total,
   icon,
   color = "#1CB0F6",
   levels = [],
@@ -47,52 +33,61 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({
 }) => {
   const totalStarsEarned = levels.reduce((sum, level) => sum + level.stars, 0);
   const maxStars = total * 3; // 9 ด่าน × 3 ดาวต่อด่าน = 27
-  
-  const percent = Math.max(0, Math.min(100, (totalStarsEarned / maxStars) * 100));
-  
+
+  // Helper function to convert hex color to rgba
+  const hexToRgba = (hex: string, opacity: number): string => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  };
+
   const handleClick = () => {
     onToggle?.();
   };
-  
+
   return (
     <div className={cn("bg-white rounded-[10px]", className)}>
       {/* Main section */}
       <div
-        className="flex items-center gap-3 px-4 py-4 rounded-[14px] transition-colors duration-200 hover:bg-gray-50 cursor-pointer relative z-10"
+        className="flex items-center gap-2 sm:gap-3 px-3 py-3 sm:px-4 sm:py-4 rounded-[12px] sm:rounded-[14px] transition-colors duration-200 hover:bg-gray-50 cursor-pointer relative z-10"
         style={{
-          boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+          boxShadow:
+            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
         }}
         onClick={handleClick}
       >
         <div className="flex-1">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              {icon && <span className="flex-shrink-0" style={{ color }}>{icon}</span>}
+          <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {icon && (
+                <span className="flex-shrink-0" style={{ color }}>
+                  {icon}
+                </span>
+              )}
               <span className="text-[15px] md:text-[14px] lg:text-[15px] leading-[18px] font-semibold text-gray-800">
                 {title}
               </span>
             </div>
             <div className="flex items-center gap-1">
-              <FaStar className="w-4 h-4 text-[#FFD700]" />
-            <span className="text-[12px] md:text-[11px] lg:text-[12px] leading-[16px] font-medium text-gray-600">
-              {totalStarsEarned}/{maxStars}
-            </span>
+              <FaStar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FFD700]" />
+              <span className="text-[12px] md:text-[11px] lg:text-[12px] leading-[16px] font-medium text-gray-600">
+                {totalStarsEarned}/{maxStars}
+              </span>
             </div>
           </div>
-          <div className="w-full h-2.5 rounded-full bg-[#E5F8FF] overflow-hidden">
-            <div 
-              className="h-full rounded-full transition-all duration-500 ease-out" 
-              style={{ 
-                width: `${percent}%`,
-                backgroundImage: `linear-gradient(to right, ${color}, ${lightenColor(color, 20)})`
-              }} 
-            />
-          </div>
+          <KawaiiProgressBar
+            value={totalStarsEarned}
+            min={0}
+            max={maxStars}
+            color={color}
+            className="w-full"
+          />
         </div>
         <div className="flex items-center gap-2">
-          <button 
+          <button
             className={cn(
-              "w-7 h-7 inline-flex items-center justify-center rounded-full bg-white border border-neutral-200",
+              "w-6 h-6 sm:w-7 sm:h-7 inline-flex items-center justify-center rounded-full bg-white border border-neutral-200",
               "hover:bg-[#F5FAFF] hover:border-[#1CB0F6] transition-all duration-200",
               isExpanded && "bg-[#F5FAFF] border-[#1CB0F6]"
             )}
@@ -102,22 +97,22 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({
             }}
             aria-expanded={isExpanded}
           >
-            <FaCaretDown 
+            <FaCaretDown
               className={cn(
-                "w-4 h-4 text-[#7F7F7F] transition-transform duration-200",
+                "w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#7F7F7F] transition-transform duration-200",
                 isExpanded && "rotate-180"
-              )} 
+              )}
             />
           </button>
         </div>
       </div>
-      
+
       {/* Dropdown section */}
-      <div 
+      <div
         className={cn(
           "overflow-hidden transition-all relative z-0",
-          isExpanded 
-            ? "max-h-[500px] opacity-100 scale-y-100 translate-y-0" 
+          isExpanded
+            ? "max-h-[500px] opacity-100 scale-y-100 translate-y-0"
             : "max-h-0 opacity-0 scale-y-95 -translate-y-2"
         )}
         style={{
@@ -126,43 +121,62 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({
         }}
       >
         {levels.length > 0 && (
-          <div 
+          <div
             className="px-4 py-3"
             style={{
-              boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+              boxShadow:
+                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
             }}
           >
-          <div className="grid grid-cols-3 gap-2">
-            {levels.map((level) => (
-              <div
-                key={level.level}
-                className={cn(
-                  "flex flex-col items-center gap-1 py-2 px-2 rounded-lg",
-                  level.completed ? "bg-[#F5FAFF]" : "bg-gray-50"
-                )}
-              >
-                <span className="text-[13px] font-semibold text-gray-700">
-                  ด่าน {level.level}
-                </span>
-                <div className="flex items-center gap-0.5">
-                  {[1, 2, 3].map((star) => (
-                    <FaStar
-                      key={star}
-                      className={cn(
-                        "w-3 h-3",
-                        star <= level.stars ? "text-[#FFD700]" : "text-gray-300"
-                      )}
-                    />
-                  ))}
+            <div className="grid grid-cols-3 gap-2">
+              {levels.map((level) => (
+                <div
+                  key={level.level}
+                  className={cn(
+                    "flex flex-col items-center gap-1 py-2 px-2 rounded-lg",
+                    "transition-all duration-200 cursor-pointer",
+                    !level.completed && "bg-gray-50"
+                  )}
+                  style={level.completed ? {
+                    backgroundColor: hexToRgba(color, 0.1),
+                  } : undefined}
+                  onMouseEnter={(e) => {
+                    if (level.completed) {
+                      e.currentTarget.style.backgroundColor = hexToRgba(color, 0.2);
+                    } else {
+                      e.currentTarget.style.backgroundColor = "#f3f4f6"; // gray-100
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (level.completed) {
+                      e.currentTarget.style.backgroundColor = hexToRgba(color, 0.1);
+                    } else {
+                      e.currentTarget.style.backgroundColor = "#f9fafb"; // gray-50
+                    }
+                  }}
+                >
+                  <span className="text-[13px] font-semibold text-gray-700">
+                    ด่าน {level.level}
+                  </span>
+                  <div className="flex items-center gap-0.5">
+                    {[1, 2, 3].map((star) => (
+                      <FaStar
+                        key={star}
+                        className={cn(
+                          "w-3 h-3",
+                          star <= level.stars
+                            ? "text-[#FFD700]"
+                            : "text-gray-300"
+                        )}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );
 };
-
-

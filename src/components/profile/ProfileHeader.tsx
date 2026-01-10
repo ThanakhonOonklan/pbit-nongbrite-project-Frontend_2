@@ -2,9 +2,9 @@ import * as React from "react";
 import { Container } from "@/components/common/Container";
 import { Image } from "@/components/common/Image";
 import { cn } from "@/lib/utils";
-import { IoTrophy, IoFlame, IoCreateOutline } from "react-icons/io5";
-import { FaMedal, FaMars, FaVenus } from "react-icons/fa";
-import type { RankUser } from "@/types";
+import { FaMars, FaVenus, FaGenderless, FaTrophy, FaFire } from "react-icons/fa";
+import { StatCard } from "./StatCard";
+import { EditProfileButton } from "./EditProfileButton";
 import {
   Sheet,
   SheetContent,
@@ -13,62 +13,33 @@ import {
 } from "@/components/ui/sheet";
 import { EditProfileForm } from "./EditProfileForm";
 import { Divide } from "lucide-react";
+import { mockMyRankData } from "@/constants/mocks/userData";
+import { getRankBadgeImage } from "@/constants/ranks";
 
 export interface ProfileHeaderProps {
-  myRank?: RankUser;
   className?: string;
 }
 
-// Rank tiers data
-const rankTiers = [
-  { name: "ผู้เริ่มต้น", minScore: 0, maxScore: 3999 },
-  { name: "ผู้เริ่มต้นที่ดี", minScore: 4000, maxScore: 10000 },
-  { name: "นักเรียนขยัน", minScore: 10001, maxScore: 15000 },
-  { name: "นักเรียนยอดเยี่ยม", minScore: 15001, maxScore: 25000 },
-  { name: "นักเรียนระดับเซียน", minScore: 25001, maxScore: Infinity },
-];
+export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
+  // Extract filename from avatar path
+  const getAvatarFilename = (avatarPath: string): string => {
+    return avatarPath.split("/").pop() || "icon_P_Bit.png";
+  };
 
-export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
-  myRank,
-  className,
-}) => {
   const [isEditOpen, setIsEditOpen] = React.useState(false);
-  const [selectedCharacter, setSelectedCharacter] =
-    React.useState("character-01.svg");
-  const [gender, setGender] = React.useState("เพศชาย");
+  const [selectedCharacter, setSelectedCharacter] = React.useState(
+    getAvatarFilename(mockMyRankData.avatar || "/icons/icon-Profile/icon_P_Bit.png")
+  );
+  const [gender, setGender] = React.useState(mockMyRankData.gender ?? "เพศชาย");
+  const [userName, setUserName] = React.useState(mockMyRankData.name);
 
-  // Mock data
-  const userName = "Thanakhon Oonklan";
-  const boosterType = "วันที่เข้าร่วม กุมภาพันธ์ 2023";
-  const highestScore = 3000;
-  const correctAnswers = 218;
-
-  // Calculate rank progress
-  let progressPercent = 0;
-  let currentScore = 0;
-  let nextTierScore = 0;
-
-  if (myRank) {
-    const currentTier =
-      rankTiers.find(
-        (tier) => myRank.score >= tier.minScore && myRank.score <= tier.maxScore
-      ) || rankTiers[0];
-
-    const nextTier = rankTiers.find((tier) => tier.minScore > myRank.score);
-
-    if (nextTier) {
-      const currentScoreInTier = myRank.score - currentTier.minScore;
-      const totalNeededInTier = nextTier.minScore - currentTier.minScore;
-      progressPercent = (currentScoreInTier / totalNeededInTier) * 100;
-      currentScore = currentScoreInTier;
-      nextTierScore = totalNeededInTier;
-    } else {
-      // Max rank
-      progressPercent = 100;
-      currentScore = myRank.score;
-      nextTierScore = myRank.score;
-    }
-  }
+  // ข้อมูลผู้ใช้ (Mock data - จะแทนที่ด้วยข้อมูลจริงจาก API)
+  const joinDate = mockMyRankData.joinDate ;
+  const rank = mockMyRankData.rank;
+  const highestScore = mockMyRankData.score;
+  const daystate = mockMyRankData.daystate;
+  const maxScore = 6300;
+  const progressPercent = (highestScore / maxScore) * 100;
 
   const handleEditProfile = () => {
     setIsEditOpen(true);
@@ -79,18 +50,17 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     gender: string;
     character: string;
   }) => {
-    console.log("Save profile:", data);
+    setUserName(data.name);
     setSelectedCharacter(data.character);
     setGender(data.gender);
-    // TODO: Implement save profile functionality
     setIsEditOpen(false);
   };
 
-  // Helper functions for gender icon and color
+  // ฟังก์ชันช่วยสำหรับแสดงไอคอนและสีตามเพศ
   const getGenderIcon = (gender: string) => {
     if (gender === "เพศชาย") return FaMars;
     if (gender === "เพศหญิง") return FaVenus;
-    if (gender === "ไม่ระบุตัวตน") return FaMars; // Use default icon for not-specified
+    if (gender === "ไม่ระบุตัวตน") return FaGenderless;
     return FaMars; // Default
   };
 
@@ -101,50 +71,35 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     return "text-[#344054]"; // Default
   };
 
-
   return (
     <>
       <Container
         className={cn(
-          "p-4 sm:p-5 md:p-4 lg:p-6 w-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] relative",
+          "p-4 sm:p-5 md:p-4 lg:p-6 w-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] relative overflow-visible",
           className
         )}
       >
-        {/* Edit Button */}
-        <button
-          type="button"
-          onClick={handleEditProfile}
-          className={cn(
-            "absolute top-4 right-4 w-10 h-10 rounded-lg",
-            "border-2 border-gray-300 bg-white",
-            "flex items-center justify-center",
-            "transition-all duration-200",
-            "hover:border-[#1cb0f6] hover:bg-[#F5FAFF]",
-            "text-gray-600 hover:text-[#1cb0f6]",
-            "focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2"
-          )}
-          aria-label="แก้ไขโปรไฟล์"
-        >
-          <IoCreateOutline className="w-5 h-5" />
-        </button>
+        {/* ปุ่มแก้ไขโปรไฟล์ */}
+        <EditProfileButton onClick={handleEditProfile} />
 
-        {/* Top Section: Avatar and User Info - แยกเป็น 2 div */}
+        {/* ส่วนหลัก: รูปโปรไฟล์และข้อมูลผู้ใช้ */}
         <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-0">
-          {/* Avatar Div */}
-          <div className="relative w-full md:w-[150px] lg:w-[180px] min-h-[140px] md:min-h-[150px] lg:min-h-[180px] rounded-[12px] bg-gradient-to-br from-[#1cb0f6] to-[#17a3e3] flex items-center justify-center overflow-hidden">
+          {/* รูปโปรไฟล์ */}
+          <div className="relative w-full h-[140px] sm:h-[150px] md:w-[150px] md:h-[150px] lg:w-[180px] lg:h-[180px] rounded-[12px] flex items-center justify-center z-10">
             <Image
-              src={`/images/All-Character/${selectedCharacter}`}
+              src={`/icons/icon-Profile/${selectedCharacter}`}
               alt="Character Avatar"
               fill
               containerClassName="w-full h-full"
-              className="object-cover scale-90"
+              className="object-contain"
               style={{ objectPosition: "center 60%" }}
               sizes="(max-width: 768px) 150px, (max-width: 1024px) 180px, 180px"
             />
           </div>
 
-          {/* User Info Div */}
-          <div className="flex-1 flex flex-col gap-2 md:rounded-r-[12px] md:px-4 md:py-3">
+          {/* ข้อมูลผู้ใช้ */}
+          <div className="flex-1 flex flex-col gap-2 sm:gap-2.5 md:gap-2 md:rounded-r-[12px] md:px-3 md:py-2.5 lg:px-4 lg:py-3">
+            {/* ชื่อผู้ใช้และไอคอนเพศ */}
             <div className="flex items-center gap-2">
               <h2 className="text-[18px] sm:text-[19px] md:text-[19px] lg:text-[20px] leading-[28px] font-bold text-gray-800">
                 {userName}
@@ -157,96 +112,56 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 "aria-label": gender,
               })}
             </div>
+            {/* วันที่เข้าร่วม */} 
             <span className="text-[13px] sm:text-[13px] md:text-[13px] lg:text-[14px] leading-[20px] font-medium text-gray-600">
-              {boosterType}
+              {joinDate}
             </span>
 
             {/* Progress Bar Section */}
-            <div className="relative mt-2 sm:mt-2">
-              <div className="w-full h-[10px] rounded-full bg-[#E5F8FF] overflow-hidden">
+            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+              <div className="relative flex-1 h-[8px] sm:h-[10px] bg-[#E0F2FF] rounded-full overflow-hidden shadow-inner min-w-0">
                 <div
-                  className="h-full rounded-full bg-[#1CB0F6] transition-all duration-500 ease-out"
-                  style={{ width: `${progressPercent}%` }}
+                  className="absolute left-0 top-0 h-full bg-[#1cb0f6] rounded-full transition-all duration-500"
+                  style={{ width: `${Math.min(progressPercent, 100)}%` }}
                 />
               </div>
-              <span className="absolute top-[-26px] right-0 text-[12px] sm:text-[12px] md:text-[13px] lg:text-[14px] leading-[18px] font-medium text-gray-600 whitespace-nowrap">
-                {currentScore.toLocaleString()} /{" "}
-                {nextTierScore.toLocaleString()}
+              <span className="text-[10px] sm:text-[11px] md:text-[12px] font-bold text-[#1cb0f6] whitespace-nowrap">
+                {highestScore.toLocaleString()}/{maxScore.toLocaleString()}
               </span>
             </div>
 
-            {/* Statistics Cards Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mt-4">
-              {/* Rank Card - แทนที่ XP Card */}
-              <div
-                className="bg-white rounded-[12px] px-2 py-2 sm:px-2.5 sm:py-2.5 md:px-2 md:py-2 lg:px-3 lg:py-3 flex items-center gap-2 sm:gap-2.5 md:gap-2 lg:gap-3 transition-colors duration-200 hover:bg-gray-50 cursor-pointer"
-                style={{
-                  boxShadow:
-                    "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                }}
-              >
-                <div className="flex items-center justify-center min-w-[36px] w-[36px] h-[36px] sm:min-w-[40px] sm:w-[40px] sm:h-[40px] md:min-w-[38px] md:w-[38px] md:h-[38px] lg:min-w-[44px] lg:w-[44px] lg:h-[44px] rounded-[10px] bg-[#FFFBEA]">
-                  <FaMedal className="w-4 h-4 sm:w-5 sm:h-5 md:w-4 md:h-4 lg:w-5 lg:h-5 text-[#FACC15]" />
-                </div>
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-[16px] sm:text-[17px] md:text-[17px] lg:text-[19px] leading-[24px] font-bold text-gray-800">
-                    {myRank ? `#${myRank.rank}` : "-"}
-                  </span>
-                  <span className="text-[10px] sm:text-[10px] md:text-[11px] leading-[14px] font-medium text-gray-600">
-                    {myRank
-                      ? `${myRank.score.toLocaleString()} คะแนน`
-                      : "ไม่มีอันดับ"}
-                  </span>
-                </div>
-              </div>
+            {/* การ์ดสถิติ */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3 sm:mt-4">
+              {/* การ์ดอันดับ */}
+              <StatCard
+                imageSrc={getRankBadgeImage(highestScore)}
+                imageAlt="Rank badge"
+                title={`#${rank}`}
+                description="เเรงค์"
+                iconBgColor="bg-transparent"
+              />
 
-              {/* Highest Score Card */}
-              <div
-                className="bg-white rounded-[12px] px-2 py-2 sm:px-2.5 sm:py-2.5 md:px-2 md:py-2 lg:px-3 lg:py-3 flex items-center gap-2 sm:gap-2.5 md:gap-2 lg:gap-3 transition-colors duration-200 hover:bg-gray-50 cursor-pointer"
-                style={{
-                  boxShadow:
-                    "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                }}
-              >
-                <div className="flex items-center justify-center min-w-[36px] w-[36px] h-[36px] sm:min-w-[40px] sm:w-[40px] sm:h-[40px] md:min-w-[38px] md:w-[38px] md:h-[38px] lg:min-w-[44px] lg:w-[44px] lg:h-[44px] rounded-[10px] bg-[#F5FAFF]">
-                  <IoTrophy className="w-4 h-4 sm:w-5 sm:h-5 md:w-4 md:h-4 lg:w-5 lg:h-5 text-[#FFD300]" />
-                </div>
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-[16px] sm:text-[17px] md:text-[17px] lg:text-[19px] leading-[24px] font-bold text-gray-800">
-                    {highestScore}
-                  </span>
-                  <span className="text-[10px] sm:text-[10px] md:text-[11px] leading-[14px] font-medium text-gray-600">
-                    คะแนนสูงสุด
-                  </span>
-                </div>
-              </div>
+              {/* การ์ดคะแนนสูงสุด */}
+              <StatCard
+                icon={<FaTrophy className="w-5 h-5 text-[#1cb0f6]" />}
+                title={highestScore.toString()}
+                description="คะแนนที่ได้"
+                iconBgColor="bg-[#E6F3FF]"
+              />
 
-              {/* Correct Answers / Streak Card */}
-              <div
-                className="bg-white rounded-[12px] px-2 py-2 sm:px-2.5 sm:py-2.5 md:px-2 md:py-2 lg:px-3 lg:py-3 flex items-center gap-2 sm:gap-2.5 md:gap-2 lg:gap-3 transition-colors duration-200 hover:bg-gray-50 cursor-pointer"
-                style={{
-                  boxShadow:
-                    "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                }}
-              >
-                <div className="flex items-center justify-center min-w-[36px] w-[36px] h-[36px] sm:min-w-[40px] sm:w-[40px] sm:h-[40px] md:min-w-[38px] md:w-[38px] md:h-[38px] lg:min-w-[44px] lg:w-[44px] lg:h-[44px] rounded-[10px] bg-[#F5FAFF]">
-                  <IoFlame className="w-4 h-4 sm:w-5 sm:h-5 md:w-4 md:h-4 lg:w-5 lg:h-5 text-[#FF8B8B]" />
-                </div>
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-[16px] sm:text-[17px] md:text-[17px] lg:text-[19px] leading-[24px] font-bold text-gray-800">
-                    {correctAnswers}
-                  </span>
-                  <span className="text-[10px] sm:text-[10px] md:text-[11px] leading-[14px] font-medium text-gray-600">
-                    วันที่เล่นต่อเนื่อง
-                  </span>
-                </div>
-              </div>
+              {/* การ์ดวันที่เล่นต่อเนื่อง */}
+              <StatCard
+                icon={<FaFire className="w-5 h-5 text-[#FF6B6B]" />}
+                title={daystate.toString()}
+                description="วันที่ติดต่อกัน"
+                iconBgColor="bg-[#FFE4E1]" // สีเเดงอ่อนมาก 
+              />
             </div>
           </div>
         </div>
       </Container>
 
-      {/* Edit Profile Sheet */}
+      {/* แผ่นแก้ไขโปรไฟล์ (Side Sheet) */}
       <Sheet open={isEditOpen} onOpenChange={setIsEditOpen}>
         <SheetContent
           side="right"
@@ -255,11 +170,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             "overflow-y-auto p-6"
           )}
         >
-          {/* Hidden title and description for accessibility */}
-          <SheetTitle >แก้ไขโปรไฟล์</SheetTitle>
-          < Divide className="w-full h-px bg-gray-200 my-2" />
+          {/* หัวข้อและคำอธิบายสำหรับ accessibility (ซ่อนไว้) */}
+          <SheetTitle>แก้ไขโปรไฟล์</SheetTitle>
+          <Divide className="w-full h-px bg-gray-200 my-2" />
           <SheetDescription className="sr-only"></SheetDescription>
-          
+
           <EditProfileForm
             initialName={userName}
             initialGender={gender}

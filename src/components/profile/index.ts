@@ -8,5 +8,7 @@ export { ProgressList } from "./ProgressList";
 export type { ProgressListProps, ProgressItemData } from "./ProgressList";
 export { EditProfileForm } from "./EditProfileForm";
 export type { EditProfileFormProps } from "./EditProfileForm";
+export { EditProfileButton } from "./EditProfileButton";
+export type { EditProfileButtonProps } from "./EditProfileButton";
 
 

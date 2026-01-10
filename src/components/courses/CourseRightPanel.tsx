@@ -5,47 +5,27 @@ import { DifficultyIndicator } from "@/components/common/DifficultyIndicator";
 import { getDifficultyBadgeColor } from "@/utils/level";
 import { cn } from "@/lib/utils";
 import Carousel from "@/components/courses/CourseCarousel";
-import { Container, Divider, PrimaryButton, Image } from "@/components/common";
 import { getGameData } from "@/constants/mocks/gameData";
-import { getUserData } from "@/constants/mocks/userData";
-
-// Helper function to lighten a color (make it lighter/pastel)
-const lightenColor = (color: string, percent: number = 50): string => {
-  // Remove # if present
-  const hex = color.replace("#", "");
-  
-  // Parse RGB
-  const num = parseInt(hex, 16);
-  const R = (num >> 16) & 255;
-  const G = (num >> 8) & 255;
-  const B = num & 255;
-  
-  // Lighten by blending with white
-  // percent = 0 means no change, percent = 100 means pure white
-  const factor = percent / 100;
-  const newR = Math.round(R + (255 - R) * factor);
-  const newG = Math.round(G + (255 - G) * factor);
-  const newB = Math.round(B + (255 - B) * factor);
-  
-  return `#${newR.toString(16).padStart(2, "0")}${newG.toString(16).padStart(2, "0")}${newB.toString(16).padStart(2, "0")}`;
-};
+import { mockMyRankData } from "@/constants/mocks/userData";
+import { ResourceBars } from "./ResourceBars";
+import { lightenColor } from "@/utils/courses";
 
 export interface CourseRightPanelProps {
-  levelTitle?: string;
+  level?: number; // ระดับที่เลือก (1-9)
   difficulty?: number;
   difficultyText?: string;
   className?: string;
   gameDetail?: React.ReactNode;
-  heartCount?: number;
-  scoreCount?: number;
-  fireCount?: number;
+  heartCount?: number; // ใช้เป็น fallback เท่านั้น (ข้อมูลจริงมาจาก mockMyRankData)
+  scoreCount?: number; // ใช้เป็น fallback เท่านั้น (ข้อมูลจริงมาจาก mockMyRankData)
+  fireCount?: number; // ใช้เป็น fallback เท่านั้น (ข้อมูลจริงมาจาก mockMyRankData)
   gameTitle?: string;
   gameIcon?: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   headerColor?: string; // สี header จาก ScrollStack section ที่กำลังแสดง
 }
 
 export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
-  levelTitle,
+  level,
   difficulty = 1,
   difficultyText,
   className,
@@ -57,24 +37,25 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
   gameIcon: GameIcon,
   headerColor,
 }) => {
-  // Use headerColor if provided, otherwise use default difficulty badge color
-  const badgeColor = headerColor || getDifficultyBadgeColor(difficulty);
-  const displayLevel = difficulty ?? 1;
+  // สี badge ต้องเปลี่ยนตาม difficulty ของ level ที่เลือก ไม่ใช่ตาม headerColor
+  const badgeColor = getDifficultyBadgeColor(difficulty);
+  const displayLevel = level ?? difficulty ?? 1;
+  
+  // สีสำหรับ "Level X :" ตาม difficulty
+  const levelTextColor = getDifficultyBadgeColor(difficulty);
 
-  // Get game title from gameData if gameTitle is provided
+  // ดึงชื่อเกมจาก gameData ถ้ามี gameTitle
   const gameData = gameTitle ? getGameData(gameTitle) : null;
   const displayTitle = gameData?.title || gameTitle || "Path Navigation";
 
-  // Calculate lightened background color from headerColor (85% lighter for pastel effect)
+  // คำนวณสีพื้นหลังที่สว่างขึ้นจาก headerColor (สว่างขึ้น 85% สำหรับ pastel effect)
   const lightenedBgColor = headerColor ? lightenColor(headerColor, 85) : "#F5F5F5";
 
-  // Get user data (heartCount, scoreCount, fireCount) from userData
-  const userData = getUserData();
-  
-  // Use data from userData, or fallback to props (backward compatible)
-  const displayHeartCount = userData?.heartCount ?? heartCount ?? 0;
-  const displayScoreCount = userData?.scoreCount ?? scoreCount ?? 0;
-  const displayFireCount = userData?.fireCount ?? fireCount ?? 0;
+  // ดึงข้อมูลผู้ใช้ (heartCount, scoreCount, daystate) จาก mockMyRankData
+  // ใช้ข้อมูลจาก mockMyRankData หรือ fallback ไปที่ props (เพื่อ backward compatibility)
+  const displayHeartCount = mockMyRankData.heartCount ?? heartCount ?? 0;
+  const displayScoreCount = mockMyRankData.score ?? scoreCount ?? 0;
+  const displayFireCount = mockMyRankData.daystate ?? fireCount ?? 0;
 
   return (
     <div
@@ -83,69 +64,18 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
         className
       )}
     >
-      {/* Combined Container with Resource Bars and Main Content */}
+      {/* Container หลักสำหรับ Resource Bars และเนื้อหาหลัก */}
       <div className="w-[350px] rounded-[24px] bg-white shadow-sm border border-[#E4E9F2] flex flex-col">
-        {/* Resource Bars Section */}
-        {(displayHeartCount > 0 ||
-          displayScoreCount > 0 ||
-          displayFireCount > 0) && (
-          <>
-            <div className="py-4 px-3 flex flex-col gap-4">
-              <div className="flex items-center gap-1.5 w-full">
-                <PrimaryButton
-                  variant="default"
-                  size="sm"
-                  disabled
-                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
-                >
-                  <Image
-                    src="/icons/game/key.svg" 
-                    alt="key" 
-                    width={25}
-                    height={25}
-                    className="object-contain"
-                  />
-                  {displayHeartCount}
-                </PrimaryButton>
-                <PrimaryButton
-                  variant="default"
-                  size="sm"
-                  disabled
-                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
-                >
-                  <Image
-                    src="/icons/game/gem.svg"
-                    alt="Score" 
-                    width={25}
-                    height={25}
-                    className="object-contain"
-                  />
-                  {displayScoreCount}
-                </PrimaryButton>
-                <PrimaryButton
-                  variant="default"
-                  size="sm"
-                  disabled
-                  className="bg-gray-300 text-gray-600 border-gray-400 shadow-none cursor-not-allowed flex-1 min-w-0 max-w-full"
-                >
-                  <Image
-                    src="/icons/game/daystreak.svg"
-                    alt="daystreak"  
-                    width={25}
-                    height={25}
-                    className="object-contain"
-                  />
-                  {displayFireCount}
-                </PrimaryButton>
-              </div>
-            </div>
-            <Divider />
-          </>
-        )}
+        {/* ส่วน Resource Bars */}
+        <ResourceBars
+          heartCount={displayHeartCount}
+          scoreCount={displayScoreCount}
+          daystate={displayFireCount}
+        />
 
-        {/* Main Content Section */}
+        {/* ส่วนเนื้อหาหลัก */}
         <div className="pt-[24px] pb-[32px] px-[24px] flex flex-col gap-[12px]">
-          {/* Game Title */}
+          {/* ชื่อเกม */}
           <div className="flex items-center justify-between -mt-1">
             <div 
               className="flex items-center gap-2 px-3 py-1 rounded-lg"
@@ -176,20 +106,24 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
           </div>
 
           {/* Carousel */}
-          <Container className="flex flex-col items-center -mt-2 rounded-[24px]">
-            <Carousel
-              baseWidth={302}
-              autoplay
-              autoplayDelay={3000}
-              pauseOnHover
-              loop={false}
-            />
-          </Container>
+          <Carousel
+            baseWidth={302}
+            autoplay
+            autoplayDelay={3000}
+            pauseOnHover
+            loop={false}
+          />
 
-          {/* Level Info and Difficulty */}
+          {/* ข้อมูล Level และ Difficulty */}
           <div className="flex items-center justify-between -mt-1">
             <div className="flex items-center gap-2">
-              <span className="text-[15px] font-bold text-[#3C3C3C]">
+              <span 
+                className="text-[15px] font-bold"
+                style={{
+                  color: levelTextColor,
+                  transition: "color 0.3s ease",
+                }}
+              >
                 {`Level ${displayLevel} :`}
               </span>
               <DifficultyIndicator
@@ -213,7 +147,7 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
             </div>
           </div>
 
-          {/* Game Detail Area */}
+          {/* พื้นที่แสดงรายละเอียดเกม */}
           <div className="mt-auto rounded-[16px] bg-[#F5FBFF] border border-[#D5E9FF] p-4 min-h-[120px] text-[#325373] text-sm leading-6">
             {gameDetail || null}
           </div>
@@ -224,4 +158,3 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
 };
 
 CourseRightPanel.displayName = "CourseRightPanel";
-

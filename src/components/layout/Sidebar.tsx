@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           alt="Courses"
           width={32}
           height={32}
-          className="object-contain"
+          className="object-contain"  
          
         />
       ),
@@ -114,7 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       >
         <Image
           src="/icons/misc/new_logo.svg"
-          alt="P'Bit Nong Brite Logo"
+          alt="Logo"
           width={isCollapsed ? 70 : 220}
           height={isCollapsed ? 70 : 65}
           className="object-contain transition-transform duration-200"

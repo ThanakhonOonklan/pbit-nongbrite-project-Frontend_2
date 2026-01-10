@@ -56,3 +56,5 @@ export { LanguageDropdown } from "./LanguageDropdown";
 export type { LanguageDropdownProps, LanguageOption } from "./LanguageDropdown";
 export { SoundToggle } from "./SoundToggle";
 export type { SoundToggleProps } from "./SoundToggle";
+export { KawaiiProgressBar } from "./KawaiiProgressBar";
+export type { KawaiiProgressBarProps } from "./KawaiiProgressBar";

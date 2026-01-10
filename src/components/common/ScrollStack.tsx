@@ -136,6 +136,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     scale: number;
     rotation: number;
     blur: number;
+    opacity: number;
   }
 
   const lastTransformsRef = useRef(new Map<number, CardTransform>());
@@ -264,34 +265,45 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
       const rotation = rotationAmount ? i * rotationAmount * scaleProgress : 0;
 
+      // คำนวณ topCardIndex (card ที่อยู่บนสุด)
+      let topCardIndex = 0;
+
+      for (let j = 0; j < cardsRef.current.length; j++) {
+
+        const jCardTop = getElementOffset(cardsRef.current[j]);
+
+        const jTriggerStart = jCardTop - stackPositionPx - itemStackDistance * j;
+
+        if (scrollTop >= jTriggerStart) {
+
+          topCardIndex = j;
+
+        }
+
+      }
+
+      // คำนวณ blur สำหรับ cards ที่อยู่ด้านหลัง
       let blur = 0;
 
-      if (blurAmount) {
+      if (blurAmount && i < topCardIndex) {
 
-        let topCardIndex = 0;
+        const depthInStack = topCardIndex - i;
 
-        for (let j = 0; j < cardsRef.current.length; j++) {
+        blur = Math.max(0, depthInStack * blurAmount);
 
-          const jCardTop = getElementOffset(cardsRef.current[j]);
+      }
 
-          const jTriggerStart = jCardTop - stackPositionPx - itemStackDistance * j;
-
-          if (scrollTop >= jTriggerStart) {
-
-            topCardIndex = j;
-
-          }
-
-        }
-
-        if (i < topCardIndex) {
-
-          const depthInStack = topCardIndex - i;
-
-          blur = Math.max(0, depthInStack * blurAmount);
-
-        }
-
+      // คำนวณ opacity สำหรับ cards ที่อยู่ด้านหลัง
+      let opacity = 1;
+      if (i < topCardIndex) {
+        // Cards ที่อยู่ด้านหลัง active card - ซ่อนไว้
+        opacity = 0;
+      } else if (i === topCardIndex) {
+        // Active card - แสดงเต็มที่
+        opacity = 1;
+      } else {
+        // Cards ที่ยังไม่ถึง - แสดงปกติ
+        opacity = 1;
       }
 
       let translateY = 0;
@@ -316,7 +328,9 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
         rotation: Math.round(rotation * 100) / 100,
 
-        blur: Math.round(blur * 100) / 100
+        blur: Math.round(blur * 100) / 100,
+
+        opacity: Math.round(opacity * 100) / 100
 
       };
 
@@ -332,7 +346,9 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
         Math.abs(lastTransform.rotation - newTransform.rotation) > 0.1 ||
 
-        Math.abs(lastTransform.blur - newTransform.blur) > 0.1;
+        Math.abs(lastTransform.blur - newTransform.blur) > 0.1 ||
+
+        Math.abs(lastTransform.opacity - newTransform.opacity) > 0.01;
 
       if (hasChanged) {
 
@@ -343,6 +359,10 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         card.style.transform = transform;
 
         card.style.filter = filter;
+
+        card.style.opacity = newTransform.opacity.toString();
+
+        card.style.pointerEvents = newTransform.opacity < 0.5 ? 'none' : 'auto';
 
         lastTransformsRef.current.set(i, newTransform);
 
