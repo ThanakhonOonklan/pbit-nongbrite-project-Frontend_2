@@ -32,8 +32,8 @@ apiClient.interceptors.response.use(
     const isAuthEndpoint = originalRequest?.url?.includes('/auth/login') || 
                           originalRequest?.url?.includes('/auth/register/step1') ||
                           originalRequest?.url?.includes('/auth/register/step2') ||
-                          originalRequest?.url?.includes('/auth/refresh') ||
                           originalRequest?.url?.includes('/auth/logout');
+                          // Note: /auth/refresh removed as backend doesn't support it yet
     
     // Only redirect to login for 401 errors on non-auth endpoints
     if (error.response?.status === 401 && !isAuthEndpoint) {
