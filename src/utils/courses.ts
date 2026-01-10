@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import type { GameButtonStatus } from "@/components/common/StarGameButton";
+import type { GameConfig } from "@/constants/courses/gameConfig";
+import type { OuterContainerProps } from "@/components/common/OuterContainer";
 
 /**
  * Custom hook for responsive breakpoints
@@ -105,7 +107,7 @@ export const getImageSize = (isMobile: boolean, isTablet: boolean): number => {
 };
 
 /**
- * Helper function to get image position with responsive adjustments
+ * Helper function to get image position - ใช้ตำแหน่งที่กำหนดไว้ใน gameConfig โดยตรง
  */
 export const getImagePosition = (
   baseLeft: string,
@@ -113,27 +115,160 @@ export const getImagePosition = (
   isMobile: boolean,
   isTablet: boolean
 ): string => {
-  // Extract numeric values from strings like "left-[20px]" and "-top-[-308px]"
-  const leftMatch = baseLeft.match(/\[(\d+)px\]/);
-  const topMatch = baseTop.match(/\[-?(\d+)px\]/);
-
-  if (!leftMatch || !topMatch) {
-    // Fallback to original if parsing fails
-    return `absolute ${baseLeft} ${baseTop} z-20 drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]`;
-  }
-
-  const baseLeftValue = parseInt(leftMatch[1]);
-  const baseTopValue = parseInt(topMatch[1]);
-
+  // ใช้ตำแหน่งที่กำหนดไว้ใน gameConfig โดยตรง ไม่ต้องคำนวณใหม่
+  // เพิ่ม drop-shadow ตามขนาดหน้าจอ
   if (isMobile) {
-    const left = Math.round(baseLeftValue * 0.5);
-    const top = Math.round(baseTopValue * 0.65);
-    return `absolute left-[${left}px] -top-[-${top}px] z-20 drop-shadow-[0_4px_8px_rgba(0,0,0,0.25)]`;
+    return `absolute ${baseLeft} ${baseTop} z-20 drop-shadow-[0_4px_8px_rgba(0,0,0,0.25)]`;
   } else if (isTablet) {
-    const left = Math.round(baseLeftValue * 0.7);
-    const top = Math.round(baseTopValue * 0.8);
-    return `absolute left-[${left}px] -top-[-${top}px] z-20 drop-shadow-[0_6px_10px_rgba(0,0,0,0.25)]`;
+    return `absolute ${baseLeft} ${baseTop} z-20 drop-shadow-[0_6px_10px_rgba(0,0,0,0.25)]`;
   }
   return `absolute ${baseLeft} ${baseTop} z-20 drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]`;
+};
+
+/**
+ * Helper function to parse position string to inline style object
+ * แปลง position string จาก gameConfig เป็น inline style object
+ */
+export const parsePositionToStyle = (position: string): React.CSSProperties => {
+  const style: React.CSSProperties = {
+    position: "absolute",
+    zIndex: 20,
+  };
+
+  const transforms: string[] = [];
+
+  // Parse left value: "left-[20px]" -> left: "20px"
+  const leftMatch = position.match(/left-\[(\d+)px\]/);
+  if (leftMatch) {
+    style.left = `${leftMatch[1]}px`;
+  }
+
+  // Parse left-[50%] for center positioning
+  const leftPercentMatch = position.match(/left-\[50%\]/);
+  if (leftPercentMatch) {
+    style.left = "50%";
+    transforms.push("translateX(-50%)");
+  }
+
+  // Parse right value: "right-[20px]" -> right: "20px"
+  const rightMatch = position.match(/right-\[(\d+)px\]/);
+  if (rightMatch) {
+    style.right = `${rightMatch[1]}px`;
+  }
+
+  // Parse top value: "top-[20px]" or "-top-[-20px]" -> top: "20px" or top: "-20px"
+  const topMatch = position.match(/-?top-\[-?(\d+)px\]/);
+  if (topMatch) {
+    const isNegative = position.includes("-top-[-");
+    style.top = isNegative ? `-${topMatch[1]}px` : `${topMatch[1]}px`;
+  }
+
+  // Parse bottom value: "bottom-[20px]" -> bottom: "20px"
+  const bottomMatch = position.match(/bottom-\[(\d+)px\]/);
+  if (bottomMatch) {
+    style.bottom = `${bottomMatch[1]}px`;
+  }
+
+  // Combine transforms if any
+  if (transforms.length > 0) {
+    style.transform = transforms.join(" ");
+  }
+
+  return style;
+};
+
+/**
+ * Helper function to get drop-shadow className based on screen size
+ * สร้าง drop-shadow className ตามขนาดหน้าจอ
+ */
+const getDropShadowClassName = (isMobile: boolean, isTablet: boolean): string => {
+  if (isMobile) {
+    return "drop-shadow-[0_4px_8px_rgba(0,0,0,0.25)]";
+  } else if (isTablet) {
+    return "drop-shadow-[0_6px_10px_rgba(0,0,0,0.25)]";
+  }
+  return "drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]";
+};
+
+/**
+ * Helper function to calculate image dimensions
+ * คำนวณขนาดรูปภาพตามหน้าจอ (responsive)
+ */
+const getImageDimensions = (
+  imageConfig: { width?: number | ((isMobile: boolean, isTablet: boolean) => number); height?: number | ((isMobile: boolean, isTablet: boolean) => number) },
+  isMobile: boolean,
+  isTablet: boolean
+): { width: number; height: number } => {
+  const width =
+    typeof imageConfig.width === "function"
+      ? imageConfig.width(isMobile, isTablet)
+      : imageConfig.width || getImageSize(isMobile, isTablet);
+  const height =
+    typeof imageConfig.height === "function"
+      ? imageConfig.height(isMobile, isTablet)
+      : imageConfig.height || width;
+  return { width, height };
+};
+
+/**
+ * Helper function to process game images from gameConfig
+ * ประมวลผลรูปภาพทั้งหมดจาก gameConfig และส่งคืน props ที่พร้อมใช้งาน
+ */
+export const processGameImages = (
+  game: GameConfig,
+  isMobile: boolean,
+  isTablet: boolean
+): Partial<OuterContainerProps> => {
+  const props: Partial<OuterContainerProps> = {};
+
+  // Process main image
+  if (game.image) {
+    const dims = getImageDimensions(game.image, isMobile, isTablet);
+    props.imageSrc = game.image.src;
+    props.imageAlt = game.image.alt;
+    props.imageWidth = dims.width;
+    props.imageHeight = dims.height;
+    props.imageStyle = parsePositionToStyle(game.image.position);
+    props.imageClassName = getDropShadowClassName(isMobile, isTablet);
+    props.imageRotation = game.image.rotation || 0;
+  }
+
+  // Process image1
+  if (game.image1) {
+    const dims = getImageDimensions(game.image1, isMobile, isTablet);
+    props.image1Src = game.image1.src;
+    props.image1Alt = game.image1.alt;
+    props.image1Width = dims.width;
+    props.image1Height = dims.height;
+    props.image1Style = parsePositionToStyle(game.image1.position);
+    props.image1ClassName = getDropShadowClassName(isMobile, isTablet);
+    props.image1Rotation = game.image1.rotation || 0;
+  }
+
+  // Process image2
+  if (game.image2) {
+    const dims = getImageDimensions(game.image2, isMobile, isTablet);
+    props.image2Src = game.image2.src;
+    props.image2Alt = game.image2.alt;
+    props.image2Width = dims.width;
+    props.image2Height = dims.height;
+    props.image2Style = parsePositionToStyle(game.image2.position);
+    props.image2ClassName = getDropShadowClassName(isMobile, isTablet);
+    props.image2Rotation = game.image2.rotation || 0;
+  }
+
+  // Process image3
+  if (game.image3) {
+    const dims = getImageDimensions(game.image3, isMobile, isTablet);
+    props.image3Src = game.image3.src;
+    props.image3Alt = game.image3.alt;
+    props.image3Width = dims.width;
+    props.image3Height = dims.height;
+    props.image3Style = parsePositionToStyle(game.image3.position);
+    props.image3ClassName = getDropShadowClassName(isMobile, isTablet);
+    props.image3Rotation = game.image3.rotation || 0;
+  }
+
+  return props;
 };
 

@@ -115,7 +115,7 @@ export default function CoursesPage() {
       <main className="flex-1 relative overflow-hidden">
         {/* ScrollStack with padding-top */}
         <div className="pt-[4px] h-full pb-[70px] lg:pb-0">
-          <ScrollStack
+          <ScrollStack  
             className="w-full h-full"
             itemDistance={itemDistance}
             itemStackDistance={0}

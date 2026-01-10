@@ -28,8 +28,8 @@ export interface GameConfig {
   id: string;
   title: string;
   icon: React.ComponentType<{ className?: string }>;
-  headerColor: string; // hex color or "sky-blue"
-  baseColor: string; // hex color for buttons
+  headerColor: string; 
+  baseColor: string; 
   image: GameImageConfig;
   image1?: GameImageConfig;
   image2?: GameImageConfig;
@@ -51,7 +51,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "P'Bit mascot",
       width: (isMobile, isTablet) => (isMobile ? 80 : isTablet ? 100 : 140),
       height: (isMobile, isTablet) => (isMobile ? 80 : isTablet ? 100 : 140),
-      position: "left-[20px] -top-[-308px]",
+      position: "left-[10px] top-[30px]",
       rotation: 0,
     },
     image1: {
@@ -59,7 +59,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Nong Brite",
       width: (isMobile, isTablet) => (isMobile ? 40 : isTablet ? 50 : 60),
       height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 55 : 66),
-      position: "left-[110px] -top-[-382px]",
+      position: "right-[20px] bottom-[20px]",
       rotation: 0,
     },
   },
@@ -74,7 +74,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Minnie",
       width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
       height: (isMobile, isTablet) => (isMobile ? 96 : isTablet ? 120 : 160),
-      position: "left-[720px] -top-[-288px]",
+      position: "right-[20px] top-[20px]",
       rotation: 0,
     },
     image1: {
@@ -82,7 +82,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Minnie",
       width: (isMobile, isTablet) => (isMobile ? 50 : isTablet ? 65 : 80),
       height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 57 : 71),
-      position: "left-[50px] -top-[73px]",
+      position: "left-[20px] bottom-[20px]",
       rotation: 0,
     },
   },
@@ -97,7 +97,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Coco",
       width: (isMobile, isTablet) => (isMobile ? 70 : isTablet ? 85 : 110),
       height: (isMobile, isTablet) => (isMobile ? 62 : isTablet ? 75 : 98),
-      position: "left-[20px] -top-[-350px]",
+      position: "left-[20px] top-[20px]",
       rotation: 0,
     },
     image1: {
@@ -105,7 +105,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Coco",
       width: (isMobile, isTablet) => (isMobile ? 40 : isTablet ? 50 : 60),
       height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 55 : 66),
-      position: "left-[750px] -top-[-12px]",
+      position: "right-[20px] bottom-[20px]",
       rotation: 180,
     },
   },
@@ -120,7 +120,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Momo",
       width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
       height: (isMobile, isTablet) => (isMobile ? 96 : isTablet ? 120 : 160),
-      position: "left-[30px] -top-[-288px]",
+      position: "left-[20px] top-[20px]",
       rotation: 0,
     },
     image1: {
@@ -128,7 +128,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Nong Brite",
       width: (isMobile, isTablet) => (isMobile ? 40 : isTablet ? 50 : 60),
       height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 55 : 66),
-      position: "left-[110px] -top-[-360px]",
+      position: "right-[20px] top-[20px]",
       rotation: 0,
     },
   },
@@ -143,7 +143,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Bobo",
       width: (isMobile, isTablet) => (isMobile ? 70 : isTablet ? 85 : 110),
       height: (isMobile, isTablet) => (isMobile ? 78 : isTablet ? 95 : 123),
-      position: "left-[30px] -top-[-324px]",
+      position: "left-[50%] bottom-[20px]",
       rotation: 0,
     },
   },
@@ -158,7 +158,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "PingPing",
       width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
       height: (isMobile, isTablet) => (isMobile ? 72 : isTablet ? 90 : 120),
-      position: "left-[530px] -top-[80px]",
+      position: "right-[20px] top-[20px]",
       rotation: 0,
     },
     image1: {
@@ -166,7 +166,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "PingPing",
       width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
       height: (isMobile, isTablet) => (isMobile ? 72 : isTablet ? 90 : 120),
-      position: "left-[710px] -top-[-350px]",
+      position: "left-[20px] bottom-[20px]",
       rotation: 0,
     },
   },
@@ -181,7 +181,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "P'Bit mascot",
       width: (isMobile, isTablet) => (isMobile ? 70 : isTablet ? 85 : 110),
       height: (isMobile, isTablet) => (isMobile ? 83 : isTablet ? 100 : 130),
-      position: "left-[10px] -top-[-320px]",
+      position: "left-[20px] top-[20px]",
       rotation: 0,
     },
     image1: {
@@ -189,7 +189,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Nong Brite",
       width: (isMobile, isTablet) => (isMobile ? 40 : isTablet ? 50 : 60),
       height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 55 : 66),
-      position: "left-[150px] -top-[-12px]",
+      position: "right-[20px] top-[20px]",
       rotation: 180,
     },
     image2: {
@@ -197,7 +197,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Momo",
       width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
       height: (isMobile, isTablet) => (isMobile ? 96 : isTablet ? 120 : 160),
-      position: "left-[720px] -top-[-288px]",
+      position: "left-[20px] bottom-[20px]",
       rotation: 0,
     },
     image3: {
@@ -205,9 +205,8 @@ export const gamesConfig: GameConfig[] = [
       alt: "Coco",
       width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
       height: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
-      position: "left-[700px] -top-[100px]",
+      position: "right-[20px] bottom-[20px]",
       rotation: 0,
     },
   },
 ];
-

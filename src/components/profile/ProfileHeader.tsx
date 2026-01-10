@@ -14,6 +14,7 @@ import {
 import { EditProfileForm } from "./EditProfileForm";
 import { Divide } from "lucide-react";
 import { mockMyRankData } from "@/constants/mocks/userData";
+import { getRankBadgeImage } from "@/constants/ranks";
 
 export interface ProfileHeaderProps {
   className?: string;
@@ -133,7 +134,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3 sm:mt-4">
               {/* การ์ดอันดับ */}
               <StatCard
-                imageSrc={mockMyRankData.rankBadge}
+                imageSrc={getRankBadgeImage(highestScore)}
                 imageAlt="Rank badge"
                 title={`#${rank}`}
                 description="เเรงค์"
