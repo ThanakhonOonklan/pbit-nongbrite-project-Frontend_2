@@ -5,6 +5,7 @@ import { TopThreeCards } from "./TopThreeCards";
 import { RankUser } from "@/types";
 import { cn } from "@/lib/utils";
 import { FaUsers, FaMars, FaVenus, FaGenderless } from "react-icons/fa";
+import { getRankBadgeImage } from "@/constants/ranks";
 
 export interface LeaderboardListProps {
   items?: RankUser[];
@@ -34,22 +35,6 @@ const getGenderIcon = (gender?: string) => {
   if (gender === "เพศหญิง") return <FaVenus className="w-4 h-4 text-[#EC4899]" />;
   if (gender === "ไม่ระบุตัวตน") return <FaGenderless className="w-4 h-4 text-[#344054]" />;
   return null;
-};
-
-const getRankBadgeImage = (score: number): string => {
-  if (score >= 5900) {
-    return "/icons/rank/champion-dark.png"; 
-  } else if (score >= 5200) {
-    return "/icons/rank/diamond-dark.png";
-  } else if (score >= 4200) {
-    return "/icons/rank/platinum-dark.png"; 
-  } else if (score >= 2800) {
-    return "/icons/rank/gold-dark.png";
-  } else if (score >= 1500) {
-    return "/icons/rank/silver-dark.png"; 
-  } else {
-    return "/icons/rank/bronze-dark.png"; 
-  }
 };
 
 const LeaderboardList: React.FC<LeaderboardListProps> = ({

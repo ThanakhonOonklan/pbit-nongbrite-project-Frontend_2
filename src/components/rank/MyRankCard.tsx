@@ -5,45 +5,12 @@ import { Image } from "@/components/common/Image";
 import { MyRankData } from "@/types";
 import { cn } from "@/lib/utils";
 import { FaChartLine } from "react-icons/fa";
+import { getRankBadgeImage, getRankBadgeInfo } from "@/constants/ranks";
 
 export interface MyRankCardProps {
   myRank: MyRankData | null;
   className?: string;
 }
-
-// Rank badge image function (same as LeaderboardList)
-const getRankBadgeImage = (score: number): string => {
-  if (score >= 5900) {
-    return "/icons/rank/champion-dark.png";
-  } else if (score >= 5200) {
-    return "/icons/rank/diamond-dark.png";
-  } else if (score >= 4200) {
-    return "/icons/rank/platinum-dark.png";
-  } else if (score >= 2800) {
-    return "/icons/rank/gold-dark.png";
-  } else if (score >= 1500) {
-    return "/icons/rank/silver-dark.png";
-  } else {
-    return "/icons/rank/bronze-dark.png";
-  }
-};
-
-// Rank badge info function (for progress calculation)
-const getRankBadgeInfo = (score: number) => {
-  if (score >= 5900) {
-    return { name: "Champion", minScore: 5900, maxScore: 6300 };
-  } else if (score >= 5200) {
-    return { name: "Diamond", minScore: 5200, maxScore: 5899 };
-  } else if (score >= 4200) {
-    return { name: "Platinum", minScore: 4200, maxScore: 5199 };
-  } else if (score >= 2800) {
-    return { name: "Gold", minScore: 2800, maxScore: 4199 };
-  } else if (score >= 1500) {
-    return { name: "Silver", minScore: 1500, maxScore: 2799 };
-  } else {
-    return { name: "Bronze", minScore: 0, maxScore: 1499 };
-  }
-};
 
 const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
   if (!myRank) {
@@ -67,10 +34,10 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
   }
 
   // Get current rank badge info
-  const currentRank = getRankBadgeInfo(myRank.score);
-  const nextRank =
-    myRank.score >= 6300 ? null : getRankBadgeInfo(currentRank.maxScore + 1);
-  const scoreNeeded = nextRank ? nextRank.minScore - myRank.score : 0;
+  const rankInfo = getRankBadgeInfo(myRank.score);
+  const currentRank = rankInfo;
+  const nextRank = rankInfo.nextRank;
+  const scoreNeeded = rankInfo.scoreNeeded;
   const scoreInRank = myRank.score - currentRank.minScore;
   const totalScoreInRank = currentRank.maxScore - currentRank.minScore;
   const progressPercent =
@@ -113,7 +80,7 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
         >
           <div className="mb-3">
             <h4 className="text-[16px] font-bold text-[#3c3c3c] mb-1">
-              {currentRank.name}
+              {currentRank.label}
             </h4>
             <p className="text-[12px] text-[#666]">
               {scoreNeeded > 0
