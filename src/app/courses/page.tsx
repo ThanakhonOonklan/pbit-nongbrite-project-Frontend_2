@@ -66,10 +66,6 @@ export default function CoursesPage() {
   // Responsive state
   const { isMobile, isTablet } = useResponsive();
 
-  // Calculate responsive values for ScrollStack
-  const itemDistance = isMobile ? 400 : isTablet ? 400 : 230;
-  const stackPosition = isMobile ? "10%" : isTablet ? "12%" : "15%";
-
   // Handler สำหรับเมื่อกดปุ่ม level
   const handleLevelClick = (levelNumber: number) => {
     setSelectedLevel(levelNumber);
@@ -106,6 +102,10 @@ export default function CoursesPage() {
     setHeaderColor(lightenedColor);
   };
 
+  // Calculate responsive values for ScrollStack
+  const itemDistance = isMobile ? 400 : isTablet ? 400 : 230;
+  const stackPosition = isMobile ? "10%" : isTablet ? "12%" : "15%";
+
   return (
     <div className="flex h-screen ">
       <BackgroundSquaresWithColor />
@@ -139,7 +139,6 @@ export default function CoursesPage() {
         </div>
       </main>
 
-      {/*CourseRightPanel - Desktop only */}
       <div className="hidden lg:block">
         <CourseRightPanel
           level={selectedLevel}

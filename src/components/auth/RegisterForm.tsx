@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Image } from "@/components/common/Image";
 import { InputField } from "@/components/common/InputField";
@@ -9,19 +8,31 @@ import { PasswordField } from "@/components/common/PasswordField";
 import { SocialButton } from "@/components/common/SocialButton";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import Stepper, { Step } from "@/components/common/Stepper";
+import { useAuthStore } from "@/store/auth.store";
+import { Gender } from "@/services/auth.service";
 
-export interface RegisterFormProps {
-  onSubmit?: (email: string, password: string, confirmPassword: string) => void;
-}
+export interface RegisterFormProps {}
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = React.useState(false);
+const RegisterForm: React.FC<RegisterFormProps> = () => {
+  const {
+    registerStep1,
+    registerStep2,
+    isLoading,
+    error,
+    clearError,
+    registerStep,
+    resetRegister,
+  } = useAuthStore();
 
   // Step 1 states
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
+
+  // Step 1 validation errors
+  const [emailError, setEmailError] = React.useState<string | undefined>();
+  const [passwordError, setPasswordError] = React.useState<string | undefined>();
+  const [confirmPasswordError, setConfirmPasswordError] = React.useState<string | undefined>();
 
   // Step 2 states
   const [displayName, setDisplayName] = React.useState("");
@@ -30,38 +41,304 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
     "male" | "female" | "not-specified" | null
   >(null);
 
+  // Step 2 validation errors
+  const [nameError, setNameError] = React.useState<string | undefined>();
+  const [ageError, setAgeError] = React.useState<string | undefined>();
+  const [genderError, setGenderError] = React.useState<string | undefined>();
+
+  // Current step state
+  const [currentStep, setCurrentStep] = React.useState(1);
+
+  // Map gender from UI to API format
+  const mapGenderToEnum = (
+    gender: "male" | "female" | "not-specified" | null
+  ): Gender => {
+    if (gender === "male") return Gender.MALE;
+    if (gender === "female") return Gender.FEMALE;
+    return Gender.OTHER;
+  };
+
+  // Validation functions
+  const validateEmail = (emailValue: string): boolean => {
+    if (!emailValue.trim()) {
+      setEmailError("กรุณากรอกอีเมล");
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailValue)) {
+      setEmailError("รูปแบบอีเมลไม่ถูกต้อง");
+      return false;
+    }
+    setEmailError(undefined);
+    return true;
+  };
+
+  const validatePassword = (passwordValue: string): boolean => {
+    if (!passwordValue.trim()) {
+      setPasswordError("กรุณากรอกรหัสผ่าน");
+      return false;
+    }
+    if (passwordValue.length < 6) {
+      setPasswordError("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
+      return false;
+    }
+    setPasswordError(undefined);
+    return true;
+  };
+
+  const validateConfirmPassword = (
+    passwordValue: string,
+    confirmPasswordValue: string
+  ): boolean => {
+    if (!confirmPasswordValue.trim()) {
+      setConfirmPasswordError("กรุณายืนยันรหัสผ่าน");
+      return false;
+    }
+    if (passwordValue !== confirmPasswordValue) {
+      setConfirmPasswordError("รหัสผ่านไม่ตรงกัน");
+      return false;
+    }
+    setConfirmPasswordError(undefined);
+    return true;
+  };
+
+  const validateStep1 = (): boolean => {
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
+    const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
+    return isEmailValid && isPasswordValid && isConfirmPasswordValid;
+  };
+
+  const validateStep2 = (): boolean => {
+    let isValid = true;
+
+    if (!displayName.trim()) {
+      setNameError("กรุณากรอกชื่อที่แสดง");
+      isValid = false;
+    } else if (displayName.trim().length < 2) {
+      setNameError("ชื่อต้องมีอย่างน้อย 2 ตัวอักษร");
+      isValid = false;
+    } else {
+      setNameError(undefined);
+    }
+
+    if (!age.trim()) {
+      setAgeError("กรุณากรอกอายุ");
+      isValid = false;
+    } else {
+      const ageNum = parseInt(age, 10);
+      if (isNaN(ageNum) || ageNum < 0 || ageNum > 100) {
+        setAgeError("อายุต้องอยู่ระหว่าง 0-100");
+        isValid = false;
+      } else {
+        setAgeError(undefined);
+      }
+    }
+
+    if (!gender) {
+      setGenderError("กรุณาเลือกเพศ");
+      isValid = false;
+    } else {
+      setGenderError(undefined);
+    }
+
+    return isValid;
+  };
+
+  // Handle Step 1 Next Button
+  const handleStep1Next = async (): Promise<boolean> => {
+    clearError();
+    setEmailError(undefined);
+    setPasswordError(undefined);
+    setConfirmPasswordError(undefined);
+
+    // Validate all fields first
+    if (!validateStep1()) {
+      return false; // Validation failed, don't proceed
+    }
+
+    try {
+      await registerStep1({
+        email: email.trim(),
+        password,
+        confirmPassword,
+      });
+      // Step will be updated by store and synced via useEffect
+      return true; // Success, allow step change
+    } catch (error) {
+      // Error handled in store - prevent step change
+      console.error("Register Step 1 failed:", error);
+      return false; // API failed, don't proceed
+    }
+  };
+
+  // Handle Step 2 Complete Button
+  const handleStep2Complete = async (): Promise<boolean> => {
+    clearError();
+    setNameError(undefined);
+    setAgeError(undefined);
+    setGenderError(undefined);
+
+    // Validate all fields first
+    if (!validateStep2()) {
+      return false; // Validation failed, don't proceed
+    }
+
+    try {
+      await registerStep2({
+        name: displayName.trim(),
+        age: parseInt(age, 10),
+        gender: mapGenderToEnum(gender),
+      });
+      // Step will be updated by store and synced via useEffect
+      return true; // Success, allow step change
+    } catch (error) {
+      // Error handled in store - prevent step change
+      console.error("Register Step 2 failed:", error);
+      return false; // API failed, don't proceed
+    }
+  };
+
+  // Handle step change from Stepper (for step indicators click)
+  const handleStepChange = (step: number) => {
+    // Only allow going back, not forward (forward requires validation)
+    if (step < currentStep) {
+      // If going back from step 2 to step 1, clear step 2 fields
+      if (currentStep === 2 && step === 1) {
+        setDisplayName("");
+        setNameError(undefined);
+        setAge("");
+        setAgeError(undefined);
+        setGender(null);
+        setGenderError(undefined);
+      }
+      setCurrentStep(step);
+      setStepperStep(step);
+      clearError();
+    }
+  };
+
+  // Check if Step 1 is complete (all fields filled)
+  const isStep1Complete = (): boolean => {
+    return (
+      email.trim() !== "" &&
+      password.trim() !== "" &&
+      confirmPassword.trim() !== ""
+    );
+  };
+
+  // Check if Step 2 is complete (all fields filled)
+  const isStep2Complete = (): boolean => {
+    return (
+      displayName.trim() !== "" &&
+      age.trim() !== "" &&
+      gender !== null
+    );
+  };
+
+  // Clear errors when user types
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (emailError) setEmailError(undefined);
+    if (error) clearError();
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (passwordError) setPasswordError(undefined);
+    if (error) clearError();
+  };
+
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
+    if (confirmPasswordError) setConfirmPasswordError(undefined);
+    if (error) clearError();
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 25) {
+      setDisplayName(value);
+      if (nameError) setNameError(undefined);
+      if (error) clearError();
+    }
+  };
+
+  const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const numValue = parseInt(value, 10);
+    if (
+      value === "" ||
+      (!isNaN(numValue) && numValue >= 0 && numValue <= 100)
+    ) {
+      setAge(value);
+      if (ageError) setAgeError(undefined);
+      if (error) clearError();
+    }
+  };
+
   const handleGenderSelect = (
     selectedGender: "male" | "female" | "not-specified"
   ) => {
     setGender(selectedGender === gender ? null : selectedGender);
+    if (genderError) setGenderError(undefined);
+    if (error) clearError();
   };
 
-  const handleFinalStepCompleted = () => {
-    if (isLoading) return;
-    setIsLoading(true);
-
-    setTimeout(() => {
-      if (onSubmit) {
-        onSubmit(email, password, confirmPassword);
-      }
-      router.push("/login");
-    }, 1000);
-  };
+  // Prevent Stepper from auto-advancing by controlling step manually
+  const [stepperStep, setStepperStep] = React.useState(currentStep);
+  
+  // Sync with store registerStep (only allow forward progression)
+  React.useEffect(() => {
+    if (registerStep > currentStep) {
+      setCurrentStep(registerStep);
+      setStepperStep(registerStep);
+    }
+  }, [registerStep, currentStep]);
+  
+  // Sync stepperStep with currentStep when currentStep changes (for going back)
+  React.useEffect(() => {
+    setStepperStep(currentStep);
+  }, [currentStep]);
 
   return (
     <div className="w-full ">
       <LoadingOverlay isLoading={isLoading} message="กำลังดำเนินการ..." />
       <Stepper
-        initialStep={1}
-        onStepChange={(step) => {
-          console.log("Step:", step);
+        key={stepperStep} // Force re-render when step changes
+        initialStep={stepperStep}
+        onStepChange={(step: number) => {
+          // Only allow going back, not forward (forward requires validation)
+          if (step < currentStep) {
+            // If going back from step 2 to step 1, clear step 2 fields
+            if (currentStep === 2 && step === 1) {
+              setDisplayName("");
+              setNameError(undefined);
+              setAge("");
+              setAgeError(undefined);
+              setGender(null);
+              setGenderError(undefined);
+              // Reset register step in store
+              resetRegister();
+            }
+            // Update both states to ensure sync
+            setCurrentStep(step);
+            setStepperStep(step);
+            clearError();
+          }
         }}
-        onFinalStepCompleted={handleFinalStepCompleted}
+        onFinalStepCompleted={async () => {
+          if (currentStep === 2) {
+            const success = await handleStep2Complete();
+            if (success) {
+              // Step will be updated by store via useEffect
+            }
+          }
+        }}
         backButtonText="ย้อนกลับ"
         nextButtonText="ถัดไป"
         completeButtonText="ไปเรียนกันเลย!"
         stepContainerClassName="px-5"
-  
         footerClassName="px-0"
         footerLeftContent={
           <p className="text-[13px] md:text-[14px] text-gray-600">
@@ -74,9 +351,38 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
             </Link>
           </p>
         }
-        disableStepIndicators={false}
-        backButtonProps={{ disabled: isLoading }}
-        nextButtonProps={{ disabled: isLoading }}
+        disableStepIndicators={true}
+        backButtonProps={{ 
+          disabled: isLoading,
+        }}
+        nextButtonProps={{ 
+          disabled: isLoading || 
+            (currentStep === 1 && !isStep1Complete()) ||
+            (currentStep === 2 && !isStep2Complete()),
+          onClick: async (e) => {
+            // Prevent default Stepper behavior (handleNext/handleComplete)
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (currentStep === 1) {
+              // Validate and call API before allowing step change
+              const success = await handleStep1Next();
+              if (success) {
+                // Only allow step change if API call succeeded
+                // Step will be updated by store via useEffect, which will update stepperStep
+              }
+              // If failed, don't change step (stay on step 1)
+            } else if (currentStep === 2) {
+              // Validate and call API before completing
+              const success = await handleStep2Complete();
+              if (success) {
+                // Only allow step change if API call succeeded
+                // Step will be updated by store via useEffect, which will update stepperStep
+              }
+              // If failed, don't change step (stay on step 2)
+            }
+          }
+        }}
       >
         {/* Step 1: Create Account */}
         <Step>
@@ -108,28 +414,47 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
                 type="email"
                 placeholder="กรุณากรอกอีเมลของคุณ"
                 value={email}
+                error={emailError}
                 className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 required
+                disabled={isLoading}
               />
 
               <PasswordField
                 label="รหัสผ่าน"
                 placeholder="กรุณากรอกรหัสผ่านของคุณ"
                 value={password}
+                error={passwordError}
                 className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 required
+                disabled={isLoading}
               />
 
               <PasswordField
                 label="ยืนยันรหัสผ่าน"
                 placeholder="กรุณายืนยันรหัสผ่านของคุณ"
                 value={confirmPassword}
+                error={confirmPasswordError}
                 className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={handleConfirmPasswordChange}
                 required
+                disabled={isLoading}
               />
+
+              {/* API Error Message */}
+              {error && !emailError && !passwordError && !confirmPasswordError && (
+                <div
+                  className="w-full max-w-[460px] p-3 rounded-[12px] bg-red-50 border-2 border-red-200"
+                  role="alert"
+                  aria-live="polite"
+                >
+                  <p className="text-[13px] md:text-[14px] text-red-600 text-center">
+                    {error}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </Step>
@@ -150,14 +475,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
                 type="text"
                 placeholder="กรุณากรอกชื่อที่แสดง"
                 value={displayName}
+                error={nameError}
                 className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value.length <= 25) {
-                    setDisplayName(value);
-                  }
-                }}
+                onChange={handleNameChange}
                 maxLength={25}
+                required
+                disabled={isLoading}
               />
 
               <InputField
@@ -165,25 +488,19 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
                 type="number"
                 placeholder="กรุณากรอกอายุ"
                 value={age}
+                error={ageError}
                 className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  const numValue = parseInt(value, 10);
-                  if (
-                    value === "" ||
-                    (!isNaN(numValue) && numValue >= 0 && numValue <= 100)
-                  ) {
-                    setAge(value);
-                  }
-                }}
+                onChange={handleAgeChange}
                 min={0}
                 max={100}
+                required
+                disabled={isLoading}
               />
 
               {/* Gender Label */}
               <div className="flex flex-col gap-2 w-full">
                 <label className="text-[12px] leading-[18px] font-semibold text-gray-700">
-                  เพศ
+                  เพศ {genderError && <span className="text-red-500 text-[10px]">* {genderError}</span>}
                 </label>
 
                 {/* Gender Buttons */}
@@ -213,6 +530,19 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
                   </SocialButton>
                 </div>
               </div>
+
+              {/* API Error Message */}
+              {error && !nameError && !ageError && !genderError && (
+                <div
+                  className="w-full max-w-[460px] p-3 rounded-[12px] bg-red-50 border-2 border-red-200"
+                  role="alert"
+                  aria-live="polite"
+                >
+                  <p className="text-[13px] md:text-[14px] text-red-600 text-center">
+                    {error}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </Step>
@@ -244,7 +574,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         </Step>
       </Stepper>
     </div>
-  );  
+  );
 };
 
 RegisterForm.displayName = "RegisterForm";
