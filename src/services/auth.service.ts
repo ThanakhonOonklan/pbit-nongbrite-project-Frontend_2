@@ -13,7 +13,7 @@ export enum Gender {
 
 export interface UserProfile {
   playerName: string;
-  icon: string;
+  icon: string | null; // Can be null if user hasn't selected an icon
   totalScore: number;
   currentRank: number;
   joinedDate: string;

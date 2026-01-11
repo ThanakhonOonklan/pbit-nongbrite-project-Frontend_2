@@ -3,8 +3,21 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 import { ProfileHeader, ProgressList } from "@/components/profile";
 import { BackgroundSquares } from "@/components/common";
+import { useChapterStore } from "@/store/chapter.store";
+import { useAuthStore } from "@/store/auth.store";
+import { useEffect } from "react";
 
 export default function ProfilePage() {
+  const { fetchChapters } = useChapterStore();
+  const { isAuthenticated } = useAuthStore();
+
+  // Fetch chapters when component mounts
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchChapters();
+    }
+  }, [isAuthenticated, fetchChapters]);
+
   return (
     <div
       className="flex h-screen"

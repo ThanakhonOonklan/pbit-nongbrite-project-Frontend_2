@@ -8,9 +8,9 @@ import {
   type RegisterStep2Payload,
   Gender
 } from "@/services/auth.service";
+import { useUserStore } from "./user.store";
 
 interface AuthState {
-  user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -37,7 +37,6 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: null,
       isAuthenticated: false,
       isLoading: false,
       error: null,
@@ -49,8 +48,10 @@ export const useAuthStore = create<AuthState>()(
         try {
           const response = await authService.login(payload);
           
+          // Sync user to user store
+          useUserStore.getState().setUser(response.user);
+          
           set({
-            user: response.user,
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -104,8 +105,10 @@ export const useAuthStore = create<AuthState>()(
           
           console.error("Login error details:", error);
           
+          // Clear user from user store on error
+          useUserStore.getState().setUser(null);
+          
           set({
-            user: null,
             isAuthenticated: false,
             isLoading: false,
             error: errorMessage,
@@ -121,8 +124,10 @@ export const useAuthStore = create<AuthState>()(
         } catch (error) {
           console.error("Logout error:", error);
         } finally {
+          // Clear user from user store on logout
+          useUserStore.getState().setUser(null);
+          
           set({
-            user: null,
             isAuthenticated: false,
             isLoading: false,
             error: null,
@@ -135,8 +140,10 @@ export const useAuthStore = create<AuthState>()(
       },
 
       setUser: (user: User | null) => {
+        // Sync user to user store
+        useUserStore.getState().setUser(user);
+        
         set({
-          user,
           isAuthenticated: !!user,
         });
       },
@@ -220,8 +227,10 @@ export const useAuthStore = create<AuthState>()(
             profile: response.data.profile,
           };
           
+          // Sync user to user store
+          useUserStore.getState().setUser(user);
+          
           set({
-            user,
             isAuthenticated: true,
             registerStep: 3,
             registerData: null,
@@ -289,7 +298,6 @@ export const useAuthStore = create<AuthState>()(
     {
       name: "auth-storage",
       partialize: (state) => ({
-        user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),
     }
