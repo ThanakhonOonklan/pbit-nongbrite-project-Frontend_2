@@ -3,7 +3,7 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 import { CourseRightPanel } from "@/components/courses/CourseRightPanel";
 import { BackgroundSquaresWithColor } from "@/components/common/BackgroundSquaresWithColor";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { getLevelData } from "@/constants/levelData";
 import { useHeaderColor } from "@/contexts/HeaderColorContext";
 import { ScrollStack } from "@/components/common";
@@ -32,9 +32,21 @@ export default function CoursesPage() {
   // ScrollStack ref
   const scrollStackRef = useRef<ScrollStackRef>(null);
 
-  // ScrollStack values
-  const itemDistance = 230;
-  const stackPosition = "15%";
+  // Responsive detection
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 640);
+      setIsTablet(width >= 640 && width < 1024);
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleSectionChange = (index: number, headerColor?: string) => {
     if (index === -1) {
