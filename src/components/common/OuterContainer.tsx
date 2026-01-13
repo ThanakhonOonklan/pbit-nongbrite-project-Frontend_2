@@ -190,7 +190,10 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
         <div className="pointer-events-none absolute inset-x-0 z-30 flex justify-center">
           <div
             className={cn(
-              "inline-flex items-center gap-2 rounded-[10px] px-20 py-3 text-lg font-bold",
+              "inline-flex items-center gap-1 sm:gap-1.5 md:gap-2 rounded-[8px] sm:rounded-[10px]",
+              "px-8 sm:px-10 md:px-12 lg:px-16",
+              "py-1.5 sm:py-2 md:py-2.5",
+              "text-sm sm:text-base md:text-lg font-bold",
               headerStyles.className,
               headerClassName
             )}
@@ -202,12 +205,13 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
       )}
       <div
         className={cn(
-          "relative w-full rounded-[32px] bg-[#FDC369] p-4 ",
-          headerText && "mt-6",
+          "relative w-full rounded-[20px] sm:rounded-[24px] md:rounded-[28px] lg:rounded-[32px] bg-[#FDC369]",
+          "p-2 sm:p-3 md:p-4",
+          headerText && "mt-4 sm:mt-5 md:mt-6",
           widthClassName
         )}
       >
-        <div className="absolute inset-[-3px] -z-10 rounded-[34px] bg-gradient-to-br from-[#f5b75a] to-[#fdd086]" />
+        <div className="absolute inset-[-3px] -z-10 rounded-[22px] sm:rounded-[26px] md:rounded-[30px] lg:rounded-[34px] bg-gradient-to-br from-[#f5b75a] to-[#fdd086]" />
         {/* Render all images */}
         {imageSrc && (
           <div 
@@ -307,7 +311,7 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
         <div className="relative rounded-[16px] sm:rounded-[20px] md:rounded-[24px] lg:rounded-[26px] border-[2px] sm:border-[3px] md:border-[3.5px] lg:border-[4px] border-[#DB9148] bg-[#016A66] p-3 sm:p-5 md:p-6 lg:p-8 shadow-[inset_0_3px_8px_rgba(0,0,0,0.2)]">
           <div
             className={cn(
-              "relative rounded-[12px] sm:rounded-[14px] md:rounded-[16px] lg:rounded-[18px] bg-[#016A66]/0",
+              "relative w-full rounded-[12px] sm:rounded-[14px] md:rounded-[16px] lg:rounded-[18px] bg-[#016A66]/0",
               heightClassName
             )}
           >

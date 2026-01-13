@@ -8,7 +8,6 @@ import {
   Divider,
   SocialButton,
   PrimaryButton,
-  GameButton,
   Container,
   FormCard,
   GameTooltip,
@@ -339,105 +338,6 @@ export default function TestComponentsPage() {
           </section>
         </Container>
 
-        {/* GameButton */}
-        <Container className="p-6">
-          <section className="flex flex-col gap-6">
-            <h2 className="text-2xl font-bold text-[#242E39]">GameButton</h2>
-            <div className="flex flex-col gap-6">
-              {/* Color Palette Variants */}
-              <div className="flex flex-col gap-4">
-                <h3 className="text-lg font-semibold text-gray-700">Color Palette Variants</h3>
-                <div className="flex flex-wrap gap-4 items-center">
-                  {gamePalettes.map((palette) => (
-                    <div key={palette.name} className="flex flex-col items-center gap-2">
-                      <GameButton
-                        mainColor={palette.main}
-                        darkColor={palette.dark}
-                        borderColor={palette.border}
-                      >
-                        <FaCheck className="w-8 h-8 text-white" />
-                      </GameButton>
-                      <span className="text-sm text-gray-700">{palette.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Sky Blue variant */}
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-8 rounded-xl">
-                <h3 className="text-lg font-bold mb-6 text-[#1CB0F6]">สีฟ้า (Game 1: Path Navigation)</h3>
-                <div className="flex flex-wrap gap-6 items-center">
-                  <div className="flex items-center gap-4">
-                    <GameButton 
-                      mainColor="#61B6F6"
-                      darkColor="#4a90c7"
-                      borderColor="#56a5e0"
-                    >
-                      <FaCheck className="w-8 h-8 text-white" />
-                    </GameButton>
-                    <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Pastel Green variant */}
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-xl">
-                <h3 className="text-lg font-bold mb-6 text-[#75D06A]">สีเขียว (Game 2: Asking Question)</h3>
-                <div className="flex flex-wrap gap-6 items-center">
-                  <div className="flex items-center gap-4">
-                    <GameButton 
-                      mainColor="#75D06A"
-                      darkColor="#5ea856"
-                      borderColor="#68c261"
-                    >
-                      <FaCheck className="w-8 h-8 text-white" />
-                    </GameButton>
-                    <span className="text-[16px] font-bold text-[#3C3C3C]">Level 1</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Default variant (Beige) */}
-              <div className="bg-gray-50 p-8 rounded-xl border border-gray-200">
-                <h3 className="text-lg font-bold mb-6 text-[#8B7355]">สีเบจ (Default)</h3>
-                <div className="flex flex-wrap gap-6 items-center">
-                  <div className="flex items-center gap-4">
-                    <GameButton 
-                      mainColor="#D9C2A3"
-                      darkColor="#b39b7d"
-                      borderColor="#c7ad90"
-                      className="w-[64px] h-[64px]"
-                    >
-                      <span className="text-[16px] font-bold text-[#8B7355]">S</span>
-                    </GameButton>
-                    <span className="text-[14px]">Small</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <GameButton 
-                      mainColor="#D9C2A3"
-                      darkColor="#b39b7d"
-                      borderColor="#c7ad90"
-                    >
-                      <span className="text-[20px] font-bold text-[#8B7355]">M</span>
-                    </GameButton>
-                    <span className="text-[16px]">Default</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <GameButton 
-                      mainColor="#D9C2A3"
-                      darkColor="#b39b7d"
-                      borderColor="#c7ad90"
-                      className="w-[96px] h-[96px]"
-                    >
-                      <span className="text-[24px] font-bold text-[#8B7355]">L</span>
-                    </GameButton>
-                    <span className="text-[18px]">Large</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </Container>
 
         {/* Color Palette */}
         <Container className="p-6">

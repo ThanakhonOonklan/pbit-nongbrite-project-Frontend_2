@@ -10,6 +10,7 @@ export interface ResourceBarsProps {
   scoreCount?: number;
   daystate?: number;
   className?: string;
+  showDivider?: boolean;
 }
 
 export const ResourceBars: React.FC<ResourceBarsProps> = ({
@@ -17,6 +18,7 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
   scoreCount = 0,
   daystate = 0,
   className,
+  showDivider = true,
 }) => {
   if (heartCount <= 0 && scoreCount <= 0 && daystate <= 0) {
     return null;
@@ -25,7 +27,7 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
   return (
     <>
       <div className={cn("py-4 px-3", className)}>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           <ResourceCard
             iconSrc=""
             iconAlt="หัวใจ"
@@ -49,7 +51,7 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
           />
         </div>
       </div>
-      <Divider />
+      {showDivider && <Divider />}
     </>
   );
 };
