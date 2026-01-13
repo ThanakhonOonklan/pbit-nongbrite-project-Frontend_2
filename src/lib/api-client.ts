@@ -2,7 +2,6 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api/v1';
 
-
 //สร้าง Instance หลักสำหรับเรียก API
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -12,7 +11,6 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
 
 apiClient.interceptors.request.use(
   (config) => {
@@ -25,46 +23,30 @@ apiClient.interceptors.request.use(
 );
 
 apiClient.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error: AxiosError) => {
+  (response) => response,
+  (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
-
-    // Don't try to refresh token for auth endpoints (login, register, etc.)
+    
+    // Don't redirect for auth endpoints (login, register, etc.)
+    // These should handle their own errors
     const isAuthEndpoint = originalRequest?.url?.includes('/auth/login') || 
-                          originalRequest?.url?.includes('/auth/register') ||
-                          originalRequest?.url?.includes('/auth/refresh');
-
-    if (error.response?.status === 401 && originalRequest && !originalRequest._retry && !isAuthEndpoint) {
-      originalRequest._retry = true;
-
-      try {
-        console.log(" Token expired. Attempting to refresh...");
-
-        await axios.post(
-          `${API_BASE_URL}/auth/refresh`,
-          {},
-          {
-            withCredentials: true,
-          }
-        );
-
-        console.log("Refresh success! Retrying original request.");
-
-        return apiClient(originalRequest);
-      } catch (refreshError) {
-        console.error("Session expired. Please login again.");
-
-        if (typeof window !== 'undefined') {
+                          originalRequest?.url?.includes('/auth/register/step1') ||
+                          originalRequest?.url?.includes('/auth/register/step2') ||
+                          originalRequest?.url?.includes('/auth/logout');
+                          // Note: /auth/refresh removed as backend doesn't support it yet
+    
+    // Only redirect to login for 401 errors on non-auth endpoints
+    if (error.response?.status === 401 && !isAuthEndpoint) {
+      console.error("Session expired, redirecting to login...");
+      
+      if (typeof window !== 'undefined') {
+        // Only redirect if not already on login page
+        if (window.location.pathname !== '/login') {
           window.location.href = '/login';
         }
-
-        return Promise.reject(refreshError);
       }
     }
-
-    // For auth endpoints or other errors, return the original error
+    
     return Promise.reject(error);
   }
 );

@@ -46,7 +46,7 @@ export const mockLeaderboardData: LeaderboardData = {
       rank: 1,
       name: "น้องมิ้นท์",
       avatar: avatars[0],
-      score: 6250,
+      score: 6500,
       change: 0,
       gender: "เพศหญิง",
     },

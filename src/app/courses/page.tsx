@@ -70,6 +70,10 @@ export default function CoursesPage() {
     }
   };
 
+  // Calculate responsive values for ScrollStack
+  const itemDistance = isMobile ? 400 : isTablet ? 400 : 230;
+  const stackPosition = isMobile ? "10%" : isTablet ? "12%" : "15%";
+
   return (
     <div className="flex h-screen ">
       <BackgroundSquaresWithColor />
@@ -117,7 +121,6 @@ export default function CoursesPage() {
         </div>
       </main>
 
-      {/*CourseRightPanel - Desktop only */}
       <div className="hidden lg:block">
         <CourseRightPanel
           level={selectedLevel}

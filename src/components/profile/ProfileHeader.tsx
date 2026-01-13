@@ -13,63 +13,162 @@ import {
 } from "@/components/ui/sheet";
 import { EditProfileForm } from "./EditProfileForm";
 import { Divide } from "lucide-react";
-import { mockMyRankData } from "@/constants/mocks/userData";
 import { getRankBadgeImage } from "@/constants/ranks";
+import { useUserStore } from "@/store/user.store";
+import { useAuthStore } from "@/store/auth.store";
+import { Gender } from "@/services/user.service";
 
 export interface ProfileHeaderProps {
   className?: string;
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
-  // Extract filename from avatar path
-  const getAvatarFilename = (avatarPath: string): string => {
-    return avatarPath.split("/").pop() || "icon_P_Bit.png";
+  const { user, isLoading, fetchProfile, updateProfile } = useUserStore();
+  const { isAuthenticated } = useAuthStore();
+  const [isEditOpen, setIsEditOpen] = React.useState(false);
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  // Fetch profile when authenticated (on mount and when auth state changes)
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      fetchProfile();
+    }
+  }, [isAuthenticated, fetchProfile]);
+
+  // Helper: Get icon filename (handle null)
+  const getIconFilename = (): string => {
+    if (!user?.profile?.icon) {
+      return "icon_P_Bit.png"; // Default icon
+    }
+    return user.profile.icon;
   };
 
-  const [isEditOpen, setIsEditOpen] = React.useState(false);
-  const [selectedCharacter, setSelectedCharacter] = React.useState(
-    getAvatarFilename(mockMyRankData.avatar || "/icons/icon-Profile/icon_P_Bit.png")
-  );
-  const [gender, setGender] = React.useState(mockMyRankData.gender ?? "เพศชาย");
-  const [userName, setUserName] = React.useState(mockMyRankData.name);
+  // Helper: Map Gender enum to Thai string
+  const getGenderThai = (gender: Gender | undefined): string => {
+    switch (gender) {
+      case Gender.MALE:
+        return "เพศชาย";
+      case Gender.FEMALE:
+        return "เพศหญิง";
+      case Gender.OTHER:
+        return "ไม่ระบุตัวตน";
+      default:
+        return "เพศชาย";
+    }
+  };
 
-  // ข้อมูลผู้ใช้ (Mock data - จะแทนที่ด้วยข้อมูลจริงจาก API)
-  const joinDate = mockMyRankData.joinDate ;
-  const rank = mockMyRankData.rank;
-  const highestScore = mockMyRankData.score;
-  const daystate = mockMyRankData.daystate;
-  const maxScore = 6300;
-  const progressPercent = (highestScore / maxScore) * 100;
+  // Helper: Map Thai string to Gender enum
+  const getGenderEnum = (genderThai: string): Gender => {
+    switch (genderThai) {
+      case "เพศชาย":
+        return Gender.MALE;
+      case "เพศหญิง":
+        return Gender.FEMALE;
+      case "ไม่ระบุตัวตน":
+        return Gender.OTHER;
+      default:
+        return Gender.MALE;
+    }
+  };
+
+  // Helper: Format joined date
+  const formatJoinedDate = (dateString: string | undefined): string => {
+    if (!dateString) return "";
+    // Parse date string like "03/01/2026 16:47"
+    const [datePart] = dateString.split(" ");
+    const [day, month, year] = datePart.split("/");
+    
+    const monthNames = [
+      "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+    ];
+    
+    const monthIndex = parseInt(month, 10) - 1;
+    const monthName = monthNames[monthIndex] || "มกราคม";
+    
+    return `เข้าร่วมเมื่อ วันที่ ${parseInt(day, 10)} ${monthName} ${year}`;
+  };
 
   const handleEditProfile = () => {
     setIsEditOpen(true);
   };
 
-  const handleSaveProfile = (data: {
+  const handleSaveProfile = async (data: {
     name: string;
     gender: string;
     character: string;
   }) => {
-    setUserName(data.name);
-    setSelectedCharacter(data.character);
-    setGender(data.gender);
-    setIsEditOpen(false);
+    setIsSaving(true);
+    try {
+      await updateProfile({
+        name: data.name,
+        gender: getGenderEnum(data.gender),
+        icon: data.character,
+      });
+      // Fetch profile again after update to get realtime data (including stats)
+      await fetchProfile();
+      setIsEditOpen(false);
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+      // Error is already handled in store
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  // ฟังก์ชันช่วยสำหรับแสดงไอคอนและสีตามเพศ
-  const getGenderIcon = (gender: string) => {
-    if (gender === "เพศชาย") return FaMars;
-    if (gender === "เพศหญิง") return FaVenus;
-    if (gender === "ไม่ระบุตัวตน") return FaGenderless;
-    return FaMars; // Default
+  // Helper functions for gender icon and color
+  const getGenderIcon = (gender: Gender | undefined) => {
+    switch (gender) {
+      case Gender.MALE:
+        return FaMars;
+      case Gender.FEMALE:
+        return FaVenus;
+      case Gender.OTHER:
+        return FaGenderless;
+      default:
+        return FaMars;
+    }
   };
 
-  const getGenderColor = (gender: string) => {
-    if (gender === "เพศชาย") return "text-[#1CB0F6]";
-    if (gender === "เพศหญิง") return "text-[#EC4899]";
-    if (gender === "ไม่ระบุตัวตน") return "text-[#344054]";
-    return "text-[#344054]"; // Default
+  const getGenderColor = (gender: Gender | undefined) => {
+    switch (gender) {
+      case Gender.MALE:
+        return "text-[#1CB0F6]";
+      case Gender.FEMALE:
+        return "text-[#EC4899]";
+      case Gender.OTHER:
+        return "text-[#344054]";
+      default:
+        return "text-[#344054]";
+    }
   };
+
+  // Loading state
+  if (isLoading && !user) {
+    return (
+      <Container className={cn("p-4 sm:p-5 md:p-4 lg:p-6 w-full", className)}>
+        <div className="flex items-center justify-center py-8">
+          <div className="text-gray-500">กำลังโหลดข้อมูล...</div>
+        </div>
+      </Container>
+    );
+  }
+
+  // No user data
+  if (!user) {
+    return null;
+  }
+
+  // Extract data from user
+  const selectedCharacter = getIconFilename();
+  const userName = user.name || "";
+  const gender = user.gender;
+  const joinDate = formatJoinedDate(user.profile?.joinedDate);
+  const rank = user.profile?.currentRank || 0;
+  const highestScore = user.profile?.totalScore || 0;
+  const daystate = user.profile?.currentStreak || 0;
+  const maxScore = 6300;
+  const progressPercent = (highestScore / maxScore) * 100;
 
   return (
     <>
@@ -109,10 +208,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
                   "w-4 h-4 sm:w-5 sm:h-5 md:w-4 md:h-4 lg:w-5 lg:h-5",
                   getGenderColor(gender)
                 ),
-                "aria-label": gender,
+                "aria-label": getGenderThai(gender),
               })}
             </div>
-            {/* วันที่เข้าร่วม */} 
+            {/* วันที่เข้าร่วม */}
             <span className="text-[13px] sm:text-[13px] md:text-[13px] lg:text-[14px] leading-[20px] font-medium text-gray-600">
               {joinDate}
             </span>
@@ -154,7 +253,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
                 icon={<FaFire className="w-5 h-5 text-[#FF6B6B]" />}
                 title={daystate.toString()}
                 description="วันที่ติดต่อกัน"
-                iconBgColor="bg-[#FFE4E1]" // สีเเดงอ่อนมาก 
+                iconBgColor="bg-[#FFE4E1]"
               />
             </div>
           </div>
@@ -170,14 +269,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
             "overflow-y-auto p-6"
           )}
         >
-          {/* หัวข้อและคำอธิบายสำหรับ accessibility (ซ่อนไว้) */}
           <SheetTitle>แก้ไขโปรไฟล์</SheetTitle>
           <Divide className="w-full h-px bg-gray-200 my-2" />
           <SheetDescription className="sr-only"></SheetDescription>
 
           <EditProfileForm
             initialName={userName}
-            initialGender={gender}
+            initialGender={getGenderThai(gender)}
             initialCharacter={selectedCharacter}
             onSave={handleSaveProfile}
           />
