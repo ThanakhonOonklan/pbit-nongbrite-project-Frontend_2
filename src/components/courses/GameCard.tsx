@@ -56,7 +56,7 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
       itemClassName="scroll-stack-card"
       outerContainerProps={outerContainerProps}
     >
-      <div className="grid grid-cols-3 gap-x-3 sm:gap-x-4 md:gap-x-5 lg:gap-x-6 gap-y-6 sm:gap-y-8 md:gap-y-10 lg:gap-y-12 pt-4 sm:pt-6 md:pt-8 p-2 sm:p-3 md:p-4 lg:p-6 w-full h-full items-center justify-center">
+      <div className="grid grid-cols-3 gap-x-3 sm:gap-x-4 md:gap-x-5 lg:gap-x-6 gap-y-6 sm:gap-y-8 md:gap-y-10 lg:gap-y-12 pt-4 sm:pt-6 md:pt-8 p-2 sm:p-3 md:p-4 lg:p-6 w-full min-h-[400px] items-center justify-center">
         {Array.from({ length: 9 }).map((_, buttonIndex) => {
           const levelNumber = buttonIndex + 1;
           
@@ -66,7 +66,8 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
               variant={buttonVariant}
               size="sm"
               onClick={() => handleLevelClick(levelNumber)}
-              className="grid grid-rows-2 items-center justify-center gap-1 w-auto mx-auto"
+              aria-label={`Level ${levelNumber} - ${game.title}`}
+              className="grid grid-rows-2 items-center justify-center gap-1 w-auto min-w-[60px] aspect-square mx-auto"
             >
               <div className="grid grid-cols-3 items-center justify-center gap-0.5">
                 {[1, 2, 3].map((star) => (

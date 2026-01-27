@@ -1,9 +1,12 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { CourseRightPanel } from "@/components/courses/CourseRightPanel";
-import { BackgroundSquaresWithColor } from "@/components/common/BackgroundSquaresWithColor";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, lazy, Suspense, useMemo } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+
+// Lazy load heavy components
+const CourseRightPanel = lazy(() => import("@/components/courses/CourseRightPanel").then(module => ({ default: module.CourseRightPanel })));
+const BackgroundSquaresWithColor = lazy(() => import("@/components/common/BackgroundSquaresWithColor").then(module => ({ default: module.BackgroundSquaresWithColor })));
 import { getLevelData } from "@/constants/levelData";
 import { useHeaderColor } from "@/contexts/HeaderColorContext";
 import { ScrollStack } from "@/components/common";
@@ -32,20 +35,30 @@ export default function CoursesPage() {
   // ScrollStack ref
   const scrollStackRef = useRef<ScrollStackRef>(null);
 
-  // Responsive detection
-  const [isMobile, setIsMobile] = useState(false);
+  // Optimized responsive detection using existing hook
+  const isMobile = useIsMobile();
   const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
+    // Only detect tablet, mobile is handled by useIsMobile hook
+    const checkTablet = () => {
       const width = window.innerWidth;
-      setIsMobile(width < 640);
       setIsTablet(width >= 640 && width < 1024);
     };
     
-    handleResize();
+    // Debounce resize events
+    let timeoutId: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(checkTablet, 100);
+    };
+    
+    checkTablet();
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const handleSectionChange = (index: number, headerColor?: string) => {
@@ -82,13 +95,17 @@ export default function CoursesPage() {
     }
   };
 
-  // Calculate responsive values for ScrollStack
-  const itemDistance = isMobile ? 400 : isTablet ? 400 : 230;
-  const stackPosition = isMobile ? "10%" : isTablet ? "12%" : "15%";
+  // Calculate responsive values for ScrollStack (memoized to prevent recalculation)
+  const { itemDistance, stackPosition } = useMemo(() => ({
+    itemDistance: isMobile ? 400 : isTablet ? 400 : 230,
+    stackPosition: isMobile ? "10%" : isTablet ? "12%" : "15%",
+  }), [isMobile, isTablet]);
 
   return (
     <div className="flex h-screen ">
-      <BackgroundSquaresWithColor />
+      <Suspense fallback={null}>
+        <BackgroundSquaresWithColor />
+      </Suspense>
       <Sidebar />
 
       {/* ResourceBars - Mobile only (navbar style) */}
@@ -134,15 +151,17 @@ export default function CoursesPage() {
       </main>
 
       <div className="hidden lg:block">
-        <CourseRightPanel
-          level={selectedLevel}
-          difficulty={levelData?.difficulty}
-          difficultyText={levelData?.difficultyText}
-          gameTitle={currentGameTitle}
-          gameIcon={gamesConfig[currentGameIconIndex]?.icon}
-          headerColor={currentHeaderColor}
-          gameId={currentGameId}
-        />
+        <Suspense fallback={<div className="w-[300px]" />}>
+          <CourseRightPanel
+            level={selectedLevel}
+            difficulty={levelData?.difficulty}
+            difficultyText={levelData?.difficultyText}
+            gameTitle={currentGameTitle}
+            gameIcon={gamesConfig[currentGameIconIndex]?.icon}
+            headerColor={currentHeaderColor}
+            gameId={currentGameId}
+          />
+        </Suspense>
       </div>
     </div>
   );
