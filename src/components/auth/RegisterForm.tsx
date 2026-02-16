@@ -11,7 +11,7 @@ import Stepper, { Step } from "@/components/common/Stepper";
 import { useAuthStore } from "@/store/auth.store";
 import { Gender } from "@/services/auth.service";
 
-export interface RegisterFormProps {}
+export interface RegisterFormProps { }
 
 const RegisterForm: React.FC<RegisterFormProps> = () => {
   const {
@@ -25,11 +25,13 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   } = useAuthStore();
 
   // Step 1 states
+  const [englishName, setEnglishName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
   // Step 1 validation errors
+  const [englishNameError, setEnglishNameError] = React.useState<string | undefined>();
   const [emailError, setEmailError] = React.useState<string | undefined>();
   const [passwordError, setPasswordError] = React.useState<string | undefined>();
   const [confirmPasswordError, setConfirmPasswordError] = React.useState<string | undefined>();
@@ -59,6 +61,24 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   };
 
   // Validation functions
+  const validateEnglishName = (nameValue: string): boolean => {
+    if (!nameValue.trim()) {
+      setEnglishNameError("กรุณากรอกชื่อภาษาอังกฤษ");
+      return false;
+    }
+    if (nameValue.trim().length < 2) {
+      setEnglishNameError("ชื่อต้องมีอย่างน้อย 2 ตัวอักษร");
+      return false;
+    }
+    const englishRegex = /^[a-zA-Z\s]+$/;
+    if (!englishRegex.test(nameValue.trim())) {
+      setEnglishNameError("กรุณากรอกเฉพาะตัวอักษรภาษาอังกฤษ");
+      return false;
+    }
+    setEnglishNameError(undefined);
+    return true;
+  };
+
   const validateEmail = (emailValue: string): boolean => {
     if (!emailValue.trim()) {
       setEmailError("กรุณากรอกอีเมล");
@@ -103,10 +123,11 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   };
 
   const validateStep1 = (): boolean => {
+    const isNameValid = validateEnglishName(englishName);
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
     const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
-    return isEmailValid && isPasswordValid && isConfirmPasswordValid;
+    return isNameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid;
   };
 
   const validateStep2 = (): boolean => {
@@ -148,6 +169,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   // Handle Step 1 Next Button
   const handleStep1Next = async (): Promise<boolean> => {
     clearError();
+    setEnglishNameError(undefined);
     setEmailError(undefined);
     setPasswordError(undefined);
     setConfirmPasswordError(undefined);
@@ -221,6 +243,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   // Check if Step 1 is complete (all fields filled)
   const isStep1Complete = (): boolean => {
     return (
+      englishName.trim() !== "" &&
       email.trim() !== "" &&
       password.trim() !== "" &&
       confirmPassword.trim() !== ""
@@ -237,6 +260,15 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   };
 
   // Clear errors when user types
+  const handleEnglishNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 30) {
+      setEnglishName(value);
+      if (englishNameError) setEnglishNameError(undefined);
+      if (error) clearError();
+    }
+  };
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     if (emailError) setEmailError(undefined);
@@ -287,7 +319,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
   // Prevent Stepper from auto-advancing by controlling step manually
   const [stepperStep, setStepperStep] = React.useState(currentStep);
-  
+
   // Sync with store registerStep (only allow forward progression)
   React.useEffect(() => {
     if (registerStep > currentStep) {
@@ -295,7 +327,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
       setStepperStep(registerStep);
     }
   }, [registerStep, currentStep]);
-  
+
   // Sync stepperStep with currentStep when currentStep changes (for going back)
   React.useEffect(() => {
     setStepperStep(currentStep);
@@ -352,18 +384,18 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           </p>
         }
         disableStepIndicators={true}
-        backButtonProps={{ 
+        backButtonProps={{
           disabled: isLoading,
         }}
-        nextButtonProps={{ 
-          disabled: isLoading || 
+        nextButtonProps={{
+          disabled: isLoading ||
             (currentStep === 1 && !isStep1Complete()) ||
             (currentStep === 2 && !isStep2Complete()),
           onClick: async (e) => {
             // Prevent default Stepper behavior (handleNext/handleComplete)
             e.preventDefault();
             e.stopPropagation();
-            
+
             if (currentStep === 1) {
               // Validate and call API before allowing step change
               const success = await handleStep1Next();
@@ -402,13 +434,24 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           <h2 className="text-[22px] md:text-[24px] font-bold text-gray-800 mb-2 text-center">
             สร้างบัญชี
           </h2>
-          <p className="text-[13px] md:text-[14px] text-gray-500 mb-4 md:mb-5 text-center">
-            พร้อมที่จะเรียนรู้หรือยัง?
-          </p>
+
 
           {/* Input Fields */}
           <div className="relative z-10 flex flex-col gap-5 md:gap-6 w-full min-h-[280px] items-center mb-4">
             <div className="w-[390px] max-w-[460px] flex flex-col gap-5 md:gap-6">
+              <InputField
+                label="ชื่อภาษาอังกฤษ"
+                type="text"
+                placeholder="กรุณากรอกชื่อภาษาอังกฤษ"
+                value={englishName}
+                error={englishNameError}
+                className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+                onChange={handleEnglishNameChange}
+                maxLength={30}
+                required
+                disabled={isLoading}
+              />
+
               <InputField
                 label="อีเมล"
                 type="email"
@@ -444,7 +487,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
               />
 
               {/* API Error Message */}
-              {error && !emailError && !passwordError && !confirmPasswordError && (
+              {error && !englishNameError && !emailError && !passwordError && !confirmPasswordError && (
                 <div
                   className="w-full max-w-[460px] p-3 rounded-[12px] bg-red-50 border-2 border-red-200"
                   role="alert"

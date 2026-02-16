@@ -54,3 +54,5 @@ export { SoundToggle } from "./SoundToggle";
 export type { SoundToggleProps } from "./SoundToggle";
 export { KawaiiProgressBar } from "./KawaiiProgressBar";
 export type { KawaiiProgressBarProps } from "./KawaiiProgressBar";
+export { StarRating } from "./StarRating";
+export type { StarRatingProps } from "./StarRating";

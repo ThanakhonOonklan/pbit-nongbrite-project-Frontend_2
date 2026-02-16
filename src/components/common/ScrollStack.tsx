@@ -22,14 +22,14 @@ export interface ScrollStackItemProps {
 
 }
 
-export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({ 
-  children, 
+export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
+  children,
   itemClassName = '',
   useOuterContainer = false,
   outerContainerProps = {}
 }) => {
   const baseClassName = `scroll-stack-card relative w-full origin-top will-change-transform ${itemClassName}`.trim();
-  
+
   const baseStyle: React.CSSProperties = {
     backfaceVisibility: 'hidden',
     transformStyle: 'preserve-3d'
@@ -135,7 +135,7 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
   const currentSectionRef = useRef<number>(-1);
 
-    interface CardTransform {
+  interface CardTransform {
     translateY: number;
     scale: number;
     rotation: number;
@@ -239,7 +239,7 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
     const endElementTop = endElement ? getElementOffset(endElement) : 0;
 
-   
+
     let topCardIndex = -1;
 
     for (let j = 0; j < cardsRef.current.length; j++) {
@@ -248,7 +248,7 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
       const jCardTop = getElementOffset(jCard);
       const jTriggerStart = jCardTop - stackPositionPx - itemStackDistance * j;
-      
+
       // ตรวจสอบ card ถัดไป (ถ้ามี) เพื่อหาขอบเขต
       let jTriggerEnd = Infinity;
       if (j < cardsRef.current.length - 1) {
@@ -258,13 +258,13 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
           jTriggerEnd = nextCardTop - stackPositionPx - itemStackDistance * (j + 1);
         }
       }
-      
+
       // ถ้า scrollTop อยู่ระหว่าง triggerStart และ triggerEnd ของ card นี้
       if (scrollTop >= jTriggerStart && scrollTop < jTriggerEnd) {
         topCardIndex = j;
         break; // หาเจอแล้ว ไม่ต้องหาต่อ
       }
-      
+
       // ถ้า scrollTop ยังไม่ถึง triggerStart ของ card แรก ให้ return -1
       if (j === 0 && scrollTop < jTriggerStart) {
         topCardIndex = -1;
@@ -403,12 +403,12 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
     // Call onSectionChange if section has changed
     if (onSectionChange && topCardIndex !== currentSectionRef.current) {
       currentSectionRef.current = topCardIndex;
-      
+
       // ตรวจสอบ bounds ก่อนเข้าถึง array
       const headerColor = topCardIndex >= 0 && topCardIndex < headerColorsRef.current.length
         ? headerColorsRef.current[topCardIndex]
         : undefined;
-        
+
       onSectionChange(topCardIndex, headerColor);
     }
 
@@ -456,13 +456,13 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
     if (index < 0 || index >= cardsRef.current.length) return;
     const card = cardsRef.current[index];
     if (!card) return;
-    
+
     const { containerHeight } = getScrollData();
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const cardTop = getElementOffset(card);
     // เพิ่ม offset เล็กน้อยเพื่อให้แน่ใจว่า scroll ไปถึงหรือเกิน triggerStart
     const targetScroll = cardTop - stackPositionPx - itemStackDistance * index + 1;
-    
+
     if (lenisRef.current) {
       lenisRef.current.scrollTo(targetScroll, { immediate: true });
       // Update immediately after scroll

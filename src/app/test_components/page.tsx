@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Input,
   InputField,
@@ -22,10 +23,12 @@ import {
   LoadingSpinner,
   LoadingOverlay,
   KawaiiProgressBar,
+  StarRating,
 } from "@/components/common";
 import { getLabelClassName } from "@/lib/label";
 import { StatCard } from "@/components/profile";
-import { FaCheck, FaHeart } from "react-icons/fa";
+import { FaCheck, FaHeart, FaLock } from "react-icons/fa";
+import { TiltButton } from "react-tilt-button";
 
 // shadcn UI components
 import { Button as UiButton } from "@/components/ui/button";
@@ -56,6 +59,8 @@ export default function TestComponentsPage() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [activeGameButton, setActiveGameButton] = useState<number | null>(null);
+  const router = useRouter();
   const animatedItems = ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"];
 
   // จำลองการโหลด
@@ -89,7 +94,7 @@ export default function TestComponentsPage() {
         <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Button</h2>
-            
+
             {/* PrimaryButton Styles */}
             <div className="flex flex-col gap-4">
               <div className="flex flex-wrap gap-4">
@@ -122,7 +127,7 @@ export default function TestComponentsPage() {
         <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Form Components</h2>
-            
+
             {/* Input */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">Input</h3>
@@ -170,7 +175,7 @@ export default function TestComponentsPage() {
         <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Layout Components</h2>
-            
+
             {/* Divider */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">Divider</h3>
@@ -186,7 +191,7 @@ export default function TestComponentsPage() {
         <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Interactive Components</h2>
-            
+
             {/* GameTooltip */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">GameTooltip</h3>
@@ -224,7 +229,7 @@ export default function TestComponentsPage() {
                     } else {
                       newSet.delete("female");
                     }
-                    setSelectedGenders(newSet);   
+                    setSelectedGenders(newSet);
                   }}
                 >
                   เพศหญิง
@@ -241,10 +246,10 @@ export default function TestComponentsPage() {
                     setSelectedGenders(newSet);
                   }}
                 >
-                 ไม่ระบุตัวตน
+                  ไม่ระบุตัวตน
                 </SocialButton>
-         
-             
+
+
               </div>
             </div>
 
@@ -258,7 +263,7 @@ export default function TestComponentsPage() {
                   onChange={setOtpValue}
                   onComplete={(value: string) => console.log("OTP Complete:", value)}
                 />
-                
+
               </div>
             </div>
 
@@ -280,7 +285,7 @@ export default function TestComponentsPage() {
         <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Cards & Display Components</h2>
-            
+
             {/* FormCard */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">FormCard</h3>
@@ -307,30 +312,30 @@ export default function TestComponentsPage() {
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">StatCard</h3>
               <div className="flex flex-col gap-4 max-w-2xl">
-                <StatCard 
-                  type="streak" 
-                  title="x2 Point Streak" 
-                  description="Receive double streak rewards every day" 
+                <StatCard
+                  type="streak"
+                  title="x2 Point Streak"
+                  description="Receive double streak rewards every day"
                 />
-                <StatCard 
-                  type="exp" 
-                  title="x2 Exp" 
-                  description="Double EXP when completing the exercise" 
+                <StatCard
+                  type="exp"
+                  title="x2 Exp"
+                  description="Double EXP when completing the exercise"
                 />
-                <StatCard 
-                  type="points" 
-                  title="คะแนนทั้งหมด: 5,672" 
-                  description="จำนวนคะแนนที่สะสมได้" 
+                <StatCard
+                  type="points"
+                  title="คะแนนทั้งหมด: 5,672"
+                  description="จำนวนคะแนนที่สะสมได้"
                 />
-                <StatCard 
-                  type="rank" 
-                  title="ผู้เริ่มต้นที่ดี" 
-                  description="แรงค์ของคุณในระบบ" 
+                <StatCard
+                  type="rank"
+                  title="ผู้เริ่มต้นที่ดี"
+                  description="แรงค์ของคุณในระบบ"
                 />
-                <StatCard 
-                  icon={<FaHeart className="w-7 h-7 text-[#FF4D4D]" />} 
-                  title="Premium Member" 
-                  description="Unlock all premium features" 
+                <StatCard
+                  icon={<FaHeart className="w-7 h-7 text-[#FF4D4D]" />}
+                  title="Premium Member"
+                  description="Unlock all premium features"
                   iconBgColor="bg-[#E8F4FF]"
                 />
               </div>
@@ -343,7 +348,7 @@ export default function TestComponentsPage() {
         <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Color Palette</h2>
-            
+
             {/* Color Swatches */}
             <div className="flex flex-col gap-6">
               {/* Row 1 */}
@@ -417,7 +422,7 @@ export default function TestComponentsPage() {
         <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Utility Components</h2>
-            
+
             {/* Image */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">Image</h3>
@@ -498,7 +503,7 @@ export default function TestComponentsPage() {
               </div>
             </div>
 
-           
+
           </section>
         </Container>
 
@@ -506,7 +511,7 @@ export default function TestComponentsPage() {
         <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Loading Components</h2>
-            
+
             {/* LoadingSpinner Examples */}
             <div className="flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-700">LoadingSpinner - Sizes</h3>
@@ -544,7 +549,7 @@ export default function TestComponentsPage() {
                     <span>เข้าสู่ระบบ</span>
                   )}
                 </PrimaryButton>
-                
+
                 <PrimaryButton
                   variant="summer-sky"
                   onClick={() => simulateLoading(setIsStarting, 2000)}
@@ -583,14 +588,14 @@ export default function TestComponentsPage() {
         <Container className="p-6">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">OuterContainer</h2>
-        
+
             <div className="flex flex-col gap-4">
               <OuterContainer
                 widthClassName="max-w-[720px]"
                 heightClassName="min-h-[260px]"
                 headerText="Demo Card"
                 headerColor="summer-sky"
-            
+
               >
                 <div className="p-4">
                   <p className="text-gray-700"></p>
@@ -600,7 +605,133 @@ export default function TestComponentsPage() {
           </section>
         </Container>
 
-    
+        {/* TiltButton */}
+        <Container className="p-6">
+          <section className="flex flex-col gap-6">
+            <h2 className="text-2xl font-bold text-[#242E39]">TiltButton</h2>
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Dark Variant</h3>
+              <div className="flex flex-wrap gap-4 items-center">
+                <TiltButton
+                  variant="dark"
+                  width={84}
+                  height={90}
+                  elevation={12}
+                  pressInset={12}
+                  tilt={1.33}
+                  radius={18}
+                  motion={94}
+                  surfaceColor="#181818"
+                  sideColor="#494949"
+                  textColor="#e5e7eb"
+                  borderColor="#5e5e5e"
+                  borderWidth={4}
+                  glareColor="#ffffff"
+                  glareOpacity={0.2}
+                  glareWidth={70}
+                >
+                  1
+                </TiltButton>
+              </div>
+            </div>
+
+            {/* Game Color Variants */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-lg font-semibold text-gray-700">Game Buttons</h3>
+              <div className="flex flex-wrap gap-6 items-end pt-16">
+                {/* Illusion #FB96BB */}
+                <div className="relative" onClick={() => setActiveGameButton(activeGameButton === 1 ? null : 1)}>
+                  {activeGameButton === 1 && (
+                    <GameTooltip label="Level 1" sublabel="กดเพื่อเริ่มเกม" onStart={() => router.push("/games/path-navigation/1")} onClose={() => setActiveGameButton(null)} />
+                  )}
+                  <TiltButton
+                    width={84} height={90} elevation={12} pressInset={12}
+                    tilt={1.33} radius={18} motion={94}
+                    surfaceColor="#FB96BB" sideColor="#c97896" textColor="#ffffff"
+                    borderColor="#e888ab" borderWidth={4}
+                    glareColor="#ffffff" glareOpacity={0.2} glareWidth={70}
+                  >
+                    1
+                  </TiltButton>
+                </div>
+
+                {/* Texas Rose #FFB356 */}
+                <div className="relative" onClick={() => setActiveGameButton(activeGameButton === 2 ? null : 2)}>
+                  {activeGameButton === 2 && (
+                    <GameTooltip label="Level 2" sublabel="กดเพื่อเริ่มเกม" onStart={() => router.push("/games/path-navigation/2")} onClose={() => setActiveGameButton(null)} />
+                  )}
+                  <TiltButton
+                    width={84} height={90} elevation={12} pressInset={12}
+                    tilt={1.33} radius={18} motion={94}
+                    surfaceColor="#FFB356" sideColor="#d18f3f" textColor="#ffffff"
+                    borderColor="#e8a449" borderWidth={4}
+                    glareColor="#ffffff" glareOpacity={0.2} glareWidth={70}
+                  >
+                    2
+                  </TiltButton>
+                </div>
+
+                {/* Amethyst #9956DE */}
+                <div className="relative" onClick={() => setActiveGameButton(activeGameButton === 3 ? null : 3)}>
+                  {activeGameButton === 3 && (
+                    <GameTooltip label="Level 3" sublabel="กดเพื่อเริ่มเกม" onStart={() => router.push("/games/path-navigation/3")} onClose={() => setActiveGameButton(null)} />
+                  )}
+                  <TiltButton
+                    width={84} height={90} elevation={12} pressInset={12}
+                    tilt={1.33} radius={18} motion={94}
+                    surfaceColor="#9956DE" sideColor="#7a45b2" textColor="#ffffff"
+                    borderColor="#8a4dc9" borderWidth={4}
+                    glareColor="#ffffff" glareOpacity={0.2} glareWidth={70}
+                  >
+                    3
+                  </TiltButton>
+                </div>
+
+                {/* Downy #6ED1CF — Disabled */}
+                <div className="relative">
+                  <TiltButton
+                    disabled={true}
+                    width={84} height={90} elevation={12} pressInset={12}
+                    tilt={1.33} radius={18} motion={94}
+                    surfaceColor="#6ED1CF" sideColor="#54a8a6" textColor="#ffffff"
+                    borderColor="#60c1bf" borderWidth={4}
+                    glareColor="#ffffff" glareOpacity={0.2} glareWidth={70}
+                  >
+                    <FaLock className="w-5 h-5 text-white/80" />
+                  </TiltButton>
+                </div>
+
+                {/* Mona Lisa #FF8B8B — Disabled */}
+                <div className="relative">
+                  <TiltButton
+                    disabled={true}
+                    width={84} height={90} elevation={12} pressInset={12}
+                    tilt={1.33} radius={18} motion={94}
+                    surfaceColor="#FF8B8B" sideColor="#d17070" textColor="#ffffff"
+                    borderColor="#e77d7d" borderWidth={4}
+                    glareColor="#ffffff" glareOpacity={0.2} glareWidth={70}
+                  >
+                    <FaLock className="w-5 h-5 text-white/80" />
+                  </TiltButton>
+                </div>
+
+                {/* Pastel Green #75D06A — Disabled */}
+                <div className="relative">
+                  <TiltButton
+                    disabled={true}
+                    width={84} height={90} elevation={12} pressInset={12}
+                    tilt={1.33} radius={18} motion={94}
+                    surfaceColor="#75D06A" sideColor="#5ea856" textColor="#ffffff"
+                    borderColor="#68c261" borderWidth={4}
+                    glareColor="#ffffff" glareOpacity={0.2} glareWidth={70}
+                  >
+                    <FaLock className="w-5 h-5 text-white/80" />
+                  </TiltButton>
+                </div>
+              </div>
+            </div>
+          </section>
+        </Container>
 
         {/* Shadcn UI Components */}
         <Container className="p-6">
@@ -960,7 +1091,7 @@ export default function TestComponentsPage() {
               {/* Usage note */}
               <div className="bg-blue-50 border-l-4 border-[#1cb0f6] p-4 rounded">
                 <p className="text-sm text-gray-700">
-                  <strong>หมายเหตุ:</strong> Sidebar ในโปรเจกต์นี้ถูกใช้งานแล้วที่ <code className="px-2 py-1 bg-white rounded">app/layout.tsx</code> 
+                  <strong>หมายเหตุ:</strong> Sidebar ในโปรเจกต์นี้ถูกใช้งานแล้วที่ <code className="px-2 py-1 bg-white rounded">app/layout.tsx</code>
                   ผ่าน <code className="px-2 py-1 bg-white rounded">SidebarProvider</code> และ implementation จริงอยู่ที่ <code className="px-2 py-1 bg-white rounded">components/layout/Sidebar.tsx</code>
                 </p>
               </div>
@@ -1082,7 +1213,7 @@ export default function TestComponentsPage() {
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">📝 วิธีใช้งาน</h3>
                 <div className="bg-white p-4 rounded-lg font-mono text-xs">
                   <pre className="text-gray-800 whitespace-pre-wrap">
-{`import { KawaiiProgressBar } from "@/components/common/KawaiiProgressBar";
+                    {`import { KawaiiProgressBar } from "@/components/common/KawaiiProgressBar";
 
 // ตัวอย่างข้อมูลจาก API
 const apiData = {
@@ -1109,9 +1240,28 @@ const apiData = {
             </div>
           </section>
         </Container>
-              
+
+        {/* ===== StarRating Section ===== */}
+        <Container variant="default">
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold">SarRating</h2>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* 0 ดาว */}
+              <div className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-xl">
+                <p className="text-sm font-semibold text-gray-500">0 ดาว</p>
+                <StarRating stars={3} />
+              </div>
+
+
+            </div>
+
+
+          </section>
+        </Container>
+
       </div>
-      
+
       {/* LoadingOverlay */}
       <LoadingOverlay isLoading={showOverlay} message="กำลังโหลดข้อมูล..." />
     </div>

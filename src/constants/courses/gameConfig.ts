@@ -9,6 +9,8 @@ import {
   FaPalette,
 } from "react-icons/fa";
 
+import { levelData } from "@/constants/levelData";
+
 /**
  * Image configuration for game cards
  */
@@ -17,9 +19,44 @@ export interface GameImageConfig {
   alt: string;
   width?: number | ((isMobile: boolean, isTablet: boolean) => number);
   height?: number | ((isMobile: boolean, isTablet: boolean) => number);
-  position: string; // e.g., "left-[20px]", "-top-[-308px]"
+  position: string | ((isMobile: boolean, isTablet: boolean) => string);
   rotation?: number;
 }
+
+/**
+ * Level configuration for each game button
+ * เมื่อเชื่อม API จริง — แก้แค่ที่ getDefaultLevels() หรือเปลี่ยนเป็น hook
+ */
+export interface LevelConfig {
+  level: number;
+  difficulty: number;       // 1=ง่าย, 2=ปานกลาง, 3=ยาก
+  difficultyText: string;
+  isLocked: boolean;
+  stars: number;            // 0-3 ดาวที่ได้จากการเล่น
+}
+
+export const getDefaultLevels = (): LevelConfig[] => {
+  const mockStars: Record<number, number> = {
+    1: 3,
+    2: 1,
+    3: 3,
+    4: 1,
+    5: 1,
+    6: 1,
+    7: 0,
+    8: 0,
+    9: 0,
+  };
+
+  return levelData.map((ld) => ({
+    level: ld.level,
+    difficulty: ld.difficulty,
+    difficultyText: ld.difficultyText,
+    // ด่าน 1 เปิดเสมอ, ด่านถัดไปเปิดเมื่อด่านก่อนหน้าได้ดาว > 0
+    isLocked: ld.level === 1 ? false : (mockStars[ld.level - 1] ?? 0) === 0,
+    stars: mockStars[ld.level] ?? 0,
+  }));
+};
 
 /**
  * Game configuration interface
@@ -28,12 +65,13 @@ export interface GameConfig {
   id: string;
   title: string;
   icon: React.ComponentType<{ className?: string }>;
-  headerColor: string; 
-  baseColor: string; 
+  headerColor: string;
+  baseColor: string;
   image: GameImageConfig;
   image1?: GameImageConfig;
   image2?: GameImageConfig;
   image3?: GameImageConfig;
+  levels: LevelConfig[];
 }
 
 /**
@@ -51,7 +89,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "P'Bit mascot",
       width: (isMobile, isTablet) => (isMobile ? 80 : isTablet ? 100 : 140),
       height: (isMobile, isTablet) => (isMobile ? 80 : isTablet ? 100 : 140),
-      position: "left-[10px] top-[30px]",
+      position: (isMobile, isTablet) => isMobile ? "left-[-10px] top-[292px]" : isTablet ? "left-[-10px] top-[285px]" : "left-[-10px] top-[296px]",
       rotation: 0,
     },
     image1: {
@@ -59,9 +97,10 @@ export const gamesConfig: GameConfig[] = [
       alt: "Nong Brite",
       width: (isMobile, isTablet) => (isMobile ? 40 : isTablet ? 50 : 60),
       height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 55 : 66),
-      position: "right-[20px] bottom-[20px]",
+      position: (isMobile, isTablet) => isMobile ? "left-[40px] bottom-[-12px]" : isTablet ? "left-[60px] bottom-[-25px]" : "left-[80px] bottom-[-32px]",
       rotation: 0,
     },
+    levels: getDefaultLevels(),
   },
   {
     id: "counting-classification",
@@ -74,7 +113,7 @@ export const gamesConfig: GameConfig[] = [
       alt: "Minnie",
       width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
       height: (isMobile, isTablet) => (isMobile ? 96 : isTablet ? 120 : 160),
-      position: "right-[20px] top-[20px]",
+      position: (isMobile, isTablet) => isMobile ? "right-[20px] bottom-[-12px]" : isTablet ? "right-[20px] bottom-[-24px]" : "right-[20px] bottom-[-32px]",
       rotation: 0,
     },
     image1: {
@@ -82,9 +121,10 @@ export const gamesConfig: GameConfig[] = [
       alt: "Minnie",
       width: (isMobile, isTablet) => (isMobile ? 50 : isTablet ? 65 : 80),
       height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 57 : 71),
-      position: "left-[20px] bottom-[20px]",
+      position: (isMobile, isTablet) => isMobile ? "left-[140px] top-[-81px]" : isTablet ? "left-[20px] top-[-99.8px]" : "left-[20px] top-[-122px]",
       rotation: 0,
     },
+    levels: getDefaultLevels(),
   },
   {
     id: "conditional-matching",
@@ -97,17 +137,18 @@ export const gamesConfig: GameConfig[] = [
       alt: "Coco",
       width: (isMobile, isTablet) => (isMobile ? 70 : isTablet ? 85 : 110),
       height: (isMobile, isTablet) => (isMobile ? 62 : isTablet ? 75 : 98),
-      position: "left-[20px] top-[20px]",
+      position: (isMobile, isTablet) => isMobile ? "left-[0px] bottom-[-12px]" : isTablet ? "left-[0px] bottom-[-24px]" : "left-[0px] bottom-[-33px]",
       rotation: 0,
     },
     image1: {
-      src: "/images/Nong_brite/nong-brite-05.svg",
+      src: "/images/P_Coco/coco-01.svg",
       alt: "Coco",
-      width: (isMobile, isTablet) => (isMobile ? 40 : isTablet ? 50 : 60),
-      height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 55 : 66),
-      position: "right-[20px] bottom-[20px]",
-      rotation: 180,
+      width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 70 : 80),
+      height: (isMobile, isTablet) => (isMobile ? 66 : isTablet ? 77 : 88),
+      position: (isMobile, isTablet) => isMobile ? "right-[130px] top-[-100px]" : isTablet ? "right-[300px] top-[-125px]" : "right-[280px] top-[-150px]",
+      rotation: 0,
     },
+    levels: getDefaultLevels(),
   },
   {
     id: "sequencing",
@@ -116,21 +157,14 @@ export const gamesConfig: GameConfig[] = [
     headerColor: "#9956DE",
     baseColor: "#9956DE",
     image: {
-      src: "/images/P_Momo/momo-03.svg",
+      src: "/images/P_Momo/momo-02.svg",
       alt: "Momo",
-      width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
-      height: (isMobile, isTablet) => (isMobile ? 96 : isTablet ? 120 : 160),
-      position: "left-[20px] top-[20px]",
+      width: (isMobile, isTablet) => (isMobile ? 80 : isTablet ? 100 : 130),
+      height: (isMobile, isTablet) => (isMobile ? 128 : isTablet ? 160 : 200),
+      position: (isMobile, isTablet) => isMobile ? "left-[0px] bottom-[-45px]" : isTablet ? "left-[0px] bottom-[-60px]" : "left-[0px] bottom-[-80px]",
       rotation: 0,
     },
-    image1: {
-      src: "",
-      alt: "Nong Brite",
-      width: (isMobile, isTablet) => (isMobile ? 40 : isTablet ? 50 : 60),
-      height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 55 : 66),
-      position: "right-[20px] top-[20px]",
-      rotation: 0,
-    },
+    levels: getDefaultLevels(),
   },
   {
     id: "step-counting",
@@ -139,13 +173,22 @@ export const gamesConfig: GameConfig[] = [
     headerColor: "#6ED1CF",
     baseColor: "#6ED1CF",
     image: {
-      src: "/images/P_Bobo/bobo-05.svg",
+      src: "/images/P_Bobo/bobo-01.svg",
       alt: "Bobo",
       width: (isMobile, isTablet) => (isMobile ? 70 : isTablet ? 85 : 110),
       height: (isMobile, isTablet) => (isMobile ? 78 : isTablet ? 95 : 123),
-      position: "left-[50%] bottom-[20px]",
+      position: (isMobile, isTablet) => isMobile ? "left-[10px] bottom-[-12px]" : isTablet ? "left-[10px] bottom-[-24px]" : "left-[10px] bottom-[-32px]",
       rotation: 0,
     },
+    image1: {
+      src: "/images/P_Bobo/bobo-05.svg",
+      alt: "Coco",
+      width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 70 : 80),
+      height: (isMobile, isTablet) => (isMobile ? 66 : isTablet ? 77 : 88),
+      position: (isMobile, isTablet) => isMobile ? "right-[30px] top-[-60px]" : isTablet ? "right-[160px] top-[-90px]" : "right-[130px] top-[-100px]",
+      rotation: 49,
+    },
+    levels: getDefaultLevels(),
   },
   {
     id: "fruit-matching-grid",
@@ -157,56 +200,42 @@ export const gamesConfig: GameConfig[] = [
       src: "/images/P_PingPing/pingping-05.svg",
       alt: "PingPing",
       width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
-      height: (isMobile, isTablet) => (isMobile ? 72 : isTablet ? 90 : 120),
-      position: "right-[20px] top-[20px]",
-      rotation: 0,
+      height: (isMobile, isTablet) => (isMobile ? 70 : isTablet ? 80 : 90),
+      position: (isMobile, isTablet) => isMobile ? "left-[140px] top-[-30px]" : isTablet ? "left-[300px] top-[-40px]" : "left-[300px] top-[-40px]",
+      rotation: 180,
     },
     image1: {
-      src: "/images/P_PingPing/pingping-05.svg",
+      src: "/images/P_PingPing/pingping-01.svg",
       alt: "PingPing",
-      width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
-      height: (isMobile, isTablet) => (isMobile ? 72 : isTablet ? 90 : 120),
-      position: "left-[20px] bottom-[20px]",
+      width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 80),
+      height: (isMobile, isTablet) => (isMobile ? 72 : isTablet ? 90 : 100),
+      position: (isMobile, isTablet) => isMobile ? "left-[10px] bottom-[-12px]" : isTablet ? "left-[10px] bottom-[-24px]" : "left-[10px] bottom-[-32px]",
       rotation: 0,
     },
+    levels: getDefaultLevels(),
   },
   {
     id: "grid-based-coloring",
     title: "Grid-based Coloring",
     icon: FaPalette,
-    headerColor: "#FFD700",
-    baseColor: "#FFD700",
+    headerColor: "#AACE30",
+    baseColor: "#AACE30",
     image: {
-      src: "/images/P_Bit/bit-05.svg",
+      src: "/images/Nong_brite/nong-brite-06.svg",
       alt: "P'Bit mascot",
-      width: (isMobile, isTablet) => (isMobile ? 70 : isTablet ? 85 : 110),
-      height: (isMobile, isTablet) => (isMobile ? 83 : isTablet ? 100 : 130),
-      position: "left-[20px] top-[20px]",
+      width: (isMobile, isTablet) => (isMobile ? 70 : isTablet ? 85 : 90),
+      height: (isMobile, isTablet) => (isMobile ? 83 : isTablet ? 100 : 115),
+      position: (isMobile, isTablet) => isMobile ? "left-[10px] bottom-[-12px]" : isTablet ? "left-[10px] bottom-[-24px]" : "left-[10px] bottom-[-32px]",
       rotation: 0,
     },
     image1: {
-      src: "/images/Nong_brite/nong-brite-01.svg",
+      src: "/images/Nong_brite/nong-brite-05.svg",
       alt: "Nong Brite",
       width: (isMobile, isTablet) => (isMobile ? 40 : isTablet ? 50 : 60),
       height: (isMobile, isTablet) => (isMobile ? 44 : isTablet ? 55 : 66),
-      position: "right-[20px] top-[20px]",
-      rotation: 180,
-    },
-    image2: {
-      src: "/images/P_Momo/momo-03.svg",
-      alt: "Momo",
-      width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
-      height: (isMobile, isTablet) => (isMobile ? 96 : isTablet ? 120 : 160),
-      position: "left-[20px] bottom-[20px]",
+      position: (isMobile, isTablet) => isMobile ? "right-[5px] top-[-68px]" : isTablet ? "right-[15px] top-[-97px]" : "right-[20px] top-[-117px]",
       rotation: 0,
     },
-    image3: {
-      src: "/images/P_Minnie/minnie-04.svg",
-      alt: "Coco",
-      width: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
-      height: (isMobile, isTablet) => (isMobile ? 60 : isTablet ? 75 : 100),
-      position: "right-[20px] bottom-[20px]",
-      rotation: 0,
-    },
+    levels: getDefaultLevels(),
   },
 ];

@@ -14,6 +14,7 @@ import type { ScrollStackRef } from "@/components/common";
 import { GameCard } from "@/components/courses/GameCard";
 import { GameStepper } from "@/components/courses/GameStepper";
 import { ResourceBars } from "@/components/courses/ResourceBars";
+import { ScrollDownIndicator } from "@/components/courses/ScrollDownIndicator";
 import { gamesConfig } from "@/constants/courses/gameConfig";
 import { convertHeaderColorToHex, lightenColor } from "@/utils/courses";
 import { mockMyRankData } from "@/constants/mocks/userData";
@@ -26,11 +27,14 @@ export default function CoursesPage() {
   const { setHeaderColor } = useHeaderColor();
   const [currentHeaderColor, setCurrentHeaderColor] = useState<string | undefined>(undefined);
   const [currentGameTitle, setCurrentGameTitle] = useState<string>(
-    gamesConfig[0]?.title 
+    gamesConfig[0]?.title
   );
   const [currentGameIconIndex, setCurrentGameIconIndex] = useState<number>(0);
   const [currentGameId, setCurrentGameId] = useState<string | undefined>(gamesConfig[0]?.id);
   const [currentGameIndex, setCurrentGameIndex] = useState<number>(0);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const scrollTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isInitialCallRef = useRef(true);
 
   // ScrollStack ref
   const scrollStackRef = useRef<ScrollStackRef>(null);
@@ -45,14 +49,14 @@ export default function CoursesPage() {
       const width = window.innerWidth;
       setIsTablet(width >= 640 && width < 1024);
     };
-    
+
     // Debounce resize events
     let timeoutId: NodeJS.Timeout;
     const handleResize = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(checkTablet, 100);
     };
-    
+
     checkTablet();
     window.addEventListener('resize', handleResize);
     return () => {
@@ -61,7 +65,25 @@ export default function CoursesPage() {
     };
   }, []);
 
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+    };
+  }, []);
+
   const handleSectionChange = (index: number, headerColor?: string) => {
+
+    if (isInitialCallRef.current) {
+      isInitialCallRef.current = false;
+    } else {
+      setShowScrollIndicator(false);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+      scrollTimerRef.current = setTimeout(() => {
+        setShowScrollIndicator(true);
+      }, 3000);
+    }
+
     if (index === -1) {
       setCurrentHeaderColor(undefined);
       setHeaderColor(undefined);
@@ -80,10 +102,10 @@ export default function CoursesPage() {
       setCurrentGameId(game.id);
       setCurrentGameIndex(index);
       setSelectedLevel(1);
-      
+
       const colorToUse = convertHeaderColorToHex(headerColor);
       setCurrentHeaderColor(colorToUse);
-      
+
       const lightenedColor = colorToUse ? lightenColor(colorToUse, 60) : undefined;
       setHeaderColor(lightenedColor);
     }
@@ -123,7 +145,7 @@ export default function CoursesPage() {
       <main className="flex-1 relative overflow-hidden max-w-[900px] mx-auto">
         {/* ScrollStack with padding-top */}
         <div className="pt-[80px] lg:pt-[4px] h-full pb-[70px] lg:pb-0">
-          <ScrollStack  
+          <ScrollStack
             ref={scrollStackRef}
             className="w-full h-full"
             itemDistance={itemDistance}
@@ -144,11 +166,18 @@ export default function CoursesPage() {
               <GameCard
                 key={game.id}
                 game={game}
+                selectedLevel={selectedLevel}
+                onLevelSelect={(level) => setSelectedLevel(level)}
               />
             ))}
           </ScrollStack>
         </div>
       </main>
+
+      {/* Scroll Down Indicator - outside main to avoid overflow-hidden clipping */}
+      <ScrollDownIndicator
+        visible={showScrollIndicator}
+      />
 
       <div className="hidden lg:block">
         <Suspense fallback={<div className="w-[300px]" />}>
