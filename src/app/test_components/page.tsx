@@ -10,7 +10,7 @@ import {
   SocialButton,
   PrimaryButton,
   Container,
-  FormCard,
+
   GameTooltip,
   AnimatedList,
   DifficultyIndicator,
@@ -286,25 +286,23 @@ export default function TestComponentsPage() {
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold text-[#242E39]">Cards & Display Components</h2>
 
-            {/* FormCard */}
+            {/* Form */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-gray-700">FormCard</h3>
+              <h3 className="text-lg font-semibold text-gray-700">Form</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormCard
-                >
+                <form className="flex flex-col items-start py-[32px] px-[24px] gap-[14px] w-[387px] bg-[#EAF9FF] rounded-[12px] border-2 border-white shadow-lg">
                   <h4 className="text-xl font-bold text-[#242E39]">เข้าสู่ระบบ</h4>
-                  <p className="text-gray-600">ทดสอบฟอร์มการ์ด</p>
+                  <p className="text-gray-600">ทดสอบฟอร์ม</p>
                   <Input placeholder="Email" />
                   <PasswordField placeholder="Password" />
                   <PrimaryButton className="mt-2">Login</PrimaryButton>
-                </FormCard>
-                <FormCard
-                >
+                </form>
+                <form className="flex flex-col items-start py-[32px] px-[24px] gap-[14px] w-[387px] bg-[#EAF9FF] rounded-[12px] border-2 border-white shadow-lg">
                   <h4 className="text-xl font-bold text-[#242E39]">อัปเดตโปรไฟล์</h4>
                   <p className="text-gray-600">กรอกข้อมูลให้ครบถ้วน</p>
                   <InputField label="Display name" placeholder="Nong Brite" />
                   <InputField label="Email" placeholder="hello@example.com" />
-                </FormCard>
+                </form>
               </div>
             </div>
 

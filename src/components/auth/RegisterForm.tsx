@@ -8,8 +8,11 @@ import { PasswordField } from "@/components/common/PasswordField";
 import { SocialButton } from "@/components/common/SocialButton";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import Stepper, { Step } from "@/components/common/Stepper";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuthStore } from "@/store/auth.store";
 import { Gender } from "@/services/auth.service";
+import { X, KeyRound, CircleUser, Sparkles } from "lucide-react";
+import { Fireworks } from "@/components/common/Fireworks";
 
 export interface RegisterFormProps { }
 
@@ -51,6 +54,29 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   // Current step state
   const [currentStep, setCurrentStep] = React.useState(1);
 
+  // Validation toast message
+  const [validationMessage, setValidationMessage] = React.useState<string | null>(null);
+
+  // Auto-dismiss error after 5 seconds
+  React.useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        clearError();
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, clearError]);
+
+  // Auto-dismiss validation message after 5 seconds
+  React.useEffect(() => {
+    if (validationMessage) {
+      const timer = setTimeout(() => {
+        setValidationMessage(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [validationMessage]);
+
   // Map gender from UI to API format
   const mapGenderToEnum = (
     gender: "male" | "female" | "not-specified" | null
@@ -60,84 +86,111 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
     return Gender.OTHER;
   };
 
-  // Validation functions
-  const validateEnglishName = (nameValue: string): boolean => {
+  // Validation functions - return error message or null
+  const validateEnglishName = (nameValue: string): string | null => {
     if (!nameValue.trim()) {
-      setEnglishNameError("กรุณากรอกชื่อภาษาอังกฤษ");
-      return false;
+      const msg = "กรุณากรอกชื่อภาษาอังกฤษ";
+      setEnglishNameError(msg);
+      return msg;
     }
     if (nameValue.trim().length < 2) {
-      setEnglishNameError("ชื่อต้องมีอย่างน้อย 2 ตัวอักษร");
-      return false;
+      const msg = "ชื่อต้องมีอย่างน้อย 2 ตัวอักษร";
+      setEnglishNameError(msg);
+      return msg;
     }
     const englishRegex = /^[a-zA-Z\s]+$/;
     if (!englishRegex.test(nameValue.trim())) {
-      setEnglishNameError("กรุณากรอกเฉพาะตัวอักษรภาษาอังกฤษ");
-      return false;
+      const msg = "กรุณากรอกเฉพาะตัวอักษรภาษาอังกฤษ";
+      setEnglishNameError(msg);
+      return msg;
     }
     setEnglishNameError(undefined);
-    return true;
+    return null;
   };
 
-  const validateEmail = (emailValue: string): boolean => {
+  const validateEmail = (emailValue: string): string | null => {
     if (!emailValue.trim()) {
-      setEmailError("กรุณากรอกอีเมล");
-      return false;
+      const msg = "กรุณากรอกอีเมล";
+      setEmailError(msg);
+      return msg;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailValue)) {
-      setEmailError("รูปแบบอีเมลไม่ถูกต้อง");
-      return false;
+      const msg = "รูปแบบอีเมลไม่ถูกต้อง";
+      setEmailError(msg);
+      return msg;
     }
     setEmailError(undefined);
-    return true;
+    return null;
   };
 
-  const validatePassword = (passwordValue: string): boolean => {
+  const validatePassword = (passwordValue: string): string | null => {
     if (!passwordValue.trim()) {
-      setPasswordError("กรุณากรอกรหัสผ่าน");
-      return false;
+      const msg = "กรุณากรอกรหัสผ่าน";
+      setPasswordError(msg);
+      return msg;
     }
     if (passwordValue.length < 6) {
-      setPasswordError("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
-      return false;
+      const msg = "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร";
+      setPasswordError(msg);
+      return msg;
     }
     setPasswordError(undefined);
-    return true;
+    return null;
   };
 
   const validateConfirmPassword = (
     passwordValue: string,
     confirmPasswordValue: string
-  ): boolean => {
+  ): string | null => {
     if (!confirmPasswordValue.trim()) {
-      setConfirmPasswordError("กรุณายืนยันรหัสผ่าน");
-      return false;
+      const msg = "กรุณายืนยันรหัสผ่าน";
+      setConfirmPasswordError(msg);
+      return msg;
     }
     if (passwordValue !== confirmPasswordValue) {
-      setConfirmPasswordError("รหัสผ่านไม่ตรงกัน");
-      return false;
+      const msg = "รหัสผ่านไม่ตรงกัน";
+      setConfirmPasswordError(msg);
+      return msg;
     }
     setConfirmPasswordError(undefined);
-    return true;
+    return null;
   };
 
   const validateStep1 = (): boolean => {
-    const isNameValid = validateEnglishName(englishName);
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
-    const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
-    return isNameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid;
+    // If all fields are empty, show a single message
+    if (!englishName.trim() && !email.trim() && !password.trim() && !confirmPassword.trim()) {
+      setValidationMessage("โปรดกรอกข้อมูลให้ครบถ้วน");
+      return false;
+    }
+    const nameMsg = validateEnglishName(englishName);
+    const emailMsg = validateEmail(email);
+    const pwMsg = validatePassword(password);
+    const confirmPwMsg = validateConfirmPassword(password, confirmPassword);
+    const msgs = [nameMsg, emailMsg, pwMsg, confirmPwMsg].filter(Boolean) as string[];
+    if (msgs.length > 0) {
+      setValidationMessage(msgs.join("\n"));
+      return false;
+    }
+    return true;
   };
 
   const validateStep2 = (): boolean => {
+    // If all fields are empty, show a single message
+    if (!displayName.trim() && !age.trim() && !gender) {
+      setValidationMessage("โปรดกรอกข้อมูลให้ครบถ้วน");
+      return false;
+    }
     let isValid = true;
+    const msgs: string[] = [];
 
     if (!displayName.trim()) {
       setNameError("กรุณากรอกชื่อที่แสดง");
+      msgs.push("กรุณากรอกชื่อที่แสดง");
       isValid = false;
     } else if (displayName.trim().length < 2) {
       setNameError("ชื่อต้องมีอย่างน้อย 2 ตัวอักษร");
+      msgs.push("ชื่อต้องมีอย่างน้อย 2 ตัวอักษร");
       isValid = false;
     } else {
       setNameError(undefined);
@@ -145,11 +198,13 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
     if (!age.trim()) {
       setAgeError("กรุณากรอกอายุ");
+      msgs.push("กรุณากรอกอายุ");
       isValid = false;
     } else {
       const ageNum = parseInt(age, 10);
       if (isNaN(ageNum) || ageNum < 0 || ageNum > 100) {
         setAgeError("อายุต้องอยู่ระหว่าง 0-100");
+        msgs.push("อายุต้องอยู่ระหว่าง 0-100");
         isValid = false;
       } else {
         setAgeError(undefined);
@@ -158,11 +213,15 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
     if (!gender) {
       setGenderError("กรุณาเลือกเพศ");
+      msgs.push("กรุณาเลือกเพศ");
       isValid = false;
     } else {
       setGenderError(undefined);
     }
 
+    if (!isValid) {
+      setValidationMessage(msgs.join("\n"));
+    }
     return isValid;
   };
 
@@ -174,10 +233,13 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
     setPasswordError(undefined);
     setConfirmPasswordError(undefined);
 
-    // Validate all fields first
     if (!validateStep1()) {
-      return false; // Validation failed, don't proceed
+      return false;
     }
+
+
+
+
 
     try {
       await registerStep1({
@@ -185,12 +247,10 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
         password,
         confirmPassword,
       });
-      // Step will be updated by store and synced via useEffect
-      return true; // Success, allow step change
+      return true;
     } catch (error) {
-      // Error handled in store - prevent step change
       console.error("Register Step 1 failed:", error);
-      return false; // API failed, don't proceed
+      return false;
     }
   };
 
@@ -203,8 +263,10 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
     // Validate all fields first
     if (!validateStep2()) {
-      return false; // Validation failed, don't proceed
+      return false;
     }
+
+
 
     try {
       await registerStep2({
@@ -212,20 +274,15 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
         age: parseInt(age, 10),
         gender: mapGenderToEnum(gender),
       });
-      // Step will be updated by store and synced via useEffect
-      return true; // Success, allow step change
+      return true;
     } catch (error) {
-      // Error handled in store - prevent step change
       console.error("Register Step 2 failed:", error);
-      return false; // API failed, don't proceed
+      return false;
     }
   };
 
-  // Handle step change from Stepper (for step indicators click)
   const handleStepChange = (step: number) => {
-    // Only allow going back, not forward (forward requires validation)
     if (step < currentStep) {
-      // If going back from step 2 to step 1, clear step 2 fields
       if (currentStep === 2 && step === 1) {
         setDisplayName("");
         setNameError(undefined);
@@ -266,6 +323,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
       setEnglishName(value);
       if (englishNameError) setEnglishNameError(undefined);
       if (error) clearError();
+      if (validationMessage) setValidationMessage(null);
     }
   };
 
@@ -273,18 +331,21 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
     setEmail(e.target.value);
     if (emailError) setEmailError(undefined);
     if (error) clearError();
+    if (validationMessage) setValidationMessage(null);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     if (passwordError) setPasswordError(undefined);
     if (error) clearError();
+    if (validationMessage) setValidationMessage(null);
   };
 
   const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
     if (confirmPasswordError) setConfirmPasswordError(undefined);
     if (error) clearError();
+    if (validationMessage) setValidationMessage(null);
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -293,6 +354,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
       setDisplayName(value);
       if (nameError) setNameError(undefined);
       if (error) clearError();
+      if (validationMessage) setValidationMessage(null);
     }
   };
 
@@ -306,6 +368,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
       setAge(value);
       if (ageError) setAgeError(undefined);
       if (error) clearError();
+      if (validationMessage) setValidationMessage(null);
     }
   };
 
@@ -315,12 +378,11 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
     setGender(selectedGender === gender ? null : selectedGender);
     if (genderError) setGenderError(undefined);
     if (error) clearError();
+    if (validationMessage) setValidationMessage(null);
   };
 
-  // Prevent Stepper from auto-advancing by controlling step manually
   const [stepperStep, setStepperStep] = React.useState(currentStep);
 
-  // Sync with store registerStep (only allow forward progression)
   React.useEffect(() => {
     if (registerStep > currentStep) {
       setCurrentStep(registerStep);
@@ -328,7 +390,6 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
     }
   }, [registerStep, currentStep]);
 
-  // Sync stepperStep with currentStep when currentStep changes (for going back)
   React.useEffect(() => {
     setStepperStep(currentStep);
   }, [currentStep]);
@@ -337,12 +398,10 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
     <div className="w-full ">
       <LoadingOverlay isLoading={isLoading} message="กำลังดำเนินการ..." />
       <Stepper
-        key={stepperStep} // Force re-render when step changes
+        key={stepperStep}
         initialStep={stepperStep}
         onStepChange={(step: number) => {
-          // Only allow going back, not forward (forward requires validation)
           if (step < currentStep) {
-            // If going back from step 2 to step 1, clear step 2 fields
             if (currentStep === 2 && step === 1) {
               setDisplayName("");
               setNameError(undefined);
@@ -350,10 +409,8 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
               setAgeError(undefined);
               setGender(null);
               setGenderError(undefined);
-              // Reset register step in store
               resetRegister();
             }
-            // Update both states to ensure sync
             setCurrentStep(step);
             setStepperStep(step);
             clearError();
@@ -363,13 +420,12 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           if (currentStep === 2) {
             const success = await handleStep2Complete();
             if (success) {
-              // Step will be updated by store via useEffect
             }
           }
         }}
         backButtonText="ย้อนกลับ"
         nextButtonText="ถัดไป"
-        completeButtonText="ไปเรียนกันเลย!"
+        completeButtonText="เสร็จสิ้น"
         stepContainerClassName="px-5"
         footerClassName="px-0"
         footerLeftContent={
@@ -377,7 +433,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
             มีบัญชีอยู่แล้ว?{" "}
             <Link
               href="/login"
-              className="text-[#1cb0f6] font-semibold hover:text-[#17a3e3] transition-colors"
+              className="text-[#1cb0f6] font-semibold hover:text-[#17a3e3] transition-colors underline"
             >
               เข้าสู่ระบบ
             </Link>
@@ -388,32 +444,41 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           disabled: isLoading,
         }}
         nextButtonProps={{
-          disabled: isLoading ||
-            (currentStep === 1 && !isStep1Complete()) ||
-            (currentStep === 2 && !isStep2Complete()),
+          disabled: isLoading,
           onClick: async (e) => {
-            // Prevent default Stepper behavior (handleNext/handleComplete)
             e.preventDefault();
             e.stopPropagation();
 
             if (currentStep === 1) {
-              // Validate and call API before allowing step change
               const success = await handleStep1Next();
               if (success) {
-                // Only allow step change if API call succeeded
-                // Step will be updated by store via useEffect, which will update stepperStep
               }
-              // If failed, don't change step (stay on step 1)
             } else if (currentStep === 2) {
-              // Validate and call API before completing
               const success = await handleStep2Complete();
               if (success) {
-                // Only allow step change if API call succeeded
-                // Step will be updated by store via useEffect, which will update stepperStep
               }
-              // If failed, don't change step (stay on step 2)
             }
           }
+        }}
+        renderStepIndicator={({ step, currentStep, onStepClick }) => {
+          const icons = [
+            <KeyRound key="1" className="w-4 h-4" />,
+            <CircleUser key="2" className="w-4 h-4" />,
+            <Sparkles key="3" className="w-4 h-4" />,
+          ];
+          const isActive = currentStep === step;
+          const isComplete = currentStep > step;
+          return (
+            <div
+              onClick={() => onStepClick(step)}
+              className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 ${isActive || isComplete
+                ? "bg-[#1cb0f6] text-white"
+                : "bg-[#A1AEBE] text-white"
+                }`}
+            >
+              {icons[step - 1]}
+            </div>
+          );
         }}
       >
         {/* Step 1: Create Account */}
@@ -423,29 +488,29 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
             <Image
               src="/icons/misc/new_logo.svg"
               alt="P'Bit Nong Brite Logo"
-              width={200}
-              height={55}
-              className="object-contain w-[160px] md:w-[200px] h-auto"
+              width={280}
+              height={77}
+              className="object-contain w-[280px] h-auto"
               priority
-              sizes="(max-width: 768px) 160px, 200px"
+              sizes="280px"
             />
           </div>
 
-          <h2 className="text-[22px] md:text-[24px] font-bold text-gray-800 mb-2 text-center">
+          <h2 className=" font-bold text-gray-800 mb-2 text-center">
             สร้างบัญชี
           </h2>
 
 
           {/* Input Fields */}
-          <div className="relative z-10 flex flex-col gap-5 md:gap-6 w-full min-h-[280px] items-center mb-4">
-            <div className="w-[390px] max-w-[460px] flex flex-col gap-5 md:gap-6">
+          <div className="relative z-10 flex flex-col gap-5 md:gap-6 w-full items-center mb-4">
+            <div className="flex flex-col gap-5 md:gap-6 w-full max-w-[460px]">
               <InputField
-                label="ชื่อภาษาอังกฤษ"
+                label="ชื่อผู้ใช้ (ภาษาอังกฤษ)"
                 type="text"
-                placeholder="กรุณากรอกชื่อภาษาอังกฤษ"
+                placeholder="Username"
                 value={englishName}
                 error={englishNameError}
-                className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+                showErrorText={false}
                 onChange={handleEnglishNameChange}
                 maxLength={30}
                 required
@@ -453,73 +518,60 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
               />
 
               <InputField
-                label="อีเมล"
+                label="อีเมล (example@gmail.com)"
                 type="email"
-                placeholder="กรุณากรอกอีเมลของคุณ"
+                placeholder="example@gmail.com"
                 value={email}
                 error={emailError}
-                className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+                showErrorText={false}
                 onChange={handleEmailChange}
                 required
                 disabled={isLoading}
               />
 
               <PasswordField
-                label="รหัสผ่าน"
-                placeholder="กรุณากรอกรหัสผ่านของคุณ"
+                label="รหัสผ่าน (อย่างน้อย 6 ตัวอักษร)"
+                placeholder="รหัสผ่าน"
                 value={password}
                 error={passwordError}
-                className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+                showErrorText={false}
                 onChange={handlePasswordChange}
                 required
                 disabled={isLoading}
               />
 
               <PasswordField
-                label="ยืนยันรหัสผ่าน"
-                placeholder="กรุณายืนยันรหัสผ่านของคุณ"
+                label="ยืนยันรหัสผ่าน "
+                placeholder="ยืนยันรหัสผ่าน"
                 value={confirmPassword}
                 error={confirmPasswordError}
-                className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+                showErrorText={false}
                 onChange={handleConfirmPasswordChange}
                 required
                 disabled={isLoading}
               />
-
-              {/* API Error Message */}
-              {error && !englishNameError && !emailError && !passwordError && !confirmPasswordError && (
-                <div
-                  className="w-full max-w-[460px] p-3 rounded-[12px] bg-red-50 border-2 border-red-200"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  <p className="text-[13px] md:text-[14px] text-red-600 text-center">
-                    {error}
-                  </p>
-                </div>
-              )}
             </div>
           </div>
         </Step>
 
         {/* Step 2: Fill Information */}
         <Step>
-          <p className="text-[20px] md:text-[22px] lg:text-[24px] leading-tight font-bold text-center mt-6 md:mt-8 mb-8 md:mb-10">
+          <p className="text-[20px] md:text-[22px] lg:text-[24px] leading-tight font-bold text-center mt-4 md:mt-6 mb-6 md:mb-8">
             <span className="text-gray-800">ยินดีต้อนรับสู่ </span>
             <span className="text-[#1cb0f6]">P&apos;Bit </span>
             <span className="text-[#ffd300]">Nong Brite</span>
           </p>
 
           {/* Form Fields */}
-          <div className="relative z-10 flex flex-col gap-5 md:gap-6 w-full min-h-[280px] items-center mb-4">
-            <div className="w-[390px] max-w-[460px] flex flex-col gap-5 md:gap-6">
+          <div className="relative z-10 flex flex-col gap-5 md:gap-6 w-full items-center mb-4">
+            <div className="w-full max-w-[460px] flex flex-col gap-5 md:gap-6">
               <InputField
                 label="ชื่อที่แสดง"
                 type="text"
-                placeholder="กรุณากรอกชื่อที่แสดง"
+                placeholder="ชื่อที่แสดง"
                 value={displayName}
                 error={nameError}
-                className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+                showErrorText={false}
                 onChange={handleNameChange}
                 maxLength={25}
                 required
@@ -532,7 +584,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
                 placeholder="กรุณากรอกอายุ"
                 value={age}
                 error={ageError}
-                className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
+                showErrorText={false}
                 onChange={handleAgeChange}
                 min={0}
                 max={100}
@@ -543,7 +595,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
               {/* Gender Label */}
               <div className="flex flex-col gap-2 w-full">
                 <label className="text-[12px] leading-[18px] font-semibold text-gray-700">
-                  เพศ {genderError && <span className="text-red-500 text-[10px]">* {genderError}</span>}
+                  เพศ
                 </label>
 
                 {/* Gender Buttons */}
@@ -574,28 +626,19 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
                 </div>
               </div>
 
-              {/* API Error Message */}
-              {error && !nameError && !ageError && !genderError && (
-                <div
-                  className="w-full max-w-[460px] p-3 rounded-[12px] bg-red-50 border-2 border-red-200"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  <p className="text-[13px] md:text-[14px] text-red-600 text-center">
-                    {error}
-                  </p>
-                </div>
-              )}
             </div>
           </div>
         </Step>
 
         {/* Step 3: Complete */}
         <Step>
+          {/* Fireworks Effect - fixed full screen */}
+          <Fireworks />
+
           {/* Image Section */}
-          <div className="flex flex-col items-center gap-4 w-full ">
+          <div className="flex flex-col items-center gap-4 w-full mt-4">
             <Image
-              src="/images/finish.png"
+              src="/images/Nong_brite/nong-brite-01.svg"
               alt="Finish"
               fill
               containerClassName="w-[120px] h-[120px]"
@@ -606,7 +649,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           </div>
 
           {/* Title */}
-          <p className="text-[22px] md:text-[24px] leading-tight font-bold text-gray-800 text-center w-full">
+          <p className="text-[22px] md:text-[24px] leading-tight font-bold text-gray-800 text-center w-full mt-4">
             เสร็จสิ้น!
           </p>
 
@@ -616,6 +659,27 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           </p>
         </Step>
       </Stepper>
+
+      {/* Toast Alert - API ERROR & Validation Errors */}
+      {(error || validationMessage) && (
+        <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-top-5 fade-in duration-300 max-w-[360px] w-full">
+          <Alert variant="destructive" className="bg-white border-red-300 shadow-lg rounded-[12px] pl-10">
+            <button
+              onClick={() => {
+                clearError();
+                setValidationMessage(null);
+              }}
+              className="absolute top-3 left-3 text-red-400 hover:text-red-600 transition-colors"
+              aria-label="ปิด"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <AlertDescription className="text-[13px] md:text-[14px] text-red-600 whitespace-pre-line">
+              {error || validationMessage}
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
     </div>
   );
 };

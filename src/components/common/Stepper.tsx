@@ -36,8 +36,8 @@ export interface StepperProps extends HTMLAttributes<HTMLDivElement> {
 function Stepper({
   children,
   initialStep = 1,
-  onStepChange = () => {},
-  onFinalStepCompleted = () => {},
+  onStepChange = () => { },
+  onFinalStepCompleted = () => { },
   stepCircleContainerClassName = "",
   stepContainerClassName = "",
   contentClassName = "",
@@ -90,7 +90,7 @@ function Stepper({
   return (
     <div className="relative w-full " {...rest}>
       <div
-        className={`relative bg-white rounded-[32px] md:rounded-[40px] px-4 py-8 sm:px-5 sm:py-10 md:px-6 md:py-12 shadow-[0_20px_50px_rgba(28,176,246,0.2)] overflow-hidden ${stepCircleContainerClassName}`}
+        className={`relative bg-white rounded-[32px] md:rounded-[40px] px-4 py-8 sm:px-5 sm:py-10 md:px-6 md:py-12 overflow-hidden ${stepCircleContainerClassName}`}
       >
         {/* Decorative shapes - matching landing page colors */}
         <div className="pointer-events-none absolute -top-[70px] -right-[80px] w-[280px] h-[200px] md:w-[320px] md:h-[220px] bg-[#38bdf8] rounded-bl-[130px] opacity-20 ">
@@ -149,18 +149,16 @@ function Stepper({
           {!isCompleted && (
             <div className={`px-4 sm:px-6 md:px-8  ${footerClassName}`}>
               <div
-                className={`mt-4 flex ${
-                  currentStep !== 1 ? "justify-between" : "justify-between"
-                } items-center`}
+                className={`mt-4 flex ${currentStep !== 1 ? "justify-between" : "justify-between"
+                  } items-center`}
               >
                 {currentStep !== 1 ? (
                   <button
                     onClick={handleBack}
-                    className={`duration-350 rounded px-2 py-1 transition ${
-                      currentStep === 1
+                    className={`duration-350 rounded px-2 py-1 transition ${currentStep === 1
                         ? "pointer-events-none opacity-50 text-neutral-400"
                         : "text-neutral-400 hover:text-neutral-700"
-                    }`}
+                      }`}
                     {...backButtonProps}
                   >
                     {backButtonText}
@@ -298,8 +296,8 @@ function StepIndicator({
     currentStep === step
       ? "active"
       : currentStep < step
-      ? "inactive"
-      : "complete";
+        ? "inactive"
+        : "complete";
 
   const handleClick = () => {
     if (step !== currentStep && !disableStepIndicators) {
@@ -310,9 +308,8 @@ function StepIndicator({
   return (
     <motion.div
       onClick={handleClick}
-      className={`relative outline-none focus:outline-none ${
-        disableStepIndicators ? "cursor-default" : "cursor-pointer"
-      }`}
+      className={`relative outline-none focus:outline-none ${disableStepIndicators ? "cursor-default" : "cursor-pointer"
+        }`}
       animate={status}
       initial={false}
     >

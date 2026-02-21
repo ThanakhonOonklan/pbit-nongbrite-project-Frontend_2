@@ -10,6 +10,7 @@ export interface PasswordFieldProps
   error?: string;
   helperText?: string;
   containerClassName?: string;
+  showErrorText?: boolean;
 }
 
 const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
@@ -21,6 +22,10 @@ const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
       containerClassName,
       className,
       id,
+      value,
+      defaultValue,
+      onChange,
+      showErrorText = true,
       ...props
     },
     ref
@@ -30,10 +35,12 @@ const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
     const inputId = id || generatedId;
     const hasError = !!error;
 
+
+
     return (
       <div className={cn("flex flex-col gap-1 w-full", containerClassName)}>
         {label && (
-          <label htmlFor={inputId} className={getLabelClassName("text-[10px] leading-[18px] font-semibold text-[#334E68]")}>
+          <label htmlFor={inputId} className={getLabelClassName("text-[12px] leading-[18px] font-semibold text-[#334E68]")}>
             {label}
           </label>
         )}
@@ -42,9 +49,12 @@ const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
             id={inputId}
             ref={ref}
             type={showPassword ? "text" : "password"}
+            value={value}
+            defaultValue={defaultValue}
+            onChange={onChange}
             className={cn(
-              "pr-[32px]",
-              hasError && "focus:ring-destructive",
+              "h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 pr-[40px] text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all",
+              hasError && "border-red-400 focus:ring-destructive",
               className
             )}
             aria-invalid={hasError}
@@ -66,7 +76,7 @@ const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
             )}
           </button>
         </div>
-        {error && (
+        {error && showErrorText && (
           <p
             id={`${inputId}-error`}
             className="text-[10px] leading-[18px] text-red-500"

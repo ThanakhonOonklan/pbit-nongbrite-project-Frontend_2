@@ -8,8 +8,7 @@ export { Divider } from "./Divider";
 export type { DividerProps } from "./Divider";
 export { default as Stepper, Step } from "./Stepper";
 export type { StepperProps, StepProps } from "./Stepper";
-export { FormCard } from "./FormCard";
-export type { FormCardProps } from "./FormCard";
+
 export { GameTooltip } from "./GameTooltip";
 export type { GameTooltipProps } from "./GameTooltip";
 export { SocialButton, socialButtonVariants } from "./SocialButton";

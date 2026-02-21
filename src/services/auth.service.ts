@@ -1,7 +1,7 @@
 import apiClient from "@/lib/api-client";
 
 export interface LoginPayload {
-  email: string;
+  username: string;
   password: string;
 }
 
