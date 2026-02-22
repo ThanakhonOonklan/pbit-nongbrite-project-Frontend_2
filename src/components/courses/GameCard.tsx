@@ -163,22 +163,12 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
               <div
                 key={lvl.level}
                 className="relative flex flex-col items-center"
-                onClick={() => {
-                  setActiveLevel(isActive ? null : lvl.level);
+                onMouseEnter={() => {
+                  setActiveLevel(lvl.level);
                   onLevelSelect?.(lvl.level);
                 }}
               >
-                {isActive && (
-                  <GameTooltip
-                    label={`ด่านที่ ${lvl.level}`}
 
-                    onStart={() => router.push(`/games/${game.id}/${lvl.level}`)}
-                    onClose={() => setActiveLevel(null)}
-                    buttonColor={surfaceColor}
-                    buttonSideColor={sideColor}
-                    buttonBorderColor={borderColor}
-                  />
-                )}
                 <StarRating
                   stars={lvl.stars}
                   size={isMobile ? 16 : 18}

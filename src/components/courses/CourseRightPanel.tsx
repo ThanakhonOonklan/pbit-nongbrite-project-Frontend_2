@@ -10,6 +10,7 @@ import { mockMyRankData } from "@/constants/mocks/userData";
 import { ResourceBars } from "./ResourceBars";
 import { lightenColor, getCarouselItemsForGame } from "@/utils/courses";
 import { Container } from "@/components/common";
+import { gamesConfig } from "@/constants/courses/gameConfig";
 
 export interface CourseRightPanelProps {
   level?: number; // ระดับที่เลือก (1-9)
@@ -72,6 +73,26 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
     }
     return [];
   }, [gameId]);
+
+  // ดึง description จาก gamesConfig ตาม gameId
+  const gameDescription = React.useMemo(() => {
+    if (gameId) {
+      const game = gamesConfig.find((g) => g.id === gameId);
+      return game?.description || null;
+    }
+    return null;
+  }, [gameId]);
+
+  // สีพื้นหลังของกล่องรายละเอียดเกม (pastel จาก headerColor)
+  const detailBgColor = headerColor
+    ? lightenColor(headerColor, 90)
+    : "#F5FBFF";
+  const detailBorderColor = headerColor
+    ? lightenColor(headerColor, 70)
+    : "#D5E9FF";
+  const detailTextColor = headerColor
+    ? lightenColor(headerColor, 0)
+    : "#325373";
 
   return (
     <div
@@ -169,8 +190,17 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
           </div>
 
           {/* พื้นที่แสดงรายละเอียดเกม */}
-          <div className="mt-auto rounded-[16px] bg-[#F5FBFF] border border-[#D5E9FF] p-4 min-h-[120px] text-[#325373] text-sm leading-6">
-            {gameDetail || null}
+          <div
+            className="mt-auto rounded-[16px] p-4 min-h-[120px] text-sm leading-6 transition-all duration-300"
+            style={{
+              backgroundColor: detailBgColor,
+              borderWidth: 1,
+              borderStyle: "solid",
+              borderColor: detailBorderColor,
+              color: detailTextColor,
+            }}
+          >
+            {gameDescription || gameDetail || null}
           </div>
         </div>
       </Container>

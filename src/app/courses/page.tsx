@@ -4,7 +4,6 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { useState, useRef, useEffect, lazy, Suspense, useMemo } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-// Lazy load heavy components
 const CourseRightPanel = lazy(() => import("@/components/courses/CourseRightPanel").then(module => ({ default: module.CourseRightPanel })));
 const BackgroundSquaresWithColor = lazy(() => import("@/components/common/BackgroundSquaresWithColor").then(module => ({ default: module.BackgroundSquaresWithColor })));
 import { getLevelData } from "@/constants/levelData";
@@ -23,7 +22,6 @@ export default function CoursesPage() {
   const [selectedLevel, setSelectedLevel] = useState(1);
   const levelData = getLevelData(selectedLevel);
 
-  // Use context to track current header color for CourseRightPanel and BackgroundSquares
   const { setHeaderColor } = useHeaderColor();
   const [currentHeaderColor, setCurrentHeaderColor] = useState<string | undefined>(undefined);
   const [currentGameTitle, setCurrentGameTitle] = useState<string>(
@@ -36,21 +34,17 @@ export default function CoursesPage() {
   const scrollTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialCallRef = useRef(true);
 
-  // ScrollStack ref
   const scrollStackRef = useRef<ScrollStackRef>(null);
 
-  // Optimized responsive detection using existing hook
   const isMobile = useIsMobile();
   const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
-    // Only detect tablet, mobile is handled by useIsMobile hook
     const checkTablet = () => {
       const width = window.innerWidth;
       setIsTablet(width >= 640 && width < 1024);
     };
 
-    // Debounce resize events
     let timeoutId: NodeJS.Timeout;
     const handleResize = () => {
       clearTimeout(timeoutId);
@@ -65,7 +59,6 @@ export default function CoursesPage() {
     };
   }, []);
 
-  // Cleanup timer on unmount
   useEffect(() => {
     return () => {
       if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
@@ -117,7 +110,6 @@ export default function CoursesPage() {
     }
   };
 
-  // Calculate responsive values for ScrollStack (memoized to prevent recalculation)
   const { itemDistance, stackPosition } = useMemo(() => ({
     itemDistance: isMobile ? 400 : isTablet ? 400 : 230,
     stackPosition: isMobile ? "10%" : isTablet ? "12%" : "15%",
@@ -174,7 +166,7 @@ export default function CoursesPage() {
         </div>
       </main>
 
-      {/* Scroll Down Indicator - outside main to avoid overflow-hidden clipping */}
+      {/* Scroll Down Indicator */}
       <ScrollDownIndicator
         visible={showScrollIndicator}
       />
