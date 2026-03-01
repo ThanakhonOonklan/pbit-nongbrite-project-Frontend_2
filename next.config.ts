@@ -1,15 +1,16 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
   // SWC minifier is enabled by default in Next.js 16+
-  
+
   compiler: {
     // Remove console.log in production
     removeConsole: process.env.NODE_ENV === "production" ? {
       exclude: ["error", "warn"],
     } : false,
   },
-  
+
   // Optimize package imports for better tree-shaking
   experimental: {
     optimizePackageImports: [
@@ -19,11 +20,11 @@ const nextConfig: NextConfig = {
       "@radix-ui/react-tooltip",
     ],
   },
-  
+
   // Optimize images
   images: {
     formats: ["image/avif", "image/webp"],
   },
 };
-
-export default nextConfig;
+const withNextIntl = createNextIntlPlugin();
+export default withNextIntl(nextConfig);

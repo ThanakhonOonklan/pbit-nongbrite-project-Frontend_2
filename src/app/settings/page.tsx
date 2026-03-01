@@ -6,12 +6,14 @@ import { useAuthStore } from "@/store/auth.store";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Divider, PrimaryButton, LoadingOverlay, BackgroundSquares, Container, LanguageDropdown, SoundToggle } from "@/components/common";
 import { IoLanguage, IoVolumeHigh, IoLogOut } from "react-icons/io5";
+import { useTranslations } from "next-intl";
 
 export default function SettingsPage() {
   const router = useRouter();
   const { logout, isLoading } = useAuthStore();
   const [selectedLanguage, setSelectedLanguage] = React.useState<"th" | "en">("th");
   const [soundOn, setSoundOn] = React.useState(true);
+  const t = useTranslations("Settings");
 
   const languages = [
     { code: "th", label: "ไทย", flag: "/icons/language/th.svg" },
@@ -47,7 +49,7 @@ export default function SettingsPage() {
             {/* Header */}
             <div className="w-full mb-4">
               <h2 className="text-[26px] md:text-[28px] leading-[36px] font-bold text-gray-800">
-                ตั้งค่า
+                {t("title")}
               </h2>
               <div className="mt-3 mb-6">
                 <Divider />
@@ -112,7 +114,7 @@ export default function SettingsPage() {
           </Container>
         </div>
       </main>
-      
+
       <LoadingOverlay isLoading={isLoading} message="กำลังออกจากระบบ..." />
     </div>
   );

@@ -5,11 +5,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ScrollStackItem } from "@/components/common/ScrollStack";
 import type { GameConfig } from "@/constants/courses/gameConfig";
+import { gamesConfig } from "@/constants/courses/gameConfig";
 import type { OuterContainerProps } from "@/components/common/OuterContainer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { TiltButton } from "react-tilt-button";
-import { GameTooltip, StarRating } from "@/components/common";
-import { FaLock } from "react-icons/fa";
+import { StarRating, LoadingOverlay } from "@/components/common";
+import { FaLock, FaTrophy } from "react-icons/fa";
 
 // Helper to resolve responsive width/height values
 const resolveSize = (
@@ -43,6 +44,7 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
   const isMobile = useIsMobile();
   const [isTablet, setIsTablet] = useState(false);
   const [activeLevel, setActiveLevel] = useState<number | null>(null);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
     const checkTablet = () => {
@@ -110,95 +112,111 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
     return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
   };
 
+  const gameNumber = gamesConfig.findIndex((g) => g.id === game.id) + 1;
   const surfaceColor = game.baseColor;
-  const sideColor = darkenColor(game.baseColor, 30);
+  const sideColor = darkenColor(game.baseColor, 60);
   const borderColor = darkenColor(game.baseColor, 20);
+  const textColor = darkenColor(game.baseColor, 80);
 
   return (
-    <ScrollStackItem
-      useOuterContainer={true}
-      itemClassName="scroll-stack-card"
-      outerContainerProps={outerContainerProps}
-    >
-      <div className="w-full min-h-[200px] flex items-center justify-center py-4">
-        {/* Level Buttons Grid — 3x3 */}
-        <div className="grid grid-cols-3 gap-y-4 gap-x-10 sm:gap-y-6 sm:gap-x-32 lg:gap-y-6 lg:gap-x-32">
-          {game.levels.map((lvl) => {
-            const isActive = activeLevel === lvl.level;
+    <>
+      <ScrollStackItem
+        useOuterContainer={true}
+        itemClassName="scroll-stack-card"
+        outerContainerProps={outerContainerProps}
+      >
+        <div className="w-full min-h-[200px] flex items-center justify-center py-2 sm:py-4">
+          {/* Level Buttons Grid — 3x3 */}
+          <div className="grid grid-cols-3 gap-y-5 gap-x-8 sm:gap-y-5 sm:gap-x-20 md:gap-y-6 md:gap-x-28 lg:gap-y-6 lg:gap-x-32">
+            {game.levels.map((lvl) => {
+              const isActive = activeLevel === lvl.level;
+              const isLastLevel = lvl.level === game.levels.length;
 
-            if (lvl.isLocked) {
+              if (lvl.isLocked) {
+                return (
+                  <div key={lvl.level} className="relative flex flex-col items-center">
+                    <TiltButton
+                      disabled={true}
+                      width={isMobile ? 68 : isTablet ? 74 : 80}
+                      height={isMobile ? 72 : isTablet ? 78 : 86}
+                      elevation={isMobile ? 8 : 10}
+                      pressInset={isMobile ? 8 : 10}
+                      tilt={1.33}
+                      radius={isMobile ? 14 : 16}
+                      motion={94}
+                      surfaceColor="#f0f0f0"
+                      sideColor="#a0a0a0"
+                      textColor="#b0b0b0"
+                      borderColor="#c0c0c0"
+                      borderWidth={isMobile ? 4 : 6}
+                      glareColor="#ffffff"
+                      glareOpacity={0.2}
+                      glareWidth={70}
+                    >
+                      {isLastLevel ? (
+                        <FaTrophy className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" />
+                      ) : (
+                        <FaLock className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" />
+                      )}
+                    </TiltButton>
+                    <StarRating
+                      stars={lvl.stars}
+                      size={isMobile ? 16 : 22}
+                      animated={true}
+                      className="-mt-2"
+                    />
+                  </div>
+                );
+              }
+
               return (
-                <div key={lvl.level} className="relative flex flex-col items-center">
+                <div
+                  key={lvl.level}
+                  className="relative flex flex-col items-center cursor-pointer"
+                  onMouseEnter={() => {
+                    setActiveLevel(lvl.level);
+                    onLevelSelect?.(lvl.level);
+                  }}
+                  onClick={() => {
+                    if (game.id === "path-navigation") {
+                      setIsNavigating(true);
+                      router.push(`/games/path-navigation/${lvl.level}`);
+                    }
+                  }}
+                >
+                  <TiltButton
+                    width={isMobile ? 68 : isTablet ? 74 : 80}
+                    height={isMobile ? 72 : isTablet ? 78 : 86}
+                    elevation={isMobile ? 8 : 10}
+                    pressInset={isMobile ? 8 : 10}
+                    tilt={1.33}
+                    radius={isMobile ? 14 : 16}
+                    motion={94}
+                    surfaceColor={isLastLevel ? "#FFF8E1" : "#ffffff"}
+                    sideColor={isLastLevel ? "#B8860B" : sideColor}
+                    textColor={isLastLevel ? "#B8860B" : textColor}
+                    borderColor={isLastLevel ? "#DAA520" : borderColor}
+                    borderWidth={isMobile ? 4 : 6}
+                  >
+                    {isLastLevel ? (
+                      <FaTrophy className="w-5 h-5 sm:w-7 sm:h-7 text-[#DAA520]" />
+                    ) : (
+                      <span className="text-base sm:text-xl font-bold">{`${gameNumber}-${lvl.level}`}</span>
+                    )}
+                  </TiltButton>
                   <StarRating
                     stars={lvl.stars}
-                    size={isMobile ? 16 : 18}
+                    size={isMobile ? 16 : 22}
                     animated={true}
-                    className="mb-1"
+                    className="-mt-2"
                   />
-                  <TiltButton
-                    disabled={true}
-                    width={isMobile ? 60 : isTablet ? 70 : 80}
-                    height={isMobile ? 64 : isTablet ? 74 : 86}
-                    elevation={10}
-                    pressInset={10}
-                    tilt={1.33}
-                    radius={16}
-                    motion={94}
-                    surfaceColor={surfaceColor}
-                    sideColor={sideColor}
-                    textColor="#ffffff"
-                    borderColor={borderColor}
-                    borderWidth={3}
-                    glareColor="#ffffff"
-                    glareOpacity={0.2}
-                    glareWidth={70}
-                  >
-                    <FaLock className="w-4 h-4 text-white/80" />
-                  </TiltButton>
                 </div>
               );
-            }
-
-            return (
-              <div
-                key={lvl.level}
-                className="relative flex flex-col items-center"
-                onMouseEnter={() => {
-                  setActiveLevel(lvl.level);
-                  onLevelSelect?.(lvl.level);
-                }}
-              >
-
-                <StarRating
-                  stars={lvl.stars}
-                  size={isMobile ? 16 : 18}
-                  animated={true}
-                  className="mb-1"
-                />
-                <TiltButton
-                  width={isMobile ? 60 : isTablet ? 70 : 80}
-                  height={isMobile ? 64 : isTablet ? 74 : 86}
-                  elevation={10}
-                  pressInset={10}
-                  tilt={1.33}
-                  radius={16}
-                  motion={94}
-                  surfaceColor={surfaceColor}
-                  sideColor={sideColor}
-                  textColor="#ffffff"
-                  borderColor={borderColor}
-                  borderWidth={3}
-                  glareColor="#ffffff"
-                  glareOpacity={0.2}
-                  glareWidth={70}
-                >
-                  <span className="text-xl font-bold">{lvl.level}</span>
-                </TiltButton>
-              </div>
-            );
-          })}
+            })}
+          </div>
         </div>
-      </div>
-    </ScrollStackItem>
+      </ScrollStackItem>
+      <LoadingOverlay isLoading={isNavigating} message="กำลังโหลด..." />
+    </>
   );
 };
