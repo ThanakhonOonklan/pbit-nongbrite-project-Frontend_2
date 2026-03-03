@@ -16,15 +16,15 @@ export interface ForgetPasswordFormProps {
 const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
-  
+
   // Step 1: Email
   const [email, setEmail] = React.useState("");
-  
+
   // Step 2: OTP
   const [otp, setOtp] = React.useState<string[]>([]);
   const [countdown, setCountdown] = React.useState(0);
   const [hasOTPError, setHasOTPError] = React.useState(false);
-  
+
   // Step 3: Reset Password
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
@@ -66,7 +66,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
 
   const handleResend = () => {
     if (countdown > 0) return;
-    
+
     setOtp([]);
     setHasOTPError(false);
     setCountdown(15);
@@ -79,7 +79,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight mb-1 text-center mt-3">
         ลืมรหัสผ่าน?
       </h1>
-      
+
       {/* Subtitle */}
       <p className="text-[13px] md:text-[14px] text-gray-500 mb-4 md:mb-5 text-center">
         กรุณากรอกอีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน
@@ -106,7 +106,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
   const renderStep2 = () => (
     <div className="flex flex-col w-full gap-4 md:gap-5 ">
       {/* Title */}
-      <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight text-center mt-3">  
+      <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight text-center mt-3">
         ตรวจสอบอีเมลของคุณ
       </h1>
 
@@ -193,7 +193,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       {/* Image Section */}
       <div className="flex flex-col items-center gap-4 w-full">
         <Image
-          src="/images/finish.png"
+          src="/images/Nong_brite/nong-brite-01.svg"
           alt="Success"
           fill
           containerClassName="w-[120px] h-[120px]"

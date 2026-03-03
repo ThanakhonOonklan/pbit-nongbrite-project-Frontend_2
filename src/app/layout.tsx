@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import localFont from "next/font/local";
 import { HeaderColorProvider } from "@/contexts/HeaderColorContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { NextIntlClientProvider } from "next-intl";
 
 const lineSeedSans = localFont({
   src: [
@@ -32,7 +33,7 @@ export default function RootLayout({
       <body className={`antialiased ${lineSeedSans.className} h-full`} suppressHydrationWarning>
         <LanguageProvider>
           <HeaderColorProvider>
-            {children}
+            <NextIntlClientProvider>{children}</NextIntlClientProvider>
           </HeaderColorProvider>
         </LanguageProvider>
       </body>

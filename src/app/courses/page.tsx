@@ -1,121 +1,144 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { CourseRightPanel } from "@/components/courses/CourseRightPanel";
-import { BackgroundSquaresWithColor } from "@/components/common/BackgroundSquaresWithColor";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useRef, useEffect, lazy, Suspense, useMemo } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+
+const CourseRightPanel = lazy(() => import("@/components/courses/CourseRightPanel").then(module => ({ default: module.CourseRightPanel })));
+const BackgroundSquaresWithColor = lazy(() => import("@/components/common/BackgroundSquaresWithColor").then(module => ({ default: module.BackgroundSquaresWithColor })));
 import { getLevelData } from "@/constants/levelData";
 import { useHeaderColor } from "@/contexts/HeaderColorContext";
-import { ScrollStack, PrimaryButton } from "@/components/common";
+import { ScrollStack } from "@/components/common";
+import type { ScrollStackRef } from "@/components/common";
 import { GameCard } from "@/components/courses/GameCard";
+import { GameStepper } from "@/components/courses/GameStepper";
+import { ResourceBars } from "@/components/courses/ResourceBars";
+import { ScrollDownIndicator } from "@/components/courses/ScrollDownIndicator";
 import { gamesConfig } from "@/constants/courses/gameConfig";
-import { useResponsive, lightenColor } from "@/utils/courses";
-
-// Component for custom tooltip content for completed levels
-const CompletedTooltipContent: React.FC<{ levelNumber: number; gameId: string }> = ({
-  levelNumber,
-  gameId,
-}) => {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handlePlayAgain = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-
-    if (isLoading) return;
-
-    setIsLoading(true);
-
-    // Simulate loading for 1-2 seconds
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Navigate to game page based on gameId
-    router.push(`/games/${gameId}/${levelNumber}`);
-  };
-
-  return (
-    <div className="space-y-3">
-      <h3 className="text-lg font-semibold text-gray-800">ด่าน {levelNumber}</h3>
-      <p className="text-sm text-gray-600">
-        คุณได้ผ่านด่านนี้แล้ว สามารถเล่นอีกครั้งเพื่อปรับปรุงคะแนน
-      </p>
-      <PrimaryButton
-        className="w-full py-1.5 px-3 text-sm pointer-events-auto"
-        variant="default"
-        size="sm"
-        onClick={handlePlayAgain}
-        disabled={isLoading}
-      >
-        {isLoading ? "กำลังโหลด..." : "เล่นอีกครั้ง"}
-      </PrimaryButton>
-    </div>
-  );
-};
+import { convertHeaderColorToHex, lightenColor } from "@/utils/courses";
+import { mockMyRankData } from "@/constants/mocks/userData";
 
 export default function CoursesPage() {
   const [selectedLevel, setSelectedLevel] = useState(1);
   const levelData = getLevelData(selectedLevel);
 
-  // Use context to track current header color for CourseRightPanel and BackgroundSquares
   const { setHeaderColor } = useHeaderColor();
   const [currentHeaderColor, setCurrentHeaderColor] = useState<string | undefined>(undefined);
-  const [currentGameTitle, setCurrentGameTitle] = useState<string>("Path Navigation");
+  const [currentGameTitle, setCurrentGameTitle] = useState<string>(
+    gamesConfig[0]?.title
+  );
   const [currentGameIconIndex, setCurrentGameIconIndex] = useState<number>(0);
+  const [currentGameId, setCurrentGameId] = useState<string | undefined>(gamesConfig[0]?.id);
+  const [currentGameIndex, setCurrentGameIndex] = useState<number>(0);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const scrollTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isInitialCallRef = useRef(true);
 
-  // Responsive state
-  const { isMobile, isTablet } = useResponsive();
+  const scrollStackRef = useRef<ScrollStackRef>(null);
 
-  // Handler สำหรับเมื่อกดปุ่ม level
-  const handleLevelClick = (levelNumber: number) => {
-    setSelectedLevel(levelNumber);
-  };
+  const isMobile = useIsMobile();
+  const [isTablet, setIsTablet] = useState(false);
 
-  // Callback when section changes
+  useEffect(() => {
+    const checkTablet = () => {
+      const width = window.innerWidth;
+      setIsTablet(width >= 640 && width < 1024);
+    };
+
+    let timeoutId: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(checkTablet, 100);
+    };
+
+    checkTablet();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+    };
+  }, []);
+
   const handleSectionChange = (index: number, headerColor?: string) => {
-    // Reset to default when at top (before first section)
+
+    if (isInitialCallRef.current) {
+      isInitialCallRef.current = false;
+    } else {
+      setShowScrollIndicator(false);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+      scrollTimerRef.current = setTimeout(() => {
+        setShowScrollIndicator(true);
+      }, 3000);
+    }
+
     if (index === -1) {
       setCurrentHeaderColor(undefined);
       setHeaderColor(undefined);
-      setCurrentGameTitle("Path Navigation");
+      setCurrentGameTitle(gamesConfig[0]?.title);
       setCurrentGameIconIndex(0);
-      setSelectedLevel(1); // Reset selectedLevel เมื่อกลับไปที่ top
+      setCurrentGameId(gamesConfig[0]?.id);
+      setCurrentGameIndex(0);
+      setSelectedLevel(1);
       return;
     }
 
-    // Update game title and icon based on section index
     if (index >= 0 && index < gamesConfig.length) {
-      setCurrentGameTitle(gamesConfig[index].title);
+      const game = gamesConfig[index];
+      setCurrentGameTitle(game.title);
       setCurrentGameIconIndex(index);
-      setSelectedLevel(1); // Reset selectedLevel เป็น 1 เมื่อ scroll ไป section (เกม) อื่น
-    }
+      setCurrentGameId(game.id);
+      setCurrentGameIndex(index);
+      setSelectedLevel(1);
 
-    // Convert "sky-blue" to actual color if needed
-    let colorToUse = headerColor;
-    if (headerColor === "sky-blue") {
-      colorToUse = "#1CB0F6";
+      const colorToUse = convertHeaderColorToHex(headerColor);
+      setCurrentHeaderColor(colorToUse);
+
+      const lightenedColor = colorToUse ? lightenColor(colorToUse, 60) : undefined;
+      setHeaderColor(lightenedColor);
     }
-    setCurrentHeaderColor(colorToUse);
-    // Lighten color for background (make it 60% lighter for pastel effect)
-    const lightenedColor = colorToUse ? lightenColor(colorToUse, 60) : undefined;
-    // Update context for BackgroundSquares with lightened color
-    setHeaderColor(lightenedColor);
   };
 
-  // Calculate responsive values for ScrollStack
-  const itemDistance = isMobile ? 400 : isTablet ? 400 : 230;
-  const stackPosition = isMobile ? "10%" : isTablet ? "12%" : "15%";
+  const handleStepClick = (index: number) => {
+    if (scrollStackRef.current) {
+      scrollStackRef.current.scrollToIndex(index);
+    }
+  };
+
+  const { itemDistance, stackPosition } = useMemo(() => ({
+    itemDistance: isMobile ? 400 : isTablet ? 400 : 230,
+    stackPosition: isMobile ? "10%" : isTablet ? "12%" : "15%",
+  }), [isMobile, isTablet]);
 
   return (
     <div className="flex h-screen ">
-      <BackgroundSquaresWithColor />
+      <Suspense fallback={null}>
+        <BackgroundSquaresWithColor />
+      </Suspense>
       <Sidebar />
 
+      {/* ResourceBars - Mobile only (navbar style) */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <ResourceBars
+          heartCount={mockMyRankData.heartCount ?? 0}
+          scoreCount={mockMyRankData.score ?? 0}
+          daystate={mockMyRankData.daystate ?? 0}
+          className="py-2 px-4"
+          showDivider={false}
+        />
+      </div>
+
       {/* Center Area - ScrollStack */}
-      <main className="flex-1 relative overflow-hidden">
+      <main className="flex-1 relative overflow-hidden max-w-[900px] mx-auto">
         {/* ScrollStack with padding-top */}
-        <div className="pt-[4px] h-full pb-[70px] lg:pb-0">
-          <ScrollStack  
+        <div className="pt-[80px] lg:pt-[4px] h-full pb-[70px] lg:pb-0">
+          <ScrollStack
+            ref={scrollStackRef}
             className="w-full h-full"
             itemDistance={itemDistance}
             itemStackDistance={0}
@@ -125,29 +148,41 @@ export default function CoursesPage() {
             useWindowScroll={false}
             onSectionChange={handleSectionChange}
           >
+            {/* GameStepper as first child */}
+            <GameStepper
+              games={gamesConfig}
+              currentIndex={currentGameIndex}
+              onStepClick={handleStepClick}
+            />
             {gamesConfig.map((game) => (
               <GameCard
                 key={game.id}
                 game={game}
-                isMobile={isMobile}
-                isTablet={isTablet}
-                CompletedTooltipContent={CompletedTooltipContent}
-                onLevelClick={handleLevelClick}
+                selectedLevel={selectedLevel}
+                onLevelSelect={(level) => setSelectedLevel(level)}
               />
             ))}
           </ScrollStack>
         </div>
       </main>
 
+      {/* Scroll Down Indicator */}
+      <ScrollDownIndicator
+        visible={showScrollIndicator}
+      />
+
       <div className="hidden lg:block">
-        <CourseRightPanel
-          level={selectedLevel}
-          difficulty={levelData?.difficulty}
-          difficultyText={levelData?.difficultyText}
-          gameTitle={currentGameTitle}
-          gameIcon={gamesConfig[currentGameIconIndex]?.icon}
-          headerColor={currentHeaderColor}
-        />
+        <Suspense fallback={<div className="w-[300px]" />}>
+          <CourseRightPanel
+            level={selectedLevel}
+            difficulty={levelData?.difficulty}
+            difficultyText={levelData?.difficultyText}
+            gameTitle={currentGameTitle}
+            gameIcon={gamesConfig[currentGameIconIndex]?.icon}
+            headerColor={currentHeaderColor}
+            gameId={currentGameId}
+          />
+        </Suspense>
       </div>
     </div>
   );

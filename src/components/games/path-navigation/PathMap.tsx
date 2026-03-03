@@ -1,0 +1,182 @@
+"use client";
+
+import Image from "next/image";
+import { useMemo } from "react";
+import { type PathTile } from "@/constants/games/path-navigation-levels";
+
+interface PathMapProps {
+    walkableTiles: PathTile[];
+    gridCols: number;
+    gridRows: number;
+    playerPos: PathTile;
+    nongBritePos: PathTile;
+    homePos: PathTile;
+    hasNongBrite?: boolean;
+}
+
+function samePos(a: PathTile, b: PathTile) {
+    return a.row === b.row && a.col === b.col;
+}
+
+export function PathMap({
+    walkableTiles,
+    gridCols,
+    gridRows,
+    playerPos,
+    nongBritePos,
+    homePos,
+    hasNongBrite = false,
+}: PathMapProps) {
+    // Responsive cell size
+    const cellPx = useMemo(() => {
+        const maxDim = Math.max(gridCols, gridRows);
+        if (maxDim <= 4) return 80;
+        if (maxDim <= 5) return 68;
+        if (maxDim <= 6) return 56;
+        if (maxDim <= 7) return 48;
+        return 42;
+    }, [gridCols, gridRows]);
+
+    // Player pixel position
+    const playerLeft = playerPos.col * cellPx;
+    const playerTop = playerPos.row * cellPx;
+
+    // Nong-Brite pixel position
+    const nongBriteLeft = nongBritePos.col * cellPx;
+    const nongBriteTop = nongBritePos.row * cellPx;
+
+    // Home pixel position
+    const homeLeft = homePos.col * cellPx;
+    const homeTop = homePos.row * cellPx;
+
+    const showNongBriteOnTile = !hasNongBrite && !samePos(playerPos, nongBritePos);
+    const isPlayerAtHome = samePos(playerPos, homePos);
+
+    return (
+        <div className="flex items-center justify-center w-full h-full">
+            <div
+                className="relative"
+                style={{
+                    width: gridCols * cellPx,
+                    height: gridRows * cellPx,
+                }}
+            >
+                {/* ── Render walkable tiles ────────────────── */}
+                {walkableTiles.map((tile) => {
+                    const key = `${tile.row}-${tile.col}`;
+                    const isNBTile = samePos(tile, nongBritePos) && !hasNongBrite;
+
+                    return (
+                        <div
+                            key={key}
+                            className="absolute bg-white border border-gray-100"
+                            style={{
+                                width: cellPx,
+                                height: cellPx,
+                                left: tile.col * cellPx,
+                                top: tile.row * cellPx,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    position: "absolute",
+                                    inset: 4,
+                                    borderRadius: 5,
+                                    backgroundColor: isNBTile ? "#9FC8E8" : "#DCF0FC",
+                                }}
+                            />
+                        </div>
+                    );
+                })}
+
+                {/* ── Home icon ─────────────────────────────── */}
+                <div
+                    className={`absolute flex items-center justify-center pointer-events-none ${isPlayerAtHome ? "home-shake" : ""}`}
+                    style={{
+                        width: cellPx,
+                        height: cellPx,
+                        left: homeLeft,
+                        top: homeTop,
+                        zIndex: 5,
+                    }}
+                >
+                    <Image
+                        src="/icons/game/Home.svg"
+                        alt="Home"
+                        width={Math.round(cellPx * 1.0)}
+                        height={Math.round(cellPx * 1.0)}
+                        className="object-contain"
+                    />
+                </div>
+
+                {/* ── Nong-Brite (waiting to be picked up) ── */}
+                {showNongBriteOnTile && (
+                    <div
+                        className="absolute pointer-events-none"
+                        style={{
+                            width: cellPx,
+                            height: cellPx,
+                            left: nongBriteLeft,
+                            top: nongBriteTop,
+                            zIndex: 15,
+                        }}
+                    >
+                        <Image
+                            src="/images/Nong_brite/nong-brite-04.svg"
+                            alt="Nong Brite"
+                            width={Math.round(cellPx * 0.6)}
+                            height={Math.round(cellPx * 0.6)}
+                            className="absolute left-1/2 -translate-x-1/2 object-contain drop-shadow-md"
+                            style={{ bottom: "10%" }}
+                        />
+                    </div>
+                )}
+
+                {/* ── Bit (player) — smooth sliding ───────── */}
+                <div
+                    className="absolute pointer-events-none"
+                    style={{
+                        width: cellPx,
+                        height: cellPx,
+                        left: playerLeft,
+                        top: playerTop,
+                        zIndex: 20,
+                        transition: "left 0.3s ease-in-out, top 0.3s ease-in-out",
+                    }}
+                >
+                    <Image
+                        src={hasNongBrite ? "/images/P_Bit/bit-05.svg" : "/images/P_Bit/bit-02.svg"}
+                        alt="Bit"
+                        width={Math.round(cellPx * 1.35)}
+                        height={Math.round(cellPx * 1.35)}
+                        className="absolute left-1/2 -translate-x-1/2 object-contain drop-shadow-md"
+                        style={{ bottom: "10%" }}
+                    />
+
+                    {hasNongBrite && !isPlayerAtHome && (
+                        <Image
+                            src="/images/Nong_brite/nong-brite-01.svg"
+                            alt="Nong Brite (with Bit)"
+                            width={Math.round(cellPx * 0.5)}
+                            height={Math.round(cellPx * 0.5)}
+                            className="absolute bottom-0.5 right-0.5 object-contain"
+                            style={{ zIndex: 21 }}
+                        />
+                    )}
+                </div>
+            </div>
+            <style>{`
+                @keyframes homeShake {
+                    0%, 100% { transform: rotate(0deg); }
+                    20% { transform: rotate(-8deg); }
+                    40% { transform: rotate(8deg); }
+                    60% { transform: rotate(-5deg); }
+                    80% { transform: rotate(5deg); }
+                }
+                .home-shake {
+                    animation: homeShake 0.5s ease-in-out;
+                }
+            `}</style>
+        </div>
+    );
+}

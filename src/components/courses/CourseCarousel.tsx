@@ -102,13 +102,6 @@ const CarouselCard: React.FC<CarouselCardProps> = ({
         loading={index === 0 ? "eager" : "lazy"}
         priority={index === 0}
       />
-
-      {!round && (
-        <div className="relative z-10 mt-auto p-4 bg-gradient-to-t from-black via-transparent to-transparent text-black">
-          <div className="text-sm font-semibold">{item.title}</div>
-          <p className="text-xs opacity-90">{item.description}</p>
-        </div>
-      )}
     </motion.div>
   );
 };

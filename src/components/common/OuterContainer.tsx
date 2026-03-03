@@ -42,10 +42,10 @@ const getHeaderStyles = (headerColor?: string): { className: string; style?: Rea
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
       ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16),
-        }
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
       : null;
   };
 
@@ -190,7 +190,10 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
         <div className="pointer-events-none absolute inset-x-0 z-30 flex justify-center">
           <div
             className={cn(
-              "inline-flex items-center gap-2 rounded-[10px] px-20 py-3 text-lg font-bold",
+              "inline-flex items-center gap-1 sm:gap-1.5 md:gap-2 rounded-[8px] sm:rounded-[10px]",
+              "px-8 sm:px-10 md:px-12 lg:px-16",
+              "py-1.5 sm:py-2 md:py-2.5",
+              "text-sm sm:text-base md:text-lg font-bold",
               headerStyles.className,
               headerClassName
             )}
@@ -202,115 +205,116 @@ export const OuterContainer: React.FC<OuterContainerProps> = ({
       )}
       <div
         className={cn(
-          "relative w-full rounded-[32px] bg-[#FDC369] p-4 ",
-          headerText && "mt-6",
+          "relative w-full rounded-[20px] sm:rounded-[24px] md:rounded-[28px] lg:rounded-[32px] bg-[#FDC369]",
+          "p-2 sm:p-3 md:p-3",
+          headerText && "mt-4 sm:mt-5 md:mt-6",
           widthClassName
         )}
       >
-        <div className="absolute inset-[-3px] -z-10 rounded-[34px] bg-gradient-to-br from-[#f5b75a] to-[#fdd086]" />
-        {/* Render all images */}
-        {imageSrc && (
-          <div 
-            className={cn(imageClassName)}
-            style={{ 
-              ...imageStyle,
-              transform: imageStyle?.transform 
-                ? `${imageStyle.transform} rotate(${imageRotation}deg)`
-                : `rotate(${imageRotation}deg)`,
-            }}
-          >
-            <Image
-              src={imageSrc}
-              alt={imageAlt || "Image"}
-              width={imageWidth}
-              height={imageHeight}
-              className="h-auto"
-            />
-          </div>
-        )}
-        {image1Src && (
-          <div 
-            className={cn(image1ClassName)}
-            style={{ 
-              ...image1Style,
-              transform: image1Style?.transform 
-                ? `${image1Style.transform} rotate(${image1Rotation}deg)`
-                : `rotate(${image1Rotation}deg)`,
-            }}
-          >
-            <Image
-              src={image1Src}
-              alt={image1Alt || "Image 1"}
-              width={image1Width}
-              height={image1Height}
-              className="h-auto"
-            />
-          </div>
-        )}
-        {image2Src && (
-          <div 
-            className={cn(image2ClassName)}
-            style={{ 
-              ...image2Style,
-              transform: image2Style?.transform 
-                ? `${image2Style.transform} rotate(${image2Rotation}deg)`
-                : `rotate(${image2Rotation}deg)`,
-            }}
-          >
-            <Image
-              src={image2Src}
-              alt={image2Alt || "Image 2"}
-              width={image2Width}
-              height={image2Height}
-              className="h-auto"
-            />
-          </div>
-        )}
-        {image3Src && (
-          <div 
-            className={cn(image3ClassName)}
-            style={{ 
-              ...image3Style,
-              transform: image3Style?.transform 
-                ? `${image3Style.transform} rotate(${image3Rotation}deg)`
-                : `rotate(${image3Rotation}deg)`,
-            }}
-          >
-            <Image
-              src={image3Src}
-              alt={image3Alt || "Image 3"}
-              width={image3Width}
-              height={image3Height}
-              className="h-auto"
-            />
-          </div>
-        )}
-        {image4Src && (
-          <div 
-            className={cn(image4ClassName)}
-            style={{ 
-              ...image4Style,
-              transform: image4Style?.transform 
-                ? `${image4Style.transform} rotate(${image4Rotation}deg)`
-                : `rotate(${image4Rotation}deg)`,
-            }}
-          >
-            <Image
-              src={image4Src}
-              alt={image4Alt || "Image 4"}
-              width={image4Width}
-              height={image4Height}
-              className="h-auto"
-            />
-          </div>
-        )}
+        <div className="absolute inset-[-3px] -z-10 rounded-[22px] sm:rounded-[26px] md:rounded-[30px] lg:rounded-[34px] bg-gradient-to-br from-[#f5b75a] to-[#fdd086]" />
         <div className="relative rounded-[16px] sm:rounded-[20px] md:rounded-[24px] lg:rounded-[26px] border-[2px] sm:border-[3px] md:border-[3.5px] lg:border-[4px] border-[#DB9148] bg-[#016A66] p-3 sm:p-5 md:p-6 lg:p-8 shadow-[inset_0_3px_8px_rgba(0,0,0,0.2)]">
           <div
             className={cn(
-              "relative rounded-[12px] sm:rounded-[14px] md:rounded-[16px] lg:rounded-[18px] bg-[#016A66]/0",
+              "relative w-full rounded-[12px] sm:rounded-[14px] md:rounded-[16px] lg:rounded-[18px] bg-[#016A66]/0",
               heightClassName
             )}
           >
+            {/* Render all images inside the content area */}
+            {imageSrc && (
+              <div
+                className={cn(imageClassName)}
+                style={{
+                  ...imageStyle,
+                  transform: imageStyle?.transform
+                    ? `${imageStyle.transform} rotate(${imageRotation}deg)`
+                    : `rotate(${imageRotation}deg)`,
+                }}
+              >
+                <Image
+                  src={imageSrc}
+                  alt={imageAlt || "Image"}
+                  width={imageWidth}
+                  height={imageHeight}
+                  className="h-auto"
+                />
+              </div>
+            )}
+            {image1Src && (
+              <div
+                className={cn(image1ClassName)}
+                style={{
+                  ...image1Style,
+                  transform: image1Style?.transform
+                    ? `${image1Style.transform} rotate(${image1Rotation}deg)`
+                    : `rotate(${image1Rotation}deg)`,
+                }}
+              >
+                <Image
+                  src={image1Src}
+                  alt={image1Alt || "Image 1"}
+                  width={image1Width}
+                  height={image1Height}
+                  className="h-auto"
+                />
+              </div>
+            )}
+            {image2Src && (
+              <div
+                className={cn(image2ClassName)}
+                style={{
+                  ...image2Style,
+                  transform: image2Style?.transform
+                    ? `${image2Style.transform} rotate(${image2Rotation}deg)`
+                    : `rotate(${image2Rotation}deg)`,
+                }}
+              >
+                <Image
+                  src={image2Src}
+                  alt={image2Alt || "Image 2"}
+                  width={image2Width}
+                  height={image2Height}
+                  className="h-auto"
+                />
+              </div>
+            )}
+            {image3Src && (
+              <div
+                className={cn(image3ClassName)}
+                style={{
+                  ...image3Style,
+                  transform: image3Style?.transform
+                    ? `${image3Style.transform} rotate(${image3Rotation}deg)`
+                    : `rotate(${image3Rotation}deg)`,
+                }}
+              >
+                <Image
+                  src={image3Src}
+                  alt={image3Alt || "Image 3"}
+                  width={image3Width}
+                  height={image3Height}
+                  className="h-auto"
+                />
+              </div>
+            )}
+            {image4Src && (
+              <div
+                className={cn(image4ClassName)}
+                style={{
+                  ...image4Style,
+                  transform: image4Style?.transform
+                    ? `${image4Style.transform} rotate(${image4Rotation}deg)`
+                    : `rotate(${image4Rotation}deg)`,
+                }}
+              >
+                <Image
+                  src={image4Src}
+                  alt={image4Alt || "Image 4"}
+                  width={image4Width}
+                  height={image4Height}
+                  className="h-auto"
+                />
+              </div>
+            )}
             {children}
           </div>
         </div>

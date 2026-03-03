@@ -9,6 +9,7 @@ export interface InputFieldProps
   error?: string;
   helperText?: string;
   containerClassName?: string;
+  showErrorText?: boolean;
 }
 
 const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
@@ -20,6 +21,10 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
       containerClassName,
       className,
       id,
+      value,
+      defaultValue,
+      onChange,
+      showErrorText = true,
       ...props
     },
     ref
@@ -28,8 +33,10 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
     const inputId = id || generatedId;
     const hasError = !!error;
 
+
+
     return (
-        <div className={cn("flex flex-col gap-1 w-full", containerClassName)}>
+      <div className={cn("flex flex-col gap-1 w-full", containerClassName)}>
         {label && (
           <label htmlFor={inputId} className={getLabelClassName("text-[12px] leading-[18px] font-semibold text-[#334E68]")}>
             {label}
@@ -38,14 +45,21 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
         <Input
           id={inputId}
           ref={ref}
-          className={cn(hasError && "focus:ring-destructive", className)}
+          value={value}
+          defaultValue={defaultValue}
+          onChange={onChange}
+          className={cn(
+            "h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all",
+            hasError && "border-red-400 focus:ring-destructive",
+            className
+          )}
           aria-invalid={hasError}
           aria-describedby={
             error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined
           }
           {...props}
         />
-        {error && (
+        {error && showErrorText && (
           <p
             id={`${inputId}-error`}
             className="text-[10px] leading-[18px] text-red-500"

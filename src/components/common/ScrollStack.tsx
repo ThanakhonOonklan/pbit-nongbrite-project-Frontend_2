@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useCallback } from 'react';
+import React, { useLayoutEffect, useRef, useCallback, useImperativeHandle, forwardRef } from 'react';
 
 import type { ReactNode } from 'react';
 
@@ -22,14 +22,14 @@ export interface ScrollStackItemProps {
 
 }
 
-export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({ 
-  children, 
+export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
+  children,
   itemClassName = '',
   useOuterContainer = false,
   outerContainerProps = {}
 }) => {
   const baseClassName = `scroll-stack-card relative w-full origin-top will-change-transform ${itemClassName}`.trim();
-  
+
   const baseStyle: React.CSSProperties = {
     backfaceVisibility: 'hidden',
     transformStyle: 'preserve-3d'
@@ -87,7 +87,11 @@ export interface ScrollStackProps {
 
 }
 
-const ScrollStack: React.FC<ScrollStackProps> = ({
+export interface ScrollStackRef {
+  scrollToIndex: (index: number) => void;
+}
+
+const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
   children,
 
@@ -115,7 +119,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
   onSectionChange
 
-}) => {
+}, ref) => {
 
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -131,7 +135,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
   const currentSectionRef = useRef<number>(-1);
 
-    interface CardTransform {
+  interface CardTransform {
     translateY: number;
     scale: number;
     rotation: number;
@@ -235,8 +239,38 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     const endElementTop = endElement ? getElementOffset(endElement) : 0;
 
-    // Track which section is currently active for onSectionChange callback
-    let activeSectionIndex = -1;
+
+    let topCardIndex = -1;
+
+    for (let j = 0; j < cardsRef.current.length; j++) {
+      const jCard = cardsRef.current[j];
+      if (!jCard) continue;
+
+      const jCardTop = getElementOffset(jCard);
+      const jTriggerStart = jCardTop - stackPositionPx - itemStackDistance * j;
+
+      // ตรวจสอบ card ถัดไป (ถ้ามี) เพื่อหาขอบเขต
+      let jTriggerEnd = Infinity;
+      if (j < cardsRef.current.length - 1) {
+        const nextCard = cardsRef.current[j + 1];
+        if (nextCard) {
+          const nextCardTop = getElementOffset(nextCard);
+          jTriggerEnd = nextCardTop - stackPositionPx - itemStackDistance * (j + 1);
+        }
+      }
+
+      // ถ้า scrollTop อยู่ระหว่าง triggerStart และ triggerEnd ของ card นี้
+      if (scrollTop >= jTriggerStart && scrollTop < jTriggerEnd) {
+        topCardIndex = j;
+        break; // หาเจอแล้ว ไม่ต้องหาต่อ
+      }
+
+      // ถ้า scrollTop ยังไม่ถึง triggerStart ของ card แรก ให้ return -1
+      if (j === 0 && scrollTop < jTriggerStart) {
+        topCardIndex = -1;
+        break;
+      }
+    }
 
     cardsRef.current.forEach((card, i) => {
 
@@ -245,11 +279,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       const cardTop = getElementOffset(card);
 
       const triggerStart = cardTop - stackPositionPx - itemStackDistance * i;
-
-      // Check if this section is active (scroll has passed its triggerStart)
-      if (scrollTop >= triggerStart) {
-        activeSectionIndex = i;
-      }
 
       const triggerEnd = cardTop - scaleEndPositionPx;
 
@@ -264,23 +293,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       const scale = 1 - scaleProgress * (1 - targetScale);
 
       const rotation = rotationAmount ? i * rotationAmount * scaleProgress : 0;
-
-      // คำนวณ topCardIndex (card ที่อยู่บนสุด)
-      let topCardIndex = 0;
-
-      for (let j = 0; j < cardsRef.current.length; j++) {
-
-        const jCardTop = getElementOffset(cardsRef.current[j]);
-
-        const jTriggerStart = jCardTop - stackPositionPx - itemStackDistance * j;
-
-        if (scrollTop >= jTriggerStart) {
-
-          topCardIndex = j;
-
-        }
-
-      }
 
       // คำนวณ blur สำหรับ cards ที่อยู่ด้านหลัง
       let blur = 0;
@@ -389,10 +401,15 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     });
 
     // Call onSectionChange if section has changed
-    if (onSectionChange && activeSectionIndex !== currentSectionRef.current) {
-      currentSectionRef.current = activeSectionIndex;
-      const headerColor = headerColorsRef.current[activeSectionIndex];
-      onSectionChange(activeSectionIndex, headerColor);
+    if (onSectionChange && topCardIndex !== currentSectionRef.current) {
+      currentSectionRef.current = topCardIndex;
+
+      // ตรวจสอบ bounds ก่อนเข้าถึง array
+      const headerColor = topCardIndex >= 0 && topCardIndex < headerColorsRef.current.length
+        ? headerColorsRef.current[topCardIndex]
+        : undefined;
+
+      onSectionChange(topCardIndex, headerColor);
     }
 
     isUpdatingRef.current = false;
@@ -434,6 +451,32 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     updateCardTransforms();
 
   }, [updateCardTransforms]);
+
+  const scrollToIndex = useCallback((index: number) => {
+    if (index < 0 || index >= cardsRef.current.length) return;
+    const card = cardsRef.current[index];
+    if (!card) return;
+
+    const { containerHeight } = getScrollData();
+    const stackPositionPx = parsePercentage(stackPosition, containerHeight);
+    const cardTop = getElementOffset(card);
+    // เพิ่ม offset เล็กน้อยเพื่อให้แน่ใจว่า scroll ไปถึงหรือเกิน triggerStart
+    const targetScroll = cardTop - stackPositionPx - itemStackDistance * index + 1;
+
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(targetScroll, { immediate: true });
+      // Update immediately after scroll
+      requestAnimationFrame(() => {
+        updateCardTransforms();
+      });
+    } else if (scrollerRef.current) {
+      scrollerRef.current.scrollTo({ top: targetScroll, behavior: 'auto' });
+      // Update immediately after scroll
+      requestAnimationFrame(() => {
+        updateCardTransforms();
+      });
+    }
+  }, [stackPosition, itemStackDistance, getScrollData, parsePercentage, getElementOffset, updateCardTransforms]);
 
   const setupLenis = useCallback(() => {
 
@@ -530,6 +573,10 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     }
 
   }, [handleScroll, useWindowScroll]);
+
+  useImperativeHandle(ref, () => ({
+    scrollToIndex,
+  }), [scrollToIndex]);
 
   useLayoutEffect(() => {
 
@@ -680,7 +727,9 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
   );
 
-};
+});
+
+ScrollStack.displayName = 'ScrollStack';
 
 export default ScrollStack;
 

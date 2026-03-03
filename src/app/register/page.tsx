@@ -9,19 +9,19 @@ export default function RegisterPage() {
   const router = useRouter();
   const { isAuthenticated, registerStep, resetRegister } = useAuthStore();
 
-  // Redirect when register success (step 3 completed and authenticated)
+
   useEffect(() => {
     if (isAuthenticated && registerStep === 3) {
       const timer = setTimeout(() => {
         router.push("/courses");
         resetRegister();
-      }, 2000); // Show success message for 2 seconds
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
   }, [isAuthenticated, registerStep, router, resetRegister]);
 
-  // Redirect if already authenticated
+
   useEffect(() => {
     if (isAuthenticated && registerStep === 1) {
       router.push("/courses");
@@ -30,7 +30,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#EDF0F7] p-4 sm:p-6 md:p-8">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-[420px]">
         <RegisterForm />
       </div>
     </div>
