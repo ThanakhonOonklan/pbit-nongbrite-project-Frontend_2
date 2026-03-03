@@ -11,8 +11,8 @@ import {
   DirectionControls,
   CommandSequence,
   PathMap,
-  HelpButton,
 } from "@/components/games/path-navigation";
+import { HelpButton } from "@/components/games/HelpButton";
 import {
   pathNavLevels,
   type Direction,
@@ -394,7 +394,14 @@ export default function PathNavigationGamePage({
         </Container>
       </div>
 
-      <HelpButton />
+      <HelpButton
+        steps={[
+          { emoji: "👆", text: "กดปุ่มลูกศร เพื่อสั่งให้เดิน" },
+          { emoji: "💙", text: "ไปรับน้องไบร์ท" },
+          { emoji: "🏠", text: "พาน้องกลับบ้าน" },
+          { emoji: "▶️", text: "กด Run เพื่อเริ่ม!" },
+        ]}
+      />
 
       {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
       {showIntro && (
