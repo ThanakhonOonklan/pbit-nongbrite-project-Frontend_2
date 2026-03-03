@@ -4,6 +4,20 @@ import localFont from "next/font/local";
 import { HeaderColorProvider } from "@/contexts/HeaderColorContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { NextIntlClientProvider } from "next-intl";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: "P'Bit Nong-Brite",
+    template: "%s | P'Bit Nong-Brite",
+  },
+  description: "เรียนรู้ผ่านเกมสนุกๆ พัฒนาทักษะการคิดและการแก้ปัญหากับ P'Bit และน้องไบร์ท",
+  icons: {
+    icon: "/icons/icon-Profile/icon_P_Bit.png",
+    apple: "/icons/icon-Profile/icon_P_Bit.png",
+  },
+};
+
 
 const lineSeedSans = localFont({
   src: [

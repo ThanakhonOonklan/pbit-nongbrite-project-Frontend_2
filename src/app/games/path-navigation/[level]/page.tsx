@@ -4,7 +4,7 @@ import { use, useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { FaArrowLeft, FaPlay, FaUndo } from "react-icons/fa";
+import { FaArrowLeft, FaPlay, FaUndo, FaRoute } from "react-icons/fa";
 import { TiltButton } from "react-tilt-button";
 import { Container } from "@/components/common";
 import {
@@ -22,6 +22,7 @@ import { calculateGameScore, getStarRating, type ScoreResult } from "@/utils/gam
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
 import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
+import { GameHeader } from "@/components/games/GameHeader";
 
 // ── helpers ────────────────────────────────────────────────
 
@@ -288,20 +289,16 @@ export default function PathNavigationGamePage({
       style={{ zoom: 1.1, height: `${100 / 1.1}vh` }}
     >
       {/* ===== TOP HEADER ===== */}
-      <header className="flex items-center px-6 py-4 shrink-0">
-        <button
-          onClick={() => router.push("/courses")}
-          className="flex items-center gap-2 text-sm font-semibold text-[#F1F7FB] hover:text-white transition-colors"
-        >
-          <FaArrowLeft className="w-3.5 h-3.5" />
-          <span>Courses</span>
-        </button>
-      </header>
+      <GameHeader
+        level={level}
+        gameTitle="Path Navigation"
+        characterSrc="/images/P_Bit/bit-01.svg"
+      />
 
       {/* ===== MAIN CONTENT ===== */}
       <div className="flex flex-1 gap-4 px-4 pb-4 overflow-hidden relative">
         {/* ===== LEFT PANEL: Path Map (60%) ===== */}
-        <Container className="flex-[6] flex flex-col items-center justify-center p-6 overflow-auto !bg-[#131F24]">
+        <Container className="flex-[6] flex flex-col items-center justify-center p-6 overflow-auto !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
           <p className="text-lg font-bold text-[#F1F7FB] mb-6">
             LEVEL {config.level} - {config.difficulty === "easy" ? "ง่าย" : config.difficulty === "normal" ? "ปานกลาง" : "ยาก"}
           </p>
@@ -318,7 +315,7 @@ export default function PathNavigationGamePage({
         </Container>
 
         {/* ===== RIGHT PANEL: Controls (40%) ===== */}
-        <Container className="flex-[4] flex flex-col p-5 !bg-[#131F24]">
+        <Container className="flex-[4] flex flex-col p-5 !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
           {/* Command Sequence */}
           <div className="flex-1 mb-5">
             <CommandSequence

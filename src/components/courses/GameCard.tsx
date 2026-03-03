@@ -178,10 +178,8 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
                     onLevelSelect?.(lvl.level);
                   }}
                   onClick={() => {
-                    if (game.id === "path-navigation") {
-                      setIsNavigating(true);
-                      router.push(`/games/path-navigation/${lvl.level}`);
-                    }
+                    setIsNavigating(true);
+                    router.push(`/games/${game.id}/${lvl.level}`);
                   }}
                 >
                   <TiltButton
