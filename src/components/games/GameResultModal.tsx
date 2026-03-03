@@ -14,6 +14,8 @@ interface GameResultModalProps {
     attempts: number;
     timeSeconds: number;
     totalLevels?: number;
+    /** Route segment for next level. e.g. "conditional-matching" → /games/conditional-matching/N+1 */
+    gamePath?: string;
     onRetry: () => void;
 }
 
@@ -23,6 +25,7 @@ export function GameResultModal({
     attempts,
     timeSeconds,
     totalLevels = 9,
+    gamePath = "path-navigation",
     onRetry,
 }: GameResultModalProps) {
     const router = useRouter();
@@ -119,7 +122,7 @@ export function GameResultModal({
                                 borderWidth={0}
                                 glareOpacity={0}
                                 glareWidth={0}
-                                onClick={() => router.push(`/games/path-navigation/${levelNum + 1}`)}
+                                onClick={() => router.push(`/games/${gamePath}/${levelNum + 1}`)}
                             >
                                 <span className="flex items-center justify-center gap-2 font-bold text-sm">
                                     ด่านถัดไป <FaArrowRight className="w-3.5 h-3.5" />

@@ -1,24 +1,50 @@
-// Conditional Matching Game Level Configs
-// จับคู่ตามเงื่อนไข — ผู้เล่นเลือกสิ่งของที่ตรงกับเงื่อนไข if-then
+// Conditional Matching Game — โคโค่ผจญภัยในป่า
+// รูปแบบ: ทีละคำถาม (one question at a time)
 
 import { type Difficulty } from "@/lib/games/types";
 
-export interface ConditionalMatchingLevelConfig {
-    level: number;
-    difficulty: Difficulty;
-    conditionCount: number; // จำนวนเงื่อนไข
-    optionCount: number; // จำนวนตัวเลือก
-    // TODO: เพิ่ม config เฉพาะเกม เช่น conditions, items, correctAnswers
+// ── Types ────────────────────────────────────────────────────
+
+export interface CondMatchAnswer {
+    id: string;
+    emoji: string;
+    text: string;
+    isCorrect: boolean;
 }
 
-export const conditionalMatchingLevels: Record<number, ConditionalMatchingLevelConfig> = {
-    1: { level: 1, difficulty: "easy", conditionCount: 1, optionCount: 3 },
-    2: { level: 2, difficulty: "easy", conditionCount: 1, optionCount: 4 },
-    3: { level: 3, difficulty: "easy", conditionCount: 2, optionCount: 4 },
-    4: { level: 4, difficulty: "normal", conditionCount: 2, optionCount: 5 },
-    5: { level: 5, difficulty: "normal", conditionCount: 3, optionCount: 5 },
-    6: { level: 6, difficulty: "normal", conditionCount: 3, optionCount: 6 },
-    7: { level: 7, difficulty: "hard", conditionCount: 4, optionCount: 6 },
-    8: { level: 8, difficulty: "hard", conditionCount: 4, optionCount: 7 },
-    9: { level: 9, difficulty: "hard", conditionCount: 5, optionCount: 8 },
+export interface CondMatchLevelConfig {
+    level: number;
+    difficulty: Difficulty;
+    /** ข้อความด้านบน: สถานการณ์ที่โคโค่เจอ */
+    situationText: string;
+    /** คำถามที่ผู้เล่นต้องตอบ */
+    questionText: string;
+    /** emoji ประกอบฉาก เช่น 🌧️ */
+    sceneEmoji: string;
+    /** CSS gradient สำหรับ scene card */
+    sceneBgFrom: string;
+    sceneBgTo: string;
+    /** ตัวเลือกคำตอบ */
+    answers: CondMatchAnswer[];
+}
+
+// ── Level Data ───────────────────────────────────────────────
+
+export const condMatchLevels: Record<number, CondMatchLevelConfig> = {
+
+    // ─── Level 1 — ฝนตก (easy) ──────────────────────────────
+    1: {
+        level: 1,
+        difficulty: "easy",
+        situationText: "โคโค่เดินทางในป่า เจอฝนตกกลางทาง...",
+        questionText: "ถ้าฝนตก โคโค่ควรทำอะไร?",
+        sceneEmoji: "🌧️",
+        sceneBgFrom: "#1E3A5F",
+        sceneBgTo: "#2C5282",
+        answers: [
+            { id: "play", emoji: "☀️", text: "ออกไปเล่นต่อ", isCorrect: false },
+            { id: "umbrella", emoji: "☂️", text: "หยิบร่มกัน", isCorrect: true },
+            { id: "swim", emoji: "🏊", text: "ว่ายน้ำเลย", isCorrect: false },
+        ],
+    },
 };
