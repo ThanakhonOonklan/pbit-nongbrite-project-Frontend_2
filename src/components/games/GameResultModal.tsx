@@ -1,0 +1,144 @@
+"use client";
+
+import { useEffect } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { TiltButton } from "react-tilt-button";
+import { FaArrowRight, FaRedo } from "react-icons/fa";
+import { type ScoreResult, getStarRating } from "@/utils/game-scoring";
+import { StarRating } from "@/components/common/StarRating";
+
+interface GameResultModalProps {
+    levelNum: number;
+    score: ScoreResult;
+    attempts: number;
+    timeSeconds: number;
+    totalLevels?: number;
+    onRetry: () => void;
+}
+
+export function GameResultModal({
+    levelNum,
+    score,
+    attempts,
+    timeSeconds,
+    totalLevels = 9,
+    onRetry,
+}: GameResultModalProps) {
+    const router = useRouter();
+    const hasNextLevel = levelNum < totalLevels;
+    const { stars } = getStarRating(score.totalScore);
+
+    const formatTime = (sec: number) => {
+        const m = Math.floor(sec / 60);
+        const s = sec % 60;
+        return m > 0 ? `${m} นาที ${s} วินาที` : `${s} วินาที`;
+    };
+
+    // Fire confetti
+    useEffect(() => {
+        import('canvas-confetti').then(mod => {
+            mod.default({ particleCount: 80, spread: 70, origin: { y: 0.6 }, ticks: 120, gravity: 0.9, decay: 0.9 });
+        });
+    }, []);
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div
+                className="relative w-[360px] rounded-3xl overflow-hidden shadow-2xl bg-white border-2"
+                style={{ animation: "modalIn 0.35s ease-out" }}
+            >
+                {/* Title */}
+                <div className="pt-6 pb-2 text-center">
+                    <p className="text-gray-800 text-sm font-bold">Level {levelNum}</p>
+                    <h2 className="text-3xl font-extrabold text-[#1CB0F6] mt-1">
+                        สำเร็จ!
+                    </h2>
+                </div>
+
+                {/* Star Rating */}
+                <div className="flex flex-col items-center pb-1">
+                    <StarRating stars={stars} size={44} animated className="modal-stars" />
+                </div>
+
+                {/* Image */}
+                <div className="flex justify-center py-4">
+                    <Image
+                        src="/images/Nong_brite/nong-brite-01.svg"
+                        alt="Nong Brite"
+                        width={120}
+                        height={120}
+                        className="object-contain"
+                    />
+                </div>
+
+                {/* Time info (small) */}
+                <p className="text-center text-gray-400 text-xs pb-4">
+                    เวลาที่ใช้ {formatTime(timeSeconds)}
+                </p>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3 px-6 pb-6">
+                    <div className="flex-1">
+                        <TiltButton
+                            width="100%"
+                            height={52}
+                            elevation={6}
+                            pressInset={6}
+                            tilt={0.5}
+                            radius={14}
+                            motion={60}
+                            surfaceColor="#E5E7EB"
+                            sideColor="#D1D5DB"
+                            textColor="#374151"
+                            borderColor="transparent"
+                            borderWidth={0}
+                            glareOpacity={0}
+                            glareWidth={0}
+                            onClick={onRetry}
+                        >
+                            <span className="flex items-center justify-center gap-2 font-bold text-sm">
+                                <FaRedo className="w-3 h-3" /> เล่นอีกครั้ง
+                            </span>
+                        </TiltButton>
+                    </div>
+                    {hasNextLevel && (
+                        <div className="flex-1">
+                            <TiltButton
+                                width="100%"
+                                height={52}
+                                elevation={6}
+                                pressInset={6}
+                                tilt={0.5}
+                                radius={14}
+                                motion={60}
+                                surfaceColor="#1CB0F6"
+                                sideColor="#0A8ED9"
+                                textColor="#ffffff"
+                                borderColor="transparent"
+                                borderWidth={0}
+                                glareOpacity={0}
+                                glareWidth={0}
+                                onClick={() => router.push(`/games/path-navigation/${levelNum + 1}`)}
+                            >
+                                <span className="flex items-center justify-center gap-2 font-bold text-sm">
+                                    ด่านถัดไป <FaArrowRight className="w-3.5 h-3.5" />
+                                </span>
+                            </TiltButton>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <style>{`
+                @keyframes modalIn {
+                    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+                    to   { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                .modal-stars .star-rating-item:nth-child(2) {
+                    transform: scale(1.4) translateY(-4px);
+                }
+            `}</style>
+        </div>
+    );
+}

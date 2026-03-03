@@ -11,6 +11,8 @@ interface CommandSequenceProps {
     onClearAll: () => void;
     onRun?: () => void;
     onAddCommand?: (direction: Direction) => void;
+    activeCommandIndex?: number | null;
+    disabled?: boolean;
 }
 
 const directionIcons: Record<Direction, React.ReactNode> = {
@@ -32,6 +34,8 @@ export function CommandSequence({
     onClearAll,
     onRun,
     onAddCommand,
+    activeCommandIndex,
+    disabled = false,
 }: CommandSequenceProps) {
     const [isDragOver, setIsDragOver] = useState(false);
 
@@ -106,21 +110,23 @@ export function CommandSequence({
                                 surfaceColor="#2D3748"
                                 sideColor="#1a2535"
                                 textColor="#ffffff"
-                                borderColor="#3D4F66"
-                                borderWidth={3}
+                                borderColor={activeCommandIndex === index ? "#1CB0F6" : "#3D4F66"}
+                                borderWidth={activeCommandIndex === index ? 4 : 3}
                                 glareOpacity={0}
                                 glareWidth={0}
-                                onClick={() => onRemoveCommand(index)}
+                                onClick={() => !disabled && onRemoveCommand(index)}
                             >
                                 {directionIcons[cmd]}
                             </TiltButton>
                             {/* Remove badge */}
-                            <button
-                                onClick={(e) => { e.stopPropagation(); onRemoveCommand(index); }}
-                                className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                            >
-                                <FaTimes className="w-2.5 h-2.5" />
-                            </button>
+                            {!disabled && (
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); onRemoveCommand(index); }}
+                                    className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                >
+                                    <FaTimes className="w-2.5 h-2.5" />
+                                </button>
+                            )}
                         </div>
                     ))}
 

@@ -1,6 +1,3 @@
-// Path Navigation Level Configs
-// แต่ละด่านกำหนดเส้นทาง (path tiles) ที่ตัวละครต้องเดินตาม
-// ไม่ใช่ grid แต่เป็นเส้นทางที่วางตำแหน่งไว้
 
 export type Direction = "up" | "down" | "left" | "right";
 export type Difficulty = "easy" | "normal" | "hard";
@@ -8,243 +5,195 @@ export type Difficulty = "easy" | "normal" | "hard";
 export interface PathTile {
     row: number;
     col: number;
-    hasCoin?: boolean;
 }
 
 export interface PathNavLevelConfig {
     level: number;
     difficulty: Difficulty;
-    path: PathTile[]; // เส้นทางที่ต้องเดิน (ตำแหน่ง tile เรียงจากจุดเริ่มต้นถึงเป้าหมาย)
-    totalCoins: number;
-    maxCommands: number;
-    gridCols: number; // ขนาดแผนที่ (คอลัมน์)
-    gridRows: number; // ขนาดแผนที่ (แถว)
+    gridCols: number;
+    gridRows: number;
+    walkableTiles: PathTile[];
+    startPos: PathTile;
+    nongBritePos: PathTile;
+    homePos: PathTile;
 }
 
 export const pathNavLevels: Record<number, PathNavLevelConfig> = {
-    // ===== ระดับง่าย (Level 1-3) =====
+
     1: {
         level: 1,
         difficulty: "easy",
-        totalCoins: 2,
-        maxCommands: 5,
-        gridCols: 5,
-        gridRows: 1,
-        path: [
+        gridCols: 2,
+        gridRows: 3,
+        startPos: { row: 2, col: 0 },
+        nongBritePos: { row: 2, col: 1 },
+        homePos: { row: 0, col: 0 },
+        walkableTiles: [
+            { row: 2, col: 0 },
+            { row: 2, col: 1 },
+            { row: 1, col: 0 },
             { row: 0, col: 0 },
-            { row: 0, col: 1 },
-            { row: 0, col: 2, hasCoin: true },
-            { row: 0, col: 3 },
-            { row: 0, col: 4, hasCoin: true },
         ],
     },
+
+
     2: {
         level: 2,
         difficulty: "easy",
-        totalCoins: 4,
-        maxCommands: 8,
-        gridCols: 5,
-        gridRows: 4,
-        path: [
-            { row: 3, col: 0, hasCoin: true },
-            { row: 3, col: 1 },
-            { row: 3, col: 2, hasCoin: true },
-            { row: 2, col: 2 },
+        gridCols: 3,
+        gridRows: 2,
+        startPos: { row: 1, col: 0 },
+        nongBritePos: { row: 1, col: 2 },
+        homePos: { row: 0, col: 0 },
+        walkableTiles: [
+            { row: 1, col: 0 },
+            { row: 1, col: 1 },
             { row: 1, col: 2 },
-            { row: 1, col: 3, hasCoin: true },
-            { row: 1, col: 4 },
-            { row: 0, col: 4 },
-            { row: 0, col: 3 },
-            { row: 0, col: 2 },
-            { row: 0, col: 1, hasCoin: true },
+            { row: 0, col: 0 },
         ],
     },
+
     3: {
         level: 3,
         difficulty: "easy",
-        totalCoins: 4,
-        maxCommands: 10,
-        gridCols: 5,
-        gridRows: 5,
-        path: [
+        gridCols: 3,
+        gridRows: 2,
+        startPos: { row: 0, col: 0 },
+        nongBritePos: { row: 1, col: 2 },
+        homePos: { row: 1, col: 0 },
+        walkableTiles: [
             { row: 0, col: 0 },
-            { row: 0, col: 1, hasCoin: true },
+            { row: 0, col: 1 },
             { row: 0, col: 2 },
             { row: 1, col: 2 },
-            { row: 2, col: 2, hasCoin: true },
-            { row: 2, col: 3 },
-            { row: 2, col: 4 },
-            { row: 3, col: 4, hasCoin: true },
-            { row: 4, col: 4 },
-            { row: 4, col: 3 },
-            { row: 4, col: 2, hasCoin: true },
-            { row: 4, col: 1 },
-            { row: 4, col: 0 },
+            { row: 1, col: 0 },
         ],
     },
 
-    // ===== ระดับปานกลาง (Level 4-6) =====
+
     4: {
         level: 4,
         difficulty: "normal",
-        totalCoins: 5,
-        maxCommands: 12,
-        gridCols: 5,
-        gridRows: 5,
-        path: [
-            { row: 0, col: 4 },
-            { row: 0, col: 3, hasCoin: true },
-            { row: 0, col: 2 },
-            { row: 1, col: 2 },
-            { row: 2, col: 2, hasCoin: true },
-            { row: 2, col: 1 },
+        gridCols: 3,
+        gridRows: 3,
+        startPos: { row: 2, col: 0 },
+        nongBritePos: { row: 0, col: 2 },
+        homePos: { row: 1, col: 0 },
+        walkableTiles: [
             { row: 2, col: 0 },
-            { row: 3, col: 0, hasCoin: true },
-            { row: 4, col: 0 },
-            { row: 4, col: 1, hasCoin: true },
-            { row: 4, col: 2 },
-            { row: 4, col: 3 },
-            { row: 4, col: 4, hasCoin: true },
-            { row: 3, col: 4 },
-        ],
-    },
-    5: {
-        level: 5,
-        difficulty: "normal",
-        totalCoins: 5,
-        maxCommands: 14,
-        gridCols: 6,
-        gridRows: 5,
-        path: [
-            { row: 4, col: 0 },
-            { row: 4, col: 1, hasCoin: true },
-            { row: 4, col: 2 },
-            { row: 3, col: 2 },
-            { row: 2, col: 2, hasCoin: true },
-            { row: 2, col: 3 },
-            { row: 2, col: 4, hasCoin: true },
-            { row: 2, col: 5 },
-            { row: 1, col: 5 },
-            { row: 0, col: 5, hasCoin: true },
-            { row: 0, col: 4 },
-            { row: 0, col: 3 },
-            { row: 0, col: 2 },
-            { row: 0, col: 1 },
-            { row: 0, col: 0, hasCoin: true },
-        ],
-    },
-    6: {
-        level: 6,
-        difficulty: "normal",
-        totalCoins: 5,
-        maxCommands: 14,
-        gridCols: 6,
-        gridRows: 6,
-        path: [
-            { row: 0, col: 0 },
-            { row: 0, col: 1 },
-            { row: 0, col: 2, hasCoin: true },
-            { row: 1, col: 2 },
+            { row: 2, col: 1 },
             { row: 2, col: 2 },
-            { row: 2, col: 3, hasCoin: true },
-            { row: 2, col: 4 },
-            { row: 2, col: 5 },
-            { row: 3, col: 5, hasCoin: true },
-            { row: 4, col: 5 },
-            { row: 5, col: 5 },
-            { row: 5, col: 4, hasCoin: true },
-            { row: 5, col: 3 },
-            { row: 5, col: 2 },
-            { row: 5, col: 1 },
-            { row: 5, col: 0, hasCoin: true },
+            { row: 1, col: 2 },
+            { row: 0, col: 2 },
+            { row: 1, col: 0 },
         ],
     },
 
-    // ===== ระดับยาก (Level 7-9) =====
+    5: {
+        level: 5,
+        difficulty: "normal",
+        gridCols: 4,
+        gridRows: 2,
+        startPos: { row: 0, col: 0 },
+        nongBritePos: { row: 1, col: 2 },
+        homePos: { row: 1, col: 0 },
+        walkableTiles: [
+            { row: 0, col: 0 },
+            { row: 0, col: 1 },
+            { row: 0, col: 2 },
+            { row: 0, col: 3 },
+            { row: 1, col: 2 },
+            { row: 1, col: 0 },
+        ],
+    },
+
+    6: {
+        level: 6,
+        difficulty: "normal",
+        gridCols: 4,
+        gridRows: 3,
+        startPos: { row: 2, col: 0 },
+        nongBritePos: { row: 0, col: 1 },
+        homePos: { row: 0, col: 3 },
+        walkableTiles: [
+            { row: 2, col: 0 },
+            { row: 2, col: 1 },
+            { row: 2, col: 2 },
+            { row: 1, col: 2 },
+            { row: 0, col: 2 },
+            { row: 0, col: 1 },
+            { row: 0, col: 3 },
+        ],
+    },
+
+
     7: {
         level: 7,
         difficulty: "hard",
-        totalCoins: 5,
-        maxCommands: 16,
-        gridCols: 6,
-        gridRows: 6,
-        path: [
-            { row: 5, col: 5 },
-            { row: 5, col: 4, hasCoin: true },
-            { row: 5, col: 3 },
+        gridCols: 5,
+        gridRows: 5,
+        startPos: { row: 4, col: 0 },
+        nongBritePos: { row: 2, col: 4 },
+        homePos: { row: 0, col: 2 },
+        walkableTiles: [
+            { row: 4, col: 0 },
+            { row: 4, col: 1 },
+            { row: 4, col: 2 },
             { row: 4, col: 3 },
-            { row: 3, col: 3, hasCoin: true },
             { row: 3, col: 2 },
-            { row: 3, col: 1 },
-            { row: 2, col: 1, hasCoin: true },
-            { row: 1, col: 1 },
-            { row: 0, col: 1 },
-            { row: 0, col: 2, hasCoin: true },
-            { row: 0, col: 3 },
-            { row: 0, col: 4 },
-            { row: 0, col: 5 },
-            { row: 1, col: 5, hasCoin: true },
-            { row: 2, col: 5 },
+            { row: 2, col: 2 },
+            { row: 2, col: 3 },
             { row: 2, col: 4 },
+            { row: 1, col: 2 },
+            { row: 0, col: 2 },
         ],
     },
+
     8: {
         level: 8,
         difficulty: "hard",
-        totalCoins: 6,
-        maxCommands: 18,
-        gridCols: 7,
-        gridRows: 6,
-        path: [
-            { row: 0, col: 6 },
-            { row: 0, col: 5, hasCoin: true },
-            { row: 0, col: 4 },
+        gridCols: 5,
+        gridRows: 5,
+        startPos: { row: 0, col: 3 },
+        nongBritePos: { row: 3, col: 0 },
+        homePos: { row: 0, col: 4 },
+        walkableTiles: [
             { row: 0, col: 3 },
-            { row: 1, col: 3, hasCoin: true },
+            { row: 0, col: 4 },
+            { row: 1, col: 3 },
             { row: 2, col: 3 },
-            { row: 2, col: 2 },
-            { row: 2, col: 1, hasCoin: true },
-            { row: 2, col: 0 },
+            { row: 2, col: 4 },
+            { row: 3, col: 4 },
+            { row: 4, col: 4 },
+            { row: 4, col: 3 },
+            { row: 4, col: 2 },
+            { row: 4, col: 1 },
+            { row: 4, col: 0 },
             { row: 3, col: 0 },
-            { row: 4, col: 0, hasCoin: true },
-            { row: 5, col: 0 },
-            { row: 5, col: 1 },
-            { row: 5, col: 2, hasCoin: true },
-            { row: 5, col: 3 },
-            { row: 5, col: 4 },
-            { row: 5, col: 5, hasCoin: true },
-            { row: 5, col: 6 },
-            { row: 4, col: 6 },
         ],
     },
+
     9: {
         level: 9,
         difficulty: "hard",
-        totalCoins: 6,
-        maxCommands: 20,
-        gridCols: 7,
-        gridRows: 7,
-        path: [
-            { row: 6, col: 0 },
-            { row: 6, col: 1, hasCoin: true },
-            { row: 6, col: 2 },
-            { row: 5, col: 2 },
-            { row: 4, col: 2, hasCoin: true },
-            { row: 3, col: 2 },
-            { row: 3, col: 3 },
-            { row: 3, col: 4, hasCoin: true },
-            { row: 3, col: 5 },
-            { row: 3, col: 6 },
-            { row: 2, col: 6 },
-            { row: 1, col: 6, hasCoin: true },
-            { row: 0, col: 6 },
-            { row: 0, col: 5 },
-            { row: 0, col: 4, hasCoin: true },
+        gridCols: 4,
+        gridRows: 6,
+        startPos: { row: 0, col: 3 },
+        nongBritePos: { row: 5, col: 0 },
+        homePos: { row: 1, col: 0 },
+        walkableTiles: [
             { row: 0, col: 3 },
-            { row: 0, col: 2 },
-            { row: 0, col: 1 },
-            { row: 0, col: 0, hasCoin: true },
+            { row: 1, col: 3 },
+            { row: 1, col: 2 },
+            { row: 1, col: 1 },
             { row: 1, col: 0 },
+            { row: 2, col: 1 },
+            { row: 3, col: 1 },
+            { row: 3, col: 2 },
+            { row: 4, col: 2 },
+            { row: 5, col: 2 },
+            { row: 5, col: 1 },
+            { row: 5, col: 0 },
         ],
     },
 };
