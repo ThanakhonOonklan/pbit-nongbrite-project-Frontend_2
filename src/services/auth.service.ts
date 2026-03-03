@@ -1,7 +1,7 @@
 import apiClient from "@/lib/api-client";
 
 export interface LoginPayload {
-  username: string;
+  identifier: string;
   password: string;
 }
 
@@ -16,10 +16,12 @@ export interface UserProfile {
   icon: string | null; // Can be null if user hasn't selected an icon
   totalScore: number;
   currentRank: number;
-  joinedDate: string;
+  totalStars: number;
+}
+
+export interface streaks {
   currentStreak: number;
   longestStreak: number;
-  totalStars: number;
 }
 
 export interface User {
@@ -29,6 +31,7 @@ export interface User {
   age: number;
   gender: Gender;
   profile: UserProfile;
+  streaks: streaks;
 }
 
 
@@ -38,6 +41,7 @@ export interface AuthResponse {
 }
 
 export interface RegisterStep1Payload {
+  username: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -64,6 +68,7 @@ export interface RegisterStep2Response {
     age: number;
     gender: Gender;
     profile: UserProfile;
+    streaks: streaks;
   };
 }
 
