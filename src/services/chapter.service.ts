@@ -17,7 +17,8 @@ export interface LevelTitle {
 
 export interface Level {
   id: number;
-  number: number;
+  chapterNo: number;
+  levelNo: number;
   title: LevelTitle;
   maxStars: number;
   difficulty: number;
@@ -25,11 +26,17 @@ export interface Level {
   isUnlocked: boolean;
 }
 
+export interface ChapterImages {
+  banner1: string;
+  banner2: string;
+  banner3: string;
+}
+
 export interface Chapter {
-  id: number;
+  chapterNo: number;
   title: ChapterTitle;
   desc: ChapterDesc;
-  orderIndex: number;
+  images: ChapterImages;
   levels: Level[];
 }
 

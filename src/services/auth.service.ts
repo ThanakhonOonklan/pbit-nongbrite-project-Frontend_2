@@ -12,26 +12,38 @@ export enum Gender {
 }
 
 export interface UserProfile {
+  id: number;
+  userId: number;
   playerName: string;
   icon: string | null; // Can be null if user hasn't selected an icon
-  totalScore: number;
   currentRank: number;
-  totalStars: number;
+  createdAt: string; // e.g. "14/02/2026 13:50"
+  updatedAt: string; // e.g. "06/03/2026 14:05"
 }
 
-export interface streaks {
+export interface Streaks {
   currentStreak: number;
   longestStreak: number;
 }
 
+export interface Life {
+  lifeCurrent: number;
+}
+
+export interface Stats {
+  totalScore: number;
+  totalStars: number;
+}
+
 export interface User {
   id: number;
-  email: string;
   name: string;
   age: number;
   gender: Gender;
   profile: UserProfile;
-  streaks: streaks;
+  streaks: Streaks;
+  life: Life;
+  stats: Stats;
 }
 
 
@@ -68,7 +80,9 @@ export interface RegisterStep2Response {
     age: number;
     gender: Gender;
     profile: UserProfile;
-    streaks: streaks;
+    streaks: Streaks;
+    life: Life;
+    stats: Stats;
   };
 }
 

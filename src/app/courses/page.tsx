@@ -14,9 +14,10 @@ import { GameCard } from "@/components/courses/GameCard";
 import { GameStepper } from "@/components/courses/GameStepper";
 import { ResourceBars } from "@/components/courses/ResourceBars";
 import { ScrollDownIndicator } from "@/components/courses/ScrollDownIndicator";
-import { gamesConfig } from "@/constants/courses/gameConfig";
+import { gamesConfig, mapApiLevelToConfig } from "@/constants/courses/gameConfig";
 import { convertHeaderColorToHex, lightenColor } from "@/utils/courses";
 import { mockMyRankData } from "@/constants/mocks/userData";
+import { useChapterStore } from "@/store/chapter.store";
 
 export default function CoursesPage() {
   const [selectedLevel, setSelectedLevel] = useState(1);
@@ -38,6 +39,26 @@ export default function CoursesPage() {
 
   const isMobile = useIsMobile();
   const [isTablet, setIsTablet] = useState(false);
+
+  // Fetch chapters from API
+  const { chapters, fetchChapters } = useChapterStore();
+
+  useEffect(() => {
+    fetchChapters();
+  }, [fetchChapters]);
+
+  // Merge API data with visual game config
+  const mergedGames = useMemo(() => {
+    if (!chapters.length) return gamesConfig;
+    return gamesConfig.map((game, index) => {
+      const apiChapter = chapters[index];
+      if (!apiChapter) return game;
+      return {
+        ...game,
+        levels: apiChapter.levels.map(mapApiLevelToConfig),
+      };
+    });
+  }, [chapters]);
 
   useEffect(() => {
     const checkTablet = () => {
@@ -80,16 +101,17 @@ export default function CoursesPage() {
     if (index === -1) {
       setCurrentHeaderColor(undefined);
       setHeaderColor(undefined);
-      setCurrentGameTitle(gamesConfig[0]?.title);
+      setCurrentGameTitle(mergedGames[0]?.title);
       setCurrentGameIconIndex(0);
-      setCurrentGameId(gamesConfig[0]?.id);
+      setCurrentGameId(mergedGames[0]?.id);
       setCurrentGameIndex(0);
       setSelectedLevel(1);
       return;
     }
 
-    if (index >= 0 && index < gamesConfig.length) {
-      const game = gamesConfig[index];
+    if (index >= 0 && index < mergedGames.length) {
+      const game = mergedGames[index];
+      if (!game) return;
       setCurrentGameTitle(game.title);
       setCurrentGameIconIndex(index);
       setCurrentGameId(game.id);
@@ -154,7 +176,7 @@ export default function CoursesPage() {
               currentIndex={currentGameIndex}
               onStepClick={handleStepClick}
             />
-            {gamesConfig.map((game) => (
+            {mergedGames.map((game) => (
               <GameCard
                 key={game.id}
                 game={game}
@@ -178,7 +200,7 @@ export default function CoursesPage() {
             difficulty={levelData?.difficulty}
             difficultyText={levelData?.difficultyText}
             gameTitle={currentGameTitle}
-            gameIcon={gamesConfig[currentGameIconIndex]?.icon}
+            gameIcon={mergedGames[currentGameIconIndex]?.icon}
             headerColor={currentHeaderColor}
             gameId={currentGameId}
           />

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { 
+import {
   chapterService,
   type Chapter,
 } from "@/services/chapter.service";
@@ -10,7 +10,7 @@ interface ChapterState {
   isLoading: boolean;
   error: string | null;
   lastFetched: number | null; // timestamp for cache invalidation
-  
+
   // Actions
   fetchChapters: () => Promise<void>;
   clearError: () => void;
@@ -26,56 +26,35 @@ export const useChapterStore = create<ChapterState>()(
       lastFetched: null,
 
       fetchChapters: async () => {
-        console.log("fetchChapters called!");
         set({ isLoading: true, error: null });
         try {
-          console.log("Calling chapterService.getChapters()...");
           const response = await chapterService.getChapters();
-          console.log("Response data:", response.data);
-          console.log("First chapter:", response.data.chapters[0]);
-          console.log("First level:", response.data.chapters[0]?.levels[0]);
-          console.log("First level earnedStars:", response.data.chapters[0]?.levels[0]?.earnedStars);
-          console.log("First level isUnlocked:", response.data.chapters[0]?.levels[0]?.isUnlocked);
-          
-          // Log original chapters with their IDs before sorting
-          console.log("Original chapters IDs:", response.data.chapters.map(ch => ({ id: ch.id, orderIndex: ch.orderIndex })));
-          console.log("Original levels IDs (first chapter):", response.data.chapters[0]?.levels.map(l => ({ id: l.id, number: l.number })));
-          
-          // FIX: Copy array before sorting to avoid mutating original
+
+          // Sort chapters by chapterNo
           const sortedChapters = [...response.data.chapters].sort(
-            (a, b) => a.orderIndex - b.orderIndex
+            (a, b) => a.chapterNo - b.chapterNo
           );
-          
-          // Debug: Log sorted chapters to verify data structure and IDs
-          console.log("Sorted chapters IDs:", sortedChapters.map(ch => ({ id: ch.id, orderIndex: ch.orderIndex })));
-          console.log("Sorted chapters:", sortedChapters);
-          console.log("First sorted chapter:", sortedChapters[0]);
-          console.log("First sorted chapter first level:", sortedChapters[0]?.levels[0]);
-          console.log("First sorted chapter levels IDs:", sortedChapters[0]?.levels.map(l => ({ id: l.id, number: l.number })));
-          
+
           set({
             chapters: sortedChapters,
             isLoading: false,
             error: null,
             lastFetched: Date.now(),
           });
-          
-          // Log after setting to verify
-          console.log("Chapters set in store. First chapter ID:", sortedChapters[0]?.id);
         } catch (error: unknown) {
           let errorMessage = "ไม่สามารถโหลดข้อมูลบทเรียนได้";
-          
+
           if (error && typeof error === "object" && "response" in error) {
-            const axiosError = error as { 
-              response?: { 
-                data?: { 
+            const axiosError = error as {
+              response?: {
+                data?: {
                   message?: string;
                   error?: string;
                 } | string;
                 status?: number;
-              } 
+              }
             };
-            
+
             const responseData = axiosError.response?.data;
             const status = axiosError.response?.status;
 
@@ -90,7 +69,7 @@ export const useChapterStore = create<ChapterState>()(
                 }
               }
             }
-            
+
             if (errorMessage === "ไม่สามารถโหลดข้อมูลบทเรียนได้" && status) {
               if (status === 401) {
                 // Clear loading state
@@ -111,9 +90,9 @@ export const useChapterStore = create<ChapterState>()(
           } else if (error instanceof Error) {
             errorMessage = error.message;
           }
-          
+
           console.error("Fetch chapters error:", error);
-          
+
           set({
             isLoading: false,
             error: errorMessage,
