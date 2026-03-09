@@ -96,10 +96,10 @@ export const getRankBadgeInfo = (score: number) => {
   const currentRank = getRankByScore(score);
   const nextRankIndex = RANKS.findIndex(r => r.minScore > score);
   const nextRank = nextRankIndex !== -1 ? RANKS[nextRankIndex] : null;
-  
+
   // แปลง Infinity เป็นค่าสูงสุดสำหรับการคำนวณ progress
   const maxScore = currentRank.maxScore === Infinity ? 999999 : currentRank.maxScore;
-  
+
   return {
     name: currentRank.name,
     label: currentRank.label,
@@ -110,3 +110,8 @@ export const getRankBadgeInfo = (score: number) => {
   };
 };
 
+// Helper function: หา rank badge image path จาก rank id
+export const getRankBadgeImageByRankId = (rankId: number): string => {
+  const rank = RANKS.find(r => r.id === rankId);
+  return rank?.iconPath || RANKS[0].iconPath;
+};

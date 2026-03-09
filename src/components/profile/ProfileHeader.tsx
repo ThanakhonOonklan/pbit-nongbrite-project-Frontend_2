@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { EditProfileForm } from "./EditProfileForm";
 import { Divide } from "lucide-react";
-import { getRankBadgeImage } from "@/constants/ranks";
+import { getRankBadgeImageByRankId } from "@/constants/ranks";
 import { useUserStore } from "@/store/user.store";
 import { useAuthStore } from "@/store/auth.store";
 import { Gender } from "@/services/user.service";
@@ -77,15 +77,15 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
     // Parse date string like "03/01/2026 16:47"
     const [datePart] = dateString.split(" ");
     const [day, month, year] = datePart.split("/");
-    
+
     const monthNames = [
       "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
       "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
     ];
-    
+
     const monthIndex = parseInt(month, 10) - 1;
     const monthName = monthNames[monthIndex] || "มกราคม";
-    
+
     return `เข้าร่วมเมื่อ วันที่ ${parseInt(day, 10)} ${monthName} ${year}`;
   };
 
@@ -163,12 +163,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
   const selectedCharacter = getIconFilename();
   const userName = user.name || "";
   const gender = user.gender;
-  const joinDate = formatJoinedDate(user.profile?.joinedDate);
+  const joinDate = formatJoinedDate(user.profile?.createdAt);
   const rank = user.profile?.currentRank || 0;
-  const highestScore = user.profile?.totalScore || 0;
-  const daystate = user.profile?.currentStreak || 0;
+  const daystate = user.streaks?.currentStreak || 0;
+  const totalScore = user.stats?.totalScore || 0;
   const maxScore = 6300;
-  const progressPercent = (highestScore / maxScore) * 100;
+  const progressPercent = (totalScore / maxScore) * 100;
 
   return (
     <>
@@ -225,7 +225,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
                 />
               </div>
               <span className="text-[10px] sm:text-[11px] md:text-[12px] font-bold text-[#1cb0f6] whitespace-nowrap">
-                {highestScore.toLocaleString()}/{maxScore.toLocaleString()}
+                {totalScore.toLocaleString()}/{maxScore.toLocaleString()}
               </span>
             </div>
 
@@ -233,7 +233,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3 sm:mt-4">
               {/* การ์ดอันดับ */}
               <StatCard
-                imageSrc={getRankBadgeImage(highestScore)}
+                imageSrc={getRankBadgeImageByRankId(rank)}
                 imageAlt="Rank badge"
                 title={`#${rank}`}
                 description="เเรงค์"
@@ -243,7 +243,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
               {/* การ์ดคะแนนสูงสุด */}
               <StatCard
                 icon={<FaTrophy className="w-5 h-5 text-[#1cb0f6]" />}
-                title={highestScore.toString()}
+                title={totalScore.toString()}
                 description="คะแนนที่ได้"
                 iconBgColor="bg-[#E6F3FF]"
               />

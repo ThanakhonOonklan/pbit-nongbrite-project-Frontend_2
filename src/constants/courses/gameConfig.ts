@@ -9,6 +9,7 @@ import {
   FaPalette,
 } from "react-icons/fa";
 
+import type { Level } from "@/services/chapter.service";
 import { levelData } from "@/constants/levelData";
 
 
@@ -24,32 +25,43 @@ export interface GameImageConfig {
 
 export interface LevelConfig {
   level: number;
+  levelNo: number;
   difficulty: number;
   difficultyText: string;
   isLocked: boolean;
   stars: number;
 }
 
-export const getLevels = (mockStars: Record<number, number>): LevelConfig[] => {
+/** Helper: map difficulty number → Thai text */
+const getDifficultyText = (difficulty: number): string => {
+  if (difficulty <= 1) return "ง่าย";
+  if (difficulty === 2) return "ปานกลาง";
+  return "ยาก";
+};
+
+/** Map API Level → LevelConfig (isUnlocked → isLocked) */
+export const mapApiLevelToConfig = (apiLevel: Level): LevelConfig => ({
+  level: apiLevel.levelNo,
+  levelNo: apiLevel.levelNo,
+  difficulty: apiLevel.difficulty,
+  difficultyText: getDifficultyText(apiLevel.difficulty),
+  isLocked: !apiLevel.isUnlocked,
+  stars: apiLevel.earnedStars,
+});
+
+/** Default levels (all locked) — used before API loads */
+export const getDefaultLevels = (): LevelConfig[] => {
   return levelData.map((ld) => ({
     level: ld.level,
+    levelNo: ld.level,
     difficulty: ld.difficulty,
     difficultyText: ld.difficultyText,
-    isLocked: ld.level === 1 ? false : (mockStars[ld.level - 1] ?? 0) === 0,
-    stars: mockStars[ld.level] ?? 0,
+    isLocked: ld.level !== 1,
+    stars: 0,
   }));
 };
 
-// ข้อมูลดาวจำลองแยกตามเกม (ในอนาคตจะดึงจาก API)
-export const mockGameStars: Record<string, Record<number, number>> = {
-  "path-navigation": { 1: 3, 2: 2, 3: 1, 4: 3, 5: 3, 6: 0, 7: 0, 8: 0, 9: 0 },
-  "counting-classification": { 1: 3, 2: 3, 3: 2, 4: 1, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 },
-  "conditional-matching": { 1: 3, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 },
-  "sequencing": { 1: 2, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 },
-  "step-counting": { 1: 3, 2: 3, 3: 3, 4: 2, 5: 1, 6: 0, 7: 0, 8: 0, 9: 0 },
-  "fruit-matching-grid": { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 },
-  "grid-based-coloring": { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 },
-};
+
 
 export interface GameConfig {
   id: string;
@@ -90,7 +102,7 @@ export const gamesConfig: GameConfig[] = [
       position: (isMobile, isTablet) => isMobile ? "left-[40px] bottom-[-12px]" : isTablet ? "left-[60px] bottom-[-25px]" : "left-[50px] bottom-[-32px]",
       rotation: 0,
     },
-    levels: getLevels(mockGameStars["path-navigation"]),
+    levels: getDefaultLevels(),
   },
   {
     id: "counting-classification",
@@ -115,7 +127,7 @@ export const gamesConfig: GameConfig[] = [
       position: (isMobile, isTablet) => isMobile ? "left-[140px] top-[-81px]" : isTablet ? "left-[20px] top-[-99.8px]" : "left-[20px] top-[-122px]",
       rotation: 0,
     },
-    levels: getLevels(mockGameStars["counting-classification"]),
+    levels: getDefaultLevels(),
   },
   {
     id: "conditional-matching",
@@ -140,7 +152,7 @@ export const gamesConfig: GameConfig[] = [
       position: (isMobile, isTablet) => isMobile ? "right-[130px] top-[-100px]" : isTablet ? "right-[300px] top-[-125px]" : "right-[280px] top-[-150px]",
       rotation: 0,
     },
-    levels: getLevels(mockGameStars["conditional-matching"]),
+    levels: getDefaultLevels(),
   },
   {
     id: "sequencing",
@@ -157,7 +169,7 @@ export const gamesConfig: GameConfig[] = [
       position: (isMobile, isTablet) => isMobile ? "left-[0px] bottom-[-45px]" : isTablet ? "left-[0px] bottom-[-60px]" : "left-[-30px] bottom-[-32px]",
       rotation: 0,
     },
-    levels: getLevels(mockGameStars["sequencing"]),
+    levels: getDefaultLevels(),
   },
   {
     id: "step-counting",
@@ -182,7 +194,7 @@ export const gamesConfig: GameConfig[] = [
       position: (isMobile, isTablet) => isMobile ? "right-[30px] top-[-60px]" : isTablet ? "right-[160px] top-[-90px]" : "right-[130px] top-[-100px]",
       rotation: 49,
     },
-    levels: getLevels(mockGameStars["step-counting"]),
+    levels: getDefaultLevels(),
   },
   {
     id: "fruit-matching-grid",
@@ -207,7 +219,7 @@ export const gamesConfig: GameConfig[] = [
       position: (isMobile, isTablet) => isMobile ? "left-[10px] bottom-[-12px]" : isTablet ? "left-[10px] bottom-[-24px]" : "left-[-10px] bottom-[-32px]",
       rotation: 0,
     },
-    levels: getLevels(mockGameStars["fruit-matching-grid"]),
+    levels: getDefaultLevels(),
   },
   {
     id: "grid-based-coloring",
@@ -232,6 +244,6 @@ export const gamesConfig: GameConfig[] = [
       position: (isMobile, isTablet) => isMobile ? "right-[5px] top-[-68px]" : isTablet ? "right-[15px] top-[-97px]" : "right-[20px] top-[-117px]",
       rotation: 0,
     },
-    levels: getLevels(mockGameStars["grid-based-coloring"]),
+    levels: getDefaultLevels(),
   },
 ];

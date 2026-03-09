@@ -18,6 +18,7 @@ interface AuthState {
   // Register state
   registerStep: number;
   registerData: {
+    username?: string;
     email?: string;
     password?: string;
   } | null;
@@ -155,6 +156,7 @@ export const useAuthStore = create<AuthState>()(
           set({
             registerStep: 2,
             registerData: {
+              username: payload.username,
               email: payload.email,
               password: payload.password,
             },
@@ -225,6 +227,7 @@ export const useAuthStore = create<AuthState>()(
             age: response.data.age,
             gender: response.data.gender,
             profile: response.data.profile,
+            streaks: response.data.streaks,
           };
 
           // Sync user to user store

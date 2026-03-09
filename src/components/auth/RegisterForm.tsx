@@ -28,13 +28,13 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   } = useAuthStore();
 
   // Step 1 states
-  const [englishName, setEnglishName] = React.useState("");
+  const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
   // Step 1 validation errors
-  const [englishNameError, setEnglishNameError] = React.useState<string | undefined>();
+  const [usernameError, setUsernameError] = React.useState<string | undefined>();
   const [emailError, setEmailError] = React.useState<string | undefined>();
   const [passwordError, setPasswordError] = React.useState<string | undefined>();
   const [confirmPasswordError, setConfirmPasswordError] = React.useState<string | undefined>();
@@ -87,24 +87,24 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   };
 
   // Validation functions - return error message or null
-  const validateEnglishName = (nameValue: string): string | null => {
+  const validateUsername = (nameValue: string): string | null => {
     if (!nameValue.trim()) {
-      const msg = "กรุณากรอกชื่อภาษาอังกฤษ";
-      setEnglishNameError(msg);
+      const msg = "กรุณากรอกชื่อผู้ใช้";
+      setUsernameError(msg);
       return msg;
     }
     if (nameValue.trim().length < 2) {
       const msg = "ชื่อต้องมีอย่างน้อย 2 ตัวอักษร";
-      setEnglishNameError(msg);
+      setUsernameError(msg);
       return msg;
     }
     const englishRegex = /^[a-zA-Z\s]+$/;
     if (!englishRegex.test(nameValue.trim())) {
       const msg = "กรุณากรอกเฉพาะตัวอักษรภาษาอังกฤษ";
-      setEnglishNameError(msg);
+      setUsernameError(msg);
       return msg;
     }
-    setEnglishNameError(undefined);
+    setUsernameError(undefined);
     return null;
   };
 
@@ -159,11 +159,11 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
   const validateStep1 = (): boolean => {
     // If all fields are empty, show a single message
-    if (!englishName.trim() && !email.trim() && !password.trim() && !confirmPassword.trim()) {
+    if (!username.trim() && !email.trim() && !password.trim() && !confirmPassword.trim()) {
       setValidationMessage("โปรดกรอกข้อมูลให้ครบถ้วน");
       return false;
     }
-    const nameMsg = validateEnglishName(englishName);
+    const nameMsg = validateUsername(username);
     const emailMsg = validateEmail(email);
     const pwMsg = validatePassword(password);
     const confirmPwMsg = validateConfirmPassword(password, confirmPassword);
@@ -228,7 +228,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   // Handle Step 1 Next Button
   const handleStep1Next = async (): Promise<boolean> => {
     clearError();
-    setEnglishNameError(undefined);
+    setUsernameError(undefined);
     setEmailError(undefined);
     setPasswordError(undefined);
     setConfirmPasswordError(undefined);
@@ -243,6 +243,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
     try {
       await registerStep1({
+        username: username.trim(),
         email: email.trim(),
         password,
         confirmPassword,
@@ -300,7 +301,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   // Check if Step 1 is complete (all fields filled)
   const isStep1Complete = (): boolean => {
     return (
-      englishName.trim() !== "" &&
+      username.trim() !== "" &&
       email.trim() !== "" &&
       password.trim() !== "" &&
       confirmPassword.trim() !== ""
@@ -317,11 +318,11 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   };
 
   // Clear errors when user types
-  const handleEnglishNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.length <= 30) {
-      setEnglishName(value);
-      if (englishNameError) setEnglishNameError(undefined);
+      setUsername(value);
+      if (usernameError) setUsernameError(undefined);
       if (error) clearError();
       if (validationMessage) setValidationMessage(null);
     }
@@ -508,10 +509,10 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
                 label="ชื่อผู้ใช้ (ภาษาอังกฤษ)"
                 type="text"
                 placeholder="Username"
-                value={englishName}
-                error={englishNameError}
+                value={username}
+                error={usernameError}
                 showErrorText={false}
-                onChange={handleEnglishNameChange}
+                onChange={handleUsernameChange}
                 maxLength={30}
                 required
                 disabled={isLoading}

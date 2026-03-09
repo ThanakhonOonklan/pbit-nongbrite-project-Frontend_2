@@ -1,7 +1,7 @@
 import apiClient from "@/lib/api-client";
 
 export interface LoginPayload {
-  username: string;
+  identifier: string;
   password: string;
 }
 
@@ -12,23 +12,38 @@ export enum Gender {
 }
 
 export interface UserProfile {
+  id: number;
+  userId: number;
   playerName: string;
   icon: string | null; // Can be null if user hasn't selected an icon
-  totalScore: number;
   currentRank: number;
-  joinedDate: string;
+  createdAt: string; // e.g. "14/02/2026 13:50"
+  updatedAt: string; // e.g. "06/03/2026 14:05"
+}
+
+export interface Streaks {
   currentStreak: number;
   longestStreak: number;
+}
+
+export interface Life {
+  lifeCurrent: number;
+}
+
+export interface Stats {
+  totalScore: number;
   totalStars: number;
 }
 
 export interface User {
   id: number;
-  email: string;
   name: string;
   age: number;
   gender: Gender;
   profile: UserProfile;
+  streaks: Streaks;
+  life: Life;
+  stats: Stats;
 }
 
 
@@ -38,6 +53,7 @@ export interface AuthResponse {
 }
 
 export interface RegisterStep1Payload {
+  username: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -64,6 +80,9 @@ export interface RegisterStep2Response {
     age: number;
     gender: Gender;
     profile: UserProfile;
+    streaks: Streaks;
+    life: Life;
+    stats: Stats;
   };
 }
 

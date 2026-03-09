@@ -17,10 +17,10 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, router]);
 
-  const handleLogin = async (username: string, password: string) => {
+  const handleLogin = async (identifier: string, password: string) => {
     clearError();
     try {
-      await login({ username, password });
+      await login({ identifier, password });
 
       router.push("/courses");
     } catch (error) {
