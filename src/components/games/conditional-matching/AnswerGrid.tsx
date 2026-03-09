@@ -18,7 +18,7 @@ export function AnswerGrid({
     disabled,
 }: AnswerGridProps) {
     return (
-        <div className="w-full max-w-lg mx-auto px-4 grid grid-cols-3 gap-3">
+        <div className="w-full px-2 grid grid-cols-3 gap-3">
             {answers.map((ans) => {
                 const isPicked = ans.id === lastPickedId;
                 const isCorrectPicked = isPicked && answerState === "correct";
@@ -47,9 +47,9 @@ export function AnswerGrid({
                         onClick={() => !disabled && onAnswer(ans)}
                         disabled={disabled}
                         className={`
-                            flex flex-col items-center justify-center gap-2
-                            rounded-2xl border-2 py-4 px-2
-                            font-bold text-sm text-center leading-tight
+                            flex flex-row items-center justify-start gap-3
+                            rounded-2xl border-2 py-4 px-4
+                            font-bold text-base text-left leading-tight
                             transition-all duration-200
                             ${disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:scale-[1.04] active:scale-95 hover:bg-white/10"}
                             ${animClass}
@@ -60,7 +60,7 @@ export function AnswerGrid({
                             color: textColor,
                         }}
                     >
-                        <span className="text-4xl leading-none">{ans.emoji}</span>
+                        <span className="text-3xl leading-none shrink-0">{ans.emoji}</span>
                         <span>{ans.text}</span>
                     </button>
                 );

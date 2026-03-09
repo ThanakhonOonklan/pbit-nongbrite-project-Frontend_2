@@ -1,138 +1,117 @@
 "use client";
 
 import Image from "next/image";
+import type { SceneConfig } from "@/constants/games/conditional-matching-levels";
+import {
+    Ground,
+    Trees,
+    Rain,
+    Thunder,
+    Snow,
+    Sun,
+    Stars,
+    Leaves,
+    Birds,
+    Fireflies,
+    Flowers,
+    Bees,
+    Embers,
+    Rocks,
+    Mushrooms,
+    Butterflies,
+} from "@/components/games/scene-pieces";
 
 interface ScenarioCardProps {
-    situationText: string;
-    questionText: string;
-    sceneEmoji: string;
-    sceneBgFrom: string;
-    sceneBgTo: string;
-    /** "correct" | "wrong" | null — สำหรับ flash animation */
+    scene: SceneConfig;
     answerState?: "correct" | "wrong" | null;
+    currentQ: number;
+    totalQ: number;
+    /** seed สำหรับสุ่มตำแหน่งต้นไม้ — ส่ง level * 100 + questionIndex */
+    treeSeed?: number;
 }
 
-export function ScenarioCard({
-    situationText,
-    questionText,
-    sceneEmoji,
-    sceneBgFrom,
-    sceneBgTo,
-    answerState,
-}: ScenarioCardProps) {
-    const flashClass =
-        answerState === "correct"
-            ? "ring-4 ring-[#58CC02] ring-offset-2"
-            : answerState === "wrong"
-                ? "ring-4 ring-[#FF4B4B] ring-offset-2"
-                : "";
+export function ScenarioCard({ scene, answerState, currentQ, totalQ, treeSeed = 0 }: ScenarioCardProps) {
+    const ringColor =
+        answerState === "correct" ? "#58CC02" :
+            answerState === "wrong" ? "#FF4B4B" :
+                "transparent";
 
     return (
-        <div className="w-full max-w-lg mx-auto px-4 flex flex-col gap-3">
-
-            {/* ── Situation banner ── */}
+        <div
+            className="relative w-full flex-1 min-h-0 max-h-[300px] rounded-3xl overflow-hidden shadow-2xl"
+            style={{
+                boxShadow: answerState ? `0 0 0 4px ${ringColor}` : undefined,
+                transition: "box-shadow 0.25s ease",
+            }}
+        >
+            {/* ── Sky ── */}
             <div
-                className="rounded-xl px-4 py-2.5 text-center"
-                style={{ background: "linear-gradient(90deg, #FF9A2E, #FFB356)" }}
-            >
-                <p className="text-white font-extrabold text-sm leading-snug">
-                    {situationText}
-                </p>
+                className="absolute inset-0"
+                style={{ background: `linear-gradient(180deg, ${scene.skyFrom} 0%, ${scene.skyTo} 100%)` }}
+            />
+
+            {/* ── Weather effects ── */}
+            {scene.weather === "rain" && <Rain />}
+            {scene.weather === "thunder" && <Thunder />}
+            {scene.weather === "snow" && <Snow />}
+            {scene.weather === "sun" && <Sun />}
+            {scene.weather === "stars" && <Stars />}
+            {scene.weather === "leaves" && <Leaves />}
+            {scene.weather === "birds" && <Birds />}
+            {scene.weather === "fireflies" && <Fireflies />}
+
+            {/* ── Trees (behind ground, z-10) ── */}
+            {scene.trees && (
+                <Trees
+                    variant={scene.trees.variant}
+                    count={scene.trees.count}
+                    side={scene.trees.side}
+                    seed={treeSeed}
+                />
+            )}
+
+            {/* ── Ground (renders on top of tree trunks base = plants them) ── */}
+            <Ground variant={scene.ground} />
+
+            {/* ── Props — above ground ── */}
+            {scene.props?.includes("flowers") && <Flowers />}
+            {scene.props?.includes("bees") && <Bees />}
+            {scene.props?.includes("embers") && <Embers />}
+            {scene.props?.includes("rocks") && <Rocks seed={treeSeed} />}
+            {scene.props?.includes("mushrooms") && <Mushrooms seed={treeSeed} />}
+            {scene.props?.includes("butterflies") && <Butterflies />}
+
+            {/* ── Coco character — standing on ground ── */}
+            <div className="absolute bottom-[22%] left-1/2 -translate-x-1/2 z-20">
+                <Image
+                    src="/images/P_Coco/coco-03.svg"
+                    alt="โคโค่"
+                    width={72}
+                    height={72}
+                    className="object-contain drop-shadow-lg"
+                    priority
+                />
             </div>
 
-            {/* ── Scene card ── */}
-            <div
-                className={`relative rounded-3xl overflow-hidden shadow-xl transition-all duration-300 ${flashClass}`}
-                style={{
-                    background: `linear-gradient(160deg, ${sceneBgFrom} 0%, ${sceneBgTo} 100%)`,
-                    minHeight: "200px",
-                }}
-            >
-                {/* Rain animation overlay (สำหรับฉากฝนตก) */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    {Array.from({ length: 18 }).map((_, i) => (
+            {/* ── Progress dots ── */}
+            {totalQ > 1 && (
+                <div className="absolute top-3 left-0 right-0 z-30 flex justify-center items-center gap-1.5">
+                    {Array.from({ length: totalQ }).map((_, i) => (
                         <div
                             key={i}
-                            className="absolute w-0.5 rounded-full opacity-40"
+                            className="rounded-full transition-all duration-300"
                             style={{
-                                left: `${(i * 5.5) % 100}%`,
-                                top: "-10%",
-                                height: `${14 + (i % 5) * 4}px`,
-                                background: "rgba(147,210,255,0.8)",
-                                animation: `rainDrop ${0.7 + (i % 4) * 0.2}s linear ${(i * 0.12) % 0.8}s infinite`,
+                                width: i === currentQ ? 18 : 7,
+                                height: 7,
+                                background:
+                                    i < currentQ ? "#58CC02" :
+                                        i === currentQ ? "#FFB356" :
+                                            "rgba(255,255,255,0.3)",
                             }}
                         />
                     ))}
                 </div>
-
-                {/* Big scene emoji */}
-                <div className="absolute top-3 right-4 text-5xl opacity-60 select-none">
-                    {sceneEmoji}
-                </div>
-
-                {/* Coco character */}
-                <div className="flex items-end justify-center pt-6 pb-4 relative z-10">
-                    <Image
-                        src="/images/P_Coco/coco-03.svg"
-                        alt="โคโค่"
-                        width={130}
-                        height={130}
-                        className="object-contain drop-shadow-lg"
-                        style={{
-                            animation: answerState === "wrong"
-                                ? "shake 0.4s ease"
-                                : answerState === "correct"
-                                    ? "bounceUp 0.4s ease"
-                                    : "float 3s ease-in-out infinite",
-                        }}
-                    />
-                </div>
-
-                {/* Bit helper (มุมซ้ายล่าง) */}
-                <div className="absolute bottom-2 left-3 z-10">
-                    <Image
-                        src="/images/P_Bit/bit-04.svg"
-                        alt="พี่บิด"
-                        width={44}
-                        height={44}
-                        className="object-contain opacity-90"
-                        style={{ filter: "brightness(0) invert(1) opacity(0.85)" }}
-                    />
-                </div>
-            </div>
-
-            {/* ── Question text ── */}
-            <div className="text-center">
-                <p className="text-white font-extrabold text-base leading-snug">
-                    {questionText}
-                </p>
-            </div>
-
-            <style>{`
-                @keyframes rainDrop {
-                    0%   { transform: translateY(-10px); opacity: 0; }
-                    10%  { opacity: 0.5; }
-                    90%  { opacity: 0.4; }
-                    100% { transform: translateY(260px); opacity: 0; }
-                }
-                @keyframes float {
-                    0%, 100% { transform: translateY(0px); }
-                    50%       { transform: translateY(-7px); }
-                }
-                @keyframes shake {
-                    0%, 100% { transform: translateX(0); }
-                    20%      { transform: translateX(-8px); }
-                    40%      { transform: translateX(8px); }
-                    60%      { transform: translateX(-6px); }
-                    80%      { transform: translateX(6px); }
-                }
-                @keyframes bounceUp {
-                    0%   { transform: translateY(0); }
-                    40%  { transform: translateY(-18px); }
-                    70%  { transform: translateY(-8px); }
-                    100% { transform: translateY(0); }
-                }
-            `}</style>
+            )}
         </div>
     );
 }

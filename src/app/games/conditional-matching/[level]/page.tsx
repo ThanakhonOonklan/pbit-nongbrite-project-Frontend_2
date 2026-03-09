@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useRef, useEffect, useCallback } from "react";
+import { use, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -19,7 +19,7 @@ import {
 } from "@/utils/game-scoring";
 import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
 
-// ────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
 
 export default function ConditionalMatchingGamePage({
   params,
@@ -31,20 +31,22 @@ export default function ConditionalMatchingGamePage({
   const router = useRouter();
 
   const config = condMatchLevels[levelNum];
+  const totalQ = config?.questions.length ?? 0;
 
-  // ── State ────────────────────────────────────────────────
+  // ── State ─────────────────────────────────────────────────
+  const [currentQIndex, setCurrentQIndex] = useState(0);
+  /** รวมจำนวนครั้งที่ตอบผิดทุกข้อในด่านนี้ */
   const [wrongCount, setWrongCount] = useState(0);
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showIntro, setShowIntro] = useState(levelNum === 1);
-  /** "correct" | "wrong" | null */
   const [answerState, setAnswerState] = useState<"correct" | "wrong" | null>(null);
   const [lastPickedId, setLastPickedId] = useState<string | null>(null);
-
+  /** ป้องกัน double-click ระหว่าง animation */
+  const lockRef = useRef(false);
   const startTimeRef = useRef<number>(Date.now());
-  const lockRef = useRef(false); // ป้องกัน double-click ขณะ animation
 
-  // ── Answer handler ───────────────────────────────────────
+  // ── Answer handler ────────────────────────────────────────
   const handleAnswer = useCallback((ans: CondMatchAnswer) => {
     if (lockRef.current || scoreResult) return;
     lockRef.current = true;
@@ -52,43 +54,54 @@ export default function ConditionalMatchingGamePage({
 
     if (ans.isCorrect) {
       setAnswerState("correct");
-      // หน่วงให้เด็กเห็น feedback สีเขียวก่อน แล้วค่อยแสดง WIN modal
+
       setTimeout(() => {
-        const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
-        setElapsedSeconds(elapsed);
+        const isLastQ = currentQIndex >= totalQ - 1;
 
-        const result = calculateGameScore({
-          difficulty: config.difficulty,
-          attempts: wrongCount,     // ส่งจำนวนครั้งที่ผิด
-          timeSeconds: elapsed,
-        });
-        setScoreResult(result);
+        if (isLastQ) {
+          // ─── WIN ───
+          const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
+          setElapsedSeconds(elapsed);
 
-        const { stars } = getStarRating(result.totalScore);
-        mockSubmitGameScore({
-          levelId: levelNum,
-          score: result.totalScore,
-          stars,
-          playTime: elapsed,
-        });
+          // wrongCount ณ จุดนี้ยังไม่ถูก set ของข้อนี้ (ตอบถูกเลย wrongCount ไม่เพิ่ม)
+          const result = calculateGameScore({
+            difficulty: config.difficulty,
+            attempts: wrongCount,
+            timeSeconds: elapsed,
+          });
+          setScoreResult(result);
 
+          const { stars } = getStarRating(result.totalScore);
+          mockSubmitGameScore({
+            levelId: levelNum,
+            score: result.totalScore,
+            stars,
+            playTime: elapsed,
+          });
+        } else {
+          // ─── ไปข้อถัดไป ───
+          setCurrentQIndex((prev) => prev + 1);
+          setAnswerState(null);
+          setLastPickedId(null);
+        }
         lockRef.current = false;
-      }, 900);
+      }, 800);
     } else {
+      // ─── ผิด ───
       setAnswerState("wrong");
       setWrongCount((prev) => prev + 1);
 
-      // รีเซ็ตหลัง animation ผิด
       setTimeout(() => {
         setAnswerState(null);
         setLastPickedId(null);
         lockRef.current = false;
-      }, 900);
+      }, 800);
     }
-  }, [scoreResult, config, wrongCount, levelNum]);
+  }, [scoreResult, currentQIndex, totalQ, config, wrongCount, levelNum]);
 
-  // ── Retry ────────────────────────────────────────────────
+  // ── Retry ─────────────────────────────────────────────────
   const handleRetry = useCallback(() => {
+    setCurrentQIndex(0);
     setWrongCount(0);
     setScoreResult(null);
     setElapsedSeconds(0);
@@ -98,18 +111,12 @@ export default function ConditionalMatchingGamePage({
     startTimeRef.current = Date.now();
   }, []);
 
-  // ── Fallback — invalid level ─────────────────────────────
+  // ── Fallback ──────────────────────────────────────────────
   if (!config) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#131F24]">
         <div className="flex flex-col items-center text-center gap-4">
-          <Image
-            src="/images/P_Bit/bit-03.svg"
-            alt="Bit"
-            width={100}
-            height={100}
-            className="object-contain"
-          />
+          <Image src="/images/P_Bit/bit-03.svg" alt="Bit" width={100} height={100} className="object-contain" />
           <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
           <button
             onClick={() => router.push("/courses")}
@@ -122,58 +129,61 @@ export default function ConditionalMatchingGamePage({
     );
   }
 
-  // ── Render ───────────────────────────────────────────────
+  const currentQ = config.questions[currentQIndex];
+
+  // ── Render ────────────────────────────────────────────────
   return (
     <div className="flex flex-col h-screen bg-[#131F24] overflow-hidden">
 
-      {/* ── Header ── */}
+      {/* Header */}
       <GameHeader
         level={level}
         gameTitle="Conditional Matching"
         characterSrc="/images/P_Coco/coco-03.svg"
       />
 
-      {/* ── Main scroll area ── */}
-      <div className="flex-1 overflow-y-auto flex flex-col justify-center py-4 gap-5">
+      {/* ── Main layout: fixed height sections, no scroll ── */}
+      <div className="flex-1 flex flex-col min-h-0 px-4 pt-3 pb-4 gap-3 max-w-3xl w-full mx-auto">
 
-        {/* Scenario card */}
+        {/* Scene card — grows to fill available height */}
         <ScenarioCard
-          situationText={config.situationText}
-          questionText={config.questionText}
-          sceneEmoji={config.sceneEmoji}
-          sceneBgFrom={config.sceneBgFrom}
-          sceneBgTo={config.sceneBgTo}
+          scene={currentQ.scene}
           answerState={answerState}
+          currentQ={currentQIndex}
+          totalQ={totalQ}
+          treeSeed={levelNum * 100 + currentQIndex}
         />
 
-        {/* Answer grid */}
-        <AnswerGrid
-          answers={config.answers}
-          answerState={answerState}
-          lastPickedId={lastPickedId}
-          onAnswer={handleAnswer}
-          disabled={!!scoreResult || answerState === "correct"}
-        />
-
-        {/* Wrong count indicator */}
-        {wrongCount > 0 && !scoreResult && (
-          <p className="text-center text-white/40 text-xs">
-            ลองผิดไปแล้ว {wrongCount} ครั้ง
+        {/* Question text — shrink-0, below card */}
+        <div className="shrink-0 text-left px-2 py-2">
+          <p className="text-white font-extrabold text-2xl leading-snug">
+            {currentQ.questionText}
           </p>
-        )}
+        </div>
+
+        {/* Answer grid — shrink-0, at bottom */}
+        <div className="shrink-0">
+          <AnswerGrid
+            answers={currentQ.answers}
+            answerState={answerState}
+            lastPickedId={lastPickedId}
+            onAnswer={handleAnswer}
+            disabled={!!scoreResult || answerState === "correct"}
+          />
+        </div>
       </div>
 
-      {/* ── Help button ── */}
+      {/* Help button */}
       <HelpButton
         steps={[
           { emoji: "📖", text: "อ่านสถานการณ์ที่โคโค่เจอ" },
-          { emoji: "🤔", text: "คิดว่าควรทำอะไรดี?" },
-          { emoji: "👆", text: "กดคำตอบที่คิดว่าถูก" },
-          { emoji: "✅", text: "ถูกต้องก็ผ่านด่านได้เลย!" },
+          { emoji: "🤔", text: "คิดว่าโคโค่ควรทำอะไร?" },
+          { emoji: "👆", text: "กดคำตอบที่คิดว่าถูกต้อง" },
+          { emoji: "✅", text: "ตอบถูกทุกข้อก็ผ่านด่าน!" },
         ]}
       />
 
-      {/* ── Intro overlay (Level 1 only) ── */}
+      {/* Intro overlay — Level 1 only */}
       {showIntro && (
         <div
           className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer select-none"
@@ -186,17 +196,16 @@ export default function ConditionalMatchingGamePage({
             width={160}
             height={160}
             className="object-contain mb-5 drop-shadow-2xl"
-            style={{ animation: "float 2.5s ease-in-out infinite" }}
           />
           <p className="text-white text-2xl font-extrabold text-center leading-relaxed px-8">
-            โคโค่กำลังเดินทาง<br />ในป่า...
+            โคโค่กำลังผจญภัยในป่า!
           </p>
-          <p className="text-white/50 text-sm mt-4">ช่วยโคโค่ตัดสินใจให้ถูกต้อง!</p>
-          <p className="text-white/30 text-xs mt-6">แตะเพื่อเริ่มเล่น</p>
+          <p className="text-white/50 text-sm mt-3">ช่วยโคโค่ตัดสินใจให้ถูกต้อง</p>
+          <p className="text-white/25 text-xs mt-6 animate-pulse">แตะเพื่อเริ่มเล่น</p>
         </div>
       )}
 
-      {/* ── WIN Modal ── */}
+      {/* WIN modal */}
       {scoreResult && (
         <GameResultModal
           levelNum={levelNum}
@@ -209,14 +218,8 @@ export default function ConditionalMatchingGamePage({
       )}
 
       <style>{`
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to   { opacity: 1; }
-                }
-                @keyframes float {
-                    0%, 100% { transform: translateY(0); }
-                    50%       { transform: translateY(-10px); }
-                }
+                @keyframes fadeIn    { from{opacity:0} to{opacity:1} }
+                @keyframes introFloat{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
             `}</style>
     </div>
   );
