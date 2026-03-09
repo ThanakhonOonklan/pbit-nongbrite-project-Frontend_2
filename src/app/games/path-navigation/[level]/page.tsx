@@ -87,7 +87,13 @@ export default function PathNavigationGamePage({
   // ── walkable tile lookup ───────────────────────────────
   const isWalkable = useCallback((tile: PathTile) => {
     if (!config) return false;
-    return config.walkableTiles.some(t => t.row === tile.row && t.col === tile.col);
+    const inBounds =
+      tile.row >= 0 && tile.row < config.gridRows &&
+      tile.col >= 0 && tile.col < config.gridCols;
+    const notBlocked = !config.blockedTiles.some(
+      t => t.row === tile.row && t.col === tile.col
+    );
+    return inBounds && notBlocked;
   }, [config]);
 
   // ── command handlers ───────────────────────────────────
@@ -304,12 +310,12 @@ export default function PathNavigationGamePage({
           </p>
 
           <PathMap
-            walkableTiles={config.walkableTiles}
             gridCols={config.gridCols}
             gridRows={config.gridRows}
             playerPos={playerPos}
             nongBritePos={config.nongBritePos}
             homePos={config.homePos}
+            blockedTiles={config.blockedTiles}
             hasNongBrite={hasNongBrite}
           />
         </Container>

@@ -2,6 +2,17 @@
 
 import { useState } from "react";
 import {
+  ShapeIcon,
+  ShapeScene,
+  CounterRow,
+  CounterPanel,
+} from "@/components/games/counting-classification";
+import {
+  countingClassificationLevels,
+  type ShapeType,
+  SHAPE_LABELS,
+} from "@/constants/games/counting-classification-levels";
+import {
   InputField,
   PasswordField,
   PrimaryButton,
@@ -187,7 +198,94 @@ export default function TestComponentsPage() {
           </div>
         </Container>
 
+        {/* ── Counting Classification Components ── */}
+        <CCTestSection />
+
       </div>
     </div>
+  );
+}
+
+// ─── sub-component เพื่อให้ hooks ทำงานได้ถูก scope ──────────────────────────
+function CCTestSection() {
+  const level1Config = countingClassificationLevels[1];
+  const ALL_TYPES = level1Config.shapeTypes;
+
+  // CounterRow demo
+  const [rowValue, setRowValue] = useState(0);
+
+  // CounterPanel demo
+  const [panelCounts, setPanelCounts] = useState<Record<ShapeType, number>>(
+    Object.fromEntries(ALL_TYPES.map((t) => [t, 0])) as Record<ShapeType, number>
+  );
+
+  return (
+    <>
+      {/* ── ShapeIcon ── */}
+      <Container className="p-5">
+        <h2 className="text-lg font-bold text-[#242E39] mb-3">
+          ShapeIcon — รูปทรงเลขาคณิตทั้ง 5 แบบ
+        </h2>
+        <div className="flex flex-wrap gap-6 items-center">
+          {(["circle", "triangle", "square", "pentagon", "hexagon"] as ShapeType[]).map((type) => (
+            <div key={type} className="flex flex-col items-center gap-1">
+              <ShapeIcon type={type} size={56} hoverable />
+              <span className="text-xs text-gray-500">{SHAPE_LABELS[type]}</span>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 flex flex-wrap gap-4 items-center">
+          <span className="text-sm text-gray-400">ขนาดต่างๆ:</span>
+          {([32, 48, 64, 80] as number[]).map((size) => (
+            <ShapeIcon key={size} type="hexagon" size={size} hoverable />
+          ))}
+        </div>
+      </Container>
+
+      {/* ── ShapeScene ── */}
+      <Container className="p-5">
+        <h2 className="text-lg font-bold text-[#242E39] mb-3">
+          ShapeScene — ด่าน 1 (วงกลม + สามเหลี่ยม, 4 รูป)
+        </h2>
+        <div className="h-[260px] rounded-2xl overflow-hidden">
+          <ShapeScene placements={level1Config.shapes} />
+        </div>
+      </Container>
+
+      {/* ── CounterRow ── */}
+      <Container className="p-5">
+        <h2 className="text-lg font-bold text-[#242E39] mb-3">
+          CounterRow — แถวนับเดียว (interactive)
+        </h2>
+        <div className="max-w-sm">
+          <CounterRow
+            type="triangle"
+            value={rowValue}
+            maxValue={10}
+            onIncrement={() => setRowValue((v) => Math.min(10, v + 1))}
+            onDecrement={() => setRowValue((v) => Math.max(0, v - 1))}
+          />
+          <p className="text-xs text-gray-400 mt-2">ค่าปัจจุบัน: {rowValue}</p>
+        </div>
+      </Container>
+
+      {/* ── CounterPanel ── */}
+      <Container className="p-5">
+        <h2 className="text-lg font-bold text-[#242E39] mb-3">
+          CounterPanel — แผงนับทั้งหมด (interactive)
+        </h2>
+        <div className="max-w-xs">
+          <CounterPanel
+            shapeTypes={ALL_TYPES}
+            counts={panelCounts}
+            maxPerShape={9}
+            onCountChange={(type, val) =>
+              setPanelCounts((prev) => ({ ...prev, [type]: val }))
+            }
+            onSubmit={() => alert("ส่งคำตอบ: " + JSON.stringify(panelCounts))}
+          />
+        </div>
+      </Container>
+    </>
   );
 }
