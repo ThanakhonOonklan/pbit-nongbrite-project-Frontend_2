@@ -229,7 +229,7 @@ function CCTestSection() {
         <div className="flex flex-wrap gap-6 items-center">
           {(["circle", "triangle", "square", "pentagon", "hexagon"] as ShapeType[]).map((type) => (
             <div key={type} className="flex flex-col items-center gap-1">
-              <ShapeIcon type={type} size={56} />
+              <ShapeIcon type={type} size={56} hoverable />
               <span className="text-xs text-gray-500">{SHAPE_LABELS[type]}</span>
             </div>
           ))}
@@ -237,7 +237,7 @@ function CCTestSection() {
         <div className="mt-4 flex flex-wrap gap-4 items-center">
           <span className="text-sm text-gray-400">ขนาดต่างๆ:</span>
           {([32, 48, 64, 80] as number[]).map((size) => (
-            <ShapeIcon key={size} type="hexagon" size={size} />
+            <ShapeIcon key={size} type="hexagon" size={size} hoverable />
           ))}
         </div>
       </Container>

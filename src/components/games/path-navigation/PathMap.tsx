@@ -5,12 +5,12 @@ import { useMemo } from "react";
 import { type PathTile } from "@/constants/games/path-navigation-levels";
 
 interface PathMapProps {
-    walkableTiles: PathTile[];
     gridCols: number;
     gridRows: number;
     playerPos: PathTile;
     nongBritePos: PathTile;
     homePos: PathTile;
+    blockedTiles?: PathTile[];
     hasNongBrite?: boolean;
 }
 
@@ -19,14 +19,16 @@ function samePos(a: PathTile, b: PathTile) {
 }
 
 export function PathMap({
-    walkableTiles,
     gridCols,
     gridRows,
     playerPos,
     nongBritePos,
     homePos,
+    blockedTiles = [],
     hasNongBrite = false,
 }: PathMapProps) {
+    const isBlocked = (row: number, col: number) =>
+        blockedTiles.some(t => t.row === row && t.col === col);
     // Responsive cell size
     const cellPx = useMemo(() => {
         const maxDim = Math.max(gridCols, gridRows);
@@ -61,33 +63,48 @@ export function PathMap({
                     height: gridRows * cellPx,
                 }}
             >
-                {/* ── Render walkable tiles ────────────────── */}
-                {walkableTiles.map((tile) => {
-                    const key = `${tile.row}-${tile.col}`;
-                    const isNBTile = samePos(tile, nongBritePos) && !hasNongBrite;
+                {/* ── Render ALL tiles (full open grid) ─────────── */}
+                {Array.from({ length: gridRows }, (_, row) =>
+                    Array.from({ length: gridCols }, (_, col) => {
+                        const key = `${row}-${col}`;
+                        const isNBTile = samePos({ row, col }, nongBritePos) && !hasNongBrite;
+                        const blocked = isBlocked(row, col);
 
-                    return (
-                        <div
-                            key={key}
-                            className="absolute bg-white border border-gray-100"
-                            style={{
-                                width: cellPx,
-                                height: cellPx,
-                                left: tile.col * cellPx,
-                                top: tile.row * cellPx,
-                            }}
-                        >
+                        return (
                             <div
+                                key={key}
+                                className="absolute bg-white border border-gray-100"
                                 style={{
-                                    position: "absolute",
-                                    inset: 4,
-                                    borderRadius: 5,
-                                    backgroundColor: isNBTile ? "#9FC8E8" : "#DCF0FC",
+                                    width: cellPx,
+                                    height: cellPx,
+                                    left: col * cellPx,
+                                    top: row * cellPx,
                                 }}
-                            />
-                        </div>
-                    );
-                })}
+                            >
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        inset: 4,
+                                        borderRadius: 5,
+                                        backgroundColor: blocked
+                                            ? "#C8B89A"
+                                            : isNBTile ? "#9FC8E8" : "#DCF0FC",
+                                    }}
+                                />
+                                {blocked && (
+                                    <Image
+                                        src="/icons/game/rock.svg"
+                                        alt="Rock"
+                                        width={Math.round(cellPx * 0.72)}
+                                        height={Math.round(cellPx * 0.72)}
+                                        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-contain pointer-events-none"
+                                        style={{ zIndex: 3 }}
+                                    />
+                                )}
+                            </div>
+                        );
+                    })
+                )}
 
                 {/* ── Home icon ─────────────────────────────── */}
                 <div
