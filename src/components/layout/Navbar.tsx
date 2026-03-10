@@ -135,24 +135,16 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
         className={cn(navBaseClasses, className)}
       >
       {/* Logo and Brand */}
-      <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
-        <div className="relative w-[49px] h-[49px] transition-transform group-hover:scale-105">
-          <Image
-            src="/icons/misc/logo.png"
-            alt="Logo"
-            fill
-            containerClassName="w-[49px] h-[49px] rounded-full"
-            className="object-cover"
-            priority
-            sizes="49px"
-          />
-        </div>
-        <div className="hidden md:block">
-          <p className="text-[18px] leading-[28px] font-bold whitespace-nowrap">
-            <span className="text-[#1cb0f6]">P&apos;Bit </span>
-            <span className="text-[#ffd300]">Nong Brite</span>
-          </p>
-        </div>
+      <Link href="/" className="hover:opacity-80 transition-opacity">
+        <Image
+          src="/icons/misc/new_logo.svg"
+          alt="P'Bit Nong Brite Logo"
+          width={200}
+          height={55}
+          className="object-contain"
+          priority
+          sizes="200px"
+        />
       </Link>
 
       {/* Navigation Menu + Right Side */}

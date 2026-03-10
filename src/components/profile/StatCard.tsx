@@ -1,56 +1,69 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { FaTrophy, FaBolt, FaFire, FaStar } from "react-icons/fa";
-
-export type StatType = "rank" | "points" | "streak" | "exp" | "custom";
+import { Image } from "@/components/common/Image";
 
 export interface StatCardProps {
   className?: string;
-  type?: StatType;
   icon?: React.ReactNode;
+  imageSrc?: string;
+  imageAlt?: string;
   title: string;
   description: string;
   iconBgColor?: string;
 }
 
-const typeConfig: Record<StatType, { icon: React.ReactNode; bgColor: string }> = {
-  rank: { icon: <FaTrophy className="w-7 h-7 text-[#1CB0F6]" />, bgColor: "bg-[#F6F9F8]" },
-  points: { icon: <FaBolt className="w-7 h-7 text-[#FFD300]" />, bgColor: "bg-[#F6F9F8]" },
-  streak: { icon: <FaFire className="w-7 h-7 text-[#FF7A00]" />, bgColor: "bg-[#F6F9F8]" },
-  exp: { icon: <FaStar className="w-7 h-7 text-[#FFB703]" />, bgColor: "bg-[#F6F9F8]" },
-  custom: { icon: null, bgColor: "bg-[#F6F9F8]" },
-};
-
 export const StatCard: React.FC<StatCardProps> = ({
   className,
-  type = "custom",
   icon,
+  imageSrc,
+  imageAlt = "Stat icon",
   title,
   description,
-  iconBgColor,
+  iconBgColor = "bg-[#F5FAFF]",
 }) => {
-  const config = typeConfig[type];
-  const displayIcon = icon ?? config.icon;
-  const bgColor = iconBgColor || config.bgColor;
-
   return (
-    <div className={cn(
-      "flex items-center gap-4 bg-white rounded-[16px] border border-[#E5E5E5] px-6 py-5",
-      className
-    )}>
+    <div
+      className={cn(
+        "bg-white rounded-[12px] px-2 py-2 sm:px-2.5 sm:py-2.5 md:px-2 md:py-2 lg:px-3 lg:py-3",
+        "flex items-center gap-2 sm:gap-2.5 md:gap-2 lg:gap-3",
+        "transition-colors duration-200 hover:bg-gray-50 cursor-pointer",
+        className
+      )}
+      style={{
+        boxShadow:
+          "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+      }}
+    >
       <div
         className={cn(
-          "flex items-center justify-center min-w-[56px] w-[56px] h-[56px] rounded-[14px]",
-          bgColor
+          "flex items-center justify-center",
+          "min-w-[36px] w-[36px] h-[36px]",
+          "sm:min-w-[40px] sm:w-[40px] sm:h-[40px]",
+          "md:min-w-[38px] md:w-[38px] md:h-[38px]",
+          "lg:min-w-[44px] lg:w-[44px] lg:h-[44px]",
+          "rounded-[10px]",
+          "relative overflow-hidden",
+          iconBgColor
         )}
       >
-        {displayIcon}
+        {imageSrc ? (
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            containerClassName="w-full h-full"
+            className="object-contain"
+            sizes="(max-width: 640px) 36px, (max-width: 768px) 40px, (max-width: 1024px) 38px, 44px"
+          />
+        ) : (
+          icon
+        )}
       </div>
-      <div className="flex flex-col gap-1">
-        <span className="text-[16px] leading-[20px] font-bold text-[#3C3C3C]">
+      <div className="flex flex-col gap-0.5">
+        <span className="text-[16px] sm:text-[17px] md:text-[17px] lg:text-[19px] leading-[24px] font-bold text-gray-800">
           {title}
         </span>
-        <span className="text-[13px] leading-[18px] font-medium text-[#AFAFAF]">
+        <span className="text-[10px] sm:text-[10px] md:text-[11px] leading-[14px] font-medium text-gray-600">
           {description}
         </span>
       </div>

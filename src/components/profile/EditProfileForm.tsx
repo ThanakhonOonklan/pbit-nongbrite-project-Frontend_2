@@ -2,24 +2,21 @@
 
 import * as React from "react";
 import { InputField } from "@/components/common/InputField";
-import { PrimaryButton } from "@/components/common/PrimaryButton";
 import { Image } from "@/components/common/Image";
 import { SocialButton } from "@/components/common/SocialButton";
 import { getLabelClassName } from "@/lib/label";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { IoCheckmark } from "react-icons/io5";
+import { FaMars, FaVenus, FaGenderless } from "react-icons/fa";
 
 // Character list
 const CHARACTERS = [
-  "character-01.svg",
-  "character-02.svg",
-  "character-03.svg",
-  "character-04.svg",
-  "character-05.svg",
-  "character-06.svg",
-  "character-07.svg",
-
+  "icon_P_Bit.png",
+  "icon_Nong_Brite.png",
+  "icon_P_Bobo.png",
+  "icon_P_Coco.png",
+  "icon_P_Minnie.png",
+  "icon_P_Momo.png",
+  "icon_P_Pingping.png",
 ];
 
 export interface EditProfileFormProps {
@@ -33,7 +30,7 @@ export interface EditProfileFormProps {
 export const EditProfileForm: React.FC<EditProfileFormProps> = ({
   initialName = "",
   initialGender = "เพศชาย",
-  initialCharacter = "character-01.svg",
+  initialCharacter = "icon_P_Bit.png",
   onSave,
   className,
 }) => {
@@ -60,9 +57,16 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
   );
   const [selectedCharacter, setSelectedCharacter] = React.useState(initialCharacter);
   const [errors, setErrors] = React.useState<{ name?: string }>({});
-  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
-  const [canScrollRight, setCanScrollRight] = React.useState(true);
+
+  // Check if there are any changes
+  const hasChanges = React.useMemo(() => {
+    const currentGenderThai = mapGenderToThai(gender || "male");
+    return (
+      name.trim() !== (initialName || "").trim() ||
+      currentGenderThai !== initialGender ||
+      selectedCharacter !== initialCharacter
+    );
+  }, [name, gender, selectedCharacter, initialName, initialGender, initialCharacter]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,103 +87,94 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
     onSave?.({ name: name.trim(), gender: mapGenderToThai(finalGender), character: selectedCharacter });
   };
 
-
   const handleGenderSelect = (
     selectedGender: "male" | "female" | "not-specified"
   ) => {
     setGender(selectedGender === gender ? null : selectedGender);
   };
 
-  // Check scroll position to enable/disable navigation buttons
-  const checkScrollPosition = React.useCallback(() => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
-    }
-  }, []);
-
-  // Scroll handlers
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const itemWidth = 128 + 12; // w-32 (128px) + gap-3 (12px)
-      scrollContainerRef.current.scrollBy({
-        left: -itemWidth * 2, // Scroll 2 items at a time
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      const itemWidth = 128 + 12; // w-32 (128px) + gap-3 (12px)
-      scrollContainerRef.current.scrollBy({
-        left: itemWidth * 2, // Scroll 2 items at a time
-        behavior: "smooth",
-      });
-    }
-  };
-
-  // Check scroll position on mount and when scrolling
-  React.useEffect(() => {
-    checkScrollPosition();
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener("scroll", checkScrollPosition);
-      return () => container.removeEventListener("scroll", checkScrollPosition);
-    }
-  }, [checkScrollPosition]);
-
   return (
     <form onSubmit={handleSubmit} className={cn("w-full", className)}>
-      <div className="flex flex-col gap-6">
-        {/* Character Selection Field - Moved to top */}
+      <div className="flex flex-col gap-4 sm:gap-5">
+        {/* Avatar Preview */}
+        <div className="flex justify-center">
+          <div className="relative w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] z-10">
+            <Image
+              src={`/icons/icon-Profile/${selectedCharacter}`}
+              alt="Selected Avatar"
+              fill
+              containerClassName="w-full h-full"
+              className="object-contain"
+              sizes="(max-width: 640px) 120px, 140px"
+            />
+          </div>
+        </div>
+
+        {/* Name Field */}
+        <InputField
+          label="ชื่อผู้ใช้"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+            if (errors.name) {
+              setErrors((prev) => ({ ...prev, name: undefined }));
+            }
+          }}
+          error={errors.name}
+          placeholder="กรุณากรอกชื่อผู้ใช้"
+          className="bg-transparent border border-gray-300"
+        />
+
+        {/* Gender Field */}
         <div className="flex flex-col gap-2 w-full">
-          <label className={getLabelClassName("text-[12px] leading-[18px] font-semibold text-[#334E68]")}>
-            โปรไฟล์
+          <label className={getLabelClassName("text-[11px] sm:text-[12px] leading-[16px] sm:leading-[18px] font-semibold text-[#334E68]")}>
+            เพศ
           </label>
-          <div className="relative">
-            {/* Navigation Buttons */}
-            {canScrollLeft && (
-              <button
-                type="button"
-                onClick={scrollLeft}
-                className={cn(
-                  "absolute left-0 top-1/2 -translate-y-1/2 z-10",
-                  "w-8 h-8 rounded-full bg-white border-2 border-gray-200",
-                  "flex items-center justify-center",
-                  "hover:bg-[#F5FAFF] hover:border-[#1cb0f6]",
-                  "transition-all duration-200 shadow-md"
-                )}
-                aria-label="เลื่อนซ้าย"
-              >
-                <ChevronLeft className="w-5 h-5 text-gray-600" />
-              </button>
-            )}
-            {canScrollRight && (
-              <button
-                type="button"
-                onClick={scrollRight}
-                className={cn(
-                  "absolute right-0 top-1/2 -translate-y-1/2 z-10",
-                  "w-8 h-8 rounded-full bg-white border-2 border-gray-200",
-                  "flex items-center justify-center",
-                  "hover:bg-[#F5FAFF] hover:border-[#1cb0f6]",
-                  "transition-all duration-200 shadow-md"
-                )}
-                aria-label="เลื่อนขวา"
-              >
-                <ChevronRight className="w-5 h-5 text-gray-600" />
-              </button>
-            )}
-            
-            {/* Character Scroll Container */}
-            <div 
-              ref={scrollContainerRef}
-              className="overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          <div className="flex gap-2 sm:gap-3 w-full">
+            <SocialButton
+              variant={gender === "male" ? "selected" : "default"}
+              selected={gender === "male"}
+              onSelect={() => handleGenderSelect("male")}
+              className="flex-1 h-11 sm:h-12"
             >
-              <div className="flex gap-3 min-w-max">
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2">
+                <FaMars className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="text-[13px] sm:text-[14px]">เพศชาย</span>
+              </div>
+            </SocialButton>
+            <SocialButton
+              variant={gender === "female" ? "female" : "default"}
+              selected={gender === "female"}
+              onSelect={() => handleGenderSelect("female")}
+              className="flex-1 h-11 sm:h-12"
+            >
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2">
+                <FaVenus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="text-[13px] sm:text-[14px]">เพศหญิง</span>
+              </div>
+            </SocialButton>
+            <SocialButton
+              variant={
+                gender === "not-specified" ? "not-specified" : "default"
+              }
+              selected={gender === "not-specified"}
+              onSelect={() => handleGenderSelect("not-specified")}
+              className="flex-1 h-11 sm:h-12"
+              >
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2">
+                <FaGenderless className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="text-[13px] sm:text-[14px]">ไม่ระบุตัวตน</span>
+              </div>
+            </SocialButton>
+          </div>
+        </div>
+
+        {/* Character Selection Grid */}
+        <div className="flex flex-col gap-2 w-full">
+          <label className={getLabelClassName("text-[11px] sm:text-[12px] leading-[16px] sm:leading-[18px] font-semibold text-[#334E68]")}>
+            เลือกรูปโปรไฟล์
+          </label>
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 sm:gap-3">
                 {CHARACTERS.map((character) => {
                   const isSelected = selectedCharacter === character;
                   return (
@@ -188,27 +183,27 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
                       type="button"
                       onClick={() => setSelectedCharacter(character)}
                       className={cn(
-                        "relative w-32 h-32 min-w-[128px] rounded-full overflow-hidden",
-                        "border-2 transition-all duration-200 flex-shrink-0",
+                    "relative w-full aspect-square rounded-lg overflow-hidden",
+                    "transition-all duration-200",
                         "hover:scale-105",
                         isSelected
-                          ? "border-[#1cb0f6] bg-[#EAF8FF] shadow-[0_2px_6px_rgba(28,176,246,0.2)]"
-                          : "border-gray-200 bg-white hover:border-[#E0F2FF] hover:bg-[#F4F9FF]"
+                          ? "ring-2 ring-[#1cb0f6] shadow-[0_2px_6px_rgba(28,176,246,0.2)]"
+                          : "hover:shadow-md"
                       )}
                       aria-label={`เลือก ${character}`}
                     >
                       <Image
-                        src={`/images/All-Character/${character}`}
+                        src={`/icons/icon-Profile/${character}`}
                         alt={character}
                         fill
                         containerClassName="w-full h-full"
-                        className="object-contain p-4"
-                        sizes="128px"
+                        className="object-contain"
+                    sizes="(max-width: 768px) 25vw, 20vw"
                       />
                       {isSelected && (
-                        <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[#1cb0f6] flex items-center justify-center">
+                    <div className="absolute top-1 right-1 w-5 h-5 rounded-full bg-[#1cb0f6] flex items-center justify-center">
                           <svg
-                            className="w-4 h-4 text-white"
+                        className="w-3.5 h-3.5 text-white"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -225,74 +220,24 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
                     </button>
                   );
                 })}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Name Field */}
-        <InputField
-          label="ชื่อผู้ใช้"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-            if (errors.name) {
-              setErrors((prev) => ({ ...prev, name: undefined }));
-            }
-          }}
-          error={errors.name}
-          placeholder="กรุณากรอกชื่อผู้ใช้"
-        />
-
-        {/* Gender Field */}
-        <div className="flex flex-col gap-2 w-full">
-          <label className={getLabelClassName("text-[12px] leading-[18px] font-semibold text-[#334E68]")}>
-            เพศ
-          </label>
-          <div className="flex gap-3 w-full">
-            <SocialButton
-              variant={gender === "male" ? "selected" : "default"}
-              selected={gender === "male"}
-              onSelect={() => handleGenderSelect("male")}
-              className="flex-1"
-              style={{ width: "auto" }}
-            >
-              เพศชาย
-            </SocialButton>
-            <SocialButton
-              variant={gender === "female" ? "female" : "default"}
-              selected={gender === "female"}
-              onSelect={() => handleGenderSelect("female")}
-              className="flex-1"
-              style={{ width: "auto" }}
-            >
-              เพศหญิง
-            </SocialButton>
-            <SocialButton
-              variant={
-                gender === "not-specified" ? "not-specified" : "default"
-              }
-              selected={gender === "not-specified"}
-              onSelect={() => handleGenderSelect("not-specified")}
-              className="flex-1"
-              style={{ width: "auto" }}
-            >
-              ไม่ระบุตัวตน
-            </SocialButton>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="w-full flex justify-end mt-8">
-          <PrimaryButton
+        <div className="w-full mt-4 sm:mt-6">
+          <button
             type="submit"
-            size="sm"
-            variant="red-outline"
-            className="flex items-center gap-2 hover:bg-[#FF4D4D] hover:text-white transition-colors duration-200"
+            disabled={!hasChanges}
+            className={cn(
+              "w-full px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg font-medium transition-all duration-200",
+              "bg-[#1cb0f6] text-white border border-[#1699D6]",
+              "text-[14px] sm:text-[15px]",
+              "hover:bg-[#17a3e3] hover:border-[#1280B5]",
+              "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1cb0f6] disabled:hover:border-[#1699D6]"
+            )}
           >
-            <IoCheckmark className="w-5 h-5" />
-            <span>บันทึก</span>
-          </PrimaryButton>
+            บันทึก
+          </button>
         </div>
       </div>
     </form>

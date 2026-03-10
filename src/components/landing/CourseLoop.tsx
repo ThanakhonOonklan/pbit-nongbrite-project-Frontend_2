@@ -335,7 +335,7 @@ export const CourseLoop = React.memo<CourseLoopProps>(
               'inline-flex items-center',
               'motion-reduce:transition-none',
               scaleOnHover &&
-                'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+                'transition-transform duration-300 ease-in-out group-hover/item:scale-120'
             )}
             aria-hidden={!!(item as NodeLogoItem).href && !(item as NodeLogoItem).ariaLabel}
           >
@@ -349,7 +349,7 @@ export const CourseLoop = React.memo<CourseLoopProps>(
               '[image-rendering:-webkit-optimize-contrast]',
               'motion-reduce:transition-none',
               scaleOnHover &&
-                'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+                'transition-transform duration-300 ease-in-out group-hover/item:scale-120'
             )}
             src={(item as ImageLogoItem).src}
             srcSet={(item as ImageLogoItem).srcSet}

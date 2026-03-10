@@ -48,10 +48,10 @@ const DEFAULT_ITEMS: CarouselItem[] = [
   },
 ];
 
-const DRAG_BUFFER = 0;
-const VELOCITY_THRESHOLD = 500;
-const GAP = 16;
-const SPRING_OPTIONS: Transition = { type: "spring", stiffness: 300, damping: 30 };
+const DRAG_BUFFER = 0; // ค่า threshold สำหรับการลาก
+const VELOCITY_THRESHOLD = 500; // ความเร็วขั้นต่ำสำหรับการเลื่อนอัตโนมัติ
+const GAP = 16; // ระยะห่างระหว่าง items
+const SPRING_OPTIONS: Transition = { type: "spring", stiffness: 300, damping: 30 }; 
 
 interface CarouselCardProps {
   item: CarouselItem;
@@ -72,8 +72,9 @@ const CarouselCard: React.FC<CarouselCardProps> = ({
   round,
   transition,
 }) => {
+  // คำนวณมุมการหมุน 3D ตามตำแหน่ง x
   const range = [-(index + 1) * trackItemOffset, -index * trackItemOffset, -(index - 1) * trackItemOffset];
-  const outputRange = [90, 0, -90];
+  const outputRange = [90, 0, -90]; // มุมการหมุน (องศา)
   const rotateY = useTransform(x, range, outputRange, { clamp: false });
 
   const cardRadius = round ? "9999px" : "20px";
@@ -101,13 +102,6 @@ const CarouselCard: React.FC<CarouselCardProps> = ({
         loading={index === 0 ? "eager" : "lazy"}
         priority={index === 0}
       />
-
-      {!round && (
-        <div className="relative z-10 mt-auto p-4 bg-gradient-to-t from-[#00000] via-transparent to-transparent text-00000">
-          <div className="text-sm font-semibold">{item.title}</div>
-          <p className="text-xs opacity-90">{item.description}</p>
-        </div>
-      )}
     </motion.div>
   );
 };
@@ -121,16 +115,17 @@ const Carousel: React.FC<CarouselProps> = ({
   loop = false,
   round = false,
 }) => {
-  const containerPadding = 16;
-  const itemWidth = baseWidth - containerPadding * 2;
+  const containerPadding = 16; 
+  const itemWidth = baseWidth - containerPadding * 2; 
   const trackItemOffset = itemWidth + GAP;
-  const carouselItems = loop ? [...items, items[0]] : items;
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const x = useMotionValue(0);
-  const [isHovered, setIsHovered] = React.useState(false);
-  const [isResetting, setIsResetting] = React.useState(false);
+  const carouselItems = loop ? [...items, items[0]] : items; 
+  const [currentIndex, setCurrentIndex] = React.useState(0); 
+  const x = useMotionValue(0); 
+  const [isHovered, setIsHovered] = React.useState(false); 
+  const [isResetting, setIsResetting] = React.useState(false); 
   const containerRef = React.useRef<HTMLDivElement>(null);
 
+  // จัดการ hover event สำหรับ pause autoplay
   React.useEffect(() => {
     if (pauseOnHover && containerRef.current) {
       const container = containerRef.current;
@@ -147,6 +142,7 @@ const Carousel: React.FC<CarouselProps> = ({
     }
   }, [pauseOnHover]);
 
+  // จัดการ autoplay
   React.useEffect(() => {
     if (autoplay && (!pauseOnHover || !isHovered) && !isResetting) {
       const timer = setInterval(() => {
@@ -168,8 +164,10 @@ const Carousel: React.FC<CarouselProps> = ({
     }
   }, [autoplay, autoplayDelay, isHovered, loop, items.length, carouselItems.length, pauseOnHover, isResetting]);
 
+  // ใช้ transition แบบไม่มี animation เมื่อ reset
   const effectiveTransition = isResetting ? { duration: 0 } : SPRING_OPTIONS;
 
+  // จัดการเมื่อ animation เสร็จสิ้น (สำหรับ loop mode)
   const handleAnimationComplete = () => {
     if (loop && currentIndex === carouselItems.length - 1) {
       // Reset กลับไปที่ index 0 โดยไม่แสดง animation
@@ -186,17 +184,21 @@ const Carousel: React.FC<CarouselProps> = ({
     }
   };
 
+  // จัดการเมื่อลากเสร็จ (drag end)
   const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const offset = info.offset.x;
-    const velocity = info.velocity.x;
+    const offset = info.offset.x; // ระยะทางที่ลาก
+    const velocity = info.velocity.x; // ความเร็วในการลาก
 
+    // ลากไปทางซ้าย (เลื่อนไปหน้าถัดไป)
     if (offset < -DRAG_BUFFER || velocity < -VELOCITY_THRESHOLD) {
       if (loop && currentIndex === items.length - 1) {
         setCurrentIndex(currentIndex + 1);
       } else {
         setCurrentIndex((prev) => Math.min(prev + 1, carouselItems.length - 1));
       }
-    } else if (offset > DRAG_BUFFER || velocity > VELOCITY_THRESHOLD) {
+    } 
+    // ลากไปทางขวา (เลื่อนกลับไปหน้าก่อนหน้า)
+    else if (offset > DRAG_BUFFER || velocity > VELOCITY_THRESHOLD) {
       if (loop && currentIndex === 0) {
         setCurrentIndex(items.length - 1);
       } else {
@@ -205,6 +207,7 @@ const Carousel: React.FC<CarouselProps> = ({
     }
   };
 
+  // ตั้งค่า drag constraints (ขอบเขตการลาก)
   const dragProps = loop
     ? {}
     : {
@@ -214,6 +217,7 @@ const Carousel: React.FC<CarouselProps> = ({
         },
       };
 
+  // คำนวณความกว้างของ track
   const trackWidth = carouselItems.length * trackItemOffset;
 
   return (
@@ -292,4 +296,3 @@ const Carousel: React.FC<CarouselProps> = ({
 };
 
 export default Carousel;
-
