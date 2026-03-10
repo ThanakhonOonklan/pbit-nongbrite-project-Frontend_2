@@ -1,3 +1,6 @@
 // Step Counting Game Components
 // นับจำนวนก้าวเดิน
-// TODO: Add game-specific components here
+
+export { NumberLine } from "./NumberLine";
+export { QuestionPanel } from "./QuestionPanel";
+export { StepCountingGame } from "./StepCountingGame";

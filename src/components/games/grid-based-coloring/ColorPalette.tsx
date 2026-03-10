@@ -35,9 +35,10 @@ export function ColorPalette({
                             `}
               style={{
                 backgroundColor: color,
-                ringColor: isActive ? color : undefined,
+                '--tw-ring-color': isActive ? color : undefined,
                 boxShadow: isActive ? `0 0 20px ${color}40, 0 4px 12px ${color}30` : undefined,
-              }}
+              } as React.CSSProperties}
+
             >
               {isActive && (
                 <div className="absolute inset-0 rounded-xl border-2 border-white/40" />
