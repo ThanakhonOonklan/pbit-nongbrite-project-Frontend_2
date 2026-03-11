@@ -7,6 +7,7 @@ import Image from "next/image";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
+import { GameOverlay } from "@/components/games/GameOverlay";
 import { FruitMatchingGame } from "@/components/games/fruit-matching-grid";
 import { fruitMatchingGridLevels } from "@/constants/games/fruit-matching-grid-levels";
 import { type ScoreResult } from "@/utils/game-scoring";
@@ -131,28 +132,23 @@ export default function FruitMatchingGridGamePage({
 
       {/* Intro overlay — Level 1 only */}
       {showIntro && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer select-none"
-          onClick={() => setShowIntro(false)}
-          style={{ animation: "fadeIn 0.3s ease-out" }}
-        >
-          <Image
-            src="/images/P_PingPing/pingping-01.svg"
-            alt="PingPing"
-            width={160}
-            height={160}
-            className="object-contain mb-5 drop-shadow-2xl"
-          />
-          <p className="text-white text-2xl font-extrabold text-center leading-relaxed px-8">
-            🍎 Coordinate Crunch! 🍊
-          </p>
-          <p className="text-white/60 text-sm mt-3 font-medium">
-            หาพิกัดผลไม้ในตารางให้ถูกต้องนะ!
-          </p>
-          <p className="text-white/30 text-xs mt-6 animate-pulse">
-            แตะเพื่อเริ่มเล่น ✨
-          </p>
-        </div>
+        <GameOverlay
+          type="hint"
+          message={
+            <>
+              🍎 Coordinate Crunch! 🍊
+              <br />
+              <span className="text-sm font-medium opacity-80 mt-2 block">
+                หาพิกัดผลไม้ในตารางให้ถูกต้องนะ!
+              </span>
+            </>
+          }
+          subtitle="แตะเพื่อเริ่มเล่น ✨"
+          imageSrc="/images/P_PingPing/pingping-01.svg"
+          imageAlt="PingPing"
+          autoDismissMs={0}
+          onDismiss={() => setShowIntro(false)}
+        />
       )}
 
       {/* WIN modal */}
@@ -168,7 +164,6 @@ export default function FruitMatchingGridGamePage({
       )}
 
       <style>{`
-        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
       `}</style>
     </div>
   );

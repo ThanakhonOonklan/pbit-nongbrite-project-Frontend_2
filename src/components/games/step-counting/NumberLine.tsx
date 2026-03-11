@@ -76,10 +76,10 @@ export function NumberLine({
               height={80}
               className="object-contain"
               style={{
-                animation: isHopping 
-                  ? "hop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)" 
-                  : isAnimating 
-                    ? "bounce 0.35s ease-in-out infinite" 
+                animation: isHopping
+                  ? "hop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+                  : isAnimating
+                    ? "bounce 0.35s ease-in-out infinite"
                     : "none",
                 filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.15))",
                 transformOrigin: "bottom center",

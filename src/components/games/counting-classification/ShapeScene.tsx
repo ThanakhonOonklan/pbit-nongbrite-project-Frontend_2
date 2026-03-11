@@ -119,23 +119,31 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
                             return (
                                 <div
                                     key={p.id}
-                                    className="absolute animate-float-bob pointer-events-auto cursor-pointer"
+                                    className="absolute pointer-events-auto cursor-pointer"
                                     style={{
                                         left: `${posX}%`,
                                         top: `${posY}%`,
                                         transform: "translate(-50%, -50%)",
-                                        animationDelay: animDelay,
-                                        animationDuration: animDuration,
                                         width: `${finalSize}px`,
                                         height: `${finalSize}px`,
                                     }}
                                 >
-                                    <ShapeIcon
-                                        type={p.type}
-                                        size={finalSize}
-                                        className="drop-shadow-md"
-                                        hoverable
-                                    />
+                                    <div className="w-full h-full responsive-shape-scale">
+                                        <div
+                                            className="w-full h-full animate-float-bob flex items-center justify-center"
+                                            style={{
+                                                animationDelay: animDelay,
+                                                animationDuration: animDuration,
+                                            }}
+                                        >
+                                            <ShapeIcon
+                                                type={p.type}
+                                                size={finalSize}
+                                                className="drop-shadow-md"
+                                                hoverable
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             );
                         });
@@ -145,11 +153,18 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
 
             <style>{`
                 @keyframes float-bob {
-                    0%   { transform: translate(-50%, -50%) translateY(0px); }
-                    50%  { transform: translate(-50%, -50%) translateY(-8px); }
-                    100% { transform: translate(-50%, -50%) translateY(0px); }
+                    0%   { transform: translateY(0px); }
+                    50%  { transform: translateY(-8px); }
+                    100% { transform: translateY(0px); }
                 }
                 .animate-float-bob { animation: float-bob 10s ease-in-out infinite; }
+                    
+                @media (max-width: 1023px) {
+                    .responsive-shape-scale {
+                        transform: scale(0.65);
+                        transform-origin: center;
+                    }
+                }
                     
                 @keyframes cloud-move {
                     0% { transform: translateX(-50px); }

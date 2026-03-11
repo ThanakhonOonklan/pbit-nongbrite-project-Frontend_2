@@ -7,7 +7,8 @@ export type GameOverlayType = "error" | "hint";
 
 interface GameOverlayProps {
     type: GameOverlayType;
-    message: string;
+    message: React.ReactNode;
+    subtitle?: React.ReactNode;
     imageSrc?: string;
     imageAlt?: string;
     autoDismissMs?: number;
@@ -27,6 +28,7 @@ const IMAGE_BORDER: Record<GameOverlayType, string> = {
 export function GameOverlay({
     type,
     message,
+    subtitle,
     imageSrc,
     imageAlt = "overlay image",
     autoDismissMs = 1800,
@@ -51,11 +53,29 @@ export function GameOverlay({
                     width={140}
                     height={140}
                     className={`object-contain mb-4 ${IMAGE_BORDER[type]}`}
+                    style={{ animation: "bounceIn 0.4s ease-out" }}
                 />
             )}
             <p className="text-white text-2xl font-extrabold text-center px-8 leading-relaxed">
                 {message}
             </p>
+            {subtitle && (
+                <p className="text-white/60 text-sm mt-4 animate-pulse text-center">
+                    {subtitle}
+                </p>
+            )}
+
+            <style>{`
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to   { opacity: 1; }
+                }
+                @keyframes bounceIn {
+                    0%   { opacity: 0; transform: scale(0.5) translateY(20px); }
+                    60%  { transform: scale(1.05) translateY(-5px); }
+                    100% { opacity: 1; transform: scale(1) translateY(0); }
+                }
+            `}</style>
         </div>
     );
 }

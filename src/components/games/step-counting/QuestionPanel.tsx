@@ -46,10 +46,7 @@ export function QuestionPanel({
 
   return (
     <div className="flex flex-col items-center gap-4 w-full">
-      {/* Title */}
-      <div className="text-center font-bold text-gray-500 text-sm">
-        🐾 หมีจะเดิน
-      </div>
+
 
       {/* Counter Display */}
       <div
@@ -103,10 +100,7 @@ export function QuestionPanel({
         </button>
       </div>
 
-      {/* Feedback Text */}
-      <div className={`h-6 text-sm font-bold text-gray-500 flex items-center gap-2 ${shake ? "animate-shake text-red-500" : ""}`}>
-        🪵 🪵 {feedback === "too_little" ? "เดินยังไม่ถึงธง!" : feedback === "too_much" ? "เดินเลยธงไปแล้ว!" : "ขอนสองท่อนกลางทาง — กระโดดข้ามให้ครบ!"}
-      </div>
+
 
       <style>{`
         @keyframes shake {

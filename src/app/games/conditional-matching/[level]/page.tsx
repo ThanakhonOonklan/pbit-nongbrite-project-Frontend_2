@@ -7,6 +7,7 @@ import Image from "next/image";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
+import { GameOverlay } from "@/components/games/GameOverlay";
 import { ScenarioCard, AnswerGrid } from "@/components/games/conditional-matching";
 import {
   condMatchLevels,
@@ -185,24 +186,23 @@ export default function ConditionalMatchingGamePage({
 
       {/* Intro overlay — Level 1 only */}
       {showIntro && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer select-none"
-          onClick={() => setShowIntro(false)}
-          style={{ animation: "fadeIn 0.3s ease-out" }}
-        >
-          <Image
-            src="/images/P_Coco/coco-03.svg"
-            alt="โคโค่"
-            width={160}
-            height={160}
-            className="object-contain mb-5 drop-shadow-2xl"
-          />
-          <p className="text-white text-2xl font-extrabold text-center leading-relaxed px-8">
-            โคโค่กำลังผจญภัยในป่า!
-          </p>
-          <p className="text-white/50 text-sm mt-3">ช่วยโคโค่ตัดสินใจให้ถูกต้อง</p>
-          <p className="text-white/25 text-xs mt-6 animate-pulse">แตะเพื่อเริ่มเล่น</p>
-        </div>
+        <GameOverlay
+          type="hint"
+          message={
+            <>
+              โคโค่กำลังผจญภัยในป่า!
+              <br />
+              <span className="text-sm font-medium opacity-80 mt-2 block">
+                ช่วยโคโค่ตัดสินใจให้ถูกต้อง
+              </span>
+            </>
+          }
+          subtitle="แตะเพื่อเริ่มเล่น"
+          imageSrc="/images/P_Coco/coco-03.svg"
+          imageAlt="โคโค่"
+          autoDismissMs={0}
+          onDismiss={() => setShowIntro(false)}
+        />
       )}
 
       {/* WIN modal */}
@@ -218,9 +218,7 @@ export default function ConditionalMatchingGamePage({
       )}
 
       <style>{`
-                @keyframes fadeIn    { from{opacity:0} to{opacity:1} }
-                @keyframes introFloat{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-            `}</style>
+      `}</style>
     </div>
   );
 }

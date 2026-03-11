@@ -7,6 +7,7 @@ import Image from "next/image";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
+import { GameOverlay } from "@/components/games/GameOverlay";
 import { GridColoringGame } from "@/components/games/grid-based-coloring";
 import { gridColoringLevels } from "@/constants/games/grid-based-coloring-levels";
 import { type ScoreResult } from "@/utils/game-scoring";
@@ -142,38 +143,23 @@ export default function GridBasedColoringGamePage({
 
       {/* Intro overlay */}
       {showIntro && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/70 backdrop-blur-md cursor-pointer select-none"
-          onClick={() => setShowIntro(false)}
-          style={{ animation: "fadeIn 0.4s ease-out" }}
-        >
-          {/* Floating paint drops */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-[20%] left-[15%] text-4xl intro-float-1">🎨</div>
-            <div className="absolute top-[30%] right-[20%] text-3xl intro-float-2">🖌️</div>
-            <div className="absolute bottom-[30%] left-[25%] text-3xl intro-float-3">✨</div>
-            <div className="absolute bottom-[25%] right-[15%] text-4xl intro-float-4">🌈</div>
-          </div>
-
-          <Image
-            src="/images/Nong_brite/nong-brite-06.svg"
-            alt="Nong Brite"
-            width={160}
-            height={160}
-            className="object-contain mb-5 drop-shadow-2xl intro-character"
-          />
-          <h2 className="text-white text-3xl font-extrabold text-center leading-relaxed px-8">
-            🎨 Pixel Pattern! 🖌️
-          </h2>
-          <p className="text-white/50 text-sm mt-3 text-center max-w-xs">
-            ดูแพตเทิร์นต้นแบบแล้วระบายสีให้เหมือนกัน!
-          </p>
-          <div className="mt-8 px-8 py-3 rounded-full bg-[#AACE30]/20 border border-[#AACE30]/30">
-            <p className="text-[#AACE30] text-sm font-bold animate-pulse">
-              แตะเพื่อเริ่มเล่น
-            </p>
-          </div>
-        </div>
+        <GameOverlay
+          type="hint"
+          message={
+            <>
+              🎨 Pixel Pattern! 🖌️
+              <br />
+              <span className="text-sm font-medium opacity-80 mt-2 block">
+                ดูแพตเทิร์นต้นแบบแล้วระบายสีให้เหมือนกัน!
+              </span>
+            </>
+          }
+          subtitle="แตะเพื่อเริ่มเล่น"
+          imageSrc="/images/Nong_brite/nong-brite-06.svg"
+          imageAlt="Nong Brite"
+          autoDismissMs={0}
+          onDismiss={() => setShowIntro(false)}
+        />
       )}
 
       {/* WIN modal */}
@@ -209,21 +195,8 @@ export default function GridBasedColoringGamePage({
                 .orb-1 { animation: orbFloat1 8s ease-in-out infinite; }
                 .orb-2 { animation: orbFloat2 10s ease-in-out infinite; }
                 .orb-3 { animation: orbFloat3 7s ease-in-out infinite; }
+                .orb-3 { animation: orbFloat3 7s ease-in-out infinite; }
                 .orb-4 { animation: orbFloat4 9s ease-in-out infinite; }
-
-                @keyframes introFloat {
-                    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-                    50% { transform: translateY(-20px) rotate(5deg); opacity: 0.9; }
-                }
-                .intro-float-1 { animation: introFloat 3s ease-in-out infinite; }
-                .intro-float-2 { animation: introFloat 3.5s ease-in-out infinite 0.3s; }
-                .intro-float-3 { animation: introFloat 4s ease-in-out infinite 0.6s; }
-                .intro-float-4 { animation: introFloat 3.2s ease-in-out infinite 0.9s; }
-                @keyframes charFloat {
-                    0%, 100% { transform: translateY(0); }
-                    50% { transform: translateY(-10px); }
-                }
-                .intro-character { animation: charFloat 3s ease-in-out infinite; }
             `}</style>
     </div>
   );
