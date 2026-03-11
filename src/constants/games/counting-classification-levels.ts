@@ -28,9 +28,8 @@ export const SHAPE_LABELS: Record<ShapeType, string> = {
 export interface ShapePlacement {
     id: string;
     type: ShapeType;
-    /** x offset จากซ้ายของ scene (%) */
+    /** ไม่ได้ใช้แล้ว — ShapeScene ใช้ scatter algorithm แทน */
     x: number;
-    /** y offset จากบนของ scene (%) */
     y: number;
     /** ขนาด (px) */
     size: number;
@@ -39,156 +38,210 @@ export interface ShapePlacement {
 export interface CountingClassificationLevelConfig {
     level: number;
     difficulty: Difficulty;
-    /** รูปทรงทั้งหมดในฉาก — ตำแหน่งและขนาดกำหนดตายตัว */
     shapes: ShapePlacement[];
-    /** ประเภทรูปทรงที่ต้องตอบ (deduped จาก shapes) */
     shapeTypes: ShapeType[];
 }
 
 // ── Level Data ─────────────────────────────────────────────────
+// การกระจาย: บาง type เยอะมาก บาง type น้อยมาก (ไม่เกือบเท่ากัน)
 
 export const countingClassificationLevels: Record<number, CountingClassificationLevelConfig> = {
 
-    // ─── Level 1 — easy | วงกลม + สามเหลี่ยม | 4 รูป ─────────
+    // ─── Level 1 — easy | 7 รูป | circle×4, triangle×2, square×1 ──
     1: {
         level: 1, difficulty: "easy",
-        shapeTypes: ["circle", "triangle"],
+        shapeTypes: ["circle", "triangle", "square"],
         shapes: [
-            { id: "c1", type: "circle", x: 20, y: 20, size: 64 },
-            { id: "t1", type: "triangle", x: 60, y: 15, size: 64 },
-            { id: "c2", type: "circle", x: 15, y: 58, size: 56 },
-            { id: "t2", type: "triangle", x: 58, y: 55, size: 72 },
+            { id: "l1c1", type: "circle",   x: 0, y: 0, size: 90 },
+            { id: "l1c2", type: "circle",   x: 0, y: 0, size: 88 },
+            { id: "l1c3", type: "circle",   x: 0, y: 0, size: 86 },
+            { id: "l1c4", type: "circle",   x: 0, y: 0, size: 90 },
+            { id: "l1t1", type: "triangle", x: 0, y: 0, size: 90 },
+            { id: "l1t2", type: "triangle", x: 0, y: 0, size: 86 },
+            { id: "l1s1", type: "square",   x: 0, y: 0, size: 90 },
         ],
     },
 
-    // ─── Level 2 — easy | วงกลม + สามเหลี่ยม | 5 รูป ─────────
+    // ─── Level 2 — easy | 8 รูป | circle×1, triangle×5, square×2 ──
     2: {
         level: 2, difficulty: "easy",
-        shapeTypes: ["circle", "triangle"],
+        shapeTypes: ["circle", "triangle", "square"],
         shapes: [
-            { id: "c1", type: "circle", x: 12, y: 12, size: 60 },
-            { id: "t1", type: "triangle", x: 55, y: 10, size: 68 },
-            { id: "c2", type: "circle", x: 10, y: 55, size: 68 },
-            { id: "t2", type: "triangle", x: 55, y: 55, size: 60 },
-            { id: "t3", type: "triangle", x: 33, y: 32, size: 56 },
+            { id: "l2c1", type: "circle",   x: 0, y: 0, size: 88 },
+            { id: "l2t1", type: "triangle", x: 0, y: 0, size: 88 },
+            { id: "l2t2", type: "triangle", x: 0, y: 0, size: 86 },
+            { id: "l2t3", type: "triangle", x: 0, y: 0, size: 84 },
+            { id: "l2t4", type: "triangle", x: 0, y: 0, size: 86 },
+            { id: "l2t5", type: "triangle", x: 0, y: 0, size: 88 },
+            { id: "l2s1", type: "square",   x: 0, y: 0, size: 88 },
+            { id: "l2s2", type: "square",   x: 0, y: 0, size: 84 },
         ],
     },
 
-    // ─── Level 3 — easy | วงกลม + สามเหลี่ยม | 6 รูป ─────────
+    // ─── Level 3 — easy | 9 รูป | circle×5, triangle×1, square×3 ──
     3: {
         level: 3, difficulty: "easy",
-        shapeTypes: ["circle", "triangle"],
+        shapeTypes: ["circle", "triangle", "square"],
         shapes: [
-            { id: "c1", type: "circle", x: 10, y: 10, size: 64 },
-            { id: "c2", type: "circle", x: 58, y: 10, size: 56 },
-            { id: "t1", type: "triangle", x: 10, y: 54, size: 68 },
-            { id: "t2", type: "triangle", x: 56, y: 52, size: 60 },
-            { id: "c3", type: "circle", x: 32, y: 28, size: 60 },
-            { id: "t3", type: "triangle", x: 34, y: 60, size: 52 },
+            { id: "l3c1", type: "circle",   x: 0, y: 0, size: 86 },
+            { id: "l3c2", type: "circle",   x: 0, y: 0, size: 84 },
+            { id: "l3c3", type: "circle",   x: 0, y: 0, size: 82 },
+            { id: "l3c4", type: "circle",   x: 0, y: 0, size: 86 },
+            { id: "l3c5", type: "circle",   x: 0, y: 0, size: 84 },
+            { id: "l3t1", type: "triangle", x: 0, y: 0, size: 86 },
+            { id: "l3s1", type: "square",   x: 0, y: 0, size: 86 },
+            { id: "l3s2", type: "square",   x: 0, y: 0, size: 84 },
+            { id: "l3s3", type: "square",   x: 0, y: 0, size: 80 },
         ],
     },
 
-    // ─── Level 4 — normal | + สี่เหลี่ยม | 6 รูป ─────────────
+    // ─── Level 4 — normal | 11 รูป | circle×5, triangle×2, square×3, pentagon×1 ──
     4: {
         level: 4, difficulty: "normal",
-        shapeTypes: ["circle", "triangle", "square"],
+        shapeTypes: ["circle", "triangle", "square", "pentagon"],
         shapes: [
-            { id: "c1", type: "circle", x: 10, y: 10, size: 60 },
-            { id: "t1", type: "triangle", x: 55, y: 10, size: 64 },
-            { id: "s1", type: "square", x: 10, y: 55, size: 60 },
-            { id: "c2", type: "circle", x: 55, y: 55, size: 56 },
-            { id: "t2", type: "triangle", x: 30, y: 25, size: 56 },
-            { id: "s2", type: "square", x: 32, y: 58, size: 52 },
+            { id: "l4c1", type: "circle",   x: 0, y: 0, size: 82 },
+            { id: "l4c2", type: "circle",   x: 0, y: 0, size: 80 },
+            { id: "l4c3", type: "circle",   x: 0, y: 0, size: 78 },
+            { id: "l4c4", type: "circle",   x: 0, y: 0, size: 82 },
+            { id: "l4c5", type: "circle",   x: 0, y: 0, size: 80 },
+            { id: "l4t1", type: "triangle", x: 0, y: 0, size: 82 },
+            { id: "l4t2", type: "triangle", x: 0, y: 0, size: 78 },
+            { id: "l4s1", type: "square",   x: 0, y: 0, size: 82 },
+            { id: "l4s2", type: "square",   x: 0, y: 0, size: 80 },
+            { id: "l4s3", type: "square",   x: 0, y: 0, size: 76 },
+            { id: "l4p1", type: "pentagon", x: 0, y: 0, size: 82 },
         ],
     },
 
-    // ─── Level 5 — normal | + สี่เหลี่ยม | 8 รูป ─────────────
+    // ─── Level 5 — normal | 14 รูป | circle×2, triangle×7, square×4, pentagon×1 ──
     5: {
         level: 5, difficulty: "normal",
-        shapeTypes: ["circle", "triangle", "square"],
+        shapeTypes: ["circle", "triangle", "square", "pentagon"],
         shapes: [
-            { id: "c1", type: "circle", x: 8, y: 8, size: 58 },
-            { id: "t1", type: "triangle", x: 52, y: 8, size: 62 },
-            { id: "s1", type: "square", x: 8, y: 52, size: 58 },
-            { id: "c2", type: "circle", x: 52, y: 52, size: 54 },
-            { id: "t2", type: "triangle", x: 28, y: 22, size: 54 },
-            { id: "s2", type: "square", x: 28, y: 58, size: 50 },
-            { id: "c3", type: "circle", x: 72, y: 30, size: 52 },
-            { id: "t3", type: "triangle", x: 72, y: 65, size: 50 },
+            { id: "l5c1", type: "circle",   x: 0, y: 0, size: 78 },
+            { id: "l5c2", type: "circle",   x: 0, y: 0, size: 76 },
+            { id: "l5t1", type: "triangle", x: 0, y: 0, size: 78 },
+            { id: "l5t2", type: "triangle", x: 0, y: 0, size: 76 },
+            { id: "l5t3", type: "triangle", x: 0, y: 0, size: 74 },
+            { id: "l5t4", type: "triangle", x: 0, y: 0, size: 76 },
+            { id: "l5t5", type: "triangle", x: 0, y: 0, size: 78 },
+            { id: "l5t6", type: "triangle", x: 0, y: 0, size: 76 },
+            { id: "l5t7", type: "triangle", x: 0, y: 0, size: 74 },
+            { id: "l5s1", type: "square",   x: 0, y: 0, size: 78 },
+            { id: "l5s2", type: "square",   x: 0, y: 0, size: 76 },
+            { id: "l5s3", type: "square",   x: 0, y: 0, size: 74 },
+            { id: "l5s4", type: "square",   x: 0, y: 0, size: 76 },
+            { id: "l5p1", type: "pentagon", x: 0, y: 0, size: 78 },
         ],
     },
 
-    // ─── Level 6 — normal | + สี่เหลี่ยม | 9 รูป ─────────────
+    // ─── Level 6 — normal | 16 รูป | circle×8, triangle×1, square×5, pentagon×2 ──
     6: {
         level: 6, difficulty: "normal",
-        shapeTypes: ["circle", "triangle", "square"],
+        shapeTypes: ["circle", "triangle", "square", "pentagon"],
         shapes: [
-            { id: "c1", type: "circle", x: 8, y: 8, size: 56 },
-            { id: "t1", type: "triangle", x: 45, y: 8, size: 60 },
-            { id: "s1", type: "square", x: 76, y: 8, size: 52 },
-            { id: "c2", type: "circle", x: 8, y: 52, size: 54 },
-            { id: "t2", type: "triangle", x: 45, y: 52, size: 56 },
-            { id: "s2", type: "square", x: 76, y: 52, size: 54 },
-            { id: "t3", type: "triangle", x: 25, y: 30, size: 50 },
-            { id: "s3", type: "square", x: 60, y: 30, size: 50 },
-            { id: "c3", type: "circle", x: 25, y: 72, size: 48 },
+            { id: "l6c1", type: "circle",   x: 0, y: 0, size: 76 },
+            { id: "l6c2", type: "circle",   x: 0, y: 0, size: 74 },
+            { id: "l6c3", type: "circle",   x: 0, y: 0, size: 72 },
+            { id: "l6c4", type: "circle",   x: 0, y: 0, size: 74 },
+            { id: "l6c5", type: "circle",   x: 0, y: 0, size: 76 },
+            { id: "l6c6", type: "circle",   x: 0, y: 0, size: 72 },
+            { id: "l6c7", type: "circle",   x: 0, y: 0, size: 74 },
+            { id: "l6c8", type: "circle",   x: 0, y: 0, size: 76 },
+            { id: "l6t1", type: "triangle", x: 0, y: 0, size: 76 },
+            { id: "l6s1", type: "square",   x: 0, y: 0, size: 76 },
+            { id: "l6s2", type: "square",   x: 0, y: 0, size: 74 },
+            { id: "l6s3", type: "square",   x: 0, y: 0, size: 72 },
+            { id: "l6s4", type: "square",   x: 0, y: 0, size: 74 },
+            { id: "l6s5", type: "square",   x: 0, y: 0, size: 76 },
+            { id: "l6p1", type: "pentagon", x: 0, y: 0, size: 76 },
+            { id: "l6p2", type: "pentagon", x: 0, y: 0, size: 72 },
         ],
     },
 
-    // ─── Level 7 — hard | + ห้าเหลี่ยม | 10 รูป ──────────────
+    // ─── Level 7 — hard | 18 รูป | circle×3, triangle×9, square×2, pentagon×4 ──
     7: {
         level: 7, difficulty: "hard",
         shapeTypes: ["circle", "triangle", "square", "pentagon"],
         shapes: [
-            { id: "c1", type: "circle", x: 6, y: 6, size: 54 },
-            { id: "t1", type: "triangle", x: 38, y: 6, size: 58 },
-            { id: "s1", type: "square", x: 68, y: 6, size: 52 },
-            { id: "p1", type: "pentagon", x: 6, y: 48, size: 56 },
-            { id: "c2", type: "circle", x: 38, y: 48, size: 52 },
-            { id: "t2", type: "triangle", x: 68, y: 48, size: 54 },
-            { id: "s2", type: "square", x: 20, y: 26, size: 48 },
-            { id: "p2", type: "pentagon", x: 55, y: 26, size: 50 },
-            { id: "c3", type: "circle", x: 20, y: 68, size: 48 },
-            { id: "t3", type: "triangle", x: 55, y: 68, size: 46 },
+            { id: "l7c1", type: "circle",   x: 0, y: 0, size: 72 },
+            { id: "l7c2", type: "circle",   x: 0, y: 0, size: 70 },
+            { id: "l7c3", type: "circle",   x: 0, y: 0, size: 68 },
+            { id: "l7t1", type: "triangle", x: 0, y: 0, size: 72 },
+            { id: "l7t2", type: "triangle", x: 0, y: 0, size: 70 },
+            { id: "l7t3", type: "triangle", x: 0, y: 0, size: 68 },
+            { id: "l7t4", type: "triangle", x: 0, y: 0, size: 70 },
+            { id: "l7t5", type: "triangle", x: 0, y: 0, size: 72 },
+            { id: "l7t6", type: "triangle", x: 0, y: 0, size: 68 },
+            { id: "l7t7", type: "triangle", x: 0, y: 0, size: 70 },
+            { id: "l7t8", type: "triangle", x: 0, y: 0, size: 72 },
+            { id: "l7t9", type: "triangle", x: 0, y: 0, size: 68 },
+            { id: "l7s1", type: "square",   x: 0, y: 0, size: 72 },
+            { id: "l7s2", type: "square",   x: 0, y: 0, size: 70 },
+            { id: "l7p1", type: "pentagon", x: 0, y: 0, size: 72 },
+            { id: "l7p2", type: "pentagon", x: 0, y: 0, size: 70 },
+            { id: "l7p3", type: "pentagon", x: 0, y: 0, size: 68 },
+            { id: "l7p4", type: "pentagon", x: 0, y: 0, size: 70 },
         ],
     },
 
-    // ─── Level 8 — hard | + ห้าเหลี่ยม | 11 รูป ─────────────
+    // ─── Level 8 — hard | 20 รูป | circle×9, triangle×2, square×8, pentagon×1 ──
     8: {
         level: 8, difficulty: "hard",
         shapeTypes: ["circle", "triangle", "square", "pentagon"],
         shapes: [
-            { id: "c1", type: "circle", x: 5, y: 5, size: 52 },
-            { id: "t1", type: "triangle", x: 34, y: 5, size: 56 },
-            { id: "s1", type: "square", x: 64, y: 5, size: 50 },
-            { id: "p1", type: "pentagon", x: 5, y: 44, size: 54 },
-            { id: "c2", type: "circle", x: 34, y: 44, size: 50 },
-            { id: "t2", type: "triangle", x: 64, y: 44, size: 52 },
-            { id: "s2", type: "square", x: 18, y: 24, size: 48 },
-            { id: "p2", type: "pentagon", x: 50, y: 24, size: 50 },
-            { id: "c3", type: "circle", x: 78, y: 24, size: 46 },
-            { id: "t3", type: "triangle", x: 18, y: 66, size: 46 },
-            { id: "s3", type: "square", x: 50, y: 66, size: 48 },
+            { id: "l8c1", type: "circle",   x: 0, y: 0, size: 70 },
+            { id: "l8c2", type: "circle",   x: 0, y: 0, size: 68 },
+            { id: "l8c3", type: "circle",   x: 0, y: 0, size: 66 },
+            { id: "l8c4", type: "circle",   x: 0, y: 0, size: 68 },
+            { id: "l8c5", type: "circle",   x: 0, y: 0, size: 70 },
+            { id: "l8c6", type: "circle",   x: 0, y: 0, size: 66 },
+            { id: "l8c7", type: "circle",   x: 0, y: 0, size: 68 },
+            { id: "l8c8", type: "circle",   x: 0, y: 0, size: 70 },
+            { id: "l8c9", type: "circle",   x: 0, y: 0, size: 68 },
+            { id: "l8t1", type: "triangle", x: 0, y: 0, size: 70 },
+            { id: "l8t2", type: "triangle", x: 0, y: 0, size: 66 },
+            { id: "l8s1", type: "square",   x: 0, y: 0, size: 70 },
+            { id: "l8s2", type: "square",   x: 0, y: 0, size: 68 },
+            { id: "l8s3", type: "square",   x: 0, y: 0, size: 66 },
+            { id: "l8s4", type: "square",   x: 0, y: 0, size: 68 },
+            { id: "l8s5", type: "square",   x: 0, y: 0, size: 70 },
+            { id: "l8s6", type: "square",   x: 0, y: 0, size: 66 },
+            { id: "l8s7", type: "square",   x: 0, y: 0, size: 68 },
+            { id: "l8s8", type: "square",   x: 0, y: 0, size: 70 },
+            { id: "l8p1", type: "pentagon", x: 0, y: 0, size: 70 },
         ],
     },
 
-    // ─── Level 9 — hard | + หกเหลี่ยม | 12 รูป ───────────────
+    // ─── Level 9 — hard | 23 รูป | circle×9, triangle×2, square×5, pentagon×1, hexagon×6 ──
     9: {
         level: 9, difficulty: "hard",
         shapeTypes: ["circle", "triangle", "square", "pentagon", "hexagon"],
         shapes: [
-            { id: "c1", type: "circle", x: 5, y: 5, size: 50 },
-            { id: "t1", type: "triangle", x: 30, y: 5, size: 54 },
-            { id: "s1", type: "square", x: 58, y: 5, size: 50 },
-            { id: "h1", type: "hexagon", x: 80, y: 5, size: 52 },
-            { id: "p1", type: "pentagon", x: 5, y: 44, size: 52 },
-            { id: "c2", type: "circle", x: 30, y: 44, size: 48 },
-            { id: "t2", type: "triangle", x: 58, y: 44, size: 50 },
-            { id: "s2", type: "square", x: 80, y: 44, size: 48 },
-            { id: "h2", type: "hexagon", x: 17, y: 24, size: 48 },
-            { id: "p2", type: "pentagon", x: 44, y: 24, size: 50 },
-            { id: "c3", type: "circle", x: 70, y: 24, size: 46 },
-            { id: "t3", type: "triangle", x: 17, y: 67, size: 46 },
+            { id: "l9c1", type: "circle",   x: 0, y: 0, size: 64 },
+            { id: "l9c2", type: "circle",   x: 0, y: 0, size: 62 },
+            { id: "l9c3", type: "circle",   x: 0, y: 0, size: 64 },
+            { id: "l9c4", type: "circle",   x: 0, y: 0, size: 62 },
+            { id: "l9c5", type: "circle",   x: 0, y: 0, size: 64 },
+            { id: "l9c6", type: "circle",   x: 0, y: 0, size: 62 },
+            { id: "l9c7", type: "circle",   x: 0, y: 0, size: 64 },
+            { id: "l9c8", type: "circle",   x: 0, y: 0, size: 62 },
+            { id: "l9c9", type: "circle",   x: 0, y: 0, size: 64 },
+            { id: "l9t1", type: "triangle", x: 0, y: 0, size: 64 },
+            { id: "l9t2", type: "triangle", x: 0, y: 0, size: 62 },
+            { id: "l9s1", type: "square",   x: 0, y: 0, size: 64 },
+            { id: "l9s2", type: "square",   x: 0, y: 0, size: 62 },
+            { id: "l9s3", type: "square",   x: 0, y: 0, size: 64 },
+            { id: "l9s4", type: "square",   x: 0, y: 0, size: 62 },
+            { id: "l9s5", type: "square",   x: 0, y: 0, size: 64 },
+            { id: "l9p1", type: "pentagon", x: 0, y: 0, size: 64 },
+            { id: "l9h1", type: "hexagon",  x: 0, y: 0, size: 64 },
+            { id: "l9h2", type: "hexagon",  x: 0, y: 0, size: 62 },
+            { id: "l9h3", type: "hexagon",  x: 0, y: 0, size: 64 },
+            { id: "l9h4", type: "hexagon",  x: 0, y: 0, size: 62 },
+            { id: "l9h5", type: "hexagon",  x: 0, y: 0, size: 64 },
+            { id: "l9h6", type: "hexagon",  x: 0, y: 0, size: 62 },
         ],
     },
 };

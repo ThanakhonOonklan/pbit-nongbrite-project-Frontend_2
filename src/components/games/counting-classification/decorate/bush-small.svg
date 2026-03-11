@@ -1,0 +1,9 @@
+<svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Back shadow/leaf group -->
+  <path d="M25 70C25 55 35 45 50 45C55 30 70 20 85 25C100 30 110 45 105 60C115 65 120 75 115 80H15C15 75 18 70 25 70Z" fill="#78C6A3"/>
+  <!-- Main front group -->
+  <path d="M30 75C30 60 40 50 55 50C60 35 75 25 90 30C105 35 115 50 110 65C120 70 120 80 115 80H20C20 75 23 75 30 75Z" fill="#A8E6CF"/>
+  <!-- Highlights -->
+  <path d="M45 55C48 50 55 48 60 52C63 55 60 60 55 60C50 60 45 58 45 55Z" fill="#D4F1E0" opacity="0.6"/>
+  <path d="M75 38C78 33 85 31 90 35C93 38 90 43 85 43C80 43 75 41 75 38Z" fill="#D4F1E0" opacity="0.6"/>
+</svg>

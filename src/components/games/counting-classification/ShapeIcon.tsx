@@ -1,74 +1,62 @@
 "use client";
 
-import { type ShapeType, SHAPE_COLORS } from "@/constants/games/counting-classification-levels";
+import Image from "next/image";
+import { type ShapeType } from "@/constants/games/counting-classification-levels";
+
+// ── นำเข้าภาพ SVG จากโฟลเดอร์ shape ──
+import CircleSvg from "./shape/circle.svg";
+import TriangleSvg from "./shape/triangle.svg";
+import SquareSvg from "./shape/square.svg";
+import PentagonSvg from "./shape/pentagon.svg";
+import HexagonSvg from "./shape/hexagon.svg";
 
 interface ShapeIconProps {
     type: ShapeType;
     size?: number;
-    color?: string;
     className?: string;
     /** เมื่อ true จะ animate "หยิบขึ้น" เมื่อ hover */
     hoverable?: boolean;
 }
 
-/** คำนวณ points ของ polygon รูป n เหลี่ยม */
-function polygonPoints(sides: number, cx: number, cy: number, r: number): string {
-    return Array.from({ length: sides }, (_, i) => {
-        const angle = (i * 2 * Math.PI) / sides - Math.PI / 2;
-        return `${(cx + r * Math.cos(angle)).toFixed(2)},${(cy + r * Math.sin(angle)).toFixed(2)}`;
-    }).join(" ");
-}
-
-const SHAPE_SIDES: Partial<Record<ShapeType, number>> = {
-    triangle: 3,
-    square: 4,
-    pentagon: 5,
-    hexagon: 6,
+const SHAPE_IMAGES: Record<ShapeType, any> = {
+    circle: CircleSvg,
+    triangle: TriangleSvg,
+    square: SquareSvg,
+    pentagon: PentagonSvg,
+    hexagon: HexagonSvg,
 };
 
-/**
- * SVG renderer สำหรับรูปทรงเลขาคณิต
- * รองรับ: circle, triangle, square, pentagon, hexagon
- *
- * hoverable={true} → เพิ่ม hover effect "หยิบขึ้น" (lift + scale + shadow)
- */
-export function ShapeIcon({ type, size = 48, color, className = "", hoverable = false }: ShapeIconProps) {
-    const fill = color ?? SHAPE_COLORS[type];
-    const half = size / 2;
-    const pad = size * 0.08;
-    const r = half - pad;
 
-    // สร้าง SVG element
-    const svgEl =
-        type === "circle" ? (
-            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-label="วงกลม">
-                <circle cx={half} cy={half} r={r} fill={fill} />
-            </svg>
-        ) : (() => {
-            const sides = SHAPE_SIDES[type];
-            if (!sides) return null;
-            return (
-                <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-label={type}>
-                    <polygon points={polygonPoints(sides, half, half, r)} fill={fill} />
-                </svg>
-            );
-        })();
+export function ShapeIcon({ type, size = 48, className = "", hoverable = false }: ShapeIconProps) {
+    const src = SHAPE_IMAGES[type];
 
-    if (!svgEl) return null;
+    if (!src) return null;
+
+    const imgEl = (
+        <Image
+            src={src}
+            alt={type}
+            width={size}
+            height={size}
+            className="object-contain"
+            // ป้องกันลากรูป
+            draggable={false}
+        />
+    );
 
     /* ── ไม่ hoverable: ห่อแค่ span เปล่า ─────────────────── */
     if (!hoverable) {
-        return <span className={`inline-flex ${className}`}>{svgEl}</span>;
+        return <span className={`inline-flex items-center justify-center ${className}`}>{imgEl}</span>;
     }
 
     /* ── hoverable: lift animation ──────────────────────────── */
     return (
         <>
             <span
-                className={`shape-lift inline-flex cursor-pointer select-none ${className}`}
-                style={{ willChange: "transform, filter" }}
+                className={`shape-lift inline-flex items-center justify-center cursor-pointer select-none ${className}`}
+                style={{ willChange: "transform, filter", width: size, height: size }}
             >
-                {svgEl}
+                {imgEl}
             </span>
 
             <style>{`

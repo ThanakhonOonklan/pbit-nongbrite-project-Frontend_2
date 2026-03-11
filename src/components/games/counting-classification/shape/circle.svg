@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <!-- Base gradient -->
+    <radialGradient id="circleGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#FF6B6B" />
+      <stop offset="100%" stop-color="#E84A4A" />
+    </radialGradient>
+    
+    <!-- Shadow gradient -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#E84A4A" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Shadow & Base -->
+  <circle cx="60" cy="60" r="50" fill="url(#circleGrad)" filter="url(#shadow)" />
+  
+  <!-- Outer stroke for cartoon style -->
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#B83A3A" stroke-width="4" />
+
+  <!-- Main highlight (top left) -->
+  <path d="M 30 45 C 35 25, 55 20, 65 25 C 50 30, 40 40, 35 55 Z" fill="#ffffff" opacity="0.6" />
+  <!-- Small dot highlight -->
+  <circle cx="45" cy="25" r="4" fill="#ffffff" opacity="0.8" />
+
+  <!-- Blush / Cheeks -->
+  <circle cx="35" cy="70" r="10" fill="#D63A3A" opacity="0.7" />
+  <circle cx="85" cy="70" r="10" fill="#D63A3A" opacity="0.7" />
+
+  <!-- Eyes (Dark brown/black) -->
+  <circle cx="45" cy="55" r="6" fill="#3D2929" />
+  <!-- Eye highlights -->
+  <circle cx="43" cy="53" r="2.5" fill="#ffffff" />
+  
+  <circle cx="75" cy="55" r="6" fill="#3D2929" />
+  <!-- Eye highlights -->
+  <circle cx="73" cy="53" r="2.5" fill="#ffffff" />
+
+  <!-- Mouth (Smile) -->
+  <path d="M 54 62 Q 60 70 66 62" fill="none" stroke="#3D2929" stroke-width="4.5" stroke-linecap="round" />
+</svg>
