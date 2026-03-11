@@ -1,326 +1,300 @@
-import { useState, useEffect } from 'react';
-import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, KeyboardSensor, PointerSensor, useSensor, useSensors, closestCenter } from '@dnd-kit/core';
-import { OrganismStage, SequencingLevelData, ActionType } from './types';
-import { OrganismScene } from './OrganismScene';
-import { ActionPanel } from './ActionPanel';
-import { CollectionBar } from './CollectionBar';
-import { SequenceBoard } from './SequenceBoard';
-import { DraggableCard } from './DraggableCard';
-import { motion, AnimatePresence } from 'framer-motion';
+"use client";
 
-// Mock data integration
-import { frogLifeCycleData } from './mockData';
+import { useState, useEffect, useCallback, useMemo, Fragment } from "react";
+import Image from "next/image";
+import { FaCheck, FaLightbulb, FaTimes, FaArrowRight } from "react-icons/fa";
+import { type SequencingLevelConfig, type SequencingItem } from "@/constants/games/sequencing-levels";
+import { type ScoreResult, calculateGameScore, getStarRating } from "@/utils/game-scoring";
+import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
-type GamePhase = 'intro' | 'discovery' | 'review' | 'completed';
+interface SequencingGameProps {
+  config: SequencingLevelConfig;
+  onGameEnd: (result: ScoreResult, attempts: number, elapsed: number) => void;
+  startTime: number;
+}
 
-export const SequencingGame = () => {
-  // --- Game Data ---
-  const gameData: SequencingLevelData = frogLifeCycleData;
-  const totalStages = gameData.stages.length;
+// Function to shuffle array securely
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
 
-  // --- State: Global ---
-  const [phase, setPhase] = useState<GamePhase>('intro');
-  const [showFeedback, setShowFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
+export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameProps) {
+  // We keep a pool of items at the bottom (answers). Null means it's been picked up.
+  const [pool, setPool] = useState<(SequencingItem | null)[]>([]);
+  // We keep track of the placed items at the top.
+  const [slots, setSlots] = useState<(SequencingItem | null)[]>([]);
 
-  // --- State: Phase 1 (Discovery) ---
-  const [currentStageIndex, setCurrentStageIndex] = useState(0);
-  const [unlockedStages, setUnlockedStages] = useState<OrganismStage[]>([]);
-  const [isAnimatingAction, setIsAnimatingAction] = useState(false);
-  const [isWrongAction, setIsWrongAction] = useState(false);
-  const currentStage = gameData.stages[currentStageIndex];
+  const [wrongCount, setWrongCount] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);
 
-  // --- State: Phase 2 (Review / Dnd) ---
-  // The slots on the board that hold references to the stages
-  const [boardSlots, setBoardSlots] = useState<(OrganismStage | null)[]>([]);
-  // The unplaced pool
-  const [unplacedCards, setUnplacedCards] = useState<OrganismStage[]>([]);
-  const [activeDragItem, setActiveDragItem] = useState<OrganismStage | null>(null);
-
-  // Initialize
+  // Initialize game
   useEffect(() => {
-    // Start with the first stage unlocked automatically
-    if (unlockedStages.length === 0 && gameData.stages.length > 0) {
-      setUnlockedStages([gameData.stages[0]]);
+    // Fill the empty slots to match the correct sequence length
+    setSlots(Array(config.correctSequence.length).fill(null));
+
+    // Shuffle items for the pool
+    setPool(shuffleArray([...config.correctSequence]));
+
+    // Reset stats
+    setWrongCount(0);
+    setHintsUsed(0);
+    setIsCompleted(false);
+  }, [config]);
+
+  // Handle clicking an item from the bottom pool
+  const handleItemSelect = (item: SequencingItem, poolIndex: number) => {
+    // Find the first empty slot
+    const firstEmptySlotIdx = slots.findIndex((slot) => slot === null);
+    if (firstEmptySlotIdx === -1) return; // No empty slots available
+
+    // Move to slot
+    setSlots((prev) => {
+      const newSlots = [...prev];
+      newSlots[firstEmptySlotIdx] = item;
+      return newSlots;
+    });
+
+    // Remove from pool
+    setPool((prev) => {
+      const newPool = [...prev];
+      newPool[poolIndex] = null;
+      return newPool;
+    });
+  };
+
+  // Handle clicking a placed item from the top slots (removing it)
+  const handleSlotRemove = (item: SequencingItem, slotIndex: number) => {
+    // Find where it belongs back in the original pool layout (or just an empty spot)
+    const emptyPoolIdx = pool.findIndex((p) => p === null);
+    if (emptyPoolIdx === -1) return; // Should never happen unless logic is broken
+
+    // Move back to pool
+    setPool((prev) => {
+      const newPool = [...prev];
+      newPool[emptyPoolIdx] = item;
+      return newPool;
+    });
+
+    // Remove from slot
+    setSlots((prev) => {
+      const newSlots = [...prev];
+      newSlots[slotIndex] = null;
+      return newSlots;
+    });
+  };
+
+  // Handle Check Logic
+  const handleCheck = useCallback(() => {
+    if (isCompleted) return;
+
+    // Must fill all slots first
+    if (slots.some((slot) => slot === null)) {
+      // Optional: Add some warning/toast here "Please fill all slots"
+      return;
     }
-  }, []);
 
-  const triggerFeedback = (isCorrect: boolean, message: string) => {
-    setShowFeedback({ isCorrect, message });
-    setTimeout(() => {
-      setShowFeedback(null);
-    }, 2000);
-  };
+    const isMatch = slots.every((slot, idx) => slot?.id === config.correctSequence[idx].id);
 
-  const handleStartGame = () => {
-    setPhase('discovery');
-  };
+    if (isMatch) {
+      setIsCompleted(true);
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
 
-  // --- Handlers: Phase 1 ---
-  const handleActionSelect = (actionId: ActionType) => {
-    if (isAnimatingAction || isWrongAction) return;
+      const scoreResult = calculateGameScore({
+        difficulty: config.difficulty,
+        attempts: wrongCount + hintsUsed, // Hints penalize your attempts
+        timeSeconds: elapsed,
+      });
 
-    if (currentStage.requireAction === actionId) {
-      // Correct action
-      setIsAnimatingAction(true);
-      
+      const { stars } = getStarRating(scoreResult.totalScore);
+      mockSubmitGameScore({
+        levelId: config.level,
+        score: scoreResult.totalScore,
+        stars,
+        playTime: elapsed,
+      });
+
       setTimeout(() => {
-        setIsAnimatingAction(false);
-        const nextIndex = currentStageIndex + 1;
-        
-        if (nextIndex < totalStages) {
-          const nextStage = gameData.stages[nextIndex];
-          setCurrentStageIndex(nextIndex);
-          setUnlockedStages(prev => [...prev, nextStage]);
-          
-          triggerFeedback(true, `คุณค้นพบรูป ${nextStage.name}!`);
-
-          // Start Review Phase if all stages completed
-          if (nextStage.requireAction === 'none' || nextIndex === totalStages - 1) {
-            setTimeout(() => {
-              prepareReviewPhase();
-            }, 3000); // Give time for player to celebrate getting the last stage
-          }
-        }
-      }, 1000);
+        onGameEnd(scoreResult, wrongCount, elapsed);
+      }, 500);
     } else {
-      // Wrong action
-      setIsWrongAction(true);
-      triggerFeedback(false, 'ยังไม่ใช่การกระทำที่ถูกต้องตอนนี้นะ');
-      setTimeout(() => setIsWrongAction(false), 800);
+      setWrongCount((prev) => prev + 1);
+
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const scoreResult = calculateGameScore({
+        difficulty: config.difficulty,
+        attempts: wrongCount + hintsUsed + 1,
+        timeSeconds: elapsed,
+      });
+
+      setIsCompleted(true);
+      setTimeout(() => {
+        onGameEnd(scoreResult, wrongCount + 1, elapsed);
+      }, 300);
     }
-  };
+  }, [slots, config, isCompleted, startTime, wrongCount, hintsUsed, onGameEnd]);
 
-  // --- Setup for Phase 2 ---
-  const prepareReviewPhase = () => {
-    // Prepare slots array filled with nulls
-    setBoardSlots(Array(totalStages).fill(null));
-    
-    // Shuffle the unplaced cards so they have to figure out the order
-    const shuffled = [...unlockedStages].sort(() => Math.random() - 0.5);
-    setUnplacedCards(shuffled);
-    
-    setPhase('review');
-  };
+  // Handle Hint Logic
+  const handleHint = () => {
+    // Find the first slot that is either empty or incorrect
+    const targetSlotIdx = slots.findIndex((slot, idx) => slot === null || slot.id !== config.correctSequence[idx].id);
 
-  // --- Handlers: Phase 2  DnD ---
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8, // Need to move cursor 8px for drag to start
-      },
-    }),
-    useSensor(KeyboardSensor)
-  );
+    // Setup complete?
+    if (targetSlotIdx === -1) return;
 
-  const handleDragStart = (event: DragStartEvent) => {
-    const { active } = event;
-    const itemData = active.data.current as OrganismStage;
-    if (itemData) {
-      setActiveDragItem(itemData);
-    }
-  };
+    const correctItem = config.correctSequence[targetSlotIdx];
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    setActiveDragItem(null);
+    // If there's an incorrect item currently at this slot, send it back to the pool
+    const currentItemInSlot = slots[targetSlotIdx];
 
-    if (!over) return; // Dropped outside valid areas
+    // Find where the correct item is currently residing. Is it in the slots or the pool?
+    const inPoolIdx = pool.findIndex((p) => p?.id === correctItem.id);
+    const inSlotIdx = slots.findIndex((s) => s?.id === correctItem.id);
 
-    const item = active.data.current as OrganismStage;
-    const activeIdStr = String(active.id); // e.g., "unplaced-egg" or "placed-egg"
-    const overIdStr = String(over.id); // e.g., "slot-0"
+    setSlots((prevSlots) => {
+      const newSlots = [...prevSlots];
 
-    let newSlots = [...boardSlots];
-    let newUnplaced = [...unplacedCards];
+      // Plop correct item into the target slot
+      newSlots[targetSlotIdx] = correctItem;
 
-    // Find where it's coming from
-    const isFromOrigin = activeIdStr.startsWith('unplaced-');
-    const isFromSlot = activeIdStr.startsWith('placed-');
+      // If the correct item was in another slot previously, clear that old slot
+      if (inSlotIdx !== -1 && inSlotIdx !== targetSlotIdx) {
+        newSlots[inSlotIdx] = null;
+      }
 
-    // Find destination
-    const overIndexData = over.data.current?.index; // Passed in SequenceSlot
+      return newSlots;
+    });
 
-    if (overIndexData !== undefined) {
-      // Dropping ONTO a slot
-      const targetIndex = overIndexData;
-      
-      // If the slot is already occupied, swap the items
-      const existingItemInSlot = newSlots[targetIndex];
+    setPool((prevPool) => {
+      const newPool = [...prevPool];
 
-      if (isFromOrigin) {
-        // Move from unplaced to slot
-        newUnplaced = newUnplaced.filter(c => c.id !== item.id);
-        if (existingItemInSlot) {
-           newUnplaced.push(existingItemInSlot); // Kick old item back to origin
-        }
-        newSlots[targetIndex] = item;
-      } else if (isFromSlot) {
-        // Move from slot to slot (swap)
-        const sourceIndex = newSlots.findIndex(s => s?.id === item.id);
-        if (sourceIndex !== -1) {
-          newSlots[sourceIndex] = existingItemInSlot; // Put target item into source slot
-          newSlots[targetIndex] = item;
+      // If correct item was in the pool, empty its spot
+      if (inPoolIdx !== -1) {
+        newPool[inPoolIdx] = null;
+      }
+
+      // If we displaced an incorrect item, throw it into an open pool spot
+      if (currentItemInSlot !== null && currentItemInSlot.id !== correctItem.id) {
+        const emptyPoolIdx = newPool.findIndex((p) => p === null);
+        if (emptyPoolIdx !== -1) {
+          newPool[emptyPoolIdx] = currentItemInSlot;
         }
       }
-    } else {
-      // Trying to drop it elsewhere (like back to unplaced pool)
-      // Usually, dragging to origin is handled by simply dropping outside valid slots or on an unplaced droppable
-      // We don't have an explicit origin droppable id right now, but we can implement it if needed.
-    }
 
-    setBoardSlots(newSlots);
-    setUnplacedCards(newUnplaced);
+      return newPool;
+    });
+
+    setHintsUsed((prev) => prev + 1);
   };
 
-  const checkSequence = () => {
-    // Make sure all slots are filled
-    if (boardSlots.some(s => s === null)) return;
+  const isAllFilled = slots.every((slot) => slot !== null);
 
-    // Check if the order matches the original stages array
-    let isCorrect = true;
-    for (let i = 0; i < totalStages; i++) {
-      if (boardSlots[i]?.id !== gameData.stages[i].id) {
-        isCorrect = false;
-        break;
-      }
-    }
-
-    if (isCorrect) {
-      triggerFeedback(true, 'ยอดเยี่ยมมาก! ลำดับถูกต้องสมบูรณ์ 🌟');
-      setTimeout(() => setPhase('completed'), 2000);
-    } else {
-      triggerFeedback(false, 'ยังจัดเรียงไม่ถูกต้อง ลองพิจารณาดูอีกครั้งนะ');
-    }
-  };
-
-
-  // --- Render ---
   return (
-    <div className="w-full h-full flex flex-col items-center justify-between relative overflow-hidden font-sans">
-      {/* Background Decor */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1e3c72] to-[#2a5298] -z-10" />
-      <div className="absolute inset-0 opacity-10 pointer-events-none -z-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+    <div className="flex flex-col gap-6 w-full max-w-4xl mx-auto h-[600px]">
+      {/* Title */}
+      <h2 className="text-center font-bold text-2xl text-[#9956DE]">
+        {config.sequenceTitle}
+      </h2>
 
-      {/* Header Topic */}
-      <div className="pt-6 relative z-10 text-center w-full">
-         <h1 className="text-4xl text-white font-extrabold uppercase tracking-wide drop-shadow-xl">{gameData.theme}</h1>
-         
-         {/* Simple Path Indicator for Phase 1 */}
-         {phase === 'discovery' && (
-           <div className="mt-4 flex justify-center items-center gap-2">
-             {gameData.stages.map((stage, idx) => (
-               <div key={`dot-${idx}`} className="flex items-center gap-2">
-                 <div className={`w-4 h-4 rounded-full transition-colors duration-300 ${idx <= currentStageIndex ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]' : 'bg-white/20'}`} />
-                 {idx < totalStages - 1 && <div className={`w-8 h-1 transition-colors duration-300 ${idx < currentStageIndex ? 'bg-emerald-400' : 'bg-white/10'}`} />}
-               </div>
-             ))}
-           </div>
-         )}
-      </div>
-
-      {/* Main Content Area based on Phase */}
-      <div className="flex-1 w-full flex flex-col justify-center relative">
-        <AnimatePresence mode="wait">
-          {phase === 'intro' && (
-            <motion.div 
-              key="intro"
-              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, y: -50 }}
-              className="flex flex-col items-center justify-center p-8 bg-black/30 backdrop-blur-md rounded-3xl border border-white/10 max-w-xl mx-auto shadow-2xl"
+      {/* Target Slots Area */}
+      <div className="bg-[#F3E8FF] rounded-3xl p-4 sm:p-6 md:p-8 min-h-[160px] md:min-h-[200px] flex flex-wrap items-center justify-center gap-2 md:gap-3 border-4 border-[#E9D5FF] shadow-inner relative overflow-hidden">
+        {slots.map((slot, idx) => (
+          <Fragment key={`slot-wrapper-${idx}`}>
+            <div
+              className={`w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-xl md:rounded-2xl flex items-center justify-center relative transition-all duration-300 ease-out flex-shrink-0
+                ${slot
+                  ? 'bg-white border-[3px] md:border-4 border-b-[6px] md:border-b-8 border-[#C084FC] shadow-sm transform hover:scale-[1.02]'
+                  : 'bg-[#FAF5FF] border-[3px] md:border-4 border-dashed border-[#D8B4FE] shadow-inner'
+                }`}
             >
-               <h2 className="text-2xl text-white mb-4">พร้อมที่จะเป็นนักสำรวจหรือยัง?</h2>
-               <p className="text-white/70 text-center mb-8">เรียนรู้การเติบโตและทดลองเลือกการกระทำที่เหมาะสม เพื่อปลดล็อคขั้นตอนต่อไป!</p>
-               <button 
-                 onClick={handleStartGame}
-                 className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-transform hover:scale-105 active:scale-95 text-xl"
-               >
-                 เริ่มภารกิจ
-               </button>
-            </motion.div>
-          )}
+              {slot && (
+                <div className="animate-in zoom-in duration-300 relative w-full h-full flex items-center justify-center">
+                  {/* Remove Button */}
+                  <button
+                    onClick={() => handleSlotRemove(slot, idx)}
+                    className="absolute -top-3 -right-3 w-8 h-8 bg-[#FF4B4B] rounded-full text-white flex items-center justify-center hover:bg-[#E53935] hover:scale-110 active:scale-95 transition-all shadow-md z-10 border-2 border-white"
+                  >
+                    <FaTimes className="w-4 h-4" />
+                  </button>
 
-          {phase === 'discovery' && (
-            <motion.div key="discovery" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 1 } }} className="w-full flex-1 flex flex-col relative w-full h-full max-w-6xl mx-auto pb-8">
-              <CollectionBar unlockedStages={unlockedStages} totalStages={totalStages} />
-              
-              <OrganismScene 
-                currentStage={currentStage} 
-                isAnimatingAction={isAnimatingAction} 
-                isWrongAction={isWrongAction} 
-              />
-              
-              <AnimatePresence>
-                {currentStage.requireAction !== 'none' && (
-                  <motion.div key="action-panel" exit={{ opacity: 0, y: 50 }}>
-                     <ActionPanel 
-                       availableActions={gameData.availableActions}
-                       onActionSelect={handleActionSelect}
-                       disabled={isAnimatingAction || isWrongAction}
-                     />
-                  </motion.div>
-                )}
-                {currentStage.requireAction === 'none' && (
-                  <motion.div key="completion" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="text-center absolute bottom-20 w-full left-0 z-30">
-                    <h2 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-500 drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)]">
-                      เติบโตเต็มที่แล้ว!
-                    </h2>
-                    <p className="text-white mt-2 font-bold text-lg drop-shadow-md pb-4">เตรียมตัวเข้าสู่การทบทวนความรู้...</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          )}
+                  {/* Content */}
+                  {slot.isImage ? (
+                    <Image src={slot.content} alt={`Item ${idx}`} width={70} height={70} className="w-10 h-10 md:w-[70px] md:h-[70px] object-contain drop-shadow-sm" />
+                  ) : (
+                    <span className="text-3xl sm:text-4xl md:text-6xl drop-shadow-sm">{slot.content}</span>
+                  )}
+                </div>
+              )}
+            </div>
 
-          {phase === 'review' && (
-             <motion.div key="review" initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} className="w-full flex-1 flex flex-col">
-               <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-                 <SequenceBoard 
-                   slots={boardSlots} 
-                   unplacedCards={unplacedCards} 
-                   isComplete={false}
-                   onCheck={checkSequence}
-                 />
-                 
-                 <DragOverlay>
-                   {activeDragItem ? <DraggableCard id="drag-overlay" stage={activeDragItem} /> : null}
-                 </DragOverlay>
-               </DndContext>
-             </motion.div>
-          )}
-
-          {phase === 'completed' && (
-             <motion.div key="completed" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center justify-center m-auto bg-white/10 backdrop-blur-xl border border-white/20 p-12 rounded-[3rem] shadow-[0_0_50px_rgba(255,255,255,0.2)]">
-                <div className="text-8xl mb-6">🎉</div>
-                <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-emerald-400 drop-shadow-sm mb-4">เก่งมาก!</h2>
-                <p className="text-white text-xl">คุณเข้าใจลำดับการเติบโตได้ถูกต้องทั้งหมด</p>
-                <button 
-                  onClick={() => window.location.reload()}
-                  className="mt-8 px-6 py-3 bg-white/20 hover:bg-white/30 text-white font-bold rounded-xl transition-colors min-w-[150px]"
-                >
-                  เล่นอีกครั้ง
-                </button>
-             </motion.div>
-          )}
-        </AnimatePresence>
+            {/* Sequence Arrow */}
+            {idx < slots.length - 1 && (
+              <div className="flex items-center justify-center text-[#D8B4FE] flex-shrink-0 px-0.5 md:px-1">
+                <FaArrowRight className="w-4 h-4 md:w-8 md:h-8 opacity-80" />
+              </div>
+            )}
+          </Fragment>
+        ))}
       </div>
 
-      {/* Global Feedback Toast Overlay */}
-      <AnimatePresence>
-        {showFeedback && (
-          <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8, filter: 'blur(5px)' }}
-            className={`
-              absolute top-28 left-1/2 transform -translate-x-1/2 z-50 
-              px-6 py-3 rounded-2xl shadow-2xl font-bold flex items-center gap-3 border-2 border-white
-              ${showFeedback.isCorrect ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'}
-            `}
+      {/* Item Pool Area */}
+      <div className="bg-[#FAF5FF] rounded-3xl p-6 md:p-8 min-h-[140px] md:min-h-[180px] flex flex-wrap items-center justify-center gap-3 md:gap-6 border-4 border-[#E9D5FF] shadow-inner relative">
+        <div className="absolute top-2 left-3 md:top-3 md:left-4 text-xs md:text-sm font-bold text-[#D8B4FE] uppercase tracking-wider">
+          ลากหรือแตะเพื่อนำไปวาง
+        </div>
+
+        {pool.map((item, idx) => (
+          <div
+            key={`pool-${idx}`}
+            className={`w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-200 mt-2 md:mt-0
+              ${item
+                ? 'bg-white shadow-[0_4px_0_#C084FC] md:shadow-[0_6px_0_#C084FC] cursor-pointer hover:-translate-y-2 hover:shadow-[0_6px_0_#C084FC] md:hover:shadow-[0_8px_0_#C084FC] active:translate-y-1 active:shadow-none border-[3px] md:border-4 border-[#E9D5FF] hover:border-[#C084FC]'
+                : 'opacity-0 scale-90'}`}
+            onClick={() => item ? handleItemSelect(item, idx) : null}
           >
-            <span className="text-2xl">{showFeedback.isCorrect ? '✨' : '❌'}</span>
-            {showFeedback.message}
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {item && (
+              <div className="animate-in fade-in duration-300">
+                {item.isImage ? (
+                  <Image src={item.content} alt="Draggable Item" width={70} height={70} className="w-10 h-10 md:w-[70px] md:h-[70px] object-contain drop-shadow-sm" />
+                ) : (
+                  <span className="text-3xl sm:text-4xl md:text-6xl drop-shadow-sm">{item.content}</span>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex justify-center gap-3 sm:gap-6 mt-auto pb-4">
+        <button
+          onClick={handleCheck}
+          disabled={!isAllFilled || isCompleted}
+          className={`flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-white text-base sm:text-xl transition-all
+            ${isAllFilled
+              ? 'bg-[#58CC02] hover:bg-[#46A302] shadow-[0_4px_0_#46A302] sm:shadow-[0_6px_0_#46A302] active:translate-y-1.5 active:shadow-[0_0px_0_#46A302]'
+              : 'bg-[#E5E5E5] text-[#AFAFAF] shadow-[0_4px_0_#D1D1D1] sm:shadow-[0_6px_0_#D1D1D1] cursor-not-allowed hidden'
+            }`}
+        >
+          <FaCheck className="w-4 h-4 sm:w-5 sm:h-5" /> ตรวจสอบ (Check)
+        </button>
+
+        <button
+          onClick={handleHint}
+          disabled={isCompleted || isAllFilled}
+          className={`flex items-center gap-2 sm:gap-3 px-5 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-white text-base sm:text-xl transition-all 
+            bg-[#1CB0F6] hover:bg-[#1899D6] shadow-[0_4px_0_#1899D6] sm:shadow-[0_6px_0_#1899D6] active:translate-y-1.5 active:shadow-[0_0px_0_#1899D6] 
+            ${isAllFilled ? 'hidden' : ''}`}
+        >
+          <FaLightbulb className="w-4 h-4 sm:w-5 sm:h-5" /> คำใบ้ (Hint)
+        </button>
+      </div>
     </div>
   );
-};
+}
