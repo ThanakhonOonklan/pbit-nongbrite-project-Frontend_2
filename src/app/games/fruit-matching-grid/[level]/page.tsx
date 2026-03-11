@@ -98,7 +98,6 @@ export default function FruitMatchingGridGamePage({
         level={level}
         gameTitle="Coordinate Crunch"
         characterSrc="/images/P_PingPing/pingping-01.svg"
-        bgColor="#FF8B8B"
       />
 
       {/* Game title */}

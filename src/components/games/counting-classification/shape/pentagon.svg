@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <!-- Base gradient - Purple -->
+    <linearGradient id="pentGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#A78BFA" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    
+    <!-- Shadow gradient -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#5B21B6" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Pentagon shape with rounded corners -->
+  <path 
+    d="M 60 15 
+       L 105 48 
+       L 88 100 
+       C 85 105, 80 105, 75 105 
+       L 45 105 
+       C 40 105, 35 105, 32 100 
+       L 15 48 
+       C 13 45, 14 40, 18 36 
+       L 55 12 
+       C 58 10, 62 10, 65 12 
+       Z" 
+    fill="url(#pentGrad)" 
+    filter="url(#shadow)"
+    stroke="#7C3AED" 
+    stroke-width="4" 
+    stroke-linejoin="round"
+  />
+
+  <!-- Main highlight (top left edge) -->
+  <path 
+    d="M 58 15 L 20 45 C 20 50, 25 50, 30 45 L 60 20 Z" 
+    fill="#ffffff" 
+    opacity="0.4" 
+  />
+
+  <!-- Small dot highlight -->
+  <circle cx="58" cy="22" r="3" fill="#ffffff" opacity="0.8" />
+  
+  <path 
+    d="M 28 48 L 38 82 C 40 85, 30 85, 25 70 Z" 
+    fill="#ffffff" 
+    opacity="0.3" 
+  />
+
+  <!-- Blush / Cheeks -->
+  <circle cx="36" cy="72" r="9" fill="#F472B6" opacity="0.7" />
+  <circle cx="84" cy="72" r="9" fill="#F472B6" opacity="0.7" />
+
+  <!-- Eyes (Dark purple/black) -->
+  <circle cx="46" cy="58" r="5.5" fill="#4C1D95" />
+  <!-- Eye highlights -->
+  <circle cx="44" cy="56" r="2.5" fill="#ffffff" />
+  
+  <circle cx="74" cy="58" r="5.5" fill="#4C1D95" />
+  <!-- Eye highlights -->
+  <circle cx="72" cy="56" r="2.5" fill="#ffffff" />
+
+  <!-- Mouth (Happy open smile) -->
+  <path 
+    d="M 55 66 C 55 75, 65 75, 65 66 Z" 
+    fill="#4C1D95" 
+  />
+  <!-- Tongue -->
+  <path 
+    d="M 57 70 C 57 75, 63 75, 63 70 Z" 
+    fill="#F472B6" 
+  />
+</svg>

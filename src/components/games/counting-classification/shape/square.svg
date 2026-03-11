@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <!-- Base gradient -->
+    <linearGradient id="sqGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4ECDC4" />
+      <stop offset="100%" stop-color="#21A098" />
+    </linearGradient>
+
+    <!-- Ribbon gradient -->
+    <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFDD55" />
+      <stop offset="100%" stop-color="#FFB323" />
+    </linearGradient>
+    
+    <!-- Shadow gradient -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#197A73" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Box Top (Lid) -->
+  <rect x="15" y="40" width="90" height="20" rx="8" fill="url(#sqGrad)" filter="url(#shadow)" stroke="#197A73" stroke-width="4" stroke-linejoin="round" />
+  
+  <!-- Box Bottom -->
+  <rect x="20" y="60" width="80" height="45" rx="10" fill="url(#sqGrad)" stroke="#197A73" stroke-width="4" stroke-linejoin="round" />
+
+  <!-- Base Highlight (Left edge) -->
+  <path d="M 24 65 L 24 95 C 24 100, 28 100, 32 100 L 32 65 Z" fill="#ffffff" opacity="0.3" />
+
+  <!-- Ribbon (Vertical) -->
+  <rect x="45" y="40" width="30" height="65" fill="url(#ribbonGrad)" stroke="#D98A00" stroke-width="3" />
+  
+  <!-- Ribbon Bow (Left Loop) -->
+  <path d="M 50 40 C 30 40, 20 15, 45 20 C 55 22, 60 35, 60 40 Z" fill="url(#ribbonGrad)" stroke="#D98A00" stroke-width="3" stroke-linejoin="round" />
+  
+  <!-- Ribbon Bow (Right Loop) -->
+  <path d="M 70 40 C 90 40, 100 15, 75 20 C 65 22, 60 35, 60 40 Z" fill="url(#ribbonGrad)" stroke="#D98A00" stroke-width="3" stroke-linejoin="round" />
+  
+  <!-- Ribbon Bow (Center knot) -->
+  <ellipse cx="60" cy="38" rx="12" ry="8" fill="url(#ribbonGrad)" stroke="#D98A00" stroke-width="3" />
+
+  <!-- Main highlight (top left lid) -->
+  <path d="M 20 45 L 90 45 C 95 45, 95 50, 90 50 L 20 50 C 15 50, 15 45, 20 45 Z" fill="#ffffff" opacity="0.5" />
+  
+  <!-- Ribbon highlights -->
+  <path d="M 40 22 C 35 25, 35 30, 42 35" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
+  <path d="M 80 22 C 85 25, 85 30, 78 35" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
+
+  <!-- Blush / Cheeks -->
+  <circle cx="35" cy="85" r="9" fill="#2CB5AD" opacity="0.8" />
+  <circle cx="85" cy="85" r="9" fill="#2CB5AD" opacity="0.8" />
+
+  <!-- Eyes (Dark green/black) -->
+  <circle cx="45" cy="72" r="5" fill="#144A46" />
+  <!-- Eye highlights -->
+  <circle cx="43" cy="70" r="2" fill="#ffffff" />
+  
+  <circle cx="75" cy="72" r="5" fill="#144A46" />
+  <!-- Eye highlights -->
+  <circle cx="73" cy="70" r="2" fill="#ffffff" />
+
+  <!-- Mouth (Smile) -->
+  <path d="M 54 82 Q 60 90 66 82" fill="none" stroke="#144A46" stroke-width="4.5" stroke-linecap="round" />
+</svg>

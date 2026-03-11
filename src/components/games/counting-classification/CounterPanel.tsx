@@ -5,38 +5,36 @@ import { type ShapeType } from "@/constants/games/counting-classification-levels
 import { CounterRow } from "./CounterRow";
 
 interface CounterPanelProps {
-    /** รูปทรงที่ต้องตอบในด่านนี้ */
     shapeTypes: ShapeType[];
-    /** จำนวนที่ผู้เล่นกำหนดสำหรับแต่ละประเภท */
     counts: Record<ShapeType, number>;
-    /** จำนวนสูงสุดที่กด + ได้ (รวมทุกรูปในด่าน) */
     maxPerShape?: number;
     onCountChange: (type: ShapeType, newValue: number) => void;
     onSubmit: () => void;
     disabled?: boolean;
 }
 
-/**
- * แผงตอบคำถามฝั่งขวา
- * รวม CounterRow แต่ละประเภท + ปุ่ม Submit
- */
 export function CounterPanel({
     shapeTypes,
     counts,
-    maxPerShape = 20,
+    maxPerShape = 30,
     onCountChange,
     onSubmit,
     disabled = false,
 }: CounterPanelProps) {
     return (
         <div className="flex flex-col gap-3 h-full">
+
             {/* Header */}
-            <p className="text-center text-base font-bold text-[#3C3C3C]">
-                มีรูปทรงกี่อัน? 🤔
-            </p>
+            <div className="flex items-center justify-center gap-2 py-1">
+                <span className="text-base font-extrabold text-[#D84C7B] tracking-wide">
+                    นับจำนวนรูปทรง
+                </span>
+            </div>
+
+
 
             {/* Counter rows */}
-            <div className="flex flex-col gap-2 flex-1 overflow-y-auto pr-0.5">
+            <div className="flex flex-col gap-2.5 flex-1 overflow-y-auto pr-1 pb-1">
                 {shapeTypes.map((type) => (
                     <CounterRow
                         key={type}
@@ -51,28 +49,26 @@ export function CounterPanel({
             </div>
 
             {/* Submit button */}
-            <TiltButton
-                width="100%"
-                height={56}
-                elevation={6}
-                pressInset={6}
-                tilt={0.5}
-                radius={16}
-                motion={60}
-                surfaceColor="#1CB0F6"
-                sideColor="#0A8ED9"
-                textColor="#ffffff"
-                borderColor="transparent"
-                borderWidth={0}
-                glareOpacity={0}
-                glareWidth={0}
-                onClick={onSubmit}
-                disabled={disabled}
-            >
-                <span className="font-extrabold text-base tracking-wide">
-                    ✅ ส่งคำตอบ
-                </span>
-            </TiltButton>
+            <div className="pt-1">
+                <TiltButton
+                    width="100%"
+                    height={60}
+                    elevation={7}
+                    pressInset={5}
+                    tilt={0.5}
+                    radius={28}
+                    motion={60}
+                    surfaceColor="#FF85B3"
+                    sideColor="#D84C7B"
+                    textColor="#ffffff"
+                    onClick={onSubmit}
+                    disabled={disabled}
+                >
+                    <span className="font-extrabold text-lg tracking-wide flex items-center justify-center gap-2 drop-shadow-sm">
+                        ส่งคำตอบ!
+                    </span>
+                </TiltButton>
+            </div>
         </div>
     );
 }

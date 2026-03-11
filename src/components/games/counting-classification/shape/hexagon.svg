@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <!-- Base gradient - Emerald Green -->
+    <linearGradient id="hexGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    
+    <!-- Shadow gradient -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#047857" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Hexagon shape with rounded corners -->
+  <path 
+    d="M 60 12 
+       L 98 34 
+       C 102 36, 105 40, 105 45 
+       L 105 75 
+       C 105 80, 102 84, 98 86 
+       L 60 108 
+       C 56 110, 52 110, 48 108 
+       L 22 86 
+       C 18 84, 15 80, 15 75 
+       L 15 45 
+       C 15 40, 18 36, 22 34 
+       L 48 12 
+       C 52 10, 56 10, 60 12 
+       Z" 
+    fill="url(#hexGrad)" 
+    filter="url(#shadow)"
+    stroke="#059669" 
+    stroke-width="4" 
+    stroke-linejoin="round"
+  />
+
+  <!-- Main highlight (top left edge) -->
+  <path 
+    d="M 50 15 
+       L 25 35 
+       C 22 38, 20 42, 20 45 
+       L 20 70 
+       C 20 75, 25 70, 30 65 
+       L 30 45 
+       L 60 25 
+       Z" 
+    fill="#ffffff" 
+    opacity="0.4" 
+  />
+
+  <!-- Small dot highlight -->
+  <circle cx="48" cy="22" r="3.5" fill="#ffffff" opacity="0.8" />
+  
+  <!-- Blush / Cheeks -->
+  <circle cx="34" cy="74" r="9" fill="#10B981" opacity="0.8" />
+  <circle cx="86" cy="74" r="9" fill="#10B981" opacity="0.8" />
+
+  <!-- Eyes (Dark green/black) -->
+  <circle cx="44" cy="62" r="5" fill="#064E3B" />
+  <!-- Eye highlights -->
+  <circle cx="42" cy="60" r="2.5" fill="#ffffff" />
+  
+  <circle cx="76" cy="62" r="5" fill="#064E3B" />
+  <!-- Eye highlights -->
+  <circle cx="74" cy="60" r="2.5" fill="#ffffff" />
+
+  <!-- Mouth (Smile) -->
+  <path 
+    d="M 54 75 Q 60 83 66 75" 
+    fill="none" 
+    stroke="#064E3B" 
+    stroke-width="4.5" 
+    stroke-linecap="round" 
+  />
+  
+  <!-- Freckles (Optional cute detail) -->
+  <circle cx="38" cy="66" r="1.5" fill="#064E3B" opacity="0.4" />
+  <circle cx="32" cy="67" r="1" fill="#064E3B" opacity="0.4" />
+  <circle cx="82" cy="66" r="1.5" fill="#064E3B" opacity="0.4" />
+  <circle cx="88" cy="67" r="1" fill="#064E3B" opacity="0.4" />
+
+</svg>
