@@ -137,15 +137,7 @@ export default function StepCountingGamePage({
 
       {/* ===== Main game area ===== */}
       <div className="flex-1 flex items-center justify-center px-4 pb-4 overflow-auto relative z-20">
-        <div
-          className="w-full max-w-2xl rounded-3xl p-5 shadow-xl"
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
-            backdropFilter: "blur(10px)",
-            border: "2px solid rgba(255, 255, 255, 0.8)",
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)",
-          }}
-        >
+        <div className="w-full max-w-2xl">
           <StepCountingGame
             key={gameKey}
             config={config}

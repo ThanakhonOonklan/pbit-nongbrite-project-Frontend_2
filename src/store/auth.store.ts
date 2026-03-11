@@ -228,6 +228,8 @@ export const useAuthStore = create<AuthState>()(
             gender: response.data.gender,
             profile: response.data.profile,
             streaks: response.data.streaks,
+            life: response.data.life,
+            stats: response.data.stats,
           };
 
           // Sync user to user store

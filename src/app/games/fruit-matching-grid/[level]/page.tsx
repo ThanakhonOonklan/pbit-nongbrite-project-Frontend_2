@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useCallback, useRef } from "react";
+import { use, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -73,11 +73,26 @@ export default function FruitMatchingGridGamePage({
     );
   }
 
+  // Dynamic grid size label
+  const gridLabel = `${config.gridSize}×${config.gridSize}`;
+
   // ── Render ────────────────────────────────────────────────
   return (
-    <div className="flex flex-col h-screen overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #E8F4FD 0%, #D1E9F6 50%, #C4DEF0 100%)" }}
+    <div
+      className="flex flex-col h-screen overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, #FFF5E4 0%, #FFE0F0 30%, #E8D5FF 60%, #D5F0FF 100%)",
+      }}
     >
+      {/* Floating decorative emojis */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <span className="absolute text-4xl opacity-20 animate-bounce" style={{ top: "10%", left: "5%" }}>🍎</span>
+        <span className="absolute text-3xl opacity-15 animate-pulse" style={{ top: "20%", right: "8%" }}>🍊</span>
+        <span className="absolute text-5xl opacity-10 animate-bounce" style={{ bottom: "15%", left: "10%", animationDelay: "0.5s" }}>🍇</span>
+        <span className="absolute text-3xl opacity-15 animate-pulse" style={{ bottom: "25%", right: "12%", animationDelay: "1s" }}>🍓</span>
+        <span className="absolute text-4xl opacity-10 animate-bounce" style={{ top: "50%", left: "50%", animationDelay: "0.8s" }}>🍌</span>
+      </div>
+
       {/* Header */}
       <GameHeader
         level={level}
@@ -87,17 +102,17 @@ export default function FruitMatchingGridGamePage({
       />
 
       {/* Game title */}
-      <div className="text-center pt-4 sm:pt-6 pb-2 sm:pb-4 px-4">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800">
-          Coordinate Crunch
+      <div className="text-center pt-4 sm:pt-6 pb-2 sm:pb-4 px-4 relative z-10">
+        <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+          🍎 Coordinate Crunch! 🍊
         </h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Find the fruit in the grid and enter its coordinate. For example, &apos;A3&apos; or &apos;D5&apos;.
+        <p className="text-sm text-purple-600/70 mt-1 font-medium">
+          หาพิกัดผลไม้ในตาราง {gridLabel} แล้วพิมพ์คำตอบ เช่น &apos;A3&apos; หรือ &apos;D5&apos;
         </p>
       </div>
 
       {/* Main game area — scrollable */}
-      <div className="flex-1 overflow-auto px-4 sm:px-6 pb-6">
+      <div className="flex-1 overflow-auto px-4 sm:px-6 pb-6 relative z-10">
         <FruitMatchingGame
           key={gameKey}
           config={config}
@@ -108,10 +123,10 @@ export default function FruitMatchingGridGamePage({
       {/* Help button */}
       <HelpButton
         steps={[
-          { emoji: "👀", text: "ดูตารางผลไม้ 5×5" },
+          { emoji: "👀", text: `ดูตารางผลไม้ ${gridLabel}` },
           { emoji: "🔍", text: "หาผลไม้ที่กำหนดไว้ในตาราง" },
           { emoji: "📝", text: "พิมพ์พิกัด เช่น A3 หรือ D5" },
-          { emoji: "✅", text: "กด Check Answers เพื่อตรวจคำตอบ" },
+          { emoji: "✅", text: "กด ตรวจคำตอบ เพื่อเช็ค!" },
         ]}
       />
 
@@ -132,11 +147,11 @@ export default function FruitMatchingGridGamePage({
           <p className="text-white text-2xl font-extrabold text-center leading-relaxed px-8">
             🍎 Coordinate Crunch! 🍊
           </p>
-          <p className="text-white/50 text-sm mt-3">
-            หาพิกัดผลไม้ในตารางให้ถูกต้อง
+          <p className="text-white/60 text-sm mt-3 font-medium">
+            หาพิกัดผลไม้ในตารางให้ถูกต้องนะ!
           </p>
-          <p className="text-white/25 text-xs mt-6 animate-pulse">
-            แตะเพื่อเริ่มเล่น
+          <p className="text-white/30 text-xs mt-6 animate-pulse">
+            แตะเพื่อเริ่มเล่น ✨
           </p>
         </div>
       )}
@@ -154,8 +169,8 @@ export default function FruitMatchingGridGamePage({
       )}
 
       <style>{`
-                @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-            `}</style>
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+      `}</style>
     </div>
   );
 }

@@ -37,6 +37,7 @@ export interface Stats {
 
 export interface User {
   id: number;
+  email: string;
   name: string;
   age: number;
   gender: Gender;

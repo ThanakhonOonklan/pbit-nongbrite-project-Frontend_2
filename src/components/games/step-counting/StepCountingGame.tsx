@@ -36,6 +36,8 @@ export function StepCountingGame({
     };
   }, []);
 
+  const [currentHopObstacle, setCurrentHopObstacle] = useState<number | null>(null);
+
   const handleAnswer = useCallback(
     (answer: number) => {
       if (answered) return;
@@ -46,47 +48,74 @@ export function StepCountingGame({
       if (answer === config.steps) {
         setAnswered(true);
 
-        // Animate character walking step by step
-        setIsAnimating(true);
-        const totalSteps = config.steps;
-        const STEP_DELAY = 300;
+        // Calculate actual path including obstacle hops
+        const obstaclePositions = new Set(config.obstacles.map((o) => o.position));
+        const path: { pos: number; isHop: boolean }[] = [];
+        let cur = config.startPosition;
 
-        for (let i = 1; i <= totalSteps; i++) {
-          const timer = setTimeout(() => {
-            setCharacterPos(config.startPosition + i);
-
-            // On last step
-            if (i === totalSteps) {
-              setIsAnimating(false);
-              setShowCorrect(true);
-
-              // Calculate score after animation
-              const finishTimer = setTimeout(() => {
-                const elapsed = Math.floor(
-                  (Date.now() - startTime) / 1000
-                );
-                const result = calculateGameScore({
-                  difficulty: config.difficulty,
-                  attempts: newAttempts,
-                  timeSeconds: elapsed,
-                });
-
-                // Submit mock score
-                const { stars } = getStarRating(result.totalScore);
-                mockSubmitGameScore({
-                  levelId: config.level,
-                  score: result.totalScore,
-                  stars,
-                  playTime: elapsed,
-                });
-
-                onGameEnd(result, newAttempts, elapsed);
-              }, 800);
-              animRef.current.push(finishTimer);
-            }
-          }, i * STEP_DELAY);
-          animRef.current.push(timer);
+        // Simulate walking to flag
+        while (cur < config.flagPosition) {
+          if (obstaclePositions.has(cur + 1)) {
+            // Hop over obstacle (move 2 spaces if possible, assuming flag is not on obstacle)
+            cur += 2;
+            path.push({ pos: cur, isHop: true });
+          } else {
+            // Walk normally
+            cur += 1;
+            path.push({ pos: cur, isHop: false });
+          }
         }
+
+        // Animate the path
+        setIsAnimating(true);
+        let stepIdx = 0;
+
+        const animateNextStep = () => {
+          if (stepIdx < path.length) {
+            const step = path[stepIdx];
+            setCharacterPos(step.pos);
+            
+            if (step.isHop) {
+              // Trigger golden flash on the obstacle it just hopped over
+              setCurrentHopObstacle(step.pos - 1);
+              setTimeout(() => setCurrentHopObstacle(null), 400);
+            }
+
+            stepIdx++;
+            const delay = step.isHop ? 500 : 300; // Hop takes a bit longer
+            const timer = setTimeout(animateNextStep, delay);
+            animRef.current.push(timer);
+          } else {
+            // Reached end
+            setIsAnimating(false);
+            setShowCorrect(true);
+
+            // Calculate score after animation
+            const finishTimer = setTimeout(() => {
+              const elapsed = Math.floor((Date.now() - startTime) / 1000);
+              const result = calculateGameScore({
+                difficulty: config.difficulty,
+                attempts: newAttempts,
+                timeSeconds: elapsed,
+              });
+
+              // Submit mock score
+              const { stars } = getStarRating(result.totalScore);
+              mockSubmitGameScore({
+                levelId: config.level,
+                score: result.totalScore,
+                stars,
+                playTime: elapsed,
+              });
+
+              onGameEnd(result, newAttempts, elapsed);
+            }, 800);
+            animRef.current.push(finishTimer);
+          }
+        };
+
+        // Start animation
+        animateNextStep();
       }
       // Wrong answer is handled visually by QuestionPanel
     },
@@ -94,21 +123,9 @@ export function StepCountingGame({
   );
 
   return (
-    <div className="flex flex-col items-center gap-5 w-full h-full">
-      {/* Level badge */}
-      <div
-        className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-extrabold shadow-md"
-        style={{
-          background: "linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%)",
-          color: "#ffffff",
-          boxShadow: "0 4px 12px rgba(255, 107, 53, 0.3)",
-        }}
-      >
-        🏷️ ด่าน {config.level} · {config.description}
-      </div>
-
-      {/* Character above number line */}
-      <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center gap-4 w-full h-full">
+      {/* Number line — outdoor scene */}
+      <div className="flex flex-col items-center w-full">
         <NumberLine
           totalCells={config.totalCells}
           startPosition={config.startPosition}
@@ -117,16 +134,24 @@ export function StepCountingGame({
           characterPosition={characterPos}
           isAnimating={isAnimating}
           showCorrect={showCorrect}
+          currentHopObstacle={currentHopObstacle}
         />
       </div>
 
-      {/* Question + Choices */}
-      <QuestionPanel
-        choices={config.choices}
-        correctSteps={config.steps}
-        onAnswer={handleAnswer}
-        disabled={isAnimating || answered}
-      />
+      {/* Question + Choices — in a card */}
+      <div
+        className="w-full max-w-md mx-auto rounded-2xl p-4 shadow-lg"
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.95)",
+          border: "2px solid rgba(255, 255, 255, 0.8)",
+        }}
+      >
+        <QuestionPanel
+          correctSteps={config.steps}
+          onAnswer={handleAnswer}
+          disabled={isAnimating || answered}
+        />
+      </div>
     </div>
   );
 }

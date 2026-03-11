@@ -104,7 +104,7 @@ export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps)
     <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 w-full max-w-5xl mx-auto items-start">
       {/* Left — Grid */}
       <div className="flex-1 w-full lg:w-auto">
-        <FruitGrid grid={config.grid} />
+        <FruitGrid grid={config.grid} gridSize={config.gridSize} />
       </div>
 
       {/* Right — Finder */}

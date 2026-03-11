@@ -1,125 +1,123 @@
 "use client";
 
 import { useState } from "react";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
 interface QuestionPanelProps {
-  choices: number[];
   correctSteps: number;
   onAnswer: (answer: number) => void;
   disabled: boolean;
 }
 
 export function QuestionPanel({
-  choices,
   correctSteps,
   onAnswer,
   disabled,
 }: QuestionPanelProps) {
-  const [selected, setSelected] = useState<number | null>(null);
-  const [shakeIdx, setShakeIdx] = useState<number | null>(null);
+  const [currentCount, setCurrentCount] = useState(0);
+  const [feedback, setFeedback] = useState<"too_little" | "too_much" | null>(null);
+  const [shake, setShake] = useState(false);
 
-  const handleClick = (choice: number, idx: number) => {
-    if (disabled || selected === correctSteps) return;
-
-    setSelected(choice);
-
-    if (choice === correctSteps) {
-      onAnswer(choice);
-    } else {
-      // Wrong answer — shake then reset
-      setShakeIdx(idx);
-      setTimeout(() => {
-        setShakeIdx(null);
-        setSelected(null);
-      }, 600);
-      onAnswer(choice);
-    }
+  const handleDecrease = () => {
+    if (disabled || currentCount <= 0) return;
+    setCurrentCount((prev) => prev - 1);
+    setFeedback(null);
   };
 
-  const getButtonStyle = (choice: number, idx: number) => {
-    if (selected === null) {
-      return "bg-white hover:bg-orange-50 border-gray-200 hover:border-orange-300 text-gray-700 hover:shadow-md";
+  const handleIncrease = () => {
+    if (disabled || currentCount >= 20) return; // arbitrary max
+    setCurrentCount((prev) => prev + 1);
+    setFeedback(null);
+  };
+
+  const handleConfirm = () => {
+    if (disabled) return;
+
+    if (currentCount === correctSteps) {
+      setFeedback(null);
+      onAnswer(currentCount);
+    } else {
+      setFeedback(currentCount < correctSteps ? "too_little" : "too_much");
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+      onAnswer(currentCount); // to record attempt
     }
-    if (choice === correctSteps && selected === correctSteps) {
-      return "bg-gradient-to-br from-green-50 to-emerald-50 border-emerald-400 text-emerald-700 shadow-lg shadow-emerald-100";
-    }
-    if (choice === selected && choice !== correctSteps) {
-      return "bg-gradient-to-br from-red-50 to-rose-50 border-red-400 text-red-600 shadow-lg shadow-red-100";
-    }
-    return "bg-gray-50 border-gray-200 text-gray-300";
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 w-full max-w-md mx-auto">
-      {/* Question text */}
+    <div className="flex flex-col items-center gap-4 w-full">
+      {/* Title */}
+      <div className="text-center font-bold text-gray-500 text-sm">
+        🐾 หมีจะเดิน
+      </div>
+
+      {/* Counter Display */}
       <div
-        className="w-full text-center px-5 py-3.5 rounded-2xl border-2 border-dashed"
-        style={{
-          borderColor: "#F5C542",
-          backgroundColor: "rgba(245, 197, 66, 0.08)",
-        }}
+        className="w-32 py-3 rounded-full border-2 border-orange-400 bg-orange-100 flex items-center justify-center shadow-sm mx-auto"
       >
-        <p className="text-sm font-bold text-orange-500">
-          🐻 หมีต้องเดินไปถึงธง 🚩
-        </p>
-        <p className="text-base font-extrabold mt-1.5 text-gray-700">
-          ต้องเดิน{" "}
-          <span
-            className="text-xl font-black text-orange-500 px-1"
-            style={{ textShadow: "0 1px 2px rgba(255,107,53,0.2)" }}
-          >
-            กี่ก้าว
-          </span>{" "}
-          ถึงจะถึงเป้าหมาย?
-        </p>
+        <span className="text-4xl font-black text-gray-800 mr-2 drop-shadow-sm">
+          {currentCount}
+        </span>
+        <span className="text-lg font-bold text-gray-600 mt-1">ก้าว</span>
       </div>
 
-      {/* Choice buttons */}
-      <div className="grid grid-cols-2 gap-3 w-full">
-        {choices.map((choice, idx) => (
-          <button
-            key={idx}
-            onClick={() => handleClick(choice, idx)}
-            disabled={disabled || selected === correctSteps}
-            className={`
-                            relative py-3.5 rounded-2xl border-2 text-2xl font-extrabold
-                            transition-all duration-200 cursor-pointer
-                            disabled:cursor-not-allowed
-                            active:scale-95
-                            ${getButtonStyle(choice, idx)}
-                            ${shakeIdx === idx ? "animate-shake" : ""}
-                        `}
-            style={{
-              boxShadow: selected === null ? "0 2px 8px rgba(0,0,0,0.06)" : undefined,
-            }}
-          >
-            {choice}
+      {/* Controls */}
+      <div className="flex items-center justify-center gap-4 w-full mt-2">
+        {/* Minus Button */}
+        <button
+          onClick={handleDecrease}
+          disabled={disabled || currentCount <= 0}
+          className={`
+            w-20 h-20 rounded-full flex items-center justify-center text-white text-3xl font-black
+            bg-red-500 shadow-[0_6px_0_#C53030] active:shadow-none active:translate-y-[6px] transition-all
+            ${disabled || currentCount <= 0 ? "opacity-50 cursor-not-allowed active:translate-y-0 active:shadow-[0_6px_0_#C53030]" : "hover:bg-red-400"}
+          `}
+        >
+          <FaMinus />
+        </button>
 
-            {/* Correct indicator */}
-            {choice === correctSteps && selected === correctSteps && (
-              <span className="absolute top-1.5 right-2.5 text-emerald-500 text-base">✓</span>
-            )}
-            {/* Wrong indicator */}
-            {choice === selected && choice !== correctSteps && (
-              <span className="absolute top-1.5 right-2.5 text-red-400 text-base">✗</span>
-            )}
-          </button>
-        ))}
+        {/* Confirm Button */}
+        <button
+          onClick={handleConfirm}
+          disabled={disabled}
+          className={`
+            flex-1 h-16 rounded-3xl flex items-center justify-center text-white text-xl font-extrabold gap-2
+            bg-orange-300 shadow-[0_6px_0_#F6AD55] active:shadow-none active:translate-y-[6px] transition-all
+            ${disabled ? "opacity-80 cursor-not-allowed active:translate-y-0 active:shadow-[0_6px_0_#F6AD55]" : "hover:bg-orange-200"}
+          `}
+        >
+          ยืนยัน!
+        </button>
+
+        {/* Plus Button */}
+        <button
+          onClick={handleIncrease}
+          disabled={disabled || currentCount >= 20}
+          className={`
+            w-20 h-20 rounded-full flex items-center justify-center text-white text-3xl font-black
+            bg-emerald-400 shadow-[0_6px_0_#38A169] active:shadow-none active:translate-y-[6px] transition-all
+            ${disabled || currentCount >= 20 ? "opacity-50 cursor-not-allowed active:translate-y-0 active:shadow-[0_6px_0_#38A169]" : "hover:bg-emerald-300"}
+          `}
+        >
+          <FaPlus />
+        </button>
       </div>
 
-      {/* Shake animation */}
+      {/* Feedback Text */}
+      <div className={`h-6 text-sm font-bold text-gray-500 flex items-center gap-2 ${shake ? "animate-shake text-red-500" : ""}`}>
+        🪵 🪵 {feedback === "too_little" ? "เดินยังไม่ถึงธง!" : feedback === "too_much" ? "เดินเลยธงไปแล้ว!" : "ขอนสองท่อนกลางทาง — กระโดดข้ามให้ครบ!"}
+      </div>
+
       <style>{`
-                @keyframes shake {
-                    0%, 100% { transform: translateX(0); }
-                    20% { transform: translateX(-6px); }
-                    40% { transform: translateX(6px); }
-                    60% { transform: translateX(-4px); }
-                    80% { transform: translateX(4px); }
-                }
-                .animate-shake {
-                    animation: shake 0.4s ease-in-out;
-                }
-            `}</style>
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-4px); }
+          75% { transform: translateX(4px); }
+        }
+        .animate-shake {
+          animation: shake 0.3s ease-in-out;
+        }
+      `}</style>
     </div>
   );
 }
