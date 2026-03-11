@@ -77,14 +77,24 @@ export default function GridBasedColoringGamePage({
 
   return (
     <div className="flex flex-col h-screen overflow-hidden relative"
-      style={{ background: "linear-gradient(135deg, #F4F9E4 0%, #E9F4D0 30%, #D4E9A4 60%, #E9F4D0 100%)" }}
+      style={{ background: "linear-gradient(170deg, #0f1923 0%, #131F24 30%, #15232e 70%, #0f1923 100%)" }}
     >
       {/* ── Animated background particles ──────────────── */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <span className="absolute text-5xl opacity-40 animate-pulse orb-1" style={{ top: "15%", left: "8%" }}>✨</span>
-        <span className="absolute text-6xl opacity-30 animate-bounce orb-2" style={{ top: "60%", right: "5%" }}>🫧</span>
-        <span className="absolute text-4xl opacity-50 animate-pulse orb-3" style={{ bottom: "20%", left: "20%" }}>⭐</span>
-        <span className="absolute text-5xl opacity-40 animate-bounce orb-4" style={{ top: "30%", right: "25%" }}>☁️</span>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Floating color orbs */}
+        <div className="absolute top-[15%] left-[8%] w-32 h-32 rounded-full bg-[#AACE30]/6 blur-3xl orb-1" />
+        <div className="absolute top-[60%] right-[5%] w-40 h-40 rounded-full bg-blue-500/5 blur-3xl orb-2" />
+        <div className="absolute bottom-[20%] left-[30%] w-28 h-28 rounded-full bg-purple-500/4 blur-3xl orb-3" />
+        <div className="absolute top-[40%] right-[25%] w-24 h-24 rounded-full bg-amber-500/5 blur-3xl orb-4" />
+
+        {/* Subtle grid lines for "pixel art" feel */}
+        <div className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+                                          linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
       </div>
 
       {/* Header */}
@@ -96,15 +106,28 @@ export default function GridBasedColoringGamePage({
       />
 
       {/* Level title + difficulty badge */}
+      <div className="relative text-center pt-4 pb-2 px-4 shrink-0">
+        <h1 className="text-xl sm:text-2xl font-extrabold text-white flex items-center justify-center gap-3">
+          <span>Level {levelNum}:</span>
+          <span className="bg-gradient-to-r from-[#AACE30] to-[#D4E94A] bg-clip-text text-transparent">
+            {config.title}
+          </span>
+        </h1>
+        <div className="flex justify-center mt-2">
+          <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border
+                        ${diffBadge.bg} ${diffBadge.border} ${diffBadge.text}`}>
+            {diffBadge.label}
+          </span>
+        </div>
+      </div>
 
       {/* Main game area — scrollable */}
-      <div className="relative flex-1 overflow-auto px-4 sm:px-6 pb-6 z-10 mt-10">
+      <div className="relative flex-1 overflow-auto px-4 sm:px-6 pb-6">
         <GridColoringGame
           key={gameKey}
           config={config}
           onGameEnd={handleGameEnd}
           startTime={startTimeRef.current}
-          isGameActive={!showIntro}
         />
       </div>
 
@@ -113,8 +136,8 @@ export default function GridBasedColoringGamePage({
         steps={[
           { emoji: "🎨", text: "เลือกสีจาก Color Palette" },
           { emoji: "👆", text: "คลิกหรือลากเพื่อระบายสี" },
-          { emoji: "🎯", text: "ระบายให้ตรงกับรูปต้นแบบ" },
-          { emoji: "✅", text: "กด Check My Work เพื่อตรวจคำตอบ" },
+          { emoji: "🎯", text: "ระบายให้ตรงกับ Reference Image" },
+          { emoji: "✅", text: "กด Check My Work เพื่อตรวจสอบ" },
         ]}
       />
 
@@ -139,7 +162,7 @@ export default function GridBasedColoringGamePage({
         />
       )}
 
-      {/* WIN/LOSE modal */}
+      {/* WIN modal */}
       {scoreResult && (
         <GameResultModal
           levelNum={levelNum}
@@ -148,7 +171,6 @@ export default function GridBasedColoringGamePage({
           timeSeconds={elapsedSeconds}
           gamePath="grid-based-coloring"
           onRetry={handleRetry}
-          type={wrongCount > 0 ? "lose" : "win"}
         />
       )}
 

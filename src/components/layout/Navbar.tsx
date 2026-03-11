@@ -112,10 +112,10 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
     const el = document.getElementById(targetId);
     if (el) {
       if (targetId === "hero") {
-
+       
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-
+      
         const offsetTop = el.offsetTop - 80;
         window.scrollTo({ top: offsetTop, behavior: "smooth" });
       }
@@ -134,125 +134,125 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
       <nav
         className={cn(navBaseClasses, className)}
       >
-        {/* Logo and Brand */}
-        <Link href="/" className="hover:opacity-80 transition-opacity">
-          <Image
-            src="/icons/misc/new_logo.svg"
-            alt="P'Bit Nong Brite Logo"
-            width={200}
-            height={55}
-            className="object-contain"
-            priority
-            sizes="200px"
-          />
-        </Link>
+      {/* Logo and Brand */}
+      <Link href="/" className="hover:opacity-80 transition-opacity">
+        <Image
+          src="/icons/misc/new_logo.svg"
+          alt="P'Bit Nong Brite Logo"
+          width={200}
+          height={55}
+          className="object-contain"
+          priority
+          sizes="200px"
+        />
+      </Link>
 
-        {/* Navigation Menu + Right Side */}
-        <div className="ml-auto flex items-center gap-4 lg:gap-6">
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            {NAV_ITEMS.map((item) => {
-              const isActive = activeSection === item.targetId;
-              return (
-                <button
-                  key={item.targetId}
-                  type="button"
-                  onClick={() => handleNavClick(item.targetId)}
-                  className={cn(
-                    "text-[16px] font-medium transition-colors pb-1 border-b-2",
-                    isActive
-                      ? "text-[#1cb0f6] border-[#1cb0f6]"
-                      : "text-gray-700 border-transparent hover:text-[#1cb0f6]"
-                  )}
-                >
-                  {t(item.translationKey)}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Language Dropdown + Login */}
-          <div className="flex items-center gap-3 md:gap-4">
-            {/* Language Dropdown */}
-            <div className="relative" ref={dropdownRef}>
+      {/* Navigation Menu + Right Side */}
+      <div className="ml-auto flex items-center gap-4 lg:gap-6">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          {NAV_ITEMS.map((item) => {
+            const isActive = activeSection === item.targetId;
+            return (
               <button
+                key={item.targetId}
                 type="button"
-                onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                onClick={() => handleNavClick(item.targetId)}
                 className={cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-lg",
-                  "text-[14px] font-medium text-gray-700",
-                  "border border-neutral-200 bg-white",
-                  "hover:bg-neutral-50 transition-colors",
-                  "focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2"
+                  "text-[16px] font-medium transition-colors pb-1 border-b-2",
+                  isActive
+                    ? "text-[#1cb0f6] border-[#1cb0f6]"
+                    : "text-gray-700 border-transparent hover:text-[#1cb0f6]"
                 )}
               >
-                <span>{language}</span>
-                <svg
-                  className={cn(
-                    "w-4 h-4 transition-transform",
-                    isLanguageDropdownOpen && "rotate-180"
-                  )}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+                {t(item.translationKey)}
               </button>
+            );
+          })}
+        </div>
 
-              {/* Dropdown Menu */}
-              {isLanguageDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      type="button"
-                      onClick={() => {
-                        setLanguage(lang.code);
-                        setIsLanguageDropdownOpen(false);
-                      }}
-                      className={cn(
-                        "w-full text-left px-4 py-2 text-[14px] transition-colors",
-                        "hover:bg-[#1cb0f6]/10",
-                        language === lang.code
-                          ? "text-[#1cb0f6] font-medium bg-[#1cb0f6]/5"
-                          : "text-gray-700"
-                      )}
-                    >
-                      {lang.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Login Button */}
+        {/* Language Dropdown + Login */}
+        <div className="flex items-center gap-3 md:gap-4">
+          {/* Language Dropdown */}
+          <div className="relative" ref={dropdownRef}>
             <button
               type="button"
-              onClick={handleLoginClick}
-              disabled={isLoading}
+              onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
               className={cn(
-                "px-5 py-2 rounded-lg text-[14px] font-medium",
-                "bg-[#1cb0f6] text-white",
-                "hover:bg-[#17a3e3] transition-colors",
-                "focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2",
-                "disabled:opacity-50 disabled:cursor-not-allowed"
+                "flex items-center gap-2 px-3 py-2 rounded-lg",
+                "text-[14px] font-medium text-gray-700",
+                "border border-neutral-200 bg-white",
+                "hover:bg-neutral-50 transition-colors",
+                "focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2"
               )}
             >
-              {t("navbar.login")}
+              <span>{language}</span>
+              <svg
+                className={cn(
+                  "w-4 h-4 transition-transform",
+                  isLanguageDropdownOpen && "rotate-180"
+                )}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
             </button>
+
+            {/* Dropdown Menu */}
+            {isLanguageDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    type="button"
+                    onClick={() => {
+                      setLanguage(lang.code);
+                      setIsLanguageDropdownOpen(false);
+                    }}
+                    className={cn(
+                      "w-full text-left px-4 py-2 text-[14px] transition-colors",
+                      "hover:bg-[#1cb0f6]/10",
+                      language === lang.code
+                        ? "text-[#1cb0f6] font-medium bg-[#1cb0f6]/5"
+                        : "text-gray-700"
+                    )}
+                  >
+                    {lang.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
+
+          {/* Login Button */}
+          <button
+            type="button"
+            onClick={handleLoginClick}
+            disabled={isLoading}
+            className={cn(
+              "px-5 py-2 rounded-lg text-[14px] font-medium",
+              "bg-[#1cb0f6] text-white",
+              "hover:bg-[#17a3e3] transition-colors",
+              "focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2",
+              "disabled:opacity-50 disabled:cursor-not-allowed"
+            )}
+          >
+            {t("navbar.login")}
+          </button>
         </div>
-      </nav>
-      <LoadingOverlay
-        isLoading={isLoading}
-        message={t("navbar.loading")}
-      />
+      </div>
+    </nav>
+    <LoadingOverlay 
+      isLoading={isLoading} 
+      message={t("navbar.loading")}
+    />
     </>
   );
 };
