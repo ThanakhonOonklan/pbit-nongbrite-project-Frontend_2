@@ -408,23 +408,19 @@ export default function PathNavigationGamePage({
 
       {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
       {showIntro && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/50 backdrop-blur-sm cursor-pointer"
-          onClick={() => setShowIntro(false)}
-          style={{ animation: "fadeIn 0.3s ease-out" }}
-        >
-          <Image
-            src="/images/Nong_brite/nong-brite-02.svg"
-            alt="Nong Brite"
-            width={150}
-            height={150}
-            className="object-contain mb-5"
-          />
-          <p className="text-white text-2xl font-extrabold text-center leading-relaxed">
-            น้องไบร์ทกำลังหลงทาง<br />ช่วยน้องกลับบ้านกันเถอะ!
-          </p>
-          <p className="text-white/60 text-sm mt-4">แตะเพื่อเริ่มเล่น</p>
-        </div>
+        <GameOverlay
+          type="hint"
+          message={
+            <>
+              น้องไบร์ทกำลังหลงทาง<br />ช่วยน้องกลับบ้านกันเถอะ!
+            </>
+          }
+          subtitle="แตะเพื่อเริ่มเล่น"
+          imageSrc="/images/P_Bit/bit-01.svg"
+          imageAlt="Nong Brite"
+          autoDismissMs={0}
+          onDismiss={() => setShowIntro(false)}
+        />
       )}
 
       {/* ===== WRONG MOVE OVERLAY ===== */}
@@ -462,12 +458,7 @@ export default function PathNavigationGamePage({
         />
       )}
 
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to   { opacity: 1; }
-        }
-      `}</style>
+
     </div>
   );
 }

@@ -4,10 +4,12 @@ import { use, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+
 import { StepCountingGame } from "@/components/games/step-counting";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
+import { GameOverlay } from "@/components/games/GameOverlay";
 import {
   stepCountingLevels,
 } from "@/constants/games/step-counting-levels";
@@ -159,32 +161,14 @@ export default function StepCountingGamePage({
 
       {/* Intro overlay (Level 1 only) */}
       {showIntro && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer"
-          onClick={() => setShowIntro(false)}
-          style={{
-            background: "linear-gradient(180deg, rgba(135,206,235,0.95) 0%, rgba(184,228,240,0.95) 100%)",
-            animation: "fadeIn 0.3s ease-out",
-          }}
-        >
-          <Image
-            src="/images/P_Bobo/bobo-02.svg"
-            alt="Bobo"
-            width={160}
-            height={160}
-            className="object-contain mb-4 drop-shadow-xl"
-            style={{ animation: "bounceIn 0.5s ease-out" }}
-          />
-          <p className="text-orange-500 text-3xl font-extrabold text-center leading-relaxed drop-shadow-sm">
-            มาช่วยหมีนับก้าวเดินกัน!
-          </p>
-          <p className="text-gray-600 text-lg font-semibold mt-1">
-            เดินกี่ก้าวจะถึงช่องไหนนะ? 🤔
-          </p>
-          <p className="text-gray-400 text-sm mt-6 animate-pulse">
-            แตะเพื่อเริ่มเล่น ✨
-          </p>
-        </div>
+        <GameOverlay
+          type="hint"
+          message="มาช่วยหมีนับก้าวเดินกัน!"
+          imageSrc="/images/P_Bobo/bobo-02.svg"
+          imageAlt="Bobo"
+          autoDismissMs={0}
+          onDismiss={() => setShowIntro(false)}
+        />
       )}
 
 
@@ -201,17 +185,7 @@ export default function StepCountingGamePage({
         />
       )}
 
-      <style>{`
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to   { opacity: 1; }
-                }
-                @keyframes bounceIn {
-                    0%   { opacity: 0; transform: scale(0.5) translateY(20px); }
-                    60%  { transform: scale(1.05) translateY(-5px); }
-                    100% { opacity: 1; transform: scale(1) translateY(0); }
-                }
-            `}</style>
+
     </div>
   );
 }

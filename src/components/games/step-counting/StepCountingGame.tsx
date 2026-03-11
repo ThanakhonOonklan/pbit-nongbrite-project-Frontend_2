@@ -74,7 +74,7 @@ export function StepCountingGame({
           if (stepIdx < path.length) {
             const step = path[stepIdx];
             setCharacterPos(step.pos);
-            
+
             if (step.isHop) {
               // Trigger golden flash on the obstacle it just hopped over
               setCurrentHopObstacle(step.pos - 1);

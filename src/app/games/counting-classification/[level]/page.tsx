@@ -28,6 +28,7 @@ export default function CountingClassificationGamePage({
 
   const [counts, setCounts] = useState<Record<ShapeType, number>>(initCounts);
   const [submitted, setSubmitted] = useState(false);
+  const [showIntro, setShowIntro] = useState(levelNum === 1);
   const [showWrongOverlay, setShowWrongOverlay] = useState(false);
   const [attempts, setAttempts] = useState(0);
   const [elapsed, setElapsed] = useState(0); // วินาที (ไม่แสดงผล)
@@ -107,40 +108,36 @@ export default function CountingClassificationGamePage({
 
   return (
     <div
-      className="flex flex-col bg-[#131F24] overflow-hidden relative"
-      style={{
-        zoom: 1.1,
-        height: `${100 / 1.1}vh`,
-      }}
+      className="flex flex-col bg-[#FFE4E1] relative zoom-wrapper"
     >
       {/* ===== TOP HEADER ===== */}
       <div className="relative">
         <GameHeader
           level={level}
+          bgColor="#FFB6C1"
           gameTitle="Counting & Classification"
           characterSrc="/images/P_Minnie/minnie-06.svg"
         />
       </div>
 
       {/* ===== MAIN CONTENT ===== */}
-      <div className="flex flex-1 gap-6 px-12 pb-8 overflow-hidden relative z-10 pt-5 pb-5">
+      <div className="flex flex-1 flex-col lg:flex-row gap-4 lg:gap-6 px-4 lg:px-12 pb-4 lg:pb-8 relative z-10 pt-4 lg:pt-5 lg:overflow-hidden">
 
         {/* ===== LEFT PANEL: Shape Scene (60%) ===== */}
         <Container
-          className="flex-[6] flex flex-col p-6 overflow-hidden relative"
+          className="lg:flex-[6] h-[55vh] lg:h-auto flex flex-col p-4 lg:p-6 relative shrink-0"
           style={{
             backgroundColor: "#FFFFFF",
-            border: "7px solid #FFB6C1",
-            borderRadius: "32px",
-            boxShadow: "0 10px 25px rgba(0,0,0,0.2), inset 0 0 0 4px #FFE4E1",
+            border: "5px solid #FFB6C1",
+            borderRadius: "24px",
+            boxShadow: "0 8px 20px rgba(0,0,0,0.15), inset 0 0 0 3px #FFE4E1",
           }}
         >
           {/* Mascot */}
-          <div className="absolute left-4 bottom-4 z-20 flex items-end">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+          <div className="absolute left-2 lg:left-4 bottom-2 lg:bottom-4 z-20 flex items-end">
             <img
               src="/images/P_Minnie/minnie-06.svg"
-              className="w-20 h-auto drop-shadow-lg"
+              className="w-16 lg:w-20 h-auto drop-shadow-lg"
               alt="mascot"
             />
           </div>
@@ -148,14 +145,14 @@ export default function CountingClassificationGamePage({
         </Container>
 
         {/* ===== RIGHT PANEL: Counter Panel (30%) ===== */}
-        <div className="flex-[3] flex flex-col relative">
+        <div className="lg:flex-[3] flex flex-col relative min-h-[45vh] mb-8 lg:mb-0 shrink-0">
           <Container
-            className="flex flex-col p-6 flex-1 overflow-hidden"
+            className="flex flex-col p-4 lg:p-6 flex-1 lg:overflow-hidden"
             style={{
               backgroundColor: "#FFF0F5",
-              border: "7px solid #FFB6C1",
-              borderRadius: "32px",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.2), inset 0 0 0 4px #FFE4E1",
+              border: "5px solid #FFB6C1",
+              borderRadius: "24px",
+              boxShadow: "0 8px 20px rgba(0,0,0,0.15), inset 0 0 0 3px #FFE4E1",
             }}
           >
             <CounterPanel
@@ -170,6 +167,23 @@ export default function CountingClassificationGamePage({
         </div>
 
       </div>
+
+      {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
+      {showIntro && (
+        <GameOverlay
+          type="hint"
+          message={
+            <>
+              มาเรียนรู้เรื่องรูปทรง<br />และการนับกันเถอะ!
+            </>
+          }
+          subtitle="แตะเพื่อเริ่มเล่น"
+          imageSrc="/images/P_Minnie/minnie-01.svg"
+          imageAlt="Mascot"
+          autoDismissMs={0}
+          onDismiss={() => setShowIntro(false)}
+        />
+      )}
 
       {/* ===== WRONG ANSWER OVERLAY ===== */}
       {showWrongOverlay && (
@@ -195,6 +209,23 @@ export default function CountingClassificationGamePage({
           onRetry={handleRetry}
         />
       )}
+
+      <style>{`
+        @media (min-width: 1024px) {
+          .zoom-wrapper {
+            zoom: 1.1;
+            height: ${100 / 1.1}vh;
+            overflow: hidden;
+          }
+        }
+        @media (max-width: 1023px) {
+          .zoom-wrapper {
+            min-height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+          }
+        }
+      `}</style>
     </div>
   );
 }

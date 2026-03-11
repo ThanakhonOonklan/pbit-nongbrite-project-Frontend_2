@@ -26,7 +26,7 @@ export function CounterPanel({
 
             {/* Header */}
             <div className="flex items-center justify-center gap-2 py-1">
-                <span className="text-base font-extrabold text-[#D84C7B] tracking-wide">
+                <span className="text-sm sm:text-base font-extrabold text-[#D84C7B] tracking-wide">
                     นับจำนวนรูปทรง
                 </span>
             </div>
@@ -52,7 +52,7 @@ export function CounterPanel({
             <div className="pt-1">
                 <TiltButton
                     width="100%"
-                    height={60}
+                    height={50} // slightly smaller base height
                     elevation={7}
                     pressInset={5}
                     tilt={0.5}
@@ -64,7 +64,7 @@ export function CounterPanel({
                     onClick={onSubmit}
                     disabled={disabled}
                 >
-                    <span className="font-extrabold text-lg tracking-wide flex items-center justify-center gap-2 drop-shadow-sm">
+                    <span className="font-extrabold text-base sm:text-lg tracking-wide flex items-center justify-center gap-2 drop-shadow-sm">
                         ส่งคำตอบ!
                     </span>
                 </TiltButton>
