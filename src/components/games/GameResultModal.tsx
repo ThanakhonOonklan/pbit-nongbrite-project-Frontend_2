@@ -15,9 +15,9 @@ interface GameResultModalProps {
     attempts: number;
     timeSeconds: number;
     totalLevels?: number;
-    /** Route segment for next level. e.g. "conditional-matching" → /games/conditional-matching/N+1 */
     gamePath?: string;
     onRetry: () => void;
+    type?: "win" | "lose";
 }
 
 export function GameResultModal({
@@ -28,6 +28,7 @@ export function GameResultModal({
     totalLevels = 9,
     gamePath = "path-navigation",
     onRetry,
+    type = "win",
 }: GameResultModalProps) {
     const router = useRouter();
     const hasNextLevel = levelNum < totalLevels;
@@ -47,10 +48,12 @@ export function GameResultModal({
 
     // Fire confetti
     useEffect(() => {
-        import('canvas-confetti').then(mod => {
-            mod.default({ particleCount: 80, spread: 70, origin: { y: 0.6 }, ticks: 120, gravity: 0.9, decay: 0.9 });
-        });
-    }, []);
+        if (type === "win") {
+            import('canvas-confetti').then(mod => {
+                mod.default({ particleCount: 80, spread: 70, origin: { y: 0.6 }, ticks: 120, gravity: 0.9, decay: 0.9 });
+            });
+        }
+    }, [type]);
 
     return (
         <>
@@ -63,21 +66,34 @@ export function GameResultModal({
                     >
                         {/* Title */}
                         <div className="pt-6 pb-2 text-center">
-                            <p className="text-gray-800 text-sm font-bold">Level {levelNum}</p>
-                            <h2 className="text-3xl font-extrabold text-[#1CB0F6] mt-1">
-                                สำเร็จ!
-                            </h2>
+                            {type === "win" ? (
+                                <>
+                                    <p className="text-gray-800 text-sm font-bold">Level {levelNum}</p>
+                                    <h2 className="text-3xl font-extrabold text-[#1CB0F6] mt-1">
+                                        สำเร็จ!
+                                    </h2>
+                                </>
+                            ) : (
+                                <>
+                                    <p className="text-gray-800 text-sm font-bold">Level {levelNum}</p>
+                                    <h2 className="text-3xl font-extrabold text-[#1CB0F6] mt-1">
+                                        ลองอีกครั้ง
+                                    </h2>
+                                </>
+                            )}
                         </div>
 
                         {/* Star Rating */}
-                        <div className="flex flex-col items-center pb-1">
-                            <StarRating stars={stars} size={44} animated className="modal-stars" />
-                        </div>
+                        {type === "win" && (
+                            <div className="flex flex-col items-center pb-1">
+                                <StarRating stars={stars} size={44} animated className="modal-stars" />
+                            </div>
+                        )}
 
                         {/* Image */}
                         <div className="flex justify-center py-4">
                             <Image
-                                src="/images/Nong_brite/nong-brite-01.svg"
+                                src={type === "win" ? "/images/Nong_brite/nong-brite-01.svg" : "/images/Nong_brite/nong-brite-02.svg"}
                                 alt="Nong Brite"
                                 width={120}
                                 height={120}
@@ -92,61 +108,89 @@ export function GameResultModal({
 
                         {/* Action Buttons */}
                         <div className="flex gap-3 px-6 pb-6">
-                            {/* Left button */}
-                            <div className="flex-1">
-                                <TiltButton
-                                    width="100%"
-                                    height={52}
-                                    elevation={6}
-                                    pressInset={6}
-                                    tilt={0.5}
-                                    radius={14}
-                                    motion={60}
-                                    surfaceColor={!hasNextLevel ? "#E5E7EB" : "#E5E7EB"}
-                                    sideColor={!hasNextLevel ? "#D1D5DB" : "#D1D5DB"}
-                                    textColor={!hasNextLevel ? "#374151" : "#374151"}
-                                    borderColor="transparent"
-                                    borderWidth={0}
-                                    glareOpacity={0}
-                                    glareWidth={0}
-                                    onClick={!hasNextLevel ? onRetry : onRetry}
-                                >
-                                    <span className="flex items-center justify-center gap-2 font-bold text-sm">
-                                        <FaRedo className="w-3 h-3" /> เล่นอีกครั้ง
-                                    </span>
-                                </TiltButton>
-                            </div>
-                            {/* Right button */}
-                            <div className="flex-1">
-                                <TiltButton
-                                    width="100%"
-                                    height={52}
-                                    elevation={6}
-                                    pressInset={6}
-                                    tilt={0.5}
-                                    radius={14}
-                                    motion={60}
-                                    surfaceColor={hasNextLevel ? "#1CB0F6" : "#1CB0F6"}
-                                    sideColor={hasNextLevel ? "#0A8ED9" : "#0A8ED9"}
-                                    textColor={hasNextLevel ? "#ffffff" : "#ffffff"}
-                                    borderColor="transparent"
-                                    borderWidth={0}
-                                    glareOpacity={0}
-                                    glareWidth={0}
-                                    onClick={hasNextLevel
-                                        ? () => router.push(`/games/${gamePath}/${levelNum + 1}`)
-                                        : goHome
-                                    }
-                                >
-                                    <span className="flex items-center justify-center gap-2 font-bold text-sm">
-                                        {hasNextLevel ? (
-                                            <>ด่านถัดไป <FaArrowRight className="w-3.5 h-3.5" /></>
-                                        ) : (
-                                            <><FaHome className="w-3.5 h-3.5" /> หน้าหลัก</>
-                                        )}
-                                    </span>
-                                </TiltButton>
-                            </div>
+                            {type === "win" ? (
+                                <>
+                                    {/* Left button */}
+                                    <div className="flex-1">
+                                        <TiltButton
+                                            width="100%"
+                                            height={52}
+                                            elevation={6}
+                                            pressInset={6}
+                                            tilt={0.5}
+                                            radius={14}
+                                            motion={60}
+                                            surfaceColor={!hasNextLevel ? "#E5E7EB" : "#E5E7EB"}
+                                            sideColor={!hasNextLevel ? "#D1D5DB" : "#D1D5DB"}
+                                            textColor={!hasNextLevel ? "#374151" : "#374151"}
+                                            borderColor="transparent"
+                                            borderWidth={0}
+                                            glareOpacity={0}
+                                            glareWidth={0}
+                                            onClick={!hasNextLevel ? onRetry : onRetry}
+                                        >
+                                            <span className="flex items-center justify-center gap-2 font-bold text-sm">
+                                                <FaRedo className="w-3 h-3" /> เล่นอีกครั้ง
+                                            </span>
+                                        </TiltButton>
+                                    </div>
+                                    {/* Right button */}
+                                    <div className="flex-1">
+                                        <TiltButton
+                                            width="100%"
+                                            height={52}
+                                            elevation={6}
+                                            pressInset={6}
+                                            tilt={0.5}
+                                            radius={14}
+                                            motion={60}
+                                            surfaceColor={hasNextLevel ? "#1CB0F6" : "#1CB0F6"}
+                                            sideColor={hasNextLevel ? "#0A8ED9" : "#0A8ED9"}
+                                            textColor={hasNextLevel ? "#ffffff" : "#ffffff"}
+                                            borderColor="transparent"
+                                            borderWidth={0}
+                                            glareOpacity={0}
+                                            glareWidth={0}
+                                            onClick={hasNextLevel
+                                                ? () => router.push(`/games/${gamePath}/${levelNum + 1}`)
+                                                : goHome
+                                            }
+                                        >
+                                            <span className="flex items-center justify-center gap-2 font-bold text-sm">
+                                                {hasNextLevel ? (
+                                                    <>ด่านถัดไป <FaArrowRight className="w-3.5 h-3.5" /></>
+                                                ) : (
+                                                    <><FaHome className="w-3.5 h-3.5" /> หน้าหลัก</>
+                                                )}
+                                            </span>
+                                        </TiltButton>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="flex-1 w-full">
+                                    <TiltButton
+                                        width="100%"
+                                        height={52}
+                                        elevation={6}
+                                        pressInset={6}
+                                        tilt={0.5}
+                                        radius={14}
+                                        motion={60}
+                                        surfaceColor="#1CB0F6"
+                                        sideColor="#0A8ED9"
+                                        textColor="#ffffff"
+                                        borderColor="transparent"
+                                        borderWidth={0}
+                                        glareOpacity={0}
+                                        glareWidth={0}
+                                        onClick={onRetry}
+                                    >
+                                        <span className="flex items-center justify-center gap-2 font-bold text-sm">
+                                            <FaRedo className="w-3.5 h-3.5" /> ลองใหม่เลย!
+                                        </span>
+                                    </TiltButton>
+                                </div>
+                            )}
                         </div>
                     </div>
 

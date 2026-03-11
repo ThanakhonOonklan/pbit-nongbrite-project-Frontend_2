@@ -12,6 +12,18 @@ interface ColorCanvasProps {
   onCellDrag: (row: number, col: number) => void;
 }
 
+const colorNameMap: Record<string, string> = {
+  "#3B82F6": "สีฟ้า",
+  "#FACC15": "สีเหลือง",
+  "#EF4444": "สีแดง",
+  "#22C55E": "สีเขียว",
+  "#14B8A6": "สีเขียวน้ำทะเล",
+  "#F97316": "สีส้ม",
+  "#EC4899": "สีชมพู",
+  "#A855F7": "สีม่วง",
+  "#6B7280": "สีเทา",
+};
+
 export function ColorCanvas({
   gridSize,
   canvas,
@@ -54,22 +66,22 @@ export function ColorCanvas({
   }, []);
 
   return (
-    <div className="relative rounded-2xl p-4 sm:p-5 w-full overflow-hidden bg-[#1E293B]">
+    <div className="relative rounded-3xl p-4 sm:p-5 w-full overflow-hidden bg-white/90 shadow-xl border-2 border-white backdrop-blur-sm">
       {/* Subtle animated glow */}
-      <div className="absolute -top-20 -left-20 w-40 h-40 rounded-full bg-[#AACE30]/10 blur-3xl canvas-glow" />
+      <div className="absolute -top-20 -left-20 w-40 h-40 rounded-full bg-[#AACE30]/20 blur-3xl canvas-glow" />
 
       {/* Header */}
-      <div className="relative flex items-center gap-2.5 mb-4">
-        <div className="w-8 h-8 rounded-lg bg-[#AACE30]/15 flex items-center justify-center">
-          <Palette className="w-4.5 h-4.5 text-[#AACE30]" />
+      <div className="relative flex items-center gap-3 mb-5">
+        <div className="w-10 h-10 rounded-xl bg-[#AACE30]/15 flex items-center justify-center shadow-inner">
+          <Palette className="w-5 h-5 text-[#8BB422]" />
         </div>
-        <h3 className="text-base sm:text-lg font-bold text-white tracking-wide">
-          Your Canvas
+        <h3 className="text-base sm:text-xl font-extrabold text-gray-700 tracking-wide">
+          พื้นที่ระบายสี
         </h3>
         {selectedColor && (
-          <div className="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10">
-            <div className="w-3 h-3 rounded-full shadow-sm" style={{ backgroundColor: selectedColor }} />
-            <span className="text-[10px] text-white/40 font-mono">{selectedColor}</span>
+          <div className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-white shadow-sm border border-gray-100">
+            <div className="w-3.5 h-3.5 rounded-full shadow-inner" style={{ backgroundColor: selectedColor }} />
+            <span className="text-xs text-gray-500 font-bold">{colorNameMap[selectedColor.toUpperCase()] || colorNameMap[selectedColor] || selectedColor}</span>
           </div>
         )}
       </div>
@@ -77,7 +89,7 @@ export function ColorCanvas({
       {/* Grid */}
       <div className="relative flex justify-center">
         <div
-          className="inline-grid gap-[2px] bg-slate-700/50 border border-slate-600/50 rounded-xl overflow-hidden select-none"
+          className="inline-grid gap-[2px] bg-slate-200/80 border-2 border-slate-300/60 rounded-xl overflow-hidden select-none shadow-md"
           style={{
             gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
             touchAction: "none",
@@ -113,14 +125,21 @@ export function ColorCanvas({
                 }}
                 data-cell={`${rowIdx}-${colIdx}`}
                 className={`
-                                    ${cellSize} transition-all duration-100 relative
-                                    ${!disabled ? "cursor-pointer hover:brightness-110" : "cursor-not-allowed"}
-                                    ${cellColor ? "cell-painted" : ""}
+                                    ${cellSize} transition-all duration-100 relative group
+                                    ${!disabled ? "cursor-pointer hover:brightness-95 hover:scale-105 z-10" : "cursor-not-allowed"}
+                                    ${cellColor ? "cell-painted hover:z-30" : ""}
                                 `}
                 style={{
-                  backgroundColor: cellColor || "#F8FAFC",
+                  backgroundColor: cellColor || "#ffffff",
                 }}
-              />
+              >
+                  {cellColor && (
+                     <span className="absolute -top-7 left-1/2 -translate-x-1/2 text-[10px] font-bold
+                                text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-white px-2 py-0.5 rounded shadow-sm border border-gray-100 pointer-events-none">
+                        {colorNameMap[cellColor.toUpperCase()] || colorNameMap[cellColor] || cellColor}
+                     </span>
+                  )}
+              </div>
             ))
           )}
         </div>
@@ -128,15 +147,15 @@ export function ColorCanvas({
 
       <style>{`
                 @keyframes canvasGlow {
-                    0%, 100% { opacity: 0.3; transform: translate(0, 0); }
-                    50% { opacity: 0.6; transform: translate(10px, 10px); }
+                    0%, 100% { transform: translate(0, 0); }
+                    50% { transform: translate(15px, 15px); }
                 }
-                .canvas-glow { animation: canvasGlow 6s ease-in-out infinite; }
-                .cell-painted { animation: cellPop 0.15s ease-out; }
+                .canvas-glow { animation: canvasGlow 8s ease-in-out infinite; }
+                .cell-painted { animation: cellPop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
                 @keyframes cellPop {
-                    0% { transform: scale(0.85); }
-                    60% { transform: scale(1.08); }
-                    100% { transform: scale(1); }
+                    0% { transform: scale(0.9); }
+                    50% { transform: scale(1.02); z-index: 20; }
+                    100% { transform: scale(1); z-index: 10; }
                 }
             `}</style>
     </div>
