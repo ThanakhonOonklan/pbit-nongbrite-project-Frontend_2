@@ -77,7 +77,7 @@ export default function SequencingPage() {
   if (!isClient) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F3E8FF] to-[#FAF5FF]">
+    <div className="min-h-screen bg-gradient-to-br from-[#F3E8FF] to-[#FAF5FF] ">
       {/* Top Header */}
       <GameHeader
         gameTitle="เกมเรียงลำดับวงจรชีวิต"
@@ -116,7 +116,6 @@ export default function SequencingPage() {
           timeSeconds={elapsedSeconds}
           gamePath="sequencing"
           onRetry={handleRetry}
-          type={wrongCount > 0 ? "lose" : "win"}
         />
       )}
     </div>

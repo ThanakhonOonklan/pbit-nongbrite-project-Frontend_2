@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo, Fragment } from "react";
-import Image from "next/image";
-import { FaCheck, FaLightbulb, FaTimes, FaArrowRight } from "react-icons/fa";
+import { useState, useEffect, useCallback } from "react";
 import { type SequencingLevelConfig, type SequencingItem } from "@/constants/games/sequencing-levels";
 import { type ScoreResult, calculateGameScore, getStarRating } from "@/utils/game-scoring";
 import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+
+import { SequencingSlots } from "./SequencingSlots";
+import { SequencingPool } from "./SequencingPool";
+import { GameControls } from "./GameControls";
 
 interface SequencingGameProps {
   config: SequencingLevelConfig;
@@ -33,6 +34,7 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
   const [wrongCount, setWrongCount] = useState(0);
   const [hintsUsed, setHintsUsed] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   // Initialize game
   useEffect(() => {
@@ -46,10 +48,12 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
     setWrongCount(0);
     setHintsUsed(0);
     setIsCompleted(false);
+    setShowErrors(false);
   }, [config]);
 
   // Handle clicking an item from the bottom pool
   const handleItemSelect = (item: SequencingItem, poolIndex: number) => {
+    if (showErrors) setShowErrors(false); // Clear errors when user edits
     // Find the first empty slot
     const firstEmptySlotIdx = slots.findIndex((slot) => slot === null);
     if (firstEmptySlotIdx === -1) return; // No empty slots available
@@ -71,6 +75,7 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
 
   // Handle clicking a placed item from the top slots (removing it)
   const handleSlotRemove = (item: SequencingItem, slotIndex: number) => {
+    if (showErrors) setShowErrors(false); // Clear errors when user edits
     // Find where it belongs back in the original pool layout (or just an empty spot)
     const emptyPoolIdx = pool.findIndex((p) => p === null);
     if (emptyPoolIdx === -1) return; // Should never happen unless logic is broken
@@ -90,13 +95,28 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
     });
   };
 
+  // Handle native HTML5 drag drop from pool to slot
+  const handleNativeDrop = (item: SequencingItem, poolIndex: number, slotIndex: number) => {
+    if (slots[slotIndex] !== null) return; // slot already filled
+    if (showErrors) setShowErrors(false);
+    setSlots((prev) => {
+      const newSlots = [...prev];
+      newSlots[slotIndex] = item;
+      return newSlots;
+    });
+    setPool((prev) => {
+      const newPool = [...prev];
+      newPool[poolIndex] = null;
+      return newPool;
+    });
+  };
+
   // Handle Check Logic
   const handleCheck = useCallback(() => {
     if (isCompleted) return;
 
     // Must fill all slots first
     if (slots.some((slot) => slot === null)) {
-      // Optional: Add some warning/toast here "Please fill all slots"
       return;
     }
 
@@ -105,10 +125,11 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
     if (isMatch) {
       setIsCompleted(true);
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const totalAttempts = wrongCount + hintsUsed;
 
       const scoreResult = calculateGameScore({
         difficulty: config.difficulty,
-        attempts: wrongCount + hintsUsed, // Hints penalize your attempts
+        attempts: totalAttempts,
         timeSeconds: elapsed,
       });
 
@@ -121,22 +142,13 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
       });
 
       setTimeout(() => {
-        onGameEnd(scoreResult, wrongCount, elapsed);
+        onGameEnd(scoreResult, totalAttempts, elapsed);
       }, 500);
     } else {
+      // Wrong answer: increment count, show red highlights, let player try again
       setWrongCount((prev) => prev + 1);
-
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const scoreResult = calculateGameScore({
-        difficulty: config.difficulty,
-        attempts: wrongCount + hintsUsed + 1,
-        timeSeconds: elapsed,
-      });
-
-      setIsCompleted(true);
-      setTimeout(() => {
-        onGameEnd(scoreResult, wrongCount + 1, elapsed);
-      }, 300);
+      setShowErrors(true);
+      // Do NOT end the game — player can keep editing and retrying
     }
   }, [slots, config, isCompleted, startTime, wrongCount, hintsUsed, onGameEnd]);
 
@@ -195,106 +207,45 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
 
   const isAllFilled = slots.every((slot) => slot !== null);
 
+  // Handle Reset: return all placed items back to pool
+  const handleReset = () => {
+    setShowErrors(false);
+    const filledSlots = slots.filter((s): s is SequencingItem => s !== null);
+    setSlots(Array(config.correctSequence.length).fill(null));
+    setPool((prev) => {
+      const newPool = [...prev];
+      filledSlots.forEach((item) => {
+        const emptyIdx = newPool.findIndex((p) => p === null);
+        if (emptyIdx !== -1) newPool[emptyIdx] = item;
+      });
+      return newPool;
+    });
+  };
+
   return (
-    <div className="flex flex-col gap-6 w-full max-w-4xl mx-auto h-[600px]">
+    <div className="flex flex-col gap-4 w-full max-w-4xl mx-auto">
       {/* Title */}
       <h2 className="text-center font-bold text-2xl text-[#9956DE]">
         {config.sequenceTitle}
       </h2>
 
-      {/* Target Slots Area */}
-      <div className="bg-[#F3E8FF] rounded-3xl p-4 sm:p-6 md:p-8 min-h-[160px] md:min-h-[200px] flex flex-wrap items-center justify-center gap-2 md:gap-3 border-4 border-[#E9D5FF] shadow-inner relative overflow-hidden">
-        {slots.map((slot, idx) => (
-          <Fragment key={`slot-wrapper-${idx}`}>
-            <div
-              className={`w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-xl md:rounded-2xl flex items-center justify-center relative transition-all duration-300 ease-out flex-shrink-0
-                ${slot
-                  ? 'bg-white border-[3px] md:border-4 border-b-[6px] md:border-b-8 border-[#C084FC] shadow-sm transform hover:scale-[1.02]'
-                  : 'bg-[#FAF5FF] border-[3px] md:border-4 border-dashed border-[#D8B4FE] shadow-inner'
-                }`}
-            >
-              {slot && (
-                <div className="animate-in zoom-in duration-300 relative w-full h-full flex items-center justify-center">
-                  {/* Remove Button */}
-                  <button
-                    onClick={() => handleSlotRemove(slot, idx)}
-                    className="absolute -top-3 -right-3 w-8 h-8 bg-[#FF4B4B] rounded-full text-white flex items-center justify-center hover:bg-[#E53935] hover:scale-110 active:scale-95 transition-all shadow-md z-10 border-2 border-white"
-                  >
-                    <FaTimes className="w-4 h-4" />
-                  </button>
+      <SequencingSlots
+        slots={slots}
+        onRemove={handleSlotRemove}
+        onDrop={handleNativeDrop}
+        correctSequence={config.correctSequence}
+        showErrors={showErrors}
+      />
 
-                  {/* Content */}
-                  {slot.isImage ? (
-                    <Image src={slot.content} alt={`Item ${idx}`} width={70} height={70} className="w-10 h-10 md:w-[70px] md:h-[70px] object-contain drop-shadow-sm" />
-                  ) : (
-                    <span className="text-3xl sm:text-4xl md:text-6xl drop-shadow-sm">{slot.content}</span>
-                  )}
-                </div>
-              )}
-            </div>
+      <SequencingPool pool={pool} onSelect={handleItemSelect} slotCount={slots.length} />
 
-            {/* Sequence Arrow */}
-            {idx < slots.length - 1 && (
-              <div className="flex items-center justify-center text-[#D8B4FE] flex-shrink-0 px-0.5 md:px-1">
-                <FaArrowRight className="w-4 h-4 md:w-8 md:h-8 opacity-80" />
-              </div>
-            )}
-          </Fragment>
-        ))}
-      </div>
-
-      {/* Item Pool Area */}
-      <div className="bg-[#FAF5FF] rounded-3xl p-6 md:p-8 min-h-[140px] md:min-h-[180px] flex flex-wrap items-center justify-center gap-3 md:gap-6 border-4 border-[#E9D5FF] shadow-inner relative">
-        <div className="absolute top-2 left-3 md:top-3 md:left-4 text-xs md:text-sm font-bold text-[#D8B4FE] uppercase tracking-wider">
-          ลากหรือแตะเพื่อนำไปวาง
-        </div>
-
-        {pool.map((item, idx) => (
-          <div
-            key={`pool-${idx}`}
-            className={`w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-200 mt-2 md:mt-0
-              ${item
-                ? 'bg-white shadow-[0_4px_0_#C084FC] md:shadow-[0_6px_0_#C084FC] cursor-pointer hover:-translate-y-2 hover:shadow-[0_6px_0_#C084FC] md:hover:shadow-[0_8px_0_#C084FC] active:translate-y-1 active:shadow-none border-[3px] md:border-4 border-[#E9D5FF] hover:border-[#C084FC]'
-                : 'opacity-0 scale-90'}`}
-            onClick={() => item ? handleItemSelect(item, idx) : null}
-          >
-            {item && (
-              <div className="animate-in fade-in duration-300">
-                {item.isImage ? (
-                  <Image src={item.content} alt="Draggable Item" width={70} height={70} className="w-10 h-10 md:w-[70px] md:h-[70px] object-contain drop-shadow-sm" />
-                ) : (
-                  <span className="text-3xl sm:text-4xl md:text-6xl drop-shadow-sm">{item.content}</span>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex justify-center gap-3 sm:gap-6 mt-auto pb-4">
-        <button
-          onClick={handleCheck}
-          disabled={!isAllFilled || isCompleted}
-          className={`flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-white text-base sm:text-xl transition-all
-            ${isAllFilled
-              ? 'bg-[#58CC02] hover:bg-[#46A302] shadow-[0_4px_0_#46A302] sm:shadow-[0_6px_0_#46A302] active:translate-y-1.5 active:shadow-[0_0px_0_#46A302]'
-              : 'bg-[#E5E5E5] text-[#AFAFAF] shadow-[0_4px_0_#D1D1D1] sm:shadow-[0_6px_0_#D1D1D1] cursor-not-allowed hidden'
-            }`}
-        >
-          <FaCheck className="w-4 h-4 sm:w-5 sm:h-5" /> ตรวจสอบ (Check)
-        </button>
-
-        <button
-          onClick={handleHint}
-          disabled={isCompleted || isAllFilled}
-          className={`flex items-center gap-2 sm:gap-3 px-5 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-white text-base sm:text-xl transition-all 
-            bg-[#1CB0F6] hover:bg-[#1899D6] shadow-[0_4px_0_#1899D6] sm:shadow-[0_6px_0_#1899D6] active:translate-y-1.5 active:shadow-[0_0px_0_#1899D6] 
-            ${isAllFilled ? 'hidden' : ''}`}
-        >
-          <FaLightbulb className="w-4 h-4 sm:w-5 sm:h-5" /> คำใบ้ (Hint)
-        </button>
-      </div>
+      <GameControls
+        onCheck={handleCheck}
+        onHint={handleHint}
+        onReset={handleReset}
+        isAllFilled={isAllFilled}
+        isCompleted={isCompleted}
+      />
     </div>
   );
 }
