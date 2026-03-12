@@ -19,13 +19,14 @@ interface ChapterState {
 
 export const useChapterStore = create<ChapterState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       chapters: [],
       isLoading: false,
       error: null,
       lastFetched: null,
 
       fetchChapters: async () => {
+        if (get().isLoading) return;
         set({ isLoading: true, error: null });
         try {
           const response = await chapterService.getChapters();

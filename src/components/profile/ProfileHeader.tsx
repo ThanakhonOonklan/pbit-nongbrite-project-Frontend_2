@@ -23,8 +23,12 @@ export interface ProfileHeaderProps {
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
-  const { user, isLoading, fetchProfile, updateProfile } = useUserStore();
-  const { isAuthenticated } = useAuthStore();
+  const user = useUserStore((state) => state.user);
+  const isLoading = useUserStore((state) => state.isLoading);
+  const fetchProfile = useUserStore((state) => state.fetchProfile);
+  const updateProfile = useUserStore((state) => state.updateProfile);
+  
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [isEditOpen, setIsEditOpen] = React.useState(false);
   const [isSaving, setIsSaving] = React.useState(false);
 

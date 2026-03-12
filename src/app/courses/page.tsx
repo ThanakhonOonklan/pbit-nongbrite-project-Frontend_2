@@ -1,7 +1,7 @@
 "use client";
 
 import { Sidebar } from "@/components/layout/Sidebar";
-import { useState, useRef, useEffect, lazy, Suspense, useMemo } from "react";
+import { useState, useRef, useEffect, lazy, Suspense, useMemo, useCallback } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const CourseRightPanel = lazy(() => import("@/components/courses/CourseRightPanel").then(module => ({ default: module.CourseRightPanel })));
@@ -41,7 +41,8 @@ export default function CoursesPage() {
   const [isTablet, setIsTablet] = useState(false);
 
   // Fetch chapters from API
-  const { chapters, fetchChapters } = useChapterStore();
+  const chapters = useChapterStore((state) => state.chapters);
+  const fetchChapters = useChapterStore((state) => state.fetchChapters);
 
   useEffect(() => {
     fetchChapters();
@@ -86,7 +87,7 @@ export default function CoursesPage() {
     };
   }, []);
 
-  const handleSectionChange = (index: number, headerColor?: string) => {
+  const handleSectionChange = useCallback((index: number, headerColor?: string) => {
 
     if (isInitialCallRef.current) {
       isInitialCallRef.current = false;
@@ -124,7 +125,7 @@ export default function CoursesPage() {
       const lightenedColor = colorToUse ? lightenColor(colorToUse, 60) : undefined;
       setHeaderColor(lightenedColor);
     }
-  };
+  }, [mergedGames, setHeaderColor]);
 
   const handleStepClick = (index: number) => {
     if (scrollStackRef.current) {

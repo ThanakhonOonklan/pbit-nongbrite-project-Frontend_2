@@ -8,8 +8,8 @@ import { useAuthStore } from "@/store/auth.store";
 import { useEffect } from "react";
 
 export default function ProfilePage() {
-  const { fetchChapters } = useChapterStore();
-  const { isAuthenticated } = useAuthStore();
+  const fetchChapters = useChapterStore((state) => state.fetchChapters);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   // Fetch chapters when component mounts
   useEffect(() => {

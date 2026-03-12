@@ -61,7 +61,8 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
     : "#F5F5F5";
 
   // ดึงข้อมูลผู้ใช้จาก user store (ข้อมูลจริงจาก API)
-  const { user, fetchProfile } = useUserStore();
+  const user = useUserStore((state) => state.user);
+  const fetchProfile = useUserStore((state) => state.fetchProfile);
 
   React.useEffect(() => {
     if (!user) {
