@@ -12,6 +12,7 @@ import { GameControls } from "./GameControls";
 interface SequencingGameProps {
   config: SequencingLevelConfig;
   onGameEnd: (result: ScoreResult, attempts: number, elapsed: number) => void;
+  onWrongAttempt?: () => void;
   startTime: number;
 }
 
@@ -25,14 +26,12 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return newArray;
 };
 
-export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameProps) {
+export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }: SequencingGameProps) {
   // We keep a pool of items at the bottom (answers). Null means it's been picked up.
-  const [pool, setPool] = useState<(SequencingItem | null)[]>([]);
-  // We keep track of the placed items at the top.
-  const [slots, setSlots] = useState<(SequencingItem | null)[]>([]);
+  const [pool, setPool] = useState<(SequencingItem | null)[]>(() => shuffleArray([...config.correctSequence]));
+  const [slots, setSlots] = useState<(SequencingItem | null)[]>(() => Array(config.correctSequence.length).fill(null));
 
   const [wrongCount, setWrongCount] = useState(0);
-  const [hintsUsed, setHintsUsed] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
 
@@ -46,7 +45,6 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
 
     // Reset stats
     setWrongCount(0);
-    setHintsUsed(0);
     setIsCompleted(false);
     setShowErrors(false);
   }, [config]);
@@ -125,7 +123,7 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
     if (isMatch) {
       setIsCompleted(true);
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const totalAttempts = wrongCount + hintsUsed;
+      const totalAttempts = wrongCount;
 
       const scoreResult = calculateGameScore({
         difficulty: config.difficulty,
@@ -148,62 +146,10 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
       // Wrong answer: increment count, show red highlights, let player try again
       setWrongCount((prev) => prev + 1);
       setShowErrors(true);
+      if (onWrongAttempt) onWrongAttempt();
       // Do NOT end the game — player can keep editing and retrying
     }
-  }, [slots, config, isCompleted, startTime, wrongCount, hintsUsed, onGameEnd]);
-
-  // Handle Hint Logic
-  const handleHint = () => {
-    // Find the first slot that is either empty or incorrect
-    const targetSlotIdx = slots.findIndex((slot, idx) => slot === null || slot.id !== config.correctSequence[idx].id);
-
-    // Setup complete?
-    if (targetSlotIdx === -1) return;
-
-    const correctItem = config.correctSequence[targetSlotIdx];
-
-    // If there's an incorrect item currently at this slot, send it back to the pool
-    const currentItemInSlot = slots[targetSlotIdx];
-
-    // Find where the correct item is currently residing. Is it in the slots or the pool?
-    const inPoolIdx = pool.findIndex((p) => p?.id === correctItem.id);
-    const inSlotIdx = slots.findIndex((s) => s?.id === correctItem.id);
-
-    setSlots((prevSlots) => {
-      const newSlots = [...prevSlots];
-
-      // Plop correct item into the target slot
-      newSlots[targetSlotIdx] = correctItem;
-
-      // If the correct item was in another slot previously, clear that old slot
-      if (inSlotIdx !== -1 && inSlotIdx !== targetSlotIdx) {
-        newSlots[inSlotIdx] = null;
-      }
-
-      return newSlots;
-    });
-
-    setPool((prevPool) => {
-      const newPool = [...prevPool];
-
-      // If correct item was in the pool, empty its spot
-      if (inPoolIdx !== -1) {
-        newPool[inPoolIdx] = null;
-      }
-
-      // If we displaced an incorrect item, throw it into an open pool spot
-      if (currentItemInSlot !== null && currentItemInSlot.id !== correctItem.id) {
-        const emptyPoolIdx = newPool.findIndex((p) => p === null);
-        if (emptyPoolIdx !== -1) {
-          newPool[emptyPoolIdx] = currentItemInSlot;
-        }
-      }
-
-      return newPool;
-    });
-
-    setHintsUsed((prev) => prev + 1);
-  };
+  }, [slots, config, isCompleted, startTime, wrongCount, onGameEnd, onWrongAttempt]);
 
   const isAllFilled = slots.every((slot) => slot !== null);
 
@@ -223,9 +169,9 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
   };
 
   return (
-    <div className="flex flex-col gap-4 w-full max-w-4xl mx-auto">
+    <div className="flex flex-col gap-3 sm:gap-5 w-full">
       {/* Title */}
-      <h2 className="text-center font-bold text-2xl text-[#9956DE]">
+      <h2 className="text-center font-bold text-xl sm:text-2xl text-[#9956DE] px-2">
         {config.sequenceTitle}
       </h2>
 
@@ -241,7 +187,6 @@ export function SequencingGame({ config, onGameEnd, startTime }: SequencingGameP
 
       <GameControls
         onCheck={handleCheck}
-        onHint={handleHint}
         onReset={handleReset}
         isAllFilled={isAllFilled}
         isCompleted={isCompleted}

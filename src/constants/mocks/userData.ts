@@ -10,6 +10,6 @@ export const mockMyRankData: MyRankData = {
   daystate: 1,
   joinDate: "เข้าร่วมเมื่อ วันที่ 1 มกราคม 2026",
   rankBadge: "/icons/rank/diamond-dark.png",
-  heartCount: 5,
+  heartCount: 10,
 };
 

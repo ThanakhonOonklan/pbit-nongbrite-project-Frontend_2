@@ -13,19 +13,24 @@ interface SequencingSlotsProps {
 
 function getItemsPerRow(count: number): number {
   if (count <= 5) return count;
-  if (count === 6) return 6;
+  if (count === 6) return 3;
   if (count === 7) return 4;
   if (count === 8) return 4;
   if (count === 9) return 5;
+  if (count >= 10) return 5;
   return 5;
 }
 
-function getSizeByRow(itemsPerRow: number) {
-  if (itemsPerRow <= 2) return { box: "w-32 h-32 sm:w-36 sm:h-36", text: "text-5xl sm:text-7xl", img: "w-20 h-20 sm:w-24 sm:h-24", btn: "w-8 h-8 -top-3 -right-3", btnIcon: "w-4 h-4", gap: "gap-2.5 sm:gap-3", arrowSize: "w-3.5 h-3.5" };
-  if (itemsPerRow <= 3) return { box: "w-24 h-24 sm:w-28 sm:h-28", text: "text-4xl sm:text-5xl", img: "w-14 h-14 sm:w-16 sm:h-16", btn: "w-7 h-7 -top-2.5 -right-2.5", btnIcon: "w-3.5 h-3.5", gap: "gap-2 sm:gap-3", arrowSize: "w-3 h-3 sm:w-3.5 sm:h-3.5" };
-  if (itemsPerRow <= 4) return { box: "w-16 h-16 sm:w-20 sm:h-20", text: "text-3xl sm:text-4xl", img: "w-10 h-10 sm:w-12 sm:h-12", btn: "w-6 h-6 -top-2 -right-2", btnIcon: "w-3 h-3", gap: "gap-2", arrowSize: "w-3 h-3" };
-  if (itemsPerRow <= 5) return { box: "w-[52px] h-[52px] sm:w-16 sm:h-16", text: "text-2xl sm:text-3xl", img: "w-8 h-8 sm:w-10 sm:h-10", btn: "w-5 h-5 -top-1.5 -right-1.5", btnIcon: "w-2.5 h-2.5", gap: "gap-1 sm:gap-2", arrowSize: "w-2.5 h-2.5 sm:w-3 sm:h-3" };
-  return { box: "w-11 h-11 sm:w-14 sm:h-14", text: "text-xl sm:text-2xl", img: "w-7 h-7 sm:w-9 sm:h-9", btn: "w-4 h-4 -top-1 -right-1", btnIcon: "w-2 h-2", gap: "gap-1", arrowSize: "w-2 h-2 sm:w-2.5 sm:h-2.5" };
+function getSizeByRow() {
+  return { 
+    box: "w-[54px] h-[54px] sm:w-[72px] sm:h-[72px] md:w-20 md:h-20 lg:w-24 lg:h-24", 
+    text: "text-2xl sm:text-3xl lg:text-4xl", 
+    img: "w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16", 
+    btn: "w-5 h-5 -top-1.5 -right-1.5 sm:w-6 sm:h-6 sm:-top-2 sm:-right-2 md:w-7 md:h-7 lg:w-8 lg:h-8", 
+    btnIcon: "w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5", 
+    gap: "gap-1 sm:gap-2 md:gap-3 lg:gap-4", 
+    arrowSize: "w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5" 
+  };
 }
 
 function DroppableSlot({
@@ -95,6 +100,16 @@ function DroppableSlot({
               {slot.content}
             </span>
           )}
+
+          {/* Persistent Tooltip */}
+          {slot.label && (
+            <div className="absolute -bottom-7 sm:-bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-20 flex flex-col items-center animate-in fade-in zoom-in duration-300">
+              <div className="border-4 border-transparent border-b-gray-800 w-0 h-0" />
+              <div className="bg-gray-800 text-white text-[10px] sm:text-[11px] md:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md whitespace-nowrap shadow-md">
+                {slot.label}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -106,16 +121,19 @@ import { useState } from "react";
 
 export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, showErrors }: SequencingSlotsProps) {
   const itemsPerRow = getItemsPerRow(slots.length);
-  const sc = getSizeByRow(itemsPerRow);
+  const sc = getSizeByRow();
 
+  // Build structured rows
   const rows: number[][] = [];
   for (let i = 0; i < slots.length; i += itemsPerRow) {
     rows.push(slots.slice(i, i + itemsPerRow).map((_, j) => i + j));
   }
 
   return (
-    <div className="bg-[#F3E8FF] rounded-3xl p-4 sm:p-6 border-4 border-[#E9D5FF] shadow-inner w-full">
-      <div className="flex flex-col items-center gap-4 sm:gap-5">
+    <div className="bg-[#F3E8FF] rounded-2xl sm:rounded-3xl p-2 sm:p-4 border-[3px] sm:border-4 border-[#E9D5FF] shadow-inner w-full sm:min-h-0">
+      
+      {/* Unified View for all sizes: Strict Rows */}
+      <div className="flex flex-col items-center gap-8 sm:gap-10 pt-1 pb-6 sm:pb-8 px-1 sm:px-2 w-full">
         {rows.map((rowIndices, rowIdx) => (
           <div key={`row-${rowIdx}`} className={`flex items-center justify-center ${sc.gap}`}>
             {rowIndices.map((idx) => {

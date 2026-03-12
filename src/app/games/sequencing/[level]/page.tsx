@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
+import { GameOverlay } from "@/components/games/GameOverlay";
 import { type ScoreResult } from "@/utils/game-scoring";
 
 import { sequencingLevels } from "@/constants/games/sequencing-levels";
@@ -18,12 +20,12 @@ export default function SequencingPage() {
   const [isClient, setIsClient] = useState(false);
   const [startTime, setStartTime] = useState(Date.now());
 
-  // Win/Lose condition stats
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null);
   const [wrongCount, setWrongCount] = useState(0);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [showIntro, setShowIntro] = useState(false);
+  const [showWrongOverlay, setShowWrongOverlay] = useState(false);
 
-  // Handle URL changes to set level number
   useEffect(() => {
     setIsClient(true);
     const parts = pathname.split("/");
@@ -31,28 +33,49 @@ export default function SequencingPage() {
     const parsed = parseInt(lastPart, 10);
     if (!isNaN(parsed)) {
       setLevelNum(parsed);
+      if (parsed === 1) setShowIntro(true);
     }
   }, [pathname]);
 
-  // Handle Start Timer Reset
   useEffect(() => {
     setStartTime(Date.now());
   }, [levelNum]);
 
-  // Get current logic configuration
-  const config = sequencingLevels.find((l) => l.level === levelNum) || sequencingLevels[0];
+  const config = sequencingLevels.find((l) => l.level === levelNum);
+
+  if (!isClient) return null;
+
+  if (!config) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#131F24]">
+        <div className="flex flex-col items-center text-center gap-4">
+          <div className="flex items-end justify-center gap-2">
+            <Image
+              src="/images/P_Momo/momo-03.svg"
+              alt="Momo"
+              width={110}
+              height={110}
+              className="object-contain"
+            />
+          </div>
+          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+          <button
+            onClick={() => router.push("/courses")}
+            className="mt-2 px-6 py-2 bg-[#9956DE] text-white rounded-xl font-bold hover:bg-[#7A45B2] transition-colors shadow-md"
+          >
+            กลับหน้าหลัก
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const handleGameEnd = (result: ScoreResult, attempts: number, elapsed: number) => {
-    // Determine win vs lose based on whether attempts exceeded bounds (attempts includes hints now)
-    // If the check was incorrect, wrongCount was incremented before this call
     if (attempts > 0 && result.totalScore < 100) {
-      // Using an arbitrary condition for now: If we submitted wrong, GridColorGame uses wrongCount logic.
-      // We will define specific "lose" trigger for sequencing as trying Check with inaccurate items.
+      // Handled visually in the game itself or here
     }
 
-    // In our SequencingGame, handleCheck sends 'wrongCount + 1' if not a match, or 'wrongCount' if matches
-    // But since attempts contains both hints and real wrongs, we need to track if we failed the check
-    const isWin = result.totalScore > 0; // Or better condition
+    const isWin = result.totalScore > 0;
 
     setScoreResult(result);
     setWrongCount(attempts);
@@ -64,45 +87,41 @@ export default function SequencingPage() {
     setWrongCount(0);
     setElapsedSeconds(0);
     setStartTime(Date.now());
-    // In NextJS 14 app router, could also router.refresh() if truly stateless, 
-    // but React states in SequencingGame depends on config prop updates, so it won't reset.
-    // Instead we can unmount/remount
+
   };
 
   const handleBack = () => router.push("/courses");
 
-  // A tiny hack to force component remount on retry since we stay on same page
   const gameKey = `${levelNum}-${startTime}`;
 
-  if (!isClient) return null;
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F3E8FF] to-[#FAF5FF] ">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#F3E8FF] to-[#FAF5FF]">
       {/* Top Header */}
       <GameHeader
         gameTitle="เกมเรียงลำดับวงจรชีวิต"
         level={levelNum}
         onBack={handleBack}
         bgColor="#9956DE"
+        characterSrc="/images/P_Momo/momo-03.svg"
       />
 
-      <main className="max-w-7xl mx-auto px-6 py-6 pb-24 relative min-h-[calc(100vh-80px)] flex flex-col items-center justify-center">
+      <main className="flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full px-4 sm:px-6 py-6 pb-24 relative">
 
         <SequencingGame
           key={gameKey}
           config={config}
           onGameEnd={handleGameEnd}
+          onWrongAttempt={() => setShowWrongOverlay(true)}
           startTime={startTime}
         />
 
         {/* Floating Help Button */}
         <HelpButton
           steps={[
-            { emoji: "1", text: "ดูหัวข้อด้านบนว่าคือวงจรชีวิตของอะไร (เช่น กบ, ต้นไม้)" },
-            { emoji: "2", text: "แตะที่ภาพด้านล่างเพื่อเลือกจัดวางในช่องด้านบน" },
-            { emoji: "3", text: "คุณสามารถยกเลิกการวางได้ด้วยการกดปุ่มกากบาท (x) สีแดง" },
-            { emoji: "4", text: "เมื่อจัดเรียงวงจรชีวิตครบทุกช่องแล้ว กดปุ่ม ตรวจสอบ (Check)!" },
-            { emoji: "💡", text: "ถ้าคิดไม่ออก กดปุ่ม คำใบ้ (Hint) ได้เลยนะ" },
+            { emoji: "1", text: "ดูที่ชื่อเรื่องด้านบนนะ ว่ารูปภาพคือเรื่องราวของอะไร" },
+            { emoji: "2", text: "แตะที่ภาพด้านล่างเพื่อเลือกวางในกล่องด้านบน" },
+            { emoji: "3", text: "ถ้าจะเปลี่ยนใจ ให้กดปุ่มกากบาท (x) สีแดงได้เลย" },
+            { emoji: "4", text: "เมื่อเรียงเสร็จครบทุกช่องแล้ว กดปุ่ม ตรวจสอบ!" },
           ]}
         />
       </main>
@@ -116,6 +135,35 @@ export default function SequencingPage() {
           timeSeconds={elapsedSeconds}
           gamePath="sequencing"
           onRetry={handleRetry}
+        />
+      )}
+
+      {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
+      {showIntro && (
+        <GameOverlay
+          type="hint"
+          message={
+            <>
+              มาช่วยน้องไบร์ทเรียงลำดับ<br />วงจรชีวิตให้ถูกต้องกันเถอะ!
+            </>
+          }
+          subtitle="แตะเพื่อเริ่มเล่น"
+          imageSrc="/images/P_Momo/momo-03.svg"
+          imageAlt="Nong Brite"
+          autoDismissMs={0}
+          onDismiss={() => setShowIntro(false)}
+        />
+      )}
+
+      {/* ===== WRONG ANSWER OVERLAY ===== */}
+      {showWrongOverlay && (
+        <GameOverlay
+          type="error"
+          message={`ลองจัดเรียงใหม่อีกครั้งนะ`}
+          imageSrc="/images/P_Momo/momo-05.svg"
+          imageAlt="Momo"
+          autoDismissMs={2000}
+          onDismiss={() => setShowWrongOverlay(false)}
         />
       )}
     </div>
