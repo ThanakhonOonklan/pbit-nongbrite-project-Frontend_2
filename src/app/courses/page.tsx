@@ -18,6 +18,7 @@ import { gamesConfig, mapApiLevelToConfig } from "@/constants/courses/gameConfig
 import { convertHeaderColorToHex, lightenColor } from "@/utils/courses";
 import { mockMyRankData } from "@/constants/mocks/userData";
 import { useChapterStore } from "@/store/chapter.store";
+import { useUserStore } from "@/store/user.store";
 
 export default function CoursesPage() {
   const [selectedLevel, setSelectedLevel] = useState(1);
@@ -43,10 +44,18 @@ export default function CoursesPage() {
   // Fetch chapters from API
   const chapters = useChapterStore((state) => state.chapters);
   const fetchChapters = useChapterStore((state) => state.fetchChapters);
+  // use user store global state
+  const user = useUserStore((state) => state.user);
+  const fetchProfile = useUserStore((state) => state.fetchProfile);
+
+  const displayHeartCount = user?.life?.lifeCurrent ?? 0;
+  const displayScoreCount = user?.stats?.totalScore ?? 0;
+  const displayFireCount = user?.streaks?.currentStreak ?? 0;
 
   useEffect(() => {
     fetchChapters();
-  }, [fetchChapters]);
+    fetchProfile();
+  }, [fetchChapters, fetchProfile]);
 
   // Merge API data with visual game config
   const mergedGames = useMemo(() => {
@@ -148,9 +157,9 @@ export default function CoursesPage() {
       {/* ResourceBars - Mobile only (navbar style) */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <ResourceBars
-          heartCount={mockMyRankData.heartCount ?? 0}
-          scoreCount={mockMyRankData.score ?? 0}
-          daystate={mockMyRankData.daystate ?? 0}
+          heartCount={displayHeartCount}
+          scoreCount={displayScoreCount}
+          daystate={displayFireCount}
           className="py-2 px-4"
           showDivider={false}
         />
@@ -204,6 +213,9 @@ export default function CoursesPage() {
             gameIcon={mergedGames[currentGameIconIndex]?.icon}
             headerColor={currentHeaderColor}
             gameId={currentGameId}
+            heartCount={displayHeartCount}
+            scoreCount={displayScoreCount}
+            fireCount={displayFireCount}
           />
         </Suspense>
       </div>

@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import Carousel from "@/components/courses/CourseCarousel";
 import { getGameData } from "@/constants/mocks/gameData";
 import { ResourceBars } from "./ResourceBars";
-import { useUserStore } from "@/store/user.store";
 import { lightenColor, getCarouselItemsForGame } from "@/utils/courses";
 import { Container } from "@/components/common";
 import { gamesConfig } from "@/constants/courses/gameConfig";
@@ -60,20 +59,6 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
     ? lightenColor(headerColor, 85)
     : "#F5F5F5";
 
-  // ดึงข้อมูลผู้ใช้จาก user store (ข้อมูลจริงจาก API)
-  const user = useUserStore((state) => state.user);
-  const fetchProfile = useUserStore((state) => state.fetchProfile);
-
-  React.useEffect(() => {
-    if (!user) {
-      fetchProfile();
-    }
-  }, [user, fetchProfile]);
-
-  const displayHeartCount = user?.life?.lifeCurrent ?? 0;
-  const displayScoreCount = user?.stats?.totalScore ?? 0;
-  const displayFireCount = user?.streaks?.currentStreak ?? 0;
-
   // สร้าง carousel items ตาม gameId
   const carouselItems = React.useMemo(() => {
     if (gameId) {
@@ -117,9 +102,9 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
       >
         {/* ส่วน Resource Bars */}
         <ResourceBars
-          heartCount={displayHeartCount}
-          scoreCount={displayScoreCount}
-          daystate={displayFireCount}
+          heartCount={heartCount}
+          scoreCount={scoreCount}
+          daystate={fireCount}
         />
 
         {/* ส่วนเนื้อหาหลัก */}
