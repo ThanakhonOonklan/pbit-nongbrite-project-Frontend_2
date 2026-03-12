@@ -5,6 +5,7 @@ import { HeaderColorProvider } from "@/contexts/HeaderColorContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { NextIntlClientProvider } from "next-intl";
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: {
@@ -48,6 +49,7 @@ export default function RootLayout({
         <LanguageProvider>
           <HeaderColorProvider>
             <NextIntlClientProvider>{children}</NextIntlClientProvider>
+            <Toaster position="top-center" />
           </HeaderColorProvider>
         </LanguageProvider>
       </body>
