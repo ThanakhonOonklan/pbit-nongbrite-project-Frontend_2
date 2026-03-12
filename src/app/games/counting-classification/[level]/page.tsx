@@ -1,6 +1,8 @@
 "use client";
 
 import { use, useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { GameHeader } from "@/components/games/GameHeader";
 import { Container } from "@/components/common";
 import { ShapeScene, CounterPanel } from "@/components/games/counting-classification";
@@ -18,6 +20,7 @@ export default function CountingClassificationGamePage({
 }) {
   const { level } = use(params);
   const levelNum = Number(level);
+  const router = useRouter();
   const config = countingClassificationLevels[levelNum];
 
   // ── game state ─────────────────────────────────────────
@@ -101,7 +104,16 @@ export default function CountingClassificationGamePage({
   if (!config) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#131F24]">
-        <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+        <div className="flex flex-col items-center text-center gap-4">
+          <Image src="/images/P_Minnie/minnie-06.svg" alt="Minnie" width={110} height={110} className="object-contain drop-shadow-lg" />
+          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+          <button
+            onClick={() => router.push("/courses")}
+            className="mt-2 px-6 py-2 bg-[#FFB6C1] text-white rounded-xl font-bold hover:bg-[#FF9EB1] transition-colors"
+          >
+            กลับหน้าหลัก
+          </button>
+        </div>
       </div>
     );
   }
@@ -179,7 +191,7 @@ export default function CountingClassificationGamePage({
           }
           subtitle="แตะเพื่อเริ่มเล่น"
           imageSrc="/images/P_Minnie/minnie-01.svg"
-          imageAlt="Mascot"
+          imageAlt="Minnie"
           autoDismissMs={0}
           onDismiss={() => setShowIntro(false)}
         />

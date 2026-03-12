@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
+import { GameOverlay } from "@/components/games/GameOverlay";
 import { HelpButton } from "@/components/games/HelpButton";
 import { GridColoringGame } from "@/components/games/grid-based-coloring";
 import { gridColoringLevels } from "@/constants/games/grid-based-coloring-levels";
@@ -54,11 +55,11 @@ export default function GridBasedColoringGamePage({
     return (
       <div className="flex h-screen items-center justify-center bg-[#131F24]">
         <div className="flex flex-col items-center text-center gap-4">
-          <Image src="/images/P_Bit/bit-03.svg" alt="Bit" width={100} height={100} className="object-contain" />
+          <Image src="/images/Nong_brite/nong-brite-06.svg" alt="Nong Brite" width={110} height={110} className="object-contain drop-shadow-lg" />
           <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
           <button
             onClick={() => router.push("/courses")}
-            className="mt-2 px-6 py-2 bg-[#FFB356] text-white rounded-xl font-bold hover:bg-[#E8962A] transition-colors"
+            className="mt-2 px-6 py-2 bg-[#AACE30] text-white rounded-xl font-bold hover:bg-[#8BB422] transition-colors"
           >
             กลับหน้าหลัก
           </button>
@@ -119,44 +120,19 @@ export default function GridBasedColoringGamePage({
 
       {/* Intro overlay */}
       {showIntro && (
-        <div
-          className="fixed inset-0 z-[60] flex flex-col items-center justify-center cursor-pointer select-none"
-          onClick={() => setShowIntro(false)}
-          style={{
-            background: "linear-gradient(135deg, rgba(244,249,228,0.95), rgba(233,244,208,0.95), rgba(212,233,164,0.95))",
-            backdropFilter: "blur(10px)",
-            animation: "fadeIn 0.4s ease-out"
-          }}
-        >
-          {/* Floating paint drops */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-[20%] left-[15%] text-5xl intro-float-1 drop-shadow-md">🎨</div>
-            <div className="absolute top-[30%] right-[20%] text-4xl intro-float-2 drop-shadow-md">🖌️</div>
-            <div className="absolute bottom-[30%] left-[25%] text-4xl intro-float-3 drop-shadow-md">✨</div>
-            <div className="absolute bottom-[25%] right-[15%] text-5xl intro-float-4 drop-shadow-md">🌈</div>
-          </div>
-
-          <Image
-            src="/images/Nong_brite/nong-brite-06.svg"
-            alt="Nong Brite"
-            width={180}
-            height={180}
-            className="object-contain mb-6 drop-shadow-2xl intro-character relative z-10"
-          />
-          <div className="relative z-10 bg-white/60 p-6 rounded-3xl border-2 border-white shadow-xl flex flex-col items-center">
-            <h2 className="text-3xl font-extrabold text-center leading-relaxed px-4 text-[#8BB422]">
-              🎨 Pixel Pattern! 🖌️
-            </h2>
-            <p className="text-gray-600 text-base font-bold mt-3 text-center max-w-xs">
+        <GameOverlay
+          type="hint"
+          message={
+            <>
               ระบายสีให้เหมือนรูปต้นแบบเป๊ะๆ เลยนะ!
-            </p>
-            <div className="mt-6 px-8 py-3 rounded-full bg-gradient-to-r from-[#AACE30] to-[#8BB422] shadow-md shadow-[#AACE30]/30 hover:scale-105 transition-transform">
-              <p className="text-white text-sm font-bold animate-pulse">
-                แตะเพื่อเริ่มเล่น ✨
-              </p>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+          subtitle="แตะเพื่อเริ่มเล่น"
+          imageSrc="/images/Nong_brite/nong-brite-06.svg"
+          imageAlt="Nong Brite"
+          autoDismissMs={0}
+          onDismiss={() => setShowIntro(false)}
+        />
       )}
 
       {/* WIN/LOSE modal */}
@@ -194,20 +170,6 @@ export default function GridBasedColoringGamePage({
         .orb-2 { animation: orbFloat2 8s ease-in-out infinite; }
         .orb-3 { animation: orbFloat3 5s ease-in-out infinite; }
         .orb-4 { animation: orbFloat4 7s ease-in-out infinite; }
-
-        @keyframes introFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-        .intro-float-1 { animation: introFloat 3s ease-in-out infinite; }
-        .intro-float-2 { animation: introFloat 3.5s ease-in-out infinite 0.3s; }
-        .intro-float-3 { animation: introFloat 4s ease-in-out infinite 0.6s; }
-        .intro-float-4 { animation: introFloat 3.2s ease-in-out infinite 0.9s; }
-        @keyframes charFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        .intro-character { animation: charFloat 2.5s ease-in-out infinite; }
       `}</style>
     </div>
   );

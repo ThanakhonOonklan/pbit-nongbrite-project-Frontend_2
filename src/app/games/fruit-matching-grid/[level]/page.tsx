@@ -56,16 +56,16 @@ export default function FruitMatchingGridGamePage({
       <div className="flex h-screen items-center justify-center bg-[#131F24]">
         <div className="flex flex-col items-center text-center gap-4">
           <Image
-            src="/images/P_Bit/bit-03.svg"
-            alt="Bit"
-            width={100}
-            height={100}
-            className="object-contain"
+            src="/images/P_PingPing/pingping-01.svg"
+            alt="PingPing"
+            width={110}
+            height={110}
+            className="object-contain drop-shadow-lg"
           />
           <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
           <button
             onClick={() => router.push("/courses")}
-            className="mt-2 px-6 py-2 bg-[#FFB356] text-white rounded-xl font-bold hover:bg-[#E8962A] transition-colors"
+            className="mt-2 px-6 py-2 bg-[#A855F7] text-white rounded-xl font-bold hover:bg-[#9333EA] transition-colors"
           >
             กลับหน้าหลัก
           </button>

@@ -65,19 +65,13 @@ export default function StepCountingGamePage({
   // ── Fallback for invalid level ──────────────────────────
   if (!config) {
     return (
-      <div className="flex h-screen items-center justify-center" style={{ background: "linear-gradient(180deg, #87CEEB 0%, #B8E4F0 50%, #E8F4FD 100%)" }}>
+      <div className="flex h-screen items-center justify-center bg-[#131F24]">
         <div className="flex flex-col items-center text-center gap-4">
-          <Image
-            src="/images/P_Bobo/bobo-03.svg"
-            alt="Bobo"
-            width={110}
-            height={110}
-            className="object-contain"
-          />
-          <p className="text-gray-700 text-xl font-bold">ไม่พบด่านนี้</p>
+          <Image src="/images/P_Bobo/bobo-03.svg" alt="Bobo" width={110} height={110} className="object-contain drop-shadow-lg" />
+          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
           <button
             onClick={() => router.push("/courses")}
-            className="mt-2 px-6 py-2 bg-orange-400 text-white rounded-xl font-bold hover:bg-orange-500 transition-colors shadow-lg"
+            className="mt-2 px-6 py-2 bg-[#6ED1CF] text-white rounded-xl font-bold hover:bg-[#58b8b5] transition-colors shadow-lg"
           >
             กลับหน้าหลัก
           </button>
@@ -163,7 +157,12 @@ export default function StepCountingGamePage({
       {showIntro && (
         <GameOverlay
           type="hint"
-          message="มาช่วยหมีนับก้าวเดินกัน!"
+          message={
+            <>
+              มาช่วยหมีนับก้าวเดินกัน!
+            </>
+          }
+          subtitle="แตะเพื่อเริ่มเล่น"
           imageSrc="/images/P_Bobo/bobo-02.svg"
           imageAlt="Bobo"
           autoDismissMs={0}

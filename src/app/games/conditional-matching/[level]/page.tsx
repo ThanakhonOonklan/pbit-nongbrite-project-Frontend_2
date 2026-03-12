@@ -117,7 +117,7 @@ export default function ConditionalMatchingGamePage({
     return (
       <div className="flex h-screen items-center justify-center bg-[#131F24]">
         <div className="flex flex-col items-center text-center gap-4">
-          <Image src="/images/P_Bit/bit-03.svg" alt="Bit" width={100} height={100} className="object-contain" />
+          <Image src="/images/P_Coco/coco-03.svg" alt="Coco" width={110} height={110} className="object-contain drop-shadow-lg" />
           <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
           <button
             onClick={() => router.push("/courses")}
