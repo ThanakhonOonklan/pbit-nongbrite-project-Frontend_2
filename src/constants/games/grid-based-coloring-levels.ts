@@ -20,150 +20,147 @@ const BLUE = "#3B82F6";
 const YELLOW = "#FACC15";
 const RED = "#EF4444";
 const GREEN = "#22C55E";
-const TEAL = "#14B8A6";
-const ORANGE = "#F97316";
 const PINK = "#EC4899";
-const PURPLE = "#A855F7";
 const GRAY = "#6B7280";
 
-const _ = null; // shorthand for empty cell
+const _ = null;
 
 // ── Level Data (9 ด่าน) ──────────────────────────────────────
 
 export const gridColoringLevels: Record<number, GridColoringLevelConfig> = {
 
-    // ─── Level 1 — easy 5×5 — Cross ─────────────────────────
+    // ─── Level 1 — easy 5×5 — Apple ─────────────────────────
     1: {
-        level: 1, difficulty: "easy", title: "Cross",
+        level: 1, difficulty: "easy", title: "Apple",
         gridSize: 5,
-        palette: [BLUE],
+        palette: ["#EF4444", "#22C55E"], // Red, Green
         pattern: [
-            [_, _, BLUE, _, _],
-            [_, _, BLUE, _, _],
-            [BLUE, BLUE, BLUE, BLUE, BLUE],
-            [_, _, BLUE, _, _],
-            [_, _, BLUE, _, _],
+            [_, _, "#22C55E", _, _],
+            [_, "#EF4444", "#EF4444", "#EF4444", _],
+            ["#EF4444", "#EF4444", "#EF4444", "#EF4444", "#EF4444"],
+            ["#EF4444", "#EF4444", "#EF4444", "#EF4444", "#EF4444"],
+            [_, "#EF4444", "#EF4444", "#EF4444", _],
         ],
     },
 
-    // ─── Level 2 — easy 5×5 — Square Frame ──────────────────
+    // ─── Level 2 — easy 5×5 — Simple Tree ─────────────────────────
     2: {
-        level: 2, difficulty: "easy", title: "Square Frame",
+        level: 2, difficulty: "easy", title: "Tree",
         gridSize: 5,
-        palette: [RED, BLUE],
+        palette: ["#22C55E", "#8B5A2B"], // Green, Brown
         pattern: [
-            [RED, RED, RED, RED, RED],
-            [RED, _, _, _, RED],
-            [RED, _, BLUE, _, RED],
-            [RED, _, _, _, RED],
-            [RED, RED, RED, RED, RED],
+            [_, "#22C55E", "#22C55E", "#22C55E", _],
+            ["#22C55E", "#22C55E", "#22C55E", "#22C55E", "#22C55E"],
+            [_, "#22C55E", "#22C55E", "#22C55E", _],
+            [_, _, "#8B5A2B", _, _],
+            [_, _, "#8B5A2B", _, _],
         ],
     },
 
-    // ─── Level 3 — easy 5×5 — Arrow ─────────────────────────
+    // ─── Level 3 — easy 5×5 — Fish ─────────────────────────
     3: {
-        level: 3, difficulty: "easy", title: "Arrow",
+        level: 3, difficulty: "easy", title: "Fish",
         gridSize: 5,
-        palette: [GREEN, YELLOW],
+        palette: ["#F97316", "#3B82F6"], // Orange, Blue
         pattern: [
-            [_, _, GREEN, _, _],
-            [_, GREEN, GREEN, GREEN, _],
-            [GREEN, _, GREEN, _, GREEN],
-            [_, _, GREEN, _, _],
-            [_, _, YELLOW, _, _],
+            [_, _, "#F97316", _, _],
+            ["#F97316", "#F97316", "#F97316", "#F97316", _],
+            ["#F97316", "#F97316", "#3B82F6", "#F97316", "#F97316"],
+            ["#F97316", "#F97316", "#F97316", "#F97316", _],
+            [_, _, "#F97316", _, _],
         ],
     },
 
-    // ─── Level 4 — normal 6×6 — Heart ───────────────────────
+    // ─── Level 4 — normal 6×6 — Owl ────────────────────────
     4: {
-        level: 4, difficulty: "normal", title: "Heart",
+        level: 4, difficulty: "normal", title: "Owl",
         gridSize: 6,
-        palette: [RED, PINK],
+        palette: ["#8B5A2B", "#D2B48C", "#FFFFFF", "#111827", "#FACC15"], // Brown, Tan, White, Black, Yellow
         pattern: [
-            [_, RED, _, _, RED, _],
-            [RED, PINK, RED, RED, PINK, RED],
-            [RED, PINK, PINK, PINK, PINK, RED],
-            [_, RED, PINK, PINK, RED, _],
-            [_, _, RED, RED, _, _],
-            [_, _, _, _, _, _],
+            ["#8B5A2B", _, _, _, _, "#8B5A2B"],
+            ["#8B5A2B", "#D2B48C", "#D2B48C", "#D2B48C", "#D2B48C", "#8B5A2B"],
+            ["#8B5A2B", "#FFFFFF", "#111827", "#111827", "#FFFFFF", "#8B5A2B"],
+            ["#8B5A2B", "#D2B48C", "#FACC15", "#FACC15", "#D2B48C", "#8B5A2B"],
+            ["#8B5A2B", "#D2B48C", "#D2B48C", "#D2B48C", "#D2B48C", "#8B5A2B"],
+            [_, "#D2B48C", _, _, "#D2B48C", _],
         ],
     },
 
-    // ─── Level 5 — normal 6×6 — House ───────────────────────
+    // ─── Level 5 — normal 6×6 — Cat Face ───────────────────────
     5: {
-        level: 5, difficulty: "normal", title: "House",
+        level: 5, difficulty: "normal", title: "Cat",
         gridSize: 6,
-        palette: [RED, YELLOW, BLUE],
+        palette: ["#F97316", "#FFFFFF", "#111827", "#FCA5A5"], // Orange, White, Black, Pink
         pattern: [
-            [_, _, RED, RED, _, _],
-            [_, RED, RED, RED, RED, _],
-            [RED, RED, RED, RED, RED, RED],
-            [YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW],
-            [YELLOW, BLUE, YELLOW, YELLOW, BLUE, YELLOW],
-            [YELLOW, BLUE, YELLOW, YELLOW, BLUE, YELLOW],
+            ["#F97316", _, _, _, _, "#F97316"],
+            ["#F97316", "#F97316", "#F97316", "#F97316", "#F97316", "#F97316"],
+            ["#F97316", "#111827", "#F97316", "#F97316", "#111827", "#F97316"],
+            ["#FFFFFF", "#F97316", "#FCA5A5", "#FCA5A5", "#F97316", "#FFFFFF"],
+            ["#FFFFFF", "#F97316", "#F97316", "#F97316", "#F97316", "#FFFFFF"],
+            [_, "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", _],
         ],
     },
 
-    // ─── Level 6 — normal 6×6 — Star ────────────────────────
+    // ─── Level 6 — normal 6×6 — Sheep Face ───────────────────────
     6: {
-        level: 6, difficulty: "normal", title: "Star",
+        level: 6, difficulty: "normal", title: "Sheep",
         gridSize: 6,
-        palette: [YELLOW, ORANGE, RED],
+        palette: ["#FFFFFF", "#D4A373", "#111827", "#FCA5A5"], // White, Tan/Brown, Black, Pink
         pattern: [
-            [_, _, YELLOW, YELLOW, _, _],
-            [YELLOW, YELLOW, ORANGE, ORANGE, YELLOW, YELLOW],
-            [_, ORANGE, RED, RED, ORANGE, _],
-            [_, ORANGE, RED, RED, ORANGE, _],
-            [ORANGE, ORANGE, ORANGE, ORANGE, ORANGE, ORANGE],
-            [ORANGE, _, _, _, _, ORANGE],
+            ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"],
+            ["#D4A373", "#D4A373", "#D4A373", "#D4A373", "#D4A373", "#D4A373"],
+            ["#111827", "#FFFFFF", "#D4A373", "#D4A373", "#FFFFFF", "#111827"],
+            ["#D4A373", "#D4A373", "#D4A373", "#D4A373", "#D4A373", "#D4A373"],
+            ["#FFFFFF", "#D4A373", "#FCA5A5", "#FCA5A5", "#D4A373", "#FFFFFF"],
+            ["#FFFFFF", "#D4A373", "#FCA5A5", "#FCA5A5", "#D4A373", "#FFFFFF"],
         ],
     },
 
-    // ─── Level 7 — hard 7×7 — Flower ────────────────────────
+    // ─── Level 7 — hard 7×7 — Strawberry ────────────────────────
     7: {
-        level: 7, difficulty: "hard", title: "Flower",
+        level: 7, difficulty: "hard", title: "Strawberry",
         gridSize: 7,
-        palette: [RED, PINK, GREEN, YELLOW],
+        palette: [RED, GREEN, YELLOW],
         pattern: [
-            [_, _, RED, _, RED, _, _],
-            [_, RED, PINK, RED, PINK, RED, _],
-            [_, _, RED, YELLOW, RED, _, _],
-            [_, _, _, GREEN, _, _, _],
             [_, _, GREEN, GREEN, GREEN, _, _],
-            [_, GREEN, _, GREEN, _, GREEN, _],
-            [GREEN, _, _, GREEN, _, _, GREEN],
-        ],
-    },
-
-    // ─── Level 8 — hard 7×7 — Rainbow ───────────────────────
-    8: {
-        level: 8, difficulty: "hard", title: "Rainbow",
-        gridSize: 7,
-        palette: [RED, ORANGE, YELLOW, GREEN, BLUE],
-        pattern: [
+            [_, GREEN, GREEN, GREEN, GREEN, GREEN, _],
+            [RED, RED, RED, RED, RED, RED, RED],
+            [RED, YELLOW, RED, YELLOW, RED, YELLOW, RED],
+            [_, RED, RED, YELLOW, RED, RED, _],
             [_, _, RED, RED, RED, _, _],
-            [_, RED, ORANGE, ORANGE, ORANGE, RED, _],
-            [RED, ORANGE, YELLOW, YELLOW, YELLOW, ORANGE, RED],
-            [RED, ORANGE, YELLOW, GREEN, YELLOW, ORANGE, RED],
-            [_, _, YELLOW, GREEN, YELLOW, _, _],
-            [_, _, _, GREEN, _, _, _],
-            [_, _, BLUE, BLUE, BLUE, _, _],
+            [_, _, _, RED, _, _, _],
         ],
     },
 
-    // ─── Level 9 — hard 7×7 — Tree ──────────────────────────
-    9: {
-        level: 9, difficulty: "hard", title: "Tree",
+    // ─── Level 8 — hard 7×7 — Smiley Face ───────────────────────
+    8: {
+        level: 8, difficulty: "hard", title: "Smiley Face",
         gridSize: 7,
-        palette: [GREEN, TEAL, ORANGE, RED, YELLOW],
+        palette: [YELLOW, "#111827", PINK], // Yellow, Black, Pink
         pattern: [
-            [_, _, _, YELLOW, _, _, _],
-            [_, _, GREEN, GREEN, GREEN, _, _],
-            [_, GREEN, TEAL, GREEN, TEAL, GREEN, _],
-            [GREEN, TEAL, GREEN, TEAL, GREEN, TEAL, GREEN],
-            [_, _, _, ORANGE, _, _, _],
-            [_, _, _, ORANGE, _, _, _],
-            [_, _, RED, ORANGE, RED, _, _],
+            [_, _, YELLOW, YELLOW, YELLOW, _, _],
+            [_, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, _],
+            [YELLOW, YELLOW, "#111827", YELLOW, "#111827", YELLOW, YELLOW],
+            [YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW],
+            [YELLOW, PINK, "#111827", "#111827", "#111827", PINK, YELLOW],
+            [_, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, _],
+            [_, _, YELLOW, YELLOW, YELLOW, _, _],
+        ],
+    },
+
+    // ─── Level 9 — hard 7×7 — Car ───────────────────────
+    9: {
+        level: 9, difficulty: "hard", title: "Car",
+        gridSize: 7,
+        palette: [BLUE, "#111827", YELLOW, GRAY, "#FFFFFF"], // Blue, Black, Yellow, Gray, White
+        pattern: [
+            [_, _, _, _, _, _, _],
+            [_, _, BLUE, BLUE, BLUE, _, _],
+            [_, BLUE, "#FFFFFF", "#FFFFFF", "#FFFFFF", BLUE, _],
+            [BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE],
+            [BLUE, YELLOW, BLUE, BLUE, BLUE, YELLOW, BLUE],
+            [_, "#111827", GRAY, _, "#111827", GRAY, _],
+            [_, _, _, _, _, _, _],
         ],
     },
 };

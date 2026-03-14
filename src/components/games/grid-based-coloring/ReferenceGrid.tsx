@@ -25,10 +25,10 @@ export function ReferenceGrid({
   timeLeft = 0,
   isPeeking = false
 }: ReferenceGridProps) {
-  // Same cell size as ColorCanvas for equal panel sizes
-  const cellSize = gridSize <= 5 ? "w-10 h-10 sm:w-12 sm:h-12" :
-    gridSize <= 6 ? "w-9 h-9 sm:w-11 sm:h-11" :
-      "w-8 h-8 sm:w-10 sm:h-10";
+  // Larger cell size for ReferenceGrid to make it more prominent
+  const cellSize = gridSize <= 5 ? "w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20" :
+    gridSize <= 6 ? "w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16" :
+      "w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14";
 
   // Count colored cells
   let coloredCount = 0;
@@ -42,7 +42,7 @@ export function ReferenceGrid({
   const isPenaltyPeek = peekCount > 0;
 
   return (
-    <div className="relative rounded-3xl p-4 sm:p-5 w-full overflow-hidden bg-white/90 shadow-xl border-2 border-white backdrop-blur-sm">
+    <div className="relative rounded-3xl p-4 sm:p-5 w-full flex-1 flex flex-col overflow-hidden bg-white/90 shadow-xl border-2 border-white backdrop-blur-sm">
       {/* Subtle animated glow */}
       <div className="absolute -bottom-16 -right-16 w-36 h-36 rounded-full bg-[#AACE30]/30 blur-3xl ref-glow" />
 
@@ -83,9 +83,9 @@ export function ReferenceGrid({
       </div>
 
       {/* Grid with subtle float animation */}
-      <div className="relative flex justify-center ref-float">
+      <div className="relative flex-1 flex flex-col items-center justify-center ref-float px-1 sm:px-4">
         <div
-          className="inline-grid gap-[2px] bg-slate-200/60 border-2 border-slate-300/60 rounded-xl overflow-hidden shadow-md relative"
+          className="inline-grid border-2 border-slate-800 rounded-xl overflow-hidden relative shadow-[6px_6px_0px_0px_rgba(0,0,0,0.15)] bg-white"
           style={{
             gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
           }}
@@ -106,7 +106,7 @@ export function ReferenceGrid({
             row.map((cellColor, colIdx) => (
               <div
                 key={`ref-${rowIdx}-${colIdx}`}
-                className={`${cellSize} flex items-center justify-center`}
+                className={`${cellSize} flex items-center justify-center border-slate-800 ${colIdx < gridSize - 1 ? 'border-r' : ''} ${rowIdx < gridSize - 1 ? 'border-b' : ''}`}
                 style={{
                   backgroundColor: isHidden ? "#f8fafc" : (cellColor || "#ffffff"), // slate-50 if hidden
                 }}

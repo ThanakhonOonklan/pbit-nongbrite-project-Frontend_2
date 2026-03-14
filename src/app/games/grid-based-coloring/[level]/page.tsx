@@ -79,13 +79,7 @@ export default function GridBasedColoringGamePage({
     <div className="flex flex-col h-screen overflow-hidden relative"
       style={{ background: "linear-gradient(135deg, #F4F9E4 0%, #E9F4D0 30%, #D4E9A4 60%, #E9F4D0 100%)" }}
     >
-      {/* ── Animated background particles ──────────────── */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <span className="absolute text-5xl opacity-40 animate-pulse orb-1" style={{ top: "15%", left: "8%" }}>✨</span>
-        <span className="absolute text-6xl opacity-30 animate-bounce orb-2" style={{ top: "60%", right: "5%" }}>🫧</span>
-        <span className="absolute text-4xl opacity-50 animate-pulse orb-3" style={{ bottom: "20%", left: "20%" }}>⭐</span>
-        <span className="absolute text-5xl opacity-40 animate-bounce orb-4" style={{ top: "30%", right: "25%" }}>☁️</span>
-      </div>
+
 
       {/* Header */}
       <GameHeader
@@ -150,26 +144,6 @@ export default function GridBasedColoringGamePage({
 
       <style>{`
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-        @keyframes orbFloat1 {
-            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(15px, -20px) scale(1.1) rotate(10deg); }
-        }
-        @keyframes orbFloat2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-20px, 15px) scale(1.15); }
-        }
-        @keyframes orbFloat3 {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(10px, -15px) rotate(-15deg); }
-        }
-        @keyframes orbFloat4 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-15px, 10px); }
-        }
-        .orb-1 { animation: orbFloat1 6s ease-in-out infinite; }
-        .orb-2 { animation: orbFloat2 8s ease-in-out infinite; }
-        .orb-3 { animation: orbFloat3 5s ease-in-out infinite; }
-        .orb-4 { animation: orbFloat4 7s ease-in-out infinite; }
       `}</style>
     </div>
   );

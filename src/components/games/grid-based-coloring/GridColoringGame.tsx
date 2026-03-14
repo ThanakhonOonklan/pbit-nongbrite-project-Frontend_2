@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 
 import { ColorCanvas } from "./ColorCanvas";
 import { ReferenceGrid } from "./ReferenceGrid";
@@ -12,6 +12,9 @@ import {
   type ScoreResult,
 } from "@/utils/game-scoring";
 import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
+
+export type DrawingMode = "paint" | "fill" | "eyedropper" | "eraser";
+
 import { FaRedo, FaCheck } from "react-icons/fa";
 
 const getMemorizeTime = (difficulty: string) => {
@@ -36,10 +39,49 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
     () => Array.from({ length: gridSize }, () => Array(gridSize).fill(null))
   );
   const [selectedColor, setSelectedColor] = useState<string | null>(palette[0]);
+  const [drawingMode, setDrawingMode] = useState<DrawingMode>("paint");
   const [clickCount, setClickCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [feedback, setFeedback] = useState<{ correct: number; total: number } | null>(null);
+
+  // ── New Features State ────────────────────────────────────
+  // ── New Features State ────────────────────────────────────
+  const [history, setHistory] = useState<(string | null)[][][]>(() => [
+    Array.from({ length: gridSize }, () => Array(gridSize).fill(null))
+  ]);
+  const [historyIndex, setHistoryIndex] = useState(0);
+
+  const canvasRef = useRef(canvas);
+  canvasRef.current = canvas;
+
+  const handleDrawEnd = useCallback(() => {
+    const currentSaved = history[historyIndex];
+    if (JSON.stringify(canvasRef.current) !== JSON.stringify(currentSaved)) {
+      setHistory((prev) => {
+        const newHistory = prev.slice(0, historyIndex + 1);
+        newHistory.push(canvasRef.current);
+        return newHistory;
+      });
+      setHistoryIndex((prev) => prev + 1);
+    }
+  }, [history, historyIndex]);
+
+  const handleUndo = useCallback(() => {
+    if (historyIndex > 0) {
+      const newIndex = historyIndex - 1;
+      setHistoryIndex(newIndex);
+      setCanvas(history[newIndex]);
+    }
+  }, [history, historyIndex]);
+
+  const handleRedo = useCallback(() => {
+    if (historyIndex < history.length - 1) {
+      const newIndex = historyIndex + 1;
+      setHistoryIndex(newIndex);
+      setCanvas(history[newIndex]);
+    }
+  }, [history, historyIndex]);
 
   // ── Memory Mechanics State ──────────────────────────────
   const initialTime = getMemorizeTime(config.difficulty);
@@ -89,41 +131,82 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
     return count;
   }, [canvas]);
 
+  // ── Helper: Flood Fill ────────────────────────────────────
+  const floodFill = useCallback(
+    (grid: (string | null)[][], r: number, c: number, target: string | null, replacement: string | null) => {
+      if (target === replacement) return;
+      if (grid[r][c] !== target) return;
+
+      const queue: [number, number][] = [[r, c]];
+      const newGrid = grid.map((row) => [...row]);
+
+      while (queue.length > 0) {
+        const [currR, currC] = queue.shift()!;
+        if (newGrid[currR][currC] === target) {
+          newGrid[currR][currC] = replacement;
+          if (currR > 0) queue.push([currR - 1, currC]);
+          if (currR < gridSize - 1) queue.push([currR + 1, currC]);
+          if (currC > 0) queue.push([currR, currC - 1]);
+          if (currC < gridSize - 1) queue.push([currR, currC + 1]);
+        }
+      }
+      return newGrid;
+    },
+    [gridSize]
+  );
+
   // ── Cell click handler (toggle) ─────────────────────────
   const handleCellClick = useCallback(
     (row: number, col: number) => {
       if (isCompleted || isMemorizing || isPeeking) return;
 
-      const isClearing = canvas[row][col] === selectedColor;
-      const targetColor = isClearing ? null : selectedColor;
-      if (canvas[row][col] === targetColor) return;
+      if (drawingMode === "eyedropper") {
+        const color = canvas[row][col];
+        if (color) {
+          setSelectedColor(color);
+          setDrawingMode("paint");
+        }
+        return;
+      }
 
       setFeedback(null);
       setCanvas((prev) => {
+        if (drawingMode === "fill") {
+          const newGrid = floodFill(prev, row, col, prev[row][col], selectedColor);
+          return newGrid || prev;
+        }
+
+        const targetColor = drawingMode === "eraser" ? null : selectedColor;
+
+        if (prev[row][col] === targetColor) return prev;
+
         const next = prev.map((r) => [...r]);
         next[row][col] = targetColor;
         return next;
       });
       setClickCount((prev) => prev + 1);
     },
-    [canvas, selectedColor, isCompleted, isMemorizing, isPeeking]
+    [canvas, selectedColor, drawingMode, isCompleted, isMemorizing, isPeeking, floodFill]
   );
 
   // ── Cell drag handler (always paint, no toggle) ────────
   const handleCellDrag = useCallback(
     (row: number, col: number) => {
       if (isCompleted || isMemorizing || isPeeking) return;
-      if (canvas[row][col] === selectedColor) return;
+      if (drawingMode === "fill" || drawingMode === "eyedropper") return; // Drag doesn't work for fill/eyedropper
 
       setFeedback(null);
       setCanvas((prev) => {
+        const targetColor = drawingMode === "eraser" ? null : selectedColor;
+        if (prev[row][col] === targetColor) return prev;
+
         const next = prev.map((r) => [...r]);
-        next[row][col] = selectedColor;
+        next[row][col] = targetColor;
         return next;
       });
       setClickCount((prev) => prev + 1);
     },
-    [canvas, selectedColor, isCompleted, isMemorizing, isPeeking]
+    [selectedColor, drawingMode, isCompleted, isMemorizing, isPeeking]
   );
 
   // ── Check work ───────────────────────────────────────────
@@ -187,59 +270,27 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
 
   // ── Reset canvas ─────────────────────────────────────────
   const handleReset = useCallback(() => {
-    setCanvas(Array.from({ length: gridSize }, () => Array(gridSize).fill(null)));
+    const emptyCanvas = Array.from({ length: gridSize }, () => Array(gridSize).fill(null));
+    setCanvas(emptyCanvas);
     setClickCount(0);
     setFeedback(null);
-  }, [gridSize]);
+    setTimeout(() => {
+       setHistory((prev) => {
+          const newHistory = prev.slice(0, historyIndex + 1);
+          newHistory.push(emptyCanvas);
+          return newHistory;
+       });
+       setHistoryIndex((prev) => prev + 1);
+    }, 0);
+  }, [gridSize, historyIndex]);
 
   const accuracyPct = feedback ? Math.round((feedback.correct / feedback.total) * 100) : 0;
 
   return (
-    <div className="flex flex-col gap-5 w-full max-w-5xl mx-auto">
-
-      {/* ── Stats bar ─────────────────────────────────── */}
-      <div className="flex items-center gap-3 flex-wrap">
-        {/* Grid size badge */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full
-                    bg-[#AACE30]/10 border border-[#AACE30]/20 shadow-sm">
-          <div className="w-2 h-2 rounded-full bg-[#AACE30] animate-pulse" />
-          <span className="text-xs font-bold text-[#8BB422]">{gridSize}×{gridSize}</span>
-        </div>
-
-        {/* Click counter */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full
-                    bg-white border border-gray-200 shadow-sm">
-          <span className="text-xs text-gray-400">🖌️</span>
-          <span className="text-xs font-bold text-gray-500">{clickCount} strokes</span>
-        </div>
-
-        {/* Painted counter */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full
-                    bg-white border border-gray-200 shadow-sm">
-          <span className="text-xs text-gray-400">🎨</span>
-          <span className="text-xs font-bold text-gray-500">{paintedCount} painted</span>
-        </div>
-
-        {/* Accuracy feedback */}
-        {feedback && (
-          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border font-bold text-xs shadow-sm
-                        ${feedback.correct === feedback.total
-              ? "bg-emerald-50 border-emerald-200 text-emerald-600"
-              : accuracyPct >= 80
-                ? "bg-amber-50 border-amber-200 text-amber-600"
-                : "bg-red-50 border-red-200 text-red-600"
-            }`}
-            style={{ animation: "fadeSlideIn 0.3s ease-out" }}
-          >
-            {accuracyPct >= 95 ? "✅" : accuracyPct >= 80 ? "🔶" : "❌"}
-            {accuracyPct}% accuracy
-          </div>
-        )}
-      </div>
-
+    <div>
       {/* ── Main: Reference + Canvas ──────────────────── */}
-      <div className="flex flex-col lg:flex-row gap-5 w-full items-stretch">
-        <div className="flex-1 w-full lg:w-auto relative">
+      <div className="flex flex-col lg:flex-row gap-5 w-full items-stretch flex-1">
+        <div className="flex-1 w-full lg:w-1/2 relative flex flex-col justify-center items-center ">
           <ReferenceGrid
             gridSize={gridSize}
             pattern={pattern}
@@ -252,64 +303,50 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
             isPeeking={isPeeking}
           />
         </div>
-        <div className="flex-1 w-full lg:w-auto relative">
-          {(isMemorizing || isPeeking) && (
-            <div className="absolute inset-0 bg-white/50 backdrop-blur-[2px] z-20 rounded-3xl flex items-center justify-center flex-col gap-2">
-              <span className="text-4xl">👀</span>
-              <p className="font-bold text-gray-600">จดจำรูปต้นแบบ...</p>
-            </div>
-          )}
-          <ColorCanvas
-            gridSize={gridSize}
-            canvas={canvas}
-            selectedColor={selectedColor}
-            disabled={isCompleted}
-            onCellClick={handleCellClick}
-            onCellDrag={handleCellDrag}
-          />
-        </div>
-      </div>
-
-      {/* ── Palette + Actions ─────────────────────────── */}
-      <div className="relative rounded-3xl p-4 sm:p-5 overflow-hidden bg-white/90 shadow-xl border-2 border-white backdrop-blur-sm">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <ColorPalette
-            palette={palette}
-            selectedColor={selectedColor}
-            onSelectColor={setSelectedColor}
-          />
-
-          <div className="flex gap-3 shrink-0">
-            {/* Reset */}
-            <button
-              onClick={handleReset}
+        <div className="flex-1 w-full lg:w-1/2 relative flex flex-col gap-5">
+          <div className="flex-1 relative flex flex-col">
+            {(isMemorizing || isPeeking) && (
+              <div className="absolute inset-0 bg-white/50 backdrop-blur-[2px] z-20 rounded-3xl flex items-center justify-center flex-col gap-2">
+                <span className="text-4xl">👀</span>
+                <p className="font-bold text-gray-600">จดจำรูปต้นแบบ...</p>
+              </div>
+            )}
+            <ColorCanvas
+              gridSize={gridSize}
+              canvas={canvas}
+              selectedColor={drawingMode === "eraser" ? null : selectedColor}
               disabled={isCompleted}
-              className="flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-sm
-                                bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 active:scale-95
-                                transition-all border-2 border-transparent hover:border-gray-300
-                                disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <FaRedo className="w-3.5 h-3.5" />
-              Reset
-            </button>
+              onCellClick={handleCellClick}
+              onCellDrag={handleCellDrag}
+              drawingMode={drawingMode}
+              onDrawEnd={handleDrawEnd}
+              onUndo={handleUndo}
+              onRedo={handleRedo}
+              canUndo={historyIndex > 0}
+              canRedo={historyIndex < history.length - 1}
+            />
+          </div>
 
-            {/* Check */}
-            <button
-              onClick={handleCheck}
-              disabled={isCompleted || paintedCount === 0}
-              className="flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-sm text-white
-                                bg-gradient-to-r from-[#AACE30] to-[#8BB422]
-                                hover:from-[#B8DC3C] hover:to-[#9ABB2C]
-                                active:scale-95 transition-all shadow-lg shadow-[#AACE30]/30
-                                hover:shadow-xl hover:shadow-[#AACE30]/40
-                                disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none border-2 border-white/20"
-            >
-              <FaCheck className="w-3.5 h-3.5" />
-              Check My Work
-            </button>
+          {/* ── Palette + Actions ─────────────────────────── */}
+          <div className="relative rounded-3xl p-4 sm:p-5 overflow-visible bg-white/90 shadow-xl border-2 border-white backdrop-blur-sm shrink-0">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <ColorPalette
+                palette={palette}
+                selectedColor={selectedColor}
+                onSelectColor={(color) => {
+                  setSelectedColor(color);
+                  setDrawingMode("paint");
+                }}
+                drawingMode={drawingMode}
+                onSelectMode={setDrawingMode}
+                onCheckAnswer={handleCheck}
+              />
+            </div>
           </div>
         </div>
       </div>
+
+
 
 
       <style>{`
