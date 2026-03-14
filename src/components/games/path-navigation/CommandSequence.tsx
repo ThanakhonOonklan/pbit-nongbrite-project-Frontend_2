@@ -24,9 +24,11 @@ const directionIcons: Record<Direction, React.ReactNode> = {
 
 const VALID_DIRECTIONS: Direction[] = ["up", "down", "left", "right"];
 
-// Shared tile size
-const TILE = 62;
-const RADIUS = 14;
+// Shared tile sizes (desktop / mobile)
+const TILE_LG = 62;
+const TILE_SM = 50;
+const RADIUS_LG = 14;
+const RADIUS_SM = 11;
 
 export function CommandSequence({
     commands,
@@ -63,7 +65,7 @@ export function CommandSequence({
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`rounded-xl border-2 bg-[#37464F] p-4 flex flex-col h-[280px] transition-all duration-150 ${isDragOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
+            className={`rounded-xl border-2 bg-[#37464F] p-3 lg:p-4 flex flex-col h-[180px] lg:h-[280px] transition-all duration-150 ${isDragOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
                 }`}
         >
             <div
@@ -74,14 +76,14 @@ export function CommandSequence({
 
                 <div className="flex flex-wrap gap-2 content-start">
 
-                    {/* Run button — TiltButton */}
+                    {/* Run button */}
                     <TiltButton
-                        width={TILE}
-                        height={TILE}
+                        width={TILE_SM}
+                        height={TILE_SM}
                         elevation={6}
                         pressInset={6}
                         tilt={0.89}
-                        radius={RADIUS}
+                        radius={RADIUS_SM}
                         motion={60}
                         surfaceColor="#4CAF50"
                         sideColor="#388E3C"
@@ -93,19 +95,20 @@ export function CommandSequence({
                         disabled={commands.length === 0}
                         onClick={onRun}
                     >
-                        <FaPlay className="w-5 h-5 text-white" />
+                        <FaPlay className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                     </TiltButton>
+
 
                     {/* Command chips */}
                     {commands.map((cmd, index) => (
                         <div key={index} className="group relative shrink-0">
                             <TiltButton
-                                width={TILE}
-                                height={TILE}
+                                width={TILE_SM}
+                                height={TILE_SM}
                                 elevation={6}
                                 pressInset={6}
                                 tilt={0.89}
-                                radius={RADIUS}
+                                radius={RADIUS_SM}
                                 motion={60}
                                 surfaceColor="#2D3748"
                                 sideColor="#1a2535"
@@ -134,7 +137,7 @@ export function CommandSequence({
                     <div
                         className={`shrink-0 border-2 border-dashed transition-all duration-150 ${isDragOver ? "border-[#1CB0F6] bg-[#1CB0F610]" : "border-gray-400 opacity-50"
                             }`}
-                        style={{ width: TILE, height: TILE, borderRadius: RADIUS }}
+                        style={{ width: TILE_SM, height: TILE_SM, borderRadius: RADIUS_SM }}
                     />
                 </div>
             </div>

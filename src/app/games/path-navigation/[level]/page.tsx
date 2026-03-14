@@ -282,8 +282,7 @@ export default function PathNavigationGamePage({
 
   return (
     <div
-      className="flex flex-col bg-[#131F24] overflow-hidden"
-      style={{ zoom: 1.1, height: `${100 / 1.1}vh` }}
+      className="flex flex-col bg-[#131F24] min-h-screen lg:h-screen lg:overflow-hidden overflow-y-auto"
     >
       {/* ===== TOP HEADER ===== */}
       <GameHeader
@@ -293,26 +292,28 @@ export default function PathNavigationGamePage({
       />
 
       {/* ===== MAIN CONTENT ===== */}
-      <div className="flex flex-1 gap-4 px-4 pb-4 overflow-hidden relative">
-        {/* ===== LEFT PANEL: Path Map (60%) ===== */}
-        <Container className="flex-[6] flex flex-col items-center justify-center p-6 overflow-auto !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
+      <div className="flex flex-col lg:flex-row flex-1 gap-4 px-4 pb-4 relative lg:overflow-hidden lg:min-h-0">
+        {/* ===== TOP/LEFT PANEL: Path Map ===== */}
+        <Container className="lg:flex-[6] flex flex-col items-center justify-center p-6 min-h-[260px] lg:min-h-0 lg:overflow-hidden !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
           <p className="text-lg font-bold text-[#F1F7FB] mb-6">
             LEVEL {config.level} - {config.difficulty === "easy" ? "ง่าย" : config.difficulty === "normal" ? "ปานกลาง" : "ยาก"}
           </p>
 
-          <PathMap
-            gridCols={config.gridCols}
-            gridRows={config.gridRows}
-            playerPos={playerPos}
-            nongBritePos={config.nongBritePos}
-            homePos={config.homePos}
-            blockedTiles={config.blockedTiles}
-            hasNongBrite={hasNongBrite}
-          />
+          <div className="flex-1 w-full h-full">
+            <PathMap
+              gridCols={config.gridCols}
+              gridRows={config.gridRows}
+              playerPos={playerPos}
+              nongBritePos={config.nongBritePos}
+              homePos={config.homePos}
+              blockedTiles={config.blockedTiles}
+              hasNongBrite={hasNongBrite}
+            />
+          </div>
         </Container>
 
-        {/* ===== RIGHT PANEL: Controls (40%) ===== */}
-        <Container className="flex-[4] flex flex-col p-5 !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
+        {/* ===== BOTTOM/RIGHT PANEL: Controls ===== */}
+        <Container className="lg:flex-[4] flex flex-col p-5 pb-20 lg:pb-5 !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
           {/* Command Sequence */}
           <div className="flex-1 mb-5">
             <CommandSequence

@@ -28,7 +28,7 @@ export function HelpButton({ steps }: HelpButtonProps) {
     }, [open]);
 
     return (
-        <div className="fixed bottom-6 left-6 z-50 flex flex-row items-end gap-3" ref={panelRef}>
+        <div className="hidden lg:flex fixed bottom-6 left-6 z-50 flex-row items-end gap-3" ref={panelRef}>
 
             {/* ── Trigger button ── */}
             <button
@@ -80,7 +80,7 @@ export function HelpButton({ steps }: HelpButtonProps) {
                         {steps.map((step, i) => (
                             <Step key={i} emoji={step.emoji} text={step.text} />
                         ))}
-                    </div>
+                    </div>ั
                 </div>
             )}
 

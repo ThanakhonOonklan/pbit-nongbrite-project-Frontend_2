@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TiltButton } from "react-tilt-button";
 import { type Direction } from "@/constants/games/path-navigation-levels";
 
@@ -10,11 +10,24 @@ interface DirectionControlsProps {
 }
 
 const BUTTONS: { direction: Direction; icon: React.ReactNode; label: string }[] = [
-    { direction: "left", icon: <img src="/icons/Arrow/ArrowLeft.svg" alt="ซ้าย" className="w-7 h-7" />, label: "ซ้าย" },
-    { direction: "up", icon: <img src="/icons/Arrow/ArrowUp.svg" alt="บน" className="w-7 h-7" />, label: "บน" },
-    { direction: "down", icon: <img src="/icons/Arrow/ArrowDown.svg" alt="ล่าง" className="w-7 h-7" />, label: "ล่าง" },
-    { direction: "right", icon: <img src="/icons/Arrow/ArrowRight.svg" alt="ขวา" className="w-7 h-7" />, label: "ขวา" },
+    { direction: "left", icon: <img src="/icons/Arrow/ArrowLeft.svg" alt="ซ้าย" className="w-6 h-6 lg:w-7 lg:h-7" />, label: "ซ้าย" },
+    { direction: "up", icon: <img src="/icons/Arrow/ArrowUp.svg" alt="บน" className="w-6 h-6 lg:w-7 lg:h-7" />, label: "บน" },
+    { direction: "down", icon: <img src="/icons/Arrow/ArrowDown.svg" alt="ล่าง" className="w-6 h-6 lg:w-7 lg:h-7" />, label: "ล่าง" },
+    { direction: "right", icon: <img src="/icons/Arrow/ArrowRight.svg" alt="ขวา" className="w-6 h-6 lg:w-7 lg:h-7" />, label: "ขวา" },
 ];
+
+function useIsDesktop() {
+    const [isDesktop, setIsDesktop] = useState(false);
+    useEffect(() => {
+        const mq = window.matchMedia("(min-width: 1024px)");
+        setIsDesktop(mq.matches);
+        const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+        mq.addEventListener("change", handler);
+        return () => mq.removeEventListener("change", handler);
+    }, []);
+    return isDesktop;
+}
+
 
 function DirectionButton({
     direction,
@@ -30,6 +43,9 @@ function DirectionButton({
     onAddCommand: (d: Direction) => void;
 }) {
     const [dragging, setDragging] = useState(false);
+    const isDesktop = useIsDesktop();
+    const btnSize = isDesktop ? 77 : 60;
+    const btnRadius = isDesktop ? 17 : 13;
 
     return (
         /* Wrap with draggable div — TiltButton doesn't expose native drag events */
@@ -45,12 +61,12 @@ function DirectionButton({
             title={label}
         >
             <TiltButton
-                width={77}
-                height={77}
+                width={btnSize}
+                height={btnSize}
                 elevation={8}
                 pressInset={8}
                 tilt={0.89}
-                radius={17}
+                radius={btnRadius}
                 motion={60}
                 surfaceColor={disabled ? "#6B7280" : "#1491ff"}
                 sideColor={disabled ? "#4B5563" : "#1587bd"}

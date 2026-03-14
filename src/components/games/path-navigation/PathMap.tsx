@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { type PathTile } from "@/constants/games/path-navigation-levels";
 
 interface PathMapProps {
@@ -29,15 +29,40 @@ export function PathMap({
 }: PathMapProps) {
     const isBlocked = (row: number, col: number) =>
         blockedTiles.some(t => t.row === row && t.col === col);
-    // Responsive cell size
-    const cellPx = useMemo(() => {
-        const maxDim = Math.max(gridCols, gridRows);
-        if (maxDim <= 4) return 80;
-        if (maxDim <= 5) return 68;
-        if (maxDim <= 6) return 56;
-        if (maxDim <= 7) return 48;
-        return 42;
-    }, [gridCols, gridRows]);
+
+    // Measure the outer wrapper to calculate cell size dynamically
+    const wrapperRef = useRef<HTMLDivElement>(null);
+    const [containerSize, setContainerSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
+
+    useEffect(() => {
+        if (!wrapperRef.current) return;
+        const ro = new ResizeObserver(([entry]) => {
+            const { width, height } = entry.contentRect;
+            setContainerSize({ w: width, h: height });
+        });
+        ro.observe(wrapperRef.current);
+        return () => ro.disconnect();
+    }, []);
+
+    // Compute cell size from available container dimensions
+    const cellPx = (() => {
+        if (containerSize.w === 0) {
+            // SSR / first paint fallback — use grid-based heuristic
+            const maxDim = Math.max(gridCols, gridRows);
+            if (maxDim <= 4) return 80;
+            if (maxDim <= 5) return 68;
+            if (maxDim <= 6) return 56;
+            if (maxDim <= 7) return 48;
+            return 42;
+        }
+        const byWidth = Math.floor((containerSize.w * 0.9) / gridCols);
+        // If container height is meaningful (desktop fixed layout), constrain by height too
+        if (containerSize.h > 100) {
+            const byHeight = Math.floor((containerSize.h * 0.85) / gridRows);
+            return Math.min(Math.max(Math.min(byWidth, byHeight), 40), 90);
+        }
+        return Math.min(Math.max(byWidth, 40), 90);
+    })();
 
     // Player pixel position
     const playerLeft = playerPos.col * cellPx;
@@ -55,7 +80,7 @@ export function PathMap({
     const isPlayerAtHome = samePos(playerPos, homePos);
 
     return (
-        <div className="flex items-center justify-center w-full h-full">
+        <div ref={wrapperRef} className="flex items-center justify-center w-full h-full">
             <div
                 className="relative"
                 style={{
