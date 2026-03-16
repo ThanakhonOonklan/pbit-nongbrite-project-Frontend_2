@@ -48,7 +48,7 @@ const convertLevelToLevelData = (level: Level): LevelData => {
     : Boolean(level.isUnlocked);
   
   return {
-    level: level.number,
+    level: level.levelNo,
     stars: Math.min(Math.max(earnedStars, 0), 3), // Clamp between 0-3
     completed: isUnlocked && earnedStars > 0,
   };
@@ -78,7 +78,8 @@ export interface ProgressListProps {
 }
 
 export const ProgressList: React.FC<ProgressListProps> = ({ className }) => {
-  const { chapters, isLoading } = useChapterStore();
+  const chapters = useChapterStore((state) => state.chapters);
+  const isLoading = useChapterStore((state) => state.isLoading);
   const { language } = useLanguage();
   const [expandedIndex, setExpandedIndex] = React.useState<number | null>(null);
 

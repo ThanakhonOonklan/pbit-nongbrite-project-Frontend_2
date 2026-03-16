@@ -61,9 +61,9 @@ const getMedalColor = (rank: number) => {
 };
 
 const getGenderIcon = (gender?: string) => {
-  if (gender === "เพศชาย") return <FaMars className="w-4 h-4 text-[#1CB0F6]" />;
-  if (gender === "เพศหญิง") return <FaVenus className="w-4 h-4 text-[#EC4899]" />;
-  if (gender === "ไม่ระบุตัวตน") return <FaGenderless className="w-4 h-4 text-[#344054]" />;
+  if (gender === "เพศชาย" || gender === "MALE") return <FaMars className="w-4 h-4 text-[#1CB0F6]" />;
+  if (gender === "เพศหญิง" || gender === "FEMALE") return <FaVenus className="w-4 h-4 text-[#EC4899]" />;
+  if (gender === "ไม่ระบุตัวตน" || gender === "OTHER") return <FaGenderless className="w-4 h-4 text-[#344054]" />;
   return null;
 };
 
@@ -178,17 +178,19 @@ const TopThreeCards: React.FC<TopThreeCardsProps> = ({
                 </h3>
 
                 {/* Gender and Score (same line) */}
-                {user.gender && (
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[11px] sm:text-[12px] text-gray-600">
-                      {user.gender}
-                    </span>
-                    {getGenderIcon(user.gender)}
-                    <span className="text-[14px] sm:text-[15px] md:text-[16px] font-bold text-gray-800 ml-auto">
-                      {user.score.toLocaleString()}
-                    </span>
-                  </div>
-                )}
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  {user.gender && (
+                    <>
+                      <span className="text-[11px] sm:text-[12px] text-gray-600">
+                        {user.gender}
+                      </span>
+                      {getGenderIcon(user.gender)}
+                    </>
+                  )}
+                  <span className="text-[14px] sm:text-[15px] md:text-[16px] font-bold text-gray-800 ml-auto flex-1 text-right">
+                    {user.score?.toLocaleString() || '0'}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

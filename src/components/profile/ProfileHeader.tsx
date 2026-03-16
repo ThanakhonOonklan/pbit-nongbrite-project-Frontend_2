@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/sheet";
 import { EditProfileForm } from "./EditProfileForm";
 import { Divide } from "lucide-react";
-import { getRankBadgeImageByRankId } from "@/constants/ranks";
+// import { getRankBadgeImageByRankId } from "@/constants/ranks";
+import { getRankBadgeImage, getRankByScore } from "@/constants/ranks";
 import { useUserStore } from "@/store/user.store";
 import { useAuthStore } from "@/store/auth.store";
 import { Gender } from "@/services/user.service";
@@ -23,10 +24,16 @@ export interface ProfileHeaderProps {
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
-  const { user, isLoading, fetchProfile, updateProfile } = useUserStore();
-  const { isAuthenticated } = useAuthStore();
+  const user = useUserStore((state) => state.user);
+  const isLoading = useUserStore((state) => state.isLoading);
+  const fetchProfile = useUserStore((state) => state.fetchProfile);
+  const updateProfile = useUserStore((state) => state.updateProfile);
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [isEditOpen, setIsEditOpen] = React.useState(false);
   const [isSaving, setIsSaving] = React.useState(false);
+
+
 
   // Fetch profile when authenticated (on mount and when auth state changes)
   React.useEffect(() => {
@@ -167,6 +174,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
   const rank = user.profile?.currentRank || 0;
   const daystate = user.streaks?.currentStreak || 0;
   const totalScore = user.stats?.totalScore || 0;
+  const currentRank = getRankByScore(totalScore);
   const maxScore = 6300;
   const progressPercent = (totalScore / maxScore) * 100;
 
@@ -233,9 +241,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3 sm:mt-4">
               {/* การ์ดอันดับ */}
               <StatCard
-                imageSrc={getRankBadgeImageByRankId(rank)}
-                imageAlt="Rank badge"
-                title={`#${rank}`}
+                imageSrc={getRankBadgeImage(totalScore)}
+                imageAlt={`${currentRank.name} badge`}
+                title={`${currentRank.label}`}
                 description="เเรงค์"
                 iconBgColor="bg-transparent"
               />

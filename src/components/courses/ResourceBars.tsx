@@ -21,10 +21,10 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
   className,
   showDivider = true,
 }) => {
-  console.log("[ResourceBars] props:", { heartCount, scoreCount, daystate });
+  // console.log("[ResourceBars] props:", { heartCount, scoreCount, daystate });
 
   if (heartCount <= 0 && scoreCount <= 0 && daystate <= 0) {
-    console.log("[ResourceBars] All values are 0, returning null");
+    // console.log("[ResourceBars] All values are 0, returning null");
     return null;
   }
 

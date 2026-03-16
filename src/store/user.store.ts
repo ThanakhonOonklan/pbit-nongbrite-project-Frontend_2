@@ -18,12 +18,13 @@ interface UserState {
 }
 
 export const useUserStore = create<UserState>()(
-  (set) => ({
+  (set, get) => ({
     user: null,
     isLoading: false,
     error: null,
 
     fetchProfile: async () => {
+      if (get().isLoading) return;
       set({ isLoading: true, error: null });
       try {
         const response = await userService.getProfile();

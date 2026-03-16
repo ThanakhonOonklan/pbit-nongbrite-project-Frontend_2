@@ -1,54 +1,95 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import toast from 'react-hot-toast';
 
-// const API_BASE_URL = 'http://localhost:8080/api/v1';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const REQUEST_TIMEOUT_MS = 10_000;
+const AUTH_ENDPOINT_PREFIX = '/auth/';
 
-//สร้าง Instance หลักสำหรับเรียก API
+export class ApiError extends Error {
+  constructor(
+    public status: number,
+    message: string,
+    public data?: unknown
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000, //request เกิน 10 วิจะ fail
+  timeout: REQUEST_TIMEOUT_MS,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-apiClient.interceptors.request.use(
-  (config) => {
-    console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`);
-    return config;
+const authClient = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: REQUEST_TIMEOUT_MS,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
   },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+});
+
+let isLoggingOut = false;
 
 apiClient.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+  async (error: AxiosError) => {
 
-    // Don't redirect for auth endpoints (login, register, etc.)
-    // These should handle their own errors
-    const isAuthEndpoint = originalRequest?.url?.includes('/auth/login') ||
-      originalRequest?.url?.includes('/auth/register/step1') ||
-      originalRequest?.url?.includes('/auth/register/step2') ||
-      originalRequest?.url?.includes('/auth/logout');
-    // Note: /auth/refresh removed as backend doesn't support it yet
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
 
-    // Only redirect to login for 401 errors on non-auth endpoints
-    if (error.response?.status === 401 && !isAuthEndpoint) {
-      console.error("Session expired, redirecting to login...");
+    if (!originalRequest || !error.response) {
+      return Promise.reject(error);
+    }
+
+    const isAuthEndpoint = originalRequest.url?.includes(AUTH_ENDPOINT_PREFIX);
+    const isUnauthorized = error.response.status === 401;
+    const alreadyRetried = originalRequest._retry;
+
+    if (isUnauthorized && !isAuthEndpoint && !alreadyRetried && !isLoggingOut) {
+      console.error('[API-Client] 401 Error Detected: Token might be expired. Triggering auto-logout.');
+
+      isLoggingOut = true;
+      originalRequest._retry = true;
 
       if (typeof window !== 'undefined') {
-        // Only redirect if not already on login page
-        if (window.location.pathname !== '/login') {
-          window.location.href = '/login';
+
+        toast.error('Session expired. Please login again.');
+
+        try {
+          await authClient.post('/auth/logout');
+        } catch (logoutError) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('[AUTH] Logout failed:', logoutError);
+          }
         }
+
+        setTimeout(() => {
+          // บังคับให้ Zustand ล้าง Auth store ทิ้ง
+          window.localStorage.removeItem('auth-storage');
+          console.log('[API-Client] auth-storage cleared from local storage');
+
+          if (window.location.pathname !== '/login') {
+            window.location.href = '/login';
+          }
+          isLoggingOut = false;
+        }, 3000);
       }
     }
 
-    return Promise.reject(error);
+    return Promise.reject(
+      new ApiError(
+        error.response.status ?? 0,
+        (error.response.data as any)?.message ?? error.message,
+        error.response.data
+      )
+    );
   }
 );
 
