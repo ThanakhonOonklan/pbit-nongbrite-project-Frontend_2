@@ -31,11 +31,12 @@ const getRankCircleTextColor = (rank: number) => {
 };
 
 const getGenderIcon = (gender?: string) => {
-  if (gender === "เพศชาย") return <FaMars className="w-4 h-4 text-[#1CB0F6]" />;
-  if (gender === "เพศหญิง") return <FaVenus className="w-4 h-4 text-[#EC4899]" />;
-  if (gender === "ไม่ระบุตัวตน") return <FaGenderless className="w-4 h-4 text-[#344054]" />;
+  if (gender === "เพศชาย" || gender === "MALE") return <FaMars className="w-4 h-4 text-[#1CB0F6]" />;
+  if (gender === "เพศหญิง" || gender === "FEMALE") return <FaVenus className="w-4 h-4 text-[#EC4899]" />;
+  if (gender === "ไม่ระบุตัวตน" || gender === "OTHER") return <FaGenderless className="w-4 h-4 text-[#344054]" />;
   return null;
 };
+
 
 const LeaderboardList: React.FC<LeaderboardListProps> = ({
   items = [],
@@ -57,7 +58,7 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
       {/* Header */}
       <div className="w-full border-b border-gray-200 pb-1 px-3 sm:px-4 md:px-6 pt-4 sm:pt-5 md:pt-6">
         <h2 className="text-[18px] sm:text-[19px] md:text-[19px] lg:text-[20px] leading-[28px] font-bold text-gray-800">
-        ตารางอันดับ
+          ตารางอันดับ
         </h2>
       </div>
 
@@ -126,7 +127,7 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
                   <div className="relative w-8 h-8 sm:w-10 sm:h-10 min-w-[32px] sm:min-w-[40px] flex-shrink-0 z-10">
                     {user.avatar ? (
                       <Image
-                        src={user.avatar}
+                        src={user.avatar || "/icons/icon_P_Bit.png"}
                         alt={user.name}
                         fill
                         containerClassName="w-full h-full"
@@ -143,13 +144,15 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
                     <p className="text-[13px] sm:text-[13px] lg:text-[14px] font-normal text-gray-800 truncate">
                       {user.name}
                     </p>
-                    {user.gender && (
+                    {user.gender ? (
                       <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5">
                         <span className="text-[11px] sm:text-[12px] text-gray-500 truncate">
                           {user.gender}
                         </span>
                         <span className="flex-shrink-0">{getGenderIcon(user.gender)}</span>
                       </div>
+                    ) : (
+                      <div className="h-4 sm:h-5 mt-0.5" /> // Spacer for alignment if no gender
                     )}
                   </div>
                 </div>

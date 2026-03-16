@@ -48,6 +48,14 @@ export interface RankUser {
   change?: number; // Change in rank (positive = moved up, negative = moved down)
   badge?: string; // Special badge or achievement
   gender?: string; // เพศ: "เพศชาย", "เพศหญิง", หรือ "ไม่ระบุตัวตน"
+
+  // Fields from API
+  userId?: string | number; // To map the API match
+  totalScore?: number;
+  totalStars?: number;
+  tier?: string;
+  tierLabel?: string;
+  tierIcon?: string;
 }
 
 export interface LeaderboardData {
