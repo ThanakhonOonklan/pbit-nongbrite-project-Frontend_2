@@ -8,6 +8,8 @@ import { Container } from "@/components/common";
 import { ShapeScene, CounterPanel } from "@/components/games/counting-classification";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { useUserStore } from "@/store/user.store";
+import { OutOfLivesModal } from "@/components/common";
 import {
   countingClassificationLevels,
   type ShapeType,
@@ -21,6 +23,7 @@ export default function CountingClassificationGamePage({
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
+  const { user, reduceLife } = useUserStore();
   const config = countingClassificationLevels[levelNum];
 
   // ── game state ─────────────────────────────────────────
@@ -75,6 +78,7 @@ export default function CountingClassificationGamePage({
     );
 
     if (!isCorrect) {
+      reduceLife();
       setShowWrongOverlay(true);
       return;
     }
@@ -221,6 +225,9 @@ export default function CountingClassificationGamePage({
           onRetry={handleRetry}
         />
       )}
+
+      {/* ===== OUT OF LIVES MODAL ===== */}
+      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
 
       <style>{`
         @media (min-width: 1024px) {

@@ -11,6 +11,8 @@ import { GameOverlay } from "@/components/games/GameOverlay";
 import { FruitMatchingGame } from "@/components/games/fruit-matching-grid";
 import { fruitMatchingGridLevels } from "@/constants/games/fruit-matching-grid-levels";
 import { type ScoreResult } from "@/utils/game-scoring";
+import { useUserStore } from "@/store/user.store";
+import { OutOfLivesModal } from "@/components/common";
 
 // ─────────────────────────────────────────────────────────────
 
@@ -22,6 +24,7 @@ export default function FruitMatchingGridGamePage({
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
+  const { user } = useUserStore();
 
   const config = fruitMatchingGridLevels[levelNum];
 
@@ -162,6 +165,9 @@ export default function FruitMatchingGridGamePage({
           onRetry={handleRetry}
         />
       )}
+
+      {/* Out of Lives Modal */}
+      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
 
       <style>{`
       `}</style>

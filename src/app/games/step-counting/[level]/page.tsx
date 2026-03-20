@@ -15,6 +15,8 @@ import {
 } from "@/constants/games/step-counting-levels";
 import type { ScoreResult } from "@/utils/game-scoring";
 import { StarRating } from "@/components/common/StarRating";
+import { useUserStore } from "@/store/user.store";
+import { OutOfLivesModal } from "@/components/common";
 
 export default function StepCountingGamePage({
   params,
@@ -24,6 +26,7 @@ export default function StepCountingGamePage({
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
+  const { user } = useUserStore();
 
   const config = stepCountingLevels[levelNum];
 
@@ -183,6 +186,9 @@ export default function StepCountingGamePage({
           onRetry={handleRetry}
         />
       )}
+
+      {/* Out of Lives Modal */}
+      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
 
 
     </div>

@@ -11,6 +11,7 @@ import {
 } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
+import { useUserStore } from "@/store/user.store";
 interface StepCountingGameProps {
   config: StepCountingLevelConfig;
   onGameEnd: (result: ScoreResult, attempts: number, elapsed: number) => void;
@@ -22,6 +23,7 @@ export function StepCountingGame({
   onGameEnd,
   startTime,
 }: StepCountingGameProps) {
+  const { reduceLife } = useUserStore();
   const [characterPos, setCharacterPos] = useState(config.startPosition);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showCorrect, setShowCorrect] = useState(false);
@@ -117,8 +119,10 @@ export function StepCountingGame({
 
         // Start animation
         animateNextStep();
+      } else {
+        reduceLife();
+        // Wrong answer is handled visually by QuestionPanel
       }
-      // Wrong answer is handled visually by QuestionPanel
     },
     [config, attempts, answered, startTime, onGameEnd]
   );

@@ -20,6 +20,8 @@ import {
 } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
+import { useUserStore } from "@/store/user.store";
+import { OutOfLivesModal } from "@/components/common";
 
 // ─────────────────────────────────────────────────────────────
 
@@ -31,6 +33,7 @@ export default function ConditionalMatchingGamePage({
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
+  const { user, reduceLife } = useUserStore();
 
   const config = condMatchLevels[levelNum];
   const totalQ = config?.questions.length ?? 0;
@@ -74,6 +77,7 @@ export default function ConditionalMatchingGamePage({
           setScoreResult(result);
 
           const { stars } = getStarRating(result.totalScore);
+
           const absoluteLevelId = getAbsoluteLevelId("conditional-matching", levelNum);
           gameService.submitScore({
             levelId: absoluteLevelId,
@@ -93,6 +97,7 @@ export default function ConditionalMatchingGamePage({
       // ─── ผิด ───
       setAnswerState("wrong");
       setWrongCount((prev) => prev + 1);
+      reduceLife();
 
       setTimeout(() => {
         setAnswerState(null);
@@ -218,6 +223,9 @@ export default function ConditionalMatchingGamePage({
           onRetry={handleRetry}
         />
       )}
+
+      {/* Out of Lives Modal */}
+      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
 
       <style>{`
       `}</style>

@@ -13,14 +13,19 @@ interface UserState {
   // Actions
   fetchProfile: () => Promise<void>;
   updateProfile: (payload: UpdateProfilePayload) => Promise<void>;
+  reduceLife: () => Promise<void>;
   setUser: (user: User | null) => void;
   clearError: () => void;
 }
 
 export const useUserStore = create<UserState>()(
-  (set, get) => ({
-    user: null,
-    isLoading: false,
+  (set, get) => {
+    let isReducingLife = false;
+    let lastReduceTime = 0;
+
+    return {
+      user: null,
+      isLoading: false,
     error: null,
 
     fetchProfile: async () => {
@@ -148,6 +153,37 @@ export const useUserStore = create<UserState>()(
       }
     },
 
+    reduceLife: async () => {
+      const now = Date.now();
+      if (isReducingLife || now - lastReduceTime < 1000) return;
+
+      isReducingLife = true;
+      lastReduceTime = now;
+
+      try {
+        const response = await userService.reduceLife();
+        const currentUser = get().user;
+        if (currentUser && response.data) {
+          const rd = response.data;
+          // Check if it's returning the entire user or just the life object
+          if (rd.lifeCurrent !== undefined && rd.id === undefined) {
+            set({ user: { ...currentUser, life: { ...currentUser.life, lifeCurrent: rd.lifeCurrent } } });
+          } else if (rd.life && rd.life.lifeCurrent !== undefined) {
+            set({ user: { ...currentUser, ...rd } });
+          } else {
+            // Fallback optimistic update just in case backend format is unknown
+            const decremented = Math.max(0, currentUser.life.lifeCurrent - 1);
+            set({ user: { ...currentUser, life: { ...currentUser.life, lifeCurrent: decremented } } });
+          }
+        }
+      } catch (error) {
+        console.error("Failed to reduce life:", error);
+      } finally {
+        isReducingLife = false;
+        lastReduceTime = Date.now();
+      }
+    },
+
     setUser: (user: User | null) => {
       set({ user });
     },
@@ -155,6 +191,6 @@ export const useUserStore = create<UserState>()(
     clearError: () => {
       set({ error: null });
     },
-  })
-);
+  };
+});
 

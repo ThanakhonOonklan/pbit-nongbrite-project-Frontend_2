@@ -24,6 +24,12 @@ export interface UpdateProfileResponse {
   data: User;
 }
 
+export interface ReduceLifeResponse {
+  success: boolean;
+  message: string;
+  data: any; // Could be a complete User or just a Life object depending on backend
+}
+
 export const userService = {
   getProfile: async (): Promise<GetProfileResponse> => {
     const response = await apiClient.get<GetProfileResponse>('/user/profile');
@@ -34,4 +40,10 @@ export const userService = {
     const response = await apiClient.put<UpdateProfileResponse>('/user/profile', payload);
     return response.data;
   },
+
+  reduceLife: async (): Promise<ReduceLifeResponse> => {
+    const response = await apiClient.put<ReduceLifeResponse>('/users/lives');
+    return response.data;
+  },
 };
+

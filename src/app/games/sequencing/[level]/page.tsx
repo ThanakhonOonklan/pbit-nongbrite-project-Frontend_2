@@ -11,6 +11,8 @@ import { type ScoreResult } from "@/utils/game-scoring";
 
 import { sequencingLevels } from "@/constants/games/sequencing-levels";
 import { SequencingGame } from "@/components/games/sequencing/SequencingGame";
+import { useUserStore } from "@/store/user.store";
+import { OutOfLivesModal } from "@/components/common";
 
 export default function SequencingPage() {
   const router = useRouter();
@@ -18,6 +20,7 @@ export default function SequencingPage() {
 
   const [levelNum, setLevelNum] = useState<number>(1);
   const [isClient, setIsClient] = useState(false);
+  const { user, reduceLife } = useUserStore();
   const [startTime, setStartTime] = useState(Date.now());
 
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null);
@@ -103,7 +106,10 @@ export default function SequencingPage() {
           key={gameKey}
           config={config}
           onGameEnd={handleGameEnd}
-          onWrongAttempt={() => setShowWrongOverlay(true)}
+          onWrongAttempt={() => {
+            reduceLife();
+            setShowWrongOverlay(true);
+          }}
           startTime={startTime}
         />
 
@@ -129,6 +135,9 @@ export default function SequencingPage() {
           onRetry={handleRetry}
         />
       )}
+
+      {/* ===== OUT OF LIVES MODAL ===== */}
+      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
 
       {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
       {showIntro && (

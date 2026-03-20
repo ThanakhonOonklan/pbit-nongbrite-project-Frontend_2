@@ -13,6 +13,7 @@ import {
 } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
+import { useUserStore } from "@/store/user.store";
 
 export type DrawingMode = "paint" | "fill" | "eyedropper" | "eraser";
 
@@ -33,6 +34,7 @@ interface GridColoringGameProps {
 }
 
 export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = true }: GridColoringGameProps) {
+  const { reduceLife } = useUserStore();
   const { gridSize, palette, pattern } = config;
 
   // ── State ─────────────────────────────────────────────────
@@ -253,6 +255,7 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
       }, 800);
     } else {
       setWrongCount((prev) => prev + 1);
+      reduceLife();
 
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const peekPenalty = Math.max(0, peekCount - 1);

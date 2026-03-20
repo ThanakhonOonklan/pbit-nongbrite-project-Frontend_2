@@ -21,6 +21,8 @@ import {
 import { calculateGameScore, getStarRating, type ScoreResult } from "@/utils/game-scoring";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { useUserStore } from "@/store/user.store";
+import { OutOfLivesModal } from "@/components/common";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
 import { GameHeader } from "@/components/games/GameHeader";
@@ -48,6 +50,7 @@ export default function PathNavigationGamePage({
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
+  const { user, reduceLife } = useUserStore();
 
   const config = pathNavLevels[levelNum];
 
@@ -143,6 +146,7 @@ export default function PathNavigationGamePage({
     let failed = false;
 
     const showFailOverlay = () => {
+      reduceLife();
       const overlayTimer = setTimeout(() => {
         setErrorMsg("ลองอีกครั้ง");
         const resetTimer = setTimeout(() => {
@@ -219,6 +223,7 @@ export default function PathNavigationGamePage({
             }).catch(err => console.error("Failed to submit score", err));
           } else if (samePos(next, config.homePos) && !pickedUp) {
             // Reached home but forgot Nong-Brite
+            reduceLife();
             const hintTimer = setTimeout(() => {
               setHintMsg("อย่าทิ้งน้องง");
               const resetTimer = setTimeout(() => {
@@ -440,6 +445,9 @@ export default function PathNavigationGamePage({
           onDismiss={() => setHintMsg(null)}
         />
       )}
+
+      {/* ===== OUT OF LIVES MODAL ===== */}
+      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
 
       {/* ===== WIN MODAL ===== */}
       {scoreResult && (

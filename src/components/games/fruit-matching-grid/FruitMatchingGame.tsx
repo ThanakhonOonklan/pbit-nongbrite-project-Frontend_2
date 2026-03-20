@@ -15,6 +15,7 @@ import {
 } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
+import { useUserStore } from "@/store/user.store";
 
 interface FruitMatchingGameProps {
   config: FruitMatchingGridLevelConfig;
@@ -22,6 +23,7 @@ interface FruitMatchingGameProps {
 }
 
 export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps) {
+  const { reduceLife } = useUserStore();
   const [userAnswers, setUserAnswers] = useState<string[]>(
     Array(config.targets.length).fill("")
   );
@@ -91,6 +93,7 @@ export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps)
     } else {
       // ─── Some wrong ───
       setWrongCount((prev) => prev + 1);
+      reduceLife();
 
       // Briefly show results, then allow retry
       setTimeout(() => {

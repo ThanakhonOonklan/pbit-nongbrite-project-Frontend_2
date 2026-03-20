@@ -11,6 +11,8 @@ import { HelpButton } from "@/components/games/HelpButton";
 import { GridColoringGame } from "@/components/games/grid-based-coloring";
 import { gridColoringLevels } from "@/constants/games/grid-based-coloring-levels";
 import { type ScoreResult } from "@/utils/game-scoring";
+import { useUserStore } from "@/store/user.store";
+import { OutOfLivesModal } from "@/components/common";
 
 // ─────────────────────────────────────────────────────────────
 
@@ -22,6 +24,7 @@ export default function GridBasedColoringGamePage({
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
+  const { user } = useUserStore();
 
   const config = gridColoringLevels[levelNum];
 
@@ -141,6 +144,9 @@ export default function GridBasedColoringGamePage({
           type={wrongCount > 0 ? "lose" : "win"}
         />
       )}
+
+      {/* Out of Lives Modal */}
+      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
 
       <style>{`
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
