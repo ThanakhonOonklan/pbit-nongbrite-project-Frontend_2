@@ -18,7 +18,8 @@ import {
   getStarRating,
   type ScoreResult,
 } from "@/utils/game-scoring";
-import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
+import { getAbsoluteLevelId } from "@/utils/level-mapper";
+import { gameService } from "@/services/game.service";
 
 // ─────────────────────────────────────────────────────────────
 
@@ -73,12 +74,13 @@ export default function ConditionalMatchingGamePage({
           setScoreResult(result);
 
           const { stars } = getStarRating(result.totalScore);
-          mockSubmitGameScore({
-            levelId: levelNum,
+          const absoluteLevelId = getAbsoluteLevelId("conditional-matching", levelNum);
+          gameService.submitScore({
+            levelId: absoluteLevelId,
             score: result.totalScore,
             stars,
             playTime: elapsed,
-          });
+          }).catch(err => console.error("Failed to submit score", err));
         } else {
           // ─── ไปข้อถัดไป ───
           setCurrentQIndex((prev) => prev + 1);

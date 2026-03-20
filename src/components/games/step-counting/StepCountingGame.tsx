@@ -9,8 +9,8 @@ import {
   getStarRating,
   type ScoreResult,
 } from "@/utils/game-scoring";
-import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
-
+import { getAbsoluteLevelId } from "@/utils/level-mapper";
+import { gameService } from "@/services/game.service";
 interface StepCountingGameProps {
   config: StepCountingLevelConfig;
   onGameEnd: (result: ScoreResult, attempts: number, elapsed: number) => void;
@@ -99,14 +99,15 @@ export function StepCountingGame({
                 timeSeconds: elapsed,
               });
 
-              // Submit mock score
+              // Submit score
               const { stars } = getStarRating(result.totalScore);
-              mockSubmitGameScore({
-                levelId: config.level,
+              const absoluteLevelId = getAbsoluteLevelId("step-counting", config.level);
+              gameService.submitScore({
+                levelId: absoluteLevelId,
                 score: result.totalScore,
                 stars,
                 playTime: elapsed,
-              });
+              }).catch(err => console.error("Failed to submit score", err));
 
               onGameEnd(result, newAttempts, elapsed);
             }, 800);

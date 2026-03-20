@@ -13,7 +13,8 @@ import {
   getStarRating,
   type ScoreResult,
 } from "@/utils/game-scoring";
-import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
+import { getAbsoluteLevelId } from "@/utils/level-mapper";
+import { gameService } from "@/services/game.service";
 
 interface FruitMatchingGameProps {
   config: FruitMatchingGridLevelConfig;
@@ -75,12 +76,13 @@ export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps)
       });
 
       const { stars } = getStarRating(scoreResult.totalScore);
-      mockSubmitGameScore({
-        levelId: config.level,
+      const absoluteLevelId = getAbsoluteLevelId("fruit-matching-grid", config.level);
+      gameService.submitScore({
+        levelId: absoluteLevelId,
         score: scoreResult.totalScore,
         stars,
         playTime: elapsed,
-      });
+      }).catch(err => console.error("Failed to submit score", err));
 
       // Delay to show green feedback before modal
       setTimeout(() => {

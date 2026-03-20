@@ -21,7 +21,8 @@ import {
 import { calculateGameScore, getStarRating, type ScoreResult } from "@/utils/game-scoring";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
-import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
+import { getAbsoluteLevelId } from "@/utils/level-mapper";
+import { gameService } from "@/services/game.service";
 import { GameHeader } from "@/components/games/GameHeader";
 
 // ── helpers ────────────────────────────────────────────────
@@ -209,12 +210,13 @@ export default function PathNavigationGamePage({
             setScoreResult(result);
             // Submit score to API (mock)
             const { stars } = getStarRating(result.totalScore);
-            mockSubmitGameScore({
-              levelId: levelNum,
+            const absoluteLevelId = getAbsoluteLevelId("path-navigation", levelNum);
+            gameService.submitScore({
+              levelId: absoluteLevelId,
               score: result.totalScore,
               stars,
               playTime: elapsed,
-            });
+            }).catch(err => console.error("Failed to submit score", err));
           } else if (samePos(next, config.homePos) && !pickedUp) {
             // Reached home but forgot Nong-Brite
             const hintTimer = setTimeout(() => {

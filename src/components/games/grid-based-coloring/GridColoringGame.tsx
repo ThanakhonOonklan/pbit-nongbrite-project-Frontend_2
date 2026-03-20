@@ -11,7 +11,8 @@ import {
   getStarRating,
   type ScoreResult,
 } from "@/utils/game-scoring";
-import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
+import { getAbsoluteLevelId } from "@/utils/level-mapper";
+import { gameService } from "@/services/game.service";
 
 export type DrawingMode = "paint" | "fill" | "eyedropper" | "eraser";
 
@@ -239,12 +240,13 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
       });
 
       const { stars } = getStarRating(scoreResult.totalScore);
-      mockSubmitGameScore({
-        levelId: config.level,
+      const absoluteLevelId = getAbsoluteLevelId("grid-based-coloring", config.level);
+      gameService.submitScore({
+        levelId: absoluteLevelId,
         score: scoreResult.totalScore,
         stars,
         playTime: elapsed,
-      });
+      }).catch(err => console.error("Failed to submit score", err));
 
       setTimeout(() => {
         onGameEnd(scoreResult, wrongCount, elapsed);

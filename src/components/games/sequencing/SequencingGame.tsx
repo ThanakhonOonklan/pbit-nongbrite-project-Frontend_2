@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { type SequencingLevelConfig, type SequencingItem } from "@/constants/games/sequencing-levels";
 import { type ScoreResult, calculateGameScore, getStarRating } from "@/utils/game-scoring";
-import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
+import { getAbsoluteLevelId } from "@/utils/level-mapper";
+import { gameService } from "@/services/game.service";
 
 import { SequencingSlots } from "./SequencingSlots";
 import { SequencingPool } from "./SequencingPool";
@@ -132,12 +133,13 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
       });
 
       const { stars } = getStarRating(scoreResult.totalScore);
-      mockSubmitGameScore({
-        levelId: config.level,
+      const absoluteLevelId = getAbsoluteLevelId("sequencing", config.level);
+      gameService.submitScore({
+        levelId: absoluteLevelId,
         score: scoreResult.totalScore,
         stars,
         playTime: elapsed,
-      });
+      }).catch(err => console.error("Failed to submit score", err));
 
       setTimeout(() => {
         onGameEnd(scoreResult, totalAttempts, elapsed);
