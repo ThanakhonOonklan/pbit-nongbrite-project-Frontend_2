@@ -8,6 +8,8 @@ import { HeartPlus, BookOpen, Flame, Heart } from "lucide-react";
 
 export interface ResourceBarsProps {
   heartCount?: number;
+  maxHeartCount?: number;
+  lastResetAt?: string;
   scoreCount?: number;
   daystate?: number;
   className?: string;
@@ -16,6 +18,8 @@ export interface ResourceBarsProps {
 
 export const ResourceBars: React.FC<ResourceBarsProps> = ({
   heartCount = 0,
+  maxHeartCount = 5,
+  lastResetAt,
   scoreCount = 0,
   daystate = 0,
   className,
@@ -23,12 +27,56 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
 }) => {
   // console.log("[ResourceBars] props:", { heartCount, scoreCount, daystate });
 
+  // Countdown timer logic
+  const [timeLeft, setTimeLeft] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (heartCount >= maxHeartCount || !lastResetAt) {
+      setTimeLeft(null);
+      return;
+    }
+
+    // Calculate the next midnight based on local time
+    const getNextMidnight = () => {
+      const tomorrow = new Date();
+      tomorrow.setHours(24, 0, 0, 0);
+      return tomorrow.getTime();
+    };
+
+    const nextHeartTime = getNextMidnight();
+
+    // Execute immediately before interval
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = nextHeartTime - now;
+
+      if (distance <= 0) {
+        setTimeLeft("กำลังรีเซ็ตหัวใจ...");
+      } else {
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        if (hours > 0) {
+           setTimeLeft(`${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ชม.`);
+        } else {
+           setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} นาที`);
+        }
+      }
+    };
+    
+    updateCountdown();
+    const intervalId = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [heartCount, maxHeartCount, lastResetAt]);
+
   if (heartCount <= 0 && scoreCount <= 0 && daystate <= 0) {
     // console.log("[ResourceBars] All values are 0, returning null");
     return null;
   }
 
-  const isFull = heartCount >= 5;
+  const isFull = heartCount >= maxHeartCount;
 
   return (
     <>
@@ -37,14 +85,14 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
           <ResourceCard
             icon={<HeartPlus className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#FF6B6B]" />}
             iconAlt="หัวใจ"
-            value={heartCount}
+            value={heartCount >= maxHeartCount ? heartCount : `${heartCount}/${maxHeartCount}`}
             iconBgColor="bg-[#FFD7D0]"
             hoverColor="hover:bg-[#FFE4E1]"
             tooltipContent={
               <div className="flex flex-col items-center gap-2 text-center">
                 <span className="text-base font-bold">หัวใจ</span>
                 <div className="flex gap-1">
-                  {Array.from({ length: 5 }, (_, i) => (
+                  {Array.from({ length: maxHeartCount }, (_, i) => (
                     <Heart
                       key={i}
                       className="w-5 h-5"
@@ -56,8 +104,13 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
                 <p className="text-[13px] text-gray-600 font-medium">
                   {isFull
                     ? "หัวใจคุณเต็มทุกดวงแล้ว เรียนรู้ต่อไป อย่าได้ถอย"
-                    : `เหลือหัวใจ ${heartCount} จาก 5 ดวง`}
+                    : `เหลือหัวใจ ${heartCount} จาก ${maxHeartCount} ดวง`}
                 </p>
+                {!isFull && timeLeft && (
+                  <p className="text-[12px] text-[#FF6B6B] font-bold mt-1">
+                    อีก {timeLeft} จะได้รับหัวใจเพิ่ม
+                  </p>
+                )}
 
               </div>
             }

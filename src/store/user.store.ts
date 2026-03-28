@@ -2,16 +2,19 @@ import { create } from "zustand";
 import {
   userService,
   type User,
-  type UpdateProfilePayload
+  type UpdateProfilePayload,
+  type GetLifeResponse
 } from "@/services/user.service";
 
 interface UserState {
   user: User | null;
+  lifeDetails: GetLifeResponse['data'] | null;
   isLoading: boolean;
   error: string | null;
 
   // Actions
   fetchProfile: () => Promise<void>;
+  fetchLifeDetails: () => Promise<void>;
   updateProfile: (payload: UpdateProfilePayload) => Promise<void>;
   reduceLife: () => Promise<void>;
   setUser: (user: User | null) => void;
@@ -25,8 +28,20 @@ export const useUserStore = create<UserState>()(
 
     return {
       user: null,
+      lifeDetails: null,
       isLoading: false,
     error: null,
+
+    fetchLifeDetails: async () => {
+      try {
+        const response = await userService.getLife();
+        if (response.success && response.data) {
+          set({ lifeDetails: response.data });
+        }
+      } catch (error) {
+        console.error("Failed to fetch life details:", error);
+      }
+    },
 
     fetchProfile: async () => {
       if (get().isLoading) return;

@@ -46,16 +46,21 @@ export default function CoursesPage() {
   const fetchChapters = useChapterStore((state) => state.fetchChapters);
   // use user store global state
   const user = useUserStore((state) => state.user);
+  const lifeDetails = useUserStore((state) => state.lifeDetails);
   const fetchProfile = useUserStore((state) => state.fetchProfile);
+  const fetchLifeDetails = useUserStore((state) => state.fetchLifeDetails);
 
-  const displayHeartCount = user?.life?.lifeCurrent ?? 0;
+  const displayHeartCount = lifeDetails?.current ?? 0;
+  const displayMaxHeartCount = lifeDetails?.max ?? 5;
+  const displayLastResetAt = lifeDetails?.lastResetAt;
   const displayScoreCount = user?.stats?.totalScore ?? 0;
   const displayFireCount = user?.streaks?.currentStreak ?? 0;
 
   useEffect(() => {
     fetchChapters();
     fetchProfile();
-  }, [fetchChapters, fetchProfile]);
+    fetchLifeDetails();
+  }, [fetchChapters, fetchProfile, fetchLifeDetails]);
 
   // Merge API data with visual game config
   const mergedGames = useMemo(() => {
@@ -158,6 +163,8 @@ export default function CoursesPage() {
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <ResourceBars
           heartCount={displayHeartCount}
+          maxHeartCount={displayMaxHeartCount}
+          lastResetAt={displayLastResetAt}
           scoreCount={displayScoreCount}
           daystate={displayFireCount}
           className="py-2 px-4"
@@ -214,6 +221,8 @@ export default function CoursesPage() {
             headerColor={currentHeaderColor}
             gameId={currentGameId}
             heartCount={displayHeartCount}
+            maxHeartCount={displayMaxHeartCount}
+            lastResetAt={displayLastResetAt}
             scoreCount={displayScoreCount}
             fireCount={displayFireCount}
           />

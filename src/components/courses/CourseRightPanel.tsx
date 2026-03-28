@@ -18,6 +18,8 @@ export interface CourseRightPanelProps {
   className?: string;
   gameDetail?: React.ReactNode;
   heartCount?: number; // ใช้เป็น fallback เท่านั้น (ข้อมูลจริงมาจาก mockMyRankData)
+  maxHeartCount?: number;
+  lastResetAt?: string;
   scoreCount?: number; // ใช้เป็น fallback เท่านั้น (ข้อมูลจริงมาจาก mockMyRankData)
   fireCount?: number; // ใช้เป็น fallback เท่านั้น (ข้อมูลจริงมาจาก mockMyRankData)
   gameTitle?: string;
@@ -36,6 +38,8 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
   className,
   gameDetail,
   heartCount,
+  maxHeartCount,
+  lastResetAt,
   scoreCount,
   fireCount,
   gameTitle,
@@ -103,6 +107,8 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
         {/* ส่วน Resource Bars */}
         <ResourceBars
           heartCount={heartCount}
+          maxHeartCount={maxHeartCount}
+          lastResetAt={lastResetAt}
           scoreCount={scoreCount}
           daystate={fireCount}
         />

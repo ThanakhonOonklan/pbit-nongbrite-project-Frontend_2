@@ -14,7 +14,7 @@ export interface ResourceCardProps {
   iconSrc?: string; // optional - ถ้าไม่มีจะไม่แสดงรูป
   icon?: React.ReactNode; // optional - React icon component
   iconAlt: string;
-  value: number;
+  value: number | string;
   iconBgColor: string;
   hoverColor?: string; // สีพื้นหลังเมื่อ hover
   tooltipContent?: React.ReactNode; // เนื้อหา tooltip เมื่อ hover
