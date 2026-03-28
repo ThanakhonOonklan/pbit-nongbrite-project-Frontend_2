@@ -63,12 +63,6 @@ export default function SequencingPage() {
   }
 
   const handleGameEnd = (result: ScoreResult, attempts: number, elapsed: number) => {
-    if (attempts > 0 && result.totalScore < 100) {
-      // Handled visually in the game itself or here
-    }
-
-    const isWin = result.totalScore > 0;
-
     setScoreResult(result);
     setWrongCount(attempts);
     setElapsedSeconds(elapsed);
@@ -87,7 +81,7 @@ export default function SequencingPage() {
   const gameKey = `${levelNum}-${startTime}`;
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#F3E8FF] to-[#FAF5FF]">
+    <div className="min-h-screen flex flex-col bg-[#131F24]">
       {/* Top Header */}
       <GameHeader
         gameTitle="เกมเรียงลำดับวงจรชีวิต"

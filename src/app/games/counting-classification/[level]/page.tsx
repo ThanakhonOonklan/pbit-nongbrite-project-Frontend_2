@@ -44,7 +44,8 @@ export default function CountingClassificationGamePage({
 
   // ── timer (silent) ──────────────────────────────────────
   useEffect(() => {
-    if (submitted) {
+    // รอให้ Intro หายก่อน ถึงจะเริ่มจับเวลา
+    if (submitted || showIntro) {
       if (timerRef.current) clearInterval(timerRef.current);
       return;
     }
@@ -52,7 +53,7 @@ export default function CountingClassificationGamePage({
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [submitted]);
+  }, [submitted, showIntro]);
 
   const handleCountChange = (type: ShapeType, newValue: number) => {
     setCounts((prev) => ({ ...prev, [type]: newValue }));
@@ -109,7 +110,7 @@ export default function CountingClassificationGamePage({
           <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
           <button
             onClick={() => router.push("/courses")}
-            className="mt-2 px-6 py-2 bg-[#FFB6C1] text-white rounded-xl font-bold hover:bg-[#FF9EB1] transition-colors"
+            className="mt-2 px-6 py-2 bg-[#FF6B9D] text-white rounded-xl font-bold hover:bg-[#E91E8C] transition-colors"
           >
             กลับหน้าหลัก
           </button>
@@ -120,13 +121,12 @@ export default function CountingClassificationGamePage({
 
   return (
     <div
-      className="flex flex-col bg-[#FFE4E1] relative zoom-wrapper"
+      className="flex flex-col bg-[#131F24] relative zoom-wrapper"
     >
       {/* ===== TOP HEADER ===== */}
       <div className="relative">
         <GameHeader
           level={level}
-          bgColor="#FFB6C1"
           gameTitle="Counting & Classification"
           characterSrc="/images/P_Minnie/minnie-06.svg"
         />
@@ -139,10 +139,10 @@ export default function CountingClassificationGamePage({
         <Container
           className="lg:flex-[6] h-[55vh] lg:h-auto flex flex-col p-4 lg:p-6 relative shrink-0"
           style={{
-            backgroundColor: "#FFFFFF",
-            border: "5px solid #FFB6C1",
+            backgroundColor: "#1A2B32",
+            border: "1px solid rgba(255,255,255,0.08)",
             borderRadius: "24px",
-            boxShadow: "0 8px 20px rgba(0,0,0,0.15), inset 0 0 0 3px #FFE4E1",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
           }}
         >
           {/* Mascot */}
@@ -161,10 +161,10 @@ export default function CountingClassificationGamePage({
           <Container
             className="flex flex-col p-4 lg:p-6 flex-1 lg:overflow-hidden"
             style={{
-              backgroundColor: "#FFF0F5",
-              border: "5px solid #FFB6C1",
+              backgroundColor: "#1A2B32",
+              border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: "24px",
-              boxShadow: "0 8px 20px rgba(0,0,0,0.15), inset 0 0 0 3px #FFE4E1",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
             }}
           >
             <CounterPanel

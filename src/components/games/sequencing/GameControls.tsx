@@ -26,9 +26,9 @@ export function GameControls({
           tilt={0.5}
           radius={14}
           motion={60}
-          surfaceColor="#F3F4F6"
-          sideColor="#D1D5DB"
-          textColor="#6B7280"
+          surfaceColor="#1E2C33"
+          sideColor="#0F1A20"
+          textColor="#9CA3AF"
           onClick={onReset}
           disabled={isCompleted}
         >

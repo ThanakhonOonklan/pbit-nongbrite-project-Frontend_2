@@ -171,7 +171,7 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
   return (
     <div className="flex flex-col gap-3 sm:gap-5 w-full">
       {/* Title */}
-      <h2 className="text-center font-bold text-xl sm:text-2xl text-[#9956DE] px-2">
+      <h2 className="text-center font-bold text-xl sm:text-2xl text-[#C084FC] px-2">
         {config.sequenceTitle}
       </h2>
 

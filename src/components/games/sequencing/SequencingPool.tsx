@@ -63,11 +63,11 @@ function PoolItem({
             zIndex: 9999,
           }}
         >
-          <div className="bg-gray-800 text-white text-xs font-semibold px-2.5 py-1 rounded-lg whitespace-nowrap shadow-xl">
+          <div className="bg-[#2D1B4E] text-purple-200 text-xs font-semibold px-2.5 py-1 rounded-lg whitespace-nowrap shadow-xl border border-purple-800">
             {item.label}
           </div>
           <div className="flex justify-center">
-            <div className="border-4 border-transparent border-t-gray-800 w-0 h-0" />
+            <div className="border-4 border-transparent border-t-[#2D1B4E] w-0 h-0" />
           </div>
         </div>
       )}
@@ -86,8 +86,8 @@ function PoolItem({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setTooltip(null)}
         className={`${sc.box} rounded-xl flex items-center justify-center cursor-grab active:cursor-grabbing
-          bg-white shadow-[0_4px_0_#C084FC] hover:-translate-y-1.5 hover:shadow-[0_6px_0_#C084FC]
-          active:translate-y-1 active:shadow-none border-[2px] border-[#E9D5FF] hover:border-[#C084FC]
+          bg-[#1E2C33] shadow-[0_4px_0_#6D28D9] hover:-translate-y-1.5 hover:shadow-[0_6px_0_#7C3AED]
+          active:translate-y-1 active:shadow-none border-[2px] border-[#2D3F55] hover:border-[#7C3AED]
           transition-all duration-150
           ${dragging ? "opacity-40 scale-95" : ""}`}
       >
@@ -119,8 +119,8 @@ export function SequencingPool({ pool, onSelect, slotCount }: SequencingPoolProp
   }
 
   return (
-    <div className="bg-[#FAF5FF] rounded-2xl sm:rounded-3xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 border-[3px] sm:border-4 border-[#E9D5FF] shadow-inner w-full relative z-10">
-      <p className="text-[10px] sm:text-xs font-bold text-[#D8B4FE] uppercase tracking-wider text-center">
+    <div className="bg-[#182029] rounded-2xl sm:rounded-3xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 border-[3px] sm:border-4 border-[#2D3F55] shadow-inner w-full relative z-10">
+      <p className="text-[10px] sm:text-xs font-bold text-[#7C3AED] uppercase tracking-wider text-center">
         ลากหรือแตะเพื่อนำไปวาง
       </p>
 

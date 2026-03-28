@@ -20,8 +20,8 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
 
     return (
         <div
-            className="flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 rounded-2xl sm:rounded-3xl bg-white shadow-md"
-            style={{ border: `3px solid ${color}` }}
+            className="flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 rounded-2xl sm:rounded-3xl shadow-md"
+            style={{ background: "#1E3340", border: `2px solid ${color}40` }}
         >
             {/* Shape icon */}
             <div
@@ -32,7 +32,7 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
             </div>
 
             {/* Label */}
-            <span className="flex-1 text-xs sm:text-sm font-extrabold select-none truncate pr-1" style={{ color }}>
+            <span className="flex-1 text-xs sm:text-sm font-extrabold select-none truncate pr-1 text-white">
                 {label}
             </span>
 
@@ -47,7 +47,7 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
                                transition-all active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed
                                shadow-[0_4px_0_rgba(0,0,0,0.18)] sm:shadow-[0_5px_0_rgba(0,0,0,0.18)] 
                                active:shadow-[0_2px_0_rgba(0,0,0,0.18)] active:translate-y-[2px] sm:active:translate-y-[3px]"
-                    style={{ backgroundColor: canDec ? "#FC8181" : "#CBD5E0" }}
+                    style={{ backgroundColor: canDec ? "#6B7280" : "#374151" }}
                 >
                     −
                 </button>
@@ -69,7 +69,7 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
                                transition-all active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed
                                shadow-[0_4px_0_rgba(0,0,0,0.18)] sm:shadow-[0_5px_0_rgba(0,0,0,0.18)] 
                                active:shadow-[0_2px_0_rgba(0,0,0,0.18)] active:translate-y-[2px] sm:active:translate-y-[3px]"
-                    style={{ backgroundColor: canInc ? "#60D394" : "#CBD5E0" }}
+                    style={{ backgroundColor: canInc ? "#FF6B9D" : "#374151" }}
                 >
                     +
                 </button>

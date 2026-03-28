@@ -103,9 +103,9 @@ export const sequencingLevels: SequencingLevelConfig[] = [
         theme: "star",
         sequenceTitle: "วงจรชีวิตของดาวฤกษ์",
         correctSequence: [
-            { id: "s7_1", content: "☁️", isImage: false, label: "กลุ่มแก๊ส (Nebula)" },
+            { id: "s7_1", content: "🌫️", isImage: false, label: "กลุ่มแก๊ส (Nebula)" },
             { id: "s7_2", content: "⭐", isImage: false, label: "ดาวเกิดใหม่" },
-            { id: "s7_3", content: "☀️", isImage: false, label: "ดาวลุกโชน" },
+            { id: "s7_3", content: "🌟", isImage: false, label: "ดาวลุกโชน" },
             { id: "s7_4", content: "🔴", isImage: false, label: "ดาวยักษ์แดง" },
             { id: "s7_5", content: "💥", isImage: false, label: "ซูเปอร์โนวา" },
             { id: "s7_6", content: "⚫", isImage: false, label: "หลุมดำ" },

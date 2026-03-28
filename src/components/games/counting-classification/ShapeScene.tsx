@@ -31,13 +31,16 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
 
     return (
         <div className="flex flex-col h-full relative">
-            {/* Header */}
-            <p className="text-center text-xl font-bold text-[#8B5E34] mb-2 z-10">
-                พบเจอกล่องสมบัติน่ารักๆ อะไรบ้าง?
-            </p>
 
             {/* Scene container */}
             <div className="relative flex-1 rounded-2xl overflow-hidden bg-transparent">
+
+                {/* Header overlay inside scene */}
+                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-center pt-2 pb-1 pointer-events-none">
+                    <span className="text-sm sm:text-base font-bold text-[#FF6B9D] tracking-wide">
+                        มองหาและนับรูปทรงในภาพ!
+                    </span>
+                </div>
 
                 {/* 1. Background */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
@@ -116,6 +119,9 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
                             const animDelay = `${+(getDeterministicRandom(p.id + 'anim') * 2.5).toFixed(4)}s`;
                             const animDuration = `${+(2.5 + getDeterministicRandom(p.id + 'dur') * 2).toFixed(4)}s`;
 
+                            // สุ่มองศาหมุน ±35° แบบ deterministic
+                            const rotation = +((getDeterministicRandom(p.id + 'rot') * 70) - 35).toFixed(2);
+
                             return (
                                 <div
                                     key={p.id}
@@ -123,7 +129,7 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
                                     style={{
                                         left: `${posX}%`,
                                         top: `${posY}%`,
-                                        transform: "translate(-50%, -50%)",
+                                        transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
                                         width: `${finalSize}px`,
                                         height: `${finalSize}px`,
                                     }}
@@ -176,6 +182,22 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
                 .animate-cloud-fast { animation: cloud-move 12s ease-in-out infinite; }
 
                 .animate-pulse-slow { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+                /* ── shape-lift hover (ใส่ที่นี่ที่เดียว ไม่ inject ซ้ำต่อ instance) ── */
+                .shape-lift {
+                    transition:
+                        transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        filter    0.18s ease;
+                }
+                .shape-lift:hover {
+                    transform: translateY(-10px) scale(1.12);
+                    filter: drop-shadow(0 14px 8px rgba(0,0,0,0.22))
+                            drop-shadow(0 4px 4px rgba(0,0,0,0.14));
+                }
+                .shape-lift:active {
+                    transform: translateY(-4px) scale(1.05);
+                    filter: drop-shadow(0 6px 4px rgba(0,0,0,0.18));
+                }
             `}</style>
         </div>
     );
