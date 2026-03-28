@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { TiltButton } from "react-tilt-button";
 import { type Direction } from "@/constants/games/path-navigation-levels";
-import { FaPlay, FaTimes } from "react-icons/fa";
+import { FaPlay, FaTimes, FaTrash } from "react-icons/fa";
 
 interface CommandSequenceProps {
     commands: Direction[];
@@ -13,22 +13,20 @@ interface CommandSequenceProps {
     onAddCommand?: (direction: Direction) => void;
     activeCommandIndex?: number | null;
     disabled?: boolean;
+    /** Called whenever the computed max-command capacity changes */
+    onMaxCommandsChange?: (max: number) => void;
 }
 
 const directionIcons: Record<Direction, React.ReactNode> = {
-    up: <img src="/icons/Arrow/ArrowUp.svg" alt="บน" className="w-6 h-6" />,
-    down: <img src="/icons/Arrow/ArrowDown.svg" alt="ล่าง" className="w-6 h-6" />,
-    left: <img src="/icons/Arrow/ArrowLeft.svg" alt="ซ้าย" className="w-6 h-6" />,
-    right: <img src="/icons/Arrow/ArrowRight.svg" alt="ขวา" className="w-6 h-6" />,
+    up: <img src="/icons/Arrow/ArrowUp.svg" alt="บน" className="w-5 h-5" />,
+    down: <img src="/icons/Arrow/ArrowDown.svg" alt="ล่าง" className="w-5 h-5" />,
+    left: <img src="/icons/Arrow/ArrowLeft.svg" alt="ซ้าย" className="w-5 h-5" />,
+    right: <img src="/icons/Arrow/ArrowRight.svg" alt="ขวา" className="w-5 h-5" />,
 };
 
 const VALID_DIRECTIONS: Direction[] = ["up", "down", "left", "right"];
-
-// Shared tile sizes (desktop / mobile)
-const TILE_LG = 62;
-const TILE_SM = 50;
-const RADIUS_LG = 14;
-const RADIUS_SM = 11;
+const GAP = 8;
+const MAX_COMMANDS = 27; // fixed across all screen sizes
 
 export function CommandSequence({
     commands,
@@ -38,8 +36,33 @@ export function CommandSequence({
     onAddCommand,
     activeCommandIndex,
     disabled = false,
+    onMaxCommandsChange,
 }: CommandSequenceProps) {
     const [isDragOver, setIsDragOver] = useState(false);
+    const [maxCommands] = useState(MAX_COMMANDS);
+    const [tileSize, setTileSize] = useState(58);
+
+    const innerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!innerRef.current) return;
+        // Notify parent of fixed capacity immediately
+        onMaxCommandsChange?.(MAX_COMMANDS);
+
+        const ro = new ResizeObserver(([entry]) => {
+            const { width } = entry.contentRect;
+            // Target ~5 tiles per row; clamp tile between 44px (mobile) and 66px (desktop)
+            const targetCols = 5;
+            const byWidth = Math.floor((width + GAP) / targetCols) - GAP;
+            const tile = Math.min(66, Math.max(44, byWidth));
+            setTileSize(tile);
+        });
+        ro.observe(innerRef.current);
+        return () => ro.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const tileRadius = Math.round(tileSize * 0.21); // proportional border-radius
 
     const handleDragOver = (e: React.DragEvent) => {
         e.preventDefault();
@@ -55,7 +78,7 @@ export function CommandSequence({
         e.preventDefault();
         setIsDragOver(false);
         const direction = e.dataTransfer.getData("text/plain") as Direction;
-        if (VALID_DIRECTIONS.includes(direction)) {
+        if (VALID_DIRECTIONS.includes(direction) && commands.length < maxCommands) {
             onAddCommand?.(direction);
         }
     };
@@ -65,25 +88,43 @@ export function CommandSequence({
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`rounded-xl border-2 bg-[#37464F] p-3 lg:p-4 flex flex-col h-[180px] lg:h-[280px] transition-all duration-150 ${isDragOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
-                }`}
+            className={`rounded-xl border-2 bg-[#37464F] p-3 lg:p-4 flex flex-col h-[274px] lg:h-[374px] transition-all duration-150 ${
+                isDragOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
+            }`}
         >
+            {/* Header row: command count + Clear All button */}
+            <div className="flex items-center justify-between mb-2 px-1">
+                <span className="text-xs font-semibold text-gray-400">
+                    คำสั่ง {commands.length}/{maxCommands}
+                </span>
+                {commands.length > 0 && !disabled && (
+                    <button
+                        onClick={onClearAll}
+                        className="flex items-center gap-1 text-xs text-red-400 hover:text-red-300 transition-colors font-semibold"
+                        title="ล้างทั้งหมด"
+                    >
+                        <FaTrash className="w-3 h-3" />
+                        ล้าง
+                    </button>
+                )}
+            </div>
+
+            {/* Inner area: overflow-hidden so tiles never escape the box */}
             <div
-                className="overflow-y-auto flex-1 pt-3 pb-1 pl-1 pr-1"
+                ref={innerRef}
+                className="overflow-y-auto flex-1 pb-1 pl-1 pr-1"
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
-                <style>{`div::-webkit-scrollbar { display: none; }`}</style>
+                <div className="flex flex-wrap content-start" style={{ gap: GAP }}>
 
-                <div className="flex flex-wrap gap-2 content-start">
-
-                    {/* Run button */}
+                    {/* Run button — always first */}
                     <TiltButton
-                        width={TILE_SM}
-                        height={TILE_SM}
+                        width={tileSize}
+                        height={tileSize}
                         elevation={6}
                         pressInset={6}
                         tilt={0.89}
-                        radius={RADIUS_SM}
+                        radius={tileRadius}
                         motion={60}
                         surfaceColor="#4CAF50"
                         sideColor="#388E3C"
@@ -95,20 +136,19 @@ export function CommandSequence({
                         disabled={commands.length === 0}
                         onClick={onRun}
                     >
-                        <FaPlay className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
+                        <FaPlay className="w-4 h-4 text-white" />
                     </TiltButton>
 
-
-                    {/* Command chips */}
+                    {/* Filled command chips */}
                     {commands.map((cmd, index) => (
                         <div key={index} className="group relative shrink-0">
                             <TiltButton
-                                width={TILE_SM}
-                                height={TILE_SM}
+                                width={tileSize}
+                                height={tileSize}
                                 elevation={6}
                                 pressInset={6}
                                 tilt={0.89}
-                                radius={RADIUS_SM}
+                                radius={tileRadius}
                                 motion={60}
                                 surfaceColor="#2D3748"
                                 sideColor="#1a2535"
@@ -125,20 +165,25 @@ export function CommandSequence({
                             {!disabled && (
                                 <button
                                     onClick={(e) => { e.stopPropagation(); onRemoveCommand(index); }}
-                                    className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                    className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
                                 >
-                                    <FaTimes className="w-2.5 h-2.5" />
+                                    <FaTimes className="w-2 h-2" />
                                 </button>
                             )}
                         </div>
                     ))}
 
-                    {/* Empty slot */}
-                    <div
-                        className={`shrink-0 border-2 border-dashed transition-all duration-150 ${isDragOver ? "border-[#1CB0F6] bg-[#1CB0F610]" : "border-gray-400 opacity-50"
+                    {/* 1 trailing empty slot */}
+                    {commands.length < maxCommands && (
+                        <div
+                            className={`shrink-0 border-2 border-dashed transition-all duration-150 ${
+                                isDragOver
+                                    ? "border-[#1CB0F6] bg-[#1CB0F610]"
+                                    : "border-gray-400 opacity-50"
                             }`}
-                        style={{ width: TILE_SM, height: TILE_SM, borderRadius: RADIUS_SM }}
-                    />
+                            style={{ width: tileSize, height: tileSize, borderRadius: tileRadius }}
+                        />
+                    )}
                 </div>
             </div>
         </div>

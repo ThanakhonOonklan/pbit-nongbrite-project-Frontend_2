@@ -180,7 +180,7 @@ export const pathNavLevels: Record<number, PathNavLevelConfig> = {
             { row: 2, col: 5 },
             { row: 3, col: 1 },
             { row: 3, col: 4 },
-            { row: 4, col: 7 },
+            { row: 4, col: 2 },
             { row: 5, col: 2 },
         ],
     },
