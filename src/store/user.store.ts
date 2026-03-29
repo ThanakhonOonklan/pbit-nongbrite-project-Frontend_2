@@ -3,12 +3,14 @@ import {
   userService,
   type User,
   type UpdateProfilePayload,
-  type GetLifeResponse
+  type GetLifeResponse,
+  type UpdateStreakResponse
 } from "@/services/user.service";
 
 interface UserState {
   user: User | null;
   lifeDetails: GetLifeResponse['data'] | null;
+  streakDetails: UpdateStreakResponse['data'] | null;
   isLoading: boolean;
   error: string | null;
 
@@ -17,6 +19,7 @@ interface UserState {
   fetchLifeDetails: () => Promise<void>;
   updateProfile: (payload: UpdateProfilePayload) => Promise<void>;
   reduceLife: () => Promise<void>;
+  fetchAndUpdateStreak: () => Promise<void>;
   setUser: (user: User | null) => void;
   clearError: () => void;
 }
@@ -29,6 +32,7 @@ export const useUserStore = create<UserState>()(
     return {
       user: null,
       lifeDetails: null,
+      streakDetails: null,
       isLoading: false,
     error: null,
 
@@ -40,6 +44,27 @@ export const useUserStore = create<UserState>()(
         }
       } catch (error) {
         console.error("Failed to fetch life details:", error);
+      }
+    },
+
+    fetchAndUpdateStreak: async () => {
+      try {
+        const response = await userService.updateStreak();
+        if (response.success && response.data) {
+          set({ streakDetails: response.data });
+          // Optional: Keep user object aligned if needed, but primary source is streakDetails
+          const currentUser = get().user;
+          if (currentUser) {
+            set({
+              user: {
+                ...currentUser,
+                streaks: response.data,
+              },
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Failed to update streak:", error);
       }
     },
 

@@ -26,7 +26,9 @@ export interface ProfileHeaderProps {
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
   const user = useUserStore((state) => state.user);
   const isLoading = useUserStore((state) => state.isLoading);
+  const streakDetails = useUserStore((state) => state.streakDetails);
   const fetchProfile = useUserStore((state) => state.fetchProfile);
+  const fetchAndUpdateStreak = useUserStore((state) => state.fetchAndUpdateStreak);
   const updateProfile = useUserStore((state) => state.updateProfile);
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -39,8 +41,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
   React.useEffect(() => {
     if (isAuthenticated) {
       fetchProfile();
+      fetchAndUpdateStreak();
     }
-  }, [isAuthenticated, fetchProfile]);
+  }, [isAuthenticated, fetchProfile, fetchAndUpdateStreak]);
 
   // Helper: Get icon filename (handle null)
   const getIconFilename = (): string => {
@@ -172,7 +175,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
   const gender = user.gender;
   const joinDate = formatJoinedDate(user.profile?.createdAt);
   const rank = user.profile?.currentRank || 0;
-  const daystate = user.streaks?.currentStreak || 0;
+  const daystate = streakDetails?.current ?? user.streaks?.current ?? 0;
   const totalScore = user.stats?.totalScore || 0;
   const currentRank = getRankByScore(totalScore);
   const maxScore = 6300;

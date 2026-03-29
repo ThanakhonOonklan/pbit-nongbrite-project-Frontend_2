@@ -39,6 +39,15 @@ export interface GetLifeResponse {
   };
 }
 
+export interface UpdateStreakResponse {
+  success: boolean;
+  data: {
+    current: number;
+    longest: number;
+    lastActiveDate: string;
+  };
+}
+
 export const userService = {
   getProfile: async (): Promise<GetProfileResponse> => {
     const response = await apiClient.get<GetProfileResponse>('/user/profile');
@@ -57,6 +66,11 @@ export const userService = {
 
   getLife: async (): Promise<GetLifeResponse> => {
     const response = await apiClient.get<GetLifeResponse>('/users/lives');
+    return response.data;
+  },
+
+  updateStreak: async (): Promise<UpdateStreakResponse> => {
+    const response = await apiClient.put<UpdateStreakResponse>('/users/streak/update');
     return response.data;
   },
 };

@@ -22,8 +22,9 @@ export interface UserProfile {
 }
 
 export interface Streaks {
-  currentStreak: number;
-  longestStreak: number;
+  current: number;
+  longest: number;
+  lastActiveDate: string;
 }
 
 export interface Life {

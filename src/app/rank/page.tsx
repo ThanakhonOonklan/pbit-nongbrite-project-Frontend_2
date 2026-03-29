@@ -22,19 +22,20 @@ const getGenderThai = (gender: Gender | undefined | string): string => {
 
 export default function RankPage() {
   const { fetchRanking, topThree, topTen, rankings, isLoading, error } = useRankStore();
-  const { user, fetchProfile } = useUserStore();
+  const { user, streakDetails, fetchProfile, fetchAndUpdateStreak } = useUserStore();
   console.log("[RankPage] user from store:", topTen); // เช็คว่า store มีค่าหรือเปล่า
 
 
   useEffect(() => {
     const abortController = new AbortController();
     fetchRanking(abortController.signal);
-    fetchProfile()
+    fetchProfile();
+    fetchAndUpdateStreak();
     console.log(myRankData)
     return () => {
       abortController.abort();
     };
-  }, [fetchRanking, fetchProfile]);
+  }, [fetchRanking, fetchProfile, fetchAndUpdateStreak]);
 
   // Construct MyRankData based on the authenticated user and their position in rankings
   const myRankData = React.useMemo<MyRankData | null>(() => {
@@ -44,7 +45,7 @@ export default function RankPage() {
     const rankInList = rankings.find((r) => r.userId === user.id);
 
     const totalScore = user.stats?.totalScore ?? 0;
-    const daystate = user.streaks?.currentStreak ?? 0;
+    const daystate = streakDetails?.current ?? user.streaks?.current ?? 0;
 
     return {
       id: String(user.id), // Ensure id is string to match MyRankData.id interface

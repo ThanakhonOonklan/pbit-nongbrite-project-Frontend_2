@@ -41,26 +41,28 @@ export default function CoursesPage() {
   const isMobile = useIsMobile();
   const [isTablet, setIsTablet] = useState(false);
 
-  // Fetch chapters from API
   const chapters = useChapterStore((state) => state.chapters);
   const fetchChapters = useChapterStore((state) => state.fetchChapters);
   // use user store global state
   const user = useUserStore((state) => state.user);
   const lifeDetails = useUserStore((state) => state.lifeDetails);
+  const streakDetails = useUserStore((state) => state.streakDetails);
   const fetchProfile = useUserStore((state) => state.fetchProfile);
   const fetchLifeDetails = useUserStore((state) => state.fetchLifeDetails);
+  const fetchAndUpdateStreak = useUserStore((state) => state.fetchAndUpdateStreak);
 
   const displayHeartCount = lifeDetails?.current ?? 0;
   const displayMaxHeartCount = lifeDetails?.max ?? 5;
   const displayLastResetAt = lifeDetails?.lastResetAt;
   const displayScoreCount = user?.stats?.totalScore ?? 0;
-  const displayFireCount = user?.streaks?.currentStreak ?? 0;
+  const displayFireCount = streakDetails?.current ?? user?.streaks?.current ?? 0;
 
   useEffect(() => {
     fetchChapters();
     fetchProfile();
     fetchLifeDetails();
-  }, [fetchChapters, fetchProfile, fetchLifeDetails]);
+    fetchAndUpdateStreak();
+  }, [fetchChapters, fetchProfile, fetchLifeDetails, fetchAndUpdateStreak]);
 
   // Merge API data with visual game config
   const mergedGames = useMemo(() => {
