@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── FAUCET ── -->
+  <rect x="75" y="10" width="18" height="40" rx="6" fill="#BDBDBD" stroke="#9E9E9E" stroke-width="2"/>
+  <rect x="70" y="50" width="28" height="8" rx="4" fill="#9E9E9E"/>
+
+  <!-- ── WATER STREAM ── -->
+  <path d="M80,58 Q72,100 68,140 L100,140 Q96,100 88,58 Z" fill="#29B6F6" opacity="0.65"/>
+  <ellipse cx="84" cy="140" rx="30" ry="10" fill="#29B6F6" opacity="0.8"/>
+
+  <!-- ── HAND HOLDING ORANGE ── -->
+  <!-- Hand (palm under orange) -->
+  <rect x="70" y="150" width="50" height="20" rx="10" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="110" y="145" width="20" height="15" rx="7.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/> <!-- Thumb -->
+  <rect x="80" y="160" width="40" height="40" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/> <!-- Wrist/arm going down -->
+
+  <!-- Orange -->
+  <circle cx="95" cy="125" r="35" fill="#FFB74D" stroke="#E65100" stroke-width="3.5"/>
+  <!-- Leaf -->
+  <path d="M95,85 Q115,75 125,95 Q105,105 95,85" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+  <circle cx="85" cy="115" r="8" fill="#FFE082" opacity="0.6"/>
+
+  <!-- ── WATER SPLASHING OFF ORANGE ── -->
+  <!-- Splashes on sides -->
+  <path d="M60,110 Q45,130 55,145" fill="none" stroke="#29B6F6" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="48" cy="138" r="3" fill="#29B6F6"/>
+  <path d="M130,110 Q145,130 135,145" fill="none" stroke="#29B6F6" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="142" cy="138" r="3" fill="#29B6F6"/>
+
+  <!-- Drops running down orange -->
+  <circle cx="85" cy="110" r="4" fill="white" opacity="0.8"/>
+  <ellipse cx="105" cy="118" rx="3" ry="6" fill="white" opacity="0.8"/>
+  <circle cx="92" cy="138" r="5" fill="white" opacity="0.8"/>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── POND WATER BACKGROUND ── -->
+  <path d="M0,200 L200,200 L200,0 L0,0 Z" fill="#80CBC4"/>
+  <path d="M0,200 Q200,80 200,200 Z" fill="#4DB6AC" opacity="0.4"/>
+
+  <!-- ── LILY PAD (Top surface context) ── -->
+  <path d="M0,0 Q100,50 200,0 Z" fill="#64FFDA" opacity="0.3"/>
+
+  <!-- ── TADPOLE WITH LEGS ── -->
+  <!-- Swimming motion lines -->
+  <path d="M140,80 Q160,90 150,110 M120,60 Q140,65 130,80" fill="none" stroke="#B2DFDB" stroke-width="3" stroke-linecap="round" stroke-dasharray="6,6"/>
+
+  <g transform="translate(-10, 30) rotate(10, 100, 100)">
+    <!-- Right Back Leg -->
+    <path d="M85,115 L105,130 L115,120 M115,120 L120,118 M115,120 L122,122 M115,120 L120,126" fill="none" stroke="#546E7A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Tadpole Tail (Still wavy but shorter) -->
+    <path d="M90,105 Q120,85 145,105 T170,105" fill="none" stroke="#455A64" stroke-width="6" stroke-linecap="round"/>
+    <path d="M90,105 Q120,75 145,105 T175,105 T145,110 T90,105 Z" fill="#90A4AE" opacity="0.6"/>
+
+    <!-- Left Back Leg -->
+    <path d="M85,95 L105,80 L115,90 M115,90 L120,86 M115,90 L122,90 M115,90 L120,94" fill="none" stroke="#455A64" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Tiny front leg bump (Just developing) -->
+    <circle cx="65" cy="120" r="4" fill="#607D8B"/>
+    <circle cx="60" cy="85" r="4" fill="#607D8B"/>
+
+    <!-- Tadpole Body (Slightly larger, hinting frog shape) -->
+    <ellipse cx="65" cy="105" rx="30" ry="24" fill="#455A64"/>
+    <path d="M55,85 C80,85 95,95 95,105 C95,125 45,125 40,105 C40,95 45,85 55,85 Z" fill="#546E7A"/>
+
+    <!-- Eye (Bigger frog-like eyes starting to bulge) -->
+    <circle cx="50" cy="93" r="6" fill="#1A1A1A"/>
+    <circle cx="48" cy="90" r="2" fill="#FFFFFF"/>
+    
+    <circle cx="75" cy="93" r="6" fill="#1A1A1A"/>
+    <circle cx="73" cy="90" r="2" fill="#FFFFFF"/>
+
+    <!-- Smile (Wider) -->
+    <path d="M52,112 Q62,120 72,112" fill="none" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>
+    
+    <!-- Skin spots/texture -->
+    <circle cx="80" cy="110" r="3" fill="#78909C" opacity="0.8"/>
+    <circle cx="88" cy="100" r="2.5" fill="#78909C" opacity="0.8"/>
+  </g>
+
+  <!-- Bubbles -->
+  <circle cx="50" cy="80" r="7" fill="#FFFFFF" stroke="#B2DFDB" stroke-width="2" opacity="0.6"/>
+  <circle cx="40" cy="55" r="5" fill="#FFFFFF" stroke="#B2DFDB" stroke-width="2" opacity="0.6"/>
+</svg>

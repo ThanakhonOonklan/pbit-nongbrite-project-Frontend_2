@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── LEGS & FEET ── -->
+  <!-- Left Leg -->
+  <path d="M85,150 L85,170 M75,175 L85,170 M95,175 L85,170" fill="none" stroke="#FF9800" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Right Leg -->
+  <path d="M115,150 L115,170 M105,175 L115,170 M125,175 L115,170" fill="none" stroke="#FF9800" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ── CHICK BODY ── -->
+  <!-- Fluffy Body (Yellow circle) -->
+  <circle cx="100" cy="115" r="40" fill="#FFF176" stroke="#FDD835" stroke-width="4"/>
+  <!-- Feathers (Wings) -->
+  <path d="M60,110 C50,115 50,130 65,125 Z" fill="#FFEE58" stroke="#FDD835" stroke-width="3"/>
+  <path d="M140,110 C150,115 150,130 135,125 Z" fill="#FFEE58" stroke="#FDD835" stroke-width="3"/>
+
+  <!-- ── CHICK HEAD ── -->
+  <circle cx="100" cy="70" r="30" fill="#FFF176" stroke="#FDD835" stroke-width="4"/>
+  
+  <!-- Head Tuft (Fluff on top) -->
+  <path d="M95,45 Q100,35 105,45 Q110,40 108,50" fill="none" stroke="#FDD835" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Face details (Cute, simple, no black under eyes) -->
+  <circle cx="85"  cy="65" r="6" fill="#1A1A1A"/>
+  <circle cx="83"  cy="62" r="2" fill="#FFFFFF"/>
+  <circle cx="115" cy="65" r="6" fill="#1A1A1A"/>
+  <circle cx="113" cy="62" r="2" fill="#FFFFFF"/>
+  
+  <!-- Blush -->
+  <ellipse cx="75" cy="75" rx="5" ry="3" fill="#FFD54F" opacity="0.6"/>
+  <ellipse cx="125" cy="75" rx="5" ry="3" fill="#FFD54F" opacity="0.6"/>
+
+  <!-- Beak -->
+  <polygon points="95,73 105,73 100,85" fill="#FF9800" stroke="#F57C00" stroke-width="2" stroke-linejoin="round"/>
+</svg>

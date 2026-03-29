@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── LEAF ── -->
+  <path d="M20,160 Q80,200 170,110 Q140,40 20,160 Z" fill="#66BB6A" stroke="#388E3C" stroke-width="4"/>
+  <!-- Leaf Vein (Center) -->
+  <path d="M35,145 Q80,120 155,100" fill="none" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+  <!-- Leaf Vein (Sides) -->
+  <path d="M60,135 L50,110 M80,123 L85,90 M110,113 L125,85 M70,130 L100,150 M100,120 L135,135 M130,110 L155,120" fill="none" stroke="#388E3C" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- ── BUTTERFLY EGGS ── -->
+  <!-- Egg 1 -->
+  <ellipse cx="90" cy="85" rx="10" ry="12" fill="#FFF59D" stroke="#FBC02D" stroke-width="2"/>
+  <ellipse cx="87" cy="82" rx="3" ry="5" fill="#FFFFFF" opacity="0.8"/> <!-- Highlight -->
+  <!-- Egg 2 -->
+  <ellipse cx="110" cy="75" rx="12" ry="14" fill="#FFF59D" stroke="#FBC02D" stroke-width="2"/>
+  <ellipse cx="106" cy="71" rx="4" ry="6" fill="#FFFFFF" opacity="0.8"/> <!-- Highlight -->
+  <!-- Egg 3 -->
+  <ellipse cx="125" cy="88" rx="9" ry="11" fill="#FFF59D" stroke="#FBC02D" stroke-width="2"/>
+  <ellipse cx="123" cy="85" rx="2" ry="4" fill="#FFFFFF" opacity="0.8"/> <!-- Highlight -->
+  
+  <!-- Subtle shadow under eggs -->
+  <ellipse cx="105" cy="95" rx="25" ry="8" fill="#388E3C" opacity="0.4" transform="rotate(-30, 105, 95)"/>
+</svg>

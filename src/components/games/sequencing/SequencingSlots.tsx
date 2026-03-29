@@ -9,6 +9,7 @@ interface SequencingSlotsProps {
   onDrop: (item: SequencingItem, poolIndex: number, slotIndex: number) => void;
   correctSequence?: SequencingItem[];
   showErrors?: boolean;
+  shakeKey?: number;  // increments each wrong attempt to re-trigger shake
 }
 
 function getItemsPerRow(count: number): number {
@@ -39,6 +40,7 @@ function DroppableSlot({
   onRemove,
   onDrop,
   isWrong,
+  shakeKey,
   sc,
 }: {
   slot: SequencingItem | null;
@@ -46,6 +48,7 @@ function DroppableSlot({
   onRemove: (item: SequencingItem, index: number) => void;
   onDrop: (item: SequencingItem, poolIndex: number, slotIndex: number) => void;
   isWrong: boolean;
+  shakeKey?: number;
   sc: ReturnType<typeof getSizeByRow>;
 }) {
   const [isOver, setIsOver] = useState(false);
@@ -60,11 +63,22 @@ function DroppableSlot({
 
   return (
     <div
+      key={isWrong ? shakeKey : undefined}
       className={`${sc.box} rounded-xl flex items-center justify-center relative transition-all duration-300 ease-out flex-shrink-0 shadow-inner
-        ${slot ? filledBorder : emptyBorder}`}
+        ${isWrong ? "animate-shake" : ""}
+        ${slot ? `${filledBorder} cursor-grab active:cursor-grabbing` : emptyBorder}`}
+      draggable={!!slot}
+      onDragStart={(e) => {
+        if (!slot) return;
+        e.dataTransfer.setData(
+          "application/sequencing-slot-item",
+          JSON.stringify({ item: slot, slotIndex: idx })
+        );
+        e.dataTransfer.effectAllowed = "move";
+      }}
       onDragOver={(e) => {
-        // Only accept drop if slot is empty
-        if (!slot) {
+        // Only accept pool→slot drops when slot is empty
+        if (!slot && e.dataTransfer.types.includes("application/sequencing-item")) {
           e.preventDefault();
           e.dataTransfer.dropEffect = "move";
           setIsOver(true);
@@ -118,7 +132,7 @@ function DroppableSlot({
 
 
 
-export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, showErrors }: SequencingSlotsProps) {
+export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, showErrors, shakeKey }: SequencingSlotsProps) {
   const itemsPerRow = getItemsPerRow(slots.length);
   const sc = getSizeByRow();
 
@@ -142,7 +156,7 @@ export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, show
 
               return (
                 <Fragment key={`slot-${idx}`}>
-                  <DroppableSlot slot={slot} idx={idx} onRemove={onRemove} onDrop={onDrop} isWrong={isWrong} sc={sc} />
+                  <DroppableSlot slot={slot} idx={idx} onRemove={onRemove} onDrop={onDrop} isWrong={isWrong} shakeKey={shakeKey} sc={sc} />
                   {!isLastInRow && (
                     <div className="flex items-center justify-center text-[#7C3AED] flex-shrink-0">
                       <FaArrowRight className={`${sc.arrowSize} opacity-60`} />

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── BRANCH (Top) ── -->
+  <path d="M20,30 Q100,50 180,20" fill="none" stroke="#795548" stroke-width="12" stroke-linecap="round"/>
+  <path d="M50,38 Q80,43 120,40" fill="none" stroke="#5D4037" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- ── SILK THREAD ── -->
+  <!-- Silky anchor to branch -->
+  <path d="M90,45 Q100,35 110,45" fill="none" stroke="#E0E0E0" stroke-width="4" stroke-linecap="round"/>
+  <!-- Thread hanging down -->
+  <line x1="100" y1="45" x2="100" y2="60" stroke="#BDBDBD" stroke-width="3"/>
+
+  <!-- ── CHRYSALIS (Pupa) ── -->
+  <!-- Shadow/Back edge -->
+  <path d="M100,60 C75,60 60,110 80,150 C90,170 100,180 100,180 C100,180 110,170 120,150 C140,110 125,60 100,60 Z" fill="#689F38"/>
+
+  <!-- Main body -->
+  <path d="M100,60 C75,60 65,110 85,150 C95,170 100,180 100,180 C100,180 105,170 115,150 C135,110 125,60 100,60 Z" fill="#8BC34A" stroke="#558B2F" stroke-width="4"/>
+
+  <!-- Segments/Ridges -->
+  <path d="M80,85 Q100,95 120,85" fill="none" stroke="#558B2F" stroke-width="3" stroke-linecap="round"/>
+  <path d="M75,105 Q100,115 125,105" fill="none" stroke="#558B2F" stroke-width="4" stroke-linecap="round"/>
+  <path d="M78,125 Q100,135 122,125" fill="none" stroke="#558B2F" stroke-width="3" stroke-linecap="round"/>
+  <path d="M88,145 Q100,150 112,145" fill="none" stroke="#558B2F" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Decorative spots/gold dots (common on Monarch chrysalis) -->
+  <circle cx="85" cy="75" r="3" fill="#FFC107"/>
+  <circle cx="95" cy="70" r="3" fill="#FFC107"/>
+  <circle cx="105" cy="70" r="3" fill="#FFC107"/>
+  <circle cx="115" cy="75" r="3" fill="#FFC107"/>
+  
+  <!-- Highlight to make it look smooth/shiny -->
+  <path d="M90,80 C80,95 78,125 90,150" fill="none" stroke="#DCE775" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Leaves hanging on branch for context -->
+  <path d="M150,30 Q170,10 190,40 Q160,50 150,30 Z" fill="#4CAF50" stroke="#388E3C" stroke-width="3"/>
+  <path d="M30,30 Q10,10 -10,40 Q20,50 30,30 Z" fill="#4CAF50" stroke="#388E3C" stroke-width="3"/>
+</svg>

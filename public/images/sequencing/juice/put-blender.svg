@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── BLENDER BASE (bottom partially visible) ── -->
+  <path d="M70,160 L130,160 L140,195 L60,195 Z" fill="#9E9E9E" stroke="#757575" stroke-width="3"/>
+  <rect x="95" y="170" width="10" height="10" rx="5" fill="#EF5350"/> <!-- Button -->
+  
+  <!-- ── BLENDER JUG ── -->
+  <path d="M80,160 L120,160 L135,80 L65,80 Z" fill="#E1F5FE" opacity="0.4" stroke="#81D4FA" stroke-width="3"/> <!-- Back glass -->
+  
+  <!-- Content inside (just a bit of juice at bottom) -->
+  <path d="M75,130 L125,130 L120,160 L80,160 Z" fill="#FFB74D" opacity="0.9"/>
+  <ellipse cx="100" cy="130" rx="25" ry="5" fill="#FFB74D"/>
+  
+  <path d="M80,160 L120,160 L135,80 L65,80 Z" fill="none" stroke="#81D4FA" stroke-width="4" stroke-linecap="round"/> <!-- Front glass rim -->
+  <ellipse cx="100" cy="80" rx="35" ry="8" fill="none" stroke="#81D4FA" stroke-width="4"/> <!-- Top opening -->
+  
+  <!-- Measuring lines -->
+  <line x1="72" y1="120" x2="82" y2="120" stroke="#81D4FA" stroke-width="2"/>
+  <line x1="70" y1="100" x2="80" y2="100" stroke="#81D4FA" stroke-width="2"/>
+  
+  <!-- Blender Handle -->
+  <path d="M130,100 C155,100 155,140 125,140" fill="none" stroke="#E0E0E0" stroke-width="8" stroke-linecap="round"/>
+  <path d="M130,100 C155,100 155,140 125,140" fill="none" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ── DROPPING PIECES ── -->
+  <!-- Orange slice 1 -->
+  <path d="M100,60 A15,15 0 0,0 120,50 L115,40 Z" fill="#FF9800" stroke="#E65100" stroke-width="2" transform="rotate(20,110,50)"/>
+  <!-- Orange slice 2 -->
+  <path d="M90,30 A15,15 0 0,0 70,25 L70,40 Z" fill="#FF9800" stroke="#E65100" stroke-width="2" transform="rotate(-20,80,30)"/>
+  
+  <!-- Dropping lines -->
+  <line x1="110" y1="70" x2="110" y2="90" stroke="#BDBDBD" stroke-width="2.5" stroke-dasharray="4,4"/>
+  <line x1="85" y1="50" x2="85" y2="80" stroke="#BDBDBD" stroke-width="2.5" stroke-dasharray="4,4"/>
+  <line x1="98" y1="65" x2="98" y2="95" stroke="#BDBDBD" stroke-width="2.5" stroke-dasharray="4,4"/>
+
+  <!-- ── HAND (Dropping pieces) ── -->
+  <rect x="90" y="-10" width="30" height="30" rx="10" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/> <!-- Wrist -->
+  <!-- Fingers opening -->
+  <rect x="80" y="5" width="12" height="25" rx="6" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-30,80,10)"/>
+  <rect x="115" y="0" width="12" height="25" rx="6" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(30,115,0)"/>
+  <rect x="95" y="15" width="12" height="20" rx="6" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+</svg>

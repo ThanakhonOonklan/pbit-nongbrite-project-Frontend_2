@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Outer Green Rind -->
+  <path d="M 25 145 C 50 175 150 175 175 145 L 160 135 C 140 160 60 160 40 135 Z" fill="#4CAF50" stroke="#2E7D32" stroke-width="3" stroke-linejoin="round"/>
+  
+  <!-- White Inner Rind (Bitten irregularly along the top edge) -->
+  <path d="M 35 140 Q 50 120 70 145 Q 90 135 110 145 Q 130 115 145 130 Q 155 125 165 140 C 140 162 60 162 35 140 Z" fill="#E8F5E9" />
+  
+  <!-- Tiny red scraps scattered on the white rind -->
+  <path d="M 65 140 Q 75 130 80 143 Q 70 145 65 140 Z" fill="#F44336" />
+  <path d="M 120 140 Q 130 130 135 140 Q 125 146 120 140 Z" fill="#F44336" />
+  <path d="M 100 142 Q 105 135 110 142 Z" fill="#F44336" />
+  <path d="M 45 138 Q 48 135 52 140 Z" fill="#F44336" />
+  <path d="M 150 133 Q 155 128 155 135 Z" fill="#F44336" />
+</svg>

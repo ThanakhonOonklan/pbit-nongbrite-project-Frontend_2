@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── BRANCH ── -->
+  <path d="M10,130 Q100,160 190,110" fill="none" stroke="#795548" stroke-width="12" stroke-linecap="round"/>
+  <!-- Branch details -->
+  <path d="M40,135 Q50,140 60,138" fill="none" stroke="#5D4037" stroke-width="3" stroke-linecap="round"/>
+  <path d="M110,140 Q130,140 150,125" fill="none" stroke="#5D4037" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- ── CATERPILLAR BODY (Back to Front) ── -->
+  <!-- Legs -->
+  <line x1="140" y1="118" x2="140" y2="128" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="125" y1="122" x2="122" y2="132" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="105" y1="120" x2="105" y2="135" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="85"  y1="110" x2="85"  y2="138" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="65"  y1="115" x2="62"  y2="138" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="45"  y1="115" x2="45"  y2="135" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Body Segments (Wavy) -->
+  <circle cx="140" cy="110" r="12" fill="#81C784" stroke="#388E3C" stroke-width="3"/> <!-- Tail -->
+  <circle cx="125" cy="115" r="14" fill="#66BB6A" stroke="#388E3C" stroke-width="3"/>
+  <circle cx="105" cy="110" r="16" fill="#4CAF50" stroke="#388E3C" stroke-width="3"/> <!-- High arch -->
+  <circle cx="85"  cy="100" r="17" fill="#66BB6A" stroke="#388E3C" stroke-width="3"/>
+  <circle cx="65"  cy="105" r="18" fill="#81C784" stroke="#388E3C" stroke-width="3"/>
+  
+  <!-- Head -->
+  <circle cx="45" cy="100" r="22" fill="#4CAF50" stroke="#2E7D32" stroke-width="3"/>
+
+  <!-- ── CATERPILLAR DETAILS ── -->
+  <!-- Antennae -->
+  <path d="M40,80 Q35,60 25,65" fill="none" stroke="#2E7D32" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="25" cy="65" r="4" fill="#66BB6A"/>
+  <path d="M55,80 Q65,60 75,65" fill="none" stroke="#2E7D32" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="75" cy="65" r="4" fill="#66BB6A"/>
+
+  <!-- Face -->
+  <!-- Eyes -->
+  <circle cx="35" cy="95" r="5" fill="#1A1A1A"/>
+  <circle cx="33" cy="93" r="1.5" fill="#FFFFFF"/>
+  <circle cx="55" cy="95" r="5" fill="#1A1A1A"/>
+  <circle cx="57" cy="93" r="1.5" fill="#FFFFFF"/>
+  <!-- Smile -->
+  <path d="M38,105 Q45,115 52,105" fill="none" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Blush -->
+  <ellipse cx="28" cy="102" rx="4" ry="2.5" fill="#F48FB1"/>
+  <ellipse cx="62" cy="102" rx="4" ry="2.5" fill="#F48FB1"/>
+
+  <!-- Body spots -->
+  <circle cx="85" cy="95" r="3" fill="#C8E6C9" opacity="0.8"/>
+  <circle cx="105" cy="105" r="3" fill="#C8E6C9" opacity="0.8"/>
+  <circle cx="125" cy="110" r="2" fill="#C8E6C9" opacity="0.8"/>
+  <circle cx="140" cy="106" r="1.5" fill="#C8E6C9" opacity="0.8"/>
+</svg>

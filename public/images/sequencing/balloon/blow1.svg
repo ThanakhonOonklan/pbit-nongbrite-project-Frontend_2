@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Balloon Body -->
+  <path d="M100,100 C130,100 130,150 108,160 L108,165 L92,165 L92,160 C70,150 70,100 100,100 Z" fill="#FF5252" stroke="#D32F2F" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Rim -->
+  <rect x="88" y="165" width="24" height="6" rx="2" fill="#FF5252" stroke="#D32F2F" stroke-width="3"/>
+  <!-- Small Highlight -->
+  <path d="M85,115 C90,110 95,110 100,112" fill="none" stroke="#FF8A80" stroke-width="3" stroke-linecap="round"/>
+</svg>

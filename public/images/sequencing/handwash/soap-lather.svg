@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── SOAP BAR (top left) ── -->
+  <rect x="14" y="18" width="46" height="30" rx="10" fill="#FFF176" stroke="#F9A825" stroke-width="2.5"/>
+  <text x="37" y="37" text-anchor="middle" font-size="11" fill="#F57F17" font-family="sans-serif" font-weight="bold">SOAP</text>
+
+  <!-- ── SOAP BUBBLES floating ── -->
+  <circle cx="80"  cy="30"  r="9"  fill="white" stroke="#B3E5FC" stroke-width="2" opacity="0.9"/>
+  <circle cx="96"  cy="16"  r="7"  fill="white" stroke="#B3E5FC" stroke-width="2" opacity="0.85"/>
+  <circle cx="112" cy="28"  r="10" fill="white" stroke="#B3E5FC" stroke-width="2" opacity="0.9"/>
+  <circle cx="130" cy="18"  r="7"  fill="white" stroke="#B3E5FC" stroke-width="2" opacity="0.8"/>
+  <circle cx="148" cy="32"  r="9"  fill="white" stroke="#B3E5FC" stroke-width="2" opacity="0.85"/>
+  <circle cx="168" cy="20"  r="6"  fill="white" stroke="#B3E5FC" stroke-width="2" opacity="0.8"/>
+  <!-- Bubble shines -->
+  <circle cx="77"  cy="27"  r="3"  fill="white" opacity="0.9"/>
+  <circle cx="109" cy="24"  r="3"  fill="white" opacity="0.9"/>
+  <circle cx="145" cy="28"  r="3"  fill="white" opacity="0.9"/>
+
+  <!-- ── LEFT HAND (rubbing motion) ── -->
+  <!-- Fingers L (slightly tilted forward = rubbing) -->
+  <rect x="45" y="112" width="10" height="22" rx="5"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-8,50,123)"/>
+  <rect x="56" y="106" width="11" height="28" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-5,61,120)"/>
+  <rect x="68" y="103" width="12" height="30" rx="6"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="80" y="106" width="11" height="28" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(5,85,120)"/>
+  <!-- Palm L -->
+  <rect x="42" y="126" width="54" height="28" rx="13" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <!-- Thumb L -->
+  <rect x="28" y="128" width="18" height="20" rx="9" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-22,37,138)"/>
+
+  <!-- ── FOAM BETWEEN HANDS ── -->
+  <ellipse cx="100" cy="128" rx="18" ry="10" fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.9"/>
+  <circle cx="92"  cy="120" r="7"  fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.85"/>
+  <circle cx="104" cy="118" r="8"  fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.85"/>
+  <circle cx="112" cy="124" r="7"  fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.85"/>
+  <circle cx="97"  cy="113" r="6"  fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- ── RIGHT HAND (rubbing motion, below-left slightly) ── -->
+  <!-- Palm R (over left slightly) -->
+  <rect x="104" y="138" width="54" height="28" rx="13" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <!-- Fingers R (pointing left = horizontal rubbing) -->
+  <rect x="108" y="118" width="11" height="26" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-5,113,131)"/>
+  <rect x="120" y="115" width="12" height="30" rx="6"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="132" y="118" width="11" height="26" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(5,137,131)"/>
+  <rect x="143" y="122" width="10" height="22" rx="5"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(8,148,133)"/>
+  <!-- Thumb R -->
+  <rect x="155" y="140" width="18" height="20" rx="9" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(22,164,150)"/>
+  <!-- Lower foam blobs -->
+  <circle cx="90"  cy="145" r="7"  fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.75"/>
+  <circle cx="100" cy="148" r="8"  fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.75"/>
+  <circle cx="112" cy="145" r="7"  fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.7"/>
+</svg>

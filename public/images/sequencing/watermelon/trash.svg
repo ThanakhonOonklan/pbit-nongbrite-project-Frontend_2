@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Watermelon Rind (falling/held above the bin) -->
+  <g transform="translate(-10, -50) scale(0.8)">
+    <path d="M 45 145 C 70 175 170 175 195 145 L 180 135 C 160 160 80 160 60 135 Z" fill="#4CAF50" stroke="#2E7D32" stroke-width="3"/>
+    <path d="M 55 140 Q 70 120 90 145 Q 110 135 130 145 Q 150 115 165 130 Q 175 125 185 140 C 160 162 80 162 55 140 Z" fill="#E8F5E9" />
+    <path d="M 85 140 Q 95 130 100 143 Q 90 145 85 140 Z" fill="#F44336" />
+    <path d="M 140 140 Q 150 130 155 140 Q 145 146 140 140 Z" fill="#F44336" />
+  </g>
+
+  <!-- Motion lines dropping down -->
+  <path d="M85,50 L85,75 M115,50 L115,75" stroke="#BDBDBD" stroke-width="3" stroke-dasharray="6,4" stroke-linecap="round" fill="none"/>
+
+  <!-- Trash Bin Body (Bright Cyan/Teal) -->
+  <path d="M50,110 L150,110 L135,190 L65,190 Z" fill="#26C6DA" stroke="#0097A7" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Bin Rim -->
+  <rect x="40" y="100" width="120" height="10" rx="4" fill="#00ACC1" stroke="#00838F" stroke-width="2"/> 
+  <!-- Inside back rim (shadow) -->
+  <path d="M45,100 L155,100 L150,110 L50,110 Z" fill="#006064" opacity="0.3"/>
+  
+  <!-- Bin Lid (Swung open back right) -->
+  <path d="M140,105 Q170,50 140,40 Q130,40 120,45" fill="#4DD0E1" stroke="#0097A7" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Grooves / Ridges on Bin -->
+  <line x1="75" y1="120" x2="72" y2="180" stroke="#0097A7" stroke-width="4" stroke-linecap="round"/>
+  <line x1="100" y1="120" x2="100" y2="180" stroke="#0097A7" stroke-width="4" stroke-linecap="round"/>
+  <line x1="125" y1="120" x2="128" y2="180" stroke="#0097A7" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Cute Face on Bin -->
+  <circle cx="85" cy="145" r="5" fill="#004D40"/>
+  <circle cx="115" cy="145" r="5" fill="#004D40"/>
+  <path d="M95,155 Q100,162 105,155" fill="none" stroke="#004D40" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="75" cy="150" r="4" fill="#B2EBF2" opacity="0.8"/>
+  <circle cx="125" cy="150" r="4" fill="#B2EBF2" opacity="0.8"/>
+  <circle cx="87" cy="143" r="1.5" fill="#FFFFFF"/>
+  <circle cx="117" cy="143" r="1.5" fill="#FFFFFF"/>
+</svg>

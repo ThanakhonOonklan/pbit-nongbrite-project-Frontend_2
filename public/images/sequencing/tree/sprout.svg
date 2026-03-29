@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── SOIL / GROUND ── -->
+  <!-- Back mound -->
+  <path d="M20,180 Q100,120 180,180 Z" fill="#795548"/>
+  <path d="M10,200 Q100,140 190,200 Z" fill="#8D6E63"/>
+  <!-- Soil details -->
+  <ellipse cx="50" cy="170" rx="10" ry="4" fill="#5D4037" opacity="0.3"/>
+  <ellipse cx="150" cy="180" rx="15" ry="5" fill="#5D4037" opacity="0.3"/>
+
+  <!-- ── ROOTS (Underground/showing on mound) ── -->
+  <path d="M100,150 L100,180" fill="none" stroke="#FFF59D" stroke-width="5" stroke-linecap="round"/>
+  <path d="M100,165 Q120,175 125,190" fill="none" stroke="#FFF59D" stroke-width="3" stroke-linecap="round"/>
+  <path d="M100,160 Q80,170 75,185" fill="none" stroke="#FFF59D" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- ── STEM ── -->
+  <path d="M100,150 Q90,110 100,75" fill="none" stroke="#8BC34A" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- ── EARLY LEAVES ── -->
+  <!-- Left Leaf -->
+  <path d="M 100 75 Q 50 45 30 85 Q 60 105 100 75 Z" fill="#66BB6A" stroke="#388E3C" stroke-width="3"/>
+  <!-- Right Leaf -->
+  <path d="M 100 75 Q 150 45 170 85 Q 140 105 100 75 Z" fill="#66BB6A" stroke="#388E3C" stroke-width="3"/>
+  
+  <!-- Leaf Veins -->
+  <path d="M 100 75 Q 60 80 40 85" fill="none" stroke="#388E3C" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 100 75 Q 140 80 160 85" fill="none" stroke="#388E3C" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ── SUNSHINE ── -->
+  <circle cx="20" cy="20" r="30" fill="#FFEB3B"/>
+  <path d="M20,50 L20,70 M50,20 L70,20 M40,40 L60,60 M40,-5 L60,-20" fill="none" stroke="#FFC107" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Grass blades -->
+  <path d="M30,165 Q35,140 40,160 Z" fill="#66BB6A"/>
+  <path d="M160,170 Q165,150 170,165 Z" fill="#66BB6A"/>
+  <path d="M55,165 Q60,145 65,165 Z" fill="#4CAF50"/>
+</svg>

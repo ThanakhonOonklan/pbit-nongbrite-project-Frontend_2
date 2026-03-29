@@ -6,6 +6,7 @@ interface SequencingPoolProps {
   pool: (SequencingItem | null)[];
   onSelect: (item: SequencingItem, index: number) => void;
   slotCount: number;
+  onSlotDrop?: (item: SequencingItem, slotIndex: number, poolIndex: number) => void;
 }
 
 function getItemsPerRow(count: number): number {
@@ -109,9 +110,10 @@ function PoolItem({
   );
 }
 
-export function SequencingPool({ pool, onSelect, slotCount }: SequencingPoolProps) {
+export function SequencingPool({ pool, onSelect, slotCount, onSlotDrop }: SequencingPoolProps) {
   const itemsPerRow = getItemsPerRow(slotCount);
   const sc = getSizeByRow();
+  const [isPoolOver, setIsPoolOver] = useState(false);
 
   const rows: (SequencingItem | null)[][] = [];
   for (let i = 0; i < pool.length; i += itemsPerRow) {
@@ -119,7 +121,39 @@ export function SequencingPool({ pool, onSelect, slotCount }: SequencingPoolProp
   }
 
   return (
-    <div className="bg-[#182029] rounded-2xl sm:rounded-3xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 border-[3px] sm:border-4 border-[#2D3F55] shadow-inner w-full relative z-10">
+    <div
+      className={`bg-[#182029] rounded-2xl sm:rounded-3xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 border-[3px] sm:border-4 ${
+        isPoolOver ? "border-[#7C3AED] ring-2 ring-[#7C3AED]/30" : "border-[#2D3F55]"
+      } shadow-inner w-full relative z-10 transition-all duration-150`}
+      onDragOver={(e) => {
+        if (e.dataTransfer.types.includes("application/sequencing-slot-item")) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+          setIsPoolOver(true);
+        }
+      }}
+      onDragLeave={(e) => {
+        // only clear when leaving the pool container itself
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+          setIsPoolOver(false);
+        }
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        setIsPoolOver(false);
+        try {
+          const raw = e.dataTransfer.getData("application/sequencing-slot-item");
+          if (!raw) return;
+          const data = JSON.parse(raw) as { item: SequencingItem; slotIndex: number };
+          const emptyIdx = pool.findIndex((p) => p === null);
+          if (emptyIdx !== -1 && onSlotDrop) {
+            onSlotDrop(data.item, data.slotIndex, emptyIdx);
+          }
+        } catch {
+          // ignore
+        }
+      }}
+    >
       <p className="text-[10px] sm:text-xs font-bold text-[#7C3AED] uppercase tracking-wider text-center">
         ลากหรือแตะเพื่อนำไปวาง
       </p>

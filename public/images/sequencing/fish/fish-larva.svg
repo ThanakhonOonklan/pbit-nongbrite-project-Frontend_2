@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── UNDERWATER BACKGROUND ── -->
+  <path d="M0,200 L200,200 L200,0 L0,0 Z" fill="#607D8B"/>
+  <path d="M0,200 Q100,100 200,200 Z" fill="#455A64" opacity="0.5"/>
+  
+  <circle cx="50" cy="150" r="15" fill="#E1F5FE" stroke="#81D4FA" stroke-width="2" opacity="0.7"/>
+  <circle cx="60" cy="110" r="8" fill="#E1F5FE" stroke="#81D4FA" stroke-width="2" opacity="0.7"/>
+  <circle cx="45" cy="80" r="5" fill="#E1F5FE" stroke="#81D4FA" stroke-width="2" opacity="0.7"/>
+
+  <!-- ── LARVAL CLOWNFISH ── -->
+  <g transform="translate(30, 0)">
+    <!-- Yolk Sac (Underneath) -->
+    <ellipse cx="80" cy="105" rx="12" ry="8" fill="#FFCA28" stroke="#FFBC00" stroke-width="2"/>
+    
+    <!-- Transparent/Orange Body -->
+    <path d="M60,95 Q100,85 140,95 L150,90 L145,100 L150,110 L140,105 Q100,110 60,105 C45,105 45,95 60,95 Z" fill="#FFB74D" stroke="#FF9800" stroke-width="2"/>
+    
+    <!-- First white stripe hint -->
+    <path d="M75,93 L75,105" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Eye (Big) -->
+    <circle cx="65" cy="100" r="6" fill="#1A1A1A"/>
+    <circle cx="63" cy="98" r="2" fill="#FFFFFF"/>
+    
+    <!-- Tiny fins -->
+    <path d="M90,92 Q95,85 100,92" fill="none" stroke="#FF9800" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>

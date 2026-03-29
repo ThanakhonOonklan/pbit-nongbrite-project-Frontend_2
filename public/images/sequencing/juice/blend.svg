@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── BLENDER BASE ── -->
+  <path d="M70,165 L130,165 L145,200 L55,200 Z" fill="#9E9E9E" stroke="#757575" stroke-width="3"/>
+  
+  <!-- Buttons -->
+  <rect x="85" y="175" width="30" height="15" rx="7.5" fill="#424242" stroke="#212121" stroke-width="2"/>
+  <!-- Highlighted (pressed) button -->
+  <rect x="92" y="178" width="8" height="8" rx="4" fill="#66BB6A"/> <!-- Green ON -->
+  <rect x="102" y="178" width="8" height="8" rx="4" fill="#EF5350"/> <!-- Red OFF -->
+
+  <!-- ── BLENDER JUG (Filled) ── -->
+  <!-- Juice body (inside glass) -->
+  <path d="M72,165 L128,165 L135,100 L65,100 Z" fill="#FFB74D"/>
+  <ellipse cx="100" cy="100" rx="35" ry="5" fill="#FFA726"/>
+  
+  <!-- Swirling blending action in juice -->
+  <path d="M75,120 Q100,105 125,120" fill="none" stroke="#FFE0B2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M80,140 Q100,155 120,140" fill="none" stroke="#FFE0B2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M85,130 Q100,110 115,130 Q100,150 85,130" fill="none" stroke="#FF9800" stroke-width="2.5"/>
+  <circle cx="100" cy="130" r="1.5" fill="#FFF3E0"/>
+  <circle cx="90" cy="135" r="2" fill="#FFF3E0"/>
+  <circle cx="110" cy="125" r="2.5" fill="#FFF3E0"/>
+  <circle cx="95" cy="145" r="2" fill="#FFA726"/>
+  <circle cx="105" cy="115" r="2" fill="#FFA726"/>
+  
+  <!-- Action lines outside blender indicating shaking/noise -->
+  <path d="M50,110 Q45,120 50,130" fill="none" stroke="#BDBDBD" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M40,115 Q35,125 40,135" fill="none" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round"/>
+  <path d="M150,110 Q155,120 150,130" fill="none" stroke="#BDBDBD" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M160,115 Q165,125 160,135" fill="none" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Glass outline overlay -->
+  <path d="M70,165 L130,165 L140,70 L60,70 Z" fill="#B3E5FC" opacity="0.3" stroke="#81D4FA" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="100" cy="70" rx="40" ry="10" fill="none" stroke="#81D4FA" stroke-width="4"/>
+  
+  <!-- Measuring lines -->
+  <line x1="68" y1="130" x2="78" y2="130" stroke="#81D4FA" stroke-width="2"/>
+  <line x1="66" y1="100" x2="76" y2="100" stroke="#81D4FA" stroke-width="2"/>
+
+  <!-- Handle -->
+  <path d="M136,90 C165,90 165,145 130,145" fill="none" stroke="#E0E0E0" stroke-width="8" stroke-linecap="round"/>
+  <path d="M136,90 C165,90 165,145 130,145" fill="none" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ── BLENDER LID ── -->
+  <ellipse cx="100" cy="70" rx="40" ry="10" fill="#424242"/>
+  <path d="M60,70 L65,55 L135,55 L140,70 Z" fill="#616161" stroke="#212121" stroke-width="2"/>
+  <rect x="85" y="45" width="30" height="10" rx="2" fill="#424242" stroke="#212121" stroke-width="2"/>
+  
+  <!-- ── HAND PRESSING BUTTON ── -->
+  <!-- Hand reaching from right bottom -->
+  <rect x="130" y="175" width="40" height="20" rx="10" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(15,150,185)"/>
+  <!-- Index finger pressing green ON button -->
+  <rect x="94" y="180" width="30" height="10" rx="5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-15,94,180)"/>
+  
+  <path d="M90,174 L94,178 L90,182" fill="none" stroke="#FFCA28" stroke-width="2.5" stroke-linecap="round"/> <!-- Click sparkle -->
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── POND WATER BACKGROUND ── -->
+  <path d="M0,200 L200,200 L200,0 L0,0 Z" fill="#80CBC4"/>
+  <path d="M0,200 Q100,50 200,200 Z" fill="#4DB6AC" opacity="0.4"/>
+
+  <!-- ── TADPOLE ── -->
+  <!-- Swimming motion lines -->
+  <path d="M140,80 Q160,90 150,110 M165,75 Q185,85 175,110 M120,60 Q140,65 130,80" fill="none" stroke="#B2DFDB" stroke-width="3" stroke-linecap="round" stroke-dasharray="8,6"/>
+
+  <g transform="translate(-10, 20) rotate(15, 100, 100)">
+    <!-- Tadpole Tail (Curved and wavy) -->
+    <path d="M90,105 Q120,80 150,100 T180,95" fill="none" stroke="#455A64" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Translucent fin around the tail -->
+    <path d="M90,105 Q120,70 150,100 T185,95 T150,105 T90,105 Z" fill="#90A4AE" opacity="0.6"/>
+
+    <!-- Tadpole Body (Large dark head) -->
+    <ellipse cx="70" cy="105" rx="28" ry="22" fill="#37474F"/>
+    <path d="M60,85 C80,85 95,95 95,105 C95,125 45,125 45,105 C45,95 50,85 60,85 Z" fill="#455A64"/>
+
+    <!-- Eye -->
+    <circle cx="55" cy="98" r="5" fill="#1A1A1A"/>
+    <circle cx="53" cy="95" r="1.5" fill="#FFFFFF"/>
+    
+    <circle cx="80" cy="98" r="5" fill="#1A1A1A"/>
+    <circle cx="78" cy="95" r="1.5" fill="#FFFFFF"/>
+    
+    <!-- Smile -->
+    <path d="M60,112 Q68,120 75,112" fill="none" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>
+    
+    <!-- Skin spots/texture -->
+    <circle cx="85" cy="105" r="2.5" fill="#78909C" opacity="0.8"/>
+    <circle cx="78" cy="115" r="2" fill="#78909C" opacity="0.8"/>
+    <circle cx="68" cy="118" r="1.5" fill="#78909C" opacity="0.8"/>
+  </g>
+
+  <!-- Bubbles -->
+  <circle cx="60" cy="70" r="6" fill="#FFFFFF" stroke="#B2DFDB" stroke-width="2" opacity="0.6"/>
+  <circle cx="50" cy="50" r="4" fill="#FFFFFF" stroke="#B2DFDB" stroke-width="2" opacity="0.6"/>
+</svg>

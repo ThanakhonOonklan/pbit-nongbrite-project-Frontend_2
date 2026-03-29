@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── SUNNY POND BACKGROUND ── -->
+  <path d="M0,200 L200,200 L200,100 Q150,110 0,110 Z" fill="#80CBC4"/> <!-- Water -->
+  <path d="M0,110 L200,90 L200,0 L0,0 Z" fill="#E1F5FE"/> <!-- Sky -->
+  <circle cx="40" cy="40" r="25" fill="#FFEB3B"/> <!-- Sun -->
+  
+  <!-- Clouds -->
+  <path d="M130,50 Q110,50 120,35 Q140,20 155,35 Q180,35 160,50 Z" fill="#FFFFFF" opacity="0.8"/>
+
+  <!-- ── LARGE LILY PAD & FLOWER ── -->
+  <path d="M15,160 C15,130 185,130 185,160 C185,185 130,195 100,185 C70,195 15,185 15,160 Z" fill="#4CAF50" stroke="#2E7D32" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Leaf detail -->
+  <path d="M100,165 L100,185" fill="none" stroke="#2E7D32" stroke-width="4" stroke-linecap="round"/>
+  <path d="M100,165 Q60,140 40,155" fill="none" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M100,165 Q140,140 160,155" fill="none" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Lotus Flower (Back right) -->
+  <path d="M160,140 Q150,115 160,110 Q170,115 160,140 Z" fill="#F48FB1" stroke="#D81B60" stroke-width="2"/>
+  <path d="M160,140 Q130,125 145,115 Q155,125 160,140 Z" fill="#F06292" stroke="#D81B60" stroke-width="2"/>
+  <path d="M160,140 Q190,125 175,115 Q165,125 160,140 Z" fill="#F06292" stroke="#D81B60" stroke-width="2"/>
+
+  <!-- ── ADULT FROG (No tail!) ── -->
+  <g transform="translate(10, -5)">
+    <!-- Right Back Leg (Massive jumping leg) -->
+    <path d="M110,120 C160,95 155,160 120,150 L140,155" fill="#66BB6A" stroke="#2E7D32" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Webbed foot right -->
+    <path d="M140,155 L150,150 M140,155 L155,160 M140,155 L145,165" fill="none" stroke="#388E3C" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Left Back Leg (Massive jumping leg) -->
+    <path d="M70,120 C20,95 25,160 60,150 L40,155" fill="#4CAF50" stroke="#2E7D32" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M40,155 L30,150 M40,155 L25,160 M40,155 L35,165" fill="none" stroke="#2E7D32" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Left Front Leg -->
+    <path d="M70,120 C60,140 65,165 60,165" fill="none" stroke="#4CAF50" stroke-width="12" stroke-linecap="round"/>
+    <path d="M60,165 L50,170 M60,165 L65,175 M60,165 L70,170" fill="none" stroke="#2E7D32" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Right Front Leg -->
+    <path d="M110,120 C120,140 115,165 120,165" fill="none" stroke="#66BB6A" stroke-width="10" stroke-linecap="round"/>
+    <path d="M120,165 L110,170 M120,165 L115,175 M120,165 L130,170" fill="none" stroke="#388E3C" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Main Body & Head (Big rounded plump frog) -->
+    <path d="M45,100 C45,60 135,60 135,100 C135,145 115,150 90,150 C65,150 45,145 45,100 Z" fill="#66BB6A" stroke="#2E7D32" stroke-width="4"/>
+    
+    <!-- Yellow Belly (Big and wide) -->
+    <path d="M60,115 C65,145 115,145 120,115 C100,95 80,95 60,115 Z" fill="#FFF59D"/>
+
+    <!-- Giant Bulging Eyes (Classic frog look) -->
+    <path d="M50,85 C45,55 75,55 75,85" fill="#66BB6A" stroke="#2E7D32" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="65" cy="70" r="10" fill="#1A1A1A"/>
+    <circle cx="61" cy="66" r="3" fill="#FFFFFF"/>
+    <path d="M72,65 Q70,72 63,75" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+    
+    <path d="M105,85 C105,55 135,55 130,85" fill="#66BB6A" stroke="#2E7D32" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="115" cy="70" r="10" fill="#1A1A1A"/>
+    <circle cx="111" cy="66" r="3" fill="#FFFFFF"/>
+    <path d="M122,65 Q120,72 113,75" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Wide Frog Smile -->
+    <path d="M55,100 Q90,120 125,100" fill="none" stroke="#2E7D32" stroke-width="4" stroke-linecap="round"/>
+    <!-- Cute pink cheeks -->
+    <circle cx="50" cy="98" r="6" fill="#FF8A80" opacity="0.9"/>
+    <circle cx="130" cy="98" r="6" fill="#FF8A80" opacity="0.9"/>
+
+    <!-- Texture Spots (Dark Green) -->
+    <circle cx="70" cy="130" r="4" fill="#4CAF50"/>
+    <circle cx="85" cy="140" r="5" fill="#4CAF50"/>
+    <circle cx="105" cy="135" r="3" fill="#4CAF50"/>
+    <circle cx="115" cy="125" r="4" fill="#4CAF50"/>
+    <circle cx="95" cy="128" r="3" fill="#4CAF50"/>
+  </g>
+</svg>

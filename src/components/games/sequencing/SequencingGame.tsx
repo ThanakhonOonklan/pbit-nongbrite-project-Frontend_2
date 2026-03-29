@@ -151,6 +151,21 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
     }
   }, [slots, config, isCompleted, startTime, wrongCount, onGameEnd, onWrongAttempt]);
 
+  // Handle dragging a slot item back to the pool
+  const handleSlotDragToPool = (item: SequencingItem, slotIndex: number, poolIndex: number) => {
+    if (showErrors) setShowErrors(false);
+    setSlots((prev) => {
+      const newSlots = [...prev];
+      newSlots[slotIndex] = null;
+      return newSlots;
+    });
+    setPool((prev) => {
+      const newPool = [...prev];
+      newPool[poolIndex] = item;
+      return newPool;
+    });
+  };
+
   const isAllFilled = slots.every((slot) => slot !== null);
 
   // Handle Reset: return all placed items back to pool
@@ -181,9 +196,10 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
         onDrop={handleNativeDrop}
         correctSequence={config.correctSequence}
         showErrors={showErrors}
+        shakeKey={wrongCount}
       />
 
-      <SequencingPool pool={pool} onSelect={handleItemSelect} slotCount={slots.length} />
+      <SequencingPool pool={pool} onSelect={handleItemSelect} slotCount={slots.length} onSlotDrop={handleSlotDragToPool} />
 
       <GameControls
         onCheck={handleCheck}
