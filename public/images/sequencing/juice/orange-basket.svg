@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── BASKET (Back half) ── -->
+  <path d="M40,100 L50,160 Q100,180 150,160 L160,100 Z" fill="#795548"/>
+
+  <!-- ── ORANGES IN BASKET ── -->
+  <!-- Orange 1 (Back left) -->
+  <circle cx="70" cy="110" r="28" fill="#FF9800" stroke="#E65100" stroke-width="3"/>
+  <!-- Leaf -->
+  <path d="M70,82 Q85,75 88,88 Q75,95 70,82" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+  <circle cx="60" cy="100" r="5" fill="#FFE082" opacity="0.5"/>
+
+  <!-- Orange 2 (Back right) -->
+  <circle cx="130" cy="115" r="28" fill="#FF9800" stroke="#E65100" stroke-width="3"/>
+  <path d="M130,87 Q115,80 112,93 Q125,100 130,87" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+  <circle cx="140" cy="105" r="5" fill="#FFE082" opacity="0.5"/>
+
+  <!-- Orange 3 (Front center) -->
+  <circle cx="100" cy="130" r="32" fill="#FFB74D" stroke="#E65100" stroke-width="3"/>
+  <circle cx="100" cy="98" r="3" fill="#E65100"/> <!-- Stem dot -->
+  <path d="M100,98 Q120,85 125,105 Q105,115 100,98" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+  <circle cx="85" cy="115" r="8" fill="#FFE082" opacity="0.6"/>
+  <!-- Pores on front orange -->
+  <circle cx="110" cy="140" r="1.5" fill="#E65100" opacity="0.4"/>
+  <circle cx="100" cy="148" r="1.5" fill="#E65100" opacity="0.4"/>
+  <circle cx="118" cy="130" r="1.5" fill="#E65100" opacity="0.4"/>
+  <circle cx="90" cy="142" r="1.5" fill="#E65100" opacity="0.4"/>
+
+  <!-- ── BASKET (Front rim & weaving) ── -->
+  <!-- Rim -->
+  <rect x="30" y="90" width="140" height="15" rx="7.5" fill="#8D6E63" stroke="#5D4037" stroke-width="3"/>
+  <!-- Basket weave front lines -->
+  <path d="M40,105 L50,160 Q100,180 150,160 L160,105" fill="none" stroke="#5D4037" stroke-width="3"/>
+  <!-- Decorative weaving (criss-cross) -->
+  <path d="M45,120 L155,120" stroke="#A1887F" stroke-width="2.5" fill="none"/>
+  <path d="M48,140 L152,140" stroke="#A1887F" stroke-width="2.5" fill="none"/>
+  <path d="M70,105 L70,166" stroke="#A1887F" stroke-width="2.5" fill="none"/>
+  <path d="M100,105 L100,173" stroke="#A1887F" stroke-width="2.5" fill="none"/>
+  <path d="M130,105 L130,166" stroke="#A1887F" stroke-width="2.5" fill="none"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── SOIL / GROUND ── -->
+  <!-- Back mound -->
+  <path d="M20,180 Q100,120 180,180 Z" fill="#795548"/>
+  <!-- Front soil details -->
+  <path d="M10,200 Q100,140 190,200 Z" fill="#8D6E63"/>
+  <ellipse cx="60" cy="170" rx="15" ry="5" fill="#5D4037" opacity="0.3"/>
+  <ellipse cx="140" cy="180" rx="20" ry="6" fill="#5D4037" opacity="0.3"/>
+  <!-- Grass blades -->
+  <path d="M30,165 Q35,140 40,160 Z" fill="#66BB6A"/>
+  <path d="M160,170 Q165,150 170,165 Z" fill="#66BB6A"/>
+  <path d="M25,180 Q20,165 30,175 Z" fill="#4CAF50"/>
+  
+  <!-- ── SEED (Dug into a small hole) ── -->
+  <ellipse cx="100" cy="140" rx="35" ry="12" fill="#3E2723"/> <!-- Hole shadow -->
+  
+  <ellipse cx="100" cy="130" rx="18" ry="22" fill="#FFB74D" stroke="#EF6C00" stroke-width="4"/>
+  <path d="M92,113 C105,115 112,125 110,145" fill="none" stroke="#FFA726" stroke-width="2" stroke-linecap="round"/>
+  
+
+
+</svg>

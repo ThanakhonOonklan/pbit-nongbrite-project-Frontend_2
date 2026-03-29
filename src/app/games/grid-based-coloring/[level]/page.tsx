@@ -32,6 +32,7 @@ export default function GridBasedColoringGamePage({
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null);
   const [wrongCount, setWrongCount] = useState(0);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  // intro overlay — เฉพาะ level 1 เท่านั้น (เหมือน path-navigation / sequencing)
   const [showIntro, setShowIntro] = useState(levelNum === 1);
   const [gameKey, setGameKey] = useState(0);
   const startTimeRef = useRef<number>(Date.now());
@@ -71,31 +72,23 @@ export default function GridBasedColoringGamePage({
     );
   }
 
-  // Difficulty badge styling
-  const diffBadge = config.difficulty === "easy"
-    ? { bg: "bg-emerald-500/15", border: "border-emerald-500/30", text: "text-emerald-400", label: "Easy" }
-    : config.difficulty === "normal"
-      ? { bg: "bg-amber-500/15", border: "border-amber-500/30", text: "text-amber-400", label: "Normal" }
-      : { bg: "bg-red-500/15", border: "border-red-500/30", text: "text-red-400", label: "Hard" };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden relative"
-      style={{ background: "linear-gradient(135deg, #F4F9E4 0%, #E9F4D0 30%, #D4E9A4 60%, #E9F4D0 100%)" }}
-    >
-
+    // ── Dark navy background — เหมือน path-navigation / sequencing ─
+    <div className="flex flex-col min-h-screen bg-[#131F24] overflow-hidden relative">
 
       {/* Header */}
       <GameHeader
         level={level}
-        bgColor="#AACE30"
         gameTitle="Pixel Pattern"
         characterSrc="/images/Nong_brite/nong-brite-06.svg"
+        bgColor="#AACE30"
       />
 
-      {/* Level title + difficulty badge */}
+      {/* Main game area */}
+      <div className="relative flex-1 overflow-auto px-4 sm:px-6 pb-6 z-10 mt-2">
 
-      {/* Main game area — scrollable */}
-      <div className="relative flex-1 overflow-auto px-4 sm:px-6 pb-6 z-10 mt-10">
+
         <GridColoringGame
           key={gameKey}
           config={config}
@@ -111,11 +104,11 @@ export default function GridBasedColoringGamePage({
           { emoji: "🎨", text: "เลือกสีจาก Color Palette" },
           { emoji: "👆", text: "คลิกหรือลากเพื่อระบายสี" },
           { emoji: "🎯", text: "ระบายให้ตรงกับรูปต้นแบบ" },
-          { emoji: "✅", text: "กด Check My Work เพื่อตรวจคำตอบ" },
+          { emoji: "✅", text: "กด ส่ง เพื่อตรวจคำตอบ" },
         ]}
       />
 
-      {/* Intro overlay */}
+      {/* Intro overlay — level 1 เท่านั้น */}
       {showIntro && (
         <GameOverlay
           type="hint"

@@ -4,7 +4,7 @@ import { use, useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { FaArrowLeft, FaPlay, FaUndo, FaRoute } from "react-icons/fa";
+import { FaPlay, FaUndo } from "react-icons/fa";
 import { TiltButton } from "react-tilt-button";
 import { Container } from "@/components/common";
 import {
@@ -66,6 +66,9 @@ export default function PathNavigationGamePage({
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [activeStep, setActiveStep] = useState<number | null>(null);
   const [showIntro, setShowIntro] = useState(levelNum === 1);
+  const [maxCommands, setMaxCommands] = useState(9); // updated dynamically by CommandSequence
+  const [playerFailType, setPlayerFailType] = useState<"none" | "fall" | "stumble">("none");
+  const [playerFallDir, setPlayerFallDir] = useState<Direction | null>(null);
 
   const startTimeRef = useRef<number>(Date.now());
   const animTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -88,27 +91,19 @@ export default function PathNavigationGamePage({
     return () => clearTimeout(t);
   }, [hintMsg]);
 
-  // ── walkable tile lookup ───────────────────────────────
-  const isWalkable = useCallback((tile: PathTile) => {
-    if (!config) return false;
-    const inBounds =
-      tile.row >= 0 && tile.row < config.gridRows &&
-      tile.col >= 0 && tile.col < config.gridCols;
-    const notBlocked = !config.blockedTiles.some(
-      t => t.row === tile.row && t.col === tile.col
-    );
-    return inBounds && notBlocked;
-  }, [config]);
 
   // ── command handlers ───────────────────────────────────
 
   const handleAddCommand = useCallback(
     (direction: Direction) => {
       if (!config || isRunning) return;
-      setCommands((prev) => [...prev, direction]);
+      setCommands((prev) => {
+        if (prev.length >= maxCommands) return prev; // block when box is full
+        return [...prev, direction];
+      });
       setErrorMsg(null);
     },
-    [config, isRunning]
+    [config, isRunning, maxCommands]
   );
 
   const handleRemoveCommand = useCallback(
@@ -125,123 +120,121 @@ export default function PathNavigationGamePage({
     setErrorMsg(null);
   }, [isRunning]);
 
-  // ── RUN: animate step by step ──────────────────────────
+  // ── RUN: sequential chain — stops immediately on collision ──────────────
 
   const handleRun = useCallback(() => {
     if (!config || isRunning || commands.length === 0) return;
+    const cfg = config;
 
     setIsRunning(true);
     setErrorMsg(null);
+    setPlayerFailType("none");
+    setPlayerFallDir(null);
     setAttempts((prev) => prev + 1);
-
-    let currentPos = { ...config.startPos };
-    let pickedUp = false;
-
-    // Reset player to start
-    setPlayerPos(config.startPos);
+    setPlayerPos(cfg.startPos);
     setHasNongBrite(false);
 
     const STEP_MS = 350;
-    const OVERLAY_DELAY = 500;
-    let failed = false;
+    const attemptsNow = attempts + 1;
+    let pos = { ...cfg.startPos };
+    let pickedUp = false;
 
     const showFailOverlay = () => {
       reduceLife();
       const overlayTimer = setTimeout(() => {
+    // Trigger fail animation then cleanup after 700 ms
+    const triggerFail = (type: "fall" | "stumble", oobPos?: PathTile) => {
+      if (type === "fall" && oobPos) setPlayerPos(oobPos);
+      setPlayerFailType(type);
+      const t = setTimeout(() => {
+        setIsRunning(false);
+        setActiveStep(null);
+        setPlayerFailType("none");
+        setPlayerFallDir(null);
+        setPlayerPos(cfg.startPos);
+        setHasNongBrite(false);
         setErrorMsg("ลองอีกครั้ง");
-        const resetTimer = setTimeout(() => {
-          if (!samePos(currentPos, config.homePos)) {
-            setPlayerPos(config.startPos);
-            setHasNongBrite(false);
-          }
-        }, 1200);
-        animTimers.current.push(resetTimer);
-      }, OVERLAY_DELAY);
-      animTimers.current.push(overlayTimer);
+      }, 700);
+      animTimers.current.push(t);
     };
 
-    commands.forEach((cmd, stepIdx) => {
-      const timer = setTimeout(() => {
-        setActiveStep(stepIdx);
+    const runStep = (idx: number) => {
+      setActiveStep(idx);
+      const cmd = commands[idx];
+      const next = move(pos.row, pos.col, cmd);
 
-        if (failed) {
-          if (stepIdx === commands.length - 1) {
-            setIsRunning(false);
-            setActiveStep(null);
-            showFailOverlay();
-          }
-          return;
+      // Out-of-bounds → fall off edge
+      const inBounds =
+        next.row >= 0 && next.row < cfg.gridRows &&
+        next.col >= 0 && next.col < cfg.gridCols;
+      if (!inBounds) {
+        setPlayerFallDir(cmd);
+        triggerFail("fall", next);
+        return;
+      }
+
+      // Blocked tile → stumble
+      const hitRock = cfg.blockedTiles.some(
+        t => t.row === next.row && t.col === next.col
+      );
+      if (hitRock) {
+        triggerFail("stumble");
+        return;
+      }
+
+      // Valid move
+      pos = next;
+      setPlayerPos(next);
+
+      if (samePos(next, cfg.nongBritePos) && !pickedUp) {
+        pickedUp = true;
+        setHasNongBrite(true);
+      }
+
+      // Last step
+      if (idx === commands.length - 1) {
+        setIsRunning(false);
+        setActiveStep(null);
+
+        if (samePos(next, cfg.homePos) && pickedUp) {
+          // WIN!
+          const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
+          setElapsedSeconds(elapsed);
+          const result = calculateGameScore({
+            difficulty: cfg.difficulty,
+            attempts: attemptsNow,
+            timeSeconds: elapsed,
+          });
+          setScoreResult(result);
+          const { stars } = getStarRating(result.totalScore);
+          mockSubmitGameScore({ levelId: levelNum, score: result.totalScore, stars, playTime: elapsed });
+        } else if (samePos(next, cfg.homePos) && !pickedUp) {
+          const ht = setTimeout(() => {
+            setHintMsg("อย่าทิ้งน้องง");
+            const rt = setTimeout(() => { setPlayerPos(cfg.startPos); setHasNongBrite(false); }, 1600);
+            animTimers.current.push(rt);
+          }, 300);
+          animTimers.current.push(ht);
+        } else {
+          // Ran out of commands without reaching home
+          const t = setTimeout(() => {
+            setErrorMsg("ลองอีกครั้ง");
+            const rt = setTimeout(() => { setPlayerPos(cfg.startPos); setHasNongBrite(false); }, 1200);
+            animTimers.current.push(rt);
+          }, 500);
+          animTimers.current.push(t);
         }
+        return;
+      }
 
-        const next = move(currentPos.row, currentPos.col, cmd);
+      // Schedule next step
+      const t = setTimeout(() => runStep(idx + 1), STEP_MS);
+      animTimers.current.push(t);
+    };
 
-        if (!isWalkable(next)) {
-          failed = true;
-          if (stepIdx === commands.length - 1) {
-            setIsRunning(false);
-            setActiveStep(null);
-            showFailOverlay();
-          }
-          return;
-        }
-
-        // Valid move
-        currentPos = next;
-        setPlayerPos(next);
-
-        // Pick up Nong-Brite
-        if (samePos(next, config.nongBritePos) && !pickedUp) {
-          pickedUp = true;
-          setHasNongBrite(true);
-        }
-
-        // Last command
-        if (stepIdx === commands.length - 1) {
-          setIsRunning(false);
-          setActiveStep(null);
-
-          if (samePos(next, config.homePos) && pickedUp) {
-            // WIN!
-            const elapsed = Math.floor(
-              (Date.now() - startTimeRef.current) / 1000
-            );
-            setElapsedSeconds(elapsed);
-            const result = calculateGameScore({
-              difficulty: config.difficulty,
-              attempts: attempts + 1,
-              timeSeconds: elapsed,
-            });
-            setScoreResult(result);
-            // Submit score to API (mock)
-            const { stars } = getStarRating(result.totalScore);
-            const absoluteLevelId = getAbsoluteLevelId("path-navigation", levelNum);
-            gameService.submitScore({
-              levelId: absoluteLevelId,
-              score: result.totalScore,
-              stars,
-              playTime: elapsed,
-            }).catch(err => console.error("Failed to submit score", err));
-          } else if (samePos(next, config.homePos) && !pickedUp) {
-            // Reached home but forgot Nong-Brite
-            reduceLife();
-            const hintTimer = setTimeout(() => {
-              setHintMsg("อย่าทิ้งน้องง");
-              const resetTimer = setTimeout(() => {
-                setPlayerPos(config.startPos);
-                setHasNongBrite(false);
-              }, 1600);
-              animTimers.current.push(resetTimer);
-            }, 300);
-            animTimers.current.push(hintTimer);
-          } else {
-            showFailOverlay();
-          }
-        }
-      }, (stepIdx + 1) * STEP_MS);
-
-      animTimers.current.push(timer);
-    });
-  }, [config, isRunning, commands, isWalkable, attempts]);
+    const first = setTimeout(() => runStep(0), STEP_MS);
+    animTimers.current.push(first);
+  }, [config, isRunning, commands, attempts, levelNum]);
 
   // ── RESET ──────────────────────────────────────────────
 
@@ -254,6 +247,8 @@ export default function PathNavigationGamePage({
     setHasNongBrite(false);
     setIsRunning(false);
     setErrorMsg(null);
+    setPlayerFailType("none");
+    setPlayerFallDir(null);
   }, [config]);
 
   // ── RETRY ──────────────────────────────────────────────
@@ -301,8 +296,8 @@ export default function PathNavigationGamePage({
       {/* ===== MAIN CONTENT ===== */}
       <div className="flex flex-col lg:flex-row flex-1 gap-4 px-4 pb-4 relative lg:overflow-hidden lg:min-h-0">
         {/* ===== TOP/LEFT PANEL: Path Map ===== */}
-        <Container className="lg:flex-[6] flex flex-col items-center justify-center p-6 min-h-[260px] lg:min-h-0 lg:overflow-hidden !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
-          <p className="text-lg font-bold text-[#F1F7FB] mb-6">
+        <Container className="lg:flex-[6] flex flex-col items-center justify-center p-2 lg:p-6 min-h-[260px] lg:min-h-0 lg:overflow-hidden !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
+          <p className="hidden lg:block text-lg font-bold text-[#F1F7FB] mb-6">
             LEVEL {config.level} - {config.difficulty === "easy" ? "ง่าย" : config.difficulty === "normal" ? "ปานกลาง" : "ยาก"}
           </p>
 
@@ -315,6 +310,8 @@ export default function PathNavigationGamePage({
               homePos={config.homePos}
               blockedTiles={config.blockedTiles}
               hasNongBrite={hasNongBrite}
+              failType={playerFailType}
+              fallDir={playerFallDir}
             />
           </div>
         </Container>
@@ -331,6 +328,7 @@ export default function PathNavigationGamePage({
               onAddCommand={handleAddCommand}
               activeCommandIndex={activeStep}
               disabled={isRunning}
+              onMaxCommandsChange={setMaxCommands}
             />
           </div>
 

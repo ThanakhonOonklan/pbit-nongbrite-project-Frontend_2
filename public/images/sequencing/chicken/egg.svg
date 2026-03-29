@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── HAY NEST ── -->
+  <!-- Back of nest -->
+  <path d="M40,150 Q100,120 160,150 Q140,180 60,180 Z" fill="#D7CCC8" stroke="#8D6E63" stroke-width="4"/>
+  
+  <!-- ── EGG (Brown/Tan) ── -->
+  <ellipse cx="100" cy="110" rx="40" ry="55" fill="#FFE0B2" stroke="#FFB74D" stroke-width="4"/>
+  <!-- Shiny highlight on egg -->
+  <path d="M75,90 C85,65 105,65 110,68" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- ── NEST DETAILS (Front hay) ── -->
+  <path d="M30,165 Q100,200 170,165 Q150,140 50,140 Z" fill="#FFCC80" stroke="#F57C00" stroke-width="3"/>
+  <path d="M45,150 Q75,140 85,160" fill="none" stroke="#F57C00" stroke-width="3" stroke-linecap="round"/>
+  <path d="M110,150 Q130,145 145,165" fill="none" stroke="#F57C00" stroke-width="3" stroke-linecap="round"/>
+  <path d="M70,170 Q100,160 130,175" fill="none" stroke="#F57C00" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Random hay strands -->
+  <path d="M15,160 Q30,140 35,165" fill="none" stroke="#FFCC80" stroke-width="4" stroke-linecap="round"/>
+  <path d="M185,160 Q170,150 165,165" fill="none" stroke="#FFCC80" stroke-width="4" stroke-linecap="round"/>
+  <path d="M160,135 Q180,130 172,145" fill="none" stroke="#F57C00" stroke-width="3" stroke-linecap="round"/>
+</svg>

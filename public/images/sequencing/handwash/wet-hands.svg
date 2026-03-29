@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── FAUCET ── -->
+  <!-- Wall bracket -->
+  <rect x="10" y="24" width="24" height="42" rx="7" fill="#9E9E9E" stroke="#757575" stroke-width="2"/>
+  <!-- Horizontal pipe -->
+  <rect x="34" y="32" width="72" height="15" rx="7.5" fill="#BDBDBD" stroke="#9E9E9E" stroke-width="2"/>
+  <!-- Vertical spout -->
+  <rect x="92" y="47" width="16" height="42" rx="8" fill="#BDBDBD" stroke="#9E9E9E" stroke-width="2"/>
+  <!-- Spout tip -->
+  <rect x="88" y="85" width="24" height="8" rx="4" fill="#9E9E9E"/>
+  <!-- Lever handle -->
+  <rect x="50" y="20" width="36" height="11" rx="5.5" fill="#0288D1" stroke="#01579B" stroke-width="2"/>
+  <rect x="65" y="10" width="10" height="14" rx="5" fill="#0288D1" stroke="#01579B" stroke-width="1.5"/>
+
+  <!-- ── WATER STREAM (flowing down) ── -->
+  <path d="M97,93 C95,105 99,118 96,130 C93,142 97,152 96,162 L104,162 C103,152 107,142 104,130 C101,118 105,105 103,93Z"
+    fill="#29B6F6" opacity="0.88"/>
+  <!-- Water inner highlight -->
+  <path d="M99,93 C98,106 101,119 99,131 C97,143 100,152 99,162"
+    fill="none" stroke="#B3E5FC" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+  <!-- Water drop at bottom -->
+  <ellipse cx="100" cy="164" rx="8" ry="5" fill="#29B6F6" opacity="0.6"/>
+
+  <!-- ── LEFT HAND (palm up, open) ── -->
+  <!-- Fingers L -->
+  <rect x="47" y="148" width="10" height="20" rx="5"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="58" y="143" width="11" height="26" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="69" y="140" width="12" height="29" rx="6"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="81" y="143" width="11" height="26" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <!-- Palm L -->
+  <rect x="44" y="163" width="52" height="26" rx="12" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <!-- Thumb L -->
+  <rect x="30" y="163" width="18" height="20" rx="9" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-22,39,173)"/>
+  <!-- Knuckle lines L -->
+  <path d="M52,161 Q53,157 57,155" fill="none" stroke="#D4885A" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M63,157 Q65,152 69,150" fill="none" stroke="#D4885A" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M75,154 Q77,149 81,148" fill="none" stroke="#D4885A" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- ── RIGHT HAND ── -->
+  <!-- Fingers R -->
+  <rect x="108" y="143" width="11" height="26" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="119" y="140" width="12" height="29" rx="6"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="131" y="143" width="11" height="26" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="142" y="148" width="10" height="20" rx="5"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <!-- Palm R -->
+  <rect x="104" y="163" width="52" height="26" rx="12" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <!-- Thumb R -->
+  <rect x="152" y="163" width="18" height="20" rx="9" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(22,161,173)"/>
+  <!-- Knuckle lines R -->
+  <path d="M148,161 Q147,157 143,155" fill="none" stroke="#D4885A" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M137,157 Q135,152 131,150" fill="none" stroke="#D4885A" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M125,154 Q123,149 119,148" fill="none" stroke="#D4885A" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- Water splash on hands -->
+  <ellipse cx="100" cy="163" rx="20" ry="5" fill="#29B6F6" opacity="0.4"/>
+</svg>

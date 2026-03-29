@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── POND WATER BACKGROUND ── -->
+  <path d="M0,200 L200,200 L200,0 L0,0 Z" fill="#80CBC4"/>
+  <path d="M0,200 Q100,60 200,200 Z" fill="#4DB6AC" opacity="0.6"/>
+  <path d="M0,0 Q100,50 200,0 Z" fill="#B2DFDB" opacity="0.4"/>
+
+  <!-- Water Plants (Algae / Seaweed) -->
+  <path d="M20,200 Q10,140 40,100" fill="none" stroke="#689F38" stroke-width="8" stroke-linecap="round"/>
+  <path d="M50,200 Q70,150 45,130" fill="none" stroke="#558B2F" stroke-width="6" stroke-linecap="round"/>
+  <path d="M180,200 Q190,120 160,80" fill="none" stroke="#689F38" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- ── FROG EGGS ── -->
+  <!-- Outline/Shadow of jelly cluster -->
+  <ellipse cx="100" cy="110" rx="45" ry="35" fill="#4DB6AC" opacity="0.3"/>
+
+  <!-- Jelly Bubbles (Foreground cluster) -->
+  <!-- Top level -->
+  <circle cx="95"  cy="85"  r="16" fill="#E0F2F1" stroke="#B2DFDB" stroke-width="2" opacity="0.8"/>
+  <circle cx="115" cy="90"  r="15" fill="#E0F2F1" stroke="#B2DFDB" stroke-width="2" opacity="0.8"/>
+  <circle cx="80"  cy="95"  r="14" fill="#E0F2F1" stroke="#B2DFDB" stroke-width="2" opacity="0.8"/>
+  <!-- Middle level -->
+  <circle cx="65"  cy="115" r="16" fill="#E0F2F1" stroke="#B2DFDB" stroke-width="2" opacity="0.8"/>
+  <circle cx="100" cy="110" r="18" fill="#E0F2F1" stroke="#B2DFDB" stroke-width="2" opacity="0.8"/>
+  <circle cx="135" cy="115" r="16" fill="#E0F2F1" stroke="#B2DFDB" stroke-width="2" opacity="0.8"/>
+  <!-- Bottom level -->
+  <circle cx="85"  cy="135" r="15" fill="#E0F2F1" stroke="#B2DFDB" stroke-width="2" opacity="0.8"/>
+  <circle cx="115" cy="130" r="14" fill="#E0F2F1" stroke="#B2DFDB" stroke-width="2" opacity="0.8"/>
+  
+  <circle cx="100" cy="145" r="13" fill="#E0F2F1" stroke="#B2DFDB" stroke-width="2" opacity="0.8"/>
+
+  <!-- Embryos inside (Tiny black dots/curls) -->
+  <circle cx="93"  cy="87"  r="3" fill="#212121"/>
+  <circle cx="116" cy="92"  r="3" fill="#212121"/>
+  <circle cx="82"  cy="93"  r="2.5" fill="#212121"/>
+  
+  <circle cx="67"  cy="117" r="3" fill="#212121"/>
+  <circle cx="102" cy="112" r="3.5" fill="#212121"/>
+  <circle cx="132" cy="116" r="3" fill="#212121"/>
+  
+  <circle cx="83"  cy="133" r="2.5" fill="#212121"/>
+  <circle cx="117" cy="132" r="3" fill="#212121"/>
+  <circle cx="98"  cy="147" r="2.5" fill="#212121"/>
+
+  <!-- Light highlights on jelly -->
+  <path d="M90,75 A10,10 0 0,1 100,75" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  <path d="M93,98 A10,10 0 0,1 105,98" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  <path d="M125,108 A8,8 0 0,1 135,106" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  <path d="M57,105 A8,8 0 0,1 65,103" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Water bubbles floating up -->
+  <circle cx="150" cy="50" r="5" fill="#FFFFFF" opacity="0.4"/>
+  <circle cx="155" cy="30" r="3" fill="#FFFFFF" opacity="0.4"/>
+  <circle cx="45" cy="65" r="4" fill="#FFFFFF" opacity="0.4"/>
+</svg>

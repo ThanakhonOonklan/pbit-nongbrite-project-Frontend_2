@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Drooping balloon -->
+  <path d="M96,160 C90,130 40,140 55,105 C65,85 100,90 120,110 C130,120 110,135 104,160 Z" fill="#FF5252" stroke="#D32F2F" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Rim -->
+  <rect x="90" y="157" width="20" height="8" rx="3" fill="#FF5252" stroke="#D32F2F" stroke-width="3"/>
+  <!-- Wrinkle lines to show it's empty -->
+  <path d="M70,115 Q90,125 100,105" fill="none" stroke="#D32F2F" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  <path d="M100,125 Q110,135 110,145" fill="none" stroke="#D32F2F" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+</svg>

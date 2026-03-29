@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── SOIL / GROUND ── -->
+  <path d="M10,200 Q100,160 190,200 Z" fill="#8D6E63"/>
+  <ellipse cx="60" cy="180" rx="15" ry="5" fill="#5D4037" opacity="0.3"/>
+  <ellipse cx="140" cy="185" rx="20" ry="6" fill="#5D4037" opacity="0.3"/>
+
+  <!-- ── TRUNK & BRANCHES ── -->
+  <!-- Main trunk -->
+  <path d="M90,180 Q95,120 100,70 Q105,120 110,180 Z" fill="#795548"/>
+  <path d="M95,180 Q100,120 105,70" fill="none" stroke="#5D4037" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Branches -->
+  <path d="M98,120 Q80,100 65,95" fill="none" stroke="#795548" stroke-width="6" stroke-linecap="round"/>
+  <path d="M102,100 Q120,80 135,75" fill="none" stroke="#795548" stroke-width="5" stroke-linecap="round"/>
+  <path d="M97,140 Q130,130 145,120" fill="none" stroke="#795548" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ── LEAVES (Small canopy scattered) ── -->
+  <circle cx="100" cy="65" r="28" fill="#66BB6A"/>
+  <circle cx="108" cy="55" r="22" fill="#81C784"/>
+  
+  <circle cx="65" cy="90" r="24" fill="#4CAF50"/>
+  <circle cx="72" cy="80" r="18" fill="#66BB6A"/>
+
+  <circle cx="135" cy="70" r="20" fill="#4CAF50"/>
+  <circle cx="142" cy="62" r="15" fill="#81C784"/>
+  
+  <circle cx="145" cy="115" r="18" fill="#66BB6A"/>
+  <circle cx="150" cy="108" r="12" fill="#81C784"/>
+  
+  <!-- Shadow overlay on leaves -->
+  <path d="M75,100 C60,110 50,110 45,95 C45,85 55,75 60,70" fill="none" stroke="#388E3C" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  <path d="M100,85 C90,95 85,90 85,80 C85,75 90,65 95,65" fill="none" stroke="#388E3C" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- ── DETAILS (Grass) ── -->
+  <path d="M60,175 Q65,155 70,175 Z" fill="#66BB6A"/>
+  <path d="M120,180 Q125,160 130,180 Z" fill="#66BB6A"/>
+  <path d="M30,185 Q35,165 40,185 Z" fill="#4CAF50"/>
+  <path d="M160,185 Q165,165 170,185 Z" fill="#4CAF50"/>
+</svg>

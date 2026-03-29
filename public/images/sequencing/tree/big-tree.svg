@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── SOIL / GROUND ── -->
+  <path d="M0,200 Q100,165 200,200 Z" fill="#8D6E63"/>
+
+  <!-- ── TRUNK (Thick and rugged) ── -->
+  <path d="M80,180 Q85,120 75,70 L125,70 Q115,120 120,180 L80,180 Z" fill="#795548"/>
+  <!-- Roots extending into ground -->
+  <path d="M80,180 Q60,195 40,190" fill="none" stroke="#795548" stroke-width="12" stroke-linecap="round"/>
+  <path d="M120,180 Q140,195 160,190" fill="none" stroke="#795548" stroke-width="12" stroke-linecap="round"/>
+  <!-- Bark texture / lines -->
+  <path d="M90,175 Q95,120 85,80" fill="none" stroke="#5D4037" stroke-width="4" stroke-linecap="round"/>
+  <path d="M110,170 Q105,120 115,80" fill="none" stroke="#5D4037" stroke-width="3" stroke-linecap="round"/>
+  <path d="M100,160 Q105,140 100,105" fill="none" stroke="#5D4037" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="102" cy="135" r="4" fill="#5D4037"/> <!-- Knothole -->
+
+  <!-- ── LARGE CLOUD CANOPY ── -->
+  <!-- Shadow/Dark green back cloud -->
+  <path d="M35,90 C10,90 10,40 50,30 C60,10 140,10 150,30 C190,40 190,90 165,90 C180,130 140,135 125,115 C110,135 80,135 75,115 C60,135 20,130 35,90 Z" fill="#388E3C"/>
+  <!-- Mid Green front cloud -->
+  <path d="M45,85 C25,85 25,45 60,35 C70,20 130,20 140,35 C175,45 175,85 155,85 C165,115 135,120 125,105 C110,120 90,120 85,105 C70,120 35,115 45,85 Z" fill="#4CAF50"/>
+  <!-- Light Green highlights -->
+  <path d="M55,75 C45,75 45,55 65,45 C75,35 120,35 125,45 C145,55 145,75 135,75 C145,95 125,100 115,90 C100,100 85,100 80,90 C70,100 45,95 55,75 Z" fill="#66BB6A"/>
+
+  <!-- ── RED APPLES ── -->
+  <!-- Apple 1 -->
+  <circle cx="70" cy="65" r="7" fill="#F44336" stroke="#C62828" stroke-width="2"/>
+  <path d="M70,55 Q73,50 78,55" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+  <!-- Apple 2 -->
+  <circle cx="130" cy="55" r="7" fill="#F44336" stroke="#C62828" stroke-width="2"/>
+  <path d="M130,45 Q133,40 138,45" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+  <!-- Apple 3 -->
+  <circle cx="105" cy="85" r="8" fill="#F44336" stroke="#C62828" stroke-width="2"/>
+  <path d="M105,75 Q108,70 113,75" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+  <!-- Apple 4 -->
+  <circle cx="145" cy="85" r="6" fill="#F44336" stroke="#C62828" stroke-width="2"/>
+  <path d="M145,75 Q148,70 153,75" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+  <!-- Apple 5 -->
+  <circle cx="55" cy="90" r="6" fill="#F44336" stroke="#C62828" stroke-width="2"/>
+  <path d="M55,80 Q58,75 63,80" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ── DETAILS (Grass) ── -->
+  <path d="M60,185 Q65,165 70,185 Z" fill="#66BB6A"/>
+  <path d="M130,185 Q135,165 140,185 Z" fill="#66BB6A"/>
+  <path d="M25,190 Q30,170 35,190 Z" fill="#4CAF50"/>
+  <path d="M170,190 Q175,170 180,190 Z" fill="#4CAF50"/>
+  
+</svg>

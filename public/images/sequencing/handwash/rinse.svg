@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── FAUCET ── -->
+  <rect x="10" y="24" width="24" height="42" rx="7" fill="#9E9E9E" stroke="#757575" stroke-width="2"/>
+  <rect x="34" y="32" width="72" height="15" rx="7.5" fill="#BDBDBD" stroke="#9E9E9E" stroke-width="2"/>
+  <rect x="92" y="47" width="16" height="42" rx="8" fill="#BDBDBD" stroke="#9E9E9E" stroke-width="2"/>
+  <rect x="88" y="85" width="24" height="8" rx="4" fill="#9E9E9E"/>
+  <rect x="50" y="20" width="36" height="11" rx="5.5" fill="#0288D1" stroke="#01579B" stroke-width="2"/>
+  <rect x="65" y="10" width="10" height="14" rx="5" fill="#0288D1" stroke="#01579B" stroke-width="1.5"/>
+
+  <!-- ── WATER STREAM (back layer flowing down) ── -->
+  <path d="M96,93 Q94,115 90,140 Q85,160 85,180 L115,180 Q115,160 110,140 Q106,115 104,93 Z" fill="#29B6F6" opacity="0.65"/>
+
+  <!-- ── LEFT HAND (rubbing motion) ── -->
+  <!-- Fingers L -->
+  <rect x="45" y="112" width="10" height="22" rx="5"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-8,50,123)"/>
+  <rect x="56" y="106" width="11" height="28" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-5,61,120)"/>
+  <rect x="68" y="103" width="12" height="30" rx="6"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="80" y="106" width="11" height="28" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(5,85,120)"/>
+  <!-- Palm L -->
+  <rect x="42" y="126" width="54" height="28" rx="13" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <!-- Thumb L -->
+  <rect x="28" y="128" width="18" height="20" rx="9" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-22,37,138)"/>
+
+  <!-- ── FRONT WATER SPLASH & RUNOFF ── -->
+  <!-- Splash on top of hands -->
+  <ellipse cx="100" cy="115" rx="18" ry="6" fill="#29B6F6" opacity="0.8"/>
+  <!-- Stream cascading off hands -->
+  <path d="M96,115 Q90,135 94,165 Q98,180 98,200 L110,200 Q110,165 106,135 Q104,115 104,115" fill="#29B6F6" opacity="0.8"/>
+  <!-- Inner water line highlight -->
+  <path d="M100,115 Q95,135 98,160 L102,160 Q105,135 104,115" stroke="#B3E5FC" stroke-width="2" fill="none" opacity="0.9"/>
+
+  <!-- ── RIGHT HAND (rubbing motion, over left) ── -->
+  <rect x="104" y="138" width="54" height="28" rx="13" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <!-- Fingers R -->
+  <rect x="108" y="118" width="11" height="26" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-5,113,131)"/>
+  <rect x="120" y="115" width="12" height="30" rx="6"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5"/>
+  <rect x="132" y="118" width="11" height="26" rx="5.5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(5,137,131)"/>
+  <rect x="143" y="122" width="10" height="22" rx="5"   fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(8,148,133)"/>
+  <!-- Thumb R -->
+  <rect x="155" y="140" width="18" height="20" rx="9" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(22,164,150)"/>
+
+  <!-- ── SOAP BUBBLES WASHING AWAY (falling downwards) ── -->
+  <circle cx="85"  cy="158" r="6"   fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.85"/>
+  <circle cx="75"  cy="166" r="4.5" fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.75"/>
+  <circle cx="92"  cy="172" r="7"   fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="112" cy="164" r="6"   fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="122" cy="176" r="5"   fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.75"/>
+  <circle cx="106" cy="184" r="7"   fill="white" stroke="#B3E5FC" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- Residual soap dots fading out on fingers -->
+  <circle cx="72"  cy="120" r="4" fill="white" stroke="#B3E5FC" stroke-width="1.2" opacity="0.7"/>
+  <circle cx="138" cy="140" r="5" fill="white" stroke="#B3E5FC" stroke-width="1.2" opacity="0.7"/>
+
+  <!-- ── Splashing Water Drops ── -->
+  <ellipse cx="65" cy="145" rx="4" ry="2" fill="#29B6F6" opacity="0.8" transform="rotate(-30,65,145)"/>
+  <ellipse cx="145" cy="165" rx="4" ry="2" fill="#29B6F6" opacity="0.8" transform="rotate(30,145,165)"/>
+  <ellipse cx="80" cy="118" rx="5" ry="2" fill="#29B6F6" opacity="0.8" transform="rotate(-15,80,118)"/>
+</svg>

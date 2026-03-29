@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <!-- Seed template -->
+    <g id="seed">
+      <path d="M0,0 Q3,8 0,10 Q-3,8 0,0 Z" fill="#212121"/>
+    </g>
+    <!-- Bite Mask -->
+    <mask id="biteMask">
+      <rect width="200" height="200" fill="white"/>
+      <!-- Huge chunks bitten out, leaving only the bottom half -->
+      <ellipse cx="100" cy="40" rx="80" ry="60" fill="black"/>
+      <circle cx="45" cy="85" r="25" fill="black"/>
+      <circle cx="85" cy="105" r="30" fill="black"/>
+      <circle cx="125" cy="100" r="25" fill="black"/>
+      <circle cx="155" cy="85" r="25" fill="black"/>
+      <circle cx="60" cy="100" r="15" fill="black"/>
+      <circle cx="105" cy="110" r="18" fill="black"/>
+    </mask>
+  </defs>
+
+  <g mask="url(#biteMask)">
+    <!-- Outer Green Rind -->
+    <path d="M 100 25 L 175 145 C 150 175 50 175 25 145 Z" fill="#4CAF50" stroke="#2E7D32" stroke-width="3" stroke-linejoin="round"/>
+    <!-- White Inner Rind -->
+    <path d="M 100 33 L 165 140 C 140 162 60 162 35 140 Z" fill="#E8F5E9" />
+    <!-- Red Flesh -->
+    <path d="M 100 40 L 155 135 C 130 152 70 152 45 135 Z" fill="#F44336" />
+    
+    <!-- Seeds -->
+    <use href="#seed" x="100" y="60" />
+    <use href="#seed" x="90" y="80" transform="rotate(15, 90, 80)"/>
+    <use href="#seed" x="110" y="75" transform="rotate(-15, 110, 75)"/>
+    <use href="#seed" x="75" y="105" transform="rotate(25, 75, 105)"/>
+    <use href="#seed" x="100" y="100" />
+    <use href="#seed" x="125" y="100" transform="rotate(-25, 125, 100)"/>
+    <use href="#seed" x="65" y="125" transform="rotate(35, 65, 125)"/>
+    <use href="#seed" x="90" y="120" transform="rotate(10, 90, 120)"/>
+    <use href="#seed" x="115" y="125" transform="rotate(-15, 115, 125)"/>
+    <use href="#seed" x="135" y="120" transform="rotate(-30, 135, 120)"/>
+  </g>
+</svg>

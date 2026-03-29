@@ -1,9 +1,6 @@
 "use client";
 
-import { use, useState, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-
+import { use } from "react";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
@@ -26,9 +23,9 @@ import { OutOfLivesModal } from "@/components/common";
 // ─────────────────────────────────────────────────────────────
 
 export default function ConditionalMatchingGamePage({
-  params,
+    params,
 }: {
-  params: Promise<{ level: string }>;
+    params: Promise<{ level: string }>;
 }) {
   const { level } = use(params);
   const levelNum = Number(level);
@@ -122,18 +119,17 @@ export default function ConditionalMatchingGamePage({
   // ── Fallback ──────────────────────────────────────────────
   if (!config) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#131F24]">
-        <div className="flex flex-col items-center text-center gap-4">
-          <Image src="/images/P_Coco/coco-03.svg" alt="Coco" width={110} height={110} className="object-contain drop-shadow-lg" />
-          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
-          <button
-            onClick={() => router.push("/courses")}
-            className="mt-2 px-6 py-2 bg-[#FFB356] text-white rounded-xl font-bold hover:bg-[#E8962A] transition-colors"
-          >
-            กลับหน้าหลัก
-          </button>
+        <div className="flex flex-col h-screen bg-[#131F24] overflow-hidden">
+            <GameHeader
+                level={level}
+                gameTitle="Conditional Matching"
+                characterSrc="/images/P_Coco/coco-03.svg"
+            />
+
+            <div className="flex-1 flex flex-col items-center justify-center p-4">
+                <p className="text-white text-xl">Blank Page - Ready for new implementation</p>
+            </div>
         </div>
-      </div>
     );
   }
 

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <g transform="translate(0, -10)"> <!-- Floating higher -->
+    <!-- Floating String -->
+    <path d="M100,175 Q120,220 80,250" fill="none" stroke="#BDBDBD" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Full Size Balloon Body -->
+    <path d="M100,20 C180,20 180,150 108,160 L104,170 L96,170 L92,160 C20,150 20,20 100,20 Z" fill="#FF5252" stroke="#D32F2F" stroke-width="4" stroke-linejoin="round"/>
+    
+    <!-- Tied Knot -->
+    <circle cx="100" cy="165" r="7" fill="#FF5252" stroke="#D32F2F" stroke-width="3"/>
+    <path d="M100,165 L115,180 L85,180 Z" fill="#FF5252" stroke="#D32F2F" stroke-width="3" stroke-linejoin="round"/>
+    <!-- Knot detail wrinkles -->
+    <path d="M100,165 L95,175 M100,165 L105,175" fill="none" stroke="#D32F2F" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Big Highlight -->
+    <path d="M70,55 C90,40 120,40 135,50" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+    <path d="M60,75 A40,40 0 0,1 70,60" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Sparkles showing it's floating/magical -->
+  <path d="M30,30 L35,20 L40,30 L50,35 L40,40 L35,50 L30,40 L20,35 Z" fill="#FFF59D"/>
+  <path d="M160,80 L163,73 L170,70 L163,67 L160,60 L157,67 L150,70 L157,73 Z" fill="#FFF59D"/>
+</svg>

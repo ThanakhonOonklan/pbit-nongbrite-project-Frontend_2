@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── NATURE BACKGROUND ── -->
+  <path d="M0,200 L200,200 L200,100 Q150,110 0,110 Z" fill="#80CBC4"/> <!-- Water -->
+  <path d="M0,110 Q100,60 200,90 Z" fill="#E0F2F1" opacity="0.4"/>
+
+  <!-- ── LILY PAD ── -->
+  <path d="M30,160 C30,130 170,130 170,160 C170,180 130,190 100,180 C70,190 30,180 30,160 Z" fill="#4CAF50" stroke="#388E3C" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Leaf detail -->
+  <path d="M100,160 L100,180" fill="none" stroke="#388E3C" stroke-width="4" stroke-linecap="round"/>
+  <path d="M100,160 Q70,145 60,150" fill="none" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M100,160 Q130,145 140,150" fill="none" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- ── FROGLET (กบน้อยยังเหลือหาง) ── -->
+  <g transform="translate(10, -5)">
+    <!-- Stubby little tail (Dark green/brown from tadpole phase) -->
+    <path d="M130,125 Q160,135 155,150 Q145,140 120,135" fill="#455A64" stroke="#37474F" stroke-width="3" stroke-linejoin="round"/>
+    
+    <!-- Right Back Leg (Folded) -->
+    <path d="M110,130 C150,115 140,160 115,145 L135,148" fill="none" stroke="#66BB6A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Webbed foot right -->
+    <path d="M135,148 L142,143 M135,148 L145,150 M135,148 L140,155" fill="none" stroke="#4CAF50" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Left Back Leg (Folded) -->
+    <path d="M70,130 C30,115 40,160 65,145 L45,148" fill="none" stroke="#4CAF50" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M45,148 L38,143 M45,148 L35,150 M45,148 L40,155" fill="none" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Left Front Leg -->
+    <path d="M75,130 L70,155" fill="none" stroke="#4CAF50" stroke-width="7" stroke-linecap="round"/>
+    <path d="M70,155 L65,160 M70,155 L75,165 M70,155 L60,162" fill="none" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Right Front Leg -->
+    <path d="M105,130 L110,155" fill="none" stroke="#66BB6A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M110,155 L115,160 M110,155 L105,165 M110,155 L120,162" fill="none" stroke="#4CAF50" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Main Body & Head (Egg-shaped frog body) -->
+    <path d="M50,110 C50,80 130,80 130,110 C130,140 110,145 90,145 C70,145 50,140 50,110 Z" fill="#66BB6A" stroke="#388E3C" stroke-width="4"/>
+    <!-- Yellow Belly -->
+    <path d="M65,120 C70,145 110,145 115,120 C100,105 80,105 65,120 Z" fill="#FFF59D"/>
+
+    <!-- Eyes (Bulging on top) -->
+    <path d="M55,95 C55,75 75,75 75,95" fill="#66BB6A" stroke="#388E3C" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="65" cy="85" r="7" fill="#1A1A1A"/>
+    <circle cx="63" cy="82" r="2.5" fill="#FFFFFF"/>
+    
+    <path d="M105,95 C105,75 125,75 125,95" fill="#66BB6A" stroke="#388E3C" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="115" cy="85" r="7" fill="#1A1A1A"/>
+    <circle cx="113" cy="82" r="2.5" fill="#FFFFFF"/>
+
+    <!-- Big Smile -->
+    <path d="M60,110 Q90,125 120,110" fill="none" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="58" cy="108" r="4" fill="#FF8A80" opacity="0.8"/>
+    <circle cx="122" cy="108" r="4" fill="#FF8A80" opacity="0.8"/>
+
+    <!-- Skin Spots -->
+    <circle cx="75" cy="130" r="3" fill="#4CAF50"/>
+    <circle cx="90" cy="135" r="4" fill="#4CAF50"/>
+    <circle cx="105" cy="128" r="2.5" fill="#4CAF50"/>
+  </g>
+</svg>

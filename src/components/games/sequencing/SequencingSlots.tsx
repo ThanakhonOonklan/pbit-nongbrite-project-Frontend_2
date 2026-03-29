@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Image from "next/image";
 import { FaTimes, FaArrowRight } from "react-icons/fa";
 import { type SequencingItem } from "@/constants/games/sequencing-levels";
@@ -9,6 +9,7 @@ interface SequencingSlotsProps {
   onDrop: (item: SequencingItem, poolIndex: number, slotIndex: number) => void;
   correctSequence?: SequencingItem[];
   showErrors?: boolean;
+  shakeKey?: number;  // increments each wrong attempt to re-trigger shake
 }
 
 function getItemsPerRow(count: number): number {
@@ -39,6 +40,7 @@ function DroppableSlot({
   onRemove,
   onDrop,
   isWrong,
+  shakeKey,
   sc,
 }: {
   slot: SequencingItem | null;
@@ -46,25 +48,37 @@ function DroppableSlot({
   onRemove: (item: SequencingItem, index: number) => void;
   onDrop: (item: SequencingItem, poolIndex: number, slotIndex: number) => void;
   isWrong: boolean;
+  shakeKey?: number;
   sc: ReturnType<typeof getSizeByRow>;
 }) {
   const [isOver, setIsOver] = useState(false);
 
   const filledBorder = isWrong
-    ? "bg-red-50 border-[3px] border-b-[5px] border-red-400 shadow-sm"
-    : "bg-white border-[3px] border-b-[5px] border-[#C084FC] shadow-sm hover:scale-105";
+    ? "bg-red-900/40 border-[3px] border-b-[5px] border-red-400 shadow-sm"
+    : "bg-[#1E2C33] border-[3px] border-b-[5px] border-[#7C3AED] shadow-sm hover:scale-105";
 
   const emptyBorder = isOver
-    ? "bg-[#FDF4FF] border-[2px] border-dashed border-[#A855F7] scale-105"
-    : "bg-[#FAF5FF] border-[2px] border-dashed border-[#D8B4FE]";
+    ? "bg-[#1E2C33] border-[2px] border-dashed border-[#A855F7] scale-105"
+    : "bg-[#182029] border-[2px] border-dashed border-[#4B3066]";
 
   return (
     <div
+      key={isWrong ? shakeKey : undefined}
       className={`${sc.box} rounded-xl flex items-center justify-center relative transition-all duration-300 ease-out flex-shrink-0 shadow-inner
-        ${slot ? filledBorder : emptyBorder}`}
+        ${isWrong ? "animate-shake" : ""}
+        ${slot ? `${filledBorder} cursor-grab active:cursor-grabbing` : emptyBorder}`}
+      draggable={!!slot}
+      onDragStart={(e) => {
+        if (!slot) return;
+        e.dataTransfer.setData(
+          "application/sequencing-slot-item",
+          JSON.stringify({ item: slot, slotIndex: idx })
+        );
+        e.dataTransfer.effectAllowed = "move";
+      }}
       onDragOver={(e) => {
-        // Only accept drop if slot is empty
-        if (!slot) {
+        // Only accept pool→slot drops when slot is empty
+        if (!slot && e.dataTransfer.types.includes("application/sequencing-item")) {
           e.preventDefault();
           e.dataTransfer.dropEffect = "move";
           setIsOver(true);
@@ -104,8 +118,8 @@ function DroppableSlot({
           {/* Persistent Tooltip */}
           {slot.label && (
             <div className="absolute -bottom-7 sm:-bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-20 flex flex-col items-center animate-in fade-in zoom-in duration-300">
-              <div className="border-4 border-transparent border-b-gray-800 w-0 h-0" />
-              <div className="bg-gray-800 text-white text-[10px] sm:text-[11px] md:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md whitespace-nowrap shadow-md">
+              <div className="border-4 border-transparent border-b-[#C084FC] w-0 h-0" />
+              <div className="bg-[#2D1B4E] text-purple-200 text-[10px] sm:text-[11px] md:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md whitespace-nowrap shadow-md border border-purple-800">
                 {slot.label}
               </div>
             </div>
@@ -116,10 +130,9 @@ function DroppableSlot({
   );
 }
 
-// Need useState for isOver in DroppableSlot
-import { useState } from "react";
 
-export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, showErrors }: SequencingSlotsProps) {
+
+export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, showErrors, shakeKey }: SequencingSlotsProps) {
   const itemsPerRow = getItemsPerRow(slots.length);
   const sc = getSizeByRow();
 
@@ -130,7 +143,7 @@ export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, show
   }
 
   return (
-    <div className="bg-[#F3E8FF] rounded-2xl sm:rounded-3xl p-2 sm:p-4 border-[3px] sm:border-4 border-[#E9D5FF] shadow-inner w-full sm:min-h-0">
+    <div className="bg-[#1a2535] rounded-2xl sm:rounded-3xl p-2 sm:p-4 border-[3px] sm:border-4 border-[#2D3F55] shadow-inner w-full sm:min-h-0">
       
       {/* Unified View for all sizes: Strict Rows */}
       <div className="flex flex-col items-center gap-8 sm:gap-10 pt-1 pb-6 sm:pb-8 px-1 sm:px-2 w-full">
@@ -143,9 +156,9 @@ export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, show
 
               return (
                 <Fragment key={`slot-${idx}`}>
-                  <DroppableSlot slot={slot} idx={idx} onRemove={onRemove} onDrop={onDrop} isWrong={isWrong} sc={sc} />
+                  <DroppableSlot slot={slot} idx={idx} onRemove={onRemove} onDrop={onDrop} isWrong={isWrong} shakeKey={shakeKey} sc={sc} />
                   {!isLastInRow && (
-                    <div className="flex items-center justify-center text-[#D8B4FE] flex-shrink-0">
+                    <div className="flex items-center justify-center text-[#7C3AED] flex-shrink-0">
                       <FaArrowRight className={`${sc.arrowSize} opacity-60`} />
                     </div>
                   )}

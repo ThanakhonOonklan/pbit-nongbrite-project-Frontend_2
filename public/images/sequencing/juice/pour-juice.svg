@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── TABLE ── -->
+  <path d="M0,170 L200,170 L200,200 L0,200 Z" fill="#D7CCC8"/>
+  <path d="M0,170 L200,170 L200,175 L0,175 Z" fill="#8D6E63"/>
+
+  <!-- ── GLASS ── -->
+  <!-- Glass back -->
+  <path d="M55,170 L95,170 L105,80 L45,80 Z" fill="#E1F5FE" stroke="#81D4FA" stroke-width="3" opacity="0.6"/>
+  <!-- Juice inside glass (filling up) -->
+  <path d="M57,170 L93,170 L100,120 L50,120 Z" fill="#FFA726"/>
+  <ellipse cx="75" cy="120" rx="25" ry="6" fill="#FFB74D"/>
+  
+  <!-- Orange slice on rim -->
+  <circle cx="45" cy="85" r="15" fill="#FF9800" stroke="#E65100" stroke-width="2.5"/>
+  <circle cx="45" cy="85" r="10" fill="#FFF3E0"/>
+  <path d="M45,75 V95 M35,85 H55 M38,78 L52,92 M38,92 L52,78" stroke="#FFE0B2" stroke-width="2"/>
+  
+  <!-- Straw -->
+  <path d="M75,130 L95,50 L120,35" fill="none" stroke="#EF5350" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M75,130 L95,50 L120,35" fill="none" stroke="#FFCDD2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Glass front outline -->
+  <path d="M55,170 L95,170 L105,80 L45,80 Z" fill="none" stroke="#81D4FA" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="75" cy="80" rx="30" ry="8" fill="none" stroke="#81D4FA" stroke-width="3"/>
+
+  <!-- ── POURING JUICE STREAM ── -->
+  <path d="M128,48 Q105,70 85,120" fill="none" stroke="#FFA726" stroke-width="12" stroke-linecap="round"/>
+  <path d="M128,48 Q105,70 85,120" fill="none" stroke="#FFCC80" stroke-width="5" stroke-linecap="round"/>
+  <!-- Splash in glass -->
+  <ellipse cx="85" cy="120" rx="6" ry="3" fill="#FFE0B2"/>
+
+  <!-- ── BLENDER JUG (Tilted) ── -->
+  <g transform="translate(130,40) rotate(-45)">
+    <!-- Juice in blender -->
+    <path d="M-25,90 L25,90 L28,20 L-28,20 Z" fill="#FFB74D"/>
+    <!-- Blender Body -->
+    <path d="M-30,100 L30,100 L35,0 L-35,0 Z" fill="none" stroke="#81D4FA" stroke-width="4"/>
+    <ellipse cx="0" cy="0" rx="35" ry="8" fill="none" stroke="#81D4FA" stroke-width="4"/>
+    <ellipse cx="0" cy="100" rx="30" ry="6" fill="#81D4FA"/> <!-- Base attachment -->
+    <!-- Handle -->
+    <path d="M30,80 C60,80 60,30 35,30" fill="none" stroke="#E0E0E0" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <!-- ── HAND HOLDING BLENDER ── -->
+  <rect x="160" y="80" width="40" height="25" rx="12" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(30,180,95)"/> <!-- Wrist -->
+  <!-- Fingers wrapped around handle -->
+  <rect x="150" y="55" width="22" height="12" rx="6" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(45,160,60)"/>
+  <rect x="145" y="65" width="22" height="12" rx="6" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(45,155,70)"/>
+  <rect x="140" y="75" width="22" height="12" rx="6" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(45,150,80)"/>
+  <!-- Thumb on back -->
+  <rect x="125" y="90" width="16" height="10" rx="5" fill="#FFCD94" stroke="#D4885A" stroke-width="2.5" transform="rotate(-30,135,95)"/>
+
+  <!-- Drops -->
+  <circle cx="80" cy="65" r="3" fill="#FFA726"/>
+  <circle cx="95" cy="110" r="2.5" fill="#FFA726"/>
+</svg>

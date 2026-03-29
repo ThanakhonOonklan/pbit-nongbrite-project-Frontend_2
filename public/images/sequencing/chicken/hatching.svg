@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── HAY NEST ── -->
+  <!-- Back of nest -->
+  <path d="M40,150 Q100,120 160,150 Q140,180 60,180 Z" fill="#D7CCC8" stroke="#8D6E63" stroke-width="4"/>
+
+  <!-- ── EGG (Bottom Half) ── -->
+  <path d="M60,110 C60,150 140,150 140,110 L130,120 L120,105 L110,120 L100,100 L90,120 L80,105 L70,120 Z" fill="#FFE0B2" stroke="#FFB74D" stroke-width="4"/>
+  
+  <!-- ── CHICK (In the shell) ── -->
+  <!-- Chick Head -->
+  <circle cx="100" cy="85" r="22" fill="#FFF176" stroke="#FDD835" stroke-width="3"/>
+  <!-- Eyes (Simple, cute, no dark circles) -->
+  <circle cx="90" cy="80" r="4" fill="#1A1A1A"/>
+  <circle cx="110" cy="80" r="4" fill="#1A1A1A"/>
+  <!-- Beak -->
+  <polygon points="95,85 105,85 100,95" fill="#FF9800" stroke="#F57C00" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Blush -->
+  <ellipse cx="85" cy="88" rx="4" ry="2.5" fill="#FFD54F" opacity="0.6"/>
+  <ellipse cx="115" cy="88" rx="4" ry="2.5" fill="#FFD54F" opacity="0.6"/>
+
+  <!-- ── EGG (Top Shell on head) ── -->
+  <path d="M75,70 C80,45 120,45 125,70 L115,65 L105,75 L95,65 L85,75 Z" fill="#FFE0B2" stroke="#FFB74D" stroke-width="4" transform="rotate(-15,100,60)"/>
+
+  <!-- ── EGG HIGHLIGHTS ── -->
+  <path d="M75,130 C85,145 105,145 110,140" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- ── NEST DETAILS (Front hay) ── -->
+  <path d="M30,165 Q100,200 170,165 Q150,140 50,140 Z" fill="#FFCC80" stroke="#F57C00" stroke-width="3"/>
+  <path d="M45,150 Q75,140 85,160" fill="none" stroke="#F57C00" stroke-width="3" stroke-linecap="round"/>
+  <path d="M110,150 Q130,145 145,165" fill="none" stroke="#F57C00" stroke-width="3" stroke-linecap="round"/>
+  <path d="M70,170 Q100,160 130,175" fill="none" stroke="#F57C00" stroke-width="3" stroke-linecap="round"/>
+</svg>

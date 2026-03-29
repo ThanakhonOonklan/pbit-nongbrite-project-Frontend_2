@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── UNDERWATER BACKGROUND (Sea Anemone Home) ── -->
+  <path d="M0,200 L200,200 L200,0 L0,0 Z" fill="#607D8B"/>
+  
+  <path d="M10,200 Q40,140 20,80" fill="none" stroke="#DCE775" stroke-width="14" stroke-linecap="round"/>
+  <path d="M50,200 Q70,90 140,40" fill="none" stroke="#DCE775" stroke-width="14" stroke-linecap="round"/>
+  <path d="M90,200 Q120,120 180,90" fill="none" stroke="#DCE775" stroke-width="14" stroke-linecap="round"/>
+  <path d="M150,200 Q180,150 190,120" fill="none" stroke="#DCE775" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Bubbles -->
+  <circle cx="160" cy="60" r="10" fill="#E1F5FE" stroke="#81D4FA" stroke-width="2" opacity="0.7"/>
+  <circle cx="170" cy="30" r="6" fill="#E1F5FE" stroke="#81D4FA" stroke-width="2" opacity="0.7"/>
+
+  <!-- ── ADULT CLOWNFISH ── -->
+  <!-- Back/Top Fins -->
+  <path d="M70,80 C90,40 120,50 130,85 Z" fill="#FF9800" stroke="#1A1A1A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M135,90 C145,70 160,70 155,95 Z" fill="#FF9800" stroke="#1A1A1A" stroke-width="3" stroke-linejoin="round"/>
+  
+  <!-- Back Fin Tips Black/White Edge -->
+  <path d="M72,78 C90,42 118,52 128,83" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+
+  <!-- Bottom Fins -->
+  <path d="M80,120 L95,150 L110,125 Z" fill="#FF9800" stroke="#1A1A1A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M125,120 L135,145 L145,115 Z" fill="#FF9800" stroke="#1A1A1A" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Fin tip trim -->
+  <path d="M82,122 L95,148 L108,127" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+
+  <!-- Tail Fin -->
+  <path d="M165,100 C185,70 200,90 185,110 C200,130 185,150 165,120 Z" fill="#FF9800" stroke="#1A1A1A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M168,98 C185,75 195,90 183,110 C195,130 185,145 168,122" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+
+  <!-- Main Body (Orange) -->
+  <path d="M165,100 Q150,55 90,60 C40,65 15,90 20,110 C25,130 40,145 90,145 Q150,145 165,120 Z" fill="#FF9800" stroke="#1A1A1A" stroke-width="4"/>
+
+  <!-- ── 3 WHITE STRIPES (With Black Outlines) ── -->
+  <!-- Stripe 1 (Head) -->
+  <path d="M60,63 C40,90 40,125 55,142" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/>
+  <path d="M52,62 C32,90 32,125 47,143 M68,64 C48,90 48,125 63,141" fill="none" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Stripe 2 (Middle) -->
+  <path d="M115,62 C95,90 95,125 110,146" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round"/>
+  <path d="M108,61 C88,90 88,125 103,146 M122,63 C102,90 102,125 117,146" fill="none" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+  <!-- Middle stripe middle extension (Classic clownfish feature) -->
+  <path d="M99,105 Q120,105 110,95" fill="#FFFFFF"/>
+  <path d="M99,105 Q120,105 110,95" fill="none" stroke="#1A1A1A" stroke-width="3"/>
+
+  <!-- Stripe 3 (Tail Base) -->
+  <path d="M155,80 C145,100 145,115 153,132" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+  <path d="M150,81 C140,100 140,115 148,133 M160,79 C150,100 150,115 158,131" fill="none" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Face -->
+  <!-- Eye -->
+  <circle cx="45" cy="85" r="9" fill="#1A1A1A"/>
+  <circle cx="42" cy="82" r="3" fill="#FFFFFF"/>
+  <circle cx="45" cy="85" r="11" fill="none" stroke="#FFFFFF" stroke-width="2"/> <!-- White ring around eye -->
+
+  <!-- Smile -->
+  <path d="M30,115 C35,125 45,125 55,110" fill="none" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30,115 Q35,125 55,110" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" transform="translate(0, 3)"/> <!-- Smile highlight -->
+
+  <!-- Pectoral Fin (Side Fin) -->
+  <path d="M85,100 C110,90 115,115 95,120 Z" fill="#FF9800" stroke="#1A1A1A" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Pectoral rim white/black -->
+  <path d="M90,100 C108,95 110,110 98,118" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+</svg>

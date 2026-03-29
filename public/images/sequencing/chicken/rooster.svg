@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- ── SINGLE COLORED TAIL (Must be one color as requested) ── -->
+  <!-- Using solid dark teal/green as base so it stands out -->
+  <path d="M50,130 C20,90 20,40 60,30 C75,50 65,90 70,120 Z" fill="#00695C" stroke="#004D40" stroke-width="3"/>
+  <path d="M50,130 C10,110 0,60 30,50 C50,60 45,90 60,115 Z" fill="#00695C" stroke="#004D40" stroke-width="3"/>
+  <path d="M60,130 C40,110 30,80 50,70 C60,80 55,100 65,120 Z" fill="#00695C" stroke="#004D40" stroke-width="3"/>
+
+  <!-- ── LEGS ── -->
+  <!-- Left Leg -->
+  <path d="M95,160 L95,180 M85,185 L95,180 M105,185 L95,180" fill="none" stroke="#FF9800" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Right Leg -->
+  <path d="M125,160 L125,180 M115,185 L125,180 M135,185 L125,180" fill="none" stroke="#FF9800" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ── ROOSTER BODY (White) ── -->
+  <path d="M150,90 C170,110 160,165 110,165 C70,165 40,150 70,110 Z" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="4"/>
+  <!-- Chest fluff -->
+  <path d="M140,140 C150,150 140,165 110,165" fill="none" stroke="#F5F5F5" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Wing (White/Light Orange) -->
+  <path d="M120,115 C130,110 145,125 130,145 C115,140 100,125 120,115 Z" fill="#FFE0B2" stroke="#FFCC80" stroke-width="3"/>
+
+  <!-- ── ROOSTER HEAD & NECK ── -->
+  <path d="M110,40 C140,40 160,70 150,95 C140,115 110,120 100,100 C90,80 90,60 110,40 Z" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="4"/>
+  <!-- Neck feather trim -->
+  <path d="M100,105 L110,115 L120,105 L130,115 L145,105" fill="none" stroke="#FFE0B2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ── HEAD DETAILS ── -->
+  <!-- Red Comb (หงอน) -->
+  <path d="M105,42 C95,20 115,10 120,25 C130,10 145,15 140,30 C155,20 165,35 150,45" fill="#E53935" stroke="#C62828" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Eye (Cute dot, no dark circles!) -->
+  <circle cx="130" cy="65" r="5" fill="#1A1A1A"/>
+  <circle cx="128" cy="63" r="1.5" fill="#FFFFFF"/>
+  
+  <!-- Blush -->
+  <ellipse cx="120" cy="72" rx="4" ry="2.5" fill="#FFCDD2"/>
+
+  <!-- Red Wattle (เหนียง) -->
+  <path d="M142,85 C140,100 155,100 155,85" fill="#E53935" stroke="#C62828" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Beak -->
+  <polygon points="152,70 170,75 148,82" fill="#FF9800" stroke="#F57C00" stroke-width="3" stroke-linejoin="round"/>
+  <line x1="152" y1="76" x2="165" y2="76" stroke="#F57C00" stroke-width="2"/>
+</svg>

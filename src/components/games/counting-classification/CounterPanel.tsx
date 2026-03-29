@@ -26,8 +26,8 @@ export function CounterPanel({
 
             {/* Header */}
             <div className="flex items-center justify-center gap-2 py-1">
-                <span className="text-sm sm:text-base font-extrabold text-[#D84C7B] tracking-wide">
-                    นับจำนวนรูปทรง
+                <span className="text-sm sm:text-base font-extrabold text-white tracking-wide">
+                    ใส่จำนวนรูปทรงที่นับได้
                 </span>
             </div>
 
@@ -58,8 +58,8 @@ export function CounterPanel({
                     tilt={0.5}
                     radius={28}
                     motion={60}
-                    surfaceColor="#FF85B3"
-                    sideColor="#D84C7B"
+                    surfaceColor="#FF6B9D"
+                    sideColor="#C2185B"
                     textColor="#ffffff"
                     onClick={onSubmit}
                     disabled={disabled}
