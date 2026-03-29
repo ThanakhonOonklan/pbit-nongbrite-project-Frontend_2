@@ -13,15 +13,25 @@ import {
 } from "@/utils/game-scoring";
 import { mockSubmitGameScore } from "@/constants/mocks/gameScore";
 
-export type DrawingMode = "paint" | "fill" | "eyedropper" | "eraser";
+// DrawingMode ไม่มี eyedropper แล้ว
+export type DrawingMode = "paint" | "fill" | "eraser";
 
-import { FaRedo, FaCheck } from "react-icons/fa";
-
+// ── Memory time (seconds) per difficulty ─────────────────────
+// easy: 0 = no memorize phase (reference always visible)
 const getMemorizeTime = (difficulty: string) => {
-  if (difficulty === "easy") return 5;
-  if (difficulty === "normal") return 10;
+  if (difficulty === "easy") return 0;
+  if (difficulty === "normal") return 8;
   if (difficulty === "hard") return 15;
   return 10;
+};
+
+// ── Max peek count per difficulty ────────────────────────────
+// easy: always visible (peek button hidden)
+// normal: unlimited peeks (no penalty)
+// hard: 3 peeks, 2nd+ penalised
+const getMaxPeeks = (difficulty: string) => {
+  if (difficulty === "hard") return 3;
+  return 999; // unlimited for easy / normal
 };
 
 interface GridColoringGameProps {
@@ -31,24 +41,31 @@ interface GridColoringGameProps {
   isGameActive?: boolean;
 }
 
-export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = true }: GridColoringGameProps) {
+export function GridColoringGame({
+  config,
+  onGameEnd,
+  startTime,
+  isGameActive = true,
+}: GridColoringGameProps) {
   const { gridSize, palette, pattern } = config;
 
-  // ── State ─────────────────────────────────────────────────
+  // ── Canvas state ──────────────────────────────────────────
   const [canvas, setCanvas] = useState<(string | null)[][]>(
     () => Array.from({ length: gridSize }, () => Array(gridSize).fill(null))
   );
   const [selectedColor, setSelectedColor] = useState<string | null>(palette[0]);
   const [drawingMode, setDrawingMode] = useState<DrawingMode>("paint");
-  const [clickCount, setClickCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [feedback, setFeedback] = useState<{ correct: number; total: number } | null>(null);
 
-  // ── New Features State ────────────────────────────────────
-  // ── New Features State ────────────────────────────────────
+  // ── Wrong-cell highlight state ────────────────────────────
+  const [wrongCells, setWrongCells] = useState<{ row: number; col: number }[]>([]);
+  const [showWrongFeedback, setShowWrongFeedback] = useState(false);
+
+  // ── Undo / Redo history ───────────────────────────────────
   const [history, setHistory] = useState<(string | null)[][][]>(() => [
-    Array.from({ length: gridSize }, () => Array(gridSize).fill(null))
+    Array.from({ length: gridSize }, () => Array(gridSize).fill(null)),
   ]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
@@ -83,16 +100,18 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
     }
   }, [history, historyIndex]);
 
-  // ── Memory Mechanics State ──────────────────────────────
+  // ── Memory / Peek mechanics ───────────────────────────────
   const initialTime = getMemorizeTime(config.difficulty);
-  const [isMemorizing, setIsMemorizing] = useState(true);
+  const maxPeeks = getMaxPeeks(config.difficulty);
+
+  // easy → isMemorizing = false (never starts memorize phase)
+  const [isMemorizing, setIsMemorizing] = useState(config.difficulty !== "easy");
   const [memorizeTimeLeft, setMemorizeTimeLeft] = useState(initialTime);
   const [isPeeking, setIsPeeking] = useState(false);
   const [peekTimeLeft, setPeekTimeLeft] = useState(0);
   const [peekCount, setPeekCount] = useState(0);
-  const maxPeeks = 3;
 
-  // ── Timers ────────────────────────────────────────────────
+  // ── Memorize countdown timer ──────────────────────────────
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isGameActive && isMemorizing && memorizeTimeLeft > 0) {
@@ -103,6 +122,7 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
     return () => clearTimeout(timer);
   }, [isGameActive, isMemorizing, memorizeTimeLeft]);
 
+  // ── Peek countdown timer ──────────────────────────────────
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isPeeking && peekTimeLeft > 0) {
@@ -117,23 +137,18 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
     if (isMemorizing || isPeeking || isCompleted || peekCount >= maxPeeks) return;
     setPeekCount((prev) => prev + 1);
     setIsPeeking(true);
-    setPeekTimeLeft(3); // 3 seconds per peek
-  }, [isMemorizing, isPeeking, isCompleted, peekCount]);
+    setPeekTimeLeft(3);
+  }, [isMemorizing, isPeeking, isCompleted, peekCount, maxPeeks]);
 
-  // ── Count painted cells ──────────────────────────────────
-  const paintedCount = useMemo(() => {
-    let count = 0;
-    for (const row of canvas) {
-      for (const cell of row) {
-        if (cell !== null) count++;
-      }
-    }
-    return count;
-  }, [canvas]);
-
-  // ── Helper: Flood Fill ────────────────────────────────────
+  // ── Flood fill helper ─────────────────────────────────────
   const floodFill = useCallback(
-    (grid: (string | null)[][], r: number, c: number, target: string | null, replacement: string | null) => {
+    (
+      grid: (string | null)[][],
+      r: number,
+      c: number,
+      target: string | null,
+      replacement: string | null
+    ) => {
       if (target === replacement) return;
       if (grid[r][c] !== target) return;
 
@@ -155,19 +170,10 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
     [gridSize]
   );
 
-  // ── Cell click handler (toggle) ─────────────────────────
+  // ── Cell click (paint, fill, eraser) ─────────────────────
   const handleCellClick = useCallback(
     (row: number, col: number) => {
       if (isCompleted || isMemorizing || isPeeking) return;
-
-      if (drawingMode === "eyedropper") {
-        const color = canvas[row][col];
-        if (color) {
-          setSelectedColor(color);
-          setDrawingMode("paint");
-        }
-        return;
-      }
 
       setFeedback(null);
       setCanvas((prev) => {
@@ -175,50 +181,49 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
           const newGrid = floodFill(prev, row, col, prev[row][col], selectedColor);
           return newGrid || prev;
         }
-
         const targetColor = drawingMode === "eraser" ? null : selectedColor;
-
         if (prev[row][col] === targetColor) return prev;
-
         const next = prev.map((r) => [...r]);
         next[row][col] = targetColor;
         return next;
       });
-      setClickCount((prev) => prev + 1);
     },
-    [canvas, selectedColor, drawingMode, isCompleted, isMemorizing, isPeeking, floodFill]
+    [selectedColor, drawingMode, isCompleted, isMemorizing, isPeeking, floodFill]
   );
 
-  // ── Cell drag handler (always paint, no toggle) ────────
+  // ── Cell drag (paint / eraser only) ───────────────────────
   const handleCellDrag = useCallback(
     (row: number, col: number) => {
       if (isCompleted || isMemorizing || isPeeking) return;
-      if (drawingMode === "fill" || drawingMode === "eyedropper") return; // Drag doesn't work for fill/eyedropper
+      if (drawingMode === "fill") return;
 
       setFeedback(null);
       setCanvas((prev) => {
         const targetColor = drawingMode === "eraser" ? null : selectedColor;
         if (prev[row][col] === targetColor) return prev;
-
         const next = prev.map((r) => [...r]);
         next[row][col] = targetColor;
         return next;
       });
-      setClickCount((prev) => prev + 1);
     },
     [selectedColor, drawingMode, isCompleted, isMemorizing, isPeeking]
   );
 
-  // ── Check work ───────────────────────────────────────────
+  // ── Check work — wrong → highlight, don't end game ───────
   const handleCheck = useCallback(() => {
     if (isCompleted) return;
 
     let correctCount = 0;
     const totalCells = gridSize * gridSize;
+    const newWrongCells: { row: number; col: number }[] = [];
 
     for (let r = 0; r < gridSize; r++) {
       for (let c = 0; c < gridSize; c++) {
-        if (pattern[r][c] === canvas[r][c]) correctCount++;
+        if (pattern[r][c] === canvas[r][c]) {
+          correctCount++;
+        } else {
+          newWrongCells.push({ row: r, col: c });
+        }
       }
     }
 
@@ -226,18 +231,17 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
     setFeedback({ correct: correctCount, total: totalCells });
 
     if (accuracy >= 0.95) {
+      // ── WIN ──────────────────────────────────────────────
+      setWrongCells([]);
       setIsCompleted(true);
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
-
-      // Penalty for 2nd and 3rd peeks
-      const peekPenalty = Math.max(0, peekCount - 1); // 1st peek free, 2nd is +1 wrong, 3rd is +2 wrong
-
+      const peekPenalty =
+        config.difficulty === "hard" ? Math.max(0, peekCount - 1) : 0;
       const scoreResult = calculateGameScore({
         difficulty: config.difficulty,
         attempts: wrongCount + peekPenalty,
         timeSeconds: elapsed,
       });
-
       const { stars } = getStarRating(scoreResult.totalScore);
       mockSubmitGameScore({
         levelId: config.level,
@@ -245,77 +249,100 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
         stars,
         playTime: elapsed,
       });
-
       setTimeout(() => {
         onGameEnd(scoreResult, wrongCount, elapsed);
       }, 800);
     } else {
+      // ── WRONG — show highlights, DON'T end the game yet ──
+      setWrongCells(newWrongCells);
       setWrongCount((prev) => prev + 1);
-
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const peekPenalty = Math.max(0, peekCount - 1);
-
-      const scoreResult = calculateGameScore({
-        difficulty: config.difficulty,
-        attempts: wrongCount + peekPenalty + 1, // Add current wrong check
-        timeSeconds: elapsed,
-      });
-
-      setIsCompleted(true);
-      setTimeout(() => {
-        onGameEnd(scoreResult, wrongCount + 1, elapsed);
-      }, 300);
+      setShowWrongFeedback(true);
     }
   }, [canvas, pattern, gridSize, isCompleted, wrongCount, config, onGameEnd, startTime, peekCount]);
 
-  // ── Reset canvas ─────────────────────────────────────────
-  const handleReset = useCallback(() => {
-    const emptyCanvas = Array.from({ length: gridSize }, () => Array(gridSize).fill(null));
-    setCanvas(emptyCanvas);
-    setClickCount(0);
-    setFeedback(null);
+  // ── Dismiss wrong-feedback overlay (keep highlights) ─────
+  const handleDismissFeedback = useCallback(() => {
+    setShowWrongFeedback(false);
+  }, []);
+
+  // ── Give up (manual end from wrong-feedback overlay) ─────
+  const handleGiveUp = useCallback(() => {
+    setShowWrongFeedback(false);
+    setWrongCells([]);
+    setIsCompleted(true);
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const peekPenalty =
+      config.difficulty === "hard" ? Math.max(0, peekCount - 1) : 0;
+    const scoreResult = calculateGameScore({
+      difficulty: config.difficulty,
+      attempts: wrongCount + peekPenalty + 1,
+      timeSeconds: elapsed,
+    });
     setTimeout(() => {
-       setHistory((prev) => {
-          const newHistory = prev.slice(0, historyIndex + 1);
-          newHistory.push(emptyCanvas);
-          return newHistory;
-       });
-       setHistoryIndex((prev) => prev + 1);
+      onGameEnd(scoreResult, wrongCount + 1, elapsed);
+    }, 300);
+  }, [startTime, peekCount, wrongCount, config, onGameEnd]);
+
+  // ── Reset canvas ──────────────────────────────────────────
+  const handleReset = useCallback(() => {
+    const emptyCanvas = Array.from({ length: gridSize }, () =>
+      Array(gridSize).fill(null)
+    );
+    setCanvas(emptyCanvas);
+    setFeedback(null);
+    setWrongCells([]);
+    setShowWrongFeedback(false);
+    setTimeout(() => {
+      setHistory((prev) => {
+        const newHistory = prev.slice(0, historyIndex + 1);
+        newHistory.push(emptyCanvas);
+        return newHistory;
+      });
+      setHistoryIndex((prev) => prev + 1);
     }, 0);
   }, [gridSize, historyIndex]);
 
-  const accuracyPct = feedback ? Math.round((feedback.correct / feedback.total) * 100) : 0;
+  // easy: always show reference | memorizing/peeking: show | else: hide
+  const isReferenceHidden =
+    config.difficulty !== "easy" && !isMemorizing && !isPeeking;
 
   return (
-    <div>
-      {/* ── Main: Reference + Canvas ──────────────────── */}
-      <div className="flex flex-col lg:flex-row gap-5 w-full items-stretch flex-1">
-        <div className="flex-1 w-full lg:w-1/2 relative flex flex-col justify-center items-center ">
+    <div className="flex flex-col gap-4 w-full h-full flex-1">
+      {/* ── Main: Reference + Canvas side-by-side ──────────────────── */}
+      <div className="flex flex-col lg:flex-row gap-4 w-full items-stretch flex-1">
+
+        {/* Reference grid */}
+        <div className="flex-1 w-full lg:w-1/2 relative flex flex-col justify-center items-center">
           <ReferenceGrid
             gridSize={gridSize}
             pattern={pattern}
-            isHidden={!isMemorizing && !isPeeking}
+            isHidden={isReferenceHidden}
             onPeek={handlePeek}
             peekCount={peekCount}
             maxPeeks={maxPeeks}
             isMemorizing={isGameActive && isMemorizing}
-            timeLeft={isGameActive && isMemorizing ? memorizeTimeLeft : isPeeking ? peekTimeLeft : 0}
+            timeLeft={
+              isGameActive && isMemorizing
+                ? memorizeTimeLeft
+                : isPeeking
+                ? peekTimeLeft
+                : 0
+            }
             isPeeking={isPeeking}
+            showPeekButton={config.difficulty !== "easy" && !isMemorizing}
           />
         </div>
-        <div className="flex-1 w-full lg:w-1/2 relative flex flex-col gap-5">
+
+        {/* Drawing side */}
+        <div className="flex-1 w-full lg:w-1/2 relative flex flex-col gap-4">
+
+          {/* Canvas */}
           <div className="flex-1 relative flex flex-col">
-            {(isMemorizing || isPeeking) && (
-              <div className="absolute inset-0 bg-white/50 backdrop-blur-[2px] z-20 rounded-3xl flex items-center justify-center flex-col gap-2">
-                <span className="text-4xl">👀</span>
-                <p className="font-bold text-gray-600">จดจำรูปต้นแบบ...</p>
-              </div>
-            )}
             <ColorCanvas
               gridSize={gridSize}
               canvas={canvas}
               selectedColor={drawingMode === "eraser" ? null : selectedColor}
-              disabled={isCompleted}
+              disabled={isCompleted || isMemorizing || isPeeking}
               onCellClick={handleCellClick}
               onCellDrag={handleCellDrag}
               drawingMode={drawingMode}
@@ -324,37 +351,72 @@ export function GridColoringGame({ config, onGameEnd, startTime, isGameActive = 
               onRedo={handleRedo}
               canUndo={historyIndex > 0}
               canRedo={historyIndex < history.length - 1}
+              wrongCells={wrongCells}
             />
-          </div>
-
-          {/* ── Palette + Actions ─────────────────────────── */}
-          <div className="relative rounded-3xl p-4 sm:p-5 overflow-visible bg-white/90 shadow-xl border-2 border-white backdrop-blur-sm shrink-0">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <ColorPalette
-                palette={palette}
-                selectedColor={selectedColor}
-                onSelectColor={(color) => {
-                  setSelectedColor(color);
-                  setDrawingMode("paint");
-                }}
-                drawingMode={drawingMode}
-                onSelectMode={setDrawingMode}
-                onCheckAnswer={handleCheck}
-              />
-            </div>
           </div>
         </div>
       </div>
 
+      {/* ── Bottom: Palette + Tools ───────────────────────── */}
+      <div className="rounded-2xl p-3 sm:p-4 bg-[#1C2B32] border border-white/10 shadow-xl shrink-0 mx-auto w-full max-w-4xl flex items-center justify-center">
+        <ColorPalette
+          palette={palette}
+          selectedColor={selectedColor}
+          onSelectColor={(color) => {
+            setSelectedColor(color);
+            setDrawingMode("paint");
+          }}
+          drawingMode={drawingMode}
+          onSelectMode={setDrawingMode}
+          onCheckAnswer={handleCheck}
+          onReset={handleReset}
+        />
+      </div>
 
-
+      {/* Wrong-feedback overlay */}
+      {showWrongFeedback && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div
+            className="bg-[#1C2B32] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl text-center max-w-sm w-full"
+            style={{ animation: "wrongModalIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)" }}
+          >
+            <div className="text-5xl mb-3">😅</div>
+            <p className="font-extrabold text-white text-xl mb-2">ยังมีบางช่องผิดอยู่!</p>
+            <p className="text-sm text-white/60 mb-4">
+              แก้ช่องที่มีขอบ{" "}
+              <span className="text-red-400 font-bold">สีแดง</span>{" "}
+              ให้ถูกต้อง แล้วกดส่งใหม่อีกครั้งนะ 😊
+            </p>
+            <div className="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-2xl px-4 py-2 mb-6">
+              <span className="text-xl">❌</span>
+              <span className="text-base font-extrabold text-red-400">
+                ผิด {wrongCells.length} ช่อง
+              </span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={handleDismissFeedback}
+                className="w-full px-6 py-3 bg-[#AACE30] hover:bg-[#8BB422] active:scale-95 text-white font-extrabold rounded-2xl transition-all shadow-md text-base"
+              >
+                🖌️ กลับไปแก้ไข
+              </button>
+              <button
+                onClick={handleGiveUp}
+                className="w-full px-6 py-2.5 bg-white/5 hover:bg-white/10 active:scale-95 text-white/40 font-bold rounded-2xl transition-all text-sm"
+              >
+                ยอมแพ้ครั้งนี้
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
-                @keyframes fadeSlideIn {
-                    from { opacity: 0; transform: translateY(-4px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `}</style>
+        @keyframes wrongModalIn {
+          from { opacity: 0; transform: scale(0.85) translateY(20px); }
+          to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

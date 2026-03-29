@@ -152,7 +152,7 @@ export const gridColoringLevels: Record<number, GridColoringLevelConfig> = {
     9: {
         level: 9, difficulty: "hard", title: "Car",
         gridSize: 7,
-        palette: [BLUE, "#111827", YELLOW, GRAY, "#FFFFFF"], // Blue, Black, Yellow, Gray, White
+        palette: [BLUE, "#111827", YELLOW, GRAY, "#FFFFFF"],
         pattern: [
             [_, _, _, _, _, _, _],
             [_, _, BLUE, BLUE, BLUE, _, _],
@@ -163,4 +163,5 @@ export const gridColoringLevels: Record<number, GridColoringLevelConfig> = {
             [_, _, _, _, _, _, _],
         ],
     },
+
 };
