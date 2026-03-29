@@ -17,7 +17,7 @@ export default function ConditionalMatchingGamePage({
                 gameTitle="Conditional Matching"
                 characterSrc="/images/P_Coco/coco-03.svg"
             />
-            
+
             <div className="flex-1 flex flex-col items-center justify-center p-4">
                 <p className="text-white text-xl">Blank Page - Ready for new implementation</p>
             </div>
