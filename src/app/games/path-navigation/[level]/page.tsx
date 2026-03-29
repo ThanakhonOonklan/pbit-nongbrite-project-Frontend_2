@@ -139,11 +139,9 @@ export default function PathNavigationGamePage({
     let pos = { ...cfg.startPos };
     let pickedUp = false;
 
-    const showFailOverlay = () => {
-      reduceLife();
-      const overlayTimer = setTimeout(() => {
     // Trigger fail animation then cleanup after 700 ms
     const triggerFail = (type: "fall" | "stumble", oobPos?: PathTile) => {
+      reduceLife();
       if (type === "fall" && oobPos) setPlayerPos(oobPos);
       setPlayerFailType(type);
       const t = setTimeout(() => {
@@ -207,7 +205,22 @@ export default function PathNavigationGamePage({
           });
           setScoreResult(result);
           const { stars } = getStarRating(result.totalScore);
-          mockSubmitGameScore({ levelId: levelNum, score: result.totalScore, stars, playTime: elapsed });
+          
+          const submitScore = async () => {
+            try {
+              const absoluteLevelId = getAbsoluteLevelId('path-navigation', levelNum);
+              await gameService.submitScore({
+                levelId: absoluteLevelId,
+                score: result.totalScore,
+                stars,
+                playTime: elapsed
+              });
+            } catch (error) {
+              console.error("Failed to submit game score", error);
+            }
+          };
+          submitScore();
+
         } else if (samePos(next, cfg.homePos) && !pickedUp) {
           const ht = setTimeout(() => {
             setHintMsg("อย่าทิ้งน้องง");
@@ -217,6 +230,7 @@ export default function PathNavigationGamePage({
           animTimers.current.push(ht);
         } else {
           // Ran out of commands without reaching home
+          reduceLife();
           const t = setTimeout(() => {
             setErrorMsg("ลองอีกครั้ง");
             const rt = setTimeout(() => { setPlayerPos(cfg.startPos); setHasNongBrite(false); }, 1200);
@@ -234,7 +248,7 @@ export default function PathNavigationGamePage({
 
     const first = setTimeout(() => runStep(0), STEP_MS);
     animTimers.current.push(first);
-  }, [config, isRunning, commands, attempts, levelNum]);
+  }, [config, isRunning, commands, attempts, levelNum, reduceLife]);
 
   // ── RESET ──────────────────────────────────────────────
 
