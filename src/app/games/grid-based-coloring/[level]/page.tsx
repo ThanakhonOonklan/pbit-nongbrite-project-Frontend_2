@@ -134,7 +134,7 @@ export default function GridBasedColoringGamePage({
           timeSeconds={elapsedSeconds}
           gamePath="grid-based-coloring"
           onRetry={handleRetry}
-          type={wrongCount > 0 ? "lose" : "win"}
+          type="win"
         />
       )}
 

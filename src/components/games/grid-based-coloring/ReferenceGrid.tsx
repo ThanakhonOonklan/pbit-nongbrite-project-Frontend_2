@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye } from "lucide-react";
+import { Eye, SkipForward } from "lucide-react";
 
 interface ReferenceGridProps {
   gridSize: number;
@@ -13,6 +13,7 @@ interface ReferenceGridProps {
   timeLeft?: number;
   isPeeking?: boolean;
   showPeekButton?: boolean;
+  onSkip?: () => void;
 }
 
 export function ReferenceGrid({
@@ -26,6 +27,7 @@ export function ReferenceGrid({
   timeLeft = 0,
   isPeeking = false,
   showPeekButton = false,
+  onSkip,
 }: ReferenceGridProps) {
   const cellSize = gridSize <= 5 ? "w-[60px] h-[60px] sm:w-[72px] sm:h-[72px] lg:w-[84px] lg:h-[84px]" :
     gridSize <= 6 ? "w-[52px] h-[52px] sm:w-[60px] sm:h-[60px] lg:w-[72px] lg:h-[72px]" :
@@ -73,12 +75,22 @@ export function ReferenceGrid({
               className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center rounded-xl flex-col"
               style={{ gridColumn: `1 / -1`, gridRow: `1 / -1` }}
             >
-              <span className="text-4xl sm:text-6xl font-black text-white tabular-nums animate-pulse">
+              <span className="text-4xl sm:text-6xl font-black text-white tabular-nums animate-pulse drop-shadow-lg">
                 {timeLeft}
               </span>
-              <span className="text-xs sm:text-sm font-bold text-white/80 mt-1">
+              <span className="text-xs sm:text-sm font-bold text-white/80 mt-1 drop-shadow-md">
                 {isMemorizing ? "จดจำรูปภาพ" : "แอบดู..."}
               </span>
+
+              {isMemorizing && onSkip && (
+                <button
+                  onClick={onSkip}
+                  className="mt-4 px-4 py-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white rounded-full flex items-center gap-1.5 text-xs sm:text-sm font-bold transition-colors"
+                >
+                  <SkipForward className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  ข้าม
+                </button>
+              )}
             </div>
           )}
 

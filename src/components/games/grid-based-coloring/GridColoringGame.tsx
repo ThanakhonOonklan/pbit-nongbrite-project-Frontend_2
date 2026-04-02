@@ -32,7 +32,7 @@ const getMemorizeTime = (difficulty: string) => {
 // normal: unlimited peeks (no penalty)
 // hard: 3 peeks, 2nd+ penalised
 const getMaxPeeks = (difficulty: string) => {
-  if (difficulty === "hard") return 3;
+  if (difficulty === "hard") return 2;
   return 999; // unlimited for easy / normal
 };
 
@@ -59,11 +59,8 @@ export function GridColoringGame({
   const [drawingMode, setDrawingMode] = useState<DrawingMode>("paint");
   const [wrongCount, setWrongCount] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [feedback, setFeedback] = useState<{ correct: number; total: number } | null>(null);
 
-  // ── Wrong-cell highlight state ────────────────────────────
   const [wrongCells, setWrongCells] = useState<{ row: number; col: number }[]>([]);
-  const [showWrongFeedback, setShowWrongFeedback] = useState(false);
 
   // ── Undo / Redo history ───────────────────────────────────
   const [history, setHistory] = useState<(string | null)[][][]>(() => [
@@ -135,6 +132,13 @@ export function GridColoringGame({
     return () => clearTimeout(timer);
   }, [isPeeking, peekTimeLeft]);
 
+  const handleSkipMemorize = useCallback(() => {
+    if (isMemorizing) {
+      setMemorizeTimeLeft(0);
+      setIsMemorizing(false);
+    }
+  }, [isMemorizing]);
+
   const handlePeek = useCallback(() => {
     if (isMemorizing || isPeeking || isCompleted || peekCount >= maxPeeks) return;
     setPeekCount((prev) => prev + 1);
@@ -177,7 +181,7 @@ export function GridColoringGame({
     (row: number, col: number) => {
       if (isCompleted || isMemorizing || isPeeking) return;
 
-      setFeedback(null);
+      setWrongCells([]); // Clear wrong cell highlights when start editing
       setCanvas((prev) => {
         if (drawingMode === "fill") {
           const newGrid = floodFill(prev, row, col, prev[row][col], selectedColor);
@@ -199,7 +203,7 @@ export function GridColoringGame({
       if (isCompleted || isMemorizing || isPeeking) return;
       if (drawingMode === "fill") return;
 
-      setFeedback(null);
+      setWrongCells([]); // Clear wrong cell highlights when start editing
       setCanvas((prev) => {
         const targetColor = drawingMode === "eraser" ? null : selectedColor;
         if (prev[row][col] === targetColor) return prev;
@@ -211,37 +215,35 @@ export function GridColoringGame({
     [selectedColor, drawingMode, isCompleted, isMemorizing, isPeeking]
   );
 
-  // ── Check work — wrong → highlight, don't end game ───────
+  // ── Check work ───────────────────────────────────────────
   const handleCheck = useCallback(() => {
     if (isCompleted) return;
 
-    let correctCount = 0;
-    const totalCells = gridSize * gridSize;
     const newWrongCells: { row: number; col: number }[] = [];
+    // Normalize: treat null as #FFFFFF (visually empty) and compare case-insensitively
+    const normalizeColor = (color: string | null) => (color || "#FFFFFF").toUpperCase();
 
     for (let r = 0; r < gridSize; r++) {
       for (let c = 0; c < gridSize; c++) {
-        if (pattern[r][c] === canvas[r][c]) {
-          correctCount++;
-        } else {
+        if (normalizeColor(pattern[r][c]) !== normalizeColor(canvas[r][c])) {
           newWrongCells.push({ row: r, col: c });
         }
       }
     }
 
-    const accuracy = correctCount / totalCells;
-    setFeedback({ correct: correctCount, total: totalCells });
-
-    if (accuracy >= 0.95) {
+    if (newWrongCells.length === 0) {
       // ── WIN ──────────────────────────────────────────────
       setWrongCells([]);
       setIsCompleted(true);
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      // peekPenalty: hard เท่านั้น — ครั้งที่ 2+ จะโดนหัก 1 attempt ต่อครั้ง
       const peekPenalty =
         config.difficulty === "hard" ? Math.max(0, peekCount - 1) : 0;
+      // totalAttempts ใช้ทั้งใน scoring และ GameResultModal ให้ตรงกัน
+      const totalAttempts = wrongCount + peekPenalty;
       const scoreResult = calculateGameScore({
         difficulty: config.difficulty,
-        attempts: wrongCount + peekPenalty,
+        attempts: totalAttempts,
         timeSeconds: elapsed,
       });
       const { stars } = getStarRating(scoreResult.totalScore);
@@ -254,53 +256,16 @@ export function GridColoringGame({
       }).catch(err => console.error("Failed to submit score", err));
 
       setTimeout(() => {
-        onGameEnd(scoreResult, wrongCount, elapsed);
+        // Bug #1 fix: ส่ง totalAttempts แทน wrongCount เพื่อให้ตรงกับคะแนนที่คำนวณ
+        onGameEnd(scoreResult, totalAttempts, elapsed);
       }, 800);
     } else {
-      // ── WRONG — show highlights, DON'T end the game yet ──
+      // ── WRONG — highlight errors, don't clear canvas ──
       setWrongCells(newWrongCells);
       setWrongCount((prev) => prev + 1);
       reduceLife();
-
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const peekPenalty = Math.max(0, peekCount - 1);
-
-      const scoreResult = calculateGameScore({
-        difficulty: config.difficulty,
-        attempts: wrongCount + peekPenalty + 1, // Add current wrong check
-        timeSeconds: elapsed,
-      });
-
-      setIsCompleted(true);
-      setTimeout(() => {
-        onGameEnd(scoreResult, wrongCount + 1, elapsed);
-      }, 300);
-      setShowWrongFeedback(true);
     }
-  }, [canvas, pattern, gridSize, isCompleted, wrongCount, config, onGameEnd, startTime, peekCount]);
-
-  // ── Dismiss wrong-feedback overlay (keep highlights) ─────
-  const handleDismissFeedback = useCallback(() => {
-    setShowWrongFeedback(false);
-  }, []);
-
-  // ── Give up (manual end from wrong-feedback overlay) ─────
-  const handleGiveUp = useCallback(() => {
-    setShowWrongFeedback(false);
-    setWrongCells([]);
-    setIsCompleted(true);
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    const peekPenalty =
-      config.difficulty === "hard" ? Math.max(0, peekCount - 1) : 0;
-    const scoreResult = calculateGameScore({
-      difficulty: config.difficulty,
-      attempts: wrongCount + peekPenalty + 1,
-      timeSeconds: elapsed,
-    });
-    setTimeout(() => {
-      onGameEnd(scoreResult, wrongCount + 1, elapsed);
-    }, 300);
-  }, [startTime, peekCount, wrongCount, config, onGameEnd]);
+  }, [canvas, pattern, gridSize, isCompleted, wrongCount, config, onGameEnd, startTime, peekCount, reduceLife]);
 
   // ── Reset canvas ──────────────────────────────────────────
   const handleReset = useCallback(() => {
@@ -308,9 +273,7 @@ export function GridColoringGame({
       Array(gridSize).fill(null)
     );
     setCanvas(emptyCanvas);
-    setFeedback(null);
     setWrongCells([]);
-    setShowWrongFeedback(false);
     setTimeout(() => {
       setHistory((prev) => {
         const newHistory = prev.slice(0, historyIndex + 1);
@@ -349,6 +312,7 @@ export function GridColoringGame({
             }
             isPeeking={isPeeking}
             showPeekButton={config.difficulty !== "easy" && !isMemorizing}
+            onSkip={handleSkipMemorize}
           />
         </div>
 
@@ -389,53 +353,10 @@ export function GridColoringGame({
           onSelectMode={setDrawingMode}
           onCheckAnswer={handleCheck}
           onReset={handleReset}
+          isCheckDisabled={isMemorizing || isPeeking}
         />
       </div>
 
-      {/* Wrong-feedback overlay */}
-      {showWrongFeedback && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-          <div
-            className="bg-[#1C2B32] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl text-center max-w-sm w-full"
-            style={{ animation: "wrongModalIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)" }}
-          >
-            <div className="text-5xl mb-3">😅</div>
-            <p className="font-extrabold text-white text-xl mb-2">ยังมีบางช่องผิดอยู่!</p>
-            <p className="text-sm text-white/60 mb-4">
-              แก้ช่องที่มีขอบ{" "}
-              <span className="text-red-400 font-bold">สีแดง</span>{" "}
-              ให้ถูกต้อง แล้วกดส่งใหม่อีกครั้งนะ 😊
-            </p>
-            <div className="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-2xl px-4 py-2 mb-6">
-              <span className="text-xl">❌</span>
-              <span className="text-base font-extrabold text-red-400">
-                ผิด {wrongCells.length} ช่อง
-              </span>
-            </div>
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={handleDismissFeedback}
-                className="w-full px-6 py-3 bg-[#AACE30] hover:bg-[#8BB422] active:scale-95 text-white font-extrabold rounded-2xl transition-all shadow-md text-base"
-              >
-                🖌️ กลับไปแก้ไข
-              </button>
-              <button
-                onClick={handleGiveUp}
-                className="w-full px-6 py-2.5 bg-white/5 hover:bg-white/10 active:scale-95 text-white/40 font-bold rounded-2xl transition-all text-sm"
-              >
-                ยอมแพ้ครั้งนี้
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes wrongModalIn {
-          from { opacity: 0; transform: scale(0.85) translateY(20px); }
-          to   { opacity: 1; transform: scale(1) translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }
