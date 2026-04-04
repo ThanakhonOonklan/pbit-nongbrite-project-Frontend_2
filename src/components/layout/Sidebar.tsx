@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import { useUserStore } from "@/store/user.store";
+import { useAuthStore } from "@/store/auth.store";
 import { Gender } from "@/services/auth.service";
 
 export interface SidebarProps {
@@ -16,6 +17,7 @@ export interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const pathname = usePathname();
   const { user, fetchProfile } = useUserStore();
+  const { isAuthenticated } = useAuthStore();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -26,12 +28,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     }
   }, [pathname, isLoading]);
 
-  // Fetch profile if not already loaded
+  // Fetch profile if not already loaded and user is authenticated
   React.useEffect(() => {
-    if (!user) {
+    if (isAuthenticated && !user) {
       fetchProfile().catch(console.error);
     }
-  }, [user, fetchProfile]);
+  }, [isAuthenticated, user, fetchProfile]);
 
   // Get gender label and color based on Gender enum
   const getGenderDetails = (gender?: Gender) => {
