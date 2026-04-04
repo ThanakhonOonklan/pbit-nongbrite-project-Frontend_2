@@ -461,7 +461,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
             }
           }
         }}
-        renderStepIndicator={({ step, currentStep, onStepClick }) => {
+        renderStepIndicator={({ step, currentStep, onStepClick, disableStepIndicators }) => {
           const icons = [
             <KeyRound key="1" className="w-4 h-4" />,
             <CircleUser key="2" className="w-4 h-4" />,
@@ -472,7 +472,9 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           return (
             <div
               onClick={() => onStepClick(step)}
-              className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 ${isActive || isComplete
+              className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 ${
+                disableStepIndicators ? "cursor-default" : "cursor-pointer"
+              } ${isActive || isComplete
                 ? "bg-[#1cb0f6] text-white"
                 : "bg-[#A1AEBE] text-white"
                 }`}

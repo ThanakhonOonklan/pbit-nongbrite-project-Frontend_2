@@ -30,6 +30,7 @@ export interface StepperProps extends HTMLAttributes<HTMLDivElement> {
     step: number;
     currentStep: number;
     onStepClick: (clicked: number) => void;
+    disableStepIndicators: boolean;
   }) => ReactNode;
 }
 
@@ -113,10 +114,13 @@ function Stepper({
                     renderStepIndicator({
                       step: stepNumber,
                       currentStep,
-                      onStepClick: (clicked) => {
-                        setDirection(clicked > currentStep ? 1 : -1);
-                        updateStep(clicked);
-                      },
+                      onStepClick: disableStepIndicators
+                        ? () => {}
+                        : (clicked) => {
+                            setDirection(clicked > currentStep ? 1 : -1);
+                            updateStep(clicked);
+                          },
+                      disableStepIndicators,
                     })
                   ) : (
                     <StepIndicator

@@ -216,7 +216,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
                 src={
                   user?.profile?.icon
                     ? `/icons/icon-Profile/${user.profile.icon}`
-                    : "/icons/misc/new_logo.png"
+                    : "/icons/icon-Profile/icon_P_Bit.png"
                 }
                 alt="User Avatar"
                 fill
