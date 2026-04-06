@@ -74,27 +74,11 @@ export const useUserStore = create<UserState>()(
       try {
         const response = await userService.getProfile();
         
-        // --- [FOR TEST: FORCE LIFE TO 5] ---
-        const userData = response.data;
-        if (userData && userData.life) {
-            userData.life.lifeCurrent = 5;
-        }
-        set({
-          user: userData,
-          isLoading: false,
-          error: null,
-        });
-        // ------------------------------------
-
-        // --- [ORIGINAL CODE] ---
-        /*
         set({
           user: response.data,
           isLoading: false,
           error: null,
         });
-        */
-        // -----------------------
       } catch (error: unknown) {
         let errorMessage = "ไม่สามารถโหลดข้อมูลโปรไฟล์ได้";
 
@@ -218,16 +202,6 @@ export const useUserStore = create<UserState>()(
       lastReduceTime = now;
 
       try {
-        // --- [FOR TEST: DO NOT REDUCE LIFE] ---
-        const currentUser = get().user;
-        if (currentUser) {
-          const decremented = 5; 
-          set({ user: { ...currentUser, life: { ...currentUser.life, lifeCurrent: decremented } } });
-        }
-        // --------------------------------------
-
-        // --- [ORIGINAL CODE] ---
-        /*
         const response = await userService.reduceLife();
         const currentUser = get().user;
         if (currentUser && response.data) {
@@ -243,8 +217,6 @@ export const useUserStore = create<UserState>()(
             set({ user: { ...currentUser, life: { ...currentUser.life, lifeCurrent: decremented } } });
           }
         }
-        */
-        // -----------------------
       } catch (error) {
         console.error("Failed to reduce life:", error);
       } finally {

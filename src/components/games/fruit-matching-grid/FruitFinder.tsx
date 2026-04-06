@@ -1,139 +1,117 @@
 "use client";
 
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaCheckCircle } from "react-icons/fa";
 
 interface FruitFinderProps {
   targets: string[];
-  userAnswers: string[];
-  answerResults: (boolean | null)[] | null;
+  targetCoordinates: string[];
+  currentIndex: number;
   disabled: boolean;
-  onAnswerChange: (index: number, value: string) => void;
-  onCheckAnswers: () => void;
 }
-
-// Fun pastel backgrounds for each target row
-const TARGET_BG_COLORS = [
-  "bg-pink-50",
-  "bg-yellow-50",
-  "bg-green-50",
-  "bg-blue-50",
-  "bg-purple-50",
-];
 
 export function FruitFinder({
   targets,
-  userAnswers,
-  answerResults,
+  targetCoordinates,
+  currentIndex,
   disabled,
-  onAnswerChange,
-  onCheckAnswers,
 }: FruitFinderProps) {
-  const allFilled = userAnswers.every((a) => a.trim().length > 0);
+  const currentCoord = targetCoordinates[currentIndex];
 
   return (
-    <div
-      className="rounded-3xl shadow-lg p-4 sm:p-6 w-full border-2 border-white/60"
-      style={{
-        background: "linear-gradient(135deg, #FFF3E0 0%, #FDE8FF 50%, #E0F7FA 100%)",
-      }}
-    >
-      {/* Header */}
-      <div className="flex items-center gap-2 mb-5">
-        <span className="text-2xl">✨</span>
-        <FaSearch className="w-4 h-4 text-purple-500" />
-        <h3 className="text-base sm:text-lg font-extrabold text-purple-700">
-          หาผลไม้เหล่านี้!
-        </h3>
-        <span className="text-2xl">🔍</span>
-      </div>
+    <div className="flex flex-col gap-4 w-full h-full">
 
-      {/* Target list */}
-      <div className="flex flex-col gap-1.5">
-        {targets.map((fruit, idx) => {
-          const result = answerResults ? answerResults[idx] : null;
-          const borderClass =
-            result === true
-              ? "border-green-400 bg-green-50 ring-2 ring-green-300 shadow-green-200"
-              : result === false
-                ? "border-red-400 bg-red-50 ring-2 ring-red-300 shadow-red-200"
-                : "border-purple-200 bg-white/80";
+      {/* ── Current Objective Card ── */}
+      {!disabled && currentCoord ? (
+        <div
+          className="rounded-[2rem] p-4 sm:p-5 flex flex-col items-center gap-3 shadow-lg"
+          style={{ background: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)", border: "4px solid #fef3c7" }}
+        >
+          <div className="flex items-center gap-2">
+            <FaSearch className="w-5 h-5 text-white animate-pulse drop-shadow-sm" />
+            <p className="text-white font-black text-sm sm:text-base uppercase tracking-wide drop-shadow-sm">จิ้มหาช่องนี้!</p>
+          </div>
 
-          const rowBg = TARGET_BG_COLORS[idx % TARGET_BG_COLORS.length];
+          {/* Big coordinate badge */}
+          <div className="bg-white rounded-2xl px-8 py-3 shadow-inner">
+            <span className="text-4xl sm:text-5xl font-black" style={{ color: "#d97706" }}>
+              {currentCoord}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div
+          className="rounded-2xl p-5 flex flex-col items-center gap-2 shadow-md"
+          style={{ background: "linear-gradient(135deg, #4ade80 0%, #86efac 100%)" }}
+        >
+          <span className="text-4xl">🎉</span>
+          <p className="text-white font-black text-lg">เก่งมากเลย!</p>
+          <p className="text-white/80 text-sm font-bold">หาครบทุกผลไม้แล้ว!</p>
+        </div>
+      )}
 
-          return (
-            <div
-              key={idx}
-              className={`flex items-center gap-2 ${rowBg} rounded-xl px-2 py-1.5 transition-all duration-200`}
-            >
-              {/* Index number */}
-              <span className="text-sm font-bold text-purple-400 w-5 text-center shrink-0">
-                {idx + 1}.
-              </span>
+      {/* ── Target list ── */}
+      <div className="flex flex-col gap-2.5 flex-1">
+        <p className="text-xs font-black uppercase text-slate-400 tracking-wider px-1">
+          รายการผลไม้ที่ต้องหา
+        </p>
 
-              {/* Fruit emoji */}
-              <span className="text-xl sm:text-2xl select-none w-8 text-center shrink-0 drop-shadow-sm">
-                {fruit}
-              </span>
+        <div className="flex flex-col gap-2">
+          {targets.map((fruit, idx) => {
+            const isFound = idx < currentIndex;
+            const isCurrent = idx === currentIndex && !disabled;
+            const coord = targetCoordinates[idx];
 
-              {/* Input */}
-              <input
-                type="text"
-                placeholder="เช่น C3"
-                maxLength={3}
-                value={userAnswers[idx]}
-                onChange={(e) =>
-                  onAnswerChange(idx, e.target.value.toUpperCase())
-                }
-                disabled={disabled}
-                className={`
-                  w-24 px-3 py-2 rounded-xl border-2 text-sm font-bold
-                  text-center text-slate-700 placeholder-purple-300
-                  outline-none transition-all duration-200
-                  focus:border-purple-400 focus:ring-2 focus:ring-purple-200
-                  disabled:opacity-50 disabled:cursor-not-allowed
-                  shadow-sm
-                  ${borderClass}
+            return (
+              <div
+                key={idx}
+                className={`flex items-center gap-3 rounded-2xl px-4 py-3 transition-all duration-300 border-2
+                  ${isFound
+                    ? "bg-green-50 border-green-200 opacity-80 scale-[0.97]"
+                    : isCurrent
+                    ? "bg-white border-[#f59e0b] shadow-[0_0_0_4px_rgba(245,158,11,0.2)] scale-[1.02]"
+                    : "bg-slate-50 border-slate-100 opacity-50"}
                 `}
-              />
+              >
+                {/* Step number */}
+                <div
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0
+                    ${isFound
+                      ? "bg-green-500 text-white"
+                      : isCurrent
+                      ? "text-white"
+                      : "bg-slate-200 text-slate-400"}
+                  `}
+                  style={isCurrent ? { background: "#f59e0b" } : {}}
+                >
+                  {isFound ? <FaCheckCircle className="w-3.5 h-3.5" /> : idx + 1}
+                </div>
 
-              {/* Feedback icon */}
-              {result === true && (
-                <span className="text-green-500 text-xl animate-bounce">✅</span>
-              )}
-              {result === false && (
-                <span className="text-red-500 text-xl animate-shake">❌</span>
-              )}
-            </div>
-          );
-        })}
+                {/* Coordinate */}
+                <span
+                  className={`text-xl font-black w-10 shrink-0
+                    ${isFound ? "text-green-600" : isCurrent ? "text-[#f59e0b]" : "text-slate-300"}
+                  `}
+                >
+                  {coord}
+                </span>
+
+                {/* Fruit emoji */}
+                <div className="ml-auto flex items-center justify-center w-9 h-9">
+                  {isFound ? (
+                    <span className="text-2xl scale-110 drop-shadow-sm">{fruit}</span>
+                  ) : isCurrent ? (
+                    <span className="text-2xl animate-pulse">{fruit}</span>
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                      <span className="text-slate-300 font-black text-sm">?</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-
-      {/* Check button */}
-      <button
-        onClick={onCheckAnswers}
-        disabled={!allFilled || disabled}
-        className={`
-          mt-5 w-full py-3.5 rounded-2xl text-white font-extrabold text-base
-          transition-all duration-200 shadow-lg
-          ${allFilled && !disabled
-            ? "bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 hover:from-pink-500 hover:via-purple-500 hover:to-blue-500 hover:shadow-xl hover:scale-[1.02] cursor-pointer active:scale-[0.98]"
-            : "bg-slate-300 cursor-not-allowed"
-          }
-        `}
-      >
-        🎯 ตรวจคำตอบ!
-      </button>
-
-      <style>{`
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-4px); }
-          75% { transform: translateX(4px); }
-        }
-        .animate-shake {
-          animation: shake 0.3s ease-in-out;
-        }
-      `}</style>
     </div>
   );
 }

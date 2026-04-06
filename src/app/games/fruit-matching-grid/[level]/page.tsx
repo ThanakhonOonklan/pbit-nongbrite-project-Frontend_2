@@ -82,20 +82,7 @@ export default function FruitMatchingGridGamePage({
 
   // ── Render ────────────────────────────────────────────────
   return (
-    <div
-      className="flex flex-col h-screen overflow-hidden"
-      style={{
-        background: "linear-gradient(135deg, #FFF5E4 0%, #FFE0F0 30%, #E8D5FF 60%, #D5F0FF 100%)",
-      }}
-    >
-      {/* Floating decorative emojis */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <span className="absolute text-4xl opacity-20 animate-bounce" style={{ top: "10%", left: "5%" }}>🍎</span>
-        <span className="absolute text-3xl opacity-15 animate-pulse" style={{ top: "20%", right: "8%" }}>🍊</span>
-        <span className="absolute text-5xl opacity-10 animate-bounce" style={{ bottom: "15%", left: "10%", animationDelay: "0.5s" }}>🍇</span>
-        <span className="absolute text-3xl opacity-15 animate-pulse" style={{ bottom: "25%", right: "12%", animationDelay: "1s" }}>🍓</span>
-        <span className="absolute text-4xl opacity-10 animate-bounce" style={{ top: "50%", left: "50%", animationDelay: "0.8s" }}>🍌</span>
-      </div>
+    <div className="flex flex-col h-screen overflow-hidden bg-[#131F24]">
 
       {/* Header */}
       <GameHeader
@@ -104,16 +91,6 @@ export default function FruitMatchingGridGamePage({
         characterSrc="/images/P_PingPing/pingping-01.svg"
       />
 
-      {/* Game title */}
-      <div className="text-center pt-4 sm:pt-6 pb-2 sm:pb-4 px-4 relative z-10">
-        <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-          🍎 Coordinate Crunch! 🍊
-        </h1>
-        <p className="text-sm text-purple-600/70 mt-1 font-medium">
-          หาพิกัดผลไม้ในตาราง {gridLabel} แล้วพิมพ์คำตอบ เช่น &apos;A3&apos; หรือ &apos;D5&apos;
-        </p>
-      </div>
-
       {/* Main game area — scrollable */}
       <div className="flex-1 overflow-auto px-4 sm:px-6 pb-6 relative z-10">
         <FruitMatchingGame
@@ -121,15 +98,16 @@ export default function FruitMatchingGridGamePage({
           config={config}
           onGameEnd={handleGameEnd}
         />
+
       </div>
 
       {/* Help button */}
       <HelpButton
         steps={[
-          { emoji: "👀", text: `ดูตารางผลไม้ ${gridLabel}` },
-          { emoji: "🔍", text: "หาผลไม้ที่กำหนดไว้ในตาราง" },
-          { emoji: "📝", text: "พิมพ์พิกัด เช่น A3 หรือ D5" },
-          { emoji: "✅", text: "กด ตรวจคำตอบ เพื่อเช็ค!" },
+          { emoji: "👀", text: `ดูพิกัดตัวอักษรและตัวเลขบนตาราง` },
+          { emoji: "📌", text: "ดูเป้าหมายพิกัดที่ต้องหาทางขวามือ" },
+          { emoji: "👆", text: "จิ้มที่ช่องนั้นเลย!" },
+          { emoji: "✅", text: "หาให้ครบทุกพิกัดเพื่อผ่านด่าน!" },
         ]}
       />
 
@@ -139,14 +117,10 @@ export default function FruitMatchingGridGamePage({
           type="hint"
           message={
             <>
-              🍎 Coordinate Crunch! 🍊
-              <br />
-              <span className="text-sm font-medium opacity-80 mt-2 block">
-                หาพิกัดผลไม้ในตารางให้ถูกต้องนะ!
-              </span>
+              หาพิกัดผลไม้ในตารางให้ถูกต้องนะ!
             </>
           }
-          subtitle="แตะเพื่อเริ่มเล่น ✨"
+          subtitle="แตะเพื่อเริ่มเล่น"
           imageSrc="/images/P_PingPing/pingping-01.svg"
           imageAlt="PingPing"
           autoDismissMs={0}
