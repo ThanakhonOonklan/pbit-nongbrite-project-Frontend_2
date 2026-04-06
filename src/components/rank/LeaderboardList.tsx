@@ -125,20 +125,14 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
                 {/* Student: Avatar + Name + Gender */}
                 <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                   <div className="relative w-8 h-8 sm:w-10 sm:h-10 min-w-[32px] sm:min-w-[40px] flex-shrink-0 z-10">
-                    {user.avatar ? (
                       <Image
-                        src={user.avatar}
+                        src={user.avatar || "/icons/icon-Profile/icon_P_Bit.png"}
                         alt={user.name}
                         fill
                         containerClassName="w-full h-full"
                         className="object-cover"
                         sizes="(max-width: 640px) 32px, 40px"
                       />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-[#1cb0f6] to-[#17a3e3] flex items-center justify-center text-white font-bold text-[14px] sm:text-[16px]">
-                        {user.name.charAt(0).toUpperCase()}
-                      </div>
-                    )}
                   </div>
                   <div className="flex-1 min-w-0 overflow-hidden">
                     <p className="text-[13px] sm:text-[13px] lg:text-[14px] font-normal text-gray-800 truncate">

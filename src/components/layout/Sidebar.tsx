@@ -6,6 +6,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
+import { useUserStore } from "@/store/user.store";
+import { useAuthStore } from "@/store/auth.store";
+import { Gender } from "@/services/auth.service";
 
 export interface SidebarProps {
   className?: string;
@@ -13,6 +16,8 @@ export interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const pathname = usePathname();
+  const { user, fetchProfile } = useUserStore();
+  const { isAuthenticated } = useAuthStore();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -23,14 +28,26 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     }
   }, [pathname, isLoading]);
 
-  const userGender = "เพศชาย";
+  // Fetch profile if not already loaded and user is authenticated
+  React.useEffect(() => {
+    if (isAuthenticated && !user) {
+      fetchProfile().catch(console.error);
+    }
+  }, [isAuthenticated, user, fetchProfile]);
 
-  // Get gender color based on gender value
-  const getGenderColor = (gender: string) => {
-    if (gender === "เพศชาย") return "text-[#1CB0F6]";
-    if (gender === "เพศหญิง") return "text-[#EC4899]";
-    return "text-[#344054]";
+  // Get gender label and color based on Gender enum
+  const getGenderDetails = (gender?: Gender) => {
+    switch (gender) {
+      case Gender.MALE:
+        return { label: "เพศชาย", color: "text-[#1CB0F6]" };
+      case Gender.FEMALE:
+        return { label: "เพศหญิง", color: "text-[#EC4899]" };
+      default:
+        return { label: "อื่นๆ", color: "text-[#344054]" };
+    }
   };
+
+  const genderDetails = getGenderDetails(user?.gender);
 
   const navItems = [
     {
@@ -195,9 +212,14 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               isCollapsed ? "justify-center" : "gap-3"
             )}
           >
+            {/* User Avatar */}
             <div className="relative w-[42px] h-[42px] flex-shrink-0">
               <Image
-                src="/icons/misc/new_logo.png"
+                src={
+                  user?.profile?.icon
+                    ? `/icons/icon-Profile/${user.profile.icon}`
+                    : "/icons/icon-Profile/icon_P_Bit.png"
+                }
                 alt="User Avatar"
                 fill
                 containerClassName="w-[42px] h-[42px] rounded-full bg-[#EAF8FF]"
@@ -208,15 +230,16 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             {!isCollapsed && (
               <div className="flex flex-col min-w-0">
                 <span className="text-[15px] font-bold text-[#242E39] leading-tight truncate">
-                  Thanakhon OonkIan
+                  {user?.profile?.playerName || user?.name || "กำลังโหลด..."}
                 </span>
-                <span className={cn("text-[14px] font-medium", getGenderColor(userGender))}>
-                  {userGender}
+                <span className={cn("text-[14px] font-medium", genderDetails.color)}>
+                  {genderDetails.label}
                 </span>
               </div>
             )}
           </div>
         </div>
+
       </aside>
 
       {/* Mobile Bottom Navigation */}
