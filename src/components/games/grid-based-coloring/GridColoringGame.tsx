@@ -7,7 +7,7 @@ import { ReferenceGrid } from "./ReferenceGrid";
 import { ColorPalette } from "./ColorPalette";
 import { type GridColoringLevelConfig } from "@/constants/games/grid-based-coloring-levels";
 import {
-  calculateGameScore,
+  calculateGridColoringScore,
   getStarRating,
   type ScoreResult,
 } from "@/utils/game-scoring";
@@ -241,7 +241,7 @@ export function GridColoringGame({
         config.difficulty === "hard" ? Math.max(0, peekCount - 1) : 0;
       // totalAttempts ใช้ทั้งใน scoring และ GameResultModal ให้ตรงกัน
       const totalAttempts = wrongCount + peekPenalty;
-      const scoreResult = calculateGameScore({
+      const scoreResult = calculateGridColoringScore({
         difficulty: config.difficulty,
         attempts: totalAttempts,
         timeSeconds: elapsed,

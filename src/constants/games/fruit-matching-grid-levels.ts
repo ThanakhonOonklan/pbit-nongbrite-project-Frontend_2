@@ -4,26 +4,24 @@
 import { type Difficulty } from "@/lib/games/types";
 
 // ── Item Constants (Fruits & Veggies) ────────────────────────
-const APPLE       = "🍎";
-const PEAR        = "🍐";
-const ORANGE      = "🍊";
-const GRAPE       = "🍇";
-const BANANA      = "🍌";
-const STRAWBERRY  = "🍓";
-const KIWI        = "🥝";
-const WATERMELON  = "🍉";
-const PEACH       = "🍑";
-const CHERRY      = "🍒";
-const PINEAPPLE   = "🍍";
-const BLUEBERRY   = "🫐";
-const MANGO       = "🥭";
-const LEMON       = "🍋";
-const MELON       = "🍈";
-const COCONUT     = "🥥";
-const AVOCADO     = "🥑";
-const TOMATO      = "🍅";
-
-export type GameMode = "find-coordinate" | "find-fruit";
+const APPLE = "🍎";
+const PEAR = "🍐";
+const ORANGE = "🍊";
+const GRAPE = "🍇";
+const BANANA = "🍌";
+const STRAWBERRY = "🍓";
+const KIWI = "🥝";
+const WATERMELON = "🍉";
+const PEACH = "🍑";
+const CHERRY = "🍒";
+const PINEAPPLE = "🍍";
+const BLUEBERRY = "🫐";
+const MANGO = "🥭";
+const LEMON = "🍋";
+const MELON = "🍈";
+const COCONUT = "🥥";
+const AVOCADO = "🥑";
+const TOMATO = "🍅";
 
 export interface FruitMatchingGridLevelConfig {
     level: number;
@@ -32,14 +30,21 @@ export interface FruitMatchingGridLevelConfig {
     gridSize: number;
     /** NxN grid of fruit emojis */
     grid: string[][];
-    /** Target fruits the player must find coordinates for */
-    targets: string[];
-    /** Game mode: find-coordinate (levels 1-3) | find-fruit (levels 4-9) */
-    mode: GameMode;
+    /** Number of random targets the player must answer */
+    targetCount: number;
 }
 
 // Row labels used for coordinate answers
 export const ROW_LABELS = ["A", "B", "C", "D", "E"] as const;
+
+// ── Fruit name map (shared across components) ────────────────
+export const FRUIT_NAMES: Record<string, string> = {
+    "🍎": "แอปเปิล", "🍊": "ส้ม", "🍇": "องุ่น", "🍌": "กล้วย",
+    "🍓": "สตรอว์เบอร์รี", "🥝": "กีวี", "🍉": "แตงโม", "🍑": "พีช",
+    "🍒": "เชอร์รี", "🍍": "สับปะรด", "🫐": "บลูเบอร์รี", "🥭": "มะม่วง",
+    "🍋": "เลมอน", "🍈": "เมลอน", "🥥": "มะพร้าว",
+    "🍐": "ลูกแพร์", "🥑": "อะโวคาโด", "🍅": "มะเขือเทศ",
+};
 
 /**
  * Given a grid and a target emoji, returns the coordinate string e.g. "A3"
@@ -70,35 +75,35 @@ export const fruitMatchingGridLevels: Record<number, FruitMatchingGridLevelConfi
 
     // ─── Level 1 — easy ──────────────────────────────────────
     1: {
-        level: 1, difficulty: "easy", gridSize: 3, mode: "find-coordinate",
+        level: 1, difficulty: "easy", gridSize: 3,
         grid: [
-            [APPLE,      PINEAPPLE,   PEAR],
-            [ORANGE,     GRAPE,       BANANA],
-            [STRAWBERRY, KIWI,        WATERMELON],
+            [APPLE, PINEAPPLE, PEAR],
+            [ORANGE, GRAPE, BANANA],
+            [STRAWBERRY, KIWI, WATERMELON],
         ],
-        targets: [STRAWBERRY, PINEAPPLE, WATERMELON],
+        targetCount: 3,
     },
 
     // ─── Level 2 — easy ──────────────────────────────────────
     2: {
-        level: 2, difficulty: "easy", gridSize: 3, mode: "find-coordinate",
+        level: 2, difficulty: "easy", gridSize: 3,
         grid: [
-            [PEACH,      CHERRY,      PINEAPPLE],
-            [BLUEBERRY,  MANGO,       LEMON],
-            [MELON,      COCONUT,     AVOCADO],
+            [PEACH, CHERRY, PINEAPPLE],
+            [BLUEBERRY, MANGO, LEMON],
+            [MELON, COCONUT, AVOCADO],
         ],
-        targets: [BLUEBERRY, MANGO, AVOCADO],
+        targetCount: 3,
     },
 
     // ─── Level 3 — easy ──────────────────────────────────────
     3: {
-        level: 3, difficulty: "easy", gridSize: 3, mode: "find-coordinate",
+        level: 3, difficulty: "easy", gridSize: 3,
         grid: [
-            [TOMATO,     COCONUT,     APPLE],
-            [BANANA,     BLUEBERRY,   PEACH],
-            [WATERMELON, CHERRY,      LEMON],
+            [TOMATO, COCONUT, APPLE],
+            [BANANA, BLUEBERRY, PEACH],
+            [WATERMELON, CHERRY, LEMON],
         ],
-        targets: [COCONUT, APPLE, BANANA],
+        targetCount: 3,
     },
 
     // ═══════════════════════════════════════════════════════════
@@ -107,38 +112,38 @@ export const fruitMatchingGridLevels: Record<number, FruitMatchingGridLevelConfi
 
     // ─── Level 4 — normal ────────────────────────────────────
     4: {
-        level: 4, difficulty: "normal", gridSize: 4, mode: "find-fruit",
+        level: 4, difficulty: "normal", gridSize: 4,
         grid: [
-            [APPLE,       PEAR,        GRAPE,      ORANGE],
-            [BANANA,      STRAWBERRY,  KIWI,       WATERMELON],
-            [CHERRY,      PINEAPPLE,   BLUEBERRY,  MANGO],
-            [LEMON,       MELON,       COCONUT,    AVOCADO],
+            [APPLE, PEAR, GRAPE, ORANGE],
+            [BANANA, STRAWBERRY, KIWI, WATERMELON],
+            [CHERRY, PINEAPPLE, BLUEBERRY, MANGO],
+            [LEMON, MELON, COCONUT, AVOCADO],
         ],
-        targets: [BLUEBERRY, MANGO, BANANA, WATERMELON],
+        targetCount: 4,
     },
 
     // ─── Level 5 — normal ────────────────────────────────────
     5: {
-        level: 5, difficulty: "normal", gridSize: 4, mode: "find-fruit",
+        level: 5, difficulty: "normal", gridSize: 4,
         grid: [
-            [COCONUT,     AVOCADO,     TOMATO,      PEAR],
-            [APPLE,       GRAPE,       BANANA,      KIWI],
-            [STRAWBERRY,  WATERMELON,  PEACH,       CHERRY],
-            [PINEAPPLE,   MANGO,       LEMON,       MELON],
+            [COCONUT, AVOCADO, TOMATO, PEAR],
+            [APPLE, GRAPE, BANANA, KIWI],
+            [STRAWBERRY, WATERMELON, PEACH, CHERRY],
+            [PINEAPPLE, MANGO, LEMON, MELON],
         ],
-        targets: [TOMATO, PEACH, MANGO, AVOCADO],
+        targetCount: 4,
     },
 
     // ─── Level 6 — normal ────────────────────────────────────
     6: {
-        level: 6, difficulty: "normal", gridSize: 4, mode: "find-fruit",
+        level: 6, difficulty: "normal", gridSize: 4,
         grid: [
-            [MELON,       BLUEBERRY,   PEAR,        ORANGE],
-            [TOMATO,      KIWI,        APPLE,       STRAWBERRY],
-            [CHERRY,      MANGO,       PINEAPPLE,   AVOCADO],
-            [COCONUT,     GRAPE,       WATERMELON,  PEACH],
+            [MELON, BLUEBERRY, PEAR, ORANGE],
+            [TOMATO, KIWI, APPLE, STRAWBERRY],
+            [CHERRY, MANGO, PINEAPPLE, AVOCADO],
+            [COCONUT, GRAPE, WATERMELON, PEACH],
         ],
-        targets: [KIWI, PINEAPPLE, WATERMELON, MELON],
+        targetCount: 4,
     },
 
     // ═══════════════════════════════════════════════════════════
@@ -147,40 +152,40 @@ export const fruitMatchingGridLevels: Record<number, FruitMatchingGridLevelConfi
 
     // ─── Level 7 — hard ──────────────────────────────────────
     7: {
-        level: 7, difficulty: "hard", gridSize: 5, mode: "find-fruit",
+        level: 7, difficulty: "hard", gridSize: 5,
         grid: [
-            [APPLE,       TOMATO,      PEAR,       ORANGE,     GRAPE],
-            [BANANA,      STRAWBERRY,  KIWI,       WATERMELON, PEACH],
-            [CHERRY,      PINEAPPLE,   BLUEBERRY,  MANGO,      LEMON],
-            [MELON,       COCONUT,     AVOCADO,    APPLE,      TOMATO],
-            [PEAR,        ORANGE,      GRAPE,      BANANA,     STRAWBERRY],
+            [APPLE, TOMATO, PEAR, ORANGE, MANGO],
+            [BANANA, STRAWBERRY, KIWI, WATERMELON, PEACH],
+            [CHERRY, PINEAPPLE, BLUEBERRY, LEMON, MELON],
+            [COCONUT, AVOCADO, APPLE, TOMATO, PEAR],
+            [ORANGE, BANANA, KIWI, WATERMELON, GRAPE],
         ],
-        targets: [BLUEBERRY, STRAWBERRY, CHERRY, APPLE, TOMATO],
+        targetCount: 5,
     },
 
     // ─── Level 8 — hard ──────────────────────────────────────
     8: {
-        level: 8, difficulty: "hard", gridSize: 5, mode: "find-fruit",
+        level: 8, difficulty: "hard", gridSize: 5,
         grid: [
-            [AVOCADO,     TOMATO,      MELON,      COCONUT,    APPLE],
-            [LEMON,       MANGO,       BLUEBERRY,  PINEAPPLE,  PEAR],
-            [CHERRY,      PEACH,       WATERMELON, KIWI,       ORANGE],
-            [STRAWBERRY,  BANANA,      GRAPE,      APPLE,      TOMATO],
-            [MELON,       COCONUT,     AVOCADO,    LEMON,      MANGO],
+            [AVOCADO, TOMATO, MELON, COCONUT, BANANA],
+            [LEMON, MANGO, BLUEBERRY, PINEAPPLE, PEAR],
+            [CHERRY, PEACH, WATERMELON, KIWI, ORANGE],
+            [STRAWBERRY, CHERRY, PEACH, APPLE, TOMATO],
+            [MELON, COCONUT, LEMON, PINEAPPLE, GRAPE],
         ],
-        targets: [TOMATO, MANGO, PEACH, ORANGE, AVOCADO],
+        targetCount: 5,
     },
 
     // ─── Level 9 — hard ──────────────────────────────────────
     9: {
-        level: 9, difficulty: "hard", gridSize: 5, mode: "find-fruit",
+        level: 9, difficulty: "hard", gridSize: 5,
         grid: [
-            [BLUEBERRY,   BANANA,      MELON,      APPLE,      KIWI],
-            [STRAWBERRY,  MANGO,       ORANGE,     AVOCADO,    TOMATO],
-            [PEAR,        WATERMELON,  LEMON,      GRAPE,      CHERRY],
-            [PINEAPPLE,   PEACH,       COCONUT,    BLUEBERRY,  BANANA],
-            [MELON,       APPLE,       KIWI,       STRAWBERRY, MANGO],
+            [BLUEBERRY, BANANA, MELON, KIWI, STRAWBERRY],
+            [PEACH, MANGO, ORANGE, AVOCADO, TOMATO],
+            [PEAR, WATERMELON, LEMON, CHERRY, PINEAPPLE],
+            [COCONUT, BANANA, MELON, APPLE, KIWI],
+            [ORANGE, AVOCADO, TOMATO, PEAR, GRAPE],
         ],
-        targets: [WATERMELON, MANGO, LEMON, APPLE, TOMATO],
+        targetCount: 5,
     },
 };

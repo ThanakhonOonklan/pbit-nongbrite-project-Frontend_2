@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+
 import {
   chapterService,
   type Chapter,
@@ -18,7 +18,6 @@ interface ChapterState {
 }
 
 export const useChapterStore = create<ChapterState>()(
-  persist(
     (set, get) => ({
       chapters: [],
       isLoading: false,
@@ -109,15 +108,6 @@ export const useChapterStore = create<ChapterState>()(
       setChapters: (chapters: Chapter[]) => {
         set({ chapters });
       },
-    }),
-    {
-      name: "chapter-storage",
-      // FIX: Don't persist chapters - always fetch fresh data for realtime
-      partialize: (state) => ({
-        // Don't persist chapters or lastFetched - always fetch fresh data
-        // This ensures data is always up-to-date with the API
-      }),
-    }
-  )
+    })
 );
 
