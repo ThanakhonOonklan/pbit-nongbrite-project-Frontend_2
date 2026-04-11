@@ -59,7 +59,6 @@ export const userService = {
     return response.data;
   },
 
-  //comment for test reduce life najaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   reduceLife: async (): Promise<ReduceLifeResponse> => {
     const response = await apiClient.put<ReduceLifeResponse>('/users/lives');
     return response.data;

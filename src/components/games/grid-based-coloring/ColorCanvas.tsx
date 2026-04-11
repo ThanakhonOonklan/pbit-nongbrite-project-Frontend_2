@@ -4,7 +4,6 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { Undo2, Redo2 } from "lucide-react";
 
 import { type DrawingMode } from "./GridColoringGame";
-import { colorNameMap } from "./ColorPalette";
 
 interface ColorCanvasProps {
   gridSize: number;
@@ -178,12 +177,7 @@ export function ColorCanvas({
                     '--cell-color': cellColor || "#ffffff",
                   } as React.CSSProperties}
                 >
-                  {cellColor && (
-                    <span className="absolute -top-7 left-1/2 -translate-x-1/2 text-[10px] font-bold
-                                  text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-white px-2 py-0.5 rounded shadow-sm border border-gray-100 pointer-events-none">
-                      {colorNameMap[cellColor.toUpperCase()] || colorNameMap[cellColor] || cellColor}
-                    </span>
-                  )}
+                  {/* Removed color tooltip on hover */}
                 </div>
               );
             })
@@ -192,24 +186,18 @@ export function ColorCanvas({
       </div>
 
       <style>{`
-                @keyframes canvasGlow {
-                    0%, 100% { transform: translate(0, 0); }
-                    50% { transform: translate(15px, 15px); }
-                }
-                .canvas-glow { animation: canvasGlow 8s ease-in-out infinite; }
-                .cell-painted { animation: cellPop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-                @keyframes cellPop {
-                    0% { transform: scale(0.9); }
-                    50% { transform: scale(1.02); z-index: 20; }
-                    100% { transform: scale(1); z-index: 10; }
+                .cell-painted { animation: cellGrow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+                @keyframes cellGrow {
+                    0% { transform: scale(0.4); opacity: 0.5; }
+                    100% { transform: scale(1); opacity: 1; z-index: 10; }
                 }
                 .cell-interactive { background-color: var(--cell-color); }
 
                 /* 🔴 Wrong cell highlight */
                 .cell-wrong {
                     box-shadow: inset 0 0 0 3px #ef4444 !important;
-                    animation: cellPop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                               wrongPulse 1.2s ease-in-out infinite 0.2s !important;
+                    animation: cellGrow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                               wrongPulse 1.2s ease-in-out infinite 0.3s !important;
                     z-index: 5;
                 }
                 @keyframes wrongPulse {

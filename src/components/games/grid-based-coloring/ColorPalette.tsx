@@ -12,6 +12,7 @@ interface ColorPaletteProps {
   onSelectMode: (mode: DrawingMode) => void;
   onCheckAnswer?: () => void;
   onReset?: () => void;
+  isCheckDisabled?: boolean;
 }
 
 export const colorNameMap: Record<string, string> = {
@@ -46,6 +47,7 @@ export function ColorPalette({
   onSelectMode,
   onCheckAnswer,
   onReset,
+  isCheckDisabled = false,
 }: ColorPaletteProps) {
   const displayPalette = palette.reduce((acc: string[], curr: string) => {
     if (!acc.some((c) => c.toLowerCase() === curr.toLowerCase())) acc.push(curr);
@@ -119,23 +121,26 @@ export function ColorPalette({
 
       {/* ── Submit ── */}
       {onCheckAnswer && (
-        <TiltButton
-          onClick={onCheckAnswer}
-          variant="solid"
-          width={140}
-          height={46}
-          elevation={3}
-          pressInset={4}
-          radius={12}
-          motion={100}
-          surfaceColor="#FFAC3E"
-          sideColor="#D98A1E"
-          textColor="#ffffff"
-          borderColor="transparent"
-          borderWidth={0}
-        >
-          ตรวจคำตอบ
-        </TiltButton>
+        <div className={isCheckDisabled ? "opacity-50 cursor-not-allowed grayscale" : ""}>
+          <TiltButton
+            onClick={isCheckDisabled ? undefined : onCheckAnswer}
+            variant="solid"
+            width={140}
+            height={46}
+            elevation={isCheckDisabled ? 0 : 3}
+            pressInset={isCheckDisabled ? 0 : 4}
+            radius={12}
+            motion={isCheckDisabled ? 0 : 100}
+            surfaceColor={isCheckDisabled ? "#9CA3AF" : "#FFAC3E"}
+            sideColor={isCheckDisabled ? "#6B7280" : "#D98A1E"}
+            textColor="#ffffff"
+            borderColor="transparent"
+            borderWidth={0}
+            style={{ pointerEvents: isCheckDisabled ? 'none' : 'auto' }}
+          >
+            ตรวจคำตอบ
+          </TiltButton>
+        </div>
       )}
     </div>
   );

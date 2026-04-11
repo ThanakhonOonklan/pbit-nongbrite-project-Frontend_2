@@ -73,6 +73,7 @@ export const useUserStore = create<UserState>()(
       set({ isLoading: true, error: null });
       try {
         const response = await userService.getProfile();
+        
         set({
           user: response.data,
           isLoading: false,
