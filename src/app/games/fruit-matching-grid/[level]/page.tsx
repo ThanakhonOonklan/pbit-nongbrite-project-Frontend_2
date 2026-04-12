@@ -143,8 +143,6 @@ export default function FruitMatchingGridGamePage({
       {/* Out of Lives Modal */}
       {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
 
-      <style>{`
-      `}</style>
     </div>
   );
 }

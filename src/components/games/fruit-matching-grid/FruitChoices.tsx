@@ -62,6 +62,8 @@ export function FruitChoices({
                 ? "bg-gradient-to-b from-green-50 to-green-100 border-green-400 ring-4 ring-green-200 scale-105 shadow-[0_6px_0_0_#4ade80]"
                 : isShaking
                 ? "bg-gradient-to-b from-red-50 to-red-100 border-red-400 shadow-[0_6px_0_0_#f87171]"
+                : disabled
+                ? "bg-gradient-to-b from-white to-[#fff8f0] border-[#fed7aa] shadow-[0_6px_0_0_#fdba74] opacity-60 cursor-default"
                 : "bg-gradient-to-b from-white to-[#fff8f0] border-[#fed7aa] shadow-[0_6px_0_0_#fdba74] hover:-translate-y-1 hover:shadow-[0_8px_0_0_#fb923c] cursor-pointer active:translate-y-[6px] active:shadow-none"}
               ${isShaking ? "animate-[shake_0.5s_ease-in-out]" : ""}
             `}
