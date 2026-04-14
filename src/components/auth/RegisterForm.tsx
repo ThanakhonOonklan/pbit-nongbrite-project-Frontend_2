@@ -13,10 +13,12 @@ import { useAuthStore } from "@/store/auth.store";
 import { Gender } from "@/services/auth.service";
 import { X, KeyRound, CircleUser, Sparkles } from "lucide-react";
 import { Fireworks } from "@/components/common/Fireworks";
+import { useTranslations } from "next-intl";
 
 export interface RegisterFormProps { }
 
 const RegisterForm: React.FC<RegisterFormProps> = () => {
+  const t = useTranslations("Auth");
   const {
     registerStep1,
     registerStep2,
@@ -89,18 +91,18 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   // Validation functions - return error message or null
   const validateUsername = (nameValue: string): string | null => {
     if (!nameValue.trim()) {
-      const msg = "กรุณากรอกชื่อผู้ใช้";
+      const msg = t("register.usernameRequired");
       setUsernameError(msg);
       return msg;
     }
     if (nameValue.trim().length < 2) {
-      const msg = "ชื่อต้องมีอย่างน้อย 2 ตัวอักษร";
+      const msg = t("register.usernameMin");
       setUsernameError(msg);
       return msg;
     }
     const englishRegex = /^[a-zA-Z\s]+$/;
     if (!englishRegex.test(nameValue.trim())) {
-      const msg = "กรุณากรอกเฉพาะตัวอักษรภาษาอังกฤษ";
+      const msg = t("register.usernameEnglish");
       setUsernameError(msg);
       return msg;
     }
@@ -110,13 +112,13 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
   const validateEmail = (emailValue: string): string | null => {
     if (!emailValue.trim()) {
-      const msg = "กรุณากรอกอีเมล";
+      const msg = t("register.emailRequired");
       setEmailError(msg);
       return msg;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailValue)) {
-      const msg = "รูปแบบอีเมลไม่ถูกต้อง";
+      const msg = t("register.emailInvalid");
       setEmailError(msg);
       return msg;
     }
@@ -126,12 +128,12 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
   const validatePassword = (passwordValue: string): string | null => {
     if (!passwordValue.trim()) {
-      const msg = "กรุณากรอกรหัสผ่าน";
+      const msg = t("register.passwordRequired");
       setPasswordError(msg);
       return msg;
     }
     if (passwordValue.length < 6) {
-      const msg = "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร";
+      const msg = t("register.passwordMin");
       setPasswordError(msg);
       return msg;
     }
@@ -144,12 +146,12 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
     confirmPasswordValue: string
   ): string | null => {
     if (!confirmPasswordValue.trim()) {
-      const msg = "กรุณายืนยันรหัสผ่าน";
+      const msg = t("register.confirmPasswordRequired");
       setConfirmPasswordError(msg);
       return msg;
     }
     if (passwordValue !== confirmPasswordValue) {
-      const msg = "รหัสผ่านไม่ตรงกัน";
+      const msg = t("register.passwordMismatch");
       setConfirmPasswordError(msg);
       return msg;
     }
@@ -160,7 +162,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   const validateStep1 = (): boolean => {
     // If all fields are empty, show a single message
     if (!username.trim() && !email.trim() && !password.trim() && !confirmPassword.trim()) {
-      setValidationMessage("โปรดกรอกข้อมูลให้ครบถ้วน");
+      setValidationMessage(t("register.fillAll"));
       return false;
     }
     const nameMsg = validateUsername(username);
@@ -178,33 +180,33 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
   const validateStep2 = (): boolean => {
     // If all fields are empty, show a single message
     if (!displayName.trim() && !age.trim() && !gender) {
-      setValidationMessage("โปรดกรอกข้อมูลให้ครบถ้วน");
+      setValidationMessage(t("register.fillAll"));
       return false;
     }
     let isValid = true;
     const msgs: string[] = [];
 
     if (!displayName.trim()) {
-      setNameError("กรุณากรอกชื่อที่แสดง");
-      msgs.push("กรุณากรอกชื่อที่แสดง");
+      setNameError(t("register.displayNameRequired"));
+      msgs.push(t("register.displayNameRequired"));
       isValid = false;
     } else if (displayName.trim().length < 2) {
-      setNameError("ชื่อต้องมีอย่างน้อย 2 ตัวอักษร");
-      msgs.push("ชื่อต้องมีอย่างน้อย 2 ตัวอักษร");
+      setNameError(t("register.displayNameMin"));
+      msgs.push(t("register.displayNameMin"));
       isValid = false;
     } else {
       setNameError(undefined);
     }
 
     if (!age.trim()) {
-      setAgeError("กรุณากรอกอายุ");
-      msgs.push("กรุณากรอกอายุ");
+      setAgeError(t("register.ageRequired"));
+      msgs.push(t("register.ageRequired"));
       isValid = false;
     } else {
       const ageNum = parseInt(age, 10);
       if (isNaN(ageNum) || ageNum < 0 || ageNum > 100) {
-        setAgeError("อายุต้องอยู่ระหว่าง 0-100");
-        msgs.push("อายุต้องอยู่ระหว่าง 0-100");
+        setAgeError(t("register.ageInvalid"));
+        msgs.push(t("register.ageInvalid"));
         isValid = false;
       } else {
         setAgeError(undefined);
@@ -212,8 +214,8 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
     }
 
     if (!gender) {
-      setGenderError("กรุณาเลือกเพศ");
-      msgs.push("กรุณาเลือกเพศ");
+      setGenderError(t("register.genderRequired"));
+      msgs.push(t("register.genderRequired"));
       isValid = false;
     } else {
       setGenderError(undefined);
@@ -397,7 +399,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
   return (
     <div className="w-full ">
-      <LoadingOverlay isLoading={isLoading} message="กำลังดำเนินการ..." />
+      <LoadingOverlay isLoading={isLoading} message={t("register.loading")} />
       <Stepper
         key={stepperStep}
         initialStep={stepperStep}
@@ -424,19 +426,19 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
             }
           }
         }}
-        backButtonText="ย้อนกลับ"
-        nextButtonText="ถัดไป"
-        completeButtonText="เสร็จสิ้น"
+        backButtonText={t("stepper.back")}
+        nextButtonText={t("stepper.next")}
+        completeButtonText={t("stepper.complete")}
         stepContainerClassName="px-5"
         footerClassName="px-0"
         footerLeftContent={
           <p className="text-[13px] md:text-[14px] text-gray-600">
-            มีบัญชีอยู่แล้ว?{" "}
+            {t("register.hasAccount")}{" "}
             <Link
               href="/login"
               className="text-[#1cb0f6] font-semibold hover:text-[#17a3e3] transition-colors underline"
             >
-              เข้าสู่ระบบ
+              {t("register.loginText")}
             </Link>
           </p>
         }
@@ -500,7 +502,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           </div>
 
           <h2 className=" font-bold text-gray-800 mb-2 text-center">
-            สร้างบัญชี
+            {t("register.title")}
           </h2>
 
 
@@ -508,9 +510,9 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           <div className="relative z-10 flex flex-col gap-5 md:gap-6 w-full items-center mb-4">
             <div className="flex flex-col gap-5 md:gap-6 w-full max-w-[460px]">
               <InputField
-                label="ชื่อผู้ใช้ (ภาษาอังกฤษ)"
+                label={t("register.usernameLabel")}
                 type="text"
-                placeholder="Username"
+                placeholder={t("login.usernameLabel")}
                 value={username}
                 error={usernameError}
                 showErrorText={false}
@@ -521,7 +523,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
               />
 
               <InputField
-                label="อีเมล (example@gmail.com)"
+                label={t("register.emailLabel")}
                 type="email"
                 placeholder="example@gmail.com"
                 value={email}
@@ -533,8 +535,8 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
               />
 
               <PasswordField
-                label="รหัสผ่าน (อย่างน้อย 6 ตัวอักษร)"
-                placeholder="รหัสผ่าน"
+                label={t("register.passwordLabel")}
+                placeholder={t("login.passwordLabel")}
                 value={password}
                 error={passwordError}
                 showErrorText={false}
@@ -544,8 +546,8 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
               />
 
               <PasswordField
-                label="ยืนยันรหัสผ่าน "
-                placeholder="ยืนยันรหัสผ่าน"
+                label={t("register.confirmPasswordLabel")}
+                placeholder={t("forgetPassword.confirmPasswordLabel")}
                 value={confirmPassword}
                 error={confirmPasswordError}
                 showErrorText={false}
@@ -560,7 +562,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
         {/* Step 2: Fill Information */}
         <Step>
           <p className="text-[20px] md:text-[22px] lg:text-[24px] leading-tight font-bold text-center mt-4 md:mt-6 mb-6 md:mb-8">
-            <span className="text-gray-800">ยินดีต้อนรับสู่ </span>
+            <span className="text-gray-800">{t("register.welcome")} </span>
             <span className="text-[#1cb0f6]">P&apos;Bit </span>
             <span className="text-[#ffd300]">Nong Brite</span>
           </p>
@@ -569,9 +571,9 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
           <div className="relative z-10 flex flex-col gap-5 md:gap-6 w-full items-center mb-4">
             <div className="w-full max-w-[460px] flex flex-col gap-5 md:gap-6">
               <InputField
-                label="ชื่อที่แสดง"
+                label={t("register.displayNameLabel")}
                 type="text"
-                placeholder="ชื่อที่แสดง"
+                placeholder={t("register.displayNameLabel")}
                 value={displayName}
                 error={nameError}
                 showErrorText={false}
@@ -582,9 +584,9 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
               />
 
               <InputField
-                label="อายุ"
+                label={t("register.ageLabel")}
                 type="number"
-                placeholder="กรุณากรอกอายุ"
+                placeholder={t("register.ageRequired")}
                 value={age}
                 error={ageError}
                 showErrorText={false}
@@ -598,7 +600,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
               {/* Gender Label */}
               <div className="flex flex-col gap-2 w-full">
                 <label className="text-[12px] leading-[18px] font-semibold text-gray-700">
-                  เพศ
+                  {t("register.genderLabel")}
                 </label>
 
                 {/* Gender Buttons */}
@@ -608,14 +610,14 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
                     selected={gender === "male"}
                     onSelect={() => handleGenderSelect("male")}
                   >
-                    เพศชาย
+                    {t("register.genderMale")}
                   </SocialButton>
                   <SocialButton
                     variant={gender === "female" ? "female" : "default"}
                     selected={gender === "female"}
                     onSelect={() => handleGenderSelect("female")}
                   >
-                    เพศหญิง
+                    {t("register.genderFemale")}
                   </SocialButton>
                   <SocialButton
                     variant={
@@ -624,7 +626,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
                     selected={gender === "not-specified"}
                     onSelect={() => handleGenderSelect("not-specified")}
                   >
-                    ไม่ระบุตัวตน
+                    {t("register.genderOther")}
                   </SocialButton>
                 </div>
               </div>
@@ -653,12 +655,12 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 
           {/* Title */}
           <p className="text-[22px] md:text-[24px] leading-tight font-bold text-gray-800 text-center w-full mt-4">
-            เสร็จสิ้น!
+            {t("register.finishTitle")}
           </p>
 
           {/* Description */}
           <p className="text-[13px] md:text-[14px] leading-tight font-semibold text-gray-500 text-center w-full mt-2">
-            ไปเริ่มเรียนรู้กันเลย!
+            {t("register.finishSubtitle")}
           </p>
         </Step>
       </Stepper>

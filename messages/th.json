@@ -89,5 +89,78 @@
       "description": "เข้าร่วมกับผู้เรียนหลายพันคนและเริ่มต้นการเดินทางสู่การเรียนรู้ที่สนุกสนาน",
       "startNow": "เริ่มเรียนเลยตอนนี้"
     }
+  },
+  "Auth": {
+    "login": {
+      "title": "เข้าสู่ระบบ",
+      "loading": "กำลังเข้าสู่ระบบ...",
+      "usernameLabel": "ชื่อผู้ใช้",
+      "passwordLabel": "รหัสผ่าน",
+      "usernameRequired": "กรุณากรอกชื่อผู้ใช้",
+      "passwordRequired": "กรุณากรอกรหัสผ่าน",
+      "forgotPassword": "ลืมรหัสผ่าน?",
+      "noAccount": "ยังไม่มีบัญชี?",
+      "createAccount": "สร้างบัญชี"
+    },
+    "register": {
+      "title": "สร้างบัญชี",
+      "loading": "กำลังดำเนินการ...",
+      "usernameLabel": "ชื่อผู้ใช้ (ภาษาอังกฤษ)",
+      "emailLabel": "อีเมล (example@gmail.com)",
+      "passwordLabel": "รหัสผ่าน (อย่างน้อย 6 ตัวอักษร)",
+      "confirmPasswordLabel": "ยืนยันรหัสผ่าน ",
+      "welcome": "ยินดีต้อนรับสู่ ",
+      "displayNameLabel": "ชื่อที่แสดง",
+      "ageLabel": "อายุ",
+      "genderLabel": "เพศ",
+      "finishTitle": "เสร็จสิ้น!",
+      "finishSubtitle": "ไปเริ่มเรียนรู้กันเลย!",
+      "hasAccount": "มีบัญชีอยู่แล้ว?",
+      "loginText": "เข้าสู่ระบบ",
+      "usernameRequired": "กรุณากรอกชื่อผู้ใช้",
+      "usernameMin": "ชื่อต้องมีอย่างน้อย 2 ตัวอักษร",
+      "usernameEnglish": "กรุณากรอกเฉพาะตัวอักษรภาษาอังกฤษ",
+      "emailRequired": "กรุณากรอกอีเมล",
+      "emailInvalid": "รูปแบบอีเมลไม่ถูกต้อง",
+      "passwordRequired": "กรุณากรอกรหัสผ่าน",
+      "passwordMin": "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร",
+      "confirmPasswordRequired": "กรุณายืนยันรหัสผ่าน",
+      "passwordMismatch": "รหัสผ่านไม่ตรงกัน",
+      "fillAll": "โปรดกรอกข้อมูลให้ครบถ้วน",
+      "displayNameRequired": "กรุณากรอกชื่อที่แสดง",
+      "displayNameMin": "ชื่อต้องมีอย่างน้อย 2 ตัวอักษร",
+      "ageRequired": "กรุณากรอกอายุ",
+      "ageInvalid": "อายุต้องอยู่ระหว่าง 0-100",
+      "genderRequired": "กรุณาเลือกเพศ",
+      "genderMale": "เพศชาย",
+      "genderFemale": "เพศหญิง",
+      "genderOther": "ไม่ระบุตัวตน"
+    },
+    "forgetPassword": {
+      "title1": "ลืมรหัสผ่าน?",
+      "subtitle1": "กรุณากรอกอีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน",
+      "emailLabel": "อีเมล",
+      "emailPlaceholder": "กรุณากรอกอีเมลของคุณ",
+      "title2": "ตรวจสอบอีเมลของคุณ",
+      "subtitle2_1": "เราได้ส่งลิงก์รีเซ็ตไปที่ Email ของคุณเรียบร้อย",
+      "subtitle2_2": "โปรดป้อนรหัส 6 หลักที่ระบุไว้ในอีเมล",
+      "noEmail": "ยังไม่ได้รับอีเมลใช่ไหม?",
+      "resendWait": "ส่งอีเมลอีกครั้ง ({countdown} วินาที)",
+      "resendBtn": "ส่งอีเมลอีกครั้ง",
+      "title3": "ตั้งรหัสผ่านใหม่",
+      "subtitle3": "ตรวจสอบให้แน่ใจ ว่ารหัสผ่านเหมือนกัน",
+      "passwordLabel": "รหัสผ่าน",
+      "passwordPlaceholder": "กรุณากรอกรหัสผ่านของคุณ",
+      "confirmPasswordLabel": "ยืนยันรหัสผ่าน",
+      "confirmPasswordPlaceholder": "กรุณายืนยันรหัสผ่านของคุณ",
+      "title4": "อัพเดตเสร็จสิ้น!",
+      "subtitle4_1": "รหัสผ่านของคุณถูกเปลี่ยนเรียบร้อยแล้ว",
+      "subtitle4_2": "คลิก \"ดำเนินการต่อ\" เพื่อเข้าสู่ระบบ"
+    },
+    "stepper": {
+      "back": "ย้อนกลับ",
+      "next": "ถัดไป",
+      "complete": "เสร็จสิ้น"
+    }
   }
 }

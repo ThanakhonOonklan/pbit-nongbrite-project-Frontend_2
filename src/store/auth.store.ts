@@ -6,6 +6,7 @@ import {
   type LoginPayload,
   type RegisterStep1Payload,
   type RegisterStep2Payload,
+  type ResetPasswordPayload,
   Gender
 } from "@/services/auth.service";
 import { useUserStore } from "./user.store";
@@ -33,6 +34,10 @@ interface AuthState {
   registerStep1: (payload: RegisterStep1Payload) => Promise<void>;
   registerStep2: (payload: RegisterStep2Payload) => Promise<void>;
   resetRegister: () => void;
+
+  // Forgot password actions
+  forgotPassword: (email: string) => Promise<void>;
+  resetPassword: (payload: ResetPasswordPayload) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -298,6 +303,74 @@ export const useAuthStore = create<AuthState>()(
           registerData: null,
           error: null,
         });
+      },
+
+      forgotPassword: async (email: string) => {
+        set({ isLoading: true, error: null });
+        try {
+          await authService.forgotPassword(email);
+          set({ isLoading: false, error: null });
+        } catch (error: unknown) {
+          let errorMessage = "เกิดข้อผิดพลาดในการส่งข้อมูล";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const axiosError = error as {
+              response?: {
+                data?: { message?: string; error?: string };
+                status?: number;
+              }
+            };
+            const responseData = axiosError.response?.data;
+            if (responseData) {
+              if (responseData.message) errorMessage = responseData.message;
+              else if (responseData.error) errorMessage = responseData.error;
+              else if (typeof responseData === 'string') errorMessage = responseData;
+            }
+
+            if (errorMessage === "เกิดข้อผิดพลาดในการส่งข้อมูล") {
+              const status = axiosError.response?.status;
+              if (status === 404) errorMessage = "ไม่พบอีเมลในระบบ";
+              else if (status === 500) errorMessage = "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          console.error("Forgot Password error:", error);
+          set({ isLoading: false, error: errorMessage });
+          throw error;
+        }
+      },
+
+      resetPassword: async (payload: ResetPasswordPayload) => {
+        set({ isLoading: true, error: null });
+        try {
+          await authService.resetPassword(payload);
+          set({ isLoading: false, error: null });
+        } catch (error: unknown) {
+          let errorMessage = "เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const axiosError = error as {
+              response?: {
+                data?: { message?: string; error?: string };
+                status?: number;
+              }
+            };
+            const responseData = axiosError.response?.data;
+            if (responseData) {
+              if (responseData.message) errorMessage = responseData.message;
+              else if (responseData.error) errorMessage = responseData.error;
+              else if (typeof responseData === 'string') errorMessage = responseData;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          console.error("Reset Password error:", error);
+          set({ isLoading: false, error: errorMessage });
+          throw error;
+        }
       },
     }),
     {

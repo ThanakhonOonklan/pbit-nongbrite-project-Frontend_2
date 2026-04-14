@@ -8,6 +8,10 @@ import { OTPInput } from "@/components/common/OTPInput";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import Stepper, { Step } from "@/components/common/Stepper";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/store/auth.store";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { X } from "lucide-react";
 
 export interface ForgetPasswordFormProps {
   onSubmit?: (email: string, otp: string, password: string, confirmPassword: string) => void;
@@ -15,7 +19,10 @@ export interface ForgetPasswordFormProps {
 
 const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = React.useState(false);
+  const t = useTranslations("Auth");
+  const { forgotPassword, resetPassword, isLoading, error, clearError } = useAuthStore();
+  const [validationMessage, setValidationMessage] = React.useState<string | null>(null);
+  const [currentStep, setCurrentStep] = React.useState(1);
 
   // Step 1: Email
   const [email, setEmail] = React.useState("");
@@ -39,18 +46,79 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
     }
   }, [countdown]);
 
-  const handleFinalStepCompleted = () => {
-    if (isLoading) return;
-    setIsLoading(true);
-    const otpString = otp.join("");
-    setTimeout(() => {
-      if (onSubmit) {
-        onSubmit(email, otpString, password, confirmPassword);
-      }
-      // Navigate to login page after completion
-      router.push("/login");
-    }, 1000);
+  const handleStep1Next = async (): Promise<boolean> => {
+    if (!email.trim()) {
+      setValidationMessage(t("register.emailRequired"));
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setValidationMessage(t("register.emailInvalid"));
+      return false;
+    }
+
+    clearError();
+    setValidationMessage(null);
+    try {
+      await forgotPassword(email.trim());
+      return true;
+    } catch {
+      return false;
+    }
   };
+
+  const handleStep2Next = async (): Promise<boolean> => {
+    if (otp.join("").length < 6) {
+      setValidationMessage("Please complete the OTP");
+      return false;
+    }
+    setValidationMessage(null);
+    return true;
+  };
+
+  const handleStep3Next = async (): Promise<boolean> => {
+    if (!password || !confirmPassword) {
+      setValidationMessage(t("register.passwordRequired"));
+      return false;
+    }
+    if (password !== confirmPassword) {
+      setValidationMessage(t("register.passwordMismatch"));
+      return false;
+    }
+    if (password.length < 6) {
+      setValidationMessage(t("register.passwordMin"));
+      return false;
+    }
+
+    clearError();
+    setValidationMessage(null);
+    try {
+      await resetPassword({
+        email: email.trim(),
+        pin: otp.join(""),
+        newPassword: password,
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const handleFinalStepCompleted = () => {
+    // Already in success step, this function might just navigate
+    router.push("/login");
+  };
+
+  // Auto-dismiss errors after 5 seconds
+  React.useEffect(() => {
+    if (error || validationMessage) {
+      const timer = setTimeout(() => {
+        if (error) clearError();
+        if (validationMessage) setValidationMessage(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, validationMessage, clearError]);
 
   const handleOTPChange = (value: string[]) => {
     setOtp(value);
@@ -64,12 +132,19 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
     }
   };
 
-  const handleResend = () => {
-    if (countdown > 0) return;
+  const handleResend = async () => {
+    if (countdown > 0 || isLoading) return;
 
-    setOtp([]);
-    setHasOTPError(false);
-    setCountdown(15);
+    clearError();
+    setValidationMessage(null);
+    try {
+      await forgotPassword(email.trim());
+      setOtp([]);
+      setHasOTPError(false);
+      setCountdown(15);
+    } catch {
+      // Error is handled in store
+    }
   };
 
   // Step 1: Enter Email
@@ -77,21 +152,21 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
     <>
       {/* Title */}
       <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight mb-1 text-center mt-3">
-        ลืมรหัสผ่าน?
+        {t("forgetPassword.title1")}
       </h1>
 
       {/* Subtitle */}
       <p className="text-[13px] md:text-[14px] text-gray-500 mb-4 md:mb-5 text-center">
-        กรุณากรอกอีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน
+        {t("forgetPassword.subtitle1")}
       </p>
 
       {/* Input Field */}
       <div className="flex flex-col gap-4 md:gap-5 w-full items-center mb-1 ">
         <div className="w-[390px] max-w-[460px]">
           <InputField
-            label="อีเมล"
+            label={t("forgetPassword.emailLabel")}
             type="email"
-            placeholder="กรุณากรอกอีเมลของคุณ"
+            placeholder={t("forgetPassword.emailPlaceholder")}
             value={email}
             className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
             onChange={(e) => setEmail(e.target.value)}
@@ -107,13 +182,13 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
     <div className="flex flex-col w-full gap-4 md:gap-5 ">
       {/* Title */}
       <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight text-center mt-3">
-        ตรวจสอบอีเมลของคุณ
+        {t("forgetPassword.title2")}
       </h1>
 
       {/* Description */}
       <p className="text-[13px] md:text-[14px] text-gray-500 text-center">
-        เราได้ส่งลิงก์รีเซ็ตไปที่ Email ของคุณเรียบร้อย<br />
-        โปรดป้อนรหัส 6 หลักที่ระบุไว้ในอีเมล
+        {t("forgetPassword.subtitle2_1")}<br />
+        {t("forgetPassword.subtitle2_2")}
       </p>
 
       {/* OTP Input Fields */}
@@ -130,10 +205,10 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
       {/* Resend Email Link */}
       <div className="flex justify-center w-full mb-4">
         <p className="text-[13px] md:text-[14px] text-gray-500 text-center">
-          <span>ยังไม่ได้รับอีเมลใช่ไหม? </span>
+          <span>{t("forgetPassword.noEmail")} </span>
           {countdown > 0 ? (
             <span className="text-[#1cb0f6]">
-              ส่งอีเมลอีกครั้ง ({countdown} วินาที)
+              {t("forgetPassword.resendWait", { countdown })}
             </span>
           ) : (
             <button
@@ -141,7 +216,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
               onClick={handleResend}
               className="text-[#1cb0f6] underline decoration-solid underline-offset-0 hover:text-[#17a3e3] transition-colors"
             >
-              ส่งอีเมลอีกครั้ง
+              {t("forgetPassword.resendBtn")}
             </button>
           )}
         </p>
@@ -154,20 +229,20 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
     <>
       {/* Title */}
       <h1 className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-gray-800 leading-tight mb-1 text-center mt-3">
-        ตั้งรหัสผ่านใหม่
+        {t("forgetPassword.title3")}
       </h1>
 
       {/* Description */}
       <p className="text-[13px] md:text-[14px] text-gray-500 mb-4 md:mb-5 text-center">
-        ตรวจสอบให้แน่ใจ ว่ารหัสผ่านเหมือนกัน
+        {t("forgetPassword.subtitle3")}
       </p>
 
       {/* Password Fields */}
       <div className="flex flex-col gap-4 md:gap-5 w-full items-center">
         <div className="w-[390px] max-w-[460px] flex flex-col gap-4 md:gap-5 ">
           <PasswordField
-            label="รหัสผ่าน"
-            placeholder="กรุณากรอกรหัสผ่านของคุณ"
+            label={t("forgetPassword.passwordLabel")}
+            placeholder={t("forgetPassword.passwordPlaceholder")}
             value={password}
             className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all"
             onChange={(e) => setPassword(e.target.value)}
@@ -175,8 +250,8 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
           />
 
           <PasswordField
-            label="ยืนยันรหัสผ่าน"
-            placeholder="กรุณายืนยันรหัสผ่านของคุณ"
+            label={t("forgetPassword.confirmPasswordLabel")}
+            placeholder={t("forgetPassword.confirmPasswordPlaceholder")}
             value={confirmPassword}
             className="h-[48px] md:h-[50px] bg-[#f5f9fb] border-2 border-[#d4e3ed] rounded-[12px] px-4 md:px-5 text-[14px] md:text-[15px] text-gray-800 placeholder:text-gray-400 hover:border-[#93c5fd] hover:bg-[#f0f9ff] focus:border-[#1cb0f6] focus:ring-2 focus:ring-[rgba(28,176,246,0.2)] transition-all mb-1"
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -205,13 +280,13 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
 
       {/* Title */}
       <h1 className="text-[22px] md:text-[24px] leading-tight font-bold text-gray-800 text-center w-full">
-        อัพเดตเสร็จสิ้น!
+        {t("forgetPassword.title4")}
       </h1>
 
       {/* Description */}
       <p className="text-[13px] md:text-[14px] leading-tight font-semibold text-gray-500 text-center w-full mt-2">
-        รหัสผ่านของคุณถูกเปลี่ยนเรียบร้อยแล้ว<br />
-        คลิก &quot;ดำเนินการต่อ&quot; เพื่อเข้าสู่ระบบ
+        {t("forgetPassword.subtitle4_1")}<br />
+        {t("forgetPassword.subtitle4_2")}
       </p>
 
     </>
@@ -219,23 +294,52 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
 
   return (
     <div className="w-full ">
-      <LoadingOverlay isLoading={isLoading} message="กำลังดำเนินการ..." />
+      <LoadingOverlay isLoading={isLoading} message={t("register.loading")} />
       <Stepper
-        initialStep={1}
+        key={currentStep}
+        initialStep={currentStep}
         onStepChange={(step) => {
-          // Start countdown when moving to step 2
-          if (step === 2) {
-            setCountdown(15);
+          if (step < currentStep) {
+            setCurrentStep(step);
+            clearError();
+            setValidationMessage(null);
           }
         }}
         onFinalStepCompleted={handleFinalStepCompleted}
-        backButtonText="ย้อนกลับ"
-        nextButtonText="ถัดไป"
+        backButtonText={t("stepper.back")}
+        nextButtonText={t("stepper.next")}
         stepContainerClassName="px-0"
         footerClassName="px-0"
         disableStepIndicators={true}
         backButtonProps={{ disabled: isLoading }}
-        nextButtonProps={{ disabled: isLoading }}
+        nextButtonProps={{
+          disabled: isLoading,
+          onClick: async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            let success = false;
+            if (currentStep === 1) {
+              success = await handleStep1Next();
+              if (success) {
+                setCurrentStep(2);
+                setCountdown(15); // Start countdown
+              }
+            } else if (currentStep === 2) {
+              success = await handleStep2Next();
+              if (success) {
+                setCurrentStep(3);
+              }
+            } else if (currentStep === 3) {
+              success = await handleStep3Next();
+              if (success) {
+                setCurrentStep(4);
+              }
+            } else if (currentStep === 4) {
+              handleFinalStepCompleted();
+            }
+          }
+        }}
       >
         {/* Step 1: Enter Email */}
         <Step>
@@ -257,6 +361,27 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
           {renderStep4()}
         </Step>
       </Stepper>
+
+      {/* Toast Alert - API ERROR & Validation Errors */}
+      {(error || validationMessage) && (
+        <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-top-5 fade-in duration-300 max-w-[360px] w-full">
+          <Alert variant="destructive" className="bg-white border-red-300 shadow-lg rounded-[12px] pl-10">
+            <button
+              onClick={() => {
+                clearError();
+                setValidationMessage(null);
+              }}
+              className="absolute top-3 left-3 text-red-400 hover:text-red-600 transition-colors"
+              aria-label="ปิด"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <AlertDescription className="text-[13px] md:text-[14px] text-red-600 whitespace-pre-line">
+              {error || validationMessage}
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
     </div>
   );
 };

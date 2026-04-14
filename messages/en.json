@@ -89,5 +89,78 @@
       "description": "Join thousands of learners and begin your journey to fun learning.",
       "startNow": "Start Now"
     }
+  },
+  "Auth": {
+    "login": {
+      "title": "Login",
+      "loading": "Logging in...",
+      "usernameLabel": "Username",
+      "passwordLabel": "Password",
+      "usernameRequired": "Please enter your username",
+      "passwordRequired": "Please enter your password",
+      "forgotPassword": "Forgot Password?",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create Account"
+    },
+    "register": {
+      "title": "Create Account",
+      "loading": "Processing...",
+      "usernameLabel": "Username (English)",
+      "emailLabel": "Email (example@gmail.com)",
+      "passwordLabel": "Password (min 6 characters)",
+      "confirmPasswordLabel": "Confirm Password",
+      "welcome": "Welcome to ",
+      "displayNameLabel": "Display Name",
+      "ageLabel": "Age",
+      "genderLabel": "Gender",
+      "finishTitle": "Done!",
+      "finishSubtitle": "Let's start learning!",
+      "hasAccount": "Already have an account?",
+      "loginText": "Login",
+      "usernameRequired": "Please enter your username",
+      "usernameMin": "Username must be at least 2 characters",
+      "usernameEnglish": "Please use English characters only",
+      "emailRequired": "Please enter your email",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Please enter your password",
+      "passwordMin": "Password must be at least 6 characters",
+      "confirmPasswordRequired": "Please confirm your password",
+      "passwordMismatch": "Passwords do not match",
+      "fillAll": "Please fill in all fields",
+      "displayNameRequired": "Please enter a display name",
+      "displayNameMin": "Name must be at least 2 characters",
+      "ageRequired": "Please enter your age",
+      "ageInvalid": "Age must be between 0-100",
+      "genderRequired": "Please select a gender",
+      "genderMale": "Male",
+      "genderFemale": "Female",
+      "genderOther": "Not specified"
+    },
+    "forgetPassword": {
+      "title1": "Forgot Password?",
+      "subtitle1": "Please enter your email to reset your password",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Please enter your email",
+      "title2": "Check your email",
+      "subtitle2_1": "We have sent a reset link to your email",
+      "subtitle2_2": "Please enter the 6-digit code provided in the email",
+      "noEmail": "Didn't receive the email?",
+      "resendWait": "Resend email ({countdown}s)",
+      "resendBtn": "Resend email",
+      "title3": "Set New Password",
+      "subtitle3": "Make sure your passwords match",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Please enter your new password",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Please confirm your new password",
+      "title4": "Update Complete!",
+      "subtitle4_1": "Your password has been changed successfully.",
+      "subtitle4_2": "Click \"Continue\" to login."
+    },
+    "stepper": {
+      "back": "Back",
+      "next": "Next",
+      "complete": "Complete"
+    }
   }
 }
