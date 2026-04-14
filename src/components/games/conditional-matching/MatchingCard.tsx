@@ -41,9 +41,14 @@ export const MatchingCard = ({
     : "font-medium text-[10px] sm:text-xs md:text-sm text-gray-500 whitespace-nowrap text-center";
 
   return (
-    <div className={`${isCorrect ? "cursor-default" : "cursor-pointer"} select-none ${className}`}>
+    <div 
+      className={`${isCorrect ? "cursor-default" : "cursor-pointer"} select-none ${className}`}
+      draggable={false}
+      onDragStart={(e) => e.preventDefault()}
+      style={{ WebkitUserDrag: 'none', userSelect: 'none' } as React.CSSProperties}
+    >
       <div className={boxClasses}>
-        <span className={emojiClasses}>{emoji}</span>
+        <span className={emojiClasses} style={{ WebkitUserDrag: 'none' } as React.CSSProperties}>{emoji}</span>
         <span className={textClasses}>{label}</span>
       </div>
     </div>
