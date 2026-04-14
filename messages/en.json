@@ -1,5 +1,93 @@
 {
-    "Settings": {
-        "title": "Settings"
+  "Settings": {
+    "title": "Settings"
+  },
+  "Navbar": {
+    "navItems": {
+      "home": "Home",
+      "courses": "Courses",
+      "content": "Content",
+      "stats": "Statistics"
+    },
+    "login": "Login",
+    "loading": "Loading..."
+  },
+  "Sidebar": {
+    "navItems": {
+      "courses": "Learn",
+      "rank": "Rank",
+      "profile": "Profile",
+      "settings": "Settings"
+    },
+    "loading": "Loading...",
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
     }
+  },
+  "Profile": {
+    "progress": {
+      "title": "Progress",
+      "empty": "No progress data",
+      "loading": "Loading..."
+    }
+  },
+  "Landing": {
+    "Hero": {
+      "headline": "Learn Together!!",
+      "description": "A fun and engaging learning platform with your buddies P'Bit and Nong Brite. Start your learning adventure today!",
+      "startLearning": "Start Learning",
+      "seeMore": "See More",
+      "loading": "Loading..."
+    },
+    "Features": {
+      "title": "Courses",
+      "description": "Learn through 7 fun games, developing thinking and problem-solving skills.",
+      "games": {
+        "pathNavigation": "Path Navigation",
+        "countingClassification": "Counting & Classification",
+        "conditionalMatching": "Conditional Matching",
+        "sequencing": "Sequencing",
+        "stepCounting": "Step Counting",
+        "fruitMatching": "Fruit Matching Grid",
+        "gridColoring": "Grid-based Coloring"
+      }
+    },
+    "Content": {
+      "blocks": {
+        "0": {
+          "title": "What do you want to learn with P'Bit today?",
+          "description": "Choose your favorite path and start your adventure with short, fun, and easy-to-understand foundational skill games.",
+          "ctaText": "Start Learning"
+        },
+        "1": {
+          "title": "Challenge yourself with mini-games?",
+          "description": "Collect coins, earn points, and unlock new levels while practicing logic, math, and problem-solving skills.",
+          "ctaText": "Try Mini-games"
+        },
+        "2": {
+          "title": "Can I review anytime?",
+          "description": "Review past lessons, brush up on areas where you lack confidence, and replay on any device, anytime.",
+          "ctaText": "View Learning Plan"
+        }
+      },
+      "loading": "Loading..."
+    },
+    "Stats": {
+      "title": "Numbers That Tell a Story",
+      "description": "Discover the impressive statistics of our learning platform.",
+      "items": {
+        "learners": "Learners",
+        "levels": "Levels",
+        "games": "Learning Games",
+        "satisfaction": "Satisfaction"
+      }
+    },
+    "CTA": {
+      "title": "Ready to Start Your Adventure?",
+      "description": "Join thousands of learners and begin your journey to fun learning.",
+      "startNow": "Start Now"
+    }
+  }
 }

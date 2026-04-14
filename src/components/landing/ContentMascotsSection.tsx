@@ -4,10 +4,9 @@ import { useState } from "react";
 import { PrimaryButton, LoadingOverlay } from "@/components/common";
 import { Image } from "@/components/common/Image";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 type ContentBlock = {
-  title: string;
-  description: string;
   imageSrc: string;
   imageAlt: string;
   imageOnLeft: boolean;
@@ -18,51 +17,39 @@ type ContentBlock = {
     | "pastel-green"
     | "yellow"
     | "outline";
-  ctaText: string;
   ctaHref: string;
 };
 
 const contentBlocks: ContentBlock[] = [
   {
-    title: "วันนี้อยากเรียนอะไรกับ P'Bit?",
-    description:
-      "เลือกเส้นทางที่ชอบแล้วเริ่มผจญภัยไปพร้อมเกมสั้น ๆ ที่สอดแทรกทักษะพื้นฐานแบบสนุกและเข้าใจง่าย",
     imageSrc: "/images/P_Bit/bit-01.svg",
     imageAlt: "P'Bit character",
     imageOnLeft: true,
     accentColor: "#1cb0f6",
     buttonVariant: "sky-blue",
-    ctaText: "เริ่มเรียนรู้",
     ctaHref: "/login",
   },
   {
-    title: "ท้าทายตัวเองด้วยมินิเกมดีไหม?",
-    description:
-      "เก็บเหรียญ สะสมแต้ม แล้วปลดล็อกด่านใหม่ ๆ ระหว่างฝึกตรรกะ คณิตศาสตร์ และการแก้ปัญหาไปพร้อมกัน",
     imageSrc: "/images/P_Minnie/minnie-01.svg",
     imageAlt: "Nong Brite character",
     imageOnLeft: false,
     accentColor: "#ec4899", 
     buttonVariant: "illusion",
-    ctaText: "ลองเล่นมินิเกม",
     ctaHref: "/login",
   },
   {
-    title: "เรียนซ้ำเมื่อไหร่ก็ได้ใช่ไหม?",
-    description:
-      "เปิดดูบทเรียนย้อนหลัง ทบทวนจุดที่ยังไม่มั่นใจ แล้วลองเล่นรอบใหม่ได้ทุกอุปกรณ์ทุกเวลา",
     imageSrc: "/images/P_Momo/momo-01.svg",
     imageAlt: "P'Bit character",
     imageOnLeft: true,
     accentColor: "#22c55e",
     buttonVariant: "pastel-green",
-    ctaText: "ดูแผนการเรียน",
     ctaHref: "/login",
   },
 ];
 
 export function ContentMascotsSection() {
   const router = useRouter();
+  const t = useTranslations("Landing.Content");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleButtonClick = async (href: string) => {
@@ -112,10 +99,10 @@ export function ContentMascotsSection() {
                 className="text-2xl md:text-3xl font-bold"
                 style={{ color: block.accentColor }}
               >
-                {block.title}
+                {t(`blocks.${index}.title` as any)}
               </h3>
               <p className="text-gray-600 leading-relaxed text-base md:text-lg">
-                {block.description}
+                {t(`blocks.${index}.description` as any)}
               </p>
               <div className="mt-2">
                 <PrimaryButton 
@@ -125,7 +112,7 @@ export function ContentMascotsSection() {
                   onClick={() => handleButtonClick(block.ctaHref)}
                   disabled={isLoading}
                 >
-                  {block.ctaText}
+                  {t(`blocks.${index}.ctaText` as any)}
                 </PrimaryButton>
               </div>
             </div>
@@ -135,7 +122,7 @@ export function ContentMascotsSection() {
     </section>
     <LoadingOverlay 
       isLoading={isLoading} 
-      message="กำลังโหลด..."
+      message={t("loading")}
     />
     </>
   );

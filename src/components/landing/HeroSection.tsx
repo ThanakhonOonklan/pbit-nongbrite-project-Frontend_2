@@ -7,9 +7,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TrueFocus } from "@/components/common";
 import { BlurText, TextType } from "@/components/common";
+import { useTranslations } from "next-intl";
 
 export function HeroSection() {
   const router = useRouter();
+  const t = useTranslations("Landing.Hero");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleStartLearningClick = async () => {
@@ -28,7 +30,7 @@ export function HeroSection() {
             <div className="flex flex-col gap-2 items-center lg:items-start">
               <div className="text-gray-900 leading-tight ">
                 <TrueFocus
-                  sentence="เรียนรู้ ไปด้วยกัน!!"
+                  sentence={t("headline")}
                   blurAmount={1}
                   borderColor="#38bdf8"
                   glowColor="rgba(56, 189, 248, 0.6)"
@@ -56,9 +58,10 @@ export function HeroSection() {
 
             {/* Description */}
             <TextType
+              key={t("description")}
               as="p"
               className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0"
-              text="แพลตฟอร์มการเรียนรู้ที่สนุกและน่าสนใจ พร้อมกับเพื่อนคู่หู P'Bit และ Nong Brite เริ่มต้นการผจญภัยการเรียนรู้ของคุณวันนี้!"
+              text={t("description")}
               typingSpeed={50}
               pauseDuration={1500}
               loop={false}
@@ -75,7 +78,7 @@ export function HeroSection() {
                 onClick={handleStartLearningClick}
                 disabled={isLoading}
               >
-                เริ่มเรียนเลย
+                {t("startLearning")}
               </PrimaryButton>
               <Link href="#features" className="w-full sm:w-auto">
                 <PrimaryButton 
@@ -83,7 +86,7 @@ export function HeroSection() {
                   size="sm"
                   className="w-full sm:w-auto min-w-[150px] px-4 py-3 text-base"
                 >
-                  ดูเพิ่มเติม
+                  {t("seeMore")}
                 </PrimaryButton>
               </Link>
             </div>
@@ -195,7 +198,7 @@ export function HeroSection() {
       </div>
       <LoadingOverlay 
         isLoading={isLoading} 
-        message="กำลังโหลด..."
+        message={t("loading")}
       />
     </section>
   );

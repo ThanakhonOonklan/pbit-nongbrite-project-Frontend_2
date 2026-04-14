@@ -6,12 +6,14 @@ import { useAuthStore } from "@/store/auth.store";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Divider, PrimaryButton, LoadingOverlay, BackgroundSquares, Container, LanguageDropdown, SoundToggle } from "@/components/common";
 import { IoLanguage, IoVolumeHigh, IoLogOut } from "react-icons/io5";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { setUserLocale } from "@/actions/locale";
 
 export default function SettingsPage() {
   const router = useRouter();
   const { logout, isLoading } = useAuthStore();
-  const [selectedLanguage, setSelectedLanguage] = React.useState<"th" | "en">("th");
+  const currentLocale = useLocale() as "th" | "en";
+  const [selectedLanguage, setSelectedLanguage] = React.useState<"th" | "en">(currentLocale);
   const [soundOn, setSoundOn] = React.useState(true);
   const t = useTranslations("Settings");
 
@@ -74,7 +76,12 @@ export default function SettingsPage() {
                 <LanguageDropdown
                   languages={languages}
                   selectedLanguage={selectedLanguage}
-                  onLanguageChange={(code) => setSelectedLanguage(code as "th" | "en")}
+                  onLanguageChange={async (code) => {
+                    const newLocale = code as "th" | "en";
+                    setSelectedLanguage(newLocale);
+                    await setUserLocale(newLocale);
+                    router.refresh();
+                  }}
                 />
               </div>
 

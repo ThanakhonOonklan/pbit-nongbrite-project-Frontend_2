@@ -3,7 +3,7 @@ import { Container } from "@/components/common/Container";
 import { ProgressItem, LevelData } from "./ProgressItem";
 import { cn } from "@/lib/utils";
 import { useChapterStore } from "@/store/chapter.store";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslations, useLocale } from "next-intl";
 import {
   FaRoute,
   FaSquare,
@@ -58,13 +58,13 @@ const convertLevelToLevelData = (level: Level): LevelData => {
 const convertChapterToProgressItem = (
   chapter: Chapter,
   gameConfig: { icon: React.ComponentType<{ className?: string }>; color: string },
-  language: 'TH' | 'EN'
+  locale: string
 ): ProgressItemData => {
   const levels = chapter.levels.map(convertLevelToLevelData);
   const completedLevels = levels.filter(l => l.completed).length;
   
   return {
-    title: language === 'TH' ? chapter.title.th : chapter.title.en,
+    title: locale === 'th' ? chapter.title.th : chapter.title.en,
     current: completedLevels,
     total: chapter.levels.length,
     icon: React.createElement(gameConfig.icon, { className: "w-5 h-5" }),
@@ -80,7 +80,8 @@ export interface ProgressListProps {
 export const ProgressList: React.FC<ProgressListProps> = ({ className }) => {
   const chapters = useChapterStore((state) => state.chapters);
   const isLoading = useChapterStore((state) => state.isLoading);
-  const { language } = useLanguage();
+  const locale = useLocale();
+  const t = useTranslations("Profile.progress");
   const [expandedIndex, setExpandedIndex] = React.useState<number | null>(null);
 
   // Convert chapters to progress items
@@ -91,9 +92,9 @@ export const ProgressList: React.FC<ProgressListProps> = ({ className }) => {
 
     return chapters.map((chapter, index) => {
       const gameConfig = GAME_CONFIG[index] || GAME_CONFIG[0];
-      return convertChapterToProgressItem(chapter, gameConfig, language);
+      return convertChapterToProgressItem(chapter, gameConfig, locale);
     });
-  }, [chapters, language]);
+  }, [chapters, locale]);
 
   const handleToggle = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -107,7 +108,7 @@ export const ProgressList: React.FC<ProgressListProps> = ({ className }) => {
           className
         )}
       >
-        <div className="text-center py-8 text-gray-600">กำลังโหลด...</div>
+        <div className="text-center py-8 text-gray-600">{t("loading")}</div>
       </Container>
     );
   }
@@ -120,7 +121,7 @@ export const ProgressList: React.FC<ProgressListProps> = ({ className }) => {
           className
         )}
       >
-        <div className="text-center py-8 text-gray-600">ไม่มีข้อมูลความคืบหน้า</div>
+        <div className="text-center py-8 text-gray-600">{t("empty")}</div>
       </Container>
     );
   }
@@ -135,7 +136,7 @@ export const ProgressList: React.FC<ProgressListProps> = ({ className }) => {
       {/* Header */}
       <div className="w-full mb-4 border-b border-gray-200 pb-1">
         <h2 className="text-[18px] sm:text-[19px] md:text-[19px] lg:text-[20px] leading-[28px] font-bold text-gray-800">
-          ความคืบหน้า
+          {t("title")}
         </h2>
       </div>
       <div
