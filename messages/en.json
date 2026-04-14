@@ -1,6 +1,12 @@
 {
   "Settings": {
-    "title": "Settings"
+    "title": "Settings",
+    "languageTitle": "Language",
+    "languageDesc": "Set the language used within the app",
+    "soundTitle": "Sound",
+    "soundDesc": "Turn on or off sound effects within the game",
+    "logoutBtn": "Sign Out",
+    "logoutLoading": "Signing out..."
   },
   "Navbar": {
     "navItems": {
@@ -30,7 +36,45 @@
     "progress": {
       "title": "Progress",
       "empty": "No progress data",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "levelPrefix": "Level {level}"
+    },
+    "genderMale": "Male",
+    "genderFemale": "Female",
+    "genderOther": "Other",
+    "Header": {
+      "editProfile": "Edit Profile",
+      "joinedOn": "Joined on {month} {day}, {year}",
+      "loading": "Loading data...",
+      "stats": {
+        "rank": "Rank",
+        "score": "Total Score",
+        "streak": "Day Streak"
+      }
+    },
+    "EditForm": {
+      "title": "Edit Profile",
+      "nameLabel": "Display Name",
+      "nameRequired": "Name is required",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Enter your username",
+      "genderLabel": "Gender",
+      "profilePicLabel": "Choose Profile Picture",
+      "saveBtn": "Save"
+    },
+    "months": {
+      "jan": "January",
+      "feb": "February",
+      "mar": "March",
+      "apr": "April",
+      "may": "May",
+      "jun": "June",
+      "jul": "July",
+      "aug": "August",
+      "sep": "September",
+      "oct": "October",
+      "nov": "November",
+      "dec": "December"
     }
   },
   "Landing": {
@@ -162,5 +206,91 @@
       "next": "Next",
       "complete": "Complete"
     }
+  },
+  "Courses": {
+    "ResourceBars": {
+      "heartResetting": "Resetting hearts...",
+      "hours": "h",
+      "minutes": "min",
+      "hearts": "Hearts",
+      "heartsFull": "Your hearts are full, keep learning!",
+      "heartsRemaining": "{current} of {max} hearts remaining",
+      "nextHeartIn": "Next heart in {time}",
+      "totalScoreNow": "Total score now!",
+      "totalScoreDesc": "Accumulated score from all games",
+      "streakDays": "Day streak",
+      "daysUnit": "days",
+      "streakExcellent": "Excellent! You have a {days} day streak",
+      "streakStart": "Start learning today to build your streak!"
+    },
+    "ScrollDownIndicator": {
+      "scrollDown": "Scroll down for next game"
+    },
+    "GameCard": {
+      "loading": "Loading..."
+    },
+    "Difficulty": {
+      "1": "Easy",
+      "2": "Medium",
+      "3": "Hard"
+    },
+    "Games": {
+      "path-navigation": {
+        "title": "Path Navigation",
+        "description": "Path navigation game! Drag the character along the specified path. Practice path planning and logical thinking. Choose the correct direction to reach the destination."
+      },
+      "counting-classification": {
+        "title": "Counting & Classification",
+        "description": "Count and classify items! Practice counting, categorizing, and grouping items based on specified criteria. Ideal for developing foundational math skills."
+      },
+      "conditional-matching": {
+        "title": "Conditional Matching",
+        "description": "Conditional matching! Select items that match the specified conditions. Practice conditional thinking (if-then) and comparison. Develop understanding of logic."
+      },
+      "sequencing": {
+        "title": "Sequencing",
+        "description": "Sequencing steps! Arrange instructions or events correctly in order. Practice algorithmic thinking and systematic planning."
+      },
+      "step-counting": {
+        "title": "Step Counting",
+        "description": "Step counting! Calculate the number of steps required to reach the destination. Practice counting, measuring distance, and estimating."
+      },
+      "fruit-matching-grid": {
+        "title": "Fruit Matching Grid",
+        "description": "Fruit matching! Find identical fruits in the square grid. Practice pattern recognition, memory, and observation. Develop focus and attention to detail."
+      },
+      "grid-based-coloring": {
+        "title": "Grid-based Coloring",
+        "description": "Grid coloring! Color the cells in the grid according to the specified pattern. Practice reading coordinates, understanding grid positions, and creativity."
+      }
+    }
+  },
+  "Rank": {
+    "loadingRankData": "Loading ranking data...",
+    "errorTitle": "Failed to access data",
+    "retryBtn": "Try again",
+    "MyRankCard": {
+      "unranked": "Unranked",
+      "unrankedDesc": "Start learning to enter the ranks!",
+      "currentRank": "Rank #{rank}",
+      "scoreToNextRank": "{score} more points needed for next rank"
+    },
+    "LeaderboardList": {
+      "title": "Leaderboard",
+      "colRank": "Rank",
+      "colName": "Display Name",
+      "colScore": "Top Score",
+      "colTier": "Tier",
+      "emptyData": "No ranking data available"
+    }
+  },
+  "Ranks": {
+    "Beginner": "Beginner",
+    "Explorer": "Explorer",
+    "Thinker": "Thinker",
+    "Solver": "Solver",
+    "Strategist": "Strategist",
+    "Master": "Master",
+    "Legend": "Legend"
   }
 }

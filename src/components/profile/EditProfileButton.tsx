@@ -1,6 +1,7 @@
 import * as React from "react";
 import { CiEdit } from "react-icons/ci";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export interface EditProfileButtonProps {
   onClick?: () => void;
@@ -11,6 +12,8 @@ export const EditProfileButton: React.FC<EditProfileButtonProps> = ({
   onClick,
   className,
 }) => {
+  const t = useTranslations("Profile");
+
   return (
     <button
       type="button"
@@ -26,7 +29,7 @@ export const EditProfileButton: React.FC<EditProfileButtonProps> = ({
         "pointer-events-auto",
         className
       )}
-      aria-label="แก้ไขโปรไฟล์"
+      aria-label={t("Header.editProfile")}
     >
       <CiEdit className="w-5 h-5" />
     </button>

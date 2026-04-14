@@ -3,7 +3,7 @@ import { Container } from "@/components/common/Container";
 import { ProgressItem, LevelData } from "./ProgressItem";
 import { cn } from "@/lib/utils";
 import { useChapterStore } from "@/store/chapter.store";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import {
   FaRoute,
   FaSquare,
@@ -17,13 +17,13 @@ import type { Chapter, Level } from "@/services/chapter.service";
 
 // Game config mapping (ต้อง match กับ orderIndex ของ chapters)
 const GAME_CONFIG = [
-  { icon: FaRoute, color: "#1CB0F6" },
-  { icon: FaSquare, color: "#FB96BB" },
-  { icon: FaLink, color: "#FFB356" },
-  { icon: FaRecycle, color: "#9956DE" },
-  { icon: FaRuler, color: "#6ED1CF" },
-  { icon: FaTh, color: "#FF8B8B" },
-  { icon: FaPalette, color: "#FFD700" },
+  { id: "path-navigation", icon: FaRoute, color: "#1CB0F6" },
+  { id: "counting-classification", icon: FaSquare, color: "#FB96BB" },
+  { id: "conditional-matching", icon: FaLink, color: "#FFB356" },
+  { id: "sequencing", icon: FaRecycle, color: "#9956DE" },
+  { id: "step-counting", icon: FaRuler, color: "#6ED1CF" },
+  { id: "fruit-matching-grid", icon: FaTh, color: "#FF8B8B" },
+  { id: "grid-based-coloring", icon: FaPalette, color: "#FFD700" },
 ];
 
 export interface ProgressItemData {
@@ -57,14 +57,16 @@ const convertLevelToLevelData = (level: Level): LevelData => {
 // Helper function to convert Chapter to ProgressItemData
 const convertChapterToProgressItem = (
   chapter: Chapter,
-  gameConfig: { icon: React.ComponentType<{ className?: string }>; color: string },
-  locale: string
+  gameConfig: { id?: string; icon: React.ComponentType<{ className?: string }>; color: string },
+  tGames: (key: string) => string
 ): ProgressItemData => {
   const levels = chapter.levels.map(convertLevelToLevelData);
   const completedLevels = levels.filter(l => l.completed).length;
   
+  const titleStr = gameConfig.id ? tGames(`${gameConfig.id}.title`) : chapter.title.en;
+
   return {
-    title: locale === 'th' ? chapter.title.th : chapter.title.en,
+    title: titleStr,
     current: completedLevels,
     total: chapter.levels.length,
     icon: React.createElement(gameConfig.icon, { className: "w-5 h-5" }),
@@ -80,8 +82,8 @@ export interface ProgressListProps {
 export const ProgressList: React.FC<ProgressListProps> = ({ className }) => {
   const chapters = useChapterStore((state) => state.chapters);
   const isLoading = useChapterStore((state) => state.isLoading);
-  const locale = useLocale();
   const t = useTranslations("Profile.progress");
+  const tGames = useTranslations("Courses.Games");
   const [expandedIndex, setExpandedIndex] = React.useState<number | null>(null);
 
   // Convert chapters to progress items
@@ -92,9 +94,9 @@ export const ProgressList: React.FC<ProgressListProps> = ({ className }) => {
 
     return chapters.map((chapter, index) => {
       const gameConfig = GAME_CONFIG[index] || GAME_CONFIG[0];
-      return convertChapterToProgressItem(chapter, gameConfig, locale);
+      return convertChapterToProgressItem(chapter, gameConfig, tGames);
     });
-  }, [chapters, locale]);
+  }, [chapters, tGames]);
 
   const handleToggle = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);

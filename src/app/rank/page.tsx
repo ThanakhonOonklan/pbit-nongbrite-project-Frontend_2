@@ -10,19 +10,20 @@ import { useUserStore } from "@/store/user.store";
 import { MyRankData } from "@/types";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { Gender } from "@/services/auth.service";
+import { useTranslations } from "next-intl";
 
-// Helper: Map Gender enum to Thai string
-const getGenderThai = (gender: Gender | undefined | string): string => {
-  console.log("[getGenderThai] input:", gender, "| type:", typeof gender);
-  if (gender === Gender.MALE || gender === "MALE") return "เพศชาย";
-  if (gender === Gender.FEMALE || gender === "FEMALE") return "เพศหญิง";
-  if (gender === Gender.OTHER || gender === "OTHER") return "ไม่ระบุตัวตน";
-  return typeof gender === "string" ? gender : "ไม่ระบุตัวตน";
+// Map gender to string key
+const getGenderEnum = (gender: Gender | undefined | string): string => {
+  if (gender === Gender.MALE || gender === "MALE" || gender === "เพศชาย") return "male";
+  if (gender === Gender.FEMALE || gender === "FEMALE" || gender === "เพศหญิง") return "female";
+  return "other";
 };
 
 export default function RankPage() {
   const { fetchRanking, topThree, topTen, rankings, isLoading, error } = useRankStore();
   const { user, streakDetails, fetchProfile, fetchAndUpdateStreak } = useUserStore();
+  const t = useTranslations("Rank");
+  const tProfile = useTranslations("Profile");
   console.log("[RankPage] user from store:", topTen); // เช็คว่า store มีค่าหรือเปล่า
 
 
@@ -53,7 +54,7 @@ export default function RankPage() {
       name: user.name,
       avatar: user.profile?.icon || "/icons/icon-Profile/icon_P_Bit.png",
       score: totalScore,
-      gender: getGenderThai(user.gender), // Map Gender enum to Thai string
+      gender: getGenderEnum(user.gender), // Return mapped enum
       daystate: daystate,
     };
 
@@ -75,19 +76,19 @@ export default function RankPage() {
               // Loading Skeleton
               <div className="flex flex-col items-center justify-center min-h-[50vh]">
                 <div className="w-16 h-16 border-4 border-[#1cb0f6] border-t-transparent rounded-full animate-spin"></div>
-                <p className="mt-4 text-[#666] font-medium">กำลังโหลดข้อมูลอันดับ...</p>
+                <p className="mt-4 text-[#666] font-medium">{t("loadingRankData", { fallback: "กำลังโหลดข้อมูลอันดับ..." })}</p>
               </div>
             ) : error ? (
               // Error State
               <div className="flex flex-col items-center justify-center min-h-[50vh] bg-white rounded-[16px] shadow-sm p-6 text-center">
                 <FaExclamationTriangle className="w-16 h-16 text-yellow-500 mb-4" />
-                <h2 className="text-xl font-bold text-gray-800 mb-2">เข้าถึงข้อมูลไม่สำเร็จ</h2>
+                <h2 className="text-xl font-bold text-gray-800 mb-2">{t("errorTitle", { fallback: "เข้าถึงข้อมูลไม่สำเร็จ" })}</h2>
                 <p className="text-gray-500">{error}</p>
                 <button
                   onClick={() => fetchRanking()}
                   className="mt-4 px-6 py-2 bg-[#1cb0f6] text-white font-bold rounded-full hover:bg-[#18a0e0] transition-colors"
                 >
-                  ลองใหม่อีกครั้ง
+                  {t("retryBtn", { fallback: "ลองใหม่อีกครั้ง" })}
                 </button>
               </div>
             ) : (

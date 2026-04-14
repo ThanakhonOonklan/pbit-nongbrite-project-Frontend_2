@@ -66,11 +66,11 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-3">
                     <IoLanguage className="w-6 h-6 text-[#1cb0f6]" />
                     <span className="text-[18px] font-semibold text-gray-800">
-                      ภาษา
+                      {t("languageTitle")}
                     </span>
                   </div>
                   <p className="text-[13px] md:text-[14px] text-gray-500 ml-[32px]">
-                    ตั้งค่าภาษาที่ใช้ภายในแอป
+                    {t("languageDesc")}
                   </p>
                 </div>
                 <LanguageDropdown
@@ -91,11 +91,11 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-3">
                     <IoVolumeHigh className="w-6 h-6 text-[#1cb0f6]" />
                     <span className="text-[18px] font-semibold text-gray-800">
-                      เสียง
+                      {t("soundTitle")}
                     </span>
                   </div>
                   <p className="text-[13px] md:text-[14px] text-gray-500 ml-[32px]">
-                    เปิดหรือปิดเสียงเอฟเฟกต์ภายในเกม
+                    {t("soundDesc")}
                   </p>
                 </div>
                 <SoundToggle
@@ -115,14 +115,14 @@ export default function SettingsPage() {
                 disabled={isLoading}
               >
                 <IoLogOut className="w-5 h-5" />
-                <span>{isLoading ? "กำลังออกจากระบบ..." : "ออกจากบัญชี"}</span>
+                <span>{isLoading ? t("logoutLoading") : t("logoutBtn")}</span>
               </PrimaryButton>
             </div>
           </Container>
         </div>
       </main>
 
-      <LoadingOverlay isLoading={isLoading} message="กำลังออกจากระบบ..." />
+      <LoadingOverlay isLoading={isLoading} message={t("logoutLoading")} />
     </div>
   );
 }

@@ -18,6 +18,7 @@ import { getRankBadgeImage, getRankByScore } from "@/constants/ranks";
 import { useUserStore } from "@/store/user.store";
 import { useAuthStore } from "@/store/auth.store";
 import { Gender } from "@/services/user.service";
+import { useTranslations } from "next-intl";
 
 export interface ProfileHeaderProps {
   className?: string;
@@ -34,6 +35,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [isEditOpen, setIsEditOpen] = React.useState(false);
   const [isSaving, setIsSaving] = React.useState(false);
+  const t = useTranslations("Profile");
+  const tRanks = useTranslations("Ranks");
 
 
 
@@ -53,17 +56,17 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
     return user.profile.icon;
   };
 
-  // Helper: Map Gender enum to Thai string
-  const getGenderThai = (gender: Gender | undefined): string => {
+  // Helper: Map Gender enum to Translated string
+  const getGenderTranslated = (gender: Gender | undefined): string => {
     switch (gender) {
       case Gender.MALE:
-        return "เพศชาย";
+        return t("genderMale");
       case Gender.FEMALE:
-        return "เพศหญิง";
+        return t("genderFemale");
       case Gender.OTHER:
-        return "ไม่ระบุตัวตน";
+        return t("genderOther");
       default:
-        return "เพศชาย";
+        return t("genderMale");
     }
   };
 
@@ -88,15 +91,19 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
     const [datePart] = dateString.split(" ");
     const [day, month, year] = datePart.split("/");
 
-    const monthNames = [
-      "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+    const monthKeys = [
+      "jan", "feb", "mar", "apr", "may", "jun",
+      "jul", "aug", "sep", "oct", "nov", "dec"
     ];
 
     const monthIndex = parseInt(month, 10) - 1;
-    const monthName = monthNames[monthIndex] || "มกราคม";
+    const monthKey = monthKeys[monthIndex] || "jan";
 
-    return `เข้าร่วมเมื่อ วันที่ ${parseInt(day, 10)} ${monthName} ${year}`;
+    return t("Header.joinedOn", { 
+      day: parseInt(day, 10), 
+      month: t(`months.${monthKey}`), 
+      year 
+    });
   };
 
   const handleEditProfile = () => {
@@ -112,7 +119,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
     try {
       await updateProfile({
         name: data.name,
-        gender: getGenderEnum(data.gender),
+        gender: data.gender as Gender,
         icon: data.character,
       });
       // Fetch profile again after update to get realtime data (including stats)
@@ -158,7 +165,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
     return (
       <Container className={cn("p-4 sm:p-5 md:p-4 lg:p-6 w-full", className)}>
         <div className="flex items-center justify-center py-8">
-          <div className="text-gray-500">กำลังโหลดข้อมูล...</div>
+          <div className="text-gray-500">{t("Header.loading")}</div>
         </div>
       </Container>
     );
@@ -219,7 +226,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
                   "w-4 h-4 sm:w-5 sm:h-5 md:w-4 md:h-4 lg:w-5 lg:h-5",
                   getGenderColor(gender)
                 ),
-                "aria-label": getGenderThai(gender),
+                "aria-label": getGenderTranslated(gender),
               })}
             </div>
             {/* วันที่เข้าร่วม */}
@@ -246,8 +253,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
               <StatCard
                 imageSrc={getRankBadgeImage(totalScore)}
                 imageAlt={`${currentRank.name} badge`}
-                title={`${currentRank.label}`}
-                description="เเรงค์"
+                title={tRanks(currentRank.name)}
+                description={t("Header.stats.rank")}
                 iconBgColor="bg-transparent"
               />
 
@@ -255,7 +262,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
               <StatCard
                 icon={<FaTrophy className="w-5 h-5 text-[#1cb0f6]" />}
                 title={totalScore.toString()}
-                description="คะแนนที่ได้"
+                description={t("Header.stats.score")}
                 iconBgColor="bg-[#E6F3FF]"
               />
 
@@ -263,7 +270,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
               <StatCard
                 icon={<FaFire className="w-5 h-5 text-[#FF6B6B]" />}
                 title={daystate.toString()}
-                description="วันที่ติดต่อกัน"
+                description={t("Header.stats.streak")}
                 iconBgColor="bg-[#FFE4E1]"
               />
             </div>
@@ -280,13 +287,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
             "overflow-y-auto p-6"
           )}
         >
-          <SheetTitle>แก้ไขโปรไฟล์</SheetTitle>
+          <SheetTitle>{t("Header.editProfile")}</SheetTitle>
           <Divide className="w-full h-px bg-gray-200 my-2" />
           <SheetDescription className="sr-only"></SheetDescription>
 
           <EditProfileForm
             initialName={userName}
-            initialGender={getGenderThai(gender)}
+            initialGender={gender || Gender.MALE}
             initialCharacter={selectedCharacter}
             onSave={handleSaveProfile}
           />
