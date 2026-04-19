@@ -36,29 +36,29 @@ export function ReferenceGrid({
   const isUnlimited = maxPeeks >= 999;
   const canPeek = isUnlimited || peekCount < maxPeeks;
   const isPenaltyPeek = !isUnlimited && peekCount > 0;
+  const isReferenceHidden = isHidden;
 
   return (
-    <div className="relative rounded-2xl p-3 sm:p-4 w-full flex-1 flex flex-col overflow-hidden bg-[#1C2B32] border border-white/10">
+    <div className="relative rounded-lg p-3 sm:p-4 w-full flex-1 flex flex-col overflow-hidden bg-[#E2CDAE] border-4 border-[#8B5A2B] shadow-xl shadow-amber-900/30">
 
-      {/* Peek button row — shown only when reference is hidden */}
-      {showPeekButton && onPeek && (
-        <div className="flex justify-end mb-3 min-h-[32px]">
+      {/* Peek button row — always render to ensure layout stability */}
+      {onPeek && (
+        <div className="flex justify-end mb-2 min-h-[32px]">
           <button
             onClick={onPeek}
-            disabled={!canPeek || isPeeking}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold transition-all
-              ${canPeek && !isPeeking
+            disabled={!canPeek || isPeeking || !isReferenceHidden}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold transition-all shadow-sm
+              ${canPeek && !isPeeking && isReferenceHidden
                 ? isPenaltyPeek
-                  ? "bg-rose-500/10 border-rose-500/30 text-rose-400 hover:bg-rose-500/20"
-                  : "bg-[#FFAC3E]/10 border-[#FFAC3E]/30 text-[#FFAC3E] hover:bg-[#FFAC3E]/20"
-                : "bg-white/5 border-white/10 text-white/30 cursor-not-allowed"
+                  ? "bg-rose-50 border-rose-300 text-rose-600 hover:bg-rose-100"
+                  : "bg-amber-50 border-amber-300 text-amber-700 hover:bg-amber-100"
+                : "bg-white/50 border-amber-900/10 text-amber-900/40 cursor-not-allowed"
               }
             `}
-            title={!canPeek ? "หมดโควต้าดูแล้ว" : isPenaltyPeek ? "ระวัง! หัก 1 คะแนน" : "ดูรูปต้นแบบ"}
+            title={!isReferenceHidden ? "กำลังแสดงรูปต้นแบบอยู่" : !canPeek ? "หมดโควต้าดูแล้ว" : isPenaltyPeek ? "ระวัง! หัก 1 คะแนน" : "ดูรูปต้นแบบ"}
           >
-            <Eye className="w-3.5 h-3.5" />
-            <span>ดูรูป</span>
-            {!isUnlimited && <span>({peekCount}/{maxPeeks})</span>}
+            <Eye className="w-4 h-4" />
+            <span>ดูรูป {isUnlimited ? "∞" : `(${peekCount}/${maxPeeks})`}</span>
           </button>
         </div>
       )}
@@ -66,20 +66,20 @@ export function ReferenceGrid({
       {/* Grid */}
       <div className="flex-1 flex flex-col items-center justify-center px-1 sm:px-4">
         <div
-          className="inline-grid border-2 border-[#FFAC3E] rounded-xl overflow-hidden bg-white"
+          className="inline-grid border border-gray-300 shadow-sm overflow-hidden bg-white"
           style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }}
         >
           {/* Timer overlay during memorize/peek phase */}
           {(isMemorizing || isPeeking) && (
             <div
-              className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center rounded-xl flex-col"
+              className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center flex-col"
               style={{ gridColumn: `1 / -1`, gridRow: `1 / -1` }}
             >
               <span className="text-4xl sm:text-6xl font-black text-white tabular-nums animate-pulse drop-shadow-lg">
                 {timeLeft}
               </span>
               <span className="text-xs sm:text-sm font-bold text-white/80 mt-1 drop-shadow-md">
-                {isMemorizing ? "จดจำรูปภาพ" : "แอบดู..."}
+                {isMemorizing ? "จดจำรูปภาพ" : "จดจำ..."}
               </span>
 
               {isMemorizing && onSkip && (

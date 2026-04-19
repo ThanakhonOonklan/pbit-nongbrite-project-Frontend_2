@@ -3,18 +3,34 @@
 import { use, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import {
+  DndContext,
+  DragEndEvent,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  TouchSensor,
+  DragStartEvent,
+  DragOverlay,
+} from "@dnd-kit/core";
 
-
-import { StepCountingGame } from "@/components/games/step-counting";
+import { NumberLine } from "@/components/games/step-counting/NumberLine";
+import { QuestionPanel } from "@/components/games/step-counting/QuestionPanel";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
-import { GameOverlay } from "@/components/games/GameOverlay";
 import {
   stepCountingLevels,
+  getCorrectAnswers,
 } from "@/constants/games/step-counting-levels";
-import type { ScoreResult } from "@/utils/game-scoring";
-import { StarRating } from "@/components/common/StarRating";
+import {
+  calculateGameScore,
+  getStarRating,
+  type ScoreResult,
+} from "@/utils/game-scoring";
+import { getAbsoluteLevelId } from "@/utils/level-mapper";
+import { gameService } from "@/services/game.service";
 import { useUserStore } from "@/store/user.store";
 import { OutOfLivesModal } from "@/components/common";
 
@@ -30,51 +46,160 @@ export default function StepCountingGamePage({
 
   const config = stepCountingLevels[levelNum];
 
-  // ── Game state ──────────────────────────────────────────
+  // ── Result state ─────────────────────────────────────────
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null);
   const [attempts, setAttempts] = useState(0);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showIntro, setShowIntro] = useState(levelNum === 1);
   const [gameKey, setGameKey] = useState(0);
-  const [currentScore, setCurrentScore] = useState(0);
-  const [earnedStars, setEarnedStars] = useState(0);
-  const [showExitModal, setShowExitModal] = useState(false);
+  const [activeDragId, setActiveDragId] = useState<string | null>(null);
+
+  // ── Game state ───────────────────────────────────────────
+  const [stepper, setStepper] = useState(1);
+  const [slotValues, setSlotValues] = useState<(number | null)[]>(
+    () => Array(config?.operators.length ?? 0).fill(null)
+  );
+  const [attemptCount, setAttemptCount] = useState(0);
+  const [boboStep, setBoboStep] = useState(0);
+  const [boboState, setBoboState] = useState<"idle" | "jumping" | "falling" | "success">("idle");
+  const isChecked = boboState !== "idle";
 
   const startTimeRef = useRef<number>(Date.now());
 
-  // ── Game end handler ────────────────────────────────────
-  const handleGameEnd = useCallback(
-    (result: ScoreResult, attemptCount: number, elapsed: number) => {
-      setScoreResult(result);
-      setAttempts(attemptCount);
-      setElapsedSeconds(elapsed);
-      setCurrentScore(result.totalScore);
-      setEarnedStars(result.totalScore >= 90 ? 3 : result.totalScore >= 60 ? 2 : result.totalScore >= 30 ? 1 : 0);
-    },
-    []
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 0, tolerance: 10 } })
   );
 
-  // ── Retry ───────────────────────────────────────────────
+  const allSlotsFilled = slotValues.every((v) => v !== null);
+
+  // ── Drag Start & End ─────────────────────────────────────
+  const handleDragStart = useCallback((event: DragStartEvent) => {
+    setActiveDragId(event.active.id as string);
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      setActiveDragId(null);
+      const { active, over } = event;
+      const activeId = active.id as string;
+      const targetId = over?.id as string | undefined;
+
+      setSlotValues((prev) => {
+        const next = [...prev];
+
+        if (activeId === "source") {
+          // Dragging from stepper block → place value into slot
+          if (targetId?.startsWith("slot-")) {
+            const i = parseInt(targetId.split("-")[1], 10);
+            next[i] = stepper;
+          }
+        } else if (activeId.startsWith("slot-block-")) {
+          // Dragging an existing slot block
+          const fromIdx = parseInt(activeId.split("-")[2], 10);
+
+          if (targetId?.startsWith("slot-")) {
+            const toIdx = parseInt(targetId.split("-")[1], 10);
+            if (fromIdx !== toIdx) {
+              next[toIdx] = next[fromIdx]; // move
+              next[fromIdx] = null;        // clear source
+            }
+          } else {
+            // Dropped on panel or outside → clear the slot
+            next[fromIdx] = null;
+          }
+        }
+
+        return next;
+      });
+    },
+    [stepper]
+  );
+
+  // ── Confirm ──────────────────────────────────────────────
+  const handleConfirm = useCallback(() => {
+    if (!config || !allSlotsFilled || boboState !== "idle") return;
+
+    const correctAnswers = getCorrectAnswers(config);
+    const newAttempts = attemptCount + 1;
+    setAttemptCount(newAttempts);
+
+    let currentStep = 0;
+
+    const nextJump = () => {
+      if (currentStep < config.operators.length) {
+        const isCorrect = slotValues[currentStep] === correctAnswers[currentStep];
+        currentStep += 1;
+        setBoboStep(currentStep);
+        setBoboState("jumping");
+
+        if (isCorrect) {
+          setTimeout(() => {
+            setBoboState("idle");
+            setTimeout(nextJump, 250);
+          }, 900); // 900ms aligns with CSS hopArc
+        } else {
+          setTimeout(() => {
+            setBoboState("falling");
+            setTimeout(() => {
+              setBoboState("idle");
+              setBoboStep(0);
+            }, 2000); // Give plenty of time to reset safely after fall
+          }, 850); // Falls right before landing
+        }
+      } else {
+        // Reached end successfully
+        setBoboState("success");
+        setTimeout(() => {
+          const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
+          const result = calculateGameScore({
+            difficulty: config.difficulty,
+            attempts: newAttempts,
+            timeSeconds: elapsed,
+          });
+          const { stars } = getStarRating(result.totalScore);
+          const absoluteLevelId = getAbsoluteLevelId("step-counting", config.level);
+          gameService
+            .submitScore({ levelId: absoluteLevelId, score: result.totalScore, stars, playTime: elapsed })
+            .catch((err) => console.error("Failed to submit score", err));
+
+          setScoreResult(result);
+          setAttempts(newAttempts);
+          setElapsedSeconds(elapsed);
+        }, 800);
+      }
+    };
+
+    nextJump();
+  }, [config, allSlotsFilled, boboState, slotValues, attemptCount]);
+
+  // ── Retry ────────────────────────────────────────────────
   const handleRetry = useCallback(() => {
     setScoreResult(null);
     setAttempts(0);
     setElapsedSeconds(0);
-    setCurrentScore(0);
-    setEarnedStars(0);
+    setStepper(1);
+    setSlotValues(Array(config?.operators.length ?? 0).fill(null));
+    setAttemptCount(0);
+    setBoboStep(0);
+    setBoboState("idle");
     startTimeRef.current = Date.now();
     setGameKey((k) => k + 1);
-  }, []);
+  }, [config]);
 
-  // ── Fallback for invalid level ──────────────────────────
+  // ── Fallback ─────────────────────────────────────────────
   if (!config) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#131F24]">
+      <div
+        className="flex h-screen items-center justify-center"
+        style={{ background: "linear-gradient(180deg, #BAE6FD 0%, #FDE68A 50%, #FEF3C7 100%)" }}
+      >
         <div className="flex flex-col items-center text-center gap-4">
-          <Image src="/images/P_Bobo/bobo-03.svg" alt="Bobo" width={110} height={110} className="object-contain drop-shadow-lg" />
-          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+          <Image src="/images/P_Bobo/bobo-03.svg" alt="Bobo" width={110} height={110} className="object-contain" />
+          <p className="text-gray-700 text-xl font-bold">ไม่พบด่านนี้</p>
           <button
             onClick={() => router.push("/courses")}
-            className="mt-2 px-6 py-2 bg-[#6ED1CF] text-white rounded-xl font-bold hover:bg-[#58b8b5] transition-colors shadow-lg"
+            className="mt-2 px-6 py-2 bg-orange-400 text-white rounded-xl font-bold hover:bg-orange-500 transition-colors shadow-lg"
           >
             กลับหน้าหลัก
           </button>
@@ -83,114 +208,124 @@ export default function StepCountingGamePage({
     );
   }
 
-  // Total levels for progress dots
-  const totalLevels = Object.keys(stepCountingLevels).length;
-
   // ── Render ───────────────────────────────────────────────
   return (
-    <div
-      className="flex flex-col h-screen overflow-hidden relative"
-      style={{
-        background: "linear-gradient(180deg, #87CEEB 0%, #A8D8EA 40%, #B8E4F0 70%, #E8F4FD 100%)",
-      }}
+    <DndContext 
+      sensors={sensors} 
+      collisionDetection={closestCenter} 
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragCancel={() => setActiveDragId(null)}
     >
-      {/* ===== Decorative clouds & sun ===== */}
-      <div className="absolute top-6 right-8 z-10 pointer-events-none select-none">
-        <div className="relative">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-300 to-orange-400 shadow-lg shadow-yellow-300/50" />
-          <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-orange-300 opacity-60" />
-        </div>
-      </div>
-      <div className="absolute top-20 right-24 z-10 pointer-events-none select-none opacity-90">
-        <div className="flex gap-1">
-          <div className="w-12 h-8 bg-white rounded-full" />
-          <div className="w-16 h-10 bg-white rounded-full -mt-2" />
-          <div className="w-10 h-7 bg-white rounded-full" />
-        </div>
-      </div>
-      <div className="absolute top-32 left-12 z-10 pointer-events-none select-none opacity-70">
-        <div className="flex gap-1">
-          <div className="w-10 h-6 bg-white rounded-full" />
-          <div className="w-14 h-9 bg-white rounded-full -mt-2" />
-          <div className="w-8 h-5 bg-white rounded-full" />
-        </div>
-      </div>
-      <div className="absolute bottom-16 right-16 z-10 pointer-events-none select-none opacity-50">
-        <div className="flex gap-1">
-          <div className="w-14 h-8 bg-white rounded-full" />
-          <div className="w-18 h-10 bg-white rounded-full -mt-1" />
-          <div className="w-10 h-6 bg-white rounded-full" />
-        </div>
-      </div>
+      <div
+        className="flex flex-col h-screen overflow-hidden relative"
+        style={{ background: "linear-gradient(180deg, #BAE6FD 0%, #FDE68A 50%, #FBBF24 80%, #FEF3C7 100%)" }}
+      >
+        <GameHeader
+          level={level}
+          gameTitle="นับจำนวนก้าวเดิน"
+          characterSrc="/images/P_Bobo/bobo-01.svg"
+          bgColor="#6ED1CF"
+        />
 
-      {/* ===== GameHeader ===== */}
-      <GameHeader
-        level={level}
-        gameTitle="นับจำนวนก้าวเดิน"
-        characterSrc="/images/P_Bobo/bobo-01.svg"
-        bgColor="#6ED1CF"
-      />
-
-      {/* ===== Info Bar (stars, score, progress dots) ===== */}
-
-
-      {/* ===== Main game area ===== */}
-      <div className="flex-1 flex items-center justify-center px-4 pb-4 overflow-auto relative z-20">
-        <div className="w-full max-w-2xl">
-          <StepCountingGame
+        {/* NumberLine */}
+        <div className="flex-1 flex items-center justify-center overflow-hidden relative z-20">
+          <NumberLine
             key={gameKey}
-            config={config}
-            onGameEnd={handleGameEnd}
-            startTime={startTimeRef.current}
+            startValue={config.startValue}
+            operators={config.operators}
+            slotValues={slotValues}
+            boboStep={boboStep}
+            boboState={boboState}
           />
         </div>
-      </div>
 
-      {/* Help button */}
-      <HelpButton
-        steps={[
-          { emoji: "🔢", text: "ดู Number Line ด้านบน" },
-          { emoji: "🐻", text: "หมีเริ่มจากช่องที่กำหนด" },
-          { emoji: "👣", text: "นับก้าวตามจำนวนที่บอก" },
-          { emoji: "✅", text: "เลือกช่องที่หมีจะไปถึง" },
-        ]}
-      />
+        {/* QuestionPanel */}
+        <div className="px-4 pb-6 pt-2 relative z-20">
+          <QuestionPanel
+            stepper={stepper}
+            onStepperMinus={() => setStepper((s) => Math.max(0, s - 1))}
+            onStepperPlus={() => setStepper((s) => Math.min(50, s + 1))}
+            allSlotsFilled={allSlotsFilled}
+            onConfirm={handleConfirm}
+            isChecked={isChecked}
+          />
+        </div>
 
-      {/* Intro overlay (Level 1 only) */}
-      {showIntro && (
-        <GameOverlay
-          type="hint"
-          message={
-            <>
-              มาช่วยหมีนับก้าวเดินกัน!
-            </>
+        <HelpButton
+          steps={[
+            { emoji: "🔢", text: "ดูตัวเลขเริ่มต้นทางซ้าย" },
+            { emoji: "➕", text: "กด + / − เพื่อปรับตัวเลข" },
+            { emoji: "🖐️", text: "ลากบล็อคกลางไปวางในช่อง ?" },
+            { emoji: "🔄", text: "ลากบล็อคในช่องออกเพื่อล้าง" },
+            { emoji: "✅", text: "กดยืนยันเมื่อวางครบ" },
+          ]}
+        />
+
+        {/* Intro overlay */}
+        {showIntro && (
+          <div
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer"
+            onClick={() => setShowIntro(false)}
+            style={{
+              background: "linear-gradient(180deg, rgba(186,230,253,0.95) 0%, rgba(253,230,138,0.95) 100%)",
+              animation: "fadeIn 0.3s ease-out",
+            }}
+          >
+            <Image
+              src="/images/P_Bobo/bobo-02.svg"
+              alt="Bobo"
+              width={160}
+              height={160}
+              className="object-contain mb-4 drop-shadow-xl"
+              style={{ animation: "bounceIn 0.5s ease-out" }}
+            />
+            <p className="text-orange-500 text-3xl font-extrabold text-center leading-relaxed">
+              ช่วยกันเติมตัวเลขในช่องว่างเลย!
+            </p>
+            <p className="text-gray-600 text-lg font-semibold mt-1">
+              ปรับตัวเลขแล้วลากไปวาง 🎯
+            </p>
+            <p className="text-gray-400 text-sm mt-6 animate-pulse">แตะเพื่อเริ่มเล่น ✨</p>
+          </div>
+        )}
+
+        {scoreResult && (
+          <GameResultModal
+            levelNum={levelNum}
+            score={scoreResult}
+            attempts={attempts}
+            timeSeconds={elapsedSeconds}
+            gamePath="step-counting"
+            onRetry={handleRetry}
+          />
+        )}
+
+        {user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0 && <OutOfLivesModal />}
+
+        <style>{`
+          @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+          @keyframes bounceIn {
+            0%   { opacity: 0; transform: scale(0.5) translateY(20px); }
+            60%  { transform: scale(1.05) translateY(-5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
           }
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/P_Bobo/bobo-02.svg"
-          imageAlt="Bobo"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
-        />
-      )}
+        `}</style>
 
-
-
-      {/* Score result modal */}
-      {scoreResult && (
-        <GameResultModal
-          levelNum={levelNum}
-          score={scoreResult}
-          attempts={attempts}
-          timeSeconds={elapsedSeconds}
-          gamePath="step-counting"
-          onRetry={handleRetry}
-        />
-      )}
-
-      {/* Out of Lives Modal */}
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
-
-
-    </div>
+        {/* ── Virtual Drag Overlay ── */}
+        <DragOverlay dropAnimation={null}>
+          {activeDragId === "source" && (
+            <div className="flex-1 w-[200px] h-16 rounded-2xl font-black text-2xl text-white flex items-center justify-center bg-sky-400 shadow-[0_5px_0_#2563EB] scale-[1.02] rotate-2 cursor-grabbing">
+              {stepper}
+            </div>
+          )}
+          {activeDragId?.startsWith("slot-block-") && (
+            <div className="w-[72px] h-[52px] rounded-2xl font-black text-2xl text-white flex items-center justify-center bg-sky-500 shadow-[0_4px_0_#1D4ED8] scale-110 -rotate-3 cursor-grabbing">
+              {slotValues[parseInt(activeDragId.split("-")[2], 10)]}
+            </div>
+          )}
+        </DragOverlay>
+      </div>
+    </DndContext>
   );
 }

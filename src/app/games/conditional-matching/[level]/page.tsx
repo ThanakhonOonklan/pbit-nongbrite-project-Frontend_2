@@ -405,6 +405,17 @@ export default function ConditionalMatchingGamePage({
           <div className={`flex flex-col justify-center z-20
             ${compact ? "gap-1.5 sm:gap-2 md:gap-3 w-[82px] sm:w-[108px] md:w-[136px] lg:w-[165px]"
                        : "gap-2.5 sm:gap-3 md:gap-4 lg:gap-5 w-[106px] sm:w-[132px] md:w-[156px] lg:w-[185px]"}`}>
+            {/* Header: ถ้า... */}
+            <div className={`flex flex-row items-center z-20 mb-1 sm:mb-2 
+              ${compact ? "gap-1 sm:gap-1.5 md:gap-2" : "gap-1.5 sm:gap-2.5 md:gap-3 lg:gap-4"}`}>
+              <div className="flex-1 flex justify-center">
+                <span className={`bg-[#ebdff7] font-extrabold text-[#614b82] px-3 sm:px-5 py-0.5 sm:py-1 rounded-full inline-block
+                  ${compact ? "text-[11px] sm:text-xs" : "text-sm sm:text-base"}`}>
+                  ถ้า...
+                </span>
+              </div>
+              <div className={`shrink-0 ${compact ? "w-6 sm:w-7 md:w-8" : "w-7 sm:w-8 md:w-9 lg:w-10"}`} />
+            </div>
             {config.leftItems.map((item) => (
               <LeftColItem
                 key={item.id}
@@ -424,6 +435,17 @@ export default function ConditionalMatchingGamePage({
           <div className={`flex flex-col justify-center z-20
             ${compact ? "gap-1.5 sm:gap-2 md:gap-3 w-[82px] sm:w-[108px] md:w-[136px] lg:w-[165px]"
                        : "gap-2.5 sm:gap-3 md:gap-4 lg:gap-5 w-[106px] sm:w-[132px] md:w-[156px] lg:w-[185px]"}`}>
+            {/* Header: ...แล้ว */}
+            <div className={`flex flex-row items-center z-20 mb-1 sm:mb-2
+              ${compact ? "gap-1 sm:gap-1.5 md:gap-2" : "gap-1.5 sm:gap-2.5 md:gap-3 lg:gap-4"}`}>
+              <div className={`shrink-0 ${compact ? "w-6 sm:w-7 md:w-8" : "w-7 sm:w-8 md:w-9 lg:w-10"}`} />
+              <div className="flex-1 flex justify-center">
+                <span className={`bg-[#ebdff7] font-extrabold text-[#614b82] px-3 sm:px-5 py-0.5 sm:py-1 rounded-full inline-block
+                  ${compact ? "text-[11px] sm:text-xs" : "text-sm sm:text-base"}`}>
+                  ...แล้ว
+                </span>
+              </div>
+            </div>
             {config.rightItems.map((item) => {
               const startId = Object.keys(connectedItems).find(k => connectedItems[k] === item.id);
               const isError = startId ? errorLines.includes(startId) : false;

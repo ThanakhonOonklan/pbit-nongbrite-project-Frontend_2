@@ -3,6 +3,17 @@
 import { use, useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import {
+  DndContext,
+  DragEndEvent,
+  DragStartEvent,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  TouchSensor,
+  DragOverlay,
+} from "@dnd-kit/core";
 
 import { FaPlay, FaUndo } from "react-icons/fa";
 import { TiltButton } from "react-tilt-button";
@@ -69,6 +80,12 @@ export default function PathNavigationGamePage({
   const [maxCommands, setMaxCommands] = useState(9); // updated dynamically by CommandSequence
   const [playerFailType, setPlayerFailType] = useState<"none" | "fall" | "stumble">("none");
   const [playerFallDir, setPlayerFallDir] = useState<Direction | null>(null);
+  const [activeDragId, setActiveDragId] = useState<string | null>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 0, tolerance: 10 } })
+  );
 
   const startTimeRef = useRef<number>(Date.now());
   const animTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -119,6 +136,25 @@ export default function PathNavigationGamePage({
     setCommands([]);
     setErrorMsg(null);
   }, [isRunning]);
+
+  const handleDragStart = useCallback((event: DragStartEvent) => {
+    setActiveDragId(event.active.id as string);
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      setActiveDragId(null);
+      const { active, over } = event;
+      if (!over || over.id !== "command-sequence") return;
+
+      const activeIdStr = active.id as string;
+      if (activeIdStr.startsWith("dir-")) {
+        const dir = activeIdStr.replace("dir-", "") as Direction;
+        handleAddCommand(dir);
+      }
+    },
+    [handleAddCommand]
+  );
 
   // ── RUN: sequential chain — stops immediately on collision ──────────────
 
@@ -296,10 +332,21 @@ export default function PathNavigationGamePage({
 
   // ── RENDER ─────────────────────────────────────────────
 
+  // Virtual overlay render logic
+  let overlayIconSrc = "";
+  if (activeDragId?.startsWith("dir-")) {
+    const d = activeDragId.replace("dir-", "");
+    if (d === "up") overlayIconSrc = "/icons/Arrow/ArrowUp.svg";
+    if (d === "down") overlayIconSrc = "/icons/Arrow/ArrowDown.svg";
+    if (d === "left") overlayIconSrc = "/icons/Arrow/ArrowLeft.svg";
+    if (d === "right") overlayIconSrc = "/icons/Arrow/ArrowRight.svg";
+  }
+
   return (
-    <div
-      className="flex flex-col bg-[#131F24] min-h-screen lg:h-screen lg:overflow-hidden overflow-y-auto"
-    >
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
+      <div
+        className="flex flex-col bg-[#131F24] min-h-screen lg:h-screen lg:overflow-hidden overflow-y-auto"
+      >
       {/* ===== TOP HEADER ===== */}
       <GameHeader
         level={level}
@@ -472,7 +519,16 @@ export default function PathNavigationGamePage({
         />
       )}
 
+      {/* ===== DRAG OVERLAY ===== */}
+      <DragOverlay dropAnimation={null}>
+        {activeDragId?.startsWith("dir-") && overlayIconSrc && (
+          <div className="w-[60px] h-[60px] lg:w-[77px] lg:h-[77px] rounded-2xl bg-[#1491ff] border-[3px] border-[#43a7ff] flex items-center justify-center shadow-[0_8px_0_#1587bd] scale-105 rotate-2 cursor-grabbing pointer-events-none">
+            <img src={overlayIconSrc} alt="Dragging" className="w-6 h-6 lg:w-7 lg:h-7 pointer-events-none" />
+          </div>
+        )}
+      </DragOverlay>
 
     </div>
+    </DndContext>
   );
 }

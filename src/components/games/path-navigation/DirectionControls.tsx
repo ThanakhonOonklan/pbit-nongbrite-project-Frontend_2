@@ -1,8 +1,7 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TiltButton } from "react-tilt-button";
 import { type Direction } from "@/constants/games/path-navigation-levels";
+import { useDraggable } from "@dnd-kit/core";
 
 interface DirectionControlsProps {
     onAddCommand: (direction: Direction) => void;
@@ -47,17 +46,30 @@ function DirectionButton({
     const btnSize = isDesktop ? 77 : 60;
     const btnRadius = isDesktop ? 17 : 13;
 
+    const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+        id: `dir-${direction}`,
+        disabled,
+    });
+
+    const wasDraggingRecently = useRef(false);
+
+    useEffect(() => {
+        if (isDragging) {
+            wasDraggingRecently.current = true;
+        } else {
+            const t = setTimeout(() => {
+                wasDraggingRecently.current = false;
+            }, 100);
+            return () => clearTimeout(t);
+        }
+    }, [isDragging]);
+
     return (
-        /* Wrap with draggable div — TiltButton doesn't expose native drag events */
         <div
-            draggable={!disabled}
-            onDragStart={(e) => {
-                e.dataTransfer.setData("text/plain", direction);
-                e.dataTransfer.effectAllowed = "copy";
-                setDragging(true);
-            }}
-            onDragEnd={() => setDragging(false)}
-            className={`select-none ${dragging ? "opacity-40 scale-95" : ""} transition-opacity duration-150`}
+            ref={setNodeRef}
+            {...listeners}
+            {...attributes}
+            className={`select-none touch-none ${isDragging ? "opacity-30 scale-95" : ""} transition-all duration-150`}
             title={label}
         >
             <TiltButton
@@ -77,7 +89,11 @@ function DirectionButton({
                 glareOpacity={0}
                 glareWidth={0}
                 disabled={disabled}
-                onClick={() => !disabled && onAddCommand(direction)}
+                onClick={() => {
+                    if (!disabled && !wasDraggingRecently.current) {
+                        onAddCommand(direction);
+                    }
+                }}
             >
                 {icon}
             </TiltButton>

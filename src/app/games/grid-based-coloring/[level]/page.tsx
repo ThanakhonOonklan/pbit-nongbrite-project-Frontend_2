@@ -57,10 +57,13 @@ export default function GridBasedColoringGamePage({
   // ── Fallback ─────────────────────────────────────────────
   if (!config) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#131F24]">
-        <div className="flex flex-col items-center text-center gap-4">
+      <div className="flex h-screen items-center justify-center bg-gradient-to-b from-[#7DE2FC] to-[#E5F9FF] overflow-hidden relative z-0">
+        {/* Grass area for fallback */}
+        <div className="absolute bottom-0 left-[-10%] right-[-10%] h-[30%] bg-[#8FBF3B] rounded-t-[100%] -z-10" />
+
+        <div className="flex flex-col items-center text-center gap-4 relative z-10">
           <Image src="/images/Nong_brite/nong-brite-06.svg" alt="Nong Brite" width={110} height={110} className="object-contain drop-shadow-lg" />
-          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+          <p className="text-amber-900 text-xl font-bold">ไม่พบด่านนี้</p>
           <button
             onClick={() => router.push("/courses")}
             className="mt-2 px-6 py-2 bg-[#AACE30] text-white rounded-xl font-bold hover:bg-[#8BB422] transition-colors"
@@ -74,8 +77,12 @@ export default function GridBasedColoringGamePage({
 
 
   return (
-    // ── Dark navy background — เหมือน path-navigation / sequencing ─
-    <div className="flex flex-col min-h-screen bg-[#131F24] overflow-hidden relative">
+    // ── Sky and Grass background ─
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#7DE2FC] via-[#B9EFFF] to-[#E5F9FF] overflow-hidden relative z-0">
+
+      {/* Decorative Grass Hills */}
+      <div className="absolute bottom-[-5%] left-[-20%] right-[10%] h-[35%] bg-[#A8D354] rounded-t-[100%] -z-10" />
+      <div className="absolute bottom-[-10%] left-[10%] right-[-20%] h-[40%] bg-[#8FBF3B] rounded-t-[100%] -z-10" />
 
       {/* Header */}
       <GameHeader

@@ -1,6 +1,7 @@
 "use client";
 
 import { FaEraser, FaPaintBrush, FaFillDrip, FaTrashAlt } from "react-icons/fa";
+import { Undo2, Redo2 } from "lucide-react";
 import { type DrawingMode } from "./GridColoringGame";
 import { TiltButton } from "react-tilt-button";
 
@@ -12,6 +13,10 @@ interface ColorPaletteProps {
   onSelectMode: (mode: DrawingMode) => void;
   onCheckAnswer?: () => void;
   onReset?: () => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
+  canUndo?: boolean;
+  canRedo?: boolean;
   isCheckDisabled?: boolean;
 }
 
@@ -47,6 +52,10 @@ export function ColorPalette({
   onSelectMode,
   onCheckAnswer,
   onReset,
+  onUndo,
+  onRedo,
+  canUndo,
+  canRedo,
   isCheckDisabled = false,
 }: ColorPaletteProps) {
   const displayPalette = palette.reduce((acc: string[], curr: string) => {
@@ -55,7 +64,7 @@ export function ColorPalette({
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2">
+    <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
 
       {/* ── Color swatches ── */}
       {displayPalette.map((color) => {
@@ -68,18 +77,20 @@ export function ColorPalette({
             title={name}
             style={{ backgroundColor: color }}
             className={`
-              w-11 h-11 rounded-xl border-2 transition-all duration-150 active:scale-90
+              w-12 h-12 rounded-full transition-all duration-150 active:scale-90 flex items-center justify-center shrink-0
               ${isActive
-                ? "border-[#FFAC3E] scale-110 shadow-[0_0_0_3px_rgba(255,172,62,0.4)]"
-                : "border-transparent hover:border-[#FFAC3E]/60 hover:scale-105"
+                ? "scale-110 shadow-md z-10"
+                : "shadow-sm hover:scale-105 ring-1 ring-black/5"
               }
             `}
-          />
+          >
+            {isActive && <div className="w-5 h-5 rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.3)]" />}
+          </button>
         );
       })}
 
       {/* ── Divider ── */}
-      <div className="w-px self-stretch bg-white/10 mx-1" />
+      <div className="w-px self-stretch bg-amber-900/10 mx-1" />
 
       {/* ── Tool buttons ── */}
       {TOOLS.map(({ mode, label, icon }) => {
@@ -90,34 +101,54 @@ export function ColorPalette({
             onClick={() => { if (mode === "eraser") onSelectColor(null); onSelectMode(mode); }}
             title={label}
             className={`
-              w-11 h-14 rounded-xl border-2 flex flex-col items-center justify-center gap-1
-              text-white transition-all duration-150 active:scale-90
+              w-[3.5rem] h-[3.5rem] rounded-full border-2 flex items-center justify-center shrink-0
+              transition-all duration-150 active:scale-90 shadow-sm
               ${isActive
-                ? "bg-[#FFAC3E]/20 border-[#FFAC3E] scale-105"
-                : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
+                ? "bg-amber-100 border-amber-400 text-amber-700 scale-105"
+                : "bg-white border-amber-900/10 text-amber-900/60 hover:bg-amber-50 hover:border-amber-400/40 hover:text-amber-900"
               }
             `}
           >
-            <span className="text-sm">{icon}</span>
-            <span className="text-[9px] font-bold leading-none">{label}</span>
+            <span className="text-[22px]">{icon}</span>
           </button>
         );
       })}
+
+      {/* ── Undo / Redo ── */}
+      {onUndo && (
+        <button
+          onClick={onUndo}
+          disabled={!canUndo}
+          title="เลิกทำ"
+          className="w-[3.5rem] h-[3.5rem] rounded-full border-2 border-amber-900/10 bg-white hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center shadow-sm text-amber-900/60 hover:text-amber-900 transition-all duration-150 active:scale-90 shrink-0"
+        >
+          <Undo2 className="w-6 h-6" />
+        </button>
+      )}
+      {onRedo && (
+        <button
+          onClick={onRedo}
+          disabled={!canRedo}
+          title="ทำซ้ำ"
+          className="w-[3.5rem] h-[3.5rem] rounded-full border-2 border-amber-900/10 bg-white hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center shadow-sm text-amber-900/60 hover:text-amber-900 transition-all duration-150 active:scale-90 shrink-0"
+        >
+          <Redo2 className="w-6 h-6" />
+        </button>
+      )}
 
       {/* ── Reset ── */}
       {onReset && (
         <button
           onClick={onReset}
           title="ล้างทั้งหมด"
-          className="w-11 h-14 rounded-xl border-2 border-white/10 bg-white/5 hover:bg-red-500/20 hover:border-red-500/40 flex flex-col items-center justify-center gap-1 text-white/60 hover:text-red-400 transition-all duration-150 active:scale-90"
+          className="w-[3.5rem] h-[3.5rem] rounded-full border-2 border-amber-900/10 bg-white hover:bg-rose-50 hover:border-rose-300 flex items-center justify-center shadow-sm text-amber-900/60 hover:text-rose-600 transition-all duration-150 active:scale-90 shrink-0"
         >
-          <span className="text-sm"><FaTrashAlt /></span>
-          <span className="text-[9px] font-bold leading-none">ล้าง</span>
+          <span className="text-xl"><FaTrashAlt /></span>
         </button>
       )}
 
       {/* ── Divider ── */}
-      {onCheckAnswer && <div className="w-px self-stretch bg-white/10 mx-1" />}
+      {onCheckAnswer && <div className="w-px self-stretch bg-amber-900/10 mx-1" />}
 
       {/* ── Submit ── */}
       {onCheckAnswer && (
@@ -131,14 +162,14 @@ export function ColorPalette({
             pressInset={isCheckDisabled ? 0 : 4}
             radius={12}
             motion={isCheckDisabled ? 0 : 100}
-            surfaceColor={isCheckDisabled ? "#9CA3AF" : "#FFAC3E"}
-            sideColor={isCheckDisabled ? "#6B7280" : "#D98A1E"}
+            surfaceColor={isCheckDisabled ? "#9CA3AF" : "#22C55E"}
+            sideColor={isCheckDisabled ? "#6B7280" : "#16A34A"}
             textColor="#ffffff"
             borderColor="transparent"
             borderWidth={0}
             style={{ pointerEvents: isCheckDisabled ? 'none' : 'auto' }}
           >
-            ตรวจคำตอบ
+            ยืนยัน
           </TiltButton>
         </div>
       )}
