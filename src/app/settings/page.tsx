@@ -6,12 +6,14 @@ import { useAuthStore } from "@/store/auth.store";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Divider, PrimaryButton, LoadingOverlay, BackgroundSquares, Container, LanguageDropdown, SoundToggle } from "@/components/common";
 import { IoLanguage, IoVolumeHigh, IoLogOut } from "react-icons/io5";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { setUserLocale } from "@/actions/locale";
 
 export default function SettingsPage() {
   const router = useRouter();
   const { logout, isLoading } = useAuthStore();
-  const [selectedLanguage, setSelectedLanguage] = React.useState<"th" | "en">("th");
+  const currentLocale = useLocale() as "th" | "en";
+  const [selectedLanguage, setSelectedLanguage] = React.useState<"th" | "en">(currentLocale);
   const [soundOn, setSoundOn] = React.useState(true);
   const t = useTranslations("Settings");
 
@@ -64,17 +66,22 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-3">
                     <IoLanguage className="w-6 h-6 text-[#1cb0f6]" />
                     <span className="text-[18px] font-semibold text-gray-800">
-                      ภาษา
+                      {t("languageTitle")}
                     </span>
                   </div>
                   <p className="text-[13px] md:text-[14px] text-gray-500 ml-[32px]">
-                    ตั้งค่าภาษาที่ใช้ภายในแอป
+                    {t("languageDesc")}
                   </p>
                 </div>
                 <LanguageDropdown
                   languages={languages}
                   selectedLanguage={selectedLanguage}
-                  onLanguageChange={(code) => setSelectedLanguage(code as "th" | "en")}
+                  onLanguageChange={async (code) => {
+                    const newLocale = code as "th" | "en";
+                    setSelectedLanguage(newLocale);
+                    await setUserLocale(newLocale);
+                    router.refresh();
+                  }}
                 />
               </div>
 
@@ -84,11 +91,11 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-3">
                     <IoVolumeHigh className="w-6 h-6 text-[#1cb0f6]" />
                     <span className="text-[18px] font-semibold text-gray-800">
-                      เสียง
+                      {t("soundTitle")}
                     </span>
                   </div>
                   <p className="text-[13px] md:text-[14px] text-gray-500 ml-[32px]">
-                    เปิดหรือปิดเสียงเอฟเฟกต์ภายในเกม
+                    {t("soundDesc")}
                   </p>
                 </div>
                 <SoundToggle
@@ -108,14 +115,14 @@ export default function SettingsPage() {
                 disabled={isLoading}
               >
                 <IoLogOut className="w-5 h-5" />
-                <span>{isLoading ? "กำลังออกจากระบบ..." : "ออกจากบัญชี"}</span>
+                <span>{isLoading ? t("logoutLoading") : t("logoutBtn")}</span>
               </PrimaryButton>
             </div>
           </Container>
         </div>
       </main>
 
-      <LoadingOverlay isLoading={isLoading} message="กำลังออกจากระบบ..." />
+      <LoadingOverlay isLoading={isLoading} message={t("logoutLoading")} />
     </div>
   );
 }

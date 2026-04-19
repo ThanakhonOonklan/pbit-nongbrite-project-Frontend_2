@@ -2,6 +2,7 @@ import * as React from "react";
 import { FaStar, FaCaretDown } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { KawaiiProgressBar } from "@/components/common/KawaiiProgressBar";
+import { useTranslations } from "next-intl";
 
 export interface LevelData {
   level: number;
@@ -31,6 +32,7 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({
   isExpanded = false,
   onToggle,
 }) => {
+  const t = useTranslations("Profile.progress");
   const totalStarsEarned = levels.reduce((sum, level) => sum + level.stars, 0);
   const maxStars = total * 3; // 9 ด่าน × 3 ดาวต่อด่าน = 27
 
@@ -156,7 +158,7 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({
                   }}
                 >
                   <span className="text-[13px] font-semibold text-gray-700">
-                    ด่าน {level.level}
+                    {t("levelPrefix", { level: level.level })}
                   </span>
                   <div className="flex items-center gap-0.5">
                     {[1, 2, 3].map((star) => (

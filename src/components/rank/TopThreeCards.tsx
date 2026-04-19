@@ -5,6 +5,7 @@ import { Image } from "@/components/common/Image";
 import { RankUser } from "@/types";
 import { cn } from "@/lib/utils";
 import { FaMedal, FaMars, FaVenus, FaGenderless } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 
 export interface TopThreeCardsProps {
   items?: RankUser[];
@@ -72,6 +73,16 @@ const TopThreeCards: React.FC<TopThreeCardsProps> = ({
   className = "",
 }) => {
   const safeItems = items.slice(0, 3);
+  const tProfile = useTranslations("Profile");
+
+  const getTranslatedGender = (gender: string | undefined) => {
+    if (!gender) return null;
+    const upper = gender.toUpperCase();
+    if (upper === 'MALE' || upper === 'เพศชาย' || upper === 'male') return tProfile('genderMale');
+    if (upper === 'FEMALE' || upper === 'เพศหญิง' || upper === 'female') return tProfile('genderFemale');
+    if (upper === 'OTHER' || upper === 'ไม่ระบุตัวตน' || upper === 'other') return tProfile('genderOther');
+    return null;
+  };
 
   if (safeItems.length === 0) {
     // แสดง card 3 ใบว่างเปล่า
@@ -182,7 +193,7 @@ const TopThreeCards: React.FC<TopThreeCardsProps> = ({
                   {user.gender && (
                     <>
                       <span className="text-[11px] sm:text-[12px] text-gray-600">
-                        {user.gender}
+                        {getTranslatedGender(user.gender)}
                       </span>
                       {getGenderIcon(user.gender)}
                     </>

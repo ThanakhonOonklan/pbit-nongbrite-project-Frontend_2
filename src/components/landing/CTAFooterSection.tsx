@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { PrimaryButton } from "@/components/common";
 import { Image } from "@/components/common/Image";
+import { useTranslations } from "next-intl";
 
 export function CTAFooterSection() {
+  const t = useTranslations("Landing.CTA");
   return (
     <section id="cta" className="py-16 md:py-24 px-6 md:px-12 lg:px-16 bg-gradient-to-br from-[#1cb0f6] to-[#0d8fc7]">
       <div className="max-w-4xl mx-auto h-[470px]">
@@ -57,10 +59,10 @@ export function CTAFooterSection() {
 
           {/* Content */}
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-            พร้อมเริ่มต้นการผจญภัยแล้วหรือยัง?
+            {t("title")}
           </h2>
           <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl">
-            เข้าร่วมกับผู้เรียนหลายพันคนและเริ่มต้นการเดินทางสู่การเรียนรู้ที่สนุกสนาน
+            {t("description")}
           </p>
 
           {/* CTA Button */}
@@ -70,7 +72,7 @@ export function CTAFooterSection() {
               size="lg"
               className="min-w-[200px]"
             >
-              เริ่มเรียนเลยตอนนี้
+              {t("startNow")}
             </PrimaryButton>
           </Link>
         </div>

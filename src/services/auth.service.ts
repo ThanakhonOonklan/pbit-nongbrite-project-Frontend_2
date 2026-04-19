@@ -88,6 +88,22 @@ export interface RegisterStep2Response {
   };
 }
 
+export interface ForgotPasswordResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface ResetPasswordPayload {
+  email: string;
+  pin: string;
+  newPassword: string;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  message: string;
+}
+
 export const authService = {
   login: async (payload: LoginPayload) => {
     const response = await apiClient.post<AuthResponse>('/auth/login', payload);
@@ -109,6 +125,22 @@ export const authService = {
   registerStep2: async (payload: RegisterStep2Payload) => {
     const response = await apiClient.post<RegisterStep2Response>(
       '/auth/register/step2',
+      payload
+    );
+    return response.data;
+  },
+
+  forgotPassword: async (email: string) => {
+    const response = await apiClient.post<ForgotPasswordResponse>(
+      '/auth/forgot-password',
+      { email }
+    );
+    return response.data;
+  },
+
+  resetPassword: async (payload: ResetPasswordPayload) => {
+    const response = await apiClient.post<ResetPasswordResponse>(
+      '/auth/reset-password',
       payload
     );
     return response.data;

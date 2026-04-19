@@ -11,6 +11,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { TiltButton } from "react-tilt-button";
 import { StarRating, LoadingOverlay } from "@/components/common";
 import { FaLock, FaTrophy } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 
 // Helper to resolve responsive width/height values
 const resolveSize = (
@@ -41,6 +42,7 @@ export interface GameCardProps {
 
 export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevelSelect }) => {
   const router = useRouter();
+  const t = useTranslations("Courses");
   const isMobile = useIsMobile();
   const [isTablet, setIsTablet] = useState(false);
   const [activeLevel, setActiveLevel] = useState<number | null>(null);
@@ -61,7 +63,7 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
     headerText: (
       <span className="flex items-center gap-0.5 sm:gap-1 md:gap-1.5">
         <GameIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-        {game.title}
+        {t(`Games.${game.id}.title`)}
       </span>
     ),
     headerColor: game.headerColor,
@@ -214,7 +216,7 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
           </div>
         </div>
       </ScrollStackItem>
-      <LoadingOverlay isLoading={isNavigating} message="กำลังโหลด..." />
+      <LoadingOverlay isLoading={isNavigating} message={t("GameCard.loading")} />
     </>
   );
 };

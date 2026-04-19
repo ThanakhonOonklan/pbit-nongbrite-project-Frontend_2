@@ -7,6 +7,7 @@ import { PasswordField } from "@/components/common/PasswordField";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export interface LoginFormProps {
   onSubmit?: (username: string, password: string) => void;
@@ -16,6 +17,7 @@ export interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, error, onClearError }) => {
+  const t = useTranslations("Auth");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [usernameError, setUsernameError] = React.useState<string | undefined>();
@@ -33,7 +35,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
 
   const validateUsername = (usernameValue: string): boolean => {
     if (!usernameValue.trim()) {
-      setUsernameError("กรุณากรอกชื่อผู้ใช้");
+      setUsernameError(t("login.usernameRequired"));
       return false;
     }
     setUsernameError(undefined);
@@ -42,7 +44,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
 
   const validatePassword = (passwordValue: string): boolean => {
     if (!passwordValue.trim()) {
-      setPasswordError("กรุณากรอกรหัสผ่าน");
+      setPasswordError(t("login.passwordRequired"));
       return false;
     }
     setPasswordError(undefined);
@@ -89,7 +91,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
 
   return (
     <>
-      <LoadingOverlay isLoading={isLoading} message="กำลังเข้าสู่ระบบ..." />
+      <LoadingOverlay isLoading={isLoading} message={t("login.loading")} />
       <div className="relative w-full ">
         {/* Outer card with landing page theme */}
         <div className="relative bg-white rounded-[32px] md:rounded-[40px] px-4 py-8 sm:px-5 sm:py-10 md:px-6 md:py-12 overflow-hidden ">
@@ -115,7 +117,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
               />
             </div>
             <h2 className=" font-bold text-gray-800 text-center">
-              เข้าสู่ระบบ
+              {t("login.title")}
             </h2>
             {/* Form content */}
             <form
@@ -126,8 +128,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
               <div className="flex flex-col gap-5 md:gap-6 w-full max-w-[460px]">
                 <InputField
                   type="text"
-                  label="ชื่อผู้ใช้"
-                  placeholder="ชื่อผู้ใช้"
+                  label={t("login.usernameLabel")}
+                  placeholder={t("login.usernameLabel")}
                   value={username}
                   error={usernameError}
                   onChange={handleUsernameChange}
@@ -137,8 +139,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
 
                 <div className="flex flex-col gap-2 w-full">
                   <PasswordField
-                    label="รหัสผ่าน"
-                    placeholder="รหัสผ่าน"
+                    label={t("login.passwordLabel")}
+                    placeholder={t("login.passwordLabel")}
                     value={password}
                     error={passwordError}
                     onChange={handlePasswordChange}
@@ -150,7 +152,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
                       href="/forget-password"
                       className="text-[12px] md:text-[13px] leading-[18px] text-gray-500 hover:text-[#1cb0f6] transition-colors"
                     >
-                      ลืมรหัสผ่าน?
+                      {t("login.forgotPassword")}
                     </Link>
                   </div>
                 </div>
@@ -160,21 +162,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
               <button
                 type="submit"
                 disabled={isLoading}
-                aria-label="เข้าสู่ระบบ"
+                aria-label={t("login.title")}
                 aria-busy={isLoading}
                 className="mt-2 w-full max-w-[460px] h-[50px] md:h-[52px] rounded-[12px] md:rounded-[15px] text-[15px] md:text-[16px] font-semibold bg-[#1cb0f6] text-white hover:bg-[#1699d6] active:bg-[#1280b5] focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                เข้าสู่ระบบ
+                {t("login.title")}
               </button>
 
               {/* Footer Links */}
               <p className="text-center text-[13px] md:text-[14px] text-gray-600 w-full max-w-[460px]">
-                ยังไม่มีบัญชี?{" "}
+                {t("login.noAccount")}{" "}
                 <Link
                   href="/register"
                   className="text-[#1cb0f6] font-semibold hover:text-[#17a3e3] transition-colors underline"
                 >
-                  สร้างบัญชี
+                  {t("login.createAccount")}
                 </Link>
               </p>
             </form>

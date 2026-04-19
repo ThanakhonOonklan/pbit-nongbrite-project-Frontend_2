@@ -9,6 +9,7 @@ import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import { useUserStore } from "@/store/user.store";
 import { useAuthStore } from "@/store/auth.store";
 import { Gender } from "@/services/auth.service";
+import { useTranslations } from "next-intl";
 
 export interface SidebarProps {
   className?: string;
@@ -18,6 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const pathname = usePathname();
   const { user, fetchProfile } = useUserStore();
   const { isAuthenticated } = useAuthStore();
+  const t = useTranslations("Sidebar");
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -39,11 +41,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const getGenderDetails = (gender?: Gender) => {
     switch (gender) {
       case Gender.MALE:
-        return { label: "เพศชาย", color: "text-[#1CB0F6]" };
+        return { label: t("gender.male"), color: "text-[#1CB0F6]" };
       case Gender.FEMALE:
-        return { label: "เพศหญิง", color: "text-[#EC4899]" };
+        return { label: t("gender.female"), color: "text-[#EC4899]" };
       default:
-        return { label: "อื่นๆ", color: "text-[#344054]" };
+        return { label: t("gender.other"), color: "text-[#344054]" };
     }
   };
 
@@ -51,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
 
   const navItems = [
     {
-      label: "เรียนรู้",
+      label: t("navItems.courses"),
       path: "/courses",
       icon: (
         <Image
@@ -65,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       ),
     },
     {
-      label: "แรงค์",
+      label: t("navItems.rank"),
       path: "/rank",
       icon: (
         <Image
@@ -80,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       ),
     },
     {
-      label: "โปรไฟล์",
+      label: t("navItems.profile"),
       path: "/profile",
       icon: (
         <Image
@@ -93,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       ),
     },
     {
-      label: "ตั้งค่า",
+      label: t("navItems.settings"),
       path: "/settings",
       icon: (
         <Image
@@ -230,7 +232,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             {!isCollapsed && (
               <div className="flex flex-col min-w-0">
                 <span className="text-[15px] font-bold text-[#242E39] leading-tight truncate">
-                  {user?.profile?.playerName || user?.name || "กำลังโหลด..."}
+                  {user?.profile?.playerName || user?.name || t("loading")}
                 </span>
                 <span className={cn("text-[14px] font-medium", genderDetails.color)}>
                   {genderDetails.label}

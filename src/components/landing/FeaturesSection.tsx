@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { CourseLoop, type LogoItem } from "./CourseLoop";
 import { Image } from "@/components/common/Image";
+import { useTranslations } from "next-intl";
 
 // ข้อมูลเกมทั้ง 7 เกมในรูปแบบ LogoItem
 const gameCards: LogoItem[] = [
@@ -71,6 +72,7 @@ const GameCard = ({ src, alt }: { src: string; alt: string }) => (
 );
 
 export function FeaturesSection() {
+  const t = useTranslations("Landing.Features");
   const [viewportSize, setViewportSize] = useState({
     logoHeight: 240,
     gap: 40,
@@ -103,10 +105,10 @@ export function FeaturesSection() {
         {/* Section Header */}
         <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-            หลักสูตร
+            {t("title")}
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            เรียนรู้ผ่านเกมสนุกๆ ทั้ง 7 เกม พัฒนาทักษะการคิดและการแก้ปัญหา
+            {t("description")}
           </p>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { SocialButton } from "@/components/common/SocialButton";
 import { getLabelClassName } from "@/lib/label";
 import { cn } from "@/lib/utils";
 import { FaMars, FaVenus, FaGenderless } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 
 // Character list
 const CHARACTERS = [
@@ -29,41 +30,23 @@ export interface EditProfileFormProps {
 
 export const EditProfileForm: React.FC<EditProfileFormProps> = ({
   initialName = "",
-  initialGender = "เพศชาย",
+  initialGender = "MALE",
   initialCharacter = "icon_P_Bit.png",
   onSave,
   className,
 }) => {
+  const t = useTranslations("Profile");
   const [name, setName] = React.useState(initialName);
   
-  // Map gender from Thai to internal format
-  const mapGenderToInternal = (gender: string): "male" | "female" | "not-specified" | null => {
-    if (gender === "เพศชาย") return "male";
-    if (gender === "เพศหญิง") return "female";
-    if (gender === "ไม่ระบุตัวตน") return "not-specified";
-    return "male"; // Default
-  };
-
-  // Map gender from internal format to Thai
-  const mapGenderToThai = (gender: "male" | "female" | "not-specified" | null): string => {
-    if (gender === "male") return "เพศชาย";
-    if (gender === "female") return "เพศหญิง";
-    if (gender === "not-specified") return "ไม่ระบุตัวตน";
-    return "เพศชาย"; // Default
-  };
-
-  const [gender, setGender] = React.useState<"male" | "female" | "not-specified" | null>(
-    mapGenderToInternal(initialGender)
-  );
+  const [gender, setGender] = React.useState<string>(initialGender);
   const [selectedCharacter, setSelectedCharacter] = React.useState(initialCharacter);
   const [errors, setErrors] = React.useState<{ name?: string }>({});
 
   // Check if there are any changes
   const hasChanges = React.useMemo(() => {
-    const currentGenderThai = mapGenderToThai(gender || "male");
     return (
       name.trim() !== (initialName || "").trim() ||
-      currentGenderThai !== initialGender ||
+      gender !== initialGender ||
       selectedCharacter !== initialCharacter
     );
   }, [name, gender, selectedCharacter, initialName, initialGender, initialCharacter]);
@@ -74,7 +57,7 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
     // Validation
     const newErrors: { name?: string } = {};
     if (!name.trim()) {
-      newErrors.name = "กรุณากรอกชื่อ";
+      newErrors.name = t("EditForm.nameRequired");
     }
     
     if (Object.keys(newErrors).length > 0) {
@@ -82,15 +65,15 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
       return;
     }
 
-    // Ensure gender is not null (default to "male" if null)
-    const finalGender = gender || "male";
-    onSave?.({ name: name.trim(), gender: mapGenderToThai(finalGender), character: selectedCharacter });
+    // Ensure gender is not null (default to "MALE" if null)
+    const finalGender = gender || "MALE";
+    onSave?.({ name: name.trim(), gender: finalGender, character: selectedCharacter });
   };
 
   const handleGenderSelect = (
-    selectedGender: "male" | "female" | "not-specified"
+    selectedGender: string
   ) => {
-    setGender(selectedGender === gender ? null : selectedGender);
+    setGender(selectedGender === gender ? "" : selectedGender);
   };
 
   return (
@@ -112,7 +95,7 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
 
         {/* Name Field */}
         <InputField
-          label="ชื่อผู้ใช้"
+          label={t("EditForm.usernameLabel")}
           value={name}
           onChange={(e) => {
             setName(e.target.value);
@@ -121,49 +104,49 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
             }
           }}
           error={errors.name}
-          placeholder="กรุณากรอกชื่อผู้ใช้"
+          placeholder={t("EditForm.usernamePlaceholder")}
           className="bg-transparent border border-gray-300"
         />
 
         {/* Gender Field */}
         <div className="flex flex-col gap-2 w-full">
           <label className={getLabelClassName("text-[11px] sm:text-[12px] leading-[16px] sm:leading-[18px] font-semibold text-[#334E68]")}>
-            เพศ
+            {t("EditForm.genderLabel")}
           </label>
           <div className="flex gap-2 sm:gap-3 w-full">
             <SocialButton
-              variant={gender === "male" ? "selected" : "default"}
-              selected={gender === "male"}
-              onSelect={() => handleGenderSelect("male")}
+              variant={gender === "MALE" ? "selected" : "default"}
+              selected={gender === "MALE"}
+              onSelect={() => handleGenderSelect("MALE")}
               className="flex-1 h-11 sm:h-12"
             >
               <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                 <FaMars className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                <span className="text-[13px] sm:text-[14px]">เพศชาย</span>
+                <span className="text-[13px] sm:text-[14px]">{t("genderMale")}</span>
               </div>
             </SocialButton>
             <SocialButton
-              variant={gender === "female" ? "female" : "default"}
-              selected={gender === "female"}
-              onSelect={() => handleGenderSelect("female")}
+              variant={gender === "FEMALE" ? "female" : "default"}
+              selected={gender === "FEMALE"}
+              onSelect={() => handleGenderSelect("FEMALE")}
               className="flex-1 h-11 sm:h-12"
             >
               <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                 <FaVenus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                <span className="text-[13px] sm:text-[14px]">เพศหญิง</span>
+                <span className="text-[13px] sm:text-[14px]">{t("genderFemale")}</span>
               </div>
             </SocialButton>
             <SocialButton
               variant={
-                gender === "not-specified" ? "not-specified" : "default"
+                gender === "OTHER" ? "not-specified" : "default"
               }
-              selected={gender === "not-specified"}
-              onSelect={() => handleGenderSelect("not-specified")}
+              selected={gender === "OTHER"}
+              onSelect={() => handleGenderSelect("OTHER")}
               className="flex-1 h-11 sm:h-12"
               >
               <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                 <FaGenderless className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                <span className="text-[13px] sm:text-[14px]">ไม่ระบุตัวตน</span>
+                <span className="text-[13px] sm:text-[14px]">{t("genderOther")}</span>
               </div>
             </SocialButton>
           </div>
@@ -172,7 +155,7 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
         {/* Character Selection Grid */}
         <div className="flex flex-col gap-2 w-full">
           <label className={getLabelClassName("text-[11px] sm:text-[12px] leading-[16px] sm:leading-[18px] font-semibold text-[#334E68]")}>
-            เลือกรูปโปรไฟล์
+            {t("EditForm.profilePicLabel")}
           </label>
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 sm:gap-3">
                 {CHARACTERS.map((character) => {
@@ -236,7 +219,7 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({
               "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1cb0f6] disabled:hover:border-[#1699D6]"
             )}
           >
-            บันทึก
+            {t("EditForm.saveBtn")}
           </button>
         </div>
       </div>

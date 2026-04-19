@@ -7,13 +7,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LoadingOverlay } from "@/components/common";
 import { cn } from "@/lib/utils";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslations, useLocale } from "next-intl";
+import { setUserLocale } from "@/actions/locale";
 
 export interface NavbarProps {
   className?: string;
 }
-
-type Language = "TH" | "EN";
 
 type NavItem = {
   targetId: string;
@@ -21,26 +20,27 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { targetId: "hero", translationKey: "navbar.navItems.home" },
-  { targetId: "features", translationKey: "navbar.navItems.courses" },
-  { targetId: "content", translationKey: "navbar.navItems.content" },
-  { targetId: "stats", translationKey: "navbar.navItems.stats" },
+  { targetId: "hero", translationKey: "navItems.home" },
+  { targetId: "features", translationKey: "navItems.courses" },
+  { targetId: "content", translationKey: "navItems.content" },
+  { targetId: "stats", translationKey: "navItems.stats" },
 ];
 
 const OBSERVE_SECTIONS = ["hero", "features", "content", "stats"];
 
 export const Navbar: React.FC<NavbarProps> = ({ className }) => {
   const router = useRouter();
-  const { language, setLanguage, t } = useLanguage();
+  const t = useTranslations("Navbar");
+  const currentLocale = useLocale();
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [isLoading, setIsLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const languages: { code: Language; label: string }[] = [
-    { code: "TH", label: "ไทย" },
-    { code: "EN", label: "English" },
+  const languages: { code: "th" | "en"; label: string }[] = [
+    { code: "th", label: "ไทย" },
+    { code: "en", label: "English" },
   ];
 
   // Close dropdown when clicking outside
@@ -186,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
                 "focus:outline-none focus:ring-2 focus:ring-[#1cb0f6] focus:ring-offset-2"
               )}
             >
-              <span>{language}</span>
+              <span>{currentLocale.toUpperCase()}</span>
               <svg
                 className={cn(
                   "w-4 h-4 transition-transform",
@@ -212,14 +212,15 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
                   <button
                     key={lang.code}
                     type="button"
-                    onClick={() => {
-                      setLanguage(lang.code);
+                    onClick={async () => {
                       setIsLanguageDropdownOpen(false);
+                      await setUserLocale(lang.code);
+                      router.refresh();
                     }}
                     className={cn(
                       "w-full text-left px-4 py-2 text-[14px] transition-colors",
                       "hover:bg-[#1cb0f6]/10",
-                      language === lang.code
+                      currentLocale === lang.code
                         ? "text-[#1cb0f6] font-medium bg-[#1cb0f6]/5"
                         : "text-gray-700"
                     )}
@@ -244,14 +245,14 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
               "disabled:opacity-50 disabled:cursor-not-allowed"
             )}
           >
-            {t("navbar.login")}
+            {t("login")}
           </button>
         </div>
       </div>
     </nav>
     <LoadingOverlay 
       isLoading={isLoading} 
-      message={t("navbar.loading")}
+      message={t("loading")}
     />
     </>
   );

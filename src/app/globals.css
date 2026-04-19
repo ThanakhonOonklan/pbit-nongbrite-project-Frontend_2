@@ -92,6 +92,12 @@
   .layout-debug div > div {
     outline-color: rgba(0, 0, 0, 0.15);
   }
+
+  /* Hide default browser password reveal and clear icons (Edge/IE) */
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
 }
 
 @layer utilities {

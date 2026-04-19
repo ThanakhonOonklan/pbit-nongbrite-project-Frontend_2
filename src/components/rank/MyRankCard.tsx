@@ -6,6 +6,7 @@ import { MyRankData } from "@/types";
 import { cn } from "@/lib/utils";
 import { FaChartLine } from "react-icons/fa";
 import { getRankBadgeImage, getRankBadgeInfo } from "@/constants/ranks";
+import { useTranslations } from "next-intl";
 
 export interface MyRankCardProps {
   myRank: MyRankData | null;
@@ -13,6 +14,9 @@ export interface MyRankCardProps {
 }
 
 const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
+  const t = useTranslations("Rank.MyRankCard");
+  const tRanks = useTranslations("Ranks");
+
   if (!myRank) {
     return (
       <div
@@ -24,10 +28,10 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
       >
         <FaChartLine className="w-16 h-16 mb-2 text-[#9CA3AF]" />
         <h3 className="text-[18px] font-bold text-[#3c3c3c] mb-2">
-          ยังไม่มีอันดับ
+          {t("unranked")}
         </h3>
         <p className="text-[14px] text-[#909090] text-center">
-          เริ่มเรียนรู้เพื่อเข้าสู่อันดับกันเลย!
+          {t("unrankedDesc")}
         </p>
       </div>
     );
@@ -66,7 +70,7 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
             />
           </div>
           <h3 className="text-[24px] sm:text-[28px] font-bold text-[#1cb0f6] mb-1">
-            อันดับ #{myRank.rank}
+            {t("currentRank", { rank: myRank.rank })}
           </h3>
         </div>
 
@@ -80,11 +84,11 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
         >
           <div className="mb-3">
             <h4 className="text-[16px] font-bold text-[#3c3c3c] mb-1">
-              {currentRank.label}
+              {tRanks(currentRank.name)}
             </h4>
             <p className="text-[12px] text-[#666]">
               {scoreNeeded > 0
-                ? `ขาดอีก ${scoreNeeded.toLocaleString()} คะแนน เพื่อไปแรงค์ถัดไป`
+                ? t("scoreToNextRank", { score: scoreNeeded.toLocaleString() })
                 : null}
             </p>
           </div>

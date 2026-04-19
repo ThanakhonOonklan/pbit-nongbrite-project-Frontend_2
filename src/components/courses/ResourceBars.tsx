@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Divider } from "@/components/common";
 import { ResourceCard } from "./ResourceCard";
 import { HeartPlus, BookOpen, Flame, Heart } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export interface ResourceBarsProps {
   heartCount?: number;
@@ -25,6 +26,7 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
   className,
   showDivider = true,
 }) => {
+  const t = useTranslations("Courses.ResourceBars");
   // console.log("[ResourceBars] props:", { heartCount, scoreCount, daystate });
 
   // Countdown timer logic
@@ -51,16 +53,16 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
       const distance = nextHeartTime - now;
 
       if (distance <= 0) {
-        setTimeLeft("กำลังรีเซ็ตหัวใจ...");
+        setTimeLeft(t("heartResetting"));
       } else {
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         
         if (hours > 0) {
-           setTimeLeft(`${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ชม.`);
+           setTimeLeft(`${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${t("hours")}`);
         } else {
-           setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} นาที`);
+           setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${t("minutes")}`);
         }
       }
     };
@@ -84,13 +86,13 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
         <div className="grid grid-cols-3 gap-3">
           <ResourceCard
             icon={<HeartPlus className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#FF6B6B]" />}
-            iconAlt="หัวใจ"
+            iconAlt={t("hearts")}
             value={heartCount >= maxHeartCount ? heartCount : `${heartCount}/${maxHeartCount}`}
             iconBgColor="bg-[#FFD7D0]"
             hoverColor="hover:bg-[#FFE4E1]"
             tooltipContent={
               <div className="flex flex-col items-center gap-2 text-center">
-                <span className="text-base font-bold">หัวใจ</span>
+                <span className="text-base font-bold">{t("hearts")}</span>
                 <div className="flex gap-1">
                   {Array.from({ length: maxHeartCount }, (_, i) => (
                     <Heart
@@ -103,12 +105,12 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
                 </div>
                 <p className="text-[13px] text-gray-600 font-medium">
                   {isFull
-                    ? "หัวใจคุณเต็มทุกดวงแล้ว เรียนรู้ต่อไป อย่าได้ถอย"
-                    : `เหลือหัวใจ ${heartCount} จาก ${maxHeartCount} ดวง`}
+                    ? t("heartsFull")
+                    : t("heartsRemaining", { current: heartCount, max: maxHeartCount })}
                 </p>
                 {!isFull && timeLeft && (
                   <p className="text-[12px] text-[#FF6B6B] font-bold mt-1">
-                    อีก {timeLeft} จะได้รับหัวใจเพิ่ม
+                    {t("nextHeartIn", { time: timeLeft })}
                   </p>
                 )}
 
@@ -117,19 +119,19 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
           />
           <ResourceCard
             icon={<BookOpen className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#FFB800]" />}
-            iconAlt="คะแนน"
+            iconAlt={t("totalScoreNow")}
             value={scoreCount}
             iconBgColor="bg-[#FFEECC]"
             hoverColor="hover:bg-[#FFF9E6]"
             tooltipContent={
               <div className="flex flex-col items-center gap-2 text-center">
-                <span className="text-base font-bold">คะแนนรวมตอนนี้!</span>
+                <span className="text-base font-bold">{t("totalScoreNow")}</span>
                 <div className="flex items-center gap-2">
                   <BookOpen className="w-6 h-6 text-[#FFB800]" />
                   <span className="text-2xl font-bold text-[#FFB800]">{scoreCount}</span>
                 </div>
                 <p className="text-[13px] text-gray-600 font-medium">
-                  คะแนนสะสมจากการเล่นเกมทั้งหมด
+                  {t("totalScoreDesc")}
                 </p>
 
               </div>
@@ -137,21 +139,21 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
           />
           <ResourceCard
             icon={<Flame className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#FF8C00]" />}
-            iconAlt="วันที่ติดต่อกัน"
+            iconAlt={t("streakDays")}
             value={daystate}
             iconBgColor="bg-[#FFE4CC]"
             hoverColor="hover:bg-[#FFF0E0]"
             tooltipContent={
               <div className="flex flex-col items-center gap-2 text-center">
-                <span className="text-base font-bold">วันที่ติดต่อกัน</span>
+                <span className="text-base font-bold">{t("streakDays")}</span>
                 <div className="flex items-center gap-2">
                   <Flame className="w-6 h-6 text-[#FF8C00]" />
-                  <span className="text-2xl font-bold text-[#FF8C00]">{daystate} วัน</span>
+                  <span className="text-2xl font-bold text-[#FF8C00]">{daystate} {t("daysUnit")}</span>
                 </div>
                 <p className="text-[13px] text-gray-600 font-medium">
                   {daystate > 0
-                    ? `เก่งมาก! คุณเรียนติดต่อกันมาแล้ว ${daystate} วัน`
-                    : "เริ่มเรียนวันนี้เพื่อเริ่ม Streak!"}
+                    ? t("streakExcellent", { days: daystate })
+                    : t("streakStart")}
                 </p>
 
               </div>

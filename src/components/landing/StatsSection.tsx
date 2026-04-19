@@ -1,47 +1,49 @@
 "use client";
 
 import { CountUp } from "@/components/common";
+import { useTranslations } from "next-intl";
 
 interface Stat {
   value: number;
-  label: string;
+  labelKey: string;
   suffix?: string;
 }
 
 const stats: Stat[] = [
   {
     value: 1547,  
-    label: "ผู้เรียน",
+    labelKey: "learners",
     suffix: "+",
   },
   {
     value: 63,     
-    label: "จำนวนด่าน",
+    labelKey: "levels",
     suffix: "+",
   },
   {
     value: 7,  
-    label: "เกมการเรียนรู้",
+    labelKey: "games",
     suffix: "+",
   },
   {
     value: 95,
-    label: "ความพึงพอใจ",
+    labelKey: "satisfaction",
     suffix: "%",
   },
 ];
 
 export function StatsSection() {
+  const t = useTranslations("Landing.Stats");
   return (
     <section className="py-16 md:py-24 px-4 md:px-12 lg:px-16 bg-white">
       <div className="max-w-7xl mx-auto min-h-[408px]">
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-            ตัวเลขที่บอกเล่าเรื่องราว
+            {t("title")}
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            พบกับสถิติที่น่าประทับใจของแพลตฟอร์มการเรียนรู้ของเรา
+            {t("description")}
           </p>
         </div>
 
@@ -72,7 +74,7 @@ export function StatsSection() {
 
               {/* Label */}
               <h3 className="text-lg md:text-xl font-semibold text-gray-800">
-                {stat.label}
+                {t(`items.${stat.labelKey}` as any)}
               </h3>
             </div>
           ))}

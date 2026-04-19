@@ -6,6 +6,7 @@ import { RankUser } from "@/types";
 import { cn } from "@/lib/utils";
 import { FaUsers, FaMars, FaVenus, FaGenderless } from "react-icons/fa";
 import { getRankBadgeImage } from "@/constants/ranks";
+import { useTranslations } from "next-intl";
 
 export interface LeaderboardListProps {
   items?: RankUser[];
@@ -38,6 +39,15 @@ const getGenderIcon = (gender?: string) => {
 };
 
 
+const getTranslatedGender = (gender: string | undefined, tProfile: any) => {
+  if (!gender) return null;
+  const upper = gender.toUpperCase();
+  if (upper === 'MALE' || upper === 'เพศชาย' || upper === 'male') return tProfile('genderMale');
+  if (upper === 'FEMALE' || upper === 'เพศหญิง' || upper === 'female') return tProfile('genderFemale');
+  if (upper === 'OTHER' || upper === 'ไม่ระบุตัวตน' || upper === 'other') return tProfile('genderOther');
+  return null;
+};
+
 const LeaderboardList: React.FC<LeaderboardListProps> = ({
   items = [],
   topThree,
@@ -47,6 +57,8 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
   displayScrollbar = true,
 }) => {
   const safeItems = items ?? [];
+  const t = useTranslations("Rank.LeaderboardList");
+  const tProfile = useTranslations("Profile");
 
   return (
     <Container
@@ -58,7 +70,7 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
       {/* Header */}
       <div className="w-full border-b border-gray-200 pb-1 px-3 sm:px-4 md:px-6 pt-4 sm:pt-5 md:pt-6">
         <h2 className="text-[18px] sm:text-[19px] md:text-[19px] lg:text-[20px] leading-[28px] font-bold text-gray-800">
-          ตารางอันดับ
+          {t("title")}
         </h2>
       </div>
 
@@ -71,10 +83,10 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
 
       {/* Table Header */}
       <div className="grid grid-cols-[60px_1fr_100px_80px] sm:grid-cols-[70px_1fr_110px_90px] lg:grid-cols-[80px_1fr_120px_100px] gap-2 sm:gap-3 lg:gap-4 px-3 sm:px-4 lg:px-4 py-2 sm:py-2.5 lg:py-3 border border-gray-200 bg-gray-50">
-        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700">ลำดับ</div>
-        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 min-w-0">ชื่อที่แสดง</div>
-        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:text-left sm:pl-2 lg:pl-0">คะแนนสูงสุด</div>
-        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:pl-4 lg:pl-1">แรงค์</div>
+        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700">{t("colRank")}</div>
+        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 min-w-0">{t("colName")}</div>
+        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:text-left sm:pl-2 lg:pl-0">{t("colScore")}</div>
+        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:pl-4 lg:pl-1">{t("colTier")}</div>
       </div>
 
       {/* Table Rows */}
@@ -94,7 +106,7 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
           <div className="flex flex-col items-center justify-center h-full min-h-[360px] py-12">
             <FaUsers className="w-12 h-12 mb-2 text-[#9CA3AF]" />
             <p className="text-[14px] text-[#909090] text-center">
-              ยังไม่มีข้อมูลอันดับ
+              {t("emptyData")}
             </p>
           </div>
         ) : (
@@ -141,7 +153,7 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
                     {user.gender ? (
                       <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5">
                         <span className="text-[11px] sm:text-[12px] text-gray-500 truncate">
-                          {user.gender}
+                          {getTranslatedGender(user.gender, tProfile)}
                         </span>
                         <span className="flex-shrink-0">{getGenderIcon(user.gender)}</span>
                       </div>

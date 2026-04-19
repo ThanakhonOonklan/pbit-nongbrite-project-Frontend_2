@@ -10,6 +10,7 @@ import { ResourceBars } from "./ResourceBars";
 import { lightenColor, getCarouselItemsForGame } from "@/utils/courses";
 import { Container } from "@/components/common";
 import { gamesConfig } from "@/constants/courses/gameConfig";
+import { useTranslations } from "next-intl";
 
 export interface CourseRightPanelProps {
   level?: number; // ระดับที่เลือก (1-9)
@@ -47,6 +48,8 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
   headerColor,
   gameId,
 }) => {
+  const t = useTranslations("Courses");
+
   // สี badge ต้องเปลี่ยนตาม difficulty ของ level ที่เลือก ไม่ใช่ตาม headerColor
   const badgeColor = getDifficultyBadgeColor(difficulty);
   const displayLevel = level ?? difficulty ?? 1;
@@ -54,9 +57,8 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
   // สีสำหรับ "Level X :" ตาม difficulty
   const levelTextColor = getDifficultyBadgeColor(difficulty);
 
-  // ดึงชื่อเกมจาก gameData ถ้ามี gameTitle
-  const gameData = gameTitle ? getGameData(gameTitle) : null;
-  const displayTitle = gameData?.title || gameTitle || "Path Navigation";
+  // ดึงชื่อเกมจาก gameId หรือ gameTitle
+  const displayTitle = gameId ? t(`Games.${gameId}.title`) : (gameTitle || "Path Navigation");
 
   // คำนวณสีพื้นหลังที่สว่างขึ้นจาก headerColor (สว่างขึ้น 85% สำหรับ pastel effect)
   const lightenedBgColor = headerColor
@@ -71,14 +73,13 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
     return [];
   }, [gameId]);
 
-  // ดึง description จาก gamesConfig ตาม gameId
-  const gameDescription = React.useMemo(() => {
+  // ดึง description จากไฟล์แปลภาษาตาม gameId
+  const displayDescription = React.useMemo(() => {
     if (gameId) {
-      const game = gamesConfig.find((g) => g.id === gameId);
-      return game?.description || null;
+      return t(`Games.${gameId}.description`);
     }
-    return null;
-  }, [gameId]);
+    return gameDetail || null;
+  }, [gameId, t, gameDetail]);
 
   // สีพื้นหลังของกล่องรายละเอียดเกม (pastel จาก headerColor)
   const detailBgColor = headerColor
@@ -183,7 +184,7 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
               }}
             >
               <span className="text-[14px] font-bold text-white">
-                {difficultyText}
+                {t(`Difficulty.${difficulty}`)}
               </span>
             </div>
           </div>
@@ -199,7 +200,7 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
               color: detailTextColor,
             }}
           >
-            {gameDescription || gameDetail || null}
+            {displayDescription}
           </div>
         </div>
       </Container>

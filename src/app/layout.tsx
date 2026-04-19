@@ -2,8 +2,8 @@ import "./globals.css";
 import { ReactNode } from "react";
 import localFont from "next/font/local";
 import { HeaderColorProvider } from "@/contexts/HeaderColorContext";
-import { LanguageProvider } from "@/contexts/LanguageContext";
 import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 
@@ -38,20 +38,20 @@ const lineSeedSans = localFont({
 });
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  const messages = await getMessages();
+
   return (
     <html lang="en" suppressHydrationWarning className={`${lineSeedSans.variable} h-full`} data-scroll-behavior="smooth">
       <body className={`antialiased ${lineSeedSans.className} h-full`} suppressHydrationWarning>
-        <LanguageProvider>
-          <HeaderColorProvider>
-            <NextIntlClientProvider>{children}</NextIntlClientProvider>
-            <Toaster position="top-center" />
-          </HeaderColorProvider>
-        </LanguageProvider>
+        <HeaderColorProvider>
+          <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+          <Toaster position="top-center" />
+        </HeaderColorProvider>
       </body>
     </html>
   );

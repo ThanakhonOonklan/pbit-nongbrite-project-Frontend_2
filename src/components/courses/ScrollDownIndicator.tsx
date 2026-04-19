@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export interface ScrollDownIndicatorProps {
     visible?: boolean;
@@ -13,6 +14,7 @@ export const ScrollDownIndicator: React.FC<ScrollDownIndicatorProps> = ({
     visible = true,
     className,
 }) => {
+    const t = useTranslations("Courses.ScrollDownIndicator");
     return (
         <AnimatePresence>
             {visible && (
@@ -55,7 +57,7 @@ export const ScrollDownIndicator: React.FC<ScrollDownIndicatorProps> = ({
                             ease: "easeInOut",
                         }}
                     >
-                        เลื่อนลงไปเกมถัดไป
+                        {t("scrollDown")}
                     </motion.span>
                 </motion.div>
             )}
