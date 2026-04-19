@@ -1,12 +1,12 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import Image from "next/image";
 import { FaTimes, FaArrowRight } from "react-icons/fa";
 import { type SequencingItem } from "@/constants/games/sequencing-levels";
+import { useDraggable, useDroppable } from "@dnd-kit/core";
 
 interface SequencingSlotsProps {
   slots: (SequencingItem | null)[];
   onRemove: (item: SequencingItem, index: number) => void;
-  onDrop: (item: SequencingItem, poolIndex: number, slotIndex: number) => void;
   correctSequence?: SequencingItem[];
   showErrors?: boolean;
   shakeKey?: number;  // increments each wrong attempt to re-trigger shake
@@ -34,11 +34,65 @@ function getSizeByRow() {
   };
 }
 
+function DraggableSlotItem({ 
+  slot, 
+  idx, 
+  onRemove, 
+  sc 
+}: { 
+  slot: SequencingItem; 
+  idx: number; 
+  onRemove: (item: SequencingItem, index: number) => void;
+  sc: ReturnType<typeof getSizeByRow>;
+}) {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: `slot-item-${idx}`,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className={`animate-in zoom-in duration-300 relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none ${isDragging ? "opacity-30" : ""}`}
+    >
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove(slot, idx);
+        }}
+        onPointerDown={(e) => e.stopPropagation()}
+        className={`absolute ${sc.btn} bg-[#FF4B4B] rounded-full text-white flex items-center justify-center hover:bg-[#E53935] hover:scale-110 active:scale-95 transition-all shadow-md z-10 border-2 border-white`}
+      >
+        <FaTimes className={sc.btnIcon} />
+      </button>
+
+      {slot.isImage ? (
+        <Image src={slot.content} alt={`Item ${idx}`} width={64} height={64}
+          className={`${sc.img} object-contain drop-shadow-sm pointer-events-none`} />
+      ) : (
+        <span className={`${sc.text} drop-shadow-sm pointer-events-none text-white font-black`}>
+          {slot.content}
+        </span>
+      )}
+
+      {/* Persistent Tooltip */}
+      {slot.label && !isDragging && (
+        <div className="absolute -bottom-7 sm:-bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-20 flex flex-col items-center animate-in fade-in zoom-in duration-300">
+          <div className="border-4 border-transparent border-b-[#C084FC] w-0 h-0" />
+          <div className="bg-[#2D1B4E] text-purple-200 text-[10px] sm:text-[11px] md:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md whitespace-nowrap shadow-md border border-purple-800">
+            {slot.label}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function DroppableSlot({
   slot,
   idx,
   onRemove,
-  onDrop,
   isWrong,
   shakeKey,
   sc,
@@ -46,12 +100,13 @@ function DroppableSlot({
   slot: SequencingItem | null;
   idx: number;
   onRemove: (item: SequencingItem, index: number) => void;
-  onDrop: (item: SequencingItem, poolIndex: number, slotIndex: number) => void;
   isWrong: boolean;
   shakeKey?: number;
   sc: ReturnType<typeof getSizeByRow>;
 }) {
-  const [isOver, setIsOver] = useState(false);
+  const { setNodeRef, isOver } = useDroppable({
+    id: `slot-${idx}`,
+  });
 
   const filledBorder = isWrong
     ? "bg-red-900/40 border-[3px] border-b-[5px] border-red-400 shadow-sm"
@@ -63,68 +118,14 @@ function DroppableSlot({
 
   return (
     <div
+      ref={setNodeRef}
       key={isWrong ? shakeKey : undefined}
       className={`${sc.box} rounded-xl flex items-center justify-center relative transition-all duration-300 ease-out flex-shrink-0 shadow-inner
         ${isWrong ? "animate-shake" : ""}
-        ${slot ? `${filledBorder} cursor-grab active:cursor-grabbing` : emptyBorder}`}
-      draggable={!!slot}
-      onDragStart={(e) => {
-        if (!slot) return;
-        e.dataTransfer.setData(
-          "application/sequencing-slot-item",
-          JSON.stringify({ item: slot, slotIndex: idx })
-        );
-        e.dataTransfer.effectAllowed = "move";
-      }}
-      onDragOver={(e) => {
-        // Only accept pool→slot drops when slot is empty
-        if (!slot && e.dataTransfer.types.includes("application/sequencing-item")) {
-          e.preventDefault();
-          e.dataTransfer.dropEffect = "move";
-          setIsOver(true);
-        }
-      }}
-      onDragLeave={() => setIsOver(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setIsOver(false);
-        if (slot) return; // already filled
-        try {
-          const data = JSON.parse(e.dataTransfer.getData("application/sequencing-item"));
-          onDrop(data.item, data.poolIndex, idx);
-        } catch {
-          // ignore malformed data
-        }
-      }}
+        ${slot ? filledBorder : emptyBorder}`}
     >
       {slot && (
-        <div className="animate-in zoom-in duration-300 relative w-full h-full flex items-center justify-center">
-          <button
-            onClick={() => onRemove(slot, idx)}
-            className={`absolute ${sc.btn} bg-[#FF4B4B] rounded-full text-white flex items-center justify-center hover:bg-[#E53935] hover:scale-110 active:scale-95 transition-all shadow-md z-10 border-2 border-white`}
-          >
-            <FaTimes className={sc.btnIcon} />
-          </button>
-
-          {slot.isImage ? (
-            <Image src={slot.content} alt={`Item ${idx}`} width={64} height={64}
-              className={`${sc.img} object-contain drop-shadow-sm pointer-events-none`} />
-          ) : (
-            <span className={`${sc.text} drop-shadow-sm pointer-events-none`}>
-              {slot.content}
-            </span>
-          )}
-
-          {/* Persistent Tooltip */}
-          {slot.label && (
-            <div className="absolute -bottom-7 sm:-bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-20 flex flex-col items-center animate-in fade-in zoom-in duration-300">
-              <div className="border-4 border-transparent border-b-[#C084FC] w-0 h-0" />
-              <div className="bg-[#2D1B4E] text-purple-200 text-[10px] sm:text-[11px] md:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md whitespace-nowrap shadow-md border border-purple-800">
-                {slot.label}
-              </div>
-            </div>
-          )}
-        </div>
+        <DraggableSlotItem slot={slot} idx={idx} onRemove={onRemove} sc={sc} />
       )}
     </div>
   );
@@ -132,7 +133,7 @@ function DroppableSlot({
 
 
 
-export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, showErrors, shakeKey }: SequencingSlotsProps) {
+export function SequencingSlots({ slots, onRemove, correctSequence, showErrors, shakeKey }: SequencingSlotsProps) {
   const itemsPerRow = getItemsPerRow(slots.length);
   const sc = getSizeByRow();
 
@@ -156,7 +157,7 @@ export function SequencingSlots({ slots, onRemove, onDrop, correctSequence, show
 
               return (
                 <Fragment key={`slot-${idx}`}>
-                  <DroppableSlot slot={slot} idx={idx} onRemove={onRemove} onDrop={onDrop} isWrong={isWrong} shakeKey={shakeKey} sc={sc} />
+                  <DroppableSlot slot={slot} idx={idx} onRemove={onRemove} isWrong={isWrong} shakeKey={shakeKey} sc={sc} />
                   {!isLastInRow && (
                     <div className="flex items-center justify-center text-[#7C3AED] flex-shrink-0">
                       <FaArrowRight className={`${sc.arrowSize} opacity-60`} />

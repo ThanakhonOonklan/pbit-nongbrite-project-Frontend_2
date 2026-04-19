@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { TiltButton } from "react-tilt-button";
 import { type Direction } from "@/constants/games/path-navigation-levels";
 import { FaPlay, FaTimes, FaTrash } from "react-icons/fa";
+import { useDroppable } from "@dnd-kit/core";
 
 interface CommandSequenceProps {
     commands: Direction[];
@@ -64,32 +65,15 @@ export function CommandSequence({
 
     const tileRadius = Math.round(tileSize * 0.21); // proportional border-radius
 
-    const handleDragOver = (e: React.DragEvent) => {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = "copy";
-        setIsDragOver(true);
-    };
-    const handleDragLeave = (e: React.DragEvent) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-            setIsDragOver(false);
-        }
-    };
-    const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault();
-        setIsDragOver(false);
-        const direction = e.dataTransfer.getData("text/plain") as Direction;
-        if (VALID_DIRECTIONS.includes(direction) && commands.length < maxCommands) {
-            onAddCommand?.(direction);
-        }
-    };
+    const { setNodeRef, isOver } = useDroppable({
+        id: "command-sequence",
+    });
 
     return (
         <div
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
+            ref={setNodeRef}
             className={`rounded-xl border-2 bg-[#37464F] p-3 lg:p-4 flex flex-col h-[274px] lg:h-[374px] transition-all duration-150 ${
-                isDragOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
+                isOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
             }`}
         >
             {/* Header row: command count + Clear All button */}
@@ -177,7 +161,7 @@ export function CommandSequence({
                     {commands.length < maxCommands && (
                         <div
                             className={`shrink-0 border-2 border-dashed transition-all duration-150 ${
-                                isDragOver
+                                isOver
                                     ? "border-[#1CB0F6] bg-[#1CB0F610]"
                                     : "border-gray-400 opacity-50"
                             }`}

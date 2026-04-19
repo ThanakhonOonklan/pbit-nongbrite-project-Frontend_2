@@ -1,0 +1,25 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+      <radialGradient id="pear-grad" cx="30%" cy="30%" r="70%">
+        <stop offset="0%" stop-color="#E2F076" />
+        <stop offset="100%" stop-color="#8DB521" />
+      </radialGradient>
+    </defs>
+    <path d="M50 20 C35 20, 35 45, 25 60 C10 80, 25 95, 50 95 C75 95, 90 80, 75 60 C65 45, 65 20, 50 20 Z" fill="url(#pear-grad)"/>
+    <path d="M50 20 C50 10, 55 5, 55 5" stroke="#654321" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M53 10 C65 10, 70 15, 65 25 C60 25, 50 20, 53 10 Z" fill="#75C61E"/>
+    
+  <g transform="translate(50, 65) scale(1)">
+    <circle cx="-15" cy="-5" r="4.5" fill="#1A1A1A"/>
+    <circle cx="-16" cy="-6.5" r="1.5" fill="white"/>
+    <circle cx="15" cy="-5" r="4.5" fill="#1A1A1A"/>
+    <circle cx="14" cy="-6.5" r="1.5" fill="white"/>
+    
+    <ellipse cx="-25" cy="0" rx="5" ry="3" fill="#FF3B30" fill-opacity="0.4"/>
+    <ellipse cx="25" cy="0" rx="5" ry="3" fill="#FF3B30" fill-opacity="0.4"/>
+    
+    <path d="M-6 0 Q0 6 6 0" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round" fill="none"/>
+  </g>
+  
+</svg>

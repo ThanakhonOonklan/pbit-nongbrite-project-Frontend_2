@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { useState } from "react";
 import { type SequencingItem } from "@/constants/games/sequencing-levels";
+import { useDraggable, useDroppable } from "@dnd-kit/core";
 
 interface SequencingPoolProps {
   pool: (SequencingItem | null)[];
-  onSelect: (item: SequencingItem, index: number) => void;
   slotCount: number;
-  onSlotDrop?: (item: SequencingItem, slotIndex: number, poolIndex: number) => void;
 }
 
 function getItemsPerRow(count: number): number {
@@ -31,15 +30,15 @@ function getSizeByRow() {
 function PoolItem({
   item,
   idx,
-  onSelect,
   sc,
 }: {
   item: SequencingItem;
   idx: number;
-  onSelect: (item: SequencingItem, index: number) => void;
   sc: ReturnType<typeof getSizeByRow>;
 }) {
-  const [dragging, setDragging] = useState(false);
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: `pool-item-${idx}`,
+  });
   const [tooltip, setTooltip] = useState<{ x: number; y: number } | null>(null);
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -53,7 +52,7 @@ function PoolItem({
   return (
     <div className="relative flex flex-col items-center select-none">
       {/* Tooltip */}
-      {tooltip && item.label && !dragging && (
+      {tooltip && item.label && !isDragging && (
         <div
           className="pointer-events-none"
           style={{
@@ -73,24 +72,18 @@ function PoolItem({
         </div>
       )}
 
-      {/* Native draggable wrapper — same pattern as DirectionControls */}
+      {/* Dnd-kit draggable wrapper */}
       <div
-        draggable
-        onDragStart={(e) => {
-          e.dataTransfer.setData("application/sequencing-item", JSON.stringify({ item, poolIndex: idx }));
-          e.dataTransfer.effectAllowed = "move";
-          setDragging(true);
-          setTooltip(null);
-        }}
-        onDragEnd={() => setDragging(false)}
-        onClick={() => onSelect(item, idx)}
+        ref={setNodeRef}
+        {...listeners}
+        {...attributes}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setTooltip(null)}
-        className={`${sc.box} rounded-xl flex items-center justify-center cursor-grab active:cursor-grabbing
+        className={`${sc.box} rounded-xl flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none
           bg-[#1E2C33] shadow-[0_4px_0_#6D28D9] hover:-translate-y-1.5 hover:shadow-[0_6px_0_#7C3AED]
-          active:translate-y-1 active:shadow-none border-[2px] border-[#2D3F55] hover:border-[#7C3AED]
+          active:translate-y-1 active:shadow-none border-[2px] border-[#2D3F55] 
           transition-all duration-150
-          ${dragging ? "opacity-40 scale-95" : ""}`}
+          ${isDragging ? "opacity-30 scale-95" : ""}`}
       >
         {item.isImage ? (
           <Image
@@ -110,10 +103,11 @@ function PoolItem({
   );
 }
 
-export function SequencingPool({ pool, onSelect, slotCount, onSlotDrop }: SequencingPoolProps) {
+export function SequencingPool({ pool, slotCount }: SequencingPoolProps) {
   const itemsPerRow = getItemsPerRow(slotCount);
   const sc = getSizeByRow();
-  const [isPoolOver, setIsPoolOver] = useState(false);
+  
+  const { setNodeRef, isOver } = useDroppable({ id: "pool" });
 
   const rows: (SequencingItem | null)[][] = [];
   for (let i = 0; i < pool.length; i += itemsPerRow) {
@@ -122,37 +116,10 @@ export function SequencingPool({ pool, onSelect, slotCount, onSlotDrop }: Sequen
 
   return (
     <div
+      ref={setNodeRef}
       className={`bg-[#182029] rounded-2xl sm:rounded-3xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 border-[3px] sm:border-4 ${
-        isPoolOver ? "border-[#7C3AED] ring-2 ring-[#7C3AED]/30" : "border-[#2D3F55]"
+        isOver ? "border-[#7C3AED] ring-2 ring-[#7C3AED]/30" : "border-[#2D3F55]"
       } shadow-inner w-full relative z-10 transition-all duration-150`}
-      onDragOver={(e) => {
-        if (e.dataTransfer.types.includes("application/sequencing-slot-item")) {
-          e.preventDefault();
-          e.dataTransfer.dropEffect = "move";
-          setIsPoolOver(true);
-        }
-      }}
-      onDragLeave={(e) => {
-        // only clear when leaving the pool container itself
-        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-          setIsPoolOver(false);
-        }
-      }}
-      onDrop={(e) => {
-        e.preventDefault();
-        setIsPoolOver(false);
-        try {
-          const raw = e.dataTransfer.getData("application/sequencing-slot-item");
-          if (!raw) return;
-          const data = JSON.parse(raw) as { item: SequencingItem; slotIndex: number };
-          const emptyIdx = pool.findIndex((p) => p === null);
-          if (emptyIdx !== -1 && onSlotDrop) {
-            onSlotDrop(data.item, data.slotIndex, emptyIdx);
-          }
-        } catch {
-          // ignore
-        }
-      }}
     >
       <p className="text-[10px] sm:text-xs font-bold text-[#7C3AED] uppercase tracking-wider text-center">
         ลากหรือแตะเพื่อนำไปวาง
@@ -167,7 +134,7 @@ export function SequencingPool({ pool, onSelect, slotCount, onSlotDrop }: Sequen
               return (
                 <div key={`pool-wrapper-${originalIdx}`} className={`relative flex-shrink-0 ${sc.box} flex items-center justify-center`}>
                   {item ? (
-                    <PoolItem item={item} idx={originalIdx} onSelect={onSelect} sc={sc} />
+                    <PoolItem item={item} idx={originalIdx} sc={sc} />
                   ) : (
                     <div className={`${sc.box} rounded-xl opacity-0 pointer-events-none`} />
                   )}

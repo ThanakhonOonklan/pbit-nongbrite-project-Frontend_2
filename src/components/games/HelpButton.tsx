@@ -80,7 +80,7 @@ export function HelpButton({ steps }: HelpButtonProps) {
                         {steps.map((step, i) => (
                             <Step key={i} emoji={step.emoji} text={step.text} />
                         ))}
-                    </div>ั
+                    </div>
                 </div>
             )}
 
