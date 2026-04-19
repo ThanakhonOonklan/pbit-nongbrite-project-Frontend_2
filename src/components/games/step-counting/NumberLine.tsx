@@ -1,211 +1,264 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import type { Obstacle } from "@/constants/games/step-counting-levels";
+import { useDroppable, useDraggable } from "@dnd-kit/core";
+import { WoodLog } from "./WoodLog";
+import { StartPlatform } from "./StartPlatform";
+import { WaterStrip } from "./WaterStrip";
 
-interface NumberLineProps {
-  totalCells: number;
-  startPosition: number;
-  flagPosition: number;
-  obstacles: Obstacle[];
-  characterPosition: number;
-  isAnimating: boolean;
-  showCorrect: boolean;
-  currentHopObstacle?: number | null;
-}
-
-const OBSTACLE_EMOJI: Record<string, string> = {
-  log: "🪵",
-  rock: "🪨",
-  bush: "🌿",
-};
-
-// Small grass decorations between cells
-const GRASS_DECORATIONS = ["🌱", "🌿", "☘️", "🍀", "🌾"];
-
-export function NumberLine({
-  totalCells,
-  startPosition,
-  flagPosition,
-  obstacles,
-  characterPosition,
-  isAnimating,
-  showCorrect,
-  currentHopObstacle,
-}: NumberLineProps) {
-  const [animPos, setAnimPos] = useState(characterPosition);
-
-  // Check if character is currently hopping
-  const isHopping = currentHopObstacle !== null && currentHopObstacle !== undefined;
-
-  useEffect(() => {
-    setAnimPos(characterPosition);
-  }, [characterPosition]);
-
-  const obstacleMap = new Map(obstacles.map((o) => [o.position, o.type]));
-
-  const CELL_SIZE = 56;
-  const GAP = 8;
-  const CELL_TOTAL = CELL_SIZE + GAP;
+// ── Draggable block sitting on an occupied slot ───────────────
+function DraggableSlotBlock({ slotIndex, value }: { slotIndex: number; value: number }) {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: `slot-block-${slotIndex}`,
+  });
 
   return (
-    <div className="w-full overflow-x-auto py-2 scrollbar-none hide-scrollbar">
-      <div className="relative min-w-fit mx-auto px-4">
-        {/* ── Character row ── */}
-        <div
-          className="relative flex items-end mb-1"
-          style={{ width: `${totalCells * CELL_TOTAL}px`, height: "90px" }}
-        >
-          <div
-            className="absolute bottom-0 transition-all ease-in-out flex flex-col items-center"
-            style={{
-              left: `${animPos * CELL_TOTAL + (CELL_SIZE / 2) - 40}px`,
-              transitionDuration: isAnimating ? "350ms" : "0ms",
-            }}
-          >
-            {/* Shadow under character */}
-            <div
-              className="absolute -bottom-1 w-12 h-3 rounded-full opacity-20"
-              style={{ background: "radial-gradient(ellipse, #000 0%, transparent 70%)" }}
-            />
-            <Image
-              src="/images/P_Bobo/bobo-01.svg"
-              alt="Bobo"
-              width={80}
-              height={80}
-              className="object-contain"
-              style={{
-                animation: isHopping
-                  ? "hop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
-                  : isAnimating
-                    ? "bounce 0.35s ease-in-out infinite"
-                    : "none",
-                filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.15))",
-                transformOrigin: "bottom center",
-              }}
-            />
-          </div>
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className={`
+        absolute inset-[-3px] rounded-2xl font-black text-2xl text-white
+        flex items-center justify-center
+        bg-sky-500 shadow-[0_4px_0_#1D4ED8]
+        cursor-grab active:cursor-grabbing select-none touch-none
+        transition-opacity
+        ${isDragging ? "opacity-30" : "hover:-translate-y-0.5"}
+      `}
+    >
+      {value}
+    </div>
+  );
+}
+
+// ── Droppable log slot (drop zone + WoodLog) ──────────────────
+function DroppableLog({
+  slotIndex,
+  value,
+  isLast,
+  result,
+  operator,
+}: {
+  slotIndex: number;
+  value: number | null;
+  isLast: boolean;
+  result?: "correct" | "wrong" | null;
+  operator: string;
+}) {
+  const { setNodeRef, isOver } = useDroppable({ id: `slot-${slotIndex}` });
+
+  const dropBorder =
+    result === "correct"
+      ? "border-emerald-400 bg-emerald-50"
+      : result === "wrong"
+        ? "border-red-400 bg-red-50"
+        : isOver
+          ? "border-amber-400 bg-amber-50 scale-105"
+          : value !== null
+            ? "border-sky-300 bg-sky-50"
+            : "border-dashed border-white/60 bg-white/20";
+
+  return (
+    <div className="relative flex flex-col items-center shrink-0">
+      {/* 🏁 above last log */}
+      {isLast && (
+        <div className="absolute flex flex-col items-center pointer-events-none" style={{ top: -56 }}>
+          <span className="text-4xl drop-shadow-md">🏁</span>
         </div>
+      )}
 
-        {/* ── Grass ground + Track ── */}
-        <div className="relative">
-          {/* Grass background */}
-          <div
-            className="absolute inset-x-0 bottom-0 rounded-2xl"
-            style={{
-              height: "calc(100% + 24px)",
-              background: "linear-gradient(180deg, #7EC850 0%, #5DAA3A 40%, #4A8F2C 100%)",
-              top: "-4px",
-              zIndex: 0,
-            }}
-          />
+      {/* Drop zone on top of log */}
+      <div
+        ref={setNodeRef}
+        className={`
+          relative flex items-center justify-center
+          w-[72px] h-[52px] mb-2 rounded-2xl border-[3px]
+          transition-all duration-200 ${dropBorder}
+        `}
+      >
+        {value !== null ? (
+          <DraggableSlotBlock slotIndex={slotIndex} value={value} />
+        ) : (
+          <span className="text-white/70 font-black text-2xl select-none">?</span>
+        )}
+      </div>
 
-          {/* Small grass tips along the top of the ground */}
-          <div
-            className="absolute inset-x-0 flex justify-around pointer-events-none select-none"
-            style={{ top: "-14px", zIndex: 1 }}
-          >
-            {Array.from({ length: Math.min(totalCells * 2, 20) }).map((_, i) => (
-              <span
-                key={i}
-                className="text-xs opacity-80"
-                style={{
-                  transform: `rotate(${(i % 2 === 0 ? -1 : 1) * (5 + i * 3)}deg)`,
-                }}
-              >
-                {GRASS_DECORATIONS[i % GRASS_DECORATIONS.length]}
-              </span>
-            ))}
-          </div>
-
-          {/* Track cells */}
-          <div
-            className="relative flex items-center gap-2 p-2"
-            style={{ zIndex: 2 }}
-          >
-            {Array.from({ length: totalCells }).map((_, idx) => {
-              const isStart = idx === startPosition;
-              const isFlag = idx === flagPosition;
-              const obstacle = obstacleMap.get(idx);
-              const isFlagReached = showCorrect && idx === flagPosition;
-              const isBeingHopped = currentHopObstacle === idx;
-
-              // Determine cell style
-              let cellStyle = "";
-              let cellBorder = "";
-
-              if (isBeingHopped) {
-                // Flash golden when hopped over
-                cellStyle = "bg-gradient-to-br from-yellow-300 to-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.8)] scale-110 z-10 brightness-110";
-                cellBorder = "border-2 border-yellow-200";
-              } else if (isStart) {
-                // Start cell — solid warm color
-                cellStyle = "bg-gradient-to-br from-amber-200 to-yellow-300 shadow-md";
-                cellBorder = "border-2 border-amber-400";
-              } else if (obstacle) {
-                // Obstacle cell — solid with obstacle
-                cellStyle = "bg-gradient-to-br from-amber-100 to-orange-100 shadow-md";
-                cellBorder = "border-2 border-amber-300";
-              } else if (isFlagReached) {
-                // Reached flag — celebration
-                cellStyle = "bg-gradient-to-br from-emerald-200 to-green-300 shadow-lg";
-                cellBorder = "border-2 border-emerald-400";
-              } else if (isFlag) {
-                // Flag cell — slightly highlighted
-                cellStyle = "bg-white/90 shadow-sm";
-                cellBorder = "border-2 border-dashed border-green-400";
-              } else {
-                // Empty cell — dashed border, transparent-ish
-                cellStyle = "bg-white/70 shadow-sm";
-                cellBorder = "border-2 border-dashed border-gray-300/80";
-              }
-
-              return (
-                <div key={idx} className="flex items-center">
-                  <div
-                    className={`
-                      relative flex flex-col items-center justify-center
-                      rounded-xl transition-all duration-300
-                      ${cellStyle} ${cellBorder}
-                    `}
-                    style={{ width: `${CELL_SIZE}px`, height: `${CELL_SIZE}px` }}
-                  >
-                    {/* Obstacle emoji */}
-                    {obstacle && (
-                      <span className="text-xl leading-none drop-shadow-sm">
-                        {OBSTACLE_EMOJI[obstacle]}
-                      </span>
-                    )}
-
-                    {/* Flag — checkered pattern */}
-                    {isFlag && !obstacle && (
-                      <span className="text-xl leading-none">🏁</span>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+      {/* Log with painted operator */}
+      <div className="relative flex justify-center">
+        <WoodLog width={120} height={60} filled={value !== null} isOver={isOver} />
+        <div className={`absolute inset-0 flex items-center justify-center pointer-events-none translate-x-[6px] transition-transform duration-200 origin-center ${isOver ? 'scale-105' : 'scale-100'}`}>
+          <span className="text-2xl font-black text-white/90 select-none pb-1" style={{ filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.5))" }}>
+            {operator}
+          </span>
         </div>
       </div>
 
+      {/* Result indicator (Absolute so it doesn't push the WoodLog up) */}
+      <div className="absolute -bottom-8 w-full flex justify-center pointer-events-none">
+        {result === "correct" && (
+          <span className="text-2xl font-black text-emerald-400 select-none drop-shadow-md" style={{ animation: "bounceIn 0.3s ease-out" }}>✓</span>
+        )}
+        {result === "wrong" && (
+          <span className="text-2xl font-black text-red-500 select-none drop-shadow-md" style={{ animation: "shake 0.4s ease-in-out" }}>✗</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── FloatingLog wrapper ────────────────────────────────────────
+function FloatingLog({ children, index }: { children: React.ReactNode; index: number }) {
+  return (
+    <div
+      className="float-log"
+      style={{ animationDelay: `${(index * 0.37) % 2}s` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ── Main NumberLine ───────────────────────────────────────────
+interface NumberLineProps {
+  startValue: number;
+  operators: string[];
+  slotValues: (number | null)[];
+  checkedSlots?: ({ correct: boolean } | null)[] | null;
+  boboStep?: number;
+  boboState?: "idle" | "jumping" | "falling" | "success";
+}
+
+export function NumberLine({
+  startValue,
+  operators,
+  slotValues,
+  checkedSlots,
+  boboStep = 0,
+  boboState = "idle",
+}: NumberLineProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const startRef = useRef<HTMLDivElement>(null);
+  const logRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const [boboCoords, setBoboCoords] = useState({ x: 0, w: 0 });
+
+  useEffect(() => {
+    // Determine target element
+    const targetEl = boboStep === 0 ? startRef.current : logRefs.current[boboStep - 1];
+    if (targetEl) {
+      setBoboCoords({ x: targetEl.offsetLeft, w: targetEl.offsetWidth });
+      // Scroll into view gently if jumping to the right
+      if (containerRef.current && targetEl.offsetLeft > containerRef.current.scrollLeft + containerRef.current.clientWidth - 200) {
+        containerRef.current.scrollTo({ left: targetEl.offsetLeft - 100, behavior: "smooth" });
+      } else if (containerRef.current && boboStep === 0) {
+        containerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+      }
+    }
+  }, [boboStep, operators]);
+
+  return (
+    <div className="w-full overflow-x-auto hide-scrollbar scroll-smooth" ref={containerRef}>
+      <div
+        className="relative flex items-end w-max min-w-full px-6 sm:px-12"
+        style={{ paddingBottom: 40, paddingTop: 180 }}
+      >
+        {/* Decorative water strip */}
+        <WaterStrip />
+
+        {/* Global Bobo Layer */}
+        <div
+          className="absolute z-50 origin-bottom flex items-end justify-center pointer-events-none float-log"
+          style={{
+            bottom: 85,
+            left: boboCoords.x + boboCoords.w / 2 - 48,
+            transition: boboStep === 0 ? "none" : "left 0.9s linear",
+            visibility: boboCoords.w === 0 ? "hidden" : "visible",
+            animationDelay: `${(boboStep * 0.37) % 2}s`,
+            animationPlayState: boboState !== "idle" ? "paused" : "running",
+          }}
+        >
+          <div
+            className={`
+              flex flex-col items-center justify-end
+              ${boboState === "jumping" ? "animate-hop-arc" : ""}
+              ${boboState === "falling" ? "animate-fall-water" : ""}
+            `}
+          >
+            <Image
+              src="/images/P_Bobo/bobo-01.svg"
+              alt="Bobo"
+              width={96}
+              height={96}
+              className="object-contain drop-shadow-md"
+            />
+          </div>
+
+          {/* Splash Effect */}
+          {boboState === "falling" && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-20 h-6 bg-white/70 blur-[3px] rounded-[100%] animate-ping" />
+          )}
+        </div>
+
+        {/* Start platform */}
+        <div ref={startRef}>
+          <FloatingLog index={0}>
+            <StartPlatform value={startValue} />
+          </FloatingLog>
+        </div>
+
+        {/* Rope + Log for each step */}
+        {operators.map((op, i) => {
+          const result =
+            checkedSlots?.[i]?.correct === true
+              ? "correct"
+              : checkedSlots?.[i]?.correct === false
+                ? "wrong"
+                : null;
+
+          return (
+            <div key={i} className="flex items-end ml-8" ref={(el) => { logRefs.current[i] = el; }}>
+              <FloatingLog index={i + 1}>
+                <DroppableLog
+                  slotIndex={i}
+                  value={slotValues[i] ?? null}
+                  isLast={i === operators.length - 1}
+                  result={result}
+                  operator={op}
+                />
+              </FloatingLog>
+            </div>
+          );
+        })}
+      </div>
+
       <style>{`
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes floatLog {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-7px); }
         }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
+        .float-log {
+          animation: floatLog 3s ease-in-out infinite;
         }
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+
+        @keyframes hopArc {
+          0%   { transform: translateY(0) scale(1); animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+          50%  { transform: translateY(-110px) scale(1.05); animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53); }
+          100% { transform: translateY(0) scale(1); }
         }
-        @keyframes hop {
-          0% { transform: translateY(0) scaleY(0.9); }
-          50% { transform: translateY(-30px) scaleY(1.05); }
-          100% { transform: translateY(0) scaleY(0.95); }
+        @keyframes fallWater {
+          0%   { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+          40%  { transform: translateY(80px) scale(0.6) rotate(90deg); opacity: 0.8; }
+          100% { transform: translateY(200px) scale(0) rotate(180deg); opacity: 0; }
+        }
+        .animate-hop-arc {
+          animation: hopArc 0.9s forwards;
+        }
+        .animate-fall-water {
+          animation: fallWater 1s forwards;
         }
       `}</style>
     </div>

@@ -86,8 +86,8 @@ export default function CountingClassificationGamePage({
 
     setSubmitted(true);
 
-    import("@/utils/game-scoring").then(({ calculateGameScore }) => {
-      const result = calculateGameScore({
+    import("@/utils/game-scoring").then(({ calculateCountingClassificationScore }) => {
+      const result = calculateCountingClassificationScore({
         difficulty: config.difficulty,
         attempts: newAttempts,
         timeSeconds: elapsed,

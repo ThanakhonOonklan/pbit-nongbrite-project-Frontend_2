@@ -6,6 +6,18 @@ import { type ScoreResult, calculateGameScore, getStarRating } from "@/utils/gam
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
 
+import { 
+  DndContext, 
+  DragEndEvent, 
+  DragStartEvent, 
+  closestCenter, 
+  useSensor, 
+  useSensors, 
+  PointerSensor, 
+  TouchSensor, 
+  DragOverlay 
+} from "@dnd-kit/core";
+
 import { SequencingSlots } from "./SequencingSlots";
 import { SequencingPool } from "./SequencingPool";
 import { GameControls } from "./GameControls";
@@ -35,6 +47,12 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
   const [wrongCount, setWrongCount] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+  const [activeDragId, setActiveDragId] = useState<string | null>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 0, tolerance: 10 } })
+  );
 
   // Initialize game
   useEffect(() => {
@@ -50,43 +68,18 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
     setShowErrors(false);
   }, [config]);
 
-  // Handle clicking an item from the bottom pool
-  const handleItemSelect = (item: SequencingItem, poolIndex: number) => {
-    if (showErrors) setShowErrors(false); // Clear errors when user edits
-    // Find the first empty slot
-    const firstEmptySlotIdx = slots.findIndex((slot) => slot === null);
-    if (firstEmptySlotIdx === -1) return; // No empty slots available
-
-    // Move to slot
-    setSlots((prev) => {
-      const newSlots = [...prev];
-      newSlots[firstEmptySlotIdx] = item;
-      return newSlots;
-    });
-
-    // Remove from pool
-    setPool((prev) => {
-      const newPool = [...prev];
-      newPool[poolIndex] = null;
-      return newPool;
-    });
-  };
-
-  // Handle clicking a placed item from the top slots (removing it)
+  // Handle clicking a placed item from the top slots (removing it via click on 'X' button)
   const handleSlotRemove = (item: SequencingItem, slotIndex: number) => {
-    if (showErrors) setShowErrors(false); // Clear errors when user edits
-    // Find where it belongs back in the original pool layout (or just an empty spot)
+    if (showErrors) setShowErrors(false);
     const emptyPoolIdx = pool.findIndex((p) => p === null);
-    if (emptyPoolIdx === -1) return; // Should never happen unless logic is broken
+    if (emptyPoolIdx === -1) return;
 
-    // Move back to pool
     setPool((prev) => {
       const newPool = [...prev];
       newPool[emptyPoolIdx] = item;
       return newPool;
     });
 
-    // Remove from slot
     setSlots((prev) => {
       const newSlots = [...prev];
       newSlots[slotIndex] = null;
@@ -94,21 +87,74 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
     });
   };
 
-  // Handle native HTML5 drag drop from pool to slot
-  const handleNativeDrop = (item: SequencingItem, poolIndex: number, slotIndex: number) => {
-    if (slots[slotIndex] !== null) return; // slot already filled
+  const handleDragStart = useCallback((event: DragStartEvent) => {
     if (showErrors) setShowErrors(false);
-    setSlots((prev) => {
-      const newSlots = [...prev];
-      newSlots[slotIndex] = item;
-      return newSlots;
-    });
-    setPool((prev) => {
-      const newPool = [...prev];
-      newPool[poolIndex] = null;
-      return newPool;
-    });
-  };
+    setActiveDragId(event.active.id as string);
+  }, [showErrors]);
+
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
+    setActiveDragId(null);
+    const { active, over } = event;
+    const activeId = active.id as string;
+    const targetId = over?.id as string | undefined;
+
+    if (!targetId) return; // Dropped nowhere
+
+    // Case 1: Dragging from Pool into a Slot
+    if (activeId.startsWith("pool-item-") && targetId.startsWith("slot-")) {
+      const poolIdx = parseInt(activeId.split("pool-item-")[1], 10);
+      const slotIdx = parseInt(targetId.split("slot-")[1], 10);
+      
+      const item = pool[poolIdx];
+      if (!item || slots[slotIdx] !== null) return; // ignore if slot filled or pool empty
+
+      setSlots((prev) => {
+        const next = [...prev];
+        next[slotIdx] = item;
+        return next;
+      });
+      setPool((prev) => {
+        const next = [...prev];
+        next[poolIdx] = null;
+        return next;
+      });
+    }
+
+    // Case 2: Dragging from Slot to Pool
+    if (activeId.startsWith("slot-item-") && targetId === "pool") {
+      const slotIdx = parseInt(activeId.split("slot-item-")[1], 10);
+      const item = slots[slotIdx];
+      const emptyPoolIdx = pool.findIndex((p) => p === null);
+
+      if (!item || emptyPoolIdx === -1) return;
+
+      setSlots((prev) => {
+        const next = [...prev];
+        next[slotIdx] = null;
+        return next;
+      });
+      setPool((prev) => {
+        const next = [...prev];
+        next[emptyPoolIdx] = item;
+        return next;
+      });
+    }
+    
+    // Case 3: Dragging from Slot to another Slot
+    if (activeId.startsWith("slot-item-") && targetId.startsWith("slot-")) {
+      const fromSlotIdx = parseInt(activeId.split("slot-item-")[1], 10);
+      const toSlotIdx = parseInt(targetId.split("slot-")[1], 10);
+
+      if (fromSlotIdx !== toSlotIdx && slots[toSlotIdx] === null) {
+        setSlots((prev) => {
+          const next = [...prev];
+          next[toSlotIdx] = next[fromSlotIdx];
+          next[fromSlotIdx] = null;
+          return next;
+        });
+      }
+    }
+  }, [pool, slots]);
 
   // Handle Check Logic
   const handleCheck = useCallback(() => {
@@ -153,20 +199,7 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
     }
   }, [slots, config, isCompleted, startTime, wrongCount, onGameEnd, onWrongAttempt]);
 
-  // Handle dragging a slot item back to the pool
-  const handleSlotDragToPool = (item: SequencingItem, slotIndex: number, poolIndex: number) => {
-    if (showErrors) setShowErrors(false);
-    setSlots((prev) => {
-      const newSlots = [...prev];
-      newSlots[slotIndex] = null;
-      return newSlots;
-    });
-    setPool((prev) => {
-      const newPool = [...prev];
-      newPool[poolIndex] = item;
-      return newPool;
-    });
-  };
+
 
   const isAllFilled = slots.every((slot) => slot !== null);
 
@@ -185,30 +218,53 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
     });
   };
 
+  // Determine active item for overlay
+  let activeItemObj: SequencingItem | null = null;
+  if (activeDragId) {
+    if (activeDragId.startsWith("pool-item-")) {
+      activeItemObj = pool[parseInt(activeDragId.split("pool-item-")[1], 10)];
+    } else if (activeDragId.startsWith("slot-item-")) {
+      activeItemObj = slots[parseInt(activeDragId.split("slot-item-")[1], 10)];
+    }
+  }
+
   return (
-    <div className="flex flex-col gap-3 sm:gap-5 w-full">
-      {/* Title */}
-      <h2 className="text-center font-bold text-xl sm:text-2xl text-[#C084FC] px-2">
-        {config.sequenceTitle}
-      </h2>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
+      <div className="flex flex-col gap-3 sm:gap-5 w-full">
+        {/* Title */}
+        <h2 className="text-center font-bold text-xl sm:text-2xl text-[#C084FC] px-2">
+          {config.sequenceTitle}
+        </h2>
 
-      <SequencingSlots
-        slots={slots}
-        onRemove={handleSlotRemove}
-        onDrop={handleNativeDrop}
-        correctSequence={config.correctSequence}
-        showErrors={showErrors}
-        shakeKey={wrongCount}
-      />
+        <SequencingSlots
+          slots={slots}
+          onRemove={handleSlotRemove}
+          correctSequence={config.correctSequence}
+          showErrors={showErrors}
+          shakeKey={wrongCount}
+        />
 
-      <SequencingPool pool={pool} onSelect={handleItemSelect} slotCount={slots.length} onSlotDrop={handleSlotDragToPool} />
+        <SequencingPool pool={pool} slotCount={slots.length} />
 
-      <GameControls
-        onCheck={handleCheck}
-        onReset={handleReset}
-        isAllFilled={isAllFilled}
-        isCompleted={isCompleted}
-      />
-    </div>
+        <GameControls
+          onCheck={handleCheck}
+          onReset={handleReset}
+          isAllFilled={isAllFilled}
+          isCompleted={isCompleted}
+        />
+        
+        <DragOverlay dropAnimation={null}>
+          {activeItemObj && (
+            <div className="w-[54px] h-[54px] sm:w-[72px] sm:h-[72px] md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-xl flex items-center justify-center bg-[#1E2C33] shadow-[0_6px_0_#7C3AED] border-[2px] border-[#7C3AED] scale-105 rotate-2 cursor-grabbing pointer-events-none">
+              {activeItemObj.isImage ? (
+                <img src={activeItemObj.content} alt="Dragging" className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain drop-shadow-sm pointer-events-none" />
+              ) : (
+                <span className="text-2xl sm:text-3xl lg:text-4xl drop-shadow-sm pointer-events-none text-white font-black">{activeItemObj.content}</span>
+              )}
+            </div>
+          )}
+        </DragOverlay>
+      </div>
+    </DndContext>
   );
 }

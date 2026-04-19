@@ -7,7 +7,7 @@ import { ReferenceGrid } from "./ReferenceGrid";
 import { ColorPalette } from "./ColorPalette";
 import { type GridColoringLevelConfig } from "@/constants/games/grid-based-coloring-levels";
 import {
-  calculateGameScore,
+  calculateGridColoringScore,
   getStarRating,
   type ScoreResult,
 } from "@/utils/game-scoring";
@@ -32,8 +32,9 @@ const getMemorizeTime = (difficulty: string) => {
 // normal: unlimited peeks (no penalty)
 // hard: 3 peeks, 2nd+ penalised
 const getMaxPeeks = (difficulty: string) => {
+  if (difficulty === "normal") return 3;
   if (difficulty === "hard") return 2;
-  return 999; // unlimited for easy / normal
+  return 999; // unlimited for easy
 };
 
 interface GridColoringGameProps {
@@ -138,7 +139,6 @@ export function GridColoringGame({
       setIsMemorizing(false);
     }
   }, [isMemorizing]);
-
   const handlePeek = useCallback(() => {
     if (isMemorizing || isPeeking || isCompleted || peekCount >= maxPeeks) return;
     setPeekCount((prev) => prev + 1);
@@ -241,7 +241,7 @@ export function GridColoringGame({
         config.difficulty === "hard" ? Math.max(0, peekCount - 1) : 0;
       // totalAttempts ใช้ทั้งใน scoring และ GameResultModal ให้ตรงกัน
       const totalAttempts = wrongCount + peekPenalty;
-      const scoreResult = calculateGameScore({
+      const scoreResult = calculateGridColoringScore({
         difficulty: config.difficulty,
         attempts: totalAttempts,
         timeSeconds: elapsed,
@@ -293,8 +293,8 @@ export function GridColoringGame({
       {/* ── Main: Reference + Canvas side-by-side ──────────────────── */}
       <div className="flex flex-col lg:flex-row gap-4 w-full items-stretch flex-1">
 
-        {/* Reference grid */}
-        <div className="flex-1 w-full lg:w-1/2 relative flex flex-col justify-center items-center">
+        {/* Reference grid side */}
+        <div className="flex-1 w-full lg:w-1/2 flex flex-col">
           <ReferenceGrid
             gridSize={gridSize}
             pattern={pattern}
@@ -330,10 +330,6 @@ export function GridColoringGame({
               onCellDrag={handleCellDrag}
               drawingMode={drawingMode}
               onDrawEnd={handleDrawEnd}
-              onUndo={handleUndo}
-              onRedo={handleRedo}
-              canUndo={historyIndex > 0}
-              canRedo={historyIndex < history.length - 1}
               wrongCells={wrongCells}
             />
           </div>
@@ -341,7 +337,8 @@ export function GridColoringGame({
       </div>
 
       {/* ── Bottom: Palette + Tools ───────────────────────── */}
-      <div className="rounded-2xl p-3 sm:p-4 bg-[#1C2B32] border border-white/10 shadow-xl shrink-0 mx-auto w-full max-w-4xl flex items-center justify-center">
+      <div className="rounded-[2.5rem] px-4 py-3 sm:px-6 sm:py-4 bg-[#E8DCC4] border-4 border-[#D2B48C] shadow-inner shadow-amber-900/10 shrink-0 mx-auto w-fit max-w-full flex items-center justify-center overflow-x-auto hide-scrollbar">
+        <style>{`.hide-scrollbar::-webkit-scrollbar { display: none; } .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }`}</style>
         <ColorPalette
           palette={palette}
           selectedColor={selectedColor}
@@ -353,6 +350,10 @@ export function GridColoringGame({
           onSelectMode={setDrawingMode}
           onCheckAnswer={handleCheck}
           onReset={handleReset}
+          onUndo={handleUndo}
+          onRedo={handleRedo}
+          canUndo={historyIndex > 0}
+          canRedo={historyIndex < history.length - 1}
           isCheckDisabled={isMemorizing || isPeeking}
         />
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import { Undo2, Redo2 } from "lucide-react";
 
 import { type DrawingMode } from "./GridColoringGame";
 
@@ -14,10 +13,6 @@ interface ColorCanvasProps {
   onCellDrag: (row: number, col: number) => void;
   drawingMode?: DrawingMode;
   onDrawEnd?: () => void;
-  onUndo?: () => void;
-  onRedo?: () => void;
-  canUndo?: boolean;
-  canRedo?: boolean;
   /** Cells that were wrong on last check — shown with red highlight */
   wrongCells?: { row: number; col: number }[];
 }
@@ -33,10 +28,6 @@ export function ColorCanvas({
   onCellDrag,
   drawingMode = "paint",
   onDrawEnd,
-  onUndo,
-  onRedo,
-  canUndo,
-  canRedo,
   wrongCells = [],
 }: ColorCanvasProps) {
   const [isPainting, setIsPainting] = useState(false);
@@ -99,31 +90,11 @@ export function ColorCanvas({
   }
 
   return (
-    <div className="relative rounded-2xl p-3 sm:p-4 w-full flex-1 flex flex-col overflow-hidden bg-[#1C2B32] border border-white/10">
-
-      {/* Undo / Redo row */}
-      <div className="flex items-center justify-end gap-1.5 mb-3">
-        <button
-          onClick={onUndo}
-          disabled={!canUndo || disabled}
-          className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-white/60 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10 active:scale-95 transition-all"
-          title="เลิกทำ"
-        >
-          <Undo2 className="w-4 h-4" />
-        </button>
-        <button
-          onClick={onRedo}
-          disabled={!canRedo || disabled}
-          className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-white/60 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10 active:scale-95 transition-all"
-          title="ทำซ้ำ"
-        >
-          <Redo2 className="w-4 h-4" />
-        </button>
-      </div>
+    <div className="relative rounded-lg p-3 sm:p-4 w-full flex-1 flex flex-col overflow-hidden bg-[#E2CDAE] border-4 border-[#8B5A2B] shadow-xl shadow-amber-900/30">
 
       <div className="relative flex-1 flex flex-col items-center justify-center px-1 sm:px-3">
         <div
-          className="inline-grid border-2 border-[#FFAC3E] rounded-xl overflow-hidden select-none bg-white"
+          className="inline-grid border border-gray-300 shadow-sm overflow-hidden select-none bg-white"
           style={{
             gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
             touchAction: "none",
@@ -169,13 +140,13 @@ export function ColorCanvas({
                     border-gray-300
                     ${colIdx < gridSize - 1 ? 'border-r' : ''}
                     ${rowIdx < gridSize - 1 ? 'border-b' : ''}
-                    ${getCursorClass()} ${!disabled ? "z-10 cell-interactive" : ""}
+                    ${getCursorClass()}
                     ${cellColor ? "cell-painted" : ""}
                     ${isWrong ? "cell-wrong" : ""}
                   `}
                   style={{
-                    '--cell-color': cellColor || "#ffffff",
-                  } as React.CSSProperties}
+                    backgroundColor: cellColor || "#ffffff",
+                  }}
                 >
                   {/* Removed color tooltip on hover */}
                 </div>
@@ -189,9 +160,8 @@ export function ColorCanvas({
                 .cell-painted { animation: cellGrow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
                 @keyframes cellGrow {
                     0% { transform: scale(0.4); opacity: 0.5; }
-                    100% { transform: scale(1); opacity: 1; z-index: 10; }
+                    100% { transform: scale(1); opacity: 1; }
                 }
-                .cell-interactive { background-color: var(--cell-color); }
 
                 /* 🔴 Wrong cell highlight */
                 .cell-wrong {

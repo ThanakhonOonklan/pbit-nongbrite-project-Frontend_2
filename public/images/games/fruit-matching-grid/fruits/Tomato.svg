@@ -1,0 +1,26 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+      <radialGradient id="tom-grad" cx="30%" cy="30%" r="70%">
+        <stop offset="0%" stop-color="#FF4B4B" />
+        <stop offset="100%" stop-color="#B20000" />
+      </radialGradient>
+    </defs>
+    <circle cx="50" cy="55" r="35" fill="url(#tom-grad)"/>
+    
+    <path d="M50 20 L55 35 L70 30 L60 40 L70 50 L55 45 L50 60 L45 45 L30 50 L40 40 L30 30 L45 35 Z" fill="#2E7D32"/>
+    
+    
+  <g transform="translate(50, 55) scale(1)">
+    <circle cx="-15" cy="-5" r="4.5" fill="#1A1A1A"/>
+    <circle cx="-16" cy="-6.5" r="1.5" fill="white"/>
+    <circle cx="15" cy="-5" r="4.5" fill="#1A1A1A"/>
+    <circle cx="14" cy="-6.5" r="1.5" fill="white"/>
+    
+    <ellipse cx="-25" cy="0" rx="5" ry="3" fill="#FF3B30" fill-opacity="0.4"/>
+    <ellipse cx="25" cy="0" rx="5" ry="3" fill="#FF3B30" fill-opacity="0.4"/>
+    
+    <path d="M-6 0 Q0 6 6 0" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round" fill="none"/>
+  </g>
+  
+</svg>

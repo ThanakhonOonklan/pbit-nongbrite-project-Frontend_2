@@ -82,17 +82,29 @@ export default function FruitMatchingGridGamePage({
 
   // ── Render ────────────────────────────────────────────────
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#131F24]">
-
-      {/* Header */}
-      <GameHeader
-        level={level}
-        gameTitle="Coordinate Crunch"
-        characterSrc="/images/P_PingPing/pingping-01.svg"
+    <div className="flex flex-col h-screen overflow-hidden bg-[#A4C500] relative">
+      
+      {/* Background Pattern - Grass */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none opacity-80"
+        style={{ 
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg stroke='%238FB500' stroke-width='4' stroke-linecap='round' fill='none'%3E%3Cpath d='M30,140 Q25,125 20,115 M30,140 Q30,125 31,110 M30,140 Q35,130 40,120' /%3E%3Cpath d='M110,60 Q105,50 100,45 M110,60 Q110,50 111,40 M110,60 Q115,55 120,50' /%3E%3Cpath d='M140,120 Q138,110 135,105 M140,120 Q142,110 144,105' /%3E%3C/g%3E%3C/svg%3E\")",
+          backgroundSize: "160px 160px" 
+        }}
       />
 
+      {/* Header */}
+      <div className="relative z-20">
+        <GameHeader
+          level={level}
+          gameTitle="Coordinate Crunch"
+          characterSrc="/images/P_PingPing/pingping-01.svg"
+          bgColor="transparent"
+        />
+      </div>
+
       {/* Main game area — scrollable */}
-      <div className="flex-1 overflow-auto px-4 sm:px-6 pb-6 relative z-10">
+      <div className="flex-1 overflow-auto px-4 sm:px-6 pb-6 relative z-10 pt-2">
         <FruitMatchingGame
           key={gameKey}
           config={config}
@@ -143,8 +155,6 @@ export default function FruitMatchingGridGamePage({
       {/* Out of Lives Modal */}
       {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
 
-      <style>{`
-      `}</style>
     </div>
   );
 }
