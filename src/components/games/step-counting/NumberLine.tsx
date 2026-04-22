@@ -3,9 +3,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useDroppable, useDraggable } from "@dnd-kit/core";
-import { WoodLog } from "./WoodLog";
-import { StartPlatform } from "./StartPlatform";
-import { WaterStrip } from "./WaterStrip";
+import { WoodLog } from "./logs/WoodLog";
+import { StartPlatform } from "./logs/StartPlatform";
+import { WaterStrip } from "./background/WaterStrip";
+import { FinishFlag } from "./logs/FinishFlag";
 
 // ── Draggable block sitting on an occupied slot ───────────────
 function DraggableSlotBlock({ slotIndex, value }: { slotIndex: number; value: number }) {
@@ -24,7 +25,7 @@ function DraggableSlotBlock({ slotIndex, value }: { slotIndex: number; value: nu
         bg-sky-500 shadow-[0_4px_0_#1D4ED8]
         cursor-grab active:cursor-grabbing select-none touch-none
         transition-opacity
-        ${isDragging ? "opacity-30" : "hover:-translate-y-0.5"}
+        ${isDragging ? "opacity-30" : "hover:-translate-y-0.5 animate-drop-pop"}
       `}
     >
       {value}
@@ -61,12 +62,6 @@ function DroppableLog({
 
   return (
     <div className="relative flex flex-col items-center shrink-0">
-      {/* 🏁 above last log */}
-      {isLast && (
-        <div className="absolute flex flex-col items-center pointer-events-none" style={{ top: -56 }}>
-          <span className="text-4xl drop-shadow-md">🏁</span>
-        </div>
-      )}
 
       {/* Drop zone on top of log */}
       <div
@@ -78,7 +73,7 @@ function DroppableLog({
         `}
       >
         {value !== null ? (
-          <DraggableSlotBlock slotIndex={slotIndex} value={value} />
+          <DraggableSlotBlock key={`${slotIndex}-${value}`} slotIndex={slotIndex} value={value} />
         ) : (
           <span className="text-white/70 font-black text-2xl select-none">?</span>
         )}
@@ -86,8 +81,16 @@ function DroppableLog({
 
       {/* Log with painted operator */}
       <div className="relative flex justify-center">
-        <WoodLog width={120} height={60} filled={value !== null} isOver={isOver} />
-        <div className={`absolute inset-0 flex items-center justify-center pointer-events-none translate-x-[6px] transition-transform duration-200 origin-center ${isOver ? 'scale-105' : 'scale-100'}`}>
+        {/* Finish Flag on the last log (rendered behind) */}
+        {isLast && (
+          <div className="absolute right-[5px] bottom-[35px] pointer-events-none z-0" style={{ transformOrigin: "70px 120px", animation: "flagWave 4s ease-in-out infinite" }}>
+            <FinishFlag className="drop-shadow-lg scale-90" />
+          </div>
+        )}
+        <div className="relative z-10">
+          <WoodLog width={120} height={60} filled={value !== null} isOver={isOver} />
+        </div>
+        <div className={`absolute inset-0 flex items-center justify-center pointer-events-none translate-x-[6px] transition-transform duration-200 origin-center z-20 ${isOver ? 'scale-105' : 'scale-100'}`}>
           <span className="text-2xl font-black text-white/90 select-none pb-1" style={{ filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.5))" }}>
             {operator}
           </span>
@@ -144,15 +147,16 @@ export function NumberLine({
   const [boboCoords, setBoboCoords] = useState({ x: 0, w: 0 });
 
   useEffect(() => {
-    // Determine target element
     const targetEl = boboStep === 0 ? startRef.current : logRefs.current[boboStep - 1];
-    if (targetEl) {
+
+    if (targetEl && containerRef.current) {
+      const container = containerRef.current;
       setBoboCoords({ x: targetEl.offsetLeft, w: targetEl.offsetWidth });
-      // Scroll into view gently if jumping to the right
-      if (containerRef.current && targetEl.offsetLeft > containerRef.current.scrollLeft + containerRef.current.clientWidth - 200) {
-        containerRef.current.scrollTo({ left: targetEl.offsetLeft - 100, behavior: "smooth" });
-      } else if (containerRef.current && boboStep === 0) {
-        containerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+
+      if (boboStep === 0) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      } else if (targetEl.offsetLeft > container.scrollLeft + container.clientWidth - 200) {
+        container.scrollTo({ left: targetEl.offsetLeft - 100, behavior: "smooth" });
       }
     }
   }, [boboStep, operators]);
@@ -160,17 +164,16 @@ export function NumberLine({
   return (
     <div className="w-full overflow-x-auto hide-scrollbar scroll-smooth" ref={containerRef}>
       <div
-        className="relative flex items-end w-max min-w-full px-6 sm:px-12"
-        style={{ paddingBottom: 40, paddingTop: 180 }}
+        className="relative flex items-end w-max px-6 sm:px-12"
+        style={{ paddingBottom: 20, paddingTop: 205 }}
       >
-        {/* Decorative water strip */}
-        <WaterStrip />
+        {/* Decorative water strip has been moved to SkyBackground */}
 
         {/* Global Bobo Layer */}
         <div
           className="absolute z-50 origin-bottom flex items-end justify-center pointer-events-none float-log"
           style={{
-            bottom: 85,
+            bottom: 65,
             left: boboCoords.x + boboCoords.w / 2 - 48,
             transition: boboStep === 0 ? "none" : "left 0.9s linear",
             visibility: boboCoords.w === 0 ? "hidden" : "visible",
@@ -186,18 +189,13 @@ export function NumberLine({
             `}
           >
             <Image
-              src="/images/P_Bobo/bobo-01.svg"
+              src="/images/P_Bobo/bobo-04.svg"
               alt="Bobo"
               width={96}
               height={96}
               className="object-contain drop-shadow-md"
             />
           </div>
-
-          {/* Splash Effect */}
-          {boboState === "falling" && (
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-20 h-6 bg-white/70 blur-[3px] rounded-[100%] animate-ping" />
-          )}
         </div>
 
         {/* Start platform */}
@@ -254,11 +252,24 @@ export function NumberLine({
           40%  { transform: translateY(80px) scale(0.6) rotate(90deg); opacity: 0.8; }
           100% { transform: translateY(200px) scale(0) rotate(180deg); opacity: 0; }
         }
+        @keyframes dropPop {
+          0% { transform: scale(0.3) translateY(-20px); opacity: 0; }
+          50% { transform: scale(1.1) translateY(5px); opacity: 1; }
+          80% { transform: scale(0.95) translateY(-2px); opacity: 1; }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
         .animate-hop-arc {
           animation: hopArc 0.9s forwards;
         }
         .animate-fall-water {
           animation: fallWater 1s forwards;
+        }
+        .animate-drop-pop {
+          animation: dropPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes flagWave {
+          0%, 100% { transform: rotate(-2deg); }
+          50%      { transform: rotate(4deg); }
         }
       `}</style>
     </div>
