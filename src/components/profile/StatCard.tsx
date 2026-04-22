@@ -9,7 +9,6 @@ export interface StatCardProps {
   imageAlt?: string;
   title: string;
   description: string;
-  iconBgColor?: string;
 }
 
 export const StatCard: React.FC<StatCardProps> = ({
@@ -19,7 +18,6 @@ export const StatCard: React.FC<StatCardProps> = ({
   imageAlt = "Stat icon",
   title,
   description,
-  iconBgColor = "bg-[#F5FAFF]",
 }) => {
   return (
     <div
@@ -43,7 +41,6 @@ export const StatCard: React.FC<StatCardProps> = ({
           "lg:min-w-[44px] lg:w-[44px] lg:h-[44px]",
           "rounded-[10px]",
           "relative overflow-hidden",
-          iconBgColor
         )}
       >
         {imageSrc ? (

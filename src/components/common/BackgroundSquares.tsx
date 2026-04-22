@@ -15,6 +15,7 @@ export function BackgroundSquares() {
           background: "linear-gradient(135deg, rgba(0, 168, 232, 0.2) 0%, rgba(79, 194, 247, 0.2) 100%)",
           top: "-100px",
           right: "15%",
+          willChange: "transform",
         }}
       ></div>
 
@@ -28,6 +29,7 @@ export function BackgroundSquares() {
           bottom: "15%",
           left: "-10%",
           animationDelay: "2s",
+          willChange: "transform",
         }}
       ></div>
 
@@ -41,6 +43,7 @@ export function BackgroundSquares() {
           top: "40%",
           right: "5%",
           animationDelay: "4s",
+          willChange: "transform",
         }}
       ></div>
 
@@ -55,6 +58,7 @@ export function BackgroundSquares() {
           top: "15%",
           left: "-5%",
           transform: "rotate(15deg)",
+          willChange: "transform",
         }}
       ></div>
 
@@ -69,6 +73,7 @@ export function BackgroundSquares() {
           right: "15%",
           transform: "rotate(-20deg)",
           animationDelay: "3s",
+          willChange: "transform",
         }}
       ></div>
 
@@ -85,6 +90,7 @@ export function BackgroundSquares() {
           top: "10%",
           left: "35%",
           animationDelay: "5s",
+          willChange: "transform",
         }}
       ></div>
 
@@ -101,6 +107,7 @@ export function BackgroundSquares() {
           right: "30%",
           transform: "rotate(180deg)",
           animationDelay: "1s",
+          willChange: "transform",
         }}
       ></div>
 
@@ -114,6 +121,7 @@ export function BackgroundSquares() {
           border: "25px solid rgba(0, 168, 232, 0.15)",
           top: "40%",
           left: "15%",
+          willChange: "transform",
         }}
       ></div>
 
@@ -127,6 +135,7 @@ export function BackgroundSquares() {
           top: "5%",
           right: "35%",
           animationDelay: "2s",
+          willChange: "transform",
         }}
       ></div>
 
@@ -142,6 +151,7 @@ export function BackgroundSquares() {
           bottom: "-70px",
           right: "20%",
           transform: "rotate(-15deg)",
+          willChange: "transform",
         }}
       ></div>
 
@@ -157,6 +167,7 @@ export function BackgroundSquares() {
           left: "25%",
           transform: "rotate(160deg)",
           animationDelay: "6s",
+          willChange: "transform",
         }}
       ></div>
 
@@ -171,6 +182,7 @@ export function BackgroundSquares() {
           top: "65%",
           right: "8%",
           animationDelay: "7s",
+          willChange: "transform",
         }}
       ></div>
 
@@ -178,3 +190,4 @@ export function BackgroundSquares() {
     </div>
   );
 }
+

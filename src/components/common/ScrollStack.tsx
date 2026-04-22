@@ -135,6 +135,18 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
   const currentSectionRef = useRef<number>(-1);
 
+  // Fix #1: Store onSectionChange in a ref so updateCardTransforms + useLayoutEffect
+  // don't need it in their dependency arrays → Lenis won't restart mid-scroll
+  const onSectionChangeRef = useRef(onSectionChange);
+  useLayoutEffect(() => {
+    onSectionChangeRef.current = onSectionChange;
+  });
+
+  const onStackCompleteRef = useRef(onStackComplete);
+  useLayoutEffect(() => {
+    onStackCompleteRef.current = onStackComplete;
+  });
+
   interface CardTransform {
     translateY: number;
     scale: number;
@@ -388,7 +400,7 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
           stackCompletedRef.current = true;
 
-          onStackComplete?.();
+          onStackCompleteRef.current?.();
 
         } else if (!isInView && stackCompletedRef.current) {
 
@@ -400,8 +412,8 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
     });
 
-    // Call onSectionChange if section has changed
-    if (onSectionChange && topCardIndex !== currentSectionRef.current) {
+    // Fix #1: Call via ref so this function doesn't need onSectionChange in its dep array
+    if (onSectionChangeRef.current && topCardIndex !== currentSectionRef.current) {
       currentSectionRef.current = topCardIndex;
 
       // ตรวจสอบ bounds ก่อนเข้าถึง array
@@ -409,7 +421,7 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
         ? headerColorsRef.current[topCardIndex]
         : undefined;
 
-      onSectionChange(topCardIndex, headerColor);
+      onSectionChangeRef.current(topCardIndex, headerColor);
     }
 
     isUpdatingRef.current = false;
@@ -432,9 +444,7 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
     useWindowScroll,
 
-    onStackComplete,
-
-    onSectionChange,
+    // Fix #1 & #2: onStackComplete and onSectionChange removed from deps — accessed via ref
 
     calculateProgress,
 
@@ -677,7 +687,7 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
     useWindowScroll,
 
-    onStackComplete,
+    // Fix #1 & #2: onStackComplete removed — accessed via ref, won't cause Lenis restart
 
     setupLenis,
 
@@ -699,13 +709,14 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
         WebkitOverflowScrolling: 'touch',
 
-        scrollBehavior: 'smooth',
+        // Fix #5: removed scrollBehavior: 'smooth' — conflicts with Lenis easing (double easing)
 
         WebkitTransform: 'translateZ(0)',
 
         transform: 'translateZ(0)',
 
-        willChange: 'scroll-position',
+        // Fix #7: 'scroll-position' is not a valid will-change value (removed from spec)
+        willChange: 'transform',
 
         scrollbarWidth: 'none'
 
