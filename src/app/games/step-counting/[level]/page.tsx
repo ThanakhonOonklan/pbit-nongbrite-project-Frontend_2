@@ -42,7 +42,7 @@ export default function StepCountingGamePage({
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
-  const { user } = useUserStore();
+  const { user, reduceLife } = useUserStore();
 
   const config = stepCountingLevels[levelNum];
   const dndId = useId();
@@ -149,6 +149,7 @@ export default function StepCountingGamePage({
         } else {
           setTimeout(() => {
             setBoboState("falling");
+            reduceLife();
             setTimeout(() => {
               setBoboState("idle");
               setBoboStep(0);
