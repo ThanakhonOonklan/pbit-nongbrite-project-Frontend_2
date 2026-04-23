@@ -22,7 +22,7 @@ export default function SequencingPage() {
   const [levelNum, setLevelNum] = useState<number>(1);
   const [isClient, setIsClient] = useState(false);
   const { user, reduceLife } = useUserStore();
-  const [startTime, setStartTime] = useState(Date.now());
+  const [startTime, setStartTime] = useState(() => Date.now());
 
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null);
   const [wrongCount, setWrongCount] = useState(0);

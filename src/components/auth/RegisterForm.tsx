@@ -15,7 +15,7 @@ import { X, KeyRound, CircleUser, Sparkles } from "lucide-react";
 import { Fireworks } from "@/components/common/Fireworks";
 import { useTranslations } from "next-intl";
 
-export interface RegisterFormProps { }
+export type RegisterFormProps = object;
 
 const RegisterForm: React.FC<RegisterFormProps> = () => {
   const t = useTranslations("Auth");

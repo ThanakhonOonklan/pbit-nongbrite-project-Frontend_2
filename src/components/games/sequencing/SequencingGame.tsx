@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useId } from "react";
+import { useState, useCallback, useId } from "react";
 import { type SequencingLevelConfig, type SequencingItem } from "@/constants/games/sequencing-levels";
 import { type ScoreResult, calculateGameScore, getStarRating } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
@@ -55,19 +55,6 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
     useSensor(TouchSensor, { activationConstraint: { delay: 0, tolerance: 10 } })
   );
 
-  // Initialize game
-  useEffect(() => {
-    // Fill the empty slots to match the correct sequence length
-    setSlots(Array(config.correctSequence.length).fill(null));
-
-    // Shuffle items for the pool
-    setPool(shuffleArray([...config.correctSequence]));
-
-    // Reset stats
-    setWrongCount(0);
-    setIsCompleted(false);
-    setShowErrors(false);
-  }, [config]);
 
   // Handle clicking a placed item from the top slots (removing it via click on 'X' button)
   const handleSlotRemove = (item: SequencingItem, slotIndex: number) => {

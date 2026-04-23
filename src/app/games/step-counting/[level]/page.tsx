@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useCallback, useRef, useId } from "react";
+import { use, useState, useCallback, useRef, useId, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
@@ -67,7 +67,10 @@ export default function StepCountingGamePage({
   const [isAnimating, setIsAnimating] = useState(false);
   const isChecked = isAnimating;
 
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
+  useEffect(() => {
+    startTimeRef.current = Date.now();
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),

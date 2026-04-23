@@ -27,7 +27,7 @@ export interface UpdateProfileResponse {
 export interface ReduceLifeResponse {
   success: boolean;
   message: string;
-  data: any; // Could be a complete User or just a Life object depending on backend
+  data: unknown; // Could be a complete User or just a Life object depending on backend
 }
 
 export interface GetLifeResponse {

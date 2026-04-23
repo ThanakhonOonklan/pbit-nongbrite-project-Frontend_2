@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 /**
  * SequencingBackground — Cosmic Magic purple animated background
@@ -10,6 +10,21 @@ import React from "react";
  *   5. Shooting stars (occasional diagonal streaks)
  */
 export function SequencingBackground() {
+  // Pre-compute star data once to avoid Math.random() during render
+  const stars = useMemo(
+    () =>
+      Array.from({ length: 55 }).map((_, i) => ({
+        size: 1 + Math.random() * 2.5,
+        top: Math.random() * 75,
+        left: Math.random() * 100,
+        delay: Math.random() * 4,
+        duration: 2 + Math.random() * 3,
+        opacity: 0.3 + Math.random() * 0.7,
+        colorIndex: i,
+      })),
+    []
+  );
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
       {/* ═══ LAYER 1: Deep Purple Gradient Sky ═══ */}
@@ -88,31 +103,22 @@ export function SequencingBackground() {
 
       {/* ═══ LAYER 3: Twinkling Stars ═══ */}
       <div className="absolute inset-0" aria-hidden="true">
-        {/* Stars are rendered via CSS-only approach with small dots */}
-        {Array.from({ length: 55 }).map((_, i) => {
-          const size = 1 + Math.random() * 2.5;
-          const top = Math.random() * 75; // keep stars in upper 75%
-          const left = Math.random() * 100;
-          const delay = Math.random() * 4;
-          const duration = 2 + Math.random() * 3;
-          const opacity = 0.3 + Math.random() * 0.7;
-
-          return (
-            <div
-              key={`star-${i}`}
-              className="absolute rounded-full"
-              style={{
-                width: `${size}px`,
-                height: `${size}px`,
-                top: `${top}%`,
-                left: `${left}%`,
-                backgroundColor: i % 5 === 0 ? "#E9D5FF" : i % 3 === 0 ? "#C4B5FD" : "#FFFFFF",
-                opacity,
-                animation: `cosmic-twinkle ${duration}s ease-in-out ${delay}s infinite`,
-              }}
-            />
-          );
-        })}
+        {/* Stars pre-computed via useMemo to avoid Math.random() during render */}
+        {stars.map((star, i) => (
+          <div
+            key={`star-${i}`}
+            className="absolute rounded-full"
+            style={{
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              backgroundColor: star.colorIndex % 5 === 0 ? "#E9D5FF" : star.colorIndex % 3 === 0 ? "#C4B5FD" : "#FFFFFF",
+              opacity: star.opacity,
+              animation: `cosmic-twinkle ${star.duration}s ease-in-out ${star.delay}s infinite`,
+            }}
+          />
+        ))}
       </div>
 
       {/* ═══ LAYER 4: Shooting Stars ═══ */}
