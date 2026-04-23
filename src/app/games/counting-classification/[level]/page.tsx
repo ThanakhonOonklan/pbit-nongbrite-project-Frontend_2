@@ -14,6 +14,8 @@ import {
   countingClassificationLevels,
   type ShapeType,
 } from "@/constants/games/counting-classification-levels";
+import { getAbsoluteLevelId } from "@/utils/level-mapper";
+import { gameService } from "@/services/game.service";
 
 export default function CountingClassificationGamePage({
   params,
@@ -86,13 +88,25 @@ export default function CountingClassificationGamePage({
 
     setSubmitted(true);
 
-    import("@/utils/game-scoring").then(({ calculateCountingClassificationScore }) => {
+    import("@/utils/game-scoring").then(({ calculateCountingClassificationScore, getStarRating }) => {
       const result = calculateCountingClassificationScore({
         difficulty: config.difficulty,
         attempts: newAttempts,
         timeSeconds: elapsed,
       });
       setScoreResult(result);
+
+      // ส่งคะแนนไป Backend เพื่อปลดล็อคด่านถัดไป
+      const { stars } = getStarRating(result.totalScore);
+      const absoluteLevelId = getAbsoluteLevelId('counting-classification', levelNum);
+      gameService.submitScore({
+        levelId: absoluteLevelId,
+        score: result.totalScore,
+        stars,
+        playTime: elapsed,
+      }).catch((error) => {
+        console.error("Failed to submit game score", error);
+      });
     });
   };
 
