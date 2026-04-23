@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useId } from "react";
 import { type SequencingLevelConfig, type SequencingItem } from "@/constants/games/sequencing-levels";
 import { type ScoreResult, calculateGameScore, getStarRating } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
@@ -40,6 +40,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }: SequencingGameProps) {
+  const dndId = useId();
   // We keep a pool of items at the bottom (answers). Null means it's been picked up.
   const [pool, setPool] = useState<(SequencingItem | null)[]>(() => shuffleArray([...config.correctSequence]));
   const [slots, setSlots] = useState<(SequencingItem | null)[]>(() => Array(config.correctSequence.length).fill(null));
@@ -229,7 +230,7 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
   }
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
+    <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
       <div className="flex flex-col gap-3 sm:gap-5 w-full">
         {/* Title */}
         <h2 className="text-center font-bold text-xl sm:text-2xl text-[#C084FC] px-2">

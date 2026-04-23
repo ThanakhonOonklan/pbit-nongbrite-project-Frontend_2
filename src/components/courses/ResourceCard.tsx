@@ -73,7 +73,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   if (!tooltipContent) return card;
 
   return (
-    <TooltipProvider delayDuration={200}>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger asChild>{card}</TooltipTrigger>
         <TooltipContent

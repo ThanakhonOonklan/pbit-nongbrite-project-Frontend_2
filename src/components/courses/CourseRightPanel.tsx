@@ -81,16 +81,10 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
     return gameDetail || null;
   }, [gameId, t, gameDetail]);
 
-  // สีพื้นหลังของกล่องรายละเอียดเกม (pastel จาก headerColor)
-  const detailBgColor = headerColor
-    ? lightenColor(headerColor, 90)
-    : "#F5FBFF";
-  const detailBorderColor = headerColor
-    ? lightenColor(headerColor, 70)
-    : "#D5E9FF";
-  const detailTextColor = headerColor
-    ? lightenColor(headerColor, 0)
-    : "#325373";
+  // สีของกล่องรายละเอียดเกม (ใช้สีเทาแบบคงที่ ไม่เปลี่ยนตาม headerColor แล้ว)
+  const detailBgColor = "#F9F9F9";
+  const detailBorderColor = "#E2E8F0";
+  const detailTextColor = "#64748B";
 
   return (
     <div

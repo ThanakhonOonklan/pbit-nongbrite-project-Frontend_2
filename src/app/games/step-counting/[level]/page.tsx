@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useCallback, useRef } from "react";
+import { use, useState, useCallback, useRef, useId } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
@@ -15,10 +15,10 @@ import {
   DragOverlay,
 } from "@dnd-kit/core";
 
-import { NumberLine } from "@/components/games/step-counting/NumberLine";
-import { QuestionPanel } from "@/components/games/step-counting/QuestionPanel";
+import { NumberLine, QuestionPanel, SkyBackground } from "@/components/games/step-counting";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
+import { GameOverlay } from "@/components/games/GameOverlay";
 import { HelpButton } from "@/components/games/HelpButton";
 import {
   stepCountingLevels,
@@ -42,9 +42,10 @@ export default function StepCountingGamePage({
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
-  const { user } = useUserStore();
+  const { user, reduceLife } = useUserStore();
 
   const config = stepCountingLevels[levelNum];
+  const dndId = useId();
 
   // ── Result state ─────────────────────────────────────────
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null);
@@ -53,16 +54,18 @@ export default function StepCountingGamePage({
   const [showIntro, setShowIntro] = useState(levelNum === 1);
   const [gameKey, setGameKey] = useState(0);
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // ── Game state ───────────────────────────────────────────
-  const [stepper, setStepper] = useState(1);
+  const [stepper, setStepper] = useState(0);
   const [slotValues, setSlotValues] = useState<(number | null)[]>(
     () => Array(config?.operators.length ?? 0).fill(null)
   );
   const [attemptCount, setAttemptCount] = useState(0);
   const [boboStep, setBoboStep] = useState(0);
   const [boboState, setBoboState] = useState<"idle" | "jumping" | "falling" | "success">("idle");
-  const isChecked = boboState !== "idle";
+  const [isAnimating, setIsAnimating] = useState(false);
+  const isChecked = isAnimating;
 
   const startTimeRef = useRef<number>(Date.now());
 
@@ -112,17 +115,22 @@ export default function StepCountingGamePage({
 
         return next;
       });
+
+      if (activeId === "source" && targetId?.startsWith("slot-")) {
+        setStepper(0);
+      }
     },
     [stepper]
   );
 
   // ── Confirm ──────────────────────────────────────────────
   const handleConfirm = useCallback(() => {
-    if (!config || !allSlotsFilled || boboState !== "idle") return;
+    if (!config || !allSlotsFilled || isAnimating) return;
 
     const correctAnswers = getCorrectAnswers(config);
     const newAttempts = attemptCount + 1;
     setAttemptCount(newAttempts);
+    setIsAnimating(true);
 
     let currentStep = 0;
 
@@ -141,11 +149,14 @@ export default function StepCountingGamePage({
         } else {
           setTimeout(() => {
             setBoboState("falling");
+            reduceLife();
             setTimeout(() => {
               setBoboState("idle");
               setBoboStep(0);
-            }, 2000); // Give plenty of time to reset safely after fall
-          }, 850); // Falls right before landing
+              setIsAnimating(false); // ← re-enable confirm after full fall + reset
+              setErrorMsg("ลองอีกครั้ง");
+            }, 2000);
+          }, 850);
         }
       } else {
         // Reached end successfully
@@ -166,23 +177,25 @@ export default function StepCountingGamePage({
           setScoreResult(result);
           setAttempts(newAttempts);
           setElapsedSeconds(elapsed);
+          setIsAnimating(false); // ← re-enable after score shown
         }, 800);
       }
     };
 
     nextJump();
-  }, [config, allSlotsFilled, boboState, slotValues, attemptCount]);
+  }, [config, allSlotsFilled, isAnimating, slotValues, attemptCount]);
 
   // ── Retry ────────────────────────────────────────────────
   const handleRetry = useCallback(() => {
     setScoreResult(null);
     setAttempts(0);
     setElapsedSeconds(0);
-    setStepper(1);
+    setStepper(0);
     setSlotValues(Array(config?.operators.length ?? 0).fill(null));
     setAttemptCount(0);
     setBoboStep(0);
     setBoboState("idle");
+    setIsAnimating(false);
     startTimeRef.current = Date.now();
     setGameKey((k) => k + 1);
   }, [config]);
@@ -210,26 +223,29 @@ export default function StepCountingGamePage({
 
   // ── Render ───────────────────────────────────────────────
   return (
-    <DndContext 
-      sensors={sensors} 
-      collisionDetection={closestCenter} 
+    <DndContext
+      id={dndId}
+      sensors={sensors}
+      collisionDetection={closestCenter}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragCancel={() => setActiveDragId(null)}
     >
       <div
-        className="flex flex-col h-screen overflow-hidden relative"
-        style={{ background: "linear-gradient(180deg, #BAE6FD 0%, #FDE68A 50%, #FBBF24 80%, #FEF3C7 100%)" }}
+        className="flex flex-col h-screen overflow-hidden relative bg-[#DCEFFE]"
       >
-        <GameHeader
-          level={level}
-          gameTitle="นับจำนวนก้าวเดิน"
-          characterSrc="/images/P_Bobo/bobo-01.svg"
-          bgColor="#6ED1CF"
-        />
+        <SkyBackground />
+        <div className="relative z-50 w-full">
+          <GameHeader
+            level={level}
+            gameTitle="นับจำนวนก้าวเดิน"
+            characterSrc="/images/P_Bobo/bobo-01.svg"
+            bgColor="#6ED1CF"
+          />
+        </div>
 
         {/* NumberLine */}
-        <div className="flex-1 flex items-center justify-center overflow-hidden relative z-20">
+        <div className="flex-1 flex items-center justify-center overflow-hidden relative z-20 mt-12 md:mt-16">
           <NumberLine
             key={gameKey}
             startValue={config.startValue}
@@ -262,32 +278,32 @@ export default function StepCountingGamePage({
           ]}
         />
 
-        {/* Intro overlay */}
+        {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
         {showIntro && (
-          <div
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer"
-            onClick={() => setShowIntro(false)}
-            style={{
-              background: "linear-gradient(180deg, rgba(186,230,253,0.95) 0%, rgba(253,230,138,0.95) 100%)",
-              animation: "fadeIn 0.3s ease-out",
-            }}
-          >
-            <Image
-              src="/images/P_Bobo/bobo-02.svg"
-              alt="Bobo"
-              width={160}
-              height={160}
-              className="object-contain mb-4 drop-shadow-xl"
-              style={{ animation: "bounceIn 0.5s ease-out" }}
-            />
-            <p className="text-orange-500 text-3xl font-extrabold text-center leading-relaxed">
-              ช่วยกันเติมตัวเลขในช่องว่างเลย!
-            </p>
-            <p className="text-gray-600 text-lg font-semibold mt-1">
-              ปรับตัวเลขแล้วลากไปวาง 🎯
-            </p>
-            <p className="text-gray-400 text-sm mt-6 animate-pulse">แตะเพื่อเริ่มเล่น ✨</p>
-          </div>
+          <GameOverlay
+            type="hint"
+            message={
+              <>
+                ช่วยกันเติมตัวเลขในช่องว่างเลย!<br />ปรับตัวเลขแล้วลากไปวาง
+              </>
+            }
+            subtitle="แตะเพื่อเริ่มเล่น"
+            imageSrc="/images/P_Bobo/bobo-01.svg"
+            imageAlt="Bobo"
+            autoDismissMs={0}
+            onDismiss={() => setShowIntro(false)}
+          />
+        )}
+
+        {errorMsg && (
+          <GameOverlay
+            type="error"
+            message={errorMsg}
+            imageSrc="/images/P_Bobo/bobo-05.svg"
+            imageAlt="Bobo"
+            autoDismissMs={1500}
+            onDismiss={() => setErrorMsg(null)}
+          />
         )}
 
         {scoreResult && (

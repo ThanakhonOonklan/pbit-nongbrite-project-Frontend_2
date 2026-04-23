@@ -4,8 +4,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Divider } from "@/components/common";
 import { ResourceCard } from "./ResourceCard";
-import { HeartPlus, BookOpen, Flame, Heart } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 export interface ResourceBarsProps {
   heartCount?: number;
@@ -85,31 +85,28 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
       <div className={cn("py-4 px-3", className)}>
         <div className="grid grid-cols-3 gap-3">
           <ResourceCard
-            icon={<HeartPlus className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#FF6B6B]" />}
+            icon={<Image src="/icons/Heart.svg" alt="Heart" width={28} height={28} className="w-6 h-6 sm:w-7 sm:h-7 drop-shadow-sm" />}
             iconAlt={t("hearts")}
             value={heartCount >= maxHeartCount ? heartCount : `${heartCount}/${maxHeartCount}`}
-            iconBgColor="bg-[#FFD7D0]"
+            iconBgColor="bg-transparent"
             hoverColor="hover:bg-[#FFE4E1]"
             tooltipContent={
               <div className="flex flex-col items-center gap-2 text-center">
                 <span className="text-base font-bold">{t("hearts")}</span>
-                <div className="flex gap-1">
+                <div className="flex gap-2 my-1">
                   {Array.from({ length: maxHeartCount }, (_, i) => (
-                    <Heart
+                    <Image
                       key={i}
-                      className="w-5 h-5"
-                      fill={i < heartCount ? "#FF6B6B" : "transparent"}
-                      color={i < heartCount ? "#FF6B6B" : "#555"}
+                      src="/icons/Heart.svg"
+                      alt="Heart"
+                      width={28}
+                      height={28}
+                      className={cn("w-7 h-7", i >= heartCount && "opacity-30 grayscale")}
                     />
                   ))}
                 </div>
-                <p className="text-[13px] text-gray-600 font-medium">
-                  {isFull
-                    ? t("heartsFull")
-                    : t("heartsRemaining", { current: heartCount, max: maxHeartCount })}
-                </p>
                 {!isFull && timeLeft && (
-                  <p className="text-[12px] text-[#FF6B6B] font-bold mt-1">
+                  <p className="text-[13px] text-[#FF6B6B] font-bold mt-1">
                     {t("nextHeartIn", { time: timeLeft })}
                   </p>
                 )}
@@ -118,16 +115,16 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
             }
           />
           <ResourceCard
-            icon={<BookOpen className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#FFB800]" />}
+            icon={<Image src="/icons/BookOpen.svg" alt="Score" width={28} height={28} className="w-6 h-6 sm:w-7 sm:h-7 drop-shadow-sm" />}
             iconAlt={t("totalScoreNow")}
             value={scoreCount}
-            iconBgColor="bg-[#FFEECC]"
+            iconBgColor="bg-transparent"
             hoverColor="hover:bg-[#FFF9E6]"
             tooltipContent={
               <div className="flex flex-col items-center gap-2 text-center">
                 <span className="text-base font-bold">{t("totalScoreNow")}</span>
                 <div className="flex items-center gap-2">
-                  <BookOpen className="w-6 h-6 text-[#FFB800]" />
+                  <Image src="/icons/BookOpen.svg" alt="Score" width={24} height={24} className="w-6 h-6" />
                   <span className="text-2xl font-bold text-[#FFB800]">{scoreCount}</span>
                 </div>
                 <p className="text-[13px] text-gray-600 font-medium">
@@ -138,16 +135,16 @@ export const ResourceBars: React.FC<ResourceBarsProps> = ({
             }
           />
           <ResourceCard
-            icon={<Flame className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#FF8C00]" />}
+            icon={<Image src="/icons/Flame.svg" alt="Streak" width={28} height={28} className="w-6 h-6 sm:w-7 sm:h-7 drop-shadow-sm" />}
             iconAlt={t("streakDays")}
             value={daystate}
-            iconBgColor="bg-[#FFE4CC]"
+            iconBgColor="bg-transparent"
             hoverColor="hover:bg-[#FFF0E0]"
             tooltipContent={
               <div className="flex flex-col items-center gap-2 text-center">
                 <span className="text-base font-bold">{t("streakDays")}</span>
                 <div className="flex items-center gap-2">
-                  <Flame className="w-6 h-6 text-[#FF8C00]" />
+                  <Image src="/icons/Flame.svg" alt="Streak" width={24} height={24} className="w-6 h-6" />
                   <span className="text-2xl font-bold text-[#FF8C00]">{daystate} {t("daysUnit")}</span>
                 </div>
                 <p className="text-[13px] text-gray-600 font-medium">

@@ -57,12 +57,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       path: "/courses",
       icon: (
         <Image
-          src="/icons/game/courses.svg"
+          src="/icons/sidebar/courses.svg"
           alt="Courses"
-          width={32}
-          height={32}
+          width={38}
+          height={38}
           className="object-contain"
-
         />
       ),
     },
@@ -71,13 +70,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       path: "/rank",
       icon: (
         <Image
-          src="/icons/game/rank.svg"
+          src="/icons/sidebar/rank.svg"
           alt="Rank"
-          width={32}
-          height={32}
+          width={38}
+          height={38}
           className="object-contain"
-
-
         />
       ),
     },
@@ -86,10 +83,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       path: "/profile",
       icon: (
         <Image
-          src="/icons/game/profile.svg"
+          src="/icons/sidebar/profile.svg"
           alt="Profile"
-          width={32}
-          height={32}
+          width={38}
+          height={38}
           className="object-contain"
         />
       ),
@@ -99,10 +96,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       path: "/settings",
       icon: (
         <Image
-          src="/icons/game/settings.svg"
+          src="/icons/sidebar/settings.svg"
           alt="Settings"
-          width={32}
-          height={32}
+          width={38}
+          height={38}
           className="object-contain"
         />
       ),
