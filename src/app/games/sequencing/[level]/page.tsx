@@ -11,6 +11,7 @@ import { type ScoreResult } from "@/utils/game-scoring";
 
 import { sequencingLevels } from "@/constants/games/sequencing-levels";
 import { SequencingGame } from "@/components/games/sequencing/SequencingGame";
+import { SequencingBackground } from "@/components/games/sequencing/SequencingBackground";
 import { useUserStore } from "@/store/user.store";
 import { OutOfLivesModal } from "@/components/common";
 
@@ -50,13 +51,13 @@ export default function SequencingPage() {
 
   if (!config) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#131F24]">
+      <div className="flex h-screen items-center justify-center bg-[#0B0620]">
         <div className="flex flex-col items-center text-center gap-4">
           <Image src="/images/P_Momo/momo-03.svg" alt="Momo" width={110} height={110} className="object-contain drop-shadow-lg" />
           <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
           <button
             onClick={() => router.push("/courses")}
-            className="mt-2 px-6 py-2 bg-[#9956DE] text-white rounded-xl font-bold hover:bg-[#7A45B2] transition-colors shadow-md"
+            className="mt-2 px-6 py-2 bg-[#7C3AED] text-white rounded-xl font-bold hover:bg-[#6D28D9] transition-colors shadow-md"
           >
             กลับหน้าหลัก
           </button>
@@ -84,17 +85,23 @@ export default function SequencingPage() {
   const gameKey = `${levelNum}-${startTime}`;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#131F24]">
-      {/* Top Header */}
-      <GameHeader
-        gameTitle="เกมเรียงลำดับวงจรชีวิต"
-        level={levelNum}
-        onBack={handleBack}
-        bgColor="#9956DE"
-        characterSrc="/images/P_Momo/momo-03.svg"
-      />
+    <div className="min-h-screen flex flex-col bg-[#0B0620] relative overflow-hidden">
+      {/* Cosmic Background */}
+      <SequencingBackground />
 
-      <main className="flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full px-4 sm:px-6 py-6 pb-24 relative">
+      {/* Top Header */}
+      <div className="relative z-50 w-full">
+        <GameHeader
+          gameTitle="เกมเรียงลำดับวงจรชีวิต"
+          level={levelNum}
+          onBack={handleBack}
+          bgColor="#7C3AED"
+          characterSrc="/images/P_Momo/momo-03.svg"
+        />
+      </div>
+
+
+      <main className="flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full px-4 sm:px-6 py-6 pb-24 relative z-10">
 
         <SequencingGame
           key={gameKey}

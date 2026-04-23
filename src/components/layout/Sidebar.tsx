@@ -81,7 +81,18 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     {
       label: t("navItems.profile"),
       path: "/profile",
-      icon: (
+      icon: user?.profile?.icon ? (
+        <div className="relative w-[36px] h-[36px] flex-shrink-0">
+          <Image
+            src={`/icons/icon-Profile/${user.profile.icon}`}
+            alt="Profile"
+            fill
+            containerClassName="w-[36px] h-[36px] rounded-full bg-[#EAF8FF]"
+            className="object-cover"
+            sizes="36px"
+          />
+        </div>
+      ) : (
         <Image
           src="/icons/sidebar/profile.svg"
           alt="Profile"

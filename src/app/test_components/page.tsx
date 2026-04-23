@@ -114,16 +114,7 @@ export default function TestComponentsPage() {
           </div>
         </Container>
 
-        {/* ── StatCard ── */}
-        <Container className="p-5">
-          <h2 className="text-lg font-bold text-[#242E39] mb-3">StatCard</h2>
-          <StatCard
-            icon={<FaHeart className="w-7 h-7 text-[#FF4D4D]" />}
-            title="Premium Member"
-            description="Unlock all premium features"
-            iconBgColor="bg-[#E8F4FF]"
-          />
-        </Container>
+
 
         {/* ── TiltButton ── */}
         <Container className="p-5">
