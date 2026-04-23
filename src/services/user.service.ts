@@ -27,7 +27,7 @@ export interface UpdateProfileResponse {
 export interface ReduceLifeResponse {
   success: boolean;
   message: string;
-  data: any; // Could be a complete User or just a Life object depending on backend
+  data: unknown; // Could be a complete User or just a Life object depending on backend
 }
 
 export interface GetLifeResponse {
@@ -59,11 +59,11 @@ export const userService = {
     return response.data;
   },
 
-  // najaaaa
-  reduceLife: async (): Promise<ReduceLifeResponse> => {
-    const response = await apiClient.put<ReduceLifeResponse>('/users/lives');
-    return response.data;
-  },
+  // หัวใจ najaaaa
+  // reduceLife: async (): Promise<ReduceLifeResponse> => {
+  //   const response = await apiClient.put<ReduceLifeResponse>('/users/lives');
+  //   return response.data;
+  // },
 
   getLife: async (): Promise<GetLifeResponse> => {
     const response = await apiClient.get<GetLifeResponse>('/users/lives');

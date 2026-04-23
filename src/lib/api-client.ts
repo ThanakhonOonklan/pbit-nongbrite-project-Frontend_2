@@ -86,7 +86,7 @@ apiClient.interceptors.response.use(
     return Promise.reject(
       new ApiError(
         error.response.status ?? 0,
-        (error.response.data as any)?.message ?? error.message,
+        (error.response.data as { message?: string })?.message ?? error.message,
         error.response.data
       )
     );

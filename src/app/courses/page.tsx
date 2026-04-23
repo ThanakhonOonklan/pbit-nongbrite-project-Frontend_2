@@ -8,7 +8,7 @@ const CourseRightPanel = lazy(() => import("@/components/courses/CourseRightPane
 const BackgroundSquaresWithColor = lazy(() => import("@/components/common/BackgroundSquaresWithColor").then(module => ({ default: module.BackgroundSquaresWithColor })));
 import { getLevelData } from "@/constants/levelData";
 import { useHeaderColor } from "@/contexts/HeaderColorContext";
-import { ScrollStack } from "@/components/common";
+import { ScrollStack, BackgroundSquares } from "@/components/common";
 import type { ScrollStackRef } from "@/components/common";
 import { GameCard } from "@/components/courses/GameCard";
 import { GameStepper } from "@/components/courses/GameStepper";
@@ -77,6 +77,13 @@ export default function CoursesPage() {
     });
   }, [chapters]);
 
+  // Fix #3: Keep mergedGames in a ref so handleSectionChange can read the latest
+  // value without having mergedGames in its useCallback dependency array
+  const mergedGamesRef = useRef(mergedGames);
+  useEffect(() => {
+    mergedGamesRef.current = mergedGames;
+  }, [mergedGames]);
+
   useEffect(() => {
     const checkTablet = () => {
       const width = window.innerWidth;
@@ -118,16 +125,17 @@ export default function CoursesPage() {
     if (index === -1) {
       setCurrentHeaderColor(undefined);
       setHeaderColor(undefined);
-      setCurrentGameTitle(mergedGames[0]?.title);
+      // Fix #3: Read from ref — no stale closure, no mergedGames dependency
+      setCurrentGameTitle(mergedGamesRef.current[0]?.title);
       setCurrentGameIconIndex(0);
-      setCurrentGameId(mergedGames[0]?.id);
+      setCurrentGameId(mergedGamesRef.current[0]?.id);
       setCurrentGameIndex(0);
       setSelectedLevel(1);
       return;
     }
 
-    if (index >= 0 && index < mergedGames.length) {
-      const game = mergedGames[index];
+    if (index >= 0 && index < mergedGamesRef.current.length) {
+      const game = mergedGamesRef.current[index];
       if (!game) return;
       setCurrentGameTitle(game.title);
       setCurrentGameIconIndex(index);
@@ -141,7 +149,8 @@ export default function CoursesPage() {
       const lightenedColor = colorToUse ? lightenColor(colorToUse, 60) : undefined;
       setHeaderColor(lightenedColor);
     }
-  }, [mergedGames, setHeaderColor]);
+  // Fix #3: mergedGames removed — read via mergedGamesRef instead
+  }, [setHeaderColor]);
 
   const handleStepClick = (index: number) => {
     if (scrollStackRef.current) {
@@ -149,16 +158,23 @@ export default function CoursesPage() {
     }
   };
 
+  // Fix #3: Stable callback — prevents every GameCard from re-rendering when parent re-renders
+  const handleLevelSelect = useCallback((level: number) => {
+    setSelectedLevel(level);
+  }, []);
+
   const { itemDistance, stackPosition } = useMemo(() => ({
     itemDistance: isMobile ? 400 : isTablet ? 400 : 230,
     stackPosition: isMobile ? "10%" : isTablet ? "12%" : "15%",
   }), [isMobile, isTablet]);
 
   return (
-    <div className="flex h-screen ">
-      <Suspense fallback={null}>
-        <BackgroundSquaresWithColor />
-      </Suspense>
+    <div
+      className="flex h-screen"
+      style={{
+        background: "linear-gradient(135deg, #E3F2FD 0%, #F0F7FF 50%, #E8F4F8 100%)",
+      }}
+    >
       <Sidebar />
 
       {/* ResourceBars - Mobile only (navbar style) */}
@@ -174,8 +190,11 @@ export default function CoursesPage() {
         />
       </div>
 
-      {/* Center Area - ScrollStack */}
-      <main className="flex-1 relative overflow-hidden max-w-[900px] mx-auto">
+      <div className="flex-1 flex relative overflow-hidden">
+        <BackgroundSquares />
+
+        {/* Center Area - ScrollStack */}
+        <main className="flex-1 relative overflow-hidden max-w-[900px] mx-auto z-10">
         {/* ScrollStack with padding-top */}
         <div className="pt-[80px] lg:pt-[4px] h-full pb-[70px] lg:pb-0">
           <ScrollStack
@@ -200,7 +219,8 @@ export default function CoursesPage() {
                 key={game.id}
                 game={game}
                 selectedLevel={selectedLevel}
-                onLevelSelect={(level) => setSelectedLevel(level)}
+                onLevelSelect={handleLevelSelect}
+                isTablet={isTablet}
               />
             ))}
           </ScrollStack>
@@ -212,7 +232,7 @@ export default function CoursesPage() {
         visible={showScrollIndicator}
       />
 
-      <div className="hidden lg:block">
+      <div className="hidden lg:block relative z-10">
         <Suspense fallback={<div className="w-[300px]" />}>
           <CourseRightPanel
             level={selectedLevel}
@@ -229,6 +249,7 @@ export default function CoursesPage() {
             fireCount={displayFireCount}
           />
         </Suspense>
+      </div>
       </div>
     </div>
   );

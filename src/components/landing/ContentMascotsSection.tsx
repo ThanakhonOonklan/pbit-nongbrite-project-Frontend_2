@@ -99,10 +99,10 @@ export function ContentMascotsSection() {
                 className="text-2xl md:text-3xl font-bold"
                 style={{ color: block.accentColor }}
               >
-                {t(`blocks.${index}.title` as any)}
+                {t(`blocks.${index}.title` as Parameters<typeof t>[0])}
               </h3>
               <p className="text-gray-600 leading-relaxed text-base md:text-lg">
-                {t(`blocks.${index}.description` as any)}
+                {t(`blocks.${index}.description` as Parameters<typeof t>[0])}
               </p>
               <div className="mt-2">
                 <PrimaryButton 
@@ -112,7 +112,7 @@ export function ContentMascotsSection() {
                   onClick={() => handleButtonClick(block.ctaHref)}
                   disabled={isLoading}
                 >
-                  {t(`blocks.${index}.ctaText` as any)}
+                  {t(`blocks.${index}.ctaText` as Parameters<typeof t>[0])}
                 </PrimaryButton>
               </div>
             </div>

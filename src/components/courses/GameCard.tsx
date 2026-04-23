@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ScrollStackItem } from "@/components/common/ScrollStack";
 import type { GameConfig } from "@/constants/courses/gameConfig";
@@ -38,24 +38,18 @@ export interface GameCardProps {
   game: GameConfig;
   selectedLevel?: number;
   onLevelSelect?: (level: number) => void;
+  // Fix #4: Accept isTablet from parent to avoid per-card resize listeners
+  isTablet?: boolean;
 }
 
-export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevelSelect }) => {
+export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevelSelect, isTablet = false }) => {
   const router = useRouter();
   const t = useTranslations("Courses");
   const isMobile = useIsMobile();
-  const [isTablet, setIsTablet] = useState(false);
   const [activeLevel, setActiveLevel] = useState<number | null>(null);
   const [isNavigating, setIsNavigating] = useState(false);
 
-  useEffect(() => {
-    const checkTablet = () => {
-      setIsTablet(window.innerWidth >= 640 && window.innerWidth < 1024);
-    };
-    checkTablet();
-    window.addEventListener("resize", checkTablet);
-    return () => window.removeEventListener("resize", checkTablet);
-  }, []);
+  // Fix #4: isTablet is now a prop — no redundant useEffect/listener per card
 
   const GameIcon = game.icon;
 

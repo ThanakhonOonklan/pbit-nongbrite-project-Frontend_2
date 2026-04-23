@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useCallback, useRef, useEffect } from "react";
+import { use, useState, useCallback, useRef, useEffect, useId } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
@@ -64,6 +64,7 @@ export default function PathNavigationGamePage({
   const { user, reduceLife } = useUserStore();
 
   const config = pathNavLevels[levelNum];
+  const dndId = useId();
 
   // ── game state ─────────────────────────────────────────
   const [commands, setCommands] = useState<Direction[]>([]);
@@ -87,11 +88,12 @@ export default function PathNavigationGamePage({
     useSensor(TouchSensor, { activationConstraint: { delay: 0, tolerance: 10 } })
   );
 
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
   const animTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  // ── cleanup on unmount ─────────────────────────────────
+  // ── init startTime + cleanup on unmount ─────────────────
   useEffect(() => {
+    startTimeRef.current = Date.now();
     return () => { animTimers.current.forEach(clearTimeout); };
   }, []);
 
@@ -343,7 +345,7 @@ export default function PathNavigationGamePage({
   }
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
+    <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
       <div
         className="flex flex-col bg-[#131F24] min-h-screen lg:h-screen lg:overflow-hidden overflow-y-auto"
       >

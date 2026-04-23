@@ -84,7 +84,10 @@ export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps)
   const [foundCoordinates, setFoundCoordinates] = useState<string[]>([]);
   const [wrongCount, setWrongCount] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
+  useEffect(() => {
+    startTimeRef.current = Date.now();
+  }, []);
 
   // ── Win Logic (shared) ────────────────────────────────────────
   const handleWin = useCallback((finalWrongCount: number) => {

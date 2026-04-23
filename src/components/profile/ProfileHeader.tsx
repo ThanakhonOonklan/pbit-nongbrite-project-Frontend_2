@@ -99,10 +99,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
     const monthIndex = parseInt(month, 10) - 1;
     const monthKey = monthKeys[monthIndex] || "jan";
 
-    return t("Header.joinedOn", { 
-      day: parseInt(day, 10), 
-      month: t(`months.${monthKey}`), 
-      year 
+    return t("Header.joinedOn", {
+      day: parseInt(day, 10),
+      month: t(`months.${monthKey}`),
+      year
     });
   };
 
@@ -255,23 +255,25 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ className }) => {
                 imageAlt={`${currentRank.name} badge`}
                 title={tRanks(currentRank.name)}
                 description={t("Header.stats.rank")}
-                iconBgColor="bg-transparent"
+
               />
 
               {/* การ์ดคะแนนสูงสุด */}
               <StatCard
-                icon={<FaTrophy className="w-5 h-5 text-[#1cb0f6]" />}
+                imageSrc="/icons/BookOpen.svg"
+                imageAlt="Score"
                 title={totalScore.toString()}
                 description={t("Header.stats.score")}
-                iconBgColor="bg-[#E6F3FF]"
+
               />
 
               {/* การ์ดวันที่เล่นต่อเนื่อง */}
               <StatCard
-                icon={<FaFire className="w-5 h-5 text-[#FF6B6B]" />}
+                imageSrc="/icons/Flame.svg"
+                imageAlt="Streak"
                 title={daystate.toString()}
                 description={t("Header.stats.streak")}
-                iconBgColor="bg-[#FFE4E1]"
+
               />
             </div>
           </div>

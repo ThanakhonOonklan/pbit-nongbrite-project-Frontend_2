@@ -42,7 +42,7 @@ export function GameOverlay({
 
     return (
         <div
-            className={`fixed inset-0 z-40 flex flex-col items-center justify-center backdrop-blur-sm cursor-pointer select-none ${OVERLAY_STYLES[type]}`}
+            className={`fixed inset-0 z-[100] flex flex-col items-center justify-center backdrop-blur-sm cursor-pointer select-none ${OVERLAY_STYLES[type]}`}
             onClick={onDismiss}
             style={{ animation: "fadeIn 0.2s ease-out" }}
         >
