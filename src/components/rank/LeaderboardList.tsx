@@ -39,7 +39,7 @@ const getGenderIcon = (gender?: string) => {
 };
 
 
-const getTranslatedGender = (gender: string | undefined, tProfile: any) => {
+const getTranslatedGender = (gender: string | undefined, tProfile: (key: string) => string) => {
   if (!gender) return null;
   const upper = gender.toUpperCase();
   if (upper === 'MALE' || upper === 'เพศชาย' || upper === 'male') return tProfile('genderMale');

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 import { ColorCanvas } from "./ColorCanvas";
 import { ReferenceGrid } from "./ReferenceGrid";
@@ -70,7 +70,9 @@ export function GridColoringGame({
   const [historyIndex, setHistoryIndex] = useState(0);
 
   const canvasRef = useRef(canvas);
-  canvasRef.current = canvas;
+  useEffect(() => {
+    canvasRef.current = canvas;
+  }, [canvas]);
 
   const handleDrawEnd = useCallback(() => {
     const currentSaved = history[historyIndex];

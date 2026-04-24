@@ -14,8 +14,22 @@ interface RankState {
   fetchRanking: (signal?: AbortSignal) => Promise<void>;
 }
 
+// Shape of raw API rank items
+interface ApiRankItem {
+  userId?: number | string;
+  rank: number;
+  name?: string;
+  avatar?: string;
+  gender?: string;
+  totalScore?: number;
+  totalStars?: number;
+  tier?: string;
+  tierLabel?: string;
+  tierIcon?: string;
+}
+
 // Helper to map API items to the RankUser interface used by components
-const mapApiToRankUser = (item: any): RankUser => ({
+const mapApiToRankUser = (item: ApiRankItem): RankUser => ({
   id: String(item.userId || Math.random()), // fallback for id if not provided
   userId: item.userId,
   rank: item.rank,
@@ -63,11 +77,11 @@ export const useRankStore = create<RankState>((set) => ({
           isLoading: false,
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (signal?.aborted) return;
 
       set({
-        error: error.message || "An error occurred while fetching rankings",
+        error: error instanceof Error ? error.message : "An error occurred while fetching rankings",
         isLoading: false,
       });
     }

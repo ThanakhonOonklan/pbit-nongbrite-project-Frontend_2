@@ -43,10 +43,10 @@ export const LeftColItem = ({
         className={`flex items-center justify-center rounded-full shadow-md transition-all duration-300 touch-none z-30 shrink-0 ${nodeSize}
                    ${
                      isCorrect
-                       ? "bg-[#4ade80] border-[3px] border-[#d1fae5] text-white cursor-default scale-110"
+                       ? "bg-[#4ade80] border-[3px] border-[#d1fae5] text-white shadow-[0_0_10px_rgba(74,222,128,0.8)] cursor-default scale-110"
                        : isConnected
-                       ? "bg-[#ffb356] border-[3px] border-[#fff6e5] text-white cursor-grab active:cursor-grabbing hover:scale-110"
-                       : "bg-white border-[3px] border-[#ffb356] text-[#ffb356] cursor-grab active:cursor-grabbing hover:scale-110"
+                       ? "bg-[#ffb356] border-[3px] border-[#fff6e5] text-white shadow-[0_0_10px_rgba(255,179,86,0.8)] cursor-grab active:cursor-grabbing hover:scale-110"
+                       : "bg-slate-800/80 border-[3px] border-[#ffb356] text-[#ffb356] cursor-grab active:cursor-grabbing hover:scale-110"
                    }`}
       >
         {isCorrect
@@ -85,10 +85,10 @@ export const RightColItem = ({
       <div
         ref={onNodeRef}
         className={`flex items-center justify-center rounded-full shadow-md transition-all duration-300 z-30 shrink-0 ${nodeSize}
-                   ${isError ? "bg-red-500 border-red-200 text-white"
-                     : isCorrect ? "bg-[#4ade80] border-[3px] border-[#fff6e5] text-white scale-110"
-                     : isConnected ? "bg-[#ffb356] border-[3px] border-[#fff6e5] text-white"
-                     : "bg-gray-100 border-[3px] border-gray-300 text-gray-400"}`}
+                   ${isError ? "bg-red-500 border-red-200 text-white shadow-[0_0_15px_rgba(239,68,68,0.8)]"
+                     : isCorrect ? "bg-[#4ade80] border-[3px] border-[#d1fae5] text-white shadow-[0_0_10px_rgba(74,222,128,0.8)] scale-110"
+                     : isConnected ? "bg-[#ffb356] border-[3px] border-[#fff6e5] text-white shadow-[0_0_10px_rgba(255,179,86,0.8)]"
+                     : "bg-slate-800/80 border-[3px] border-slate-500 text-slate-400"}`}
       >
         {isCorrect
           ? <LockOpen size={iconSize} strokeWidth={2.5} />

@@ -27,7 +27,7 @@ export interface UpdateProfileResponse {
 export interface ReduceLifeResponse {
   success: boolean;
   message: string;
-  data: any; // Could be a complete User or just a Life object depending on backend
+  data: User | { lifeCurrent: number } | any; // Use any as fallback if backend is inconsistent, but at least allow property access
 }
 
 export interface GetLifeResponse {
@@ -48,7 +48,15 @@ export interface UpdateStreakResponse {
   };
 }
 
-export const userService = {
+export interface UserService {
+  getProfile: () => Promise<GetProfileResponse>;
+  updateProfile: (payload: UpdateProfilePayload) => Promise<UpdateProfileResponse>;
+  reduceLife: () => Promise<ReduceLifeResponse>;
+  getLife: () => Promise<GetLifeResponse>;
+  updateStreak: () => Promise<UpdateStreakResponse>;
+}
+
+export const userService: UserService = {
   getProfile: async (): Promise<GetProfileResponse> => {
     const response = await apiClient.get<GetProfileResponse>('/user/profile');
     return response.data;

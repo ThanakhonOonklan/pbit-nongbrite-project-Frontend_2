@@ -10,7 +10,7 @@ export interface SubmitScorePayload {
 export interface SubmitScoreResponse {
   success: boolean;
   message?: string;
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 export const gameService = {

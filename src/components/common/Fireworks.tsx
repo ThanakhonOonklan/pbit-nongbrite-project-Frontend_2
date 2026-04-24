@@ -100,12 +100,11 @@ const Fireworks: React.FC = () => {
                                     height: p.size,
                                     backgroundColor: p.color,
                                     boxShadow: `0 0 ${p.size * 2}px ${p.color}80`,
-                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                    ["--fw-tx" as any]: `${p.tx}px`,
-                                    ["--fw-ty" as any]: `${p.ty}px`,
+                                    "--fw-tx": `${p.tx}px`,
+                                    "--fw-ty": `${p.ty}px`,
                                     animation: `fw-burst ${p.duration}s ease-out ${p.delay}s forwards`,
                                     opacity: 0,
-                                }}
+                                } as React.CSSProperties}
                             />
                         ))}
                     </div>

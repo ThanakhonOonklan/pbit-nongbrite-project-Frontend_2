@@ -58,7 +58,7 @@ export default function RankPage() {
       daystate: daystate,
     };
 
-  }, [user, rankings]);
+  }, [user, rankings, streakDetails]);
 
   return (
     <div

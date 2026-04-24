@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useCallback, useRef } from "react";
+import { use, useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -35,7 +35,10 @@ export default function GridBasedColoringGamePage({
   // intro overlay — เฉพาะ level 1 เท่านั้น (เหมือน path-navigation / sequencing)
   const [showIntro, setShowIntro] = useState(levelNum === 1);
   const [gameKey, setGameKey] = useState(0);
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
+  useEffect(() => {
+    startTimeRef.current = Date.now();
+  }, []);
 
   const handleGameEnd = useCallback(
     (result: ScoreResult, wrongs: number, elapsed: number) => {

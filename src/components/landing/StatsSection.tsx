@@ -74,7 +74,7 @@ export function StatsSection() {
 
               {/* Label */}
               <h3 className="text-lg md:text-xl font-semibold text-gray-800">
-                {t(`items.${stat.labelKey}` as any)}
+                {t(`items.${stat.labelKey}` as Parameters<typeof t>[0])}
               </h3>
             </div>
           ))}
