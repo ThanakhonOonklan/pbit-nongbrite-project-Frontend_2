@@ -110,11 +110,11 @@ function DroppableSlot({
 
   const filledBorder = isWrong
     ? "bg-red-900/40 border-[3px] border-b-[5px] border-red-400 shadow-sm"
-    : "bg-[#1E2C33] border-[3px] border-b-[5px] border-[#7C3AED] shadow-sm hover:scale-105";
+    : "bg-[#1A0938]/80 backdrop-blur-sm border-[3px] border-b-[5px] border-[#7C3AED] shadow-[0_0_12px_rgba(124,58,237,0.3)] hover:scale-105 hover:shadow-[0_0_18px_rgba(124,58,237,0.45)]";
 
   const emptyBorder = isOver
-    ? "bg-[#1E2C33] border-[2px] border-dashed border-[#A855F7] scale-105"
-    : "bg-[#182029] border-[2px] border-dashed border-[#4B3066]";
+    ? "bg-[#1A0938]/60 backdrop-blur-sm border-[2px] border-dashed border-[#A855F7] scale-105 shadow-[0_0_14px_rgba(168,85,247,0.35)]"
+    : "bg-[#0F0825]/60 backdrop-blur-sm border-[2px] border-dashed border-[#4B3066] shadow-[0_0_6px_rgba(75,48,102,0.2)]";
 
   return (
     <div
@@ -144,7 +144,7 @@ export function SequencingSlots({ slots, onRemove, correctSequence, showErrors, 
   }
 
   return (
-    <div className="bg-[#1a2535] rounded-2xl sm:rounded-3xl p-2 sm:p-4 border-[3px] sm:border-4 border-[#2D3F55] shadow-inner w-full sm:min-h-0">
+    <div className="bg-[#130D2E]/70 backdrop-blur-md rounded-2xl sm:rounded-3xl p-2 sm:p-4 border-[3px] sm:border-4 border-[#2D1B69]/60 shadow-[inset_0_2px_12px_rgba(124,58,237,0.1),0_0_20px_rgba(124,58,237,0.08)] w-full sm:min-h-0">
       
       {/* Unified View for all sizes: Strict Rows */}
       <div className="flex flex-col items-center gap-8 sm:gap-10 pt-1 pb-6 sm:pb-8 px-1 sm:px-2 w-full">
@@ -159,8 +159,8 @@ export function SequencingSlots({ slots, onRemove, correctSequence, showErrors, 
                 <Fragment key={`slot-${idx}`}>
                   <DroppableSlot slot={slot} idx={idx} onRemove={onRemove} isWrong={isWrong} shakeKey={shakeKey} sc={sc} />
                   {!isLastInRow && (
-                    <div className="flex items-center justify-center text-[#7C3AED] flex-shrink-0">
-                      <FaArrowRight className={`${sc.arrowSize} opacity-60`} />
+                    <div className="flex items-center justify-center text-[#A855F7] flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(168,85,247,0.5))' }}>
+                      <FaArrowRight className={`${sc.arrowSize} opacity-80`} />
                     </div>
                   )}
                 </Fragment>

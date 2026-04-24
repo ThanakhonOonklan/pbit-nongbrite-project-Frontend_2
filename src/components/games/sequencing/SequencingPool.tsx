@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useState } from "react";
 import { type SequencingItem } from "@/constants/games/sequencing-levels";
 import { useDraggable, useDroppable } from "@dnd-kit/core";
 
@@ -39,36 +38,16 @@ function PoolItem({
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: `pool-item-${idx}`,
   });
-  const [tooltip, setTooltip] = useState<{ x: number; y: number } | null>(null);
-
-  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setTooltip({
-      x: rect.left + rect.width / 2,
-      y: rect.top - 8,
-    });
-  };
 
   return (
-    <div className="relative flex flex-col items-center select-none">
-      {/* Tooltip */}
-      {tooltip && item.label && !isDragging && (
-        <div
-          className="pointer-events-none"
-          style={{
-            position: "fixed",
-            left: tooltip.x,
-            top: tooltip.y,
-            transform: "translate(-50%, -100%)",
-            zIndex: 9999,
-          }}
-        >
-          <div className="bg-[#2D1B4E] text-purple-200 text-xs font-semibold px-2.5 py-1 rounded-lg whitespace-nowrap shadow-xl border border-purple-800">
+    <div className="relative flex flex-col items-center select-none group">
+      {/* Tooltip (CSS Hover Based) */}
+      {item.label && !isDragging && (
+        <div className="absolute -top-10 sm:-top-11 left-1/2 -translate-x-1/2 pointer-events-none z-50 flex flex-col items-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="bg-[#2D1B4E] text-purple-200 text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-lg whitespace-nowrap shadow-xl border border-purple-800">
             {item.label}
           </div>
-          <div className="flex justify-center">
-            <div className="border-4 border-transparent border-t-[#2D1B4E] w-0 h-0" />
-          </div>
+          <div className="border-4 border-transparent border-t-[#2D1B4E] w-0 h-0" />
         </div>
       )}
 
@@ -77,11 +56,9 @@ function PoolItem({
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={() => setTooltip(null)}
         className={`${sc.box} rounded-xl flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none
-          bg-[#1E2C33] shadow-[0_4px_0_#6D28D9] hover:-translate-y-1.5 hover:shadow-[0_6px_0_#7C3AED]
-          active:translate-y-1 active:shadow-none border-[2px] border-[#2D3F55] 
+          bg-[#1A0938]/80 backdrop-blur-sm shadow-[0_4px_0_#6D28D9] hover:-translate-y-1.5 hover:shadow-[0_6px_0_#7C3AED,0_0_16px_rgba(124,58,237,0.3)]
+          active:translate-y-1 active:shadow-none border-[2px] border-[#3B1D7A] 
           transition-all duration-150
           ${isDragging ? "opacity-30 scale-95" : ""}`}
       >
@@ -94,7 +71,7 @@ function PoolItem({
             className={`${sc.img} object-contain drop-shadow-sm pointer-events-none`}
           />
         ) : (
-          <span className={`${sc.text} drop-shadow-sm pointer-events-none`}>
+          <span className={`${sc.text} drop-shadow-sm pointer-events-none text-white font-bold`}>
             {item.content}
           </span>
         )}
@@ -117,11 +94,11 @@ export function SequencingPool({ pool, slotCount }: SequencingPoolProps) {
   return (
     <div
       ref={setNodeRef}
-      className={`bg-[#182029] rounded-2xl sm:rounded-3xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 border-[3px] sm:border-4 ${
-        isOver ? "border-[#7C3AED] ring-2 ring-[#7C3AED]/30" : "border-[#2D3F55]"
-      } shadow-inner w-full relative z-10 transition-all duration-150`}
+      className={`bg-[#0F0825]/70 backdrop-blur-md rounded-2xl sm:rounded-3xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 border-[3px] sm:border-4 ${
+        isOver ? "border-[#7C3AED] ring-2 ring-[#7C3AED]/30 shadow-[0_0_20px_rgba(124,58,237,0.25)]" : "border-[#2D1B69]/60"
+      } shadow-[inset_0_2px_10px_rgba(124,58,237,0.08)] w-full relative z-10 transition-all duration-150`}
     >
-      <p className="text-[10px] sm:text-xs font-bold text-[#7C3AED] uppercase tracking-wider text-center">
+      <p className="text-[10px] sm:text-xs font-bold text-[#A855F7] uppercase tracking-wider text-center" style={{ textShadow: '0 0 8px rgba(168,85,247,0.4)' }}>
         ลากหรือแตะเพื่อนำไปวาง
       </p>
 

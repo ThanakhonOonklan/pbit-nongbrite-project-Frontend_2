@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useId } from "react";
+import { useState, useCallback, useId } from "react";
 import { type SequencingLevelConfig, type SequencingItem } from "@/constants/games/sequencing-levels";
 import { type ScoreResult, calculateGameScore, getStarRating } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
@@ -55,19 +55,6 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
     useSensor(TouchSensor, { activationConstraint: { delay: 0, tolerance: 10 } })
   );
 
-  // Initialize game
-  useEffect(() => {
-    // Fill the empty slots to match the correct sequence length
-    setSlots(Array(config.correctSequence.length).fill(null));
-
-    // Shuffle items for the pool
-    setPool(shuffleArray([...config.correctSequence]));
-
-    // Reset stats
-    setWrongCount(0);
-    setIsCompleted(false);
-    setShowErrors(false);
-  }, [config]);
 
   // Handle clicking a placed item from the top slots (removing it via click on 'X' button)
   const handleSlotRemove = (item: SequencingItem, slotIndex: number) => {
@@ -233,7 +220,7 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
     <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
       <div className="flex flex-col gap-3 sm:gap-5 w-full">
         {/* Title */}
-        <h2 className="text-center font-bold text-xl sm:text-2xl text-[#C084FC] px-2">
+        <h2 className="text-center font-extrabold text-xl sm:text-2xl text-[#E9D5FF] px-2 tracking-wide" style={{ textShadow: '0 0 10px rgba(192,132,252,0.6), 0 0 20px rgba(168,85,247,0.4)' }}>
           {config.sequenceTitle}
         </h2>
 
@@ -254,9 +241,44 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
           isCompleted={isCompleted}
         />
         
+        {/* Interactive Momo Mascot */}
+        <div className="absolute -bottom-20 sm:-bottom-24 -left-2 sm:-left-8 md:-left-16 lg:-left-24 xl:-left-36 z-20 pointer-events-none transition-all duration-300 hidden sm:block">
+          <style>{`
+            @keyframes mascot-float {
+              0%, 100% { transform: translateY(0px); }
+              50% { transform: translateY(-12px); }
+            }
+          `}</style>
+          
+          <div className="relative">
+            {/* Speech Bubbles */}
+            {showErrors && (
+              <div className="absolute -top-12 -right-16 bg-white text-red-500 font-bold px-4 py-2 rounded-2xl rounded-bl-none shadow-xl border-2 border-red-100 text-sm md:text-base animate-in zoom-in duration-300 whitespace-nowrap z-30">
+                ลองสลับดูใหม่นะ!
+              </div>
+            )}
+            {isCompleted && (
+              <div className="absolute -top-12 -right-12 bg-white text-green-500 font-bold px-4 py-2 rounded-2xl rounded-bl-none shadow-xl border-2 border-green-100 text-sm md:text-base animate-in zoom-in duration-300 whitespace-nowrap z-30">
+                ยอดเยี่ยมไปเลย!
+              </div>
+            )}
+            
+            {/* Mascot Image */}
+            <img 
+              src={isCompleted ? "/images/P_Momo/momo-04.svg" : showErrors ? "/images/P_Momo/momo-05.svg" : "/images/P_Momo/momo-03.svg"} 
+              alt="Momo Mascot" 
+              style={{
+                animation: isCompleted ? 'bounce 1s infinite' : showErrors ? 'shake 0.5s ease-in-out' : 'mascot-float 4s ease-in-out infinite',
+                filter: isCompleted ? 'drop-shadow(0 0 20px rgba(192,132,252,0.8))' : showErrors ? 'drop-shadow(0 0 15px rgba(248,113,113,0.5))' : 'drop-shadow(0 0 15px rgba(192,132,252,0.4))'
+              }}
+              className="w-32 sm:w-40 md:w-48 lg:w-56 h-auto object-contain transition-all duration-300"
+            />
+          </div>
+        </div>
+        
         <DragOverlay dropAnimation={null}>
           {activeItemObj && (
-            <div className="w-[54px] h-[54px] sm:w-[72px] sm:h-[72px] md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-xl flex items-center justify-center bg-[#1E2C33] shadow-[0_6px_0_#7C3AED] border-[2px] border-[#7C3AED] scale-105 rotate-2 cursor-grabbing pointer-events-none">
+            <div className="w-[54px] h-[54px] sm:w-[72px] sm:h-[72px] md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-xl flex items-center justify-center bg-[#241350]/90 backdrop-blur-md shadow-[0_8px_0_#6D28D9,0_0_25px_rgba(168,85,247,0.6)] border-[2px] border-[#A855F7] scale-110 rotate-3 cursor-grabbing pointer-events-none ring-2 ring-[#C084FC]/40">
               {activeItemObj.isImage ? (
                 <img src={activeItemObj.content} alt="Dragging" className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain drop-shadow-sm pointer-events-none" />
               ) : (

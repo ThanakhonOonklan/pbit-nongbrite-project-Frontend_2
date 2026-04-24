@@ -26,10 +26,10 @@ export const MatchingCard = ({
       ? "px-1.5 pt-1.5 pb-1 gap-0.5 min-w-[58px] sm:min-w-[76px] md:min-w-[96px] lg:min-w-[110px]"
       : "px-2.5 pt-2 pb-1.5 gap-0.5 sm:px-4 sm:pt-3 sm:pb-2 sm:gap-1 md:px-5 md:pt-3.5 md:pb-2.5 min-w-[76px] sm:min-w-[100px] md:min-w-[120px] lg:min-w-[135px]",
     isCorrect
-      ? "bg-[#f0fdf4] border-[#4ade80] shadow-md shadow-green-100 scale-105"
+      ? "bg-white/95 backdrop-blur-sm border-[#4ade80] shadow-[0_0_15px_rgba(74,222,128,0.5)] scale-105"
       : isConnected
-      ? "bg-[#fffcf5] border-[#ffb356] shadow-md shadow-orange-100 scale-105"
-      : "bg-white border-gray-300 hover:border-gray-400",
+      ? "bg-white/95 backdrop-blur-sm border-[#ffb356] shadow-[0_0_15px_rgba(255,179,86,0.5)] scale-105"
+      : "bg-white/90 backdrop-blur-sm border-[#94a3b8] shadow-md hover:border-[#cbd5e1] hover:bg-white",
   ].join(" ");
 
   const emojiClasses = compact
@@ -37,8 +37,8 @@ export const MatchingCard = ({
     : "text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] drop-shadow-sm shrink-0 leading-none";
 
   const textClasses = compact
-    ? "font-semibold text-[9px] sm:text-[10px] md:text-xs text-gray-500 whitespace-nowrap text-center"
-    : "font-medium text-[10px] sm:text-xs md:text-sm text-gray-500 whitespace-nowrap text-center";
+    ? "font-semibold text-[9px] sm:text-[10px] md:text-xs text-[#5D4037] whitespace-nowrap text-center"
+    : "font-medium text-[10px] sm:text-xs md:text-sm text-[#5D4037] whitespace-nowrap text-center";
 
   return (
     <div 

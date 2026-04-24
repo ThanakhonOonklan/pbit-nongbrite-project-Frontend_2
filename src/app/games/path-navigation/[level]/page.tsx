@@ -88,11 +88,12 @@ export default function PathNavigationGamePage({
     useSensor(TouchSensor, { activationConstraint: { delay: 0, tolerance: 10 } })
   );
 
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
   const animTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  // ── cleanup on unmount ─────────────────────────────────
+  // ── init startTime + cleanup on unmount ─────────────────
   useEffect(() => {
+    startTimeRef.current = Date.now();
     return () => { animTimers.current.forEach(clearTimeout); };
   }, []);
 

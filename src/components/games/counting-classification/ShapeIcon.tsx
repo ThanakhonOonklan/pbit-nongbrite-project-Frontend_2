@@ -18,7 +18,7 @@ interface ShapeIconProps {
     hoverable?: boolean;
 }
 
-const SHAPE_IMAGES: Record<ShapeType, any> = {
+const SHAPE_IMAGES: Record<ShapeType, string> = {
     circle: CircleSvg,
     triangle: TriangleSvg,
     square: SquareSvg,
