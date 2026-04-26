@@ -7,15 +7,22 @@ export interface PathTile {
     col: number;
 }
 
+export interface PathNavPattern {
+    startPos: PathTile;
+    nongBritePos: PathTile;
+    blockedTiles?: PathTile[];
+}
+
 export interface PathNavLevelConfig {
     level: number;
     difficulty: Difficulty;
     gridCols: number;
     gridRows: number;
-    startPos: PathTile;
-    nongBritePos: PathTile;
+    startPos?: PathTile;
+    nongBritePos?: PathTile;
     homePos: PathTile;
-    blockedTiles: PathTile[];
+    blockedTiles?: PathTile[];
+    patterns?: PathNavPattern[];
 }
 
 export const pathNavLevels: Record<number, PathNavLevelConfig> = {
@@ -25,13 +32,41 @@ export const pathNavLevels: Record<number, PathNavLevelConfig> = {
         difficulty: "easy",
         gridCols: 4,
         gridRows: 4,
-        startPos: { row: 3, col: 0 },
-        nongBritePos: { row: 0, col: 3 },
         homePos: { row: 3, col: 3 },
-        blockedTiles: [
-            { row: 1, col: 0 },
-            { row: 1, col: 1 },
-            { row: 3, col: 2 },
+        patterns: [
+            // Pattern A: Bit มุมล่างซ้าย, NongBrite มุมบนขวา | หินแถว 1 ซ้าย
+            // เส้นทาง: →(3,1)↑(2,1)→(2,2)→(2,3)↑(1,3)↑(0,3)=N ↓↓↓(3,3)=H
+            {
+                startPos: { row: 3, col: 0 },
+                nongBritePos: { row: 0, col: 3 },
+                blockedTiles: [
+                    { row: 1, col: 0 },
+                    { row: 1, col: 1 },
+                    { row: 3, col: 2 },
+                ],
+            },
+            // Pattern B: Bit มุมบนซ้าย, NongBrite กลางขวา | หินแถวกลาง
+            // เส้นทาง: →(0,1)→(0,2)→(0,3)↓(1,3)↓(2,3)=N ↓(3,3)=H
+            {
+                startPos: { row: 0, col: 0 },
+                nongBritePos: { row: 2, col: 3 },
+                blockedTiles: [
+                    { row: 1, col: 0 },
+                    { row: 2, col: 2 },
+                    { row: 3, col: 2 },
+                ],
+            },
+            // Pattern C: Bit กลางซ้าย, NongBrite มุมบนขวา | หินแถว 1 กลาง
+            // เส้นทาง: ↑(1,0)↑(0,0)→(0,1)→(0,2)→(0,3)=N ↓↓↓(3,3)=H
+            {
+                startPos: { row: 2, col: 0 },
+                nongBritePos: { row: 0, col: 3 },
+                blockedTiles: [
+                    { row: 1, col: 1 },
+                    { row: 1, col: 2 },
+                    { row: 3, col: 2 },
+                ],
+            },
         ],
     },
 

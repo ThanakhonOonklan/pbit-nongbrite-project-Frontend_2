@@ -60,7 +60,7 @@ export function CommandSequence({
         });
         ro.observe(innerRef.current);
         return () => ro.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const tileRadius = Math.round(tileSize * 0.21); // proportional border-radius
@@ -72,9 +72,8 @@ export function CommandSequence({
     return (
         <div
             ref={setNodeRef}
-            className={`rounded-xl border-2 bg-[#37464F] p-3 lg:p-4 flex flex-col h-[274px] lg:h-[374px] transition-all duration-150 ${
-                isOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
-            }`}
+            className={`rounded-xl border-2 bg-[#37464F] p-3 lg:p-4 flex flex-col h-[274px] lg:h-[374px] transition-all duration-150 ${isOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
+                }`}
         >
             {/* Header row: command count + Clear All button */}
             <div className="flex items-center justify-between mb-2 px-1">
@@ -160,11 +159,10 @@ export function CommandSequence({
                     {/* 1 trailing empty slot */}
                     {commands.length < maxCommands && (
                         <div
-                            className={`shrink-0 border-2 border-dashed transition-all duration-150 ${
-                                isOver
+                            className={`shrink-0 border-2 border-dashed transition-all duration-150 ${isOver
                                     ? "border-[#1CB0F6] bg-[#1CB0F610]"
                                     : "border-gray-400 opacity-50"
-                            }`}
+                                }`}
                             style={{ width: tileSize, height: tileSize, borderRadius: tileRadius }}
                         />
                     )}
