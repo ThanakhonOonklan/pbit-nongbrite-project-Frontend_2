@@ -1,0 +1,36 @@
+<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Liquid gradient -->
+    <linearGradient id="juiceGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#E86100" />
+      <stop offset="100%" stop-color="#FFA200" />
+    </linearGradient>
+    <!-- Glass surface gradient -->
+    <linearGradient id="glassBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="20%" stop-color="#ffffff" stop-opacity="0.1"/>
+      <stop offset="80%" stop-color="#ffffff" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Shadow under glass -->
+  <ellipse cx="50" cy="112" rx="32" ry="7" fill="#000000" opacity="0.1" />
+
+  <!-- Liquid Bottom/Body (Half full) -->
+  <path d="M 26 65 L 29 105 C 35 108 65 108 71 105 L 74 65 Z" fill="url(#juiceGrad)" opacity="0.95" />
+  <!-- Liquid Surface (Meniscus) -->
+  <ellipse cx="50" cy="65" rx="24" ry="4" fill="#FFC233" />
+  <!-- Straw (Optional cute touch) -->
+  <path d="M 50 65 L 65 10" stroke="#FF5C5C" stroke-width="4" stroke-linecap="round" />
+  
+  <!-- Glass Outer Body -->
+  <path d="M 20 15 L 28 106 C 35 110 65 110 72 106 L 80 15 Z" fill="url(#glassBody)" />
+  <path d="M 20 15 L 28 106 C 35 110 65 110 72 106 L 80 15" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Glass Top Rim -->
+  <ellipse cx="50" cy="15" rx="30" ry="5" fill="none" stroke="#FFFFFF" stroke-width="3" />
+
+  <!-- Big Glass Highlight -->
+  <path d="M 27 25 L 32 90" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.9" />
+</svg>

@@ -1,0 +1,68 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background gradients -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFEBB8" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#FFF5D1" stop-opacity="0.1" />
+    </linearGradient>
+    <radialGradient id="orangeGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FFD166" />
+      <stop offset="100%" stop-color="#FF9500" />
+    </radialGradient>
+    <!-- Awning gradients -->
+    <linearGradient id="awningOrange" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF9500" />
+      <stop offset="100%" stop-color="#E86100" />
+    </linearGradient>
+    <linearGradient id="awningWhite" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#F3F4F6" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky/Background Plate -->
+  <rect width="800" height="600" fill="url(#skyGrad)" rx="40" />
+
+  <!-- Ground -->
+  <ellipse cx="400" cy="550" rx="350" ry="40" fill="#000000" opacity="0.05" />
+
+  <!-- Shop Base -->
+  <rect x="150" y="320" width="500" height="230" fill="#FFF8E7" rx="20" />
+  <!-- Base Stripes -->
+  <path d="M 150 350 L 650 350" stroke="#FFD166" stroke-width="10" opacity="0.5" />
+  <path d="M 150 400 L 650 400" stroke="#FFD166" stroke-width="10" opacity="0.5" />
+  <path d="M 150 450 L 650 450" stroke="#FFD166" stroke-width="10" opacity="0.5" />
+  <path d="M 150 500 L 650 500" stroke="#FFD166" stroke-width="10" opacity="0.5" />
+
+  <!-- Counter Top -->
+  <rect x="120" y="290" width="560" height="30" fill="#FF9500" rx="15" />
+  <rect x="120" y="320" width="560" height="10" fill="#D95C00" rx="5" />
+
+  <!-- Wooden Poles -->
+  <rect x="180" y="120" width="24" height="180" fill="#D29062" rx="4" />
+  <rect x="596" y="120" width="24" height="180" fill="#D29062" rx="4" />
+
+  <!-- Awning Back/Roof -->
+  <path d="M 120 120 L 680 120 L 620 40 L 180 40 Z" fill="#FCA5A5" />
+  
+  <!-- Awning Stripes -->
+  <path d="M 180 40 L 263 40 L 213 120 L 120 120 Z" fill="url(#awningOrange)" />
+  <path d="M 263 40 L 346 40 L 306 120 L 213 120 Z" fill="url(#awningWhite)" />
+  <path d="M 346 40 L 429 40 L 400 120 L 306 120 Z" fill="url(#awningOrange)" />
+  <path d="M 429 40 L 512 40 L 493 120 L 400 120 Z" fill="url(#awningWhite)" />
+  <path d="M 512 40 L 595 40 L 586 120 L 493 120 Z" fill="url(#awningOrange)" />
+  <path d="M 595 40 L 620 40 L 680 120 L 586 120 Z" fill="url(#awningWhite)" />
+
+  <!-- Awning Front Flaps -->
+  <path d="M 120 120 Q 166.5 160 213 120" fill="url(#awningOrange)" />
+  <path d="M 213 120 Q 259.5 160 306 120" fill="url(#awningWhite)" />
+  <path d="M 306 120 Q 353 160 400 120" fill="url(#awningOrange)" />
+  <path d="M 400 120 Q 446.5 160 493 120" fill="url(#awningWhite)" />
+  <path d="M 493 120 Q 539.5 160 586 120" fill="url(#awningOrange)" />
+  <path d="M 586 120 Q 633 160 680 120" fill="url(#awningWhite)" />
+
+  <!-- Hanging Sign Removed -->
+
+  <!-- Counter is kept empty for the dynamic React glasses -->
+
+</svg>
