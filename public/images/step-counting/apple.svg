@@ -1,0 +1,51 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Body gradient (red apple) -->
+    <radialGradient id="appleBody" cx="35%" cy="28%" r="70%">
+      <stop offset="0%" stop-color="#FF6B6B" />
+      <stop offset="55%" stop-color="#E8000A" />
+      <stop offset="100%" stop-color="#9C0007" />
+    </radialGradient>
+    <!-- Highlight -->
+    <radialGradient id="appleHL" cx="28%" cy="22%" r="38%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </radialGradient>
+    <!-- Leaf gradient -->
+    <linearGradient id="appleLeaf" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#55991A" />
+      <stop offset="100%" stop-color="#88D13D" />
+    </linearGradient>
+    <!-- Subtle blush gradient (right side) -->
+    <radialGradient id="appleBlush" cx="75%" cy="60%" r="35%">
+      <stop offset="0%" stop-color="#FF2040" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#FF2040" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Drop shadow -->
+  <ellipse cx="60" cy="106" rx="35" ry="9" fill="#000000" opacity="0.1" />
+
+  <!-- Main apple body (slightly heart-shaped top using two overlapping circles) -->
+  <circle cx="60" cy="67" r="40" fill="url(#appleBody)" />
+
+  <!-- Blush on right -->
+  <circle cx="60" cy="67" r="40" fill="url(#appleBlush)" />
+
+  <!-- Highlight -->
+  <circle cx="60" cy="67" r="40" fill="url(#appleHL)" />
+
+  <!-- Top indent (characteristic apple dimple) -->
+  <ellipse cx="60" cy="28" rx="7" ry="5" fill="#8C0006" opacity="0.35" />
+
+  <!-- Stem -->
+  <path d="M60 28 C59 22 57 17 56 13" fill="none" stroke="#5E3A19" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Leaf -->
+  <path d="M57 20 C66 8 86 10 82 25 C78 38 62 32 57 20 Z" fill="url(#appleLeaf)" />
+  <!-- Leaf vein -->
+  <path d="M57 20 C65 22 74 24 78 26" fill="none" stroke="#3A6A0F" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+
+  <!-- Stem base cap -->
+  <circle cx="60" cy="28" r="3" fill="#3B200B" />
+</svg>

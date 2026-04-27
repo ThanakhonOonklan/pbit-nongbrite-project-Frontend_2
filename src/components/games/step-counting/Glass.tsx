@@ -1,203 +1,188 @@
-import React from "react";
+import React, { useState } from "react";
 import type { LoopTheme } from "@/constants/games/step-counting-levels";
 import { THEME } from "./constants";
 
+const STRAW_COLOR: Record<LoopTheme, string> = {
+  orange: "#FF8C00",
+  watermelon: "#22C55E",
+  pineapple: "#EAB308",
+  apple: "#DC2626",
+};
 
-const GLASS_H_PX = 62; // usable fill height inside the SVG
+const FRUIT_EMOJI: Record<LoopTheme, string> = {
+  orange: "🍊",
+  watermelon: "🍉",
+  pineapple: "🍍",
+  apple: "\uD83C\uDF4F",
+};
+
+// Glass inner fill area (y coords in viewBox 0 0 100 120)
+const FILL_START_Y = 25;
+const FILL_END_Y = 105;
+const FILL_H = FILL_END_Y - FILL_START_Y; // 80
 
 interface GlassProps {
   index: number;
+  taskIndex: number;
   currentAmount: number;
   currentGlass: number;
   isRunning: boolean;
   theme: LoopTheme;
+  showOverflow?: boolean;
+  showLabel?: boolean;
+  sizeOverride?: number;
+  enterDelay?: number;
 }
 
 export function Glass({
   index,
+  taskIndex,
   currentAmount,
   currentGlass,
   isRunning,
   theme,
+  showOverflow = false,
+  showLabel = true,
+  sizeOverride,
+  enterDelay = 0,
 }: GlassProps) {
   const t = THEME[theme];
-  // Sequential fill: glass index fills from currentAmount [index → index+1]
   const filled = Math.max(0, Math.min(currentAmount - index, 1));
-  const fillPx = Math.round(filled * GLASS_H_PX);
-  const isCurrent = isRunning && index === currentGlass && currentAmount <= index + 1;
   const isFull = filled >= 1;
+  const clipId = `gc-${taskIndex}-${index}`;
+  const gradId = `gd-${taskIndex}-${index}`;
+  const bodyGradId = `gb-${taskIndex}-${index}`;
+  const liquidColor = t.fillColor;
+  const translateY = (1 - filled) * FILL_H;
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-      <div style={{ position: "relative", width: 52, height: 90 }}>
-        {/* Glass shape SVG */}
-        <svg
-          style={{ position: "absolute", inset: 0, overflow: "visible" }}
-          viewBox="0 0 52 90"
-          width={52}
-          height={90}
-        >
-          {/* Theme-specific decorations (Back layer) */}
-          {theme === "juice" && (
-            <g>
-              {/* Straw */}
-              <line x1="36" y1="22" x2="44" y2="4" stroke="#EF4444" strokeWidth="4.5" strokeLinecap="round" />
-              <line x1="38" y1="18" x2="41" y2="10" stroke="#FFFFFF" strokeWidth="4.5" strokeLinecap="round" />
-            </g>
-          )}
-          {theme === "candle" && (
-            <g>
-              {/* Wick */}
-              <line x1="26" y1="22" x2="26" y2="12" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" />
-              {/* Flame when full */}
-              {isFull && (
-                <g style={{ transformOrigin: "26px 14px", animation: "wobble 1.5s ease-in-out infinite" }}>
-                  <path d="M26 0 Q31 6 26 12 Q21 6 26 0 Z" fill="#EF4444" />
-                  <path d="M26 4 Q28 8 26 10 Q24 8 26 4 Z" fill="#FBBF24" />
-                </g>
-              )}
-            </g>
-          )}
-          {theme === "garden" && (
-            <g>
-              {isFull ? (
-                <g style={{ transformOrigin: "26px 20px", animation: "bounce 0.6s ease" }}>
-                  {/* Flower */}
-                  <path d="M26 22 L26 10" stroke="#16A34A" strokeWidth="3" strokeLinecap="round" />
-                  {/* Petals */}
-                  <circle cx="20" cy="10" r="4.5" fill="#F472B6" />
-                  <circle cx="32" cy="10" r="4.5" fill="#F472B6" />
-                  <circle cx="26" cy="4" r="4.5" fill="#F472B6" />
-                  <circle cx="26" cy="16" r="4.5" fill="#F472B6" />
-                  {/* Center */}
-                  <circle cx="26" cy="10" r="4" fill="#FCD34D" />
-                </g>
-              ) : (
-                <g>
-                  {/* Sprout */}
-                  <path d="M26 22 L26 14" stroke="#16A34A" strokeWidth="3" strokeLinecap="round" />
-                  <path d="M26 15 Q31 15 31 9 Q26 11 26 15 Z" fill="#4ADE80" />
-                  <path d="M26 15 Q21 15 21 9 Q26 11 26 15 Z" fill="#4ADE80" />
-                </g>
-              )}
-            </g>
-          )}
-
-          {/* Glass body */}
-          <path
-            d="M7 20 L7 80 Q7 82 9 82 L43 82 Q45 82 45 80 L45 20 Z"
-            fill={t.glassInner}
-            stroke={t.glassBorder}
-            strokeWidth={2.5}
-            strokeLinejoin="round"
-          />
-          {/* Glass Rim */}
-          <path
-            d="M5 20 L47 20"
-            stroke={t.glassBorder}
-            strokeWidth={2.5}
-            strokeLinecap="round"
-          />
-          {/* Shine */}
-          <line x1="12" y1="25" x2="12" y2="75" stroke="white" strokeWidth="2.5" strokeOpacity="0.4" strokeLinecap="round" />
-
-          {/* Theme-specific decorations (Front layer) */}
-          {theme === "juice" && (
-            <g style={{ transform: "translate(-2px, -3px)" }}>
-              {/* Orange Slice */}
-              <circle cx="10" cy="20" r="10" fill="#F97316" stroke="#FFFFFF" strokeWidth="2" />
-              {/* Inner orange lines */}
-              <circle cx="10" cy="20" r="7" fill="transparent" stroke="#FFEDD5" strokeWidth="1.5" strokeDasharray="4 2" />
-              <line x1="10" y1="13" x2="10" y2="27" stroke="#FFEDD5" strokeWidth="1" />
-              <line x1="3" y1="20" x2="17" y2="20" stroke="#FFEDD5" strokeWidth="1" />
-            </g>
-          )}
-        </svg>
-
-        {/* Liquid fill */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 8,
-            left: 7,
-            right: 7,
-            height: fillPx,
-            maxHeight: GLASS_H_PX,
-            borderRadius: "2px 2px 8px 8px",
-            background: isCurrent ? t.fillActive : t.fillColor,
-            transition: "height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s",
-            opacity: fillPx > 0 ? 0.9 : 0,
-            boxShadow: fillPx > 0 ? "inset 0 4px 6px rgba(255,255,255,0.4)" : "none",
-          }}
-        />
-
-        {/* Current glass purple ring */}
-        {isCurrent && (
-          <div
-            style={{
-              position: "absolute",
-              inset: -3,
-              bottom: -1,
-              borderRadius: 14,
-              border: "2.5px solid #7F77DD",
-              animation: "pop 0.2s ease",
-              pointerEvents: "none",
-            }}
-          />
-        )}
-
-        {/* Full checkmark */}
-        {isFull && (
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              top: 15,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              animation: "pop 0.3s ease",
-            }}
-          >
-            <span style={{ color: "#fff", fontWeight: 700, fontSize: 18, textShadow: "0 2px 4px rgba(0,0,0,0.4)" }}>✓</span>
+    <>
+      <style>{`
+      @keyframes glassEnter {
+        0%   { transform: scale(0) translateY(18px); opacity: 0; }
+        60%  { transform: scale(1.2) translateY(-4px); opacity: 1; }
+        80%  { transform: scale(0.93); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      @keyframes glassPop {
+        0%   { transform: scale(1); }
+        30%  { transform: scale(1.22) translateY(-5px); }
+        55%  { transform: scale(0.92) translateY(1px); }
+        75%  { transform: scale(1.08) translateY(-2px); }
+        100% { transform: scale(1); }
+      }
+      @keyframes glassShake {
+        0%,100%{transform:translateX(0)rotate(0)}
+        20%{transform:translateX(-5px)rotate(-3deg)}
+        40%{transform:translateX(5px)rotate(3deg)}
+        60%{transform:translateX(-4px)rotate(-2deg)}
+        80%{transform:translateX(4px)rotate(2deg)}
+      }
+    `}</style>
+      <div
+        className="flex flex-col items-center"
+        style={{
+          gap: 2,
+          cursor: "pointer",
+          transition: (showOverflow || isFull) ? "none" : "transform 0.15s ease",
+          transform: (!isFull && hovered) ? "scale(1.15) translateY(-4px)" : "scale(1)",
+          animation: showOverflow
+            ? "glassShake 0.45s ease 0s 4"
+            : isFull
+              ? "glassPop 0.5s cubic-bezier(0.175,0.885,0.32,1.275) forwards"
+              : `glassEnter 0.45s cubic-bezier(0.175,0.885,0.32,1.275) ${enterDelay}s both`,
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {showLabel && (
+          <div style={{ fontSize: "clamp(10px, 1.2vw, 14px)", lineHeight: 1, userSelect: "none" }}>
+            {FRUIT_EMOJI[theme]}
           </div>
         )}
+        <div className="relative" style={{ width: sizeOverride ? `${sizeOverride}px` : "clamp(32px, 5vw, 58px)", aspectRatio: "5/6", filter: hovered ? `drop-shadow(0 5px 14px ${liquidColor}CC)` : "none", transition: "filter 0.15s ease" }}>
+          <svg
+            viewBox="0 0 100 120"
+            className="w-full h-full"
+            style={{ overflow: "visible" }}
+          >
+            <defs>
+              {/* Clip liquid to inner glass area */}
+              <clipPath id={clipId}>
+                <path d="M 21 15 L 28 106 C 35 110 65 110 72 106 L 79 15 Z" />
+              </clipPath>
+
+              {/* Liquid gradient */}
+              <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={liquidColor} stopOpacity="0.95" />
+                <stop offset="100%" stopColor={t.fillActive} stopOpacity="1" />
+              </linearGradient>
+
+              {/* Glass surface gradient — tinted with fruit color */}
+              <linearGradient id={bodyGradId} x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.92" />
+                <stop offset="15%" stopColor={liquidColor} stopOpacity="0.18" />
+                <stop offset="85%" stopColor={liquidColor} stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#EEEEEE" stopOpacity="0.75" />
+              </linearGradient>
+            </defs>
+
+            {/* Shadow under glass */}
+            <ellipse cx="50" cy="112" rx="32" ry="7" fill="#000000" opacity="0.15" />
+
+            {/* Liquid fill — clipped to inner area */}
+            <g clipPath={`url(#${clipId})`}>
+              <g style={{
+                transform: `translateY(${translateY}px)`,
+                transition: "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}>
+                <rect x="0" y={FILL_START_Y} width="100" height={FILL_H + 20}
+                  fill={`url(#${gradId})`} />
+                {/* Liquid surface */}
+                <ellipse cx="50" cy={FILL_START_Y} rx="30" ry="4"
+                  fill={liquidColor} opacity="0.8" />
+                {/* Optional highlight on liquid surface */}
+                <ellipse cx="40" cy={FILL_START_Y} rx="8" ry="2"
+                  fill="#ffffff" opacity="0.3" />
+              </g>
+            </g>
+
+            {/* Straw */}
+            <line x1="62" y1="105" x2="78" y2="5" stroke={STRAW_COLOR[theme]} strokeWidth="5" strokeLinecap="round" />
+            <line x1="63" y1="100" x2="77" y2="10" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.65" />
+
+            {/* Glass Outer Body */}
+            <path d="M 20 15 L 28 106 C 35 110 65 110 72 106 L 80 15 Z" fill={`url(#${bodyGradId})`} />
+            <path d="M 20 15 L 28 106 C 35 110 65 110 72 106 L 80 15" fill="none" stroke={liquidColor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
+
+            {/* Glass Top Rim */}
+            <ellipse cx="50" cy="15" rx="30" ry="5" fill="none" stroke={liquidColor} strokeWidth="3" strokeOpacity="0.7" />
+
+            {/* Big Glass Highlight */}
+            <path d="M 27 25 L 32 90" stroke="#FFFFFF" strokeWidth="5" strokeLinecap="round" opacity="0.9" />
+
+          </svg>
+        </div>
       </div>
-      <div
-        style={{
-          background: "#fff",
-          border: `2px solid ${t.glassBorder}`,
-          borderRadius: "50%",
-          width: 26,
-          height: 26,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 13,
-          fontWeight: 900,
-          color: t.ratioText,
-          boxShadow: "0 3px 8px rgba(0,0,0,0.1)",
-          marginTop: 4,
-        }}
-      >
-        {index + 1}
-      </div>
-    </div>
+    </>
   );
 }
 
 export function MiniGlass({ fill, border, color }: { fill: number; border: string; color: string }) {
-  const h = Math.round(11 * fill);
+  const h = Math.round(16 * fill);
   return (
     <svg width="22" height="28" viewBox="0 0 22 28" style={{ flexShrink: 0 }}>
       <path
-        d="M3 2 L3 26 Q3 27 4 27 L18 27 Q19 27 19 26 L19 2 Z"
+        d="M2 2 L5 25 Q6 27 11 27 Q16 27 17 25 L20 2 Z"
         fill="none"
         stroke={border}
-        strokeWidth="1.8"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       {h > 0 && (
-        <rect x="4" y={27 - 2 - h} width="14" height={h} rx="2" fill={color} opacity="0.85" />
+        <rect x="5.5" y={26 - h} width="11" height={h} rx="1" fill={color} opacity="0.9" />
       )}
     </svg>
   );

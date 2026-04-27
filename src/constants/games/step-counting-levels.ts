@@ -3,142 +3,120 @@
 
 import { type Difficulty } from "@/lib/games/types";
 
-export type LoopTheme = "juice" | "candle" | "garden";
+export type LoopTheme = "orange" | "watermelon" | "pineapple" | "apple";
 
+// ── Per-juice task ─────────────────────────────────────────────
+export interface LoopTask {
+  theme: LoopTheme;
+  inputEmoji: string;
+  inputUnit: string;
+  outputUnit: string;
+  yieldsPerAction: number;
+  yieldLabel: string;
+  targetAmount: number;
+  correctAnswer: number;
+  maxStepper: number;
+}
+
+// ── Level config (1–N tasks) ───────────────────────────────────
 export interface LoopLevelConfig {
   level: number;
   difficulty: Difficulty;
   theme: LoopTheme;
-
-  // Ratio (คงที่ต่อ theme)
-  inputEmoji: string;       // "🍊", "🔥", "🌱"
-  inputImage?: string;      // Optional SVG image path
-  inputUnit: string;        // "ลูกส้ม", "ก้านเทียน", "เมล็ดพันธุ์"
-  outputEmoji: string;      // "🥛", "🕯️", "🌸"
-  outputImage?: string;     // Optional SVG output image path
-  outputUnit: string;       // "แก้ว", "ดวง", "ต้น"
-  yieldsPerAction: number;  // 0.5, 2, 1
-  yieldLabel: string;       // "ครึ่งแก้ว", "2 ดวง", "1 ต้น"
-
-  // Target
-  targetAmount: number;     // เป้าหมาย
-  correctAnswer: number;    // targetAmount / yieldsPerAction
-  maxStepper: number;       // ค่าสูงสุดใน stepper
-
-  // Text
-  sceneTitle: string;       // "ทำน้ำส้มคั้น 4 แก้ว"
-  loopLabel: string;        // "คั้นส้มซ้ำ"
-  actionLabel: string;      // "คั้นส้ม 1 ลูก"
-  ratioText: string;        // "ส้ม 1 ลูก"
-
+  tasks: LoopTask[];
   description: string;
 }
 
-/** ตรวจคำตอบ */
-export function checkAnswer(config: LoopLevelConfig, loopCount: number): boolean {
-  return loopCount === config.correctAnswer;
-}
-
-// ── Juice theme helper ─────────────────────────────────────────
-function juiceLevel(
-  level: number,
-  difficulty: Difficulty,
-  target: number,
-  maxStepper: number,
-): LoopLevelConfig {
+// ── Task factories ─────────────────────────────────────────────
+function orangeTask(target: number, maxStepper: number): LoopTask {
   return {
-    level,
-    difficulty,
-    theme: "juice",
+    theme: "orange",
     inputEmoji: "🍊",
-    inputImage: "/images/step-counting/orange.svg",
     inputUnit: "ส้ม",
-    outputEmoji: "🥛",
-    outputImage: "/images/step-counting/glass-half.svg",
     outputUnit: "แก้ว",
     yieldsPerAction: 0.5,
     yieldLabel: "ครึ่งแก้ว",
     targetAmount: target,
     correctAnswer: target / 0.5,
     maxStepper,
-    sceneTitle: `ทำน้ำส้มคั้น ${target} แก้ว`,
-    loopLabel: "คั้นส้มซ้ำ",
-    actionLabel: "คั้นส้ม 1 ลูก",
-    ratioText: "ส้ม 1 ลูก",
-    description: `น้ำส้มคั้น: เป้า ${target} แก้ว`,
   };
 }
 
-// ── Candle theme helper ────────────────────────────────────────
-function candleLevel(
-  level: number,
-  difficulty: Difficulty,
-  target: number,
-  maxStepper: number,
-): LoopLevelConfig {
+function watermelonTask(target: number, maxStepper: number): LoopTask {
   return {
-    level,
-    difficulty,
-    theme: "candle",
-    inputEmoji: "🔥",
-    inputUnit: "ก้าน",
-    outputEmoji: "🕯️",
-    outputUnit: "ดวง",
+    theme: "watermelon",
+    inputEmoji: "🍉",
+    inputUnit: "แตงโม",
+    outputUnit: "แก้ว",
     yieldsPerAction: 2,
-    yieldLabel: "2 ดวง",
+    yieldLabel: "2 แก้ว",
     targetAmount: target,
     correctAnswer: target / 2,
     maxStepper,
-    sceneTitle: `จุดเทียน ${target} ดวง`,
-    loopLabel: "ใช้ไม้ขีดซ้ำ",
-    actionLabel: "จุดไม้ขีด 1 ก้าน",
-    ratioText: "ไม้ขีด 1 ก้าน",
-    description: `จุดเทียน: เป้า ${target} ดวง`,
   };
 }
 
-// ── Garden theme helper ────────────────────────────────────────
-function gardenLevel(
-  level: number,
-  difficulty: Difficulty,
-  target: number,
-  maxStepper: number,
-): LoopLevelConfig {
+function pineappleTask(target: number, maxStepper: number): LoopTask {
   return {
-    level,
-    difficulty,
-    theme: "garden",
-    inputEmoji: "🌱",
-    inputUnit: "เมล็ด",
-    outputEmoji: "🌸",
-    outputUnit: "ต้น",
+    theme: "pineapple",
+    inputEmoji: "🍍",
+    inputUnit: "สับปะรด",
+    outputUnit: "แก้ว",
     yieldsPerAction: 1,
-    yieldLabel: "1 ต้น",
+    yieldLabel: "1 แก้ว",
     targetAmount: target,
     correctAnswer: target / 1,
     maxStepper,
-    sceneTitle: `ปลูกดอกไม้ ${target} ต้น`,
-    loopLabel: "หว่านเมล็ดซ้ำ",
-    actionLabel: "หว่านเมล็ด 1 เมล็ด",
-    ratioText: "เมล็ด 1 เมล็ด",
-    description: `ปลูกดอกไม้: เป้า ${target} ต้น`,
   };
 }
 
-// ── 9 Levels ───────────────────────────────────────────────────
-export const stepCountingLevels: Record<number, LoopLevelConfig> = {
-  // ─── Easy (Level 1–3) ────────────────────────────────────────
-  1: juiceLevel(1, "easy", 2, 10),    // 1 ลูก = ½ แก้ว → 4 ลูก
-  2: candleLevel(2, "easy", 4, 10),   // 1 ก้าน = 2 ดวง → 2 ก้าน
-  3: gardenLevel(3, "easy", 3, 10),   // 1 เมล็ด = 1 ต้น → 3 เมล็ด
+function appleTask(target: number, maxStepper: number): LoopTask {
+  return {
+    theme: "apple",
+    inputEmoji: "🍏",
+    inputUnit: "แอปเปิ้ล",
+    outputUnit: "แก้ว",
+    yieldsPerAction: 0.5,
+    yieldLabel: "ครึ่งแก้ว",
+    targetAmount: target,
+    correctAnswer: target / 0.5,
+    maxStepper,
+  };
+}
 
-  // ─── Normal (Level 4–6) ──────────────────────────────────────
-  4: juiceLevel(4, "normal", 3, 15),  // → 6 ลูก
-  5: candleLevel(5, "normal", 6, 15), // → 3 ก้าน
-  6: gardenLevel(6, "normal", 5, 15), // → 5 เมล็ด
+// ── Level builders ─────────────────────────────────────────────
+function single(level: number, difficulty: Difficulty, task: LoopTask, desc: string): LoopLevelConfig {
+  return { level, difficulty, theme: task.theme, tasks: [task], description: desc };
+}
+
+function multi(level: number, difficulty: Difficulty, tasks: LoopTask[], desc: string): LoopLevelConfig {
+  return { level, difficulty, theme: tasks[0].theme, tasks, description: desc };
+}
+
+// ── 9 Levels ───────────────────────────────────────────────────
+// ตอบ: 🍊÷0.5  🍉÷2  🍍÷1  🍏÷0.5
+export const stepCountingLevels: Record<number, LoopLevelConfig> = {
+  // ─── Easy (Level 1–3) ─────────────────────────────────────────
+  // L1: ส้ม 4 แก้ว → ใช้ 8 ลูก
+  1: single(1, "easy", orangeTask(4, 15), "น้ำส้ม: 1 ลูก → ½ แก้ว"),
+  // L2: สับปะรด 5 แก้ว → ใช้ 5 ลูก
+  2: single(2, "easy", pineappleTask(5, 10), "น้ำสับปะรด: 1 ลูก → 1 แก้ว"),
+  // L3: แตงโม 4 แก้ว (2 ลูก) + แอปเปิ้ล 4 แก้ว (8 ลูก)
+  3: multi(3, "easy", [watermelonTask(4, 8), appleTask(4, 15)], "น้ำแตงโม + น้ำแอปเปิ้ล"),
+
+  // ─── Normal (Level 4–6) ───────────────────────────────────────
+  // L4: ส้ม 3 แก้ว (6 ลูก) + สับปะรด 4 แก้ว (4 ลูก)
+  4: multi(4, "normal", [orangeTask(3, 15), pineappleTask(4, 10)], "น้ำส้ม + น้ำสับปะรด"),
+  // L5: แอปเปิ้ล 3 แก้ว (6 ลูก) + สับปะรด 4 แก้ว (4 ลูก)
+  5: multi(5, "normal", [appleTask(3, 12), pineappleTask(4, 10)], "น้ำแอปเปิ้ล + น้ำสับปะรด"),
+  // L6: ส้ม 2 แก้ว (4 ลูก) + แตงโม 6 แก้ว (3 ลูก)
+  6: multi(6, "normal", [orangeTask(2, 12), watermelonTask(6, 8)], "น้ำส้ม + น้ำแตงโม"),
 
   // ─── Hard (Level 7–9) ────────────────────────────────────────
-  7: juiceLevel(7, "hard", 5, 20),    // → 10 ลูก
-  8: candleLevel(8, "hard", 10, 20),  // → 5 ก้าน
-  9: gardenLevel(9, "hard", 8, 20),   // → 8 เมล็ด
+  // L7: ส้ม 2 (4) + สับปะรด 4 (4) + แอปเปิ้ล 3 (6) ลูก
+  7: multi(7, "hard", [orangeTask(2, 10), pineappleTask(4, 10), appleTask(3, 15)], "น้ำส้ม + น้ำสับปะรด + น้ำแอปเปิ้ล"),
+  // L8: แตงโม 4 (2) + สับปะรด 4 (4) + แอปเปิ้ล 3 (6) ลูก
+  8: multi(8, "hard", [watermelonTask(4, 8), pineappleTask(4, 10), appleTask(3, 15)], "น้ำแตงโม + น้ำสับปะรด + น้ำแอปเปิ้ล"),
+  // L9: ส้ม 3 (6) + แตงโม 4 (2) + สับปะรด 4 (4) + แอปเปิ้ล 3 (6) ลูก
+  9: multi(9, "hard", [orangeTask(3, 15), watermelonTask(4, 8), pineappleTask(4, 10), appleTask(3, 15)], "4 น้ำผสม"),
 };

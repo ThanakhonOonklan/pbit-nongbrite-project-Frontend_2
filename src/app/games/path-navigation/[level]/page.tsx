@@ -243,7 +243,7 @@ export default function PathNavigationGamePage({
           });
           setScoreResult(result);
           const { stars } = getStarRating(result.totalScore);
-          
+
           const submitScore = async () => {
             try {
               const absoluteLevelId = getAbsoluteLevelId('path-navigation', levelNum);
@@ -349,188 +349,188 @@ export default function PathNavigationGamePage({
       <div
         className="flex flex-col bg-[#131F24] min-h-screen lg:h-screen lg:overflow-hidden overflow-y-auto"
       >
-      {/* ===== TOP HEADER ===== */}
-      <GameHeader
-        level={level}
-        gameTitle="Path Navigation"
-        characterSrc="/images/P_Bit/bit-01.svg"
-      />
+        {/* ===== TOP HEADER ===== */}
+        <GameHeader
+          level={level}
+          gameTitle="Path Navigation"
+          characterSrc="/images/P_Bit/bit-01.svg"
+        />
 
-      {/* ===== MAIN CONTENT ===== */}
-      <div className="flex flex-col lg:flex-row flex-1 gap-4 px-4 pb-4 relative lg:overflow-hidden lg:min-h-0">
-        {/* ===== TOP/LEFT PANEL: Path Map ===== */}
-        <Container className="lg:flex-[6] flex flex-col items-center justify-center p-2 lg:p-6 min-h-[260px] lg:min-h-0 lg:overflow-hidden !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
-          <p className="hidden lg:block text-lg font-bold text-[#F1F7FB] mb-6">
-            LEVEL {config.level} - {config.difficulty === "easy" ? "ง่าย" : config.difficulty === "normal" ? "ปานกลาง" : "ยาก"}
-          </p>
+        {/* ===== MAIN CONTENT ===== */}
+        <div className="flex flex-col lg:flex-row flex-1 gap-4 px-4 pb-4 relative lg:overflow-hidden lg:min-h-0">
+          {/* ===== TOP/LEFT PANEL: Path Map ===== */}
+          <Container className="lg:flex-[6] flex flex-col items-center justify-center p-2 lg:p-6 min-h-[260px] lg:min-h-0 lg:overflow-hidden !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
+            <p className="hidden lg:block text-lg font-bold text-[#F1F7FB] mb-6">
+              LEVEL {config.level} - {config.difficulty === "easy" ? "ง่าย" : config.difficulty === "normal" ? "ปานกลาง" : "ยาก"}
+            </p>
 
-          <div className="flex-1 w-full h-full">
-            <PathMap
-              gridCols={config.gridCols}
-              gridRows={config.gridRows}
-              playerPos={playerPos}
-              nongBritePos={config.nongBritePos}
-              homePos={config.homePos}
-              blockedTiles={config.blockedTiles}
-              hasNongBrite={hasNongBrite}
-              failType={playerFailType}
-              fallDir={playerFallDir}
-            />
-          </div>
-        </Container>
-
-        {/* ===== BOTTOM/RIGHT PANEL: Controls ===== */}
-        <Container className="lg:flex-[4] flex flex-col p-5 pb-20 lg:pb-5 !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
-          {/* Command Sequence */}
-          <div className="flex-1 mb-5">
-            <CommandSequence
-              commands={commands}
-              onRemoveCommand={handleRemoveCommand}
-              onClearAll={handleClearAll}
-              onRun={handleRun}
-              onAddCommand={handleAddCommand}
-              activeCommandIndex={activeStep}
-              disabled={isRunning}
-              onMaxCommandsChange={setMaxCommands}
-            />
-          </div>
-
-          {/* Direction Controls */}
-          <div className="mb-6">
-            <DirectionControls
-              onAddCommand={handleAddCommand}
-              disabled={isRunning}
-            />
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-3">
-            <div className="flex-[2]">
-              <TiltButton
-                width="100%"
-                height={56}
-                elevation={6}
-                pressInset={6}
-                tilt={0.5}
-                radius={14}
-                motion={60}
-                surfaceColor="#4CAF50"
-                sideColor="#388E3C"
-                textColor="#ffffff"
-                borderColor="transparent"
-                borderWidth={0}
-                glareOpacity={0}
-                glareWidth={0}
-                disabled={commands.length === 0 || isRunning}
-                onClick={handleRun}
-              >
-                <span className="flex items-center gap-2 font-bold text-base">
-                  <FaPlay className="w-4 h-4" /> Run
-                </span>
-              </TiltButton>
+            <div className="flex-1 w-full h-full">
+              <PathMap
+                gridCols={config.gridCols}
+                gridRows={config.gridRows}
+                playerPos={playerPos}
+                nongBritePos={config.nongBritePos}
+                homePos={config.homePos}
+                blockedTiles={config.blockedTiles}
+                hasNongBrite={hasNongBrite}
+                failType={playerFailType}
+                fallDir={playerFallDir}
+              />
             </div>
-            <div className="flex-1">
-              <TiltButton
-                width="100%"
-                height={56}
-                elevation={6}
-                pressInset={6}
-                tilt={0.5}
-                radius={14}
-                motion={60}
-                surfaceColor="#ffffff"
-                sideColor="#D1D5DB"
-                textColor="#131F24"
-                borderColor="transparent"
-                borderWidth={0}
-                glareOpacity={0}
-                glareWidth={0}
-                onClick={handleReset}
+          </Container>
+
+          {/* ===== BOTTOM/RIGHT PANEL: Controls ===== */}
+          <Container className="lg:flex-[4] flex flex-col p-5 pb-20 lg:pb-5 !bg-[#131F24]" style={{ boxShadow: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
+            {/* Command Sequence */}
+            <div className="flex-1 mb-5">
+              <CommandSequence
+                commands={commands}
+                onRemoveCommand={handleRemoveCommand}
+                onClearAll={handleClearAll}
+                onRun={handleRun}
+                onAddCommand={handleAddCommand}
+                activeCommandIndex={activeStep}
                 disabled={isRunning}
-              >
-                <span className="flex items-center gap-2 font-bold text-base">
-                  <FaUndo className="w-4 h-4" /> Reset
-                </span>
-              </TiltButton>
+                onMaxCommandsChange={setMaxCommands}
+              />
             </div>
-          </div>
-        </Container>
-      </div>
 
-      <HelpButton
-        steps={[
-          { emoji: "👆", text: "กดปุ่มลูกศร เพื่อสั่งให้เดิน" },
-          { emoji: "💙", text: "ไปรับน้องไบร์ท" },
-          { emoji: "🏠", text: "พาน้องกลับบ้าน" },
-          { emoji: "▶️", text: "กด Run เพื่อเริ่ม!" },
-        ]}
-      />
+            {/* Direction Controls */}
+            <div className="mb-6">
+              <DirectionControls
+                onAddCommand={handleAddCommand}
+                disabled={isRunning}
+              />
+            </div>
 
-      {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
-      {showIntro && (
-        <GameOverlay
-          type="hint"
-          message={
-            <>
-              น้องไบร์ทกำลังหลงทาง<br />ช่วยน้องกลับบ้านกันเถอะ!
-            </>
-          }
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/P_Bit/bit-01.svg"
-          imageAlt="Nong Brite"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <div className="flex-[2]">
+                <TiltButton
+                  width="100%"
+                  height={56}
+                  elevation={6}
+                  pressInset={6}
+                  tilt={0.5}
+                  radius={14}
+                  motion={60}
+                  surfaceColor="#4CAF50"
+                  sideColor="#388E3C"
+                  textColor="#ffffff"
+                  borderColor="transparent"
+                  borderWidth={0}
+                  glareOpacity={0}
+                  glareWidth={0}
+                  disabled={commands.length === 0 || isRunning}
+                  onClick={handleRun}
+                >
+                  <span className="flex items-center gap-2 font-bold text-base">
+                    <FaPlay className="w-4 h-4" /> ยืนยัน!
+                  </span>
+                </TiltButton>
+              </div>
+              <div className="flex-1">
+                <TiltButton
+                  width="100%"
+                  height={56}
+                  elevation={6}
+                  pressInset={6}
+                  tilt={0.5}
+                  radius={14}
+                  motion={60}
+                  surfaceColor="#ffffff"
+                  sideColor="#D1D5DB"
+                  textColor="#131F24"
+                  borderColor="transparent"
+                  borderWidth={0}
+                  glareOpacity={0}
+                  glareWidth={0}
+                  onClick={handleReset}
+                  disabled={isRunning}
+                >
+                  <span className="flex items-center gap-2 font-bold text-base">
+                    <FaUndo className="w-4 h-4" /> เริ่มใหม่
+                  </span>
+                </TiltButton>
+              </div>
+            </div>
+          </Container>
+        </div>
+
+        <HelpButton
+          steps={[
+            { emoji: "👆", text: "กดปุ่มลูกศร เพื่อสั่งให้เดิน" },
+            { emoji: "💙", text: "ไปรับน้องไบร์ท" },
+            { emoji: "🏠", text: "พาน้องกลับบ้าน" },
+            { emoji: "▶️", text: "กด Run เพื่อเริ่ม!" },
+          ]}
         />
-      )}
 
-      {/* ===== WRONG MOVE OVERLAY ===== */}
-      {errorMsg && (
-        <GameOverlay
-          type="error"
-          message="ลองอีกครั้ง"
-          imageSrc="/images/P_Bit/bit-02.svg"
-          imageAlt="Bit"
-          autoDismissMs={1500}
-          onDismiss={() => setErrorMsg(null)}
-        />
-      )}
-
-      {/* ===== HOME WITHOUT NONG-BRITE HINT OVERLAY ===== */}
-      {hintMsg && (
-        <GameOverlay
-          type="hint"
-          message={hintMsg}
-          imageSrc="/images/Nong_brite/nong-brite-02.svg"
-          imageAlt="Nong Brite"
-          autoDismissMs={1800}
-          onDismiss={() => setHintMsg(null)}
-        />
-      )}
-
-      {/* ===== OUT OF LIVES MODAL ===== */}
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
-
-      {/* ===== WIN MODAL ===== */}
-      {scoreResult && (
-        <GameResultModal
-          levelNum={levelNum}
-          score={scoreResult}
-          attempts={attempts}
-          timeSeconds={elapsedSeconds}
-          onRetry={handleRetry}
-        />
-      )}
-
-      {/* ===== DRAG OVERLAY ===== */}
-      <DragOverlay dropAnimation={null}>
-        {activeDragId?.startsWith("dir-") && overlayIconSrc && (
-          <div className="w-[60px] h-[60px] lg:w-[77px] lg:h-[77px] rounded-2xl bg-[#1491ff] border-[3px] border-[#43a7ff] flex items-center justify-center shadow-[0_8px_0_#1587bd] scale-105 rotate-2 cursor-grabbing pointer-events-none">
-            <img src={overlayIconSrc} alt="Dragging" className="w-6 h-6 lg:w-7 lg:h-7 pointer-events-none" />
-          </div>
+        {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
+        {showIntro && (
+          <GameOverlay
+            type="hint"
+            message={
+              <>
+                น้องไบร์ทกำลังหลงทาง<br />ช่วยน้องกลับบ้านกันเถอะ!
+              </>
+            }
+            subtitle="แตะเพื่อเริ่มเล่น"
+            imageSrc="/images/P_Bit/bit-01.svg"
+            imageAlt="Nong Brite"
+            autoDismissMs={0}
+            onDismiss={() => setShowIntro(false)}
+          />
         )}
-      </DragOverlay>
 
-    </div>
+        {/* ===== WRONG MOVE OVERLAY ===== */}
+        {errorMsg && (
+          <GameOverlay
+            type="error"
+            message="ลองอีกครั้ง"
+            imageSrc="/images/P_Bit/bit-02.svg"
+            imageAlt="Bit"
+            autoDismissMs={1500}
+            onDismiss={() => setErrorMsg(null)}
+          />
+        )}
+
+        {/* ===== HOME WITHOUT NONG-BRITE HINT OVERLAY ===== */}
+        {hintMsg && (
+          <GameOverlay
+            type="hint"
+            message={hintMsg}
+            imageSrc="/images/Nong_brite/nong-brite-02.svg"
+            imageAlt="Nong Brite"
+            autoDismissMs={1800}
+            onDismiss={() => setHintMsg(null)}
+          />
+        )}
+
+        {/* ===== OUT OF LIVES MODAL ===== */}
+        {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+
+        {/* ===== WIN MODAL ===== */}
+        {scoreResult && (
+          <GameResultModal
+            levelNum={levelNum}
+            score={scoreResult}
+            attempts={attempts}
+            timeSeconds={elapsedSeconds}
+            onRetry={handleRetry}
+          />
+        )}
+
+        {/* ===== DRAG OVERLAY ===== */}
+        <DragOverlay dropAnimation={null}>
+          {activeDragId?.startsWith("dir-") && overlayIconSrc && (
+            <div className="w-[60px] h-[60px] lg:w-[77px] lg:h-[77px] rounded-2xl bg-[#1491ff] border-[3px] border-[#43a7ff] flex items-center justify-center shadow-[0_8px_0_#1587bd] scale-105 rotate-2 cursor-grabbing pointer-events-none">
+              <img src={overlayIconSrc} alt="Dragging" className="w-6 h-6 lg:w-7 lg:h-7 pointer-events-none" />
+            </div>
+          )}
+        </DragOverlay>
+
+      </div>
     </DndContext>
   );
 }

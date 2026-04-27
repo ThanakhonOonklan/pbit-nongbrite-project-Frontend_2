@@ -1,237 +1,260 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import type { LoopLevelConfig } from "@/constants/games/step-counting-levels";
+import type { LoopLevelConfig, LoopTask, LoopTheme } from "@/constants/games/step-counting-levels";
 import { TiltButton } from "react-tilt-button";
+import { FaPlay } from "react-icons/fa";
+import { Glass } from "./Glass";
+
+const ROW_LIGHT: Record<LoopTheme, { bg: string; border: string; text: string; accent: string; icon: string }> = {
+  orange: { bg: "#FFF8F0", border: "#FFE0B2", text: "#BF360C", accent: "#F57F17", icon: "#FFB74D" },
+  watermelon: { bg: "#FFF0F4", border: "#FFCDD2", text: "#880E4F", accent: "#E91E63", icon: "#EF5350" },
+  pineapple: { bg: "#FFFEF5", border: "#FFF9C4", text: "#E65100", accent: "#F9A825", icon: "#FFD54F" },
+  apple: { bg: "#F1F8F1", border: "#C8E6C9", text: "#1B5E20", accent: "#388E3C", icon: "#81C784" },
+};
+
+const PANEL_BG = "rgba(255,255,255,0.97)";
+const PLUS_BG = "#6ED1CF";
+const MINUS_BG = "#E0E0E0";
 
 // ── LoopCodePanel ──────────────────────────────────────────────
 interface LoopCodePanelProps {
   config: LoopLevelConfig;
-  loopCount: number;
-  onLoopChange: (delta: number) => void;
+  loopCounts: number[];
+  onLoopChange: (taskIndex: number, delta: number) => void;
   onRun: () => void;
   isRunning: boolean;
+  activeTaskIndex?: number;
 }
 
+// ── Task row (counting-classification style) ───────────────────
+function TaskRow({
+  task,
+  taskIndex,
+  loopCount,
+  onLoopChange,
+  isRunning,
+  isActive,
+}: {
+  task: LoopTask;
+  taskIndex: number;
+  loopCount: number;
+  onLoopChange: (taskIndex: number, delta: number) => void;
+  isRunning: boolean;
+  isActive: boolean;
+}) {
+  const minusDisabled = isRunning || loopCount <= 0;
+  const plusDisabled = isRunning || loopCount >= task.maxStepper;
+
+  const rc = ROW_LIGHT[task.theme];
+
+  return (
+    <div style={{
+      background: rc.bg,
+      borderRadius: 22,
+      padding: "8px 12px",
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      border: `2px solid ${isActive ? rc.accent : rc.border}`,
+      boxShadow: isActive ? `0 0 0 3px ${rc.accent}44` : "0 1px 4px rgba(0,0,0,0.05)",
+      transition: "box-shadow 0.2s, border-color 0.2s",
+      flexShrink: 0,
+    }}>
+      {/* Colored icon bubble */}
+      <div style={{
+        width: 44,
+        height: 44,
+        borderRadius: 12,
+        background: rc.icon,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+        boxShadow: `0 3px 10px ${rc.icon}88`,
+      }}>
+        <span style={{ fontSize: 28 }}>{task.inputEmoji}</span>
+      </div>
+
+      {/* Name */}
+      <div style={{ minWidth: 0, flex: 1 }}>
+        <div style={{ color: rc.text, fontWeight: 800, fontSize: 16, lineHeight: 1.2 }}>{task.inputUnit}</div>
+      </div>
+
+      {/* Minus */}
+      <TiltButton
+        variant="solid"
+        width={42} height={42} elevation={4} pressInset={4}
+        tilt={0.85} radius={12} motion={40}
+        surfaceColor={minusDisabled ? "#F5F5F5" : MINUS_BG}
+        sideColor={minusDisabled ? "#E0E0E0" : "#BDBDBD"}
+        textColor={minusDisabled ? "#BDBDBD" : "#757575"}
+        glareOpacity={0} glareWidth={0}
+        disabled={minusDisabled}
+        onClick={() => onLoopChange(taskIndex, -1)}
+      >
+        <span style={{ fontSize: 24, fontWeight: "900", lineHeight: 1 }}>−</span>
+      </TiltButton>
+
+      {/* Count display */}
+      <div key={loopCount} style={{
+        background: "#ffffff",
+        border: `2px solid ${rc.accent}`,
+        borderRadius: 12,
+        minWidth: 50,
+        height: 42,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 26,
+        fontWeight: 900,
+        color: rc.accent,
+        boxShadow: `0 2px 6px ${rc.accent}33`,
+        animation: "pop-bounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      }}>
+        {loopCount}
+      </div>
+
+      {/* Plus */}
+      <TiltButton
+        variant="solid"
+        width={42} height={42} elevation={4} pressInset={4}
+        tilt={0.85} radius={12} motion={40}
+        surfaceColor={plusDisabled ? "#F5F5F5" : PLUS_BG}
+        sideColor={plusDisabled ? "#E0E0E0" : "#45B8B6"}
+        textColor={plusDisabled ? "#BDBDBD" : "#FFFFFF"}
+        glareOpacity={0} glareWidth={0}
+        disabled={plusDisabled}
+        onClick={() => onLoopChange(taskIndex, 1)}
+      >
+        <span style={{ fontSize: 24, fontWeight: "900", lineHeight: 1 }}>+</span>
+      </TiltButton>
+
+    </div>
+  );
+}
+
+// ── Main component ─────────────────────────────────────────────
 export function LoopCodePanel({
   config,
-  loopCount,
+  loopCounts,
   onLoopChange,
   onRun,
   isRunning,
+  activeTaskIndex = 0,
 }: LoopCodePanelProps) {
-  const minusDisabled = isRunning || loopCount <= 0;
-  const plusDisabled = isRunning || loopCount >= config.maxStepper;
-  const runDisabled = isRunning || loopCount === 0;
+  const runDisabled = isRunning || loopCounts.some((c) => c === 0);
 
   return (
     <div
+      className="w-full h-full flex-1 flex flex-col gap-3 relative"
       style={{
-        background: "rgba(255, 255, 255, 0.95)",
-        backdropFilter: "blur(12px)",
-        border: "2px solid rgba(0,0,0,0.08)",
+        background: PANEL_BG,
         borderRadius: 28,
-        padding: 24,
-        boxShadow: "0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05)",
+        padding: "16px",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+        border: "2px solid rgba(0,0,0,0.06)",
       }}
     >
-      {/* 1. Question (Goal) */}
-      <div style={{ textAlign: "center", marginBottom: 16 }}>
-        <h2 style={{ fontSize: 22, color: "#D85A30", fontWeight: 900, margin: 0, lineHeight: 1.4 }}>
-          ต้อง{config.theme === "candle" ? "จุด" : config.theme === "garden" ? "หว่าน" : "คั้น"}{config.inputUnit}กี่ครั้ง <br />เพื่อให้ได้ {config.targetAmount} {config.outputUnit}?
-        </h2>
-      </div>
-
-      {/* 2. Rule */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #FFF7E6 0%, #FFF0D4 100%)",
-          border: "2px solid #EF9F27",
-          borderRadius: 16,
-          padding: "14px 20px",
-          marginBottom: 20,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          fontSize: 16,
-          color: "#4A2B04",
-          fontWeight: 800,
-          boxShadow: "0 4px 12px rgba(239,159,39,0.15)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {config.inputImage ? (
-            <Image src={config.inputImage} alt={config.inputUnit} width={36} height={36} style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.1))" }} />
-          ) : (
-            <span style={{ fontSize: 28 }}>{config.inputEmoji}</span>
-          )}
-          <span>{config.actionLabel}</span>
-        </div>
-
-        <span style={{ color: "#D97706", fontWeight: 900, fontSize: 20 }}>→</span>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {config.outputImage ? (
-            <Image src={config.outputImage} alt={config.outputUnit} width={30} height={30} style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.1))" }} />
-          ) : (
-            <span style={{ fontSize: 28 }}>{config.outputEmoji}</span>
-          )}
-          <span style={{ color: "#D97706" }}>ได้ {config.yieldLabel}</span>
-        </div>
-      </div>
-
-      {/* 3. Input & Real-time Calculation */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #F0EFFF 0%, #E6E5FA 100%)",
-          border: "2px solid #AFA9EC",
-          borderRadius: 20,
-          padding: "20px",
-          display: "flex",
-          flexDirection: "column",
-          gap: 16,
-          boxShadow: "inset 0 2px 6px rgba(255,255,255,0.6)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ fontSize: 18, fontWeight: 800, color: "#2E286C" }}>
-            {config.loopLabel}
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <TiltButton
-              variant="solid"
-              width={48}
-              height={48}
-              elevation={5}
-              pressInset={5}
-              tilt={0.85}
-              radius={24}
-              motion={50}
-              surfaceColor={minusDisabled ? "#E5E7EB" : "#ffffff"}
-              sideColor={minusDisabled ? "#D1D5DB" : "#AFA9EC"}
-              textColor={minusDisabled ? "#9CA3AF" : "#3C3489"}
-              glareOpacity={0}
-              glareWidth={0}
-              disabled={minusDisabled}
-              onClick={() => onLoopChange(-1)}
-            >
-              <span style={{ fontSize: 32, fontWeight: "900", lineHeight: 1, marginTop: "-4px" }}>−</span>
-            </TiltButton>
-            <div
-              key={loopCount}
-              style={{
-                background: "rgba(255,255,255,0.95)",
-                border: "3px solid #C4C0F0",
-                borderRadius: 16,
-                minWidth: 64,
-                height: 52,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 32,
-                fontWeight: 900,
-                color: "#2E286C",
-                boxShadow: "inset 0 2px 6px rgba(0,0,0,0.05)",
-                animation: "pop-bounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-              }}
-            >
-              {loopCount}
+      {/* ── Zone 2: RULES — teal game-theme, shows ratio per fruit ── */}
+      <div style={{
+        background: "#E0F7F6",
+        borderRadius: 20,
+        padding: "clamp(6px,1.2vw,10px) clamp(8px,1.5vw,14px)",
+        border: "2px solid #80CBC4",
+        flexShrink: 0,
+        display: "grid",
+        gridTemplateColumns: config.tasks.length > 1 ? "1fr 1fr" : "1fr",
+        justifyItems: config.tasks.length === 1 ? "center" : "stretch",
+        gap: "clamp(4px,1vw,8px)",
+      }}>
+        {config.tasks.map((task, i) => {
+          return (
+            <div key={i} style={{
+              background: "#fff",
+              borderRadius: 12,
+              padding: "clamp(5px,1vw,8px) clamp(6px,1.2vw,10px)",
+              display: "flex",
+              alignItems: "center",
+              gap: "clamp(4px,1vw,8px)",
+              border: "1.5px solid #B2DFDB",
+              minWidth: 0,
+              width: config.tasks.length === 1 ? "auto" : "100%",
+            }}>
+              {/* Icon */}
+              <div style={{
+                width: "clamp(28px,4vw,48px)", height: "clamp(28px,4vw,48px)",
+                borderRadius: 8, background: "transparent",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0,
+              }}>
+                <span style={{ fontSize: "clamp(20px,3vw,38px)" }}>{task.inputEmoji}</span>
+              </div>
+              {/* Rule: 1 ลูก → [Glass(es) scaled] */}
+              <div style={{ display: "flex", alignItems: "center", gap: "clamp(2px,0.5vw,4px)", minWidth: 0, overflow: "visible" }}>
+                <div style={{ fontSize: "clamp(9px,1.2vw,14px)", fontWeight: 700, color: "#00695C", whiteSpace: "nowrap" }}>1 ลูก →</div>
+                <div style={{ display: "flex", gap: 0, alignItems: "center", height: "clamp(36px,5vw,56px)", overflow: "visible" }}>
+                  {task.yieldsPerAction <= 1
+                    ? (
+                      <div style={{ transform: "scale(0.60)", transformOrigin: "center center", width: "clamp(22px,3vw,32px)", flexShrink: 0 }}>
+                        <Glass index={0} taskIndex={i * 100 + 99} currentAmount={task.yieldsPerAction} currentGlass={-1} isRunning={false} theme={task.theme} showLabel={false} />
+                      </div>
+                    )
+                    : Array.from({ length: task.yieldsPerAction }, (_, gi) => (
+                      <div key={gi} style={{ transform: "scale(0.60)", transformOrigin: "center center", width: "clamp(20px,2.8vw,30px)", flexShrink: 0 }}>
+                        <Glass index={gi} taskIndex={i * 100 + 99} currentAmount={task.yieldsPerAction} currentGlass={-1} isRunning={false} theme={task.theme} showLabel={false} />
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
             </div>
-            <TiltButton
-              variant="solid"
-              width={48}
-              height={48}
-              elevation={5}
-              pressInset={5}
-              tilt={0.85}
-              radius={24}
-              motion={50}
-              surfaceColor={plusDisabled ? "#E5E7EB" : "#ffffff"}
-              sideColor={plusDisabled ? "#D1D5DB" : "#AFA9EC"}
-              textColor={plusDisabled ? "#9CA3AF" : "#3C3489"}
-              glareOpacity={0}
-              glareWidth={0}
-              disabled={plusDisabled}
-              onClick={() => onLoopChange(1)}
-            >
-              <span style={{ fontSize: 32, fontWeight: "900", lineHeight: 1, marginTop: "-2px" }}>+</span>
-            </TiltButton>
-          </div>
-        </div>
-
-        {/* 4. Real-time Calculation */}
-        <div
-          style={{
-            background: "#ffffff",
-            borderRadius: 16,
-            padding: "16px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 16,
-            border: "3px dashed #C4C0F0",
-            fontSize: 22,
-            fontWeight: 900,
-            color: "#3C3489",
-          }}
-        >
-          {loopCount === 0 ? (
-            <span style={{ fontSize: 18, color: "#8E88D6", fontWeight: 700 }}>
-              ลองกดปุ่ม + ดูสิ!
-            </span>
-          ) : (
-            <>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, animation: "pop-bounce 0.3s ease" }}>
-                {config.inputImage ? (
-                  <Image src={config.inputImage} alt={config.inputUnit} width={32} height={32} />
-                ) : (
-                  <span style={{ fontSize: 28 }}>{config.inputEmoji}</span>
-                )}
-                <span>{loopCount} {config.inputUnit}</span>
-              </div>
-              <span style={{ color: "#D97706", fontSize: 24 }}>=</span>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, animation: "pop-bounce 0.3s ease" }}>
-                {config.outputImage ? (
-                  <Image src={config.outputImage} alt={config.outputUnit} width={32} height={32} />
-                ) : (
-                  <span style={{ fontSize: 28 }}>{config.outputEmoji}</span>
-                )}
-                <span style={{ color: "#D85A30" }}>
-                  {Math.round(loopCount * config.yieldsPerAction * 10) / 10} {config.outputUnit}
-                </span>
-              </div>
-            </>
-          )}
-        </div>
+          );
+        })}
       </div>
 
-      <div style={{ marginTop: 24 }}>
+      {/* ── Zone 3: STEPPERS — white/gray, one row per fruit ── */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1, overflowY: "auto" }}>
+        {config.tasks.map((task, idx) => (
+          <TaskRow
+            key={idx}
+            task={task}
+            taskIndex={idx}
+            loopCount={loopCounts[idx] ?? 0}
+            onLoopChange={onLoopChange}
+            isRunning={isRunning}
+            isActive={isRunning && activeTaskIndex === idx}
+          />
+        ))}
+      </div>
+
+      {/* ── Run button ── */}
+      <div style={{ flexShrink: 0 }}>
         <TiltButton
           variant="solid"
           width="100%"
-          height={72}
-          elevation={8}
-          pressInset={8}
+          height={60}
+          elevation={7}
+          pressInset={7}
           tilt={0.85}
-          radius={20}
+          radius={18}
           motion={40}
-          surfaceColor={runDisabled ? "#D1D5DB" : isRunning ? "#9CA3AF" : "#EF5A24"}
-          sideColor={runDisabled ? "#B4B2A9" : isRunning ? "#6B7280" : "#C44517"}
-          textColor="#ffffff"
+          surfaceColor={runDisabled ? "#E0E0E0" : "#22C55E"}
+          sideColor={runDisabled ? "#BDBDBD" : "#15803D"}
+          textColor={runDisabled ? "#9E9E9E" : "#ffffff"}
           glareOpacity={0}
           glareWidth={0}
           disabled={runDisabled}
           onClick={onRun}
         >
-          <span style={{ fontSize: 26, fontWeight: 900, display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ fontSize: 20, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
             {isRunning ? (
               <>
-                <span style={{ display: "inline-block", animation: "spin 1s linear infinite", fontSize: "1.5rem" }}>⏳</span>
+                <span style={{ display: "inline-block", animation: "spin 1s linear infinite" }}>⏳</span>
                 กำลังทำงาน...
               </>
             ) : (
-              <>▶ เริ่มเลย!</>
+              <><FaPlay className="w-4 h-4" /> เริ่มเลย!</>
             )}
           </span>
         </TiltButton>

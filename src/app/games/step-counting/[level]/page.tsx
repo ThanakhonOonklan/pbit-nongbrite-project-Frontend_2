@@ -24,11 +24,6 @@ function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-const THEME_HEADER: Record<string, { title: string; charSrc: string; bg: string }> = {
-  juice: { title: "โรงงานน้ำส้มคั้น", charSrc: "/images/P_Bobo/bobo-01.svg", bg: "#D85A30" },
-  candle: { title: "ปาร์ตี้จุดเทียน", charSrc: "/images/P_Bobo/bobo-01.svg", bg: "#D97706" },
-  garden: { title: "สวนดอกไม้", charSrc: "/images/P_Bobo/bobo-01.svg", bg: "#16A34A" },
-};
 
 export default function StepCountingGamePage({
   params,
@@ -40,10 +35,12 @@ export default function StepCountingGamePage({
   const router = useRouter();
   const { user, reduceLife } = useUserStore();
   const config = stepCountingLevels[levelNum];
+  const taskCount = config?.tasks.length ?? 1;
 
   // ── Game state ───────────────────────────────────────────
-  const [loopCount, setLoopCount] = useState(0);
-  const [currentAmount, setCurrentAmount] = useState(0);
+  const [loopCounts, setLoopCounts] = useState<number[]>(() => Array(taskCount).fill(0));
+  const [filledAmounts, setFilledAmounts] = useState<number[]>(() => Array(taskCount).fill(0));
+  const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [currentLoop, setCurrentLoop] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [boboState, setBoboState] = useState<"idle" | "squeeze" | "celebrate" | "bounce">("idle");
@@ -54,6 +51,8 @@ export default function StepCountingGamePage({
   // ── Overlay state ────────────────────────────────────────
   const [showWrongOverlay, setShowWrongOverlay] = useState(false);
   const [wrongMessage, setWrongMessage] = useState("");
+  const [taskStatuses, setTaskStatuses] = useState<("ok" | "over" | null)[]>(() => Array(taskCount).fill(null));
+  const [blenderDrop, setBlenderDrop] = useState<{ emoji: string; id: number } | null>(null);
 
   // ── Result state ─────────────────────────────────────────
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null);
@@ -65,10 +64,20 @@ export default function StepCountingGamePage({
 
   // ── Loop count change ────────────────────────────────────
   const handleLoopChange = useCallback(
-    (delta: number) => {
+    (taskIndex: number, delta: number) => {
       if (isRunning || !config) return;
-      setLoopCount((prev) => Math.max(0, Math.min(config.maxStepper, prev + delta)));
-      setCurrentAmount(0);
+      const task = config.tasks[taskIndex];
+      setLoopCounts((prev) => {
+        const next = [...prev];
+        next[taskIndex] = Math.max(0, Math.min(task.maxStepper, next[taskIndex] + delta));
+        return next;
+      });
+      if (delta > 0) setBlenderDrop({ emoji: task.inputEmoji, id: Date.now() });
+      setFilledAmounts((prev) => {
+        const next = [...prev];
+        next[taskIndex] = 0;
+        return next;
+      });
       setCurrentLoop(0);
       setBoboState("idle");
     },
@@ -77,34 +86,54 @@ export default function StepCountingGamePage({
 
   // ── Run loop ─────────────────────────────────────────────
   const handleRun = useCallback(async () => {
-    if (isRunning || !config || loopCount === 0) return;
+    if (isRunning || !config) return;
+    if (loopCounts.some((c) => c === 0)) return;
 
     setIsRunning(true);
-    setCurrentAmount(0);
+    setFilledAmounts(config.tasks.map(() => 0));
+    setCurrentTaskIndex(0);
     setCurrentLoop(0);
     setBoboState("idle");
 
     const newAttempts = attemptCount + 1;
     setAttemptCount(newAttempts);
 
-    let total = 0;
+    const results: { total: number; isCorrect: boolean; taskIdx: number }[] = [];
 
-    for (let i = 0; i < loopCount; i++) {
-      setBoboState("squeeze");
-      setCurrentLoop(i + 1);
-      total += config.yieldsPerAction;
-      total = Math.round(total * 100) / 100;
-      setCurrentAmount(total);
+    for (let taskIdx = 0; taskIdx < config.tasks.length; taskIdx++) {
+      const task = config.tasks[taskIdx];
+      setCurrentTaskIndex(taskIdx);
+      setCurrentLoop(0);
+      let total = 0;
 
-      await sleep(500);
-      setBoboState("idle");
-      await sleep(200);
+      for (let i = 0; i < loopCounts[taskIdx]; i++) {
+        setBoboState("squeeze");
+        setCurrentLoop(i + 1);
+        total += task.yieldsPerAction;
+        total = Math.round(total * 100) / 100;
+        setFilledAmounts((prev) => {
+          const next = [...prev];
+          next[taskIdx] = total;
+          return next;
+        });
+        await sleep(500);
+        setBoboState("idle");
+        await sleep(200);
+
+        if (total > task.targetAmount) break;
+      }
+
+      results.push({ taskIdx, total, isCorrect: total === task.targetAmount });
     }
 
-    const isCorrect = total === config.targetAmount;
-    const isUnder = total < config.targetAmount;
+    const allCorrect = results.every((r) => r.isCorrect);
 
-    if (isCorrect) {
+    setTaskStatuses(results.map((r) => {
+      if (r.isCorrect) return "ok";
+      return r.total > config.tasks[r.taskIdx].targetAmount ? "over" : null;
+    }));
+
+    if (allCorrect) {
       setBoboState("celebrate");
       await sleep(600);
       const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
@@ -121,35 +150,49 @@ export default function StepCountingGamePage({
       setScoreResult(result);
       setAttempts(newAttempts);
       setElapsedSeconds(elapsed);
-    } else if (isUnder) {
+    } else {
       setBoboState("bounce");
       reduceLife();
-      setWrongMessage(`ได้แค่ ${total} ${config.outputUnit} ยังไม่ครบ ${config.targetAmount} ${config.outputUnit}`);
-      setShowWrongOverlay(true);
-    } else {
-      setBoboState("idle");
-      reduceLife();
-      setWrongMessage(`มากเกิน! ได้ ${total} ${config.outputUnit} แต่ต้องการแค่ ${config.targetAmount} ${config.outputUnit}`);
+      const errorMsg = results
+        .filter((r) => !r.isCorrect)
+        .map((r) => {
+          const task = config.tasks[r.taskIdx];
+          return r.total < task.targetAmount
+            ? `น้ำ${task.inputUnit}: ได้ ${r.total} แก้ว ยังไม่ครบ ${task.targetAmount} แก้ว`
+            : `น้ำ${task.inputUnit}: มากเกิน! ได้ ${r.total} แก้ว แต่ต้องการแค่ ${task.targetAmount} แก้ว`;
+        })
+        .join("\n");
+      setWrongMessage(errorMsg);
       setShowWrongOverlay(true);
     }
     setIsRunning(false);
-  }, [isRunning, config, loopCount, attemptCount, reduceLife]);
+  }, [isRunning, config, loopCounts, attemptCount, reduceLife]);
+
+  // ── Wrong overlay dismiss ────────────────────────────────
+  const handleWrongDismiss = useCallback(() => {
+    setShowWrongOverlay(false);
+    setBoboState("idle");
+    setFilledAmounts(config?.tasks.map(() => 0) ?? []);
+    setTaskStatuses(config?.tasks.map(() => null) ?? []);
+  }, [config]);
 
   // ── Retry ────────────────────────────────────────────────
   const handleRetry = useCallback(() => {
     setScoreResult(null);
     setAttempts(0);
     setElapsedSeconds(0);
-    setLoopCount(0);
-    setCurrentAmount(0);
+    setLoopCounts(config?.tasks.map(() => 0) ?? [0]);
+    setFilledAmounts(config?.tasks.map(() => 0) ?? [0]);
+    setCurrentTaskIndex(0);
     setCurrentLoop(0);
     setAttemptCount(0);
     setBoboState("idle");
+    setTaskStatuses(config?.tasks.map(() => null) ?? []);
     setShowWrongOverlay(false);
     setIsRunning(false);
     startTimeRef.current = Date.now();
     setGameKey((k) => k + 1);
-  }, []);
+  }, [config]);
 
   // ── Fallback ─────────────────────────────────────────────
   if (!config) {
@@ -166,52 +209,44 @@ export default function StepCountingGamePage({
     );
   }
 
-  const themeHeader = THEME_HEADER[config.theme] || THEME_HEADER.juice;
-
-  const THEME_BG: Record<string, string> = {
-    juice: "bg-gradient-to-b from-[#FFF7ED] via-[#FFEDD5] to-[#FED7AA]",
-    candle: "bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A]",
-    garden: "bg-gradient-to-b from-[#F0FDF4] via-[#DCFCE7] to-[#BBF7D0]",
-  };
-  const themeBg = THEME_BG[config.theme] ?? THEME_BG.juice;
-
-  // ── Render ───────────────────────────────────────────────
   return (
-    <div className={`flex flex-col h-screen overflow-hidden relative ${themeBg}`}>
+    <div className="flex flex-col relative zoom-wrapper" style={{ background: "linear-gradient(to top, #c6e7e6, #e8f8f7)" }}>
 
       {/* ===== Header ===== */}
       <div className="relative z-50 w-full">
         <GameHeader
           level={level}
-          gameTitle={themeHeader.title}
-          characterSrc={themeHeader.charSrc}
-          bgColor={themeHeader.bg}
+          gameTitle="ร้านขายน้ำผลไม้"
+          characterSrc="/images/P_Bobo/bobo-01.svg"
+          bgColor="#6ED1CF"
         />
       </div>
 
       {/* ===== Main content ===== */}
-      <div className="flex-1 relative z-10 flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12 p-4 lg:p-6 pb-24 lg:pb-6 overflow-y-auto w-full max-w-5xl mx-auto">
+      <div className="flex flex-1 flex-col lg:flex-row gap-4 lg:gap-6 px-4 lg:px-12 pb-4 lg:pb-8 relative z-10 pt-4 lg:pt-5 lg:overflow-hidden">
 
-        {/* ===== LEFT: Scene area ===== */}
-        <div className="w-full max-w-[500px]" key={gameKey}>
+        {/* ===== LEFT PANEL: Scene area (60%) ===== */}
+        <div className="lg:flex-[7] h-[55vh] lg:h-auto flex flex-col relative shrink-0" key={gameKey}>
           <LoopScene
             config={config}
-            currentAmount={currentAmount}
-            currentLoop={currentLoop}
-            totalLoops={loopCount}
+            filledAmounts={filledAmounts}
+            currentTaskIndex={currentTaskIndex}
             isRunning={isRunning}
             boboState={boboState}
+            taskStatuses={taskStatuses}
+            blenderDrop={blenderDrop}
           />
         </div>
 
-        {/* ===== RIGHT: Code panel ===== */}
-        <div className="w-full max-w-[380px] shrink-0">
+        {/* ===== RIGHT PANEL: Code panel (40%) ===== */}
+        <div className="lg:flex-[4] flex flex-col relative min-h-[45vh] mb-8 lg:mb-0 shrink-0">
           <LoopCodePanel
             config={config}
-            loopCount={loopCount}
+            loopCounts={loopCounts}
             onLoopChange={handleLoopChange}
             onRun={handleRun}
             isRunning={isRunning}
+            activeTaskIndex={currentTaskIndex}
           />
         </div>
       </div>
@@ -247,7 +282,7 @@ export default function StepCountingGamePage({
           imageSrc="/images/P_Bobo/bobo-05.svg"
           imageAlt="Bobo"
           autoDismissMs={2500}
-          onDismiss={() => setShowWrongOverlay(false)}
+          onDismiss={handleWrongDismiss}
         />
       )}
 
@@ -265,6 +300,23 @@ export default function StepCountingGamePage({
 
       {/* ===== OUT OF LIVES ===== */}
       {user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0 && <OutOfLivesModal />}
+
+      <style>{`
+        @media (min-width: 1024px) {
+          .zoom-wrapper {
+            zoom: 1.1;
+            height: ${100 / 1.1}vh;
+            overflow: hidden;
+          }
+        }
+        @media (max-width: 1023px) {
+          .zoom-wrapper {
+            min-height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+          }
+        }
+      `}</style>
     </div>
   );
 }

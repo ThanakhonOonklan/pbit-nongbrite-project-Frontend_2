@@ -2,8 +2,8 @@
   <defs>
     <!-- Background gradients -->
     <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFEBB8" stop-opacity="0.6" />
-      <stop offset="100%" stop-color="#FFF5D1" stop-opacity="0.1" />
+      <stop offset="0%" stop-color="#C5F0EF" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#EDFAFA" stop-opacity="0.1" />
     </linearGradient>
     <radialGradient id="orangeGrad" cx="30%" cy="30%" r="70%">
       <stop offset="0%" stop-color="#FFD166" />
@@ -11,8 +11,8 @@
     </radialGradient>
     <!-- Awning gradients -->
     <linearGradient id="awningOrange" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FF9500" />
-      <stop offset="100%" stop-color="#E86100" />
+      <stop offset="0%" stop-color="#6ED1CF" />
+      <stop offset="100%" stop-color="#45B8B6" />
     </linearGradient>
     <linearGradient id="awningWhite" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#FFFFFF" />
@@ -20,8 +20,7 @@
     </linearGradient>
   </defs>
 
-  <!-- Sky/Background Plate -->
-  <rect width="800" height="600" fill="url(#skyGrad)" rx="40" />
+  <!-- Sky/Background Plate Removed for transparent background -->
 
   <!-- Ground -->
   <ellipse cx="400" cy="550" rx="350" ry="40" fill="#000000" opacity="0.05" />
@@ -29,40 +28,88 @@
   <!-- Shop Base -->
   <rect x="150" y="320" width="500" height="230" fill="#FFF8E7" rx="20" />
   <!-- Base Stripes -->
-  <path d="M 150 350 L 650 350" stroke="#FFD166" stroke-width="10" opacity="0.5" />
-  <path d="M 150 400 L 650 400" stroke="#FFD166" stroke-width="10" opacity="0.5" />
-  <path d="M 150 450 L 650 450" stroke="#FFD166" stroke-width="10" opacity="0.5" />
-  <path d="M 150 500 L 650 500" stroke="#FFD166" stroke-width="10" opacity="0.5" />
+  <path d="M 150 350 L 650 350" stroke="#A8E4E3" stroke-width="10" opacity="0.5" />
+  <path d="M 150 400 L 650 400" stroke="#A8E4E3" stroke-width="10" opacity="0.5" />
+  <path d="M 150 450 L 650 450" stroke="#A8E4E3" stroke-width="10" opacity="0.5" />
+  <path d="M 150 500 L 650 500" stroke="#A8E4E3" stroke-width="10" opacity="0.5" />
 
   <!-- Counter Top -->
-  <rect x="120" y="290" width="560" height="30" fill="#FF9500" rx="15" />
-  <rect x="120" y="320" width="560" height="10" fill="#D95C00" rx="5" />
+  <rect x="120" y="290" width="560" height="30" fill="#6ED1CF" rx="15" />
+  <rect x="120" y="320" width="560" height="10" fill="#45B8B6" rx="5" />
 
   <!-- Wooden Poles -->
   <rect x="180" y="120" width="24" height="180" fill="#D29062" rx="4" />
   <rect x="596" y="120" width="24" height="180" fill="#D29062" rx="4" />
 
   <!-- Awning Back/Roof -->
-  <path d="M 120 120 L 680 120 L 620 40 L 180 40 Z" fill="#FCA5A5" />
+  <path d="M 120 120 L 680 120 L 620 40 L 180 40 Z" fill="#A8E4E3" />
   
-  <!-- Awning Stripes -->
-  <path d="M 180 40 L 263 40 L 213 120 L 120 120 Z" fill="url(#awningOrange)" />
-  <path d="M 263 40 L 346 40 L 306 120 L 213 120 Z" fill="url(#awningWhite)" />
-  <path d="M 346 40 L 429 40 L 400 120 L 306 120 Z" fill="url(#awningOrange)" />
-  <path d="M 429 40 L 512 40 L 493 120 L 400 120 Z" fill="url(#awningWhite)" />
-  <path d="M 512 40 L 595 40 L 586 120 L 493 120 Z" fill="url(#awningOrange)" />
-  <path d="M 595 40 L 620 40 L 680 120 L 586 120 Z" fill="url(#awningWhite)" />
+  <!-- Awning Stripes (7 stripes for symmetry) -->
+  <path d="M 180 40 L 243 40 L 200 120 L 120 120 Z" fill="url(#awningWhite)" />
+  <path d="M 243 40 L 306 40 L 280 120 L 200 120 Z" fill="url(#awningOrange)" />
+  <path d="M 306 40 L 369 40 L 360 120 L 280 120 Z" fill="url(#awningWhite)" />
+  <path d="M 369 40 L 432 40 L 440 120 L 360 120 Z" fill="url(#awningOrange)" />
+  <path d="M 432 40 L 495 40 L 520 120 L 440 120 Z" fill="url(#awningWhite)" />
+  <path d="M 495 40 L 558 40 L 600 120 L 520 120 Z" fill="url(#awningOrange)" />
+  <path d="M 558 40 L 620 40 L 680 120 L 600 120 Z" fill="url(#awningWhite)" />
 
   <!-- Awning Front Flaps -->
-  <path d="M 120 120 Q 166.5 160 213 120" fill="url(#awningOrange)" />
-  <path d="M 213 120 Q 259.5 160 306 120" fill="url(#awningWhite)" />
-  <path d="M 306 120 Q 353 160 400 120" fill="url(#awningOrange)" />
-  <path d="M 400 120 Q 446.5 160 493 120" fill="url(#awningWhite)" />
-  <path d="M 493 120 Q 539.5 160 586 120" fill="url(#awningOrange)" />
-  <path d="M 586 120 Q 633 160 680 120" fill="url(#awningWhite)" />
+  <path d="M 120 120 Q 160 160 200 120" fill="url(#awningWhite)" />
+  <path d="M 200 120 Q 240 160 280 120" fill="url(#awningOrange)" />
+  <path d="M 280 120 Q 320 160 360 120" fill="url(#awningWhite)" />
+  <path d="M 360 120 Q 400 160 440 120" fill="url(#awningOrange)" />
+  <path d="M 440 120 Q 480 160 520 120" fill="url(#awningWhite)" />
+  <path d="M 520 120 Q 560 160 600 120" fill="url(#awningOrange)" />
+  <path d="M 600 120 Q 640 160 680 120" fill="url(#awningWhite)" />
+
+  <!-- Empty Blender -->
+  <g id="blender" transform="translate(62.5, 72.5) scale(0.75)">
+    <!-- Handle -->
+    <path d="M 280 155 C 320 155 315 215 270 225" fill="none" stroke="#7ACCC8" stroke-width="12" stroke-linecap="round" />
+
+    <!-- Pitcher Body with Spout -->
+    <path d="M 225 240 L 275 240 L 285 140 L 215 140 L 202 135 L 216 152 Z" fill="#E0F7F6" opacity="0.6" />
+    <path d="M 225 240 L 275 240 L 285 140 L 215 140 L 202 135 L 216 152 Z" fill="none" stroke="#7ACCC8" stroke-width="5" stroke-linejoin="round" />
+
+    <!-- Glass Highlight -->
+    <path d="M 228 230 L 222 155" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+
+    <!-- Blender Base -->
+    <path d="M 210 290 L 290 290 L 280 240 L 220 240 Z" fill="#F3E5D8" />
+    <rect x="208" y="282" width="84" height="8" fill="#A8A8A8" rx="2" />
+    
+    <!-- Pitcher connector rim -->
+    <rect x="218" y="236" width="64" height="6" fill="#DBC8B6" rx="2" />
+
+    <!-- Control Panel -->
+    <path d="M 235 290 L 265 290 L 265 255 A 15 15 0 0 0 235 255 Z" fill="#6B6B6B" />
+    <circle cx="250" cy="268" r="10" fill="#FFFFFF" />
+    <circle cx="250" cy="268" r="5" fill="#A4D8B6" />
+    <circle cx="250" cy="284" r="2.5" fill="#FF5C5C" />
+
+    <!-- Lid (Slightly Open) -->
+    <g transform="rotate(-12 250 135)">
+      <ellipse cx="250" cy="135" rx="38" ry="6" fill="#CCCCCC" />
+      <ellipse cx="250" cy="132" rx="38" ry="6" fill="#E6E6E6" />
+      <path d="M 243 132 L 257 132 L 254 120 L 246 120 Z" fill="#B3B3B3" />
+    </g>
+  </g>
 
   <!-- Hanging Sign Removed -->
 
   <!-- Counter is kept empty for the dynamic React glasses -->
+
+  <!-- Display Shelf (front of counter, within shop width x=150–650) -->
+  <!-- Shelf board -->
+  <rect x="150" y="462" width="500" height="14" fill="#6ED1CF" rx="7" />
+  <!-- Shelf front edge (darker) -->
+  <rect x="150" y="473" width="500" height="5" fill="#45B8B6" rx="4" />
+  <!-- Shelf highlight -->
+  <rect x="158" y="464" width="480" height="4" fill="#FFFFFF" rx="3" opacity="0.35" />
+  <!-- Shelf shadow -->
+  <ellipse cx="400" cy="482" rx="245" ry="5" fill="#000000" opacity="0.07" />
+  <!-- Shelf supports -->
+  <rect x="184" y="462" width="8" height="28" fill="#45B8B6" rx="3" />
+  <rect x="608" y="462" width="8" height="28" fill="#45B8B6" rx="3" />
 
 </svg>
