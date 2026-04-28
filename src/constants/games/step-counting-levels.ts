@@ -1,94 +1,122 @@
-// Step Counting Game — Fill-in-the-Path Edition
-// เด็กสร้างบล็อคตัวเลขแล้วลากวางในช่องบนเส้นทาง
+// Step Counting Game — Loop + Proportional Reasoning Edition
+// เด็กตั้งค่าจำนวน loop ให้ได้ผลลัพธ์ตามเป้าหมาย
 
 import { type Difficulty } from "@/lib/games/types";
 
-export interface StepCountingLevelConfig {
+export type LoopTheme = "orange" | "watermelon" | "pineapple" | "apple";
+
+// ── Per-juice task ─────────────────────────────────────────────
+export interface LoopTask {
+  theme: LoopTheme;
+  inputEmoji: string;
+  inputUnit: string;
+  outputUnit: string;
+  yieldsPerAction: number;
+  yieldLabel: string;
+  targetAmount: number;
+  correctAnswer: number;
+  maxStepper: number;
+}
+
+// ── Level config (1–N tasks) ───────────────────────────────────
+export interface LoopLevelConfig {
   level: number;
   difficulty: Difficulty;
-  startValue: number;   // ตัวเลขตั้งต้น เช่น 2
-  operators: string[];  // operator แต่ละขั้ว เช่น ["+3", "-1"]
+  theme: LoopTheme;
+  tasks: LoopTask[];
   description: string;
 }
 
-/** คำนวณคำตอบที่ถูกต้องของแต่ละช่อง */
-export function getCorrectAnswers(config: StepCountingLevelConfig): number[] {
-  const answers: number[] = [];
-  let cur = config.startValue;
-  for (const op of config.operators) {
-    const sign = op[0] === "+" ? 1 : -1;
-    const num = parseInt(op.slice(1), 10);
-    cur += sign * num;
-    answers.push(cur);
-  }
-  return answers;
+// ── Task factories ─────────────────────────────────────────────
+function orangeTask(target: number, maxStepper: number): LoopTask {
+  return {
+    theme: "orange",
+    inputEmoji: "🍊",
+    inputUnit: "ส้ม",
+    outputUnit: "แก้ว",
+    yieldsPerAction: 0.5,
+    yieldLabel: "ครึ่งแก้ว",
+    targetAmount: target,
+    correctAnswer: target / 0.5,
+    maxStepper,
+  };
 }
 
-export const stepCountingLevels: Record<number, StepCountingLevelConfig> = {
-  // ─── Easy (Level 1–3) : 4 operators ───────────────────────────────
-  1: {
-    level: 1,
-    difficulty: "easy",
-    startValue: 2,
-    operators: ["+1", "+2", "-1", "+3"],
-    description: "ระดับง่าย: 4 ขั้น",
-  },
-  2: {
-    level: 2,
-    difficulty: "easy",
-    startValue: 3,
-    operators: ["+2", "-1", "+2", "+1"],
-    description: "ระดับง่าย: 4 ขั้น",
-  },
-  3: {
-    level: 3,
-    difficulty: "easy",
-    startValue: 5,
-    operators: ["-2", "+3", "-1", "+2"],
-    description: "ระดับง่าย: 4 ขั้น",
-  },
-  // ─── Normal (Level 4–6) : 5-7 operators ─────────────────────────────
-  4: {
-    level: 4,
-    difficulty: "normal",
-    startValue: 4,
-    operators: ["+2", "-1", "+3", "-2", "+1"],
-    description: "ระดับปานกลาง: 5 ขั้น",
-  },
-  5: {
-    level: 5,
-    difficulty: "normal",
-    startValue: 6,
-    operators: ["-2", "+3", "-1", "+2", "-3", "+4"],
-    description: "ระดับปานกลาง: 6 ขั้น",
-  },
-  6: {
-    level: 6,
-    difficulty: "normal",
-    startValue: 3,
-    operators: ["+2", "+1", "-2", "+3", "-1", "+2", "-3"],
-    description: "ระดับปานกลาง: 7 ขั้น",
-  },
-  // ─── Hard (Level 7–9) : 8-9 operators ───────────────────────────────
-  7: {
-    level: 7,
-    difficulty: "hard",
-    startValue: 10,
-    operators: ["-2", "+3", "-4", "+5", "-2", "+1", "-3", "+2"],
-    description: "ระดับยาก: 8 ขั้น",
-  },
-  8: {
-    level: 8,
-    difficulty: "hard",
-    startValue: 7,
-    operators: ["+3", "-2", "+4", "-5", "+2", "+1", "-3", "+4", "-2"],
-    description: "ระดับยาก: 9 ขั้น",
-  },
-  9: {
-    level: 9,
-    difficulty: "hard",
-    startValue: 5,
-    operators: ["+2", "-1", "+4", "-3", "+5", "-2", "+3", "-4", "+1"],
-    description: "ระดับยาก: 9 ขั้น",
-  },
+function watermelonTask(target: number, maxStepper: number): LoopTask {
+  return {
+    theme: "watermelon",
+    inputEmoji: "🍉",
+    inputUnit: "แตงโม",
+    outputUnit: "แก้ว",
+    yieldsPerAction: 2,
+    yieldLabel: "2 แก้ว",
+    targetAmount: target,
+    correctAnswer: target / 2,
+    maxStepper,
+  };
+}
+
+function pineappleTask(target: number, maxStepper: number): LoopTask {
+  return {
+    theme: "pineapple",
+    inputEmoji: "🍍",
+    inputUnit: "สับปะรด",
+    outputUnit: "แก้ว",
+    yieldsPerAction: 1,
+    yieldLabel: "1 แก้ว",
+    targetAmount: target,
+    correctAnswer: target / 1,
+    maxStepper,
+  };
+}
+
+function appleTask(target: number, maxStepper: number): LoopTask {
+  return {
+    theme: "apple",
+    inputEmoji: "🍏",
+    inputUnit: "แอปเปิ้ล",
+    outputUnit: "แก้ว",
+    yieldsPerAction: 0.5,
+    yieldLabel: "ครึ่งแก้ว",
+    targetAmount: target,
+    correctAnswer: target / 0.5,
+    maxStepper,
+  };
+}
+
+// ── Level builders ─────────────────────────────────────────────
+function single(level: number, difficulty: Difficulty, task: LoopTask, desc: string): LoopLevelConfig {
+  return { level, difficulty, theme: task.theme, tasks: [task], description: desc };
+}
+
+function multi(level: number, difficulty: Difficulty, tasks: LoopTask[], desc: string): LoopLevelConfig {
+  return { level, difficulty, theme: tasks[0].theme, tasks, description: desc };
+}
+
+// ── 9 Levels ───────────────────────────────────────────────────
+// ตอบ: 🍊÷0.5  🍉÷2  🍍÷1  🍏÷0.5
+export const stepCountingLevels: Record<number, LoopLevelConfig> = {
+  // ─── Easy (Level 1–3) ─────────────────────────────────────────
+  // L1: ส้ม 4 แก้ว → ใช้ 8 ลูก
+  1: single(1, "easy", orangeTask(4, 15), "น้ำส้ม: 1 ลูก → ½ แก้ว"),
+  // L2: สับปะรด 5 แก้ว → ใช้ 5 ลูก
+  2: single(2, "easy", pineappleTask(5, 10), "น้ำสับปะรด: 1 ลูก → 1 แก้ว"),
+  // L3: แตงโม 4 แก้ว (2 ลูก) + แอปเปิ้ล 4 แก้ว (8 ลูก)
+  3: multi(3, "easy", [watermelonTask(4, 8), appleTask(4, 15)], "น้ำแตงโม + น้ำแอปเปิ้ล"),
+
+  // ─── Normal (Level 4–6) ───────────────────────────────────────
+  // L4: ส้ม 3 แก้ว (6 ลูก) + สับปะรด 4 แก้ว (4 ลูก)
+  4: multi(4, "normal", [orangeTask(3, 15), pineappleTask(4, 10)], "น้ำส้ม + น้ำสับปะรด"),
+  // L5: แอปเปิ้ล 3 แก้ว (6 ลูก) + สับปะรด 4 แก้ว (4 ลูก)
+  5: multi(5, "normal", [appleTask(3, 12), pineappleTask(4, 10)], "น้ำแอปเปิ้ล + น้ำสับปะรด"),
+  // L6: ส้ม 2 แก้ว (4 ลูก) + แตงโม 6 แก้ว (3 ลูก)
+  6: multi(6, "normal", [orangeTask(2, 12), watermelonTask(6, 8)], "น้ำส้ม + น้ำแตงโม"),
+
+  // ─── Hard (Level 7–9) ────────────────────────────────────────
+  // L7: ส้ม 2 (4) + สับปะรด 4 (4) + แอปเปิ้ล 3 (6) ลูก
+  7: multi(7, "hard", [orangeTask(2, 10), pineappleTask(4, 10), appleTask(3, 15)], "น้ำส้ม + น้ำสับปะรด + น้ำแอปเปิ้ล"),
+  // L8: แตงโม 4 (2) + สับปะรด 4 (4) + แอปเปิ้ล 3 (6) ลูก
+  8: multi(8, "hard", [watermelonTask(4, 8), pineappleTask(4, 10), appleTask(3, 15)], "น้ำแตงโม + น้ำสับปะรด + น้ำแอปเปิ้ล"),
+  // L9: ส้ม 3 (6) + แตงโม 4 (2) + สับปะรด 4 (4) + แอปเปิ้ล 3 (6) ลูก
+  9: multi(9, "hard", [orangeTask(3, 15), watermelonTask(4, 8), pineappleTask(4, 10), appleTask(3, 15)], "4 น้ำผสม"),
 };

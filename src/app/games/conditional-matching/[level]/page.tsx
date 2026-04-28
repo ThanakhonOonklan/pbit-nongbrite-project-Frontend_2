@@ -12,7 +12,7 @@ import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
 import { useUserStore } from "@/store/user.store";
 import { OutOfLivesModal } from "@/components/common";
-import { LeftColItem, RightColItem } from "@/components/games/conditional-matching";
+import { LeftColItem, RightColItem, DesertBackground } from "@/components/games/conditional-matching";
 import { GameControls } from "@/components/games/sequencing/GameControls";
 
 
@@ -203,7 +203,7 @@ export default function ConditionalMatchingGamePage({
       window.removeEventListener("pointerup", onUp);
       window.removeEventListener("pointercancel", onUp);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDrawing, config]);
 
   // ── Win / Fail Logic ────────────────────────────────────────
@@ -307,11 +307,11 @@ export default function ConditionalMatchingGamePage({
   // ── Fallback ──────────────────────────────────────────────
   if (!config) {
     return (
-      <div className="flex flex-col h-screen bg-[#131F24] overflow-hidden">
+      <div className="flex flex-col h-screen bg-[#0B1021] overflow-hidden z-50">
         <GameHeader level={level} gameTitle="Conditional Matching" characterSrc="/images/P_Coco/coco-03.svg" />
         <div className="flex-1 flex flex-col items-center justify-center p-4">
-          <p className="text-white text-xl">ไม่พบด่านนี้</p>
-          <button onClick={() => router.push("/courses")} className="mt-4 px-6 py-2 bg-[#1CB0F6] text-white rounded-xl font-bold">
+          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+          <button onClick={() => router.push("/courses")} className="mt-4 px-6 py-2 bg-[#ffb356] text-white rounded-xl font-bold">
             กลับหน้าหลัก
           </button>
         </div>
@@ -331,8 +331,9 @@ export default function ConditionalMatchingGamePage({
 
   // ── Render ────────────────────────────────────────────────
   return (
-    <div className="flex flex-col h-screen bg-[#131F24] overflow-hidden">
-      <GameHeader level={level} gameTitle="Conditional Matching" characterSrc="/images/P_Coco/coco-03.svg" />
+    <div className="flex flex-col h-screen bg-[#0B1021] overflow-hidden relative">
+      <DesertBackground />
+      <GameHeader level={level} gameTitle="Conditional Matching" characterSrc="/images/P_Coco/coco-03.svg" bgColor="#1E3A8A" />
 
       {/* Global & inline custom animations */}
       <style>{`
@@ -351,11 +352,9 @@ export default function ConditionalMatchingGamePage({
       `}</style>
 
 
-      <div className="flex-1 overflow-x-hidden rounded-t-3xl mt-1 sm:mt-2 flex flex-col pt-2 sm:pt-3 md:pt-4 pb-1 sm:pb-2 w-full mx-auto relative">
+      <div className="flex-1 overflow-x-hidden rounded-t-3xl mt-1 sm:mt-2 flex flex-col pt-2 sm:pt-3 md:pt-4 pb-1 sm:pb-2 w-full mx-auto relative select-none">
 
-        <h2 className="text-base sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-[#ffb356] text-center mb-0 sm:mb-1 md:mb-2 uppercase tracking-wide shrink-0 z-20">
-          {config.title}
-        </h2>
+
 
         {/* LINE DRAWING CONTAINER */}
         <div
@@ -404,14 +403,14 @@ export default function ConditionalMatchingGamePage({
           {/* Left Column: Questions */}
           <div className={`flex flex-col justify-center z-20
             ${compact ? "gap-1.5 sm:gap-2 md:gap-3 w-[82px] sm:w-[108px] md:w-[136px] lg:w-[165px]"
-                       : "gap-2.5 sm:gap-3 md:gap-4 lg:gap-5 w-[106px] sm:w-[132px] md:w-[156px] lg:w-[185px]"}`}>
+              : "gap-2.5 sm:gap-3 md:gap-4 lg:gap-5 w-[106px] sm:w-[132px] md:w-[156px] lg:w-[185px]"}`}>
             {/* Header: ถ้า... */}
-            <div className={`flex flex-row items-center z-20 mb-1 sm:mb-2 
+            <div className={`flex flex-row items-center z-20 mb-1 sm:mb-2 select-none
               ${compact ? "gap-1 sm:gap-1.5 md:gap-2" : "gap-1.5 sm:gap-2.5 md:gap-3 lg:gap-4"}`}>
               <div className="flex-1 flex justify-center">
-                <span className={`bg-[#ebdff7] font-extrabold text-[#614b82] px-3 sm:px-5 py-0.5 sm:py-1 rounded-full inline-block
+                <span className={`bg-slate-800/80 font-extrabold text-[#ffb356] border border-[#ffb356]/50 shadow-[0_0_10px_rgba(255,179,86,0.3)] backdrop-blur-sm px-3 sm:px-5 py-0.5 sm:py-1 rounded-full inline-block
                   ${compact ? "text-[11px] sm:text-xs" : "text-sm sm:text-base"}`}>
-                  ถ้า...
+                  ถ้า
                 </span>
               </div>
               <div className={`shrink-0 ${compact ? "w-6 sm:w-7 md:w-8" : "w-7 sm:w-8 md:w-9 lg:w-10"}`} />
@@ -434,15 +433,15 @@ export default function ConditionalMatchingGamePage({
           {/* Right Column: Answers */}
           <div className={`flex flex-col justify-center z-20
             ${compact ? "gap-1.5 sm:gap-2 md:gap-3 w-[82px] sm:w-[108px] md:w-[136px] lg:w-[165px]"
-                       : "gap-2.5 sm:gap-3 md:gap-4 lg:gap-5 w-[106px] sm:w-[132px] md:w-[156px] lg:w-[185px]"}`}>
+              : "gap-2.5 sm:gap-3 md:gap-4 lg:gap-5 w-[106px] sm:w-[132px] md:w-[156px] lg:w-[185px]"}`}>
             {/* Header: ...แล้ว */}
             <div className={`flex flex-row items-center z-20 mb-1 sm:mb-2
               ${compact ? "gap-1 sm:gap-1.5 md:gap-2" : "gap-1.5 sm:gap-2.5 md:gap-3 lg:gap-4"}`}>
               <div className={`shrink-0 ${compact ? "w-6 sm:w-7 md:w-8" : "w-7 sm:w-8 md:w-9 lg:w-10"}`} />
               <div className="flex-1 flex justify-center">
-                <span className={`bg-[#ebdff7] font-extrabold text-[#614b82] px-3 sm:px-5 py-0.5 sm:py-1 rounded-full inline-block
+                <span className={`bg-slate-800/80 font-extrabold text-[#ffb356] border border-[#ffb356]/50 shadow-[0_0_10px_rgba(255,179,86,0.3)] backdrop-blur-sm px-3 sm:px-5 py-0.5 sm:py-1 rounded-full inline-block
                   ${compact ? "text-[11px] sm:text-xs" : "text-sm sm:text-base"}`}>
-                  ...แล้ว
+                  อย่างนั้น
                 </span>
               </div>
             </div>

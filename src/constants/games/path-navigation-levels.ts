@@ -7,17 +7,274 @@ export interface PathTile {
     col: number;
 }
 
+export interface PathNavPattern {
+    startPos: PathTile;
+    nongBritePos: PathTile;
+    blockedTiles?: PathTile[];
+}
+
 export interface PathNavLevelConfig {
     level: number;
     difficulty: Difficulty;
     gridCols: number;
     gridRows: number;
-    startPos: PathTile;
-    nongBritePos: PathTile;
+    startPos?: PathTile;
+    nongBritePos?: PathTile;
     homePos: PathTile;
-    blockedTiles: PathTile[];
+    blockedTiles?: PathTile[];
+    patterns?: PathNavPattern[];
 }
 
+// ── Pattern Sets: 4 patterns per level ───────────────────────────────────────
+// homePos สุ่มต่างกันแต่ละ pattern / S,N ไม่จำเป็นต้องอยู่มุมเสมอ
+// rock count: L1-3=3, L4-6=4, L7=7, L8=8, L9=10
+export const PATH_PATTERN_SETS: Record<number, PathNavLevelConfig[]> = {
+
+    1: [
+        // A — S bottom-left, N top-right, H bottom-right
+        {
+            level: 1, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 3, col: 3 },
+            startPos: { row: 3, col: 0 }, nongBritePos: { row: 0, col: 3 },
+            blockedTiles: [{ row: 1, col: 0 }, { row: 1, col: 1 }, { row: 3, col: 2 }]
+        },
+        // B — S top-left, N bottom, H top-right
+        {
+            level: 1, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 0, col: 3 },
+            startPos: { row: 0, col: 0 }, nongBritePos: { row: 3, col: 2 },
+            blockedTiles: [{ row: 0, col: 1 }, { row: 1, col: 1 }, { row: 1, col: 3 }]
+        },
+        // C — S top-right, N mid-right, H bottom-left
+        {
+            level: 1, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 3, col: 0 },
+            startPos: { row: 0, col: 1 }, nongBritePos: { row: 2, col: 3 },
+            blockedTiles: [{ row: 0, col: 2 }, { row: 1, col: 1 }, { row: 2, col: 2 }]
+        },
+        // D — S bottom-mid, N top-right, H top-left
+        {
+            level: 1, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 0, col: 0 },
+            startPos: { row: 3, col: 1 }, nongBritePos: { row: 0, col: 3 },
+            blockedTiles: [{ row: 0, col: 2 }, { row: 1, col: 0 }, { row: 2, col: 1 }]
+        },
+    ],
+
+    2: [
+        // A — S top-right, N mid-right, H mid-left
+        {
+            level: 2, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 1, col: 0 },
+            startPos: { row: 0, col: 3 }, nongBritePos: { row: 2, col: 2 },
+            blockedTiles: [{ row: 0, col: 1 }, { row: 1, col: 2 }, { row: 2, col: 1 }]
+        },
+        // B — S top-left, N bottom-left, H mid-right
+        {
+            level: 2, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 1, col: 3 },
+            startPos: { row: 0, col: 0 }, nongBritePos: { row: 3, col: 0 },
+            blockedTiles: [{ row: 0, col: 2 }, { row: 1, col: 1 }, { row: 3, col: 1 }]
+        },
+        // C — S top-left, N bottom-left, H mid-right
+        {
+            level: 2, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 2, col: 3 },
+            startPos: { row: 0, col: 0 }, nongBritePos: { row: 3, col: 0 },
+            blockedTiles: [{ row: 1, col: 2 }, { row: 2, col: 2 }, { row: 3, col: 2 }]
+        },
+        // D — S top-right, N top-mid, H bottom-left
+        {
+            level: 2, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 3, col: 0 },
+            startPos: { row: 0, col: 3 }, nongBritePos: { row: 0, col: 1 },
+            blockedTiles: [{ row: 1, col: 2 }, { row: 2, col: 1 }, { row: 3, col: 2 }]
+        },
+    ],
+
+    3: [
+        // A — S bottom-left, N top-right, H bottom-right
+        {
+            level: 3, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 3, col: 3 },
+            startPos: { row: 3, col: 0 }, nongBritePos: { row: 0, col: 3 },
+            blockedTiles: [{ row: 1, col: 0 }, { row: 2, col: 1 }, { row: 1, col: 3 }]
+        },
+        // B — S bottom-left, N mid-left, H top-right
+        {
+            level: 3, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 0, col: 3 },
+            startPos: { row: 3, col: 0 }, nongBritePos: { row: 1, col: 0 },
+            blockedTiles: [{ row: 2, col: 0 }, { row: 0, col: 1 }, { row: 2, col: 2 }]
+        },
+        // C — S top-right, N mid-left, H mid-right
+        {
+            level: 3, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 2, col: 3 },
+            startPos: { row: 0, col: 3 }, nongBritePos: { row: 2, col: 1 },
+            blockedTiles: [{ row: 0, col: 1 }, { row: 1, col: 3 }, { row: 2, col: 0 }, { row: 3, col: 1 }]
+        },
+        // D — S bottom-right, N top-right, H mid-left
+        {
+            level: 3, difficulty: "easy", gridCols: 4, gridRows: 4, homePos: { row: 2, col: 1 },
+            startPos: { row: 3, col: 3 }, nongBritePos: { row: 0, col: 3 },
+            blockedTiles: [{ row: 3, col: 1 }, { row: 2, col: 2 }, { row: 1, col: 1 }]
+        },
+    ],
+
+    4: [
+        // A — S bottom-left, N top-mid, H bottom-right (5×5)
+        {
+            level: 4, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 4, col: 4 },
+            startPos: { row: 4, col: 0 }, nongBritePos: { row: 0, col: 2 },
+            blockedTiles: [{ row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 }, { row: 3, col: 2 }]
+        },
+        // B — S center, N bottom-mid, H top-mid
+        {
+            level: 4, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 0, col: 2 },
+            startPos: { row: 2, col: 2 }, nongBritePos: { row: 4, col: 2 },
+            blockedTiles: [{ row: 1, col: 0 }, { row: 1, col: 2 }, { row: 3, col: 2 }, { row: 3, col: 4 }]
+        },
+        // C — S bottom-mid-right, N top-mid-right, H mid-left
+        {
+            level: 4, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 2, col: 0 },
+            startPos: { row: 4, col: 3 }, nongBritePos: { row: 0, col: 3 },
+            blockedTiles: [{ row: 1, col: 0 }, { row: 2, col: 1 }, { row: 2, col: 3 }, { row: 3, col: 1 }]
+        },
+        // D — S bottom-mid-right, N top-mid-right, H mid-left
+        {
+            level: 4, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 2, col: 0 },
+            startPos: { row: 4, col: 3 }, nongBritePos: { row: 0, col: 3 },
+            blockedTiles: [{ row: 1, col: 0 }, { row: 2, col: 1 }, { row: 2, col: 3 }, { row: 4, col: 1 }]
+        },
+    ],
+
+    5: [
+        // A — S center, N top-left, H bottom-right
+        {
+            level: 5, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 4, col: 4 },
+            startPos: { row: 2, col: 2 }, nongBritePos: { row: 0, col: 0 },
+            blockedTiles: [{ row: 1, col: 1 }, { row: 1, col: 3 }, { row: 3, col: 1 }, { row: 3, col: 3 }]
+        },
+        // B — S bottom-mid, N bottom-right, H top-right
+        {
+            level: 5, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 0, col: 4 },
+            startPos: { row: 4, col: 1 }, nongBritePos: { row: 4, col: 4 },
+            blockedTiles: [{ row: 1, col: 2 }, { row: 2, col: 2 }, { row: 3, col: 3 }, { row: 4, col: 3 }]
+        },
+        // C — S center, N mid-right, H bottom-left
+        {
+            level: 5, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 4, col: 0 },
+            startPos: { row: 2, col: 2 }, nongBritePos: { row: 3, col: 4 },
+            blockedTiles: [{ row: 1, col: 0 }, { row: 2, col: 3 }, { row: 3, col: 1 }, { row: 4, col: 3 }]
+        },
+        // D — S top-right, N bottom-mid-left, H top-left
+        {
+            level: 5, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 0, col: 0 },
+            startPos: { row: 0, col: 4 }, nongBritePos: { row: 3, col: 1 },
+            blockedTiles: [{ row: 0, col: 3 }, { row: 1, col: 1 }, { row: 3, col: 2 }, { row: 4, col: 1 }]
+        },
+    ],
+
+    6: [
+        // A — S top-mid-right, N bottom-mid-left, H top-left
+        {
+            level: 6, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 0, col: 0 },
+            startPos: { row: 1, col: 3 }, nongBritePos: { row: 4, col: 1 },
+            blockedTiles: [{ row: 0, col: 2 }, { row: 2, col: 0 }, { row: 2, col: 3 }, { row: 3, col: 1 }]
+        },
+        // B — S top-mid-left, N bottom-mid-left, H top-right
+        {
+            level: 6, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 1, col: 4 },
+            startPos: { row: 1, col: 1 }, nongBritePos: { row: 4, col: 1 },
+            blockedTiles: [{ row: 1, col: 3 }, { row: 2, col: 1 }, { row: 3, col: 2 }, { row: 4, col: 3 }]
+        },
+        // C — S mid-left, N top-right, H bottom-left
+        {
+            level: 6, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 4, col: 0 },
+            startPos: { row: 1, col: 0 }, nongBritePos: { row: 0, col: 4 },
+            blockedTiles: [{ row: 1, col: 1 }, { row: 2, col: 0 }, { row: 2, col: 3 }, { row: 4, col: 2 }]
+        },
+        // D — S top-mid-left, N bottom-left, H top-right
+        {
+            level: 6, difficulty: "normal", gridCols: 5, gridRows: 5, homePos: { row: 0, col: 4 },
+            startPos: { row: 0, col: 1 }, nongBritePos: { row: 4, col: 0 },
+            blockedTiles: [{ row: 0, col: 3 }, { row: 2, col: 3 }, { row: 3, col: 0 }, { row: 3, col: 1 }]
+        },
+    ],
+
+    7: [
+        // A — S bottom-left, N top-right, H bottom-right
+        {
+            level: 7, difficulty: "hard", gridCols: 6, gridRows: 5, homePos: { row: 4, col: 5 },
+            startPos: { row: 4, col: 0 }, nongBritePos: { row: 0, col: 5 },
+            blockedTiles: [{ row: 0, col: 1 }, { row: 1, col: 4 }, { row: 2, col: 1 }, { row: 2, col: 2 }, { row: 3, col: 1 }, { row: 3, col: 4 }, { row: 4, col: 3 }]
+        },
+        // B — S bottom-left, N mid-interior, H top-right
+        {
+            level: 7, difficulty: "hard", gridCols: 6, gridRows: 5, homePos: { row: 0, col: 5 },
+            startPos: { row: 4, col: 0 }, nongBritePos: { row: 2, col: 3 },
+            blockedTiles: [{ row: 0, col: 1 }, { row: 1, col: 1 }, { row: 1, col: 2 }, { row: 3, col: 2 }, { row: 3, col: 4 }, { row: 4, col: 3 }, { row: 2, col: 5 }]
+        },
+        // C — S bottom-right, N mid-interior, H top-left
+        {
+            level: 7, difficulty: "hard", gridCols: 6, gridRows: 5, homePos: { row: 0, col: 0 },
+            startPos: { row: 4, col: 5 }, nongBritePos: { row: 2, col: 2 },
+            blockedTiles: [{ row: 0, col: 2 }, { row: 0, col: 4 }, { row: 1, col: 2 }, { row: 1, col: 4 }, { row: 3, col: 1 }, { row: 3, col: 5 }, { row: 4, col: 1 }]
+        },
+        // D — S top-right, N mid-interior, H bottom-left
+        {
+            level: 7, difficulty: "hard", gridCols: 6, gridRows: 5, homePos: { row: 4, col: 0 },
+            startPos: { row: 0, col: 5 }, nongBritePos: { row: 2, col: 3 },
+            blockedTiles: [{ row: 0, col: 1 }, { row: 0, col: 3 }, { row: 1, col: 1 }, { row: 1, col: 3 }, { row: 3, col: 0 }, { row: 3, col: 3 }, { row: 4, col: 3 }]
+        },
+    ],
+
+    8: [
+        // A — S bottom-left, N top-right, H bottom-right
+        {
+            level: 8, difficulty: "hard", gridCols: 6, gridRows: 6, homePos: { row: 5, col: 5 },
+            startPos: { row: 5, col: 0 }, nongBritePos: { row: 0, col: 5 },
+            blockedTiles: [{ row: 0, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 4 }, { row: 2, col: 5 }, { row: 3, col: 1 }, { row: 3, col: 4 }, { row: 4, col: 2 }, { row: 5, col: 2 }]
+        },
+        // B — S bottom-left, N mid-left, H top-right
+        {
+            level: 8, difficulty: "hard", gridCols: 6, gridRows: 6, homePos: { row: 0, col: 5 },
+            startPos: { row: 5, col: 0 }, nongBritePos: { row: 3, col: 0 },
+            blockedTiles: [{ row: 1, col: 2 }, { row: 1, col: 4 }, { row: 2, col: 3 }, { row: 2, col: 5 }, { row: 3, col: 2 }, { row: 4, col: 3 }, { row: 5, col: 2 }, { row: 5, col: 4 }]
+        },
+        // C — S top-right, N top-mid, H bottom-left
+        {
+            level: 8, difficulty: "hard", gridCols: 6, gridRows: 6, homePos: { row: 5, col: 0 },
+            startPos: { row: 0, col: 5 }, nongBritePos: { row: 0, col: 2 },
+            blockedTiles: [{ row: 0, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 4 }, { row: 2, col: 4 }, { row: 3, col: 1 }, { row: 3, col: 5 }, { row: 4, col: 1 }, { row: 4, col: 4 }]
+        },
+        // D — S bottom-right, N bottom-mid, H top-left
+        {
+            level: 8, difficulty: "hard", gridCols: 6, gridRows: 6, homePos: { row: 0, col: 0 },
+            startPos: { row: 5, col: 5 }, nongBritePos: { row: 5, col: 2 },
+            blockedTiles: [{ row: 0, col: 3 }, { row: 1, col: 1 }, { row: 1, col: 4 }, { row: 2, col: 4 }, { row: 3, col: 0 }, { row: 3, col: 4 }, { row: 4, col: 1 }, { row: 5, col: 0 }]
+        },
+    ],
+
+    9: [
+        // A — S bottom-left, N top-right, H bottom-right
+        {
+            level: 9, difficulty: "hard", gridCols: 7, gridRows: 7, homePos: { row: 6, col: 6 },
+            startPos: { row: 6, col: 0 }, nongBritePos: { row: 0, col: 6 },
+            blockedTiles: [{ row: 1, col: 3 }, { row: 2, col: 0 }, { row: 2, col: 2 }, { row: 2, col: 5 }, { row: 2, col: 6 }, { row: 4, col: 1 }, { row: 4, col: 2 }, { row: 4, col: 4 }, { row: 4, col: 5 }, { row: 5, col: 3 }]
+        },
+        // B — S bottom-left, N mid-interior, H top-right
+        {
+            level: 9, difficulty: "hard", gridCols: 7, gridRows: 7, homePos: { row: 0, col: 6 },
+            startPos: { row: 6, col: 0 }, nongBritePos: { row: 4, col: 3 },
+            blockedTiles: [{ row: 1, col: 1 }, { row: 1, col: 5 }, { row: 2, col: 2 }, { row: 2, col: 5 }, { row: 3, col: 0 }, { row: 3, col: 5 }, { row: 5, col: 2 }, { row: 5, col: 4 }, { row: 6, col: 2 }, { row: 6, col: 4 }]
+        },
+        // C — S top-right, N mid-interior, H bottom-left
+        {
+            level: 9, difficulty: "hard", gridCols: 7, gridRows: 7, homePos: { row: 6, col: 0 },
+            startPos: { row: 0, col: 6 }, nongBritePos: { row: 2, col: 3 },
+            blockedTiles: [{ row: 0, col: 1 }, { row: 0, col: 2 }, { row: 1, col: 1 }, { row: 1, col: 5 }, { row: 2, col: 1 }, { row: 2, col: 5 }, { row: 3, col: 1 }, { row: 4, col: 1 }, { row: 5, col: 1 }, { row: 5, col: 5 }]
+        },
+        // D — S bottom-right, N mid-interior, H top-left
+        {
+            level: 9, difficulty: "hard", gridCols: 7, gridRows: 7, homePos: { row: 0, col: 0 },
+            startPos: { row: 6, col: 6 }, nongBritePos: { row: 4, col: 3 },
+            blockedTiles: [{ row: 1, col: 1 }, { row: 1, col: 5 }, { row: 2, col: 1 }, { row: 2, col: 5 }, { row: 3, col: 0 }, { row: 3, col: 5 }, { row: 5, col: 1 }, { row: 5, col: 5 }, { row: 6, col: 1 }, { row: 6, col: 2 }]
+        },
+    ],
+};
+
+// ── compat stub (ใช้ใน test_components เท่านั้น) ─────────────────────────────
 export const pathNavLevels: Record<number, PathNavLevelConfig> = {
 
     1: {
@@ -25,13 +282,41 @@ export const pathNavLevels: Record<number, PathNavLevelConfig> = {
         difficulty: "easy",
         gridCols: 4,
         gridRows: 4,
-        startPos: { row: 3, col: 0 },
-        nongBritePos: { row: 0, col: 3 },
         homePos: { row: 3, col: 3 },
-        blockedTiles: [
-            { row: 1, col: 0 },
-            { row: 1, col: 1 },
-            { row: 3, col: 2 },
+        patterns: [
+            // Pattern A: Bit มุมล่างซ้าย, NongBrite มุมบนขวา | หินแถว 1 ซ้าย
+            // เส้นทาง: →(3,1)↑(2,1)→(2,2)→(2,3)↑(1,3)↑(0,3)=N ↓↓↓(3,3)=H
+            {
+                startPos: { row: 3, col: 0 },
+                nongBritePos: { row: 0, col: 3 },
+                blockedTiles: [
+                    { row: 1, col: 0 },
+                    { row: 1, col: 1 },
+                    { row: 3, col: 2 },
+                ],
+            },
+            // Pattern B: Bit มุมบนซ้าย, NongBrite กลางขวา | หินแถวกลาง
+            // เส้นทาง: →(0,1)→(0,2)→(0,3)↓(1,3)↓(2,3)=N ↓(3,3)=H
+            {
+                startPos: { row: 0, col: 0 },
+                nongBritePos: { row: 2, col: 3 },
+                blockedTiles: [
+                    { row: 1, col: 0 },
+                    { row: 2, col: 2 },
+                    { row: 3, col: 2 },
+                ],
+            },
+            // Pattern C: Bit กลางซ้าย, NongBrite มุมบนขวา | หินแถว 1 กลาง
+            // เส้นทาง: ↑(1,0)↑(0,0)→(0,1)→(0,2)→(0,3)=N ↓↓↓(3,3)=H
+            {
+                startPos: { row: 2, col: 0 },
+                nongBritePos: { row: 0, col: 3 },
+                blockedTiles: [
+                    { row: 1, col: 1 },
+                    { row: 1, col: 2 },
+                    { row: 3, col: 2 },
+                ],
+            },
         ],
     },
 
@@ -78,14 +363,15 @@ export const pathNavLevels: Record<number, PathNavLevelConfig> = {
         level: 4,
         difficulty: "normal",
         gridCols: 5,
-        gridRows: 4,
-        startPos: { row: 3, col: 0 },
+        gridRows: 5,
+        startPos: { row: 4, col: 0 },
         nongBritePos: { row: 0, col: 4 },
-        homePos: { row: 3, col: 4 },
+        homePos: { row: 4, col: 4 },
         blockedTiles: [
             { row: 1, col: 1 },
             { row: 1, col: 3 },
             { row: 2, col: 2 },
+            { row: 3, col: 1 },
         ],
     },
 
