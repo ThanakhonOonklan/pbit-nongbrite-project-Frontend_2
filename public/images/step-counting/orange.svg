@@ -1,0 +1,47 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Base body gradient -->
+    <radialGradient id="orangeBody" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FFD166" />
+      <stop offset="60%" stop-color="#FF9500" />
+      <stop offset="100%" stop-color="#D95C00" />
+    </radialGradient>
+    <!-- Inner soft highlight -->
+    <radialGradient id="highlight" cx="25%" cy="25%" r="40%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </radialGradient>
+    <!-- Leaf gradient -->
+    <linearGradient id="leafGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#55991A" />
+      <stop offset="100%" stop-color="#88D13D" />
+    </linearGradient>
+  </defs>
+
+  <!-- Drop Shadow under the orange -->
+  <ellipse cx="60" cy="105" rx="35" ry="10" fill="#000000" opacity="0.1" />
+
+  <!-- Main Orange Body -->
+  <circle cx="60" cy="65" r="42" fill="url(#orangeBody)" />
+  
+  <!-- Highlight -->
+  <circle cx="60" cy="65" r="42" fill="url(#highlight)" />
+
+  <!-- Dimples (just a few tiny dots for texture) -->
+  <circle cx="45" cy="50" r="1.5" fill="#FFC04F" opacity="0.5" />
+  <circle cx="75" cy="45" r="1" fill="#FFC04F" opacity="0.5" />
+  <circle cx="80" cy="70" r="1.5" fill="#D95C00" opacity="0.3" />
+  <circle cx="50" cy="85" r="2" fill="#D95C00" opacity="0.2" />
+  <circle cx="35" cy="65" r="1" fill="#FFC04F" opacity="0.4" />
+
+  <!-- Stem -->
+  <path d="M60 25 C60 20 62 18 64 16" fill="none" stroke="#5E3A19" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Leaf -->
+  <path d="M62 22 C75 10 95 15 90 30 C85 45 68 35 62 22 Z" fill="url(#leafGrad)" />
+  <!-- Leaf vein -->
+  <path d="M62 22 C70 25 80 26 85 28" fill="none" stroke="#3A6A0F" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Stem Base/Cap -->
+  <circle cx="60" cy="25" r="3" fill="#3B200B" />
+</svg>

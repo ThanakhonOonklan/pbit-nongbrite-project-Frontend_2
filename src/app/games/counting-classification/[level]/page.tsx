@@ -11,8 +11,10 @@ import { GameOverlay } from "@/components/games/GameOverlay";
 import { useUserStore } from "@/store/user.store";
 import { OutOfLivesModal } from "@/components/common";
 import {
-  countingClassificationLevels,
+  LEVEL_SPECS,
   type ShapeType,
+  type ShapePlacement,
+  type CountingClassificationLevelConfig,
 } from "@/constants/games/counting-classification-levels";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
@@ -26,15 +28,12 @@ export default function CountingClassificationGamePage({
   const levelNum = Number(level);
   const router = useRouter();
   const { user, reduceLife } = useUserStore();
-  const config = countingClassificationLevels[levelNum];
+  // ── สุ่ม config หลัง hydration ───────────────────────────
+  const [randomLevelConfig, setRandomLevelConfig] = useState<CountingClassificationLevelConfig | null>(null);
+  const config = randomLevelConfig;
 
   // ── game state ─────────────────────────────────────────
-  const initCounts = () =>
-    Object.fromEntries(
-      (config?.shapeTypes ?? []).map((t) => [t, 0])
-    ) as Record<ShapeType, number>;
-
-  const [counts, setCounts] = useState<Record<ShapeType, number>>(initCounts);
+  const [counts, setCounts] = useState<Record<ShapeType, number>>({} as Record<ShapeType, number>);
   const [submitted, setSubmitted] = useState(false);
   const [showIntro, setShowIntro] = useState(levelNum === 1);
   const [showWrongOverlay, setShowWrongOverlay] = useState(false);
@@ -46,6 +45,38 @@ export default function CountingClassificationGamePage({
     totalScore: number;
   } | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // ── helper: สร้าง config สุ่มตาม LEVEL_SPECS ────────────────
+  const buildLevelConfig = (lv: number): CountingClassificationLevelConfig => {
+    const spec = LEVEL_SPECS[lv];
+    const { shapeTypes, total, difficulty } = spec;
+    const numTypes = shapeTypes.length;
+    const cnts = Array(numTypes).fill(1);
+    for (let r = total - numTypes; r > 0; r--) {
+      cnts[Math.floor(Math.random() * numTypes)]++;
+    }
+    const baseSize = Math.max(52, 90 - (total - 10) * 2);
+    const seed = Date.now().toString(36);
+    const shapes: ShapePlacement[] = shapeTypes.flatMap((type, ti) =>
+      Array.from({ length: cnts[ti] }, (_, i) => ({
+        id: `l${lv}_${seed}_${type}_${i}`,
+        type,
+        x: 0,
+        y: 0,
+        size: baseSize + Math.floor(Math.random() * 8),
+      }))
+    );
+    return { level: lv, difficulty, shapeTypes, shapes };
+  };
+
+  // ── สุ่ม config หลัง mount (ทุก level) ──────────────────────
+  useEffect(() => {
+    if (!LEVEL_SPECS[levelNum]) return;
+    const newConfig = buildLevelConfig(levelNum);
+    setRandomLevelConfig(newConfig);
+    setCounts(Object.fromEntries(newConfig.shapeTypes.map((t) => [t, 0])) as Record<ShapeType, number>);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [levelNum]);
 
   // ── timer (silent) ──────────────────────────────────────
   useEffect(() => {
@@ -66,6 +97,7 @@ export default function CountingClassificationGamePage({
 
   // ── ตรวจคำตอบ ────────────────────────────────────────────
   const handleSubmit = () => {
+    if (!config) return;
     const newAttempts = attempts + 1;
     setAttempts(newAttempts);
 
@@ -112,7 +144,9 @@ export default function CountingClassificationGamePage({
 
   // ── retry ────────────────────────────────────────────────
   const handleRetry = () => {
-    setCounts(initCounts());
+    const newCfg = buildLevelConfig(levelNum);
+    setRandomLevelConfig(newCfg);
+    setCounts(Object.fromEntries(newCfg.shapeTypes.map((t) => [t, 0])) as Record<ShapeType, number>);
     setSubmitted(false);
     setElapsed(0);
     setAttempts(0);
@@ -120,7 +154,7 @@ export default function CountingClassificationGamePage({
     setShowWrongOverlay(false);
   };
 
-  if (!config) {
+  if (!LEVEL_SPECS[levelNum]) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#131F24]">
         <div className="flex flex-col items-center text-center gap-4">
@@ -133,6 +167,14 @@ export default function CountingClassificationGamePage({
             กลับหน้าหลัก
           </button>
         </div>
+      </div>
+    );
+  }
+
+  if (!config) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#131F24]">
+        <div className="w-12 h-12 border-4 border-[#FF6B9D] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }

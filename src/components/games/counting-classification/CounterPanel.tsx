@@ -3,6 +3,7 @@
 import { TiltButton } from "react-tilt-button";
 import { type ShapeType } from "@/constants/games/counting-classification-levels";
 import { CounterRow } from "./CounterRow";
+import { FaPlay } from "react-icons/fa";
 
 interface CounterPanelProps {
     shapeTypes: ShapeType[];
@@ -65,7 +66,7 @@ export function CounterPanel({
                     disabled={disabled}
                 >
                     <span className="font-extrabold text-base sm:text-lg tracking-wide flex items-center justify-center gap-2 drop-shadow-sm">
-                        ส่งคำตอบ!
+                        <FaPlay className="w-4 h-4" /> ยืนยัน!
                     </span>
                 </TiltButton>
             </div>

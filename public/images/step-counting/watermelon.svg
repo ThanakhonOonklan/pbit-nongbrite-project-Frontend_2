@@ -1,0 +1,55 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Outer body gradient (dark green) -->
+    <radialGradient id="wmBody" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#66C244" />
+      <stop offset="55%" stop-color="#2E8B00" />
+      <stop offset="100%" stop-color="#1A5C00" />
+    </radialGradient>
+    <!-- Highlight -->
+    <radialGradient id="wmHighlight" cx="25%" cy="25%" r="40%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </radialGradient>
+    <!-- Leaf gradient -->
+    <linearGradient id="wmLeaf" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#55991A" />
+      <stop offset="100%" stop-color="#88D13D" />
+    </linearGradient>
+    <!-- Clip to main circle -->
+    <clipPath id="wmClip">
+      <circle cx="60" cy="65" r="42" />
+    </clipPath>
+  </defs>
+
+  <!-- Drop shadow -->
+  <ellipse cx="60" cy="105" rx="35" ry="10" fill="#000000" opacity="0.1" />
+
+  <!-- Main body -->
+  <circle cx="60" cy="65" r="42" fill="url(#wmBody)" />
+
+  <!-- Light green stripes clipped inside the circle -->
+  <g clip-path="url(#wmClip)">
+    <path d="M60 23 C62 44 62 86 60 107" stroke="#5CBF3A" stroke-width="9" fill="none" opacity="0.65" />
+    <path d="M60 23 C74 46 76 88 68 106" stroke="#5CBF3A" stroke-width="8" fill="none" opacity="0.55" />
+    <path d="M60 23 C46 46 44 88 52 106" stroke="#5CBF3A" stroke-width="8" fill="none" opacity="0.55" />
+    <path d="M60 23 C88 50 92 84 78 104" stroke="#5CBF3A" stroke-width="7" fill="none" opacity="0.4" />
+    <path d="M60 23 C32 50 28 84 42 104" stroke="#5CBF3A" stroke-width="7" fill="none" opacity="0.4" />
+    <path d="M60 23 C100 54 100 82 88 102" stroke="#5CBF3A" stroke-width="5" fill="none" opacity="0.3" />
+    <path d="M60 23 C20 54 20 82 32 102" stroke="#5CBF3A" stroke-width="5" fill="none" opacity="0.3" />
+  </g>
+
+  <!-- Highlight -->
+  <circle cx="60" cy="65" r="42" fill="url(#wmHighlight)" />
+
+  <!-- Stem -->
+  <path d="M60 25 C60 20 62 18 64 16" fill="none" stroke="#5E3A19" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Leaf -->
+  <path d="M62 22 C75 10 95 15 90 30 C85 45 68 35 62 22 Z" fill="url(#wmLeaf)" />
+  <!-- Leaf vein -->
+  <path d="M62 22 C70 25 80 26 85 28" fill="none" stroke="#3A6A0F" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+
+  <!-- Stem base -->
+  <circle cx="60" cy="25" r="3" fill="#3B200B" />
+</svg>
