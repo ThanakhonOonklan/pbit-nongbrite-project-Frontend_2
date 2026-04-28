@@ -15,6 +15,7 @@ interface PathMapProps {
     /** 'fall' = hit boundary, 'stumble' = hit rock, 'none' = normal */
     failType?: "none" | "fall" | "stumble";
     fallDir?: Direction | null;
+    isRunning?: boolean;
 }
 
 function samePos(a: PathTile, b: PathTile) {
@@ -31,6 +32,7 @@ export function PathMap({
     hasNongBrite = false,
     failType = "none",
     fallDir = null,
+    isRunning = false,
 }: PathMapProps) {
     const isBlocked = (row: number, col: number) =>
         blockedTiles.some(t => t.row === row && t.col === col);
@@ -69,16 +71,16 @@ export function PathMap({
     })();
 
     const playerLeft = playerPos.col * cellPx;
-    const playerTop  = playerPos.row * cellPx;
+    const playerTop = playerPos.row * cellPx;
     const nongBriteLeft = nongBritePos.col * cellPx;
-    const nongBriteTop  = nongBritePos.row * cellPx;
+    const nongBriteTop = nongBritePos.row * cellPx;
     const homeLeft = homePos.col * cellPx;
-    const homeTop  = homePos.row * cellPx;
+    const homeTop = homePos.row * cellPx;
 
     const showNongBriteOnTile = !hasNongBrite && !samePos(playerPos, nongBritePos);
     const isPlayerAtHome = samePos(playerPos, homePos);
 
-    const isFalling   = failType === "fall";
+    const isFalling = failType === "fall";
     const isStumbling = failType === "stumble";
 
     // Player wrapper style — fall shrinks+fades, stumble uses CSS animation
@@ -95,9 +97,11 @@ export function PathMap({
                 transform: "scale(0.05) rotate(360deg)",
                 opacity: 0,
             }
-            : {
-                transition: "left 0.3s ease-in-out, top 0.3s ease-in-out",
-            }),
+            : isRunning
+                ? {
+                    transition: "left 0.3s ease-in-out, top 0.3s ease-in-out",
+                }
+                : {}),
     };
 
     void fallDir; // used only to trigger fall direction via playerPos offset in page
@@ -181,6 +185,17 @@ export function PathMap({
                     className={`absolute pointer-events-none ${isStumbling ? "player-stumble" : ""}`}
                     style={playerDivStyle}
                 >
+                    {/* Player indicator arrow */}
+                    {failType === "none" && (
+                        <div
+                            className="player-arrow absolute left-1/2"
+                            style={{ top: -Math.round(cellPx * 0.40), left: Math.round(cellPx * 0.54), zIndex: 22 }} // เอียงขวาเล็กน้อย
+                        >
+                            <svg width={Math.round(cellPx * 0.3)} height={Math.round(cellPx * 0.3)} viewBox="0 0 12 12" fill="none">
+                                <path d="M6 2 L10 8 L6 6.5 L2 8 Z" fill="#1CB0F6" stroke="#fff" strokeWidth="0.8" strokeLinejoin="round" />
+                            </svg>
+                        </div>
+                    )}
                     <Image
                         src={hasNongBrite ? "/images/P_Bit/bit-05.svg" : "/images/P_Bit/bit-02.svg"}
                         alt="Bit"
@@ -221,6 +236,12 @@ export function PathMap({
                     100% { transform: rotate(90deg)  translateY(18px) scale(0.7);  }
                 }
                 .player-stumble { animation: playerStumble 0.65s ease-in forwards; }
+
+                @keyframes playerArrowBounce {
+                    0%, 100% { transform: translateX(-50%) translateY(0px); }
+                    50%       { transform: translateX(-50%) translateY(-4px); }
+                }
+                .player-arrow { animation: playerArrowBounce 0.9s ease-in-out infinite; }
             `}</style>
         </div>
     );
