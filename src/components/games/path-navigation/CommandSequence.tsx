@@ -27,7 +27,7 @@ const directionIcons: Record<Direction, React.ReactNode> = {
 
 const VALID_DIRECTIONS: Direction[] = ["up", "down", "left", "right"];
 const GAP = 8;
-const MAX_COMMANDS = 27; // fixed across all screen sizes
+const MAX_COMMANDS = 35;
 
 export function CommandSequence({
     commands,
@@ -142,17 +142,17 @@ export function CommandSequence({
                                 glareWidth={0}
                                 onClick={() => !disabled && onRemoveCommand(index)}
                             >
-                                {directionIcons[cmd]}
+                                <div className="relative w-5 h-5">
+                                    <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-150 ${!disabled ? "group-hover:opacity-0" : ""}`}>
+                                        {directionIcons[cmd]}
+                                    </div>
+                                    {!disabled && (
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                                            <FaTimes className="w-4 h-4 text-red-400" />
+                                        </div>
+                                    )}
+                                </div>
                             </TiltButton>
-                            {/* Remove badge */}
-                            {!disabled && (
-                                <button
-                                    onClick={(e) => { e.stopPropagation(); onRemoveCommand(index); }}
-                                    className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                                >
-                                    <FaTimes className="w-2 h-2" />
-                                </button>
-                            )}
                         </div>
                     ))}
 

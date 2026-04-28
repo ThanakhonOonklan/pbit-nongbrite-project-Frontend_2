@@ -1,6 +1,6 @@
 "use client";
 
-import { FaEraser, FaPaintBrush, FaFillDrip, FaTrashAlt } from "react-icons/fa";
+import { FaEraser, FaPaintBrush, FaFillDrip, FaTrashAlt, FaPlay } from "react-icons/fa";
 import { Undo2, Redo2 } from "lucide-react";
 import { type DrawingMode } from "./GridColoringGame";
 import { TiltButton } from "react-tilt-button";
@@ -169,7 +169,9 @@ export function ColorPalette({
             borderWidth={0}
             style={{ pointerEvents: isCheckDisabled ? 'none' : 'auto' }}
           >
-            ยืนยัน
+            <span className="font-bold text-base flex items-center justify-center gap-2 drop-shadow-sm">
+              <FaPlay className="w-4 h-4" /> ยืนยัน!
+            </span>
           </TiltButton>
         </div>
       )}

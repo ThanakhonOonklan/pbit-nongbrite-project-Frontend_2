@@ -1,4 +1,4 @@
-import { FaCheck, FaRedo } from "react-icons/fa";
+import { FaCheck, FaPlay, FaRedo } from "react-icons/fa";
 import { TiltButton } from "react-tilt-button";
 
 interface GameControlsProps {
@@ -53,7 +53,7 @@ export function GameControls({
           disabled={!isAllFilled || isCompleted}
         >
           <span className="font-bold text-xl flex items-center justify-center gap-2 drop-shadow-sm">
-            <FaCheck className="w-5 h-5" /> ตรวจสอบ
+            <FaPlay className="w-4 h-4" /> ยืนยัน!
           </span>
         </TiltButton>
       </div>

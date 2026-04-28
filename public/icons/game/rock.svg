@@ -1,14 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <!-- Shadow -->
-  <ellipse cx="32" cy="56" rx="18" ry="5" fill="rgba(0,0,0,0.15)"/>
-  <!-- Main rock body -->
-  <path d="M10 44 Q6 36 12 26 Q16 16 26 12 Q34 8 44 14 Q54 20 56 32 Q58 44 50 50 Q40 58 26 56 Q14 54 10 44Z" fill="#8B7355"/>
-  <!-- Mid tone -->
-  <path d="M14 42 Q11 34 16 26 Q20 18 30 15 Q38 12 46 18 Q53 24 53 34 Q53 44 46 49 Q38 54 27 52 Q16 50 14 42Z" fill="#A08060"/>
+  <ellipse cx="32" cy="56" rx="20" ry="6" fill="rgba(0,0,0,0.15)"/>
+  
+  <!-- Base dark brown (Bottom Right) -->
+  <path d="M12 46 L8 30 L20 12 L44 14 L56 28 L52 48 L34 56 L18 54 Z" fill="#6B5540" stroke="#6B5540" stroke-width="4" stroke-linejoin="round"/>
+  
+  <!-- Main body (Mid brown) -->
+  <path d="M12 46 L8 30 L20 12 L44 14 L36 28 L30 40 L20 54 Z" fill="#8B7355" stroke="#8B7355" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- Light face (Top) -->
+  <path d="M20 12 L44 14 L32 24 L22 20 Z" fill="#A08060" stroke="#A08060" stroke-width="2" stroke-linejoin="round"/>
+
   <!-- Highlight -->
-  <path d="M22 20 Q28 14 36 16 Q44 18 48 26 Q44 18 36 17 Q28 16 22 20Z" fill="#C4A882" opacity="0.7"/>
-  <!-- Cracks -->
-  <path d="M28 22 L32 30 L38 34" stroke="#6B5540" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M20 34 L26 38" stroke="#6B5540" stroke-width="1" fill="none" stroke-linecap="round"/>
-  <path d="M38 40 L44 44" stroke="#6B5540" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <path d="M24 15 L36 16 L30 20 Z" fill="#C4A882"/>
+
+  <!-- Cracks / Textures -->
+  <path d="M36 28 L44 38 L36 50" stroke="#4E3C2D" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 38 L52 34" stroke="#4E3C2D" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M24 36 L28 44 L20 50" stroke="#4E3C2D" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14 26 L20 30" stroke="#4E3C2D" stroke-width="1.5" fill="none" stroke-linecap="round"/>
 </svg>

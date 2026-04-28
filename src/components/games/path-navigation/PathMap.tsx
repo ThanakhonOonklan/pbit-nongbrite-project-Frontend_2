@@ -185,6 +185,17 @@ export function PathMap({
                     className={`absolute pointer-events-none ${isStumbling ? "player-stumble" : ""}`}
                     style={playerDivStyle}
                 >
+                    {/* Player indicator arrow */}
+                    {failType === "none" && (
+                        <div
+                            className="player-arrow absolute left-1/2"
+                            style={{ top: -Math.round(cellPx * 0.40), left: Math.round(cellPx * 0.54), zIndex: 22 }} // เอียงขวาเล็กน้อย
+                        >
+                            <svg width={Math.round(cellPx * 0.3)} height={Math.round(cellPx * 0.3)} viewBox="0 0 12 12" fill="none">
+                                <path d="M6 2 L10 8 L6 6.5 L2 8 Z" fill="#1CB0F6" stroke="#fff" strokeWidth="0.8" strokeLinejoin="round" />
+                            </svg>
+                        </div>
+                    )}
                     <Image
                         src={hasNongBrite ? "/images/P_Bit/bit-05.svg" : "/images/P_Bit/bit-02.svg"}
                         alt="Bit"
@@ -225,6 +236,12 @@ export function PathMap({
                     100% { transform: rotate(90deg)  translateY(18px) scale(0.7);  }
                 }
                 .player-stumble { animation: playerStumble 0.65s ease-in forwards; }
+
+                @keyframes playerArrowBounce {
+                    0%, 100% { transform: translateX(-50%) translateY(0px); }
+                    50%       { transform: translateX(-50%) translateY(-4px); }
+                }
+                .player-arrow { animation: playerArrowBounce 0.9s ease-in-out infinite; }
             `}</style>
         </div>
     );
