@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Water Background -->
+  <path d="M0 256 Q 128 200, 256 256 T 512 256 L 512 512 L 0 512 Z" fill="#0EA5E9" opacity="0.3"/>
+  <!-- Flippers -->
+  <ellipse cx="140" cy="200" rx="30" ry="80" fill="#15803D" transform="rotate(-60 140 200)"/>
+  <ellipse cx="372" cy="200" rx="30" ry="80" fill="#15803D" transform="rotate(60 372 200)"/>
+  <ellipse cx="180" cy="340" rx="20" ry="60" fill="#15803D" transform="rotate(-40 180 340)"/>
+  <ellipse cx="332" cy="340" rx="20" ry="60" fill="#15803D" transform="rotate(40 332 340)"/>
+  <!-- Tail -->
+  <polygon points="246,360 266,360 256,400" fill="#15803D"/>
+  <!-- Shell -->
+  <ellipse cx="256" cy="270" rx="90" ry="110" fill="#22C55E"/>
+  <path d="M216 210 L296 210 L316 270 L296 330 L216 330 L196 270 Z" fill="#16A34A"/>
+  <!-- Head -->
+  <circle cx="256" cy="130" r="40" fill="#15803D"/>
+  <circle cx="236" cy="120" r="8" fill="#FFFFFF"/>
+  <circle cx="276" cy="120" r="8" fill="#FFFFFF"/>
+  <circle cx="236" cy="120" r="4" fill="#1F2937"/>
+  <circle cx="276" cy="120" r="4" fill="#1F2937"/>
+</svg>

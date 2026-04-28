@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Leaf Background -->
+  <path d="M100 400 Q256 500 412 400 C450 350, 450 150, 256 100 C62 150, 62 350, 100 400 Z" fill="#22C55E" opacity="0.6" />
+  <!-- Leaf Vein -->
+  <path d="M256 100 L256 420" stroke="#16A34A" stroke-width="12" fill="none" stroke-linecap="round" />
+  
+  <!-- Pupa Attached to Leaf -->
+  <!-- Base Attachment -->
+  <path d="M220 380 Q256 410 292 380" stroke="#451A03" stroke-width="8" fill="none" stroke-linecap="round" />
+  
+  <!-- Pupa Body (Orange/Yellowish Oval) -->
+  <ellipse cx="256" cy="260" rx="80" ry="120" fill="#F97316" />
+  
+  <!-- Pupa Segments & Spots -->
+  <path d="M185 200 Q256 220 327 200" stroke="#EA580C" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M176 250 Q256 270 336 250" stroke="#EA580C" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M185 300 Q256 320 327 300" stroke="#EA580C" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M205 340 Q256 360 307 340" stroke="#EA580C" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Black Spots -->
+  <circle cx="220" cy="180" r="12" fill="#1F2937" />
+  <circle cx="292" cy="180" r="12" fill="#1F2937" />
+  <circle cx="200" cy="230" r="10" fill="#1F2937" />
+  <circle cx="312" cy="230" r="10" fill="#1F2937" />
+  <circle cx="220" cy="280" r="14" fill="#1F2937" />
+  <circle cx="292" cy="280" r="14" fill="#1F2937" />
+  <circle cx="256" cy="320" r="10" fill="#1F2937" />
+  
+  <!-- Upper Pupa Details -->
+  <path d="M210 140 C256 120, 256 120, 302 140" stroke="#1F2937" stroke-width="12" fill="none" stroke-linecap="round" />
+</svg>

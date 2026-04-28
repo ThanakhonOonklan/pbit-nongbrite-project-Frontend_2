@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Tiny snake curled up -->
+  <path d="M256 350 C320 350, 320 270, 256 270 C200 270, 200 210, 256 210" stroke="#22C55E" stroke-width="15" fill="none" stroke-linecap="round"/>
+  <!-- Head -->
+  <circle cx="256" cy="210" r="15" fill="#22C55E"/>
+  <circle cx="250" cy="205" r="3" fill="#1F2937"/>
+  <!-- Tongue -->
+  <path d="M256 195 L256 185 L250 180 M256 185 L262 180" stroke="#EF4444" stroke-width="2" fill="none"/>
+</svg>

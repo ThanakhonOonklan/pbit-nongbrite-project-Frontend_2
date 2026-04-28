@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <ellipse cx="256" cy="400" rx="200" ry="50" fill="#E2E8F0" />
+  <ellipse cx="256" cy="380" rx="100" ry="25" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="4"/>
+  <ellipse cx="256" cy="385" rx="60" ry="15" fill="#F1F5F9" />
+  
+  <!-- Teacup -->
+  <path d="M186 280 C186 380, 206 380, 256 380 C306 380, 326 380, 326 280 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <path d="M326 300 C366 290, 376 340, 326 350" stroke="#E2E8F0" stroke-width="15" fill="none" stroke-linecap="round" />
+  
+  <!-- Rich Dark Tea Liquid -->
+  <ellipse cx="256" cy="280" rx="70" ry="20" fill="#F1F5F9" />
+  <ellipse cx="256" cy="285" rx="65" ry="18" fill="#92400E" /> <!-- Amber/Brown rich tea color -->
+  <ellipse cx="256" cy="285" rx="55" ry="14" fill="#B45309" opacity="0.5"/> <!-- Lighter center reflection -->
+  
+  <!-- Tea bag removed (Not in picture, ready to drink) -->
+  
+  <!-- Steam (more prominent, ready to drink) -->
+  <path d="M220 260 C200 180, 250 120, 230 40" stroke="#E2E8F0" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M256 250 C236 170, 286 110, 266 30" stroke="#E2E8F0" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <path d="M292 260 C272 180, 322 120, 302 40" stroke="#E2E8F0" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.7"/>
+  
+  <!-- A couple of leaves/flowers beside the cup for aesthetic -->
+  <path d="M160 380 C140 370, 120 380, 130 400 C150 410, 170 400, 160 380 Z" fill="#22C55E" />
+  <path d="M145 390 L135 390" stroke="#16A34A" stroke-width="2" fill="none" />
+  <path d="M360 370 C380 360, 400 370, 390 390 C370 400, 350 390, 360 370 Z" fill="#22C55E" />
+  <path d="M375 380 L385 380" stroke="#16A34A" stroke-width="2" fill="none" />
+</svg>

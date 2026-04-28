@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M50 420 Q256 370 462 420 L462 512 L50 512 Z" fill="#78350F" /> 
+  
+  <!-- Medium Tree (Grow 2) -->
+  <path d="M256 400 Q260 200 256 100" stroke="#713F12" stroke-width="25" stroke-linecap="round" fill="none"/>
+  
+  <!-- Branches -->
+  <path d="M256 250 Q180 200 120 150" stroke="#713F12" stroke-width="15" stroke-linecap="round" fill="none"/>
+  <path d="M256 180 Q330 150 380 100" stroke="#713F12" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M180 205 Q140 160 100 140" stroke="#713F12" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M330 135 Q360 80 400 80" stroke="#713F12" stroke-width="8" stroke-linecap="round" fill="none"/>
+  
+  <!-- Leaf Clusters (Bushes of leaves) -->
+  <!-- Left -->
+  <circle cx="120" cy="150" r="40" fill="#22C55E" />
+  <circle cx="100" cy="140" r="30" fill="#4ADE80" />
+  <!-- Right -->
+  <circle cx="380" cy="100" r="45" fill="#22C55E" />
+  <circle cx="400" cy="80" r="35" fill="#16A34A" />
+  <!-- Top -->
+  <circle cx="256" cy="100" r="50" fill="#22C55E" />
+  <circle cx="230" cy="80" r="40" fill="#4ADE80" />
+  <circle cx="280" cy="90" r="30" fill="#16A34A" />
+</svg>

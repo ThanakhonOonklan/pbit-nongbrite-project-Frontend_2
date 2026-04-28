@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sand Background -->
+  <path d="M0 300 Q 128 250, 256 300 T 512 300 L 512 512 L 0 512 Z" fill="#FDE047" opacity="0.6"/>
+  <!-- Nest hole -->
+  <ellipse cx="256" cy="350" rx="120" ry="40" fill="#CA8A04" opacity="0.3"/>
+  <!-- Eggs -->
+  <circle cx="200" cy="340" r="25" fill="#FFFFFF"/>
+  <circle cx="240" cy="330" r="25" fill="#FFFFFF"/>
+  <circle cx="280" cy="340" r="25" fill="#FFFFFF"/>
+  <circle cx="220" cy="360" r="25" fill="#F8FAFC"/>
+  <circle cx="260" cy="370" r="25" fill="#F8FAFC"/>
+  <circle cx="300" cy="360" r="25" fill="#F8FAFC"/>
+  <circle cx="250" cy="350" r="25" fill="#FFFFFF"/>
+</svg>

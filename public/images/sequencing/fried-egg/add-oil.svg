@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Pan -->
+  <path d="M156 380 L356 380 C356 430, 316 450, 256 450 C196 450, 156 430, 156 380 Z" fill="#1E293B" />
+  <ellipse cx="256" cy="380" rx="100" ry="25" fill="#334155" />
+  <path d="M356 380 L480 350" stroke="#0F172A" stroke-width="20" stroke-linecap="round" />
+  
+  <!-- Oil puddle forming -->
+  <ellipse cx="256" cy="385" rx="40" ry="15" fill="#FEF08A" opacity="0.8" />
+  
+  <!-- Oil pouring down -->
+  <path d="M256 200 L256 370" stroke="#FEF08A" stroke-width="15" fill="none" opacity="0.8"/>
+  
+  <!-- Oil Bottle (Tilted) -->
+  <g transform="translate(40, -10)">
+    <path d="M260 80 L320 50 L340 100 L280 130 Z" fill="#E2E8F0" opacity="0.6" />
+    <!-- Bottle body -->
+    <path d="M280 130 C280 130, 360 260, 360 260 C380 290, 420 270, 400 240 L340 100 Z" fill="#FEF08A" opacity="0.7"/>
+    <path d="M280 130 C280 130, 360 260, 360 260 C380 290, 420 270, 400 240 L340 100 Z" stroke="#E2E8F0" stroke-width="4" fill="none"/>
+    <!-- Label -->
+    <path d="M310 180 L360 150 L380 180 L330 210 Z" fill="#FFFFFF" />
+    <circle cx="345" cy="180" r="10" fill="#22C55E" />
+    <!-- Cap -->
+    <path d="M250 100 L270 90 L260 70 L240 80 Z" fill="#475569" />
+  </g>
+</svg>

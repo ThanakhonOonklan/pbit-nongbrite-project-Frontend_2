@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Leaf Background -->
+  <path d="M100 400 Q256 500 412 400 C450 350, 450 150, 256 100 C62 150, 62 350, 100 400 Z" fill="#22C55E" />
+  <!-- Leaf Veins -->
+  <path d="M256 100 L256 420" stroke="#16A34A" stroke-width="12" fill="none" stroke-linecap="round" />
+  <path d="M256 200 L180 150 M256 250 L160 210 M256 300 L170 270 M256 350 L190 330" stroke="#16A34A" stroke-width="8" fill="none" stroke-linecap="round" />
+  <path d="M256 200 L332 150 M256 250 L352 210 M256 300 L342 270 M256 350 L322 330" stroke="#16A34A" stroke-width="8" fill="none" stroke-linecap="round" />
+  
+  <!-- Egg Cluster (Yellow Ovals standing up) -->
+  <ellipse cx="230" cy="270" rx="15" ry="30" fill="#FDE047" transform="rotate(-15 230 270)" />
+  <ellipse cx="280" cy="280" rx="15" ry="30" fill="#FDE047" transform="rotate(20 280 280)" />
+  <ellipse cx="256" cy="250" rx="15" ry="30" fill="#FEF08A" />
+  <ellipse cx="210" cy="290" rx="15" ry="30" fill="#FACC15" transform="rotate(-25 210 290)" />
+  <ellipse cx="300" cy="290" rx="15" ry="30" fill="#FACC15" transform="rotate(25 300 290)" />
+  <ellipse cx="240" cy="290" rx="15" ry="30" fill="#FEF08A" transform="rotate(-5 240 290)" />
+  <ellipse cx="270" cy="300" rx="15" ry="30" fill="#FEF08A" transform="rotate(10 270 300)" />
+</svg>

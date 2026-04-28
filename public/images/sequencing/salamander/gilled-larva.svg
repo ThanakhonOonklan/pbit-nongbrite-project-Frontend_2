@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <path d="M100 450 C200 350, 400 400, 500 450 Z" fill="#94A3B8" />
+  
+  <g transform="translate(20, -20)">
+    <!-- Long Tadpole-like Tail with Fin -->
+    <path d="M256 256 C350 256, 450 300, 420 350 C380 400, 300 300, 256 256 Z" fill="#CBD5E1" opacity="0.5"/>
+    <path d="M256 256 C320 260, 400 300, 420 320" stroke="#64748B" stroke-width="12" fill="none" stroke-linecap="round"/>
+    
+    <!-- Body -->
+    <ellipse cx="220" cy="250" rx="60" ry="30" fill="#64748B" />
+    <!-- Yellowish belly -->
+    <ellipse cx="220" cy="265" rx="50" ry="15" fill="#FEF08A" opacity="0.8"/>
+    
+    <!-- Head -->
+    <ellipse cx="150" cy="250" rx="35" ry="25" fill="#64748B" />
+    
+    <!-- External Gills (Feathery pink things behind head) -->
+    <!-- Top Gill -->
+    <path d="M170 230 C190 190, 220 180, 240 190" stroke="#F472B6" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M190 210 L210 190 M200 220 L220 200 M210 230 L230 210" stroke="#F472B6" stroke-width="3" fill="none" />
+    <!-- Middle Gill -->
+    <path d="M175 240 C210 210, 240 220, 260 230" stroke="#F472B6" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M195 230 L220 210 M210 235 L235 215 M225 240 L245 225" stroke="#F472B6" stroke-width="3" fill="none" />
+    <!-- Bottom Gill -->
+    <path d="M170 260 C200 260, 240 270, 250 290" stroke="#F472B6" stroke-width="6" fill="none" stroke-linecap="round"/>
+    
+    <!-- Eye -->
+    <circle cx="140" cy="245" r="8" fill="#111827" />
+    <circle cx="137" cy="242" r="2" fill="#FFFFFF" />
+  </g>
+</svg>

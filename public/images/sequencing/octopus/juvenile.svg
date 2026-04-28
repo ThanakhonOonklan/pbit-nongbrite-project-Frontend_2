@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <path d="M100 450 C200 350, 400 400, 500 450 Z" fill="#94A3B8" />
+  
+  <g transform="translate(0, 20)">
+    <!-- Longer, thicker arms showing suckers -->
+    <!-- Arm 1 -->
+    <path d="M180 300 C80 350, 60 400, 120 440" stroke="#DB2777" stroke-width="25" fill="none" stroke-linecap="round"/>
+    <circle cx="110" cy="400" r="4" fill="#FFFFFF" opacity="0.6"/>
+    <!-- Arm 2 -->
+    <path d="M220 310 C150 400, 180 450, 220 440" stroke="#DB2777" stroke-width="25" fill="none" stroke-linecap="round"/>
+    <circle cx="190" cy="420" r="4" fill="#FFFFFF" opacity="0.6"/>
+    <!-- Arm 3 -->
+    <path d="M256 320 C256 420, 280 460, 270 450" stroke="#DB2777" stroke-width="25" fill="none" stroke-linecap="round"/>
+    <!-- Arm 4 -->
+    <path d="M292 310 C360 400, 330 450, 292 440" stroke="#DB2777" stroke-width="25" fill="none" stroke-linecap="round"/>
+    <!-- Arm 5 -->
+    <path d="M332 300 C432 350, 452 400, 392 440" stroke="#DB2777" stroke-width="25" fill="none" stroke-linecap="round"/>
+    <circle cx="400" cy="400" r="4" fill="#FFFFFF" opacity="0.6"/>
+    
+    <!-- Body -->
+    <path d="M166 180 C166 80, 346 80, 346 180 C346 280, 256 320, 256 320 C256 320, 166 280, 166 180 Z" fill="#EC4899" />
+    
+    <!-- Spots -->
+    <circle cx="210" cy="130" r="10" fill="#9D174D" opacity="0.4"/>
+    <circle cx="270" cy="150" r="12" fill="#9D174D" opacity="0.4"/>
+    <circle cx="310" cy="120" r="8" fill="#9D174D" opacity="0.4"/>
+    <circle cx="240" cy="100" r="6" fill="#9D174D" opacity="0.4"/>
+    
+    <!-- Eyes -->
+    <path d="M190 230 C190 210, 230 210, 230 230" fill="#FCE7F3" />
+    <path d="M282 230 C282 210, 322 210, 322 230" fill="#FCE7F3" />
+    <ellipse cx="210" cy="235" rx="20" ry="15" fill="#0F172A" />
+    <ellipse cx="302" cy="235" rx="20" ry="15" fill="#0F172A" />
+    <rect x="200" y="233" width="20" height="4" fill="#FFFFFF" rx="2" />
+    <rect x="292" y="233" width="20" height="4" fill="#FFFFFF" rx="2" />
+  </g>
+</svg>

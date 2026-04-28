@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M50 100 L462 100 L462 480 L50 480 Z" fill="#94A3B8" rx="20"/>
+  <path d="M70 120 L442 120 L442 300 L70 300 Z" fill="#E2E8F0" />
+  
+  <path d="M150 200 L350 200 L350 480 L150 480 Z" fill="#334155" rx="20"/>
+  <path d="M200 120 L300 120 L300 180 L200 180 Z" fill="#334155" rx="20"/>
+  <path d="M230 180 L230 200 M270 180 L270 200" stroke="#94A3B8" stroke-width="8" />
+  
+  <g transform="translate(250, 200)">
+    <path d="M-40 80 L40 80 L40 220 L-40 220 Z" fill="#3B82F6" rx="20"/>
+    <circle cx="0" cy="20" r="35" fill="#FCA5A5" />
+    <circle cx="-10" cy="15" r="4" fill="#000000" />
+    <circle cx="10" cy="15" r="4" fill="#000000" />
+    <path d="M-10 30 Q0 40 10 30" stroke="#000000" stroke-width="3" fill="none" stroke-linecap="round"/>
+    
+    <rect x="50" y="160" width="15" height="30" fill="#EF4444" rx="3" />
+    
+    <!-- Seatbelt clicked in -->
+    <path d="M-80 50 L50 160" stroke="#1E293B" stroke-width="15" />
+    <path d="M-80 220 L50 170" stroke="#1E293B" stroke-width="15" /> 
+    <rect x="40" y="150" width="15" height="20" fill="#CBD5E1" transform="rotate(-40 40 150)"/>
+    
+    <!-- "Click!" effect -->
+    <path d="M60 140 L80 120 M75 160 L100 150 M65 180 L85 190" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/>
+    
+    <path d="M40 100 L45 150" stroke="#FCA5A5" stroke-width="15" stroke-linecap="round"/>
+    <path d="M-40 100 L-60 180" stroke="#FCA5A5" stroke-width="15" stroke-linecap="round"/>
+    
+    <path d="M-20 220 L-20 280 M20 220 L20 280" stroke="#1D4ED8" stroke-width="20" stroke-linecap="round"/>
+  </g>
+</svg>
