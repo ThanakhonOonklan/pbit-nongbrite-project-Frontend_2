@@ -1,21 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import { type ShapePlacement } from "@/constants/games/counting-classification-levels";
 import { ShapeIcon } from "./ShapeIcon";
-
-import SkyGradientSvg from "./decorate/sky-gradient.svg";
-import GrassStripSvg from "./decorate/grass-strip.svg";
-import CloudPinkSvg from "./decorate/cloud-pink.svg";
-import FlowerPinkSvg from "./decorate/flower-pink.svg";
-import BushSmallSvg from "./decorate/bush-small.svg";
 
 interface ShapeSceneProps {
     placements: ShapePlacement[];
 }
 
 /**
- * พื้นที่แสดงรูปทรงฝั่งซ้าย (Theme: Soft Meadow วงกตหญ้าสีชมพู)
+ * พื้นที่แสดงรูปทรงฝั่งซ้าย (Theme: Pink Toy Room ห้องของเล่นธีมชมพู)
  * รูปทรงแต่ละตัวถูกวางตายตัวตาม x%, y% และ size ใน config
  */
 export function ShapeScene({ placements }: ShapeSceneProps) {
@@ -29,6 +22,20 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
         return Math.abs(Math.sin(hash));
     };
 
+    // ── ดาวกะพริบ 14 ดวง (deterministic positions) ─────────────────
+    const STAR_COUNT = 14;
+    const stars = Array.from({ length: STAR_COUNT }, (_, i) => {
+        const sid = `star_${i}`;
+        return {
+            id: sid,
+            x: +(getDeterministicRandom(sid + 'x') * 92 + 2).toFixed(2),
+            y: +(getDeterministicRandom(sid + 'y') * 88 + 2).toFixed(2),
+            size: +(getDeterministicRandom(sid + 's') * 10 + 8).toFixed(2),
+            delay: `${+(getDeterministicRandom(sid + 'd') * 3).toFixed(2)}s`,
+            duration: `${+(1.5 + getDeterministicRandom(sid + 'dur') * 1.5).toFixed(2)}s`,
+        };
+    });
+
     return (
         <div className="flex flex-col h-full relative">
 
@@ -37,42 +44,39 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
 
                 {/* Header overlay inside scene */}
                 <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-center pt-2 pb-1 pointer-events-none">
-                    <span className="text-sm sm:text-base font-bold text-[#FF6B9D] tracking-wide">
+                    <span className="text-sm sm:text-base font-bold text-white tracking-wide drop-shadow-[0_1px_3px_rgba(180,0,80,0.4)]">
                         มองหาและนับรูปทรงในภาพ!
                     </span>
                 </div>
 
-                {/* 1. Background */}
-                <div className="absolute inset-0 z-0 pointer-events-none">
-                    <Image src={SkyGradientSvg} alt="Sky" fill className="object-cover" />
-                </div>
+                {/* 1. Background — Pink Toy Room gradient */}
+                <div
+                    className="absolute inset-0 z-0 pointer-events-none"
+                    style={{ background: "linear-gradient(160deg, #FFD6E7 0%, #FFADD6 55%, #FF80C0 100%)" }}
+                />
 
-                {/* 2. เมฆ */}
+                {/* 2. ดาวกะพริบ */}
                 <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-                    <Image src={CloudPinkSvg} alt="Cloud" width={150} height={90} className="absolute top-[5%] left-[10%] opacity-80 animate-cloud-slow" />
-                    <Image src={CloudPinkSvg} alt="Cloud" width={100} height={60} className="absolute top-[18%] right-[15%] opacity-60 animate-cloud-med" style={{ transform: "scaleX(-1)" }} />
-                    <Image src={CloudPinkSvg} alt="Cloud" width={120} height={70} className="absolute top-[40%] left-[60%] opacity-70 animate-cloud-fast" />
+                    {stars.map((s) => (
+                        <div
+                            key={s.id}
+                            className="absolute select-none"
+                            style={{
+                                left: `${s.x}%`,
+                                top: `${s.y}%`,
+                                fontSize: `${s.size}px`,
+                                color: "#fff",
+                                textShadow: "0 0 8px #FFB6D9, 0 0 16px #FF80C0",
+                                transform: "translate(-50%, -50%)",
+                                animation: `twinkle ${s.duration} ease-in-out ${s.delay} infinite`,
+                            }}
+                        >
+                            ★
+                        </div>
+                    ))}
                 </div>
 
-                {/* 3. พื้นหญ้า */}
-                <div className="absolute bottom-0 left-0 right-0 z-0 pointer-events-none h-[40%]">
-                    <Image src={GrassStripSvg} alt="Grass" fill className="object-cover object-bottom" />
-                </div>
-
-                {/* 4. พุ่มไม้ + ดอกไม้ */}
-                <div className="absolute inset-0 z-0 pointer-events-none">
-                    {/* Bushes */}
-                    <Image src={BushSmallSvg} alt="Bush" width={80} height={50} className="absolute bottom-[-1px] left-[-10px]" />
-                    <Image src={BushSmallSvg} alt="Bush" width={100} height={65} className="absolute bottom-[-1px] right-[-15px]" style={{ transform: "scaleX(-1)" }} />
-
-                    {/* Flowers */}
-                    <Image src={FlowerPinkSvg} alt="Flower" width={30} height={30} className="absolute bottom-[10%] left-[15%]" />
-                    <Image src={FlowerPinkSvg} alt="Flower" width={20} height={20} className="absolute bottom-[25%] left-[8%]" />
-                    <Image src={FlowerPinkSvg} alt="Flower" width={40} height={40} className="absolute bottom-[5%] right-[20%]" />
-                    <Image src={FlowerPinkSvg} alt="Flower" width={30} height={30} className="absolute bottom-[15%] right-[5%]" />
-                </div>
-
-                {/* 5. รูปทรง — กระจายสุ่มทั่วฉาก + bobbing animation */}
+                {/* 3. รูปทรง — กระจายสุ่มทั่วฉาก + bobbing animation */}
                 <div className="absolute inset-0 z-10 pointer-events-none">
                     {(() => {
                         const n = placements.length;
@@ -134,20 +138,25 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
                                         height: `${finalSize}px`,
                                     }}
                                 >
-                                    <div className="w-full h-full responsive-shape-scale">
-                                        <div
-                                            className="w-full h-full animate-float-bob flex items-center justify-center"
-                                            style={{
-                                                animationDelay: animDelay,
-                                                animationDuration: animDuration,
-                                            }}
-                                        >
-                                            <ShapeIcon
-                                                type={p.type}
-                                                size={finalSize}
-                                                className="drop-shadow-md"
-                                                hoverable
-                                            />
+                                    <div
+                                        className="w-full h-full shape-pop-in"
+                                        style={{ animationDelay: `${(originalIndex * 0.1).toFixed(2)}s` }}
+                                    >
+                                        <div className="w-full h-full responsive-shape-scale">
+                                            <div
+                                                className="w-full h-full animate-float-bob flex items-center justify-center"
+                                                style={{
+                                                    animationDelay: animDelay,
+                                                    animationDuration: animDuration,
+                                                }}
+                                            >
+                                                <ShapeIcon
+                                                    type={p.type}
+                                                    size={finalSize}
+                                                    className="drop-shadow-md"
+                                                    hoverable
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -172,16 +181,22 @@ export function ShapeScene({ placements }: ShapeSceneProps) {
                     }
                 }
                     
-                @keyframes cloud-move {
-                    0% { transform: translateX(-50px); }
-                    50% { transform: translateX(30px); }
-                    100% { transform: translateX(-50px); }
+                @keyframes twinkle {
+                    0%, 100% { opacity: 0.25; transform: translate(-50%, -50%) scale(1); }
+                    50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.4); }
                 }
-                .animate-cloud-slow { animation: cloud-move 20s ease-in-out infinite; }
-                .animate-cloud-med { animation: cloud-move 15s ease-in-out infinite reverse; }
-                .animate-cloud-fast { animation: cloud-move 12s ease-in-out infinite; }
 
                 .animate-pulse-slow { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+                @keyframes pop-in {
+                    0%   { transform: scale(0);    opacity: 0; }
+                    55%  { transform: scale(1.28); opacity: 1; }
+                    75%  { transform: scale(0.88); }
+                    100% { transform: scale(1);    opacity: 1; }
+                }
+                .shape-pop-in {
+                    animation: pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+                }
 
                 /* ── shape-lift hover (ใส่ที่นี่ที่เดียว ไม่ inject ซ้ำต่อ instance) ── */
                 .shape-lift {
