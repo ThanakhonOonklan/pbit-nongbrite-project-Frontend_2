@@ -26,6 +26,7 @@ import {
 import { HelpButton } from "@/components/games/HelpButton";
 import {
   PATH_PATTERN_SETS,
+  pathNavLevels,
   type PathNavLevelConfig,
   type Direction,
   type PathTile,
@@ -70,13 +71,30 @@ export default function PathNavigationGamePage({
 
   // ── random pattern config ──────────────────────────────
   const [config, setConfig] = useState<PathNavLevelConfig | null>(null);
+  const [patternIndex, setPatternIndex] = useState(0);
 
   const pickPattern = useCallback(() => {
-    const patterns = PATH_PATTERN_SETS[levelNum];
-    if (!patterns || patterns.length === 0) { setConfig(null); return; }
-    const picked = patterns[Math.floor(Math.random() * patterns.length)];
-    setConfig(picked);  
-    setPlayerPos(picked.startPos);
+    // If the level uses the new combined config with patterns array (e.g. level 3)
+    const levelConfig = pathNavLevels[levelNum as keyof typeof pathNavLevels];
+    if (levelConfig?.patterns && levelConfig.patterns.length > 0) {
+      setConfig(levelConfig);
+      const newIdx = Math.floor(Math.random() * levelConfig.patterns.length);
+      setPatternIndex(newIdx);
+      const start = levelConfig.patterns[newIdx].startPos ?? levelConfig.startPos ?? {row:0, col:0};
+      setPlayerPos(start);
+      setHasNongBrite(false);
+      setCommands([]);
+      return;
+    }
+
+    // Otherwise fallback to old PATH_PATTERN_SETS
+    const patternSet = PATH_PATTERN_SETS[levelNum as keyof typeof PATH_PATTERN_SETS];
+    if (!patternSet || patternSet.length === 0) { setConfig(null); return; }
+    const pickedIdx = Math.floor(Math.random() * patternSet.length);
+    const picked = patternSet[pickedIdx];
+    setConfig(picked);
+    setPatternIndex(pickedIdx);
+    setPlayerPos(picked.startPos ?? { row: 0, col: 0 });
     setHasNongBrite(false);
     setCommands([]);
   }, [levelNum]);
@@ -98,6 +116,10 @@ export default function PathNavigationGamePage({
   const [playerFallDir, setPlayerFallDir] = useState<Direction | null>(null);
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
 
+  const activeStartPos = config?.patterns?.[patternIndex]?.startPos ?? config?.startPos ?? { row: 0, col: 0 };
+  const activeNongBritePos = config?.patterns?.[patternIndex]?.nongBritePos ?? config?.nongBritePos ?? { row: 0, col: 0 };
+  const activeBlockedTiles = config?.patterns?.[patternIndex]?.blockedTiles ?? config?.blockedTiles ?? [];
+
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 0, tolerance: 10 } })
@@ -114,15 +136,7 @@ export default function PathNavigationGamePage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);  // intentionally run once on mount
 
-  // ── pick random pattern before first paint (avoids visible flash) ──
-  useIsomorphicLayoutEffect(() => {
-    if (config?.patterns && config.patterns.length > 1) {
-      const idx = Math.floor(Math.random() * config.patterns.length);
-      setPatternIndex(idx);
-      setPlayerPos(config.patterns[idx].startPos);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
 
   // ── auto-dismiss overlays ─────────────────────────────
   useEffect(() => {
@@ -410,9 +424,9 @@ export default function PathNavigationGamePage({
                 gridCols={config.gridCols}
                 gridRows={config.gridRows}
                 playerPos={playerPos}
-                nongBritePos={config.nongBritePos}
+                nongBritePos={activeNongBritePos}
                 homePos={config.homePos}
-                blockedTiles={config.blockedTiles}
+                blockedTiles={activeBlockedTiles}
                 hasNongBrite={hasNongBrite}
                 failType={playerFailType}
                 fallDir={playerFallDir}
