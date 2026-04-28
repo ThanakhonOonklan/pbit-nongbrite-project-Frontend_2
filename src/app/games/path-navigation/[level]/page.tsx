@@ -25,7 +25,8 @@ import {
 } from "@/components/games/path-navigation";
 import { HelpButton } from "@/components/games/HelpButton";
 import {
-  pathNavLevels,
+  PATH_PATTERN_SETS,
+  type PathNavLevelConfig,
   type Direction,
   type PathTile,
 } from "@/constants/games/path-navigation-levels";
@@ -63,12 +64,24 @@ export default function PathNavigationGamePage({
   const router = useRouter();
   const { user, reduceLife } = useUserStore();
 
-  const config = pathNavLevels[levelNum];
   const dndId = useId();
+
+  // ── random pattern config ──────────────────────────────
+  const [config, setConfig] = useState<PathNavLevelConfig | null>(null);
+
+  const pickPattern = useCallback(() => {
+    const patterns = PATH_PATTERN_SETS[levelNum];
+    if (!patterns || patterns.length === 0) { setConfig(null); return; }
+    const picked = patterns[Math.floor(Math.random() * patterns.length)];
+    setConfig(picked);
+    setPlayerPos(picked.startPos);
+    setHasNongBrite(false);
+    setCommands([]);
+  }, [levelNum]);
 
   // ── game state ─────────────────────────────────────────
   const [commands, setCommands] = useState<Direction[]>([]);
-  const [playerPos, setPlayerPos] = useState<PathTile>(config?.startPos ?? { row: 0, col: 0 });
+  const [playerPos, setPlayerPos] = useState<PathTile>({ row: 0, col: 0 });
   const [hasNongBrite, setHasNongBrite] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [attempts, setAttempts] = useState(0);
@@ -91,11 +104,13 @@ export default function PathNavigationGamePage({
   const startTimeRef = useRef<number>(0);
   const animTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  // ── init startTime + cleanup on unmount ─────────────────
+  // ── init: pick pattern + startTime + cleanup on unmount ───────────
   useEffect(() => {
+    pickPattern();
     startTimeRef.current = Date.now();
     return () => { animTimers.current.forEach(clearTimeout); };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);  // intentionally run once on mount
 
   // ── auto-dismiss overlays ─────────────────────────────
   useEffect(() => {
@@ -306,27 +321,41 @@ export default function PathNavigationGamePage({
   // ── RETRY ──────────────────────────────────────────────
 
   const handleRetry = useCallback(() => {
-    handleReset();
+    animTimers.current.forEach(clearTimeout);
+    animTimers.current = [];
+    setIsRunning(false);
+    setActiveStep(null);
+    setPlayerFailType("none");
+    setPlayerFallDir(null);
+    setErrorMsg(null);
     setAttempts(0);
     setScoreResult(null);
     setElapsedSeconds(0);
     startTimeRef.current = Date.now();
-  }, [handleReset]);
+    pickPattern();
+  }, [pickPattern]);
 
   // ── Fallback ───────────────────────────────────────────
 
   if (!config) {
+    const isInvalid = !PATH_PATTERN_SETS[levelNum];
     return (
       <div className="flex h-screen items-center justify-center bg-[#131F24]">
         <div className="flex flex-col items-center text-center gap-4">
           <Image src="/images/P_Bit/bit-03.svg" alt="Bit" width={110} height={110} className="object-contain drop-shadow-lg" />
-          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
-          <button
-            onClick={() => router.push("/courses")}
-            className="mt-2 px-6 py-2 bg-[#1CB0F6] text-white rounded-xl font-bold hover:bg-[#0e9fd8] transition-colors"
-          >
-            กลับหน้าหลัก
-          </button>
+          {isInvalid ? (
+            <>
+              <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+              <button
+                onClick={() => router.push("/courses")}
+                className="mt-2 px-6 py-2 bg-[#1CB0F6] text-white rounded-xl font-bold hover:bg-[#0e9fd8] transition-colors"
+              >
+                กลับหน้าหลัก
+              </button>
+            </>
+          ) : (
+            <div className="w-10 h-10 border-4 border-[#1CB0F6] border-t-transparent rounded-full animate-spin" />
+          )}
         </div>
       </div>
     );
