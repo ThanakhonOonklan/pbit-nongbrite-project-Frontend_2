@@ -27,7 +27,7 @@ const directionIcons: Record<Direction, React.ReactNode> = {
 
 const VALID_DIRECTIONS: Direction[] = ["up", "down", "left", "right"];
 const GAP = 8;
-const MAX_COMMANDS = 27; // fixed across all screen sizes
+const MAX_COMMANDS = 35;
 
 export function CommandSequence({
     commands,
@@ -60,7 +60,7 @@ export function CommandSequence({
         });
         ro.observe(innerRef.current);
         return () => ro.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const tileRadius = Math.round(tileSize * 0.21); // proportional border-radius
@@ -72,9 +72,8 @@ export function CommandSequence({
     return (
         <div
             ref={setNodeRef}
-            className={`rounded-xl border-2 bg-[#37464F] p-3 lg:p-4 flex flex-col h-[274px] lg:h-[374px] transition-all duration-150 ${
-                isOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
-            }`}
+            className={`rounded-xl border-2 bg-[#37464F] p-3 lg:p-4 flex flex-col h-[274px] lg:h-[374px] transition-all duration-150 ${isOver ? "border-[#1CB0F6] shadow-[0_0_0_3px_#1CB0F640]" : "border-gray-300"
+                }`}
         >
             {/* Header row: command count + Clear All button */}
             <div className="flex items-center justify-between mb-2 px-1">
@@ -143,28 +142,27 @@ export function CommandSequence({
                                 glareWidth={0}
                                 onClick={() => !disabled && onRemoveCommand(index)}
                             >
-                                {directionIcons[cmd]}
+                                <div className="relative w-5 h-5">
+                                    <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-150 ${!disabled ? "group-hover:opacity-0" : ""}`}>
+                                        {directionIcons[cmd]}
+                                    </div>
+                                    {!disabled && (
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                                            <FaTimes className="w-4 h-4 text-red-400" />
+                                        </div>
+                                    )}
+                                </div>
                             </TiltButton>
-                            {/* Remove badge */}
-                            {!disabled && (
-                                <button
-                                    onClick={(e) => { e.stopPropagation(); onRemoveCommand(index); }}
-                                    className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                                >
-                                    <FaTimes className="w-2 h-2" />
-                                </button>
-                            )}
                         </div>
                     ))}
 
                     {/* 1 trailing empty slot */}
                     {commands.length < maxCommands && (
                         <div
-                            className={`shrink-0 border-2 border-dashed transition-all duration-150 ${
-                                isOver
-                                    ? "border-[#1CB0F6] bg-[#1CB0F610]"
-                                    : "border-gray-400 opacity-50"
-                            }`}
+                            className={`shrink-0 border-2 border-dashed transition-all duration-150 ${isOver
+                                ? "border-[#1CB0F6] bg-[#1CB0F610]"
+                                : "border-gray-400 opacity-50"
+                                }`}
                             style={{ width: tileSize, height: tileSize, borderRadius: tileRadius }}
                         />
                     )}

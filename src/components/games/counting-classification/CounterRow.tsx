@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+import { TiltButton } from "react-tilt-button";
 import { type ShapeType, SHAPE_COLORS, SHAPE_LABELS } from "@/constants/games/counting-classification-levels";
 import { ShapeIcon } from "./ShapeIcon";
 
@@ -17,6 +19,43 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
     const label = SHAPE_LABELS[type];
     const canDec = value > 0 && !disabled;
     const canInc = value < maxValue && !disabled;
+
+    // refs เพื่อให้ setTimeout closure อ่านค่าล่าสุดได้เสมอ
+    const canDecRef = useRef(canDec);
+    canDecRef.current = canDec;
+    const canIncRef = useRef(canInc);
+    canIncRef.current = canInc;
+
+    const decTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const incTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // ── hold-to-repeat — สร้าง start/stop สำหรับแต่ละปุ่ม ────────────
+    const makeHold = (
+        action: () => void,
+        canRef: { current: boolean },
+        timerRef: { current: ReturnType<typeof setTimeout> | null },
+    ) => {
+        const schedule = (count: number) => {
+            const delay = count === 0 ? 400 : count > 15 ? 40 : count > 7 ? 80 : count > 3 ? 120 : 150;
+            timerRef.current = setTimeout(() => {
+                if (!canRef.current) return;
+                action();
+                schedule(count + 1);
+            }, delay);
+        };
+        const start = () => {
+            if (!canRef.current) return;
+            action();
+            schedule(0);
+        };
+        const stop = () => {
+            if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; }
+        };
+        return { start, stop };
+    };
+
+    const dec = makeHold(onDecrement, canDecRef, decTimerRef);
+    const inc = makeHold(onIncrement, canIncRef, incTimerRef);
 
     return (
         <div
@@ -38,41 +77,57 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
 
             {/* Counter controls */}
             <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-                {/* Decrement */}
-                <button
-                    onClick={onDecrement}
-                    disabled={!canDec}
-                    aria-label={`ลด ${label}`}
-                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl text-white text-xl sm:text-2xl font-black flex items-center justify-center select-none
-                               transition-all active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed
-                               shadow-[0_4px_0_rgba(0,0,0,0.18)] sm:shadow-[0_5px_0_rgba(0,0,0,0.18)] 
-                               active:shadow-[0_2px_0_rgba(0,0,0,0.18)] active:translate-y-[2px] sm:active:translate-y-[3px]"
-                    style={{ backgroundColor: canDec ? "#6B7280" : "#374151" }}
+                {/* Decrement — wrapper div จับ pointer events เพราะ TiltButton ไม่ forward */}
+                <div
+                    onPointerDown={dec.start}
+                    onPointerUp={dec.stop}
+                    onPointerLeave={dec.stop}
+                    onPointerCancel={dec.stop}
+                    style={{ touchAction: "none", userSelect: "none" }}
                 >
-                    −
-                </button>
+                    <TiltButton
+                        variant="solid"
+                        width={42} height={42} elevation={4} pressInset={4}
+                        tilt={0.85} radius={12} motion={40}
+                        surfaceColor={canDec ? "#6B7280" : "#374151"}
+                        sideColor={canDec ? "#4B5563" : "#1F2937"}
+                        textColor={canDec ? "#FFFFFF" : "#6B7280"}
+                        glareOpacity={0} glareWidth={0}
+                        disabled={!canDec}
+                    >
+                        <span style={{ fontSize: 24, fontWeight: 900, lineHeight: 1 }}>−</span>
+                    </TiltButton>
+                </div>
 
                 {/* Count bubble */}
                 <div
                     className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-black text-white select-none shadow-inner"
-                    style={{ background: `${color}` }}
+                    style={{ background: color }}
                 >
                     {value}
                 </div>
 
                 {/* Increment */}
-                <button
-                    onClick={onIncrement}
-                    disabled={!canInc}
-                    aria-label={`เพิ่ม ${label}`}
-                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl text-white text-xl sm:text-2xl font-black flex items-center justify-center select-none
-                               transition-all active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed
-                               shadow-[0_4px_0_rgba(0,0,0,0.18)] sm:shadow-[0_5px_0_rgba(0,0,0,0.18)] 
-                               active:shadow-[0_2px_0_rgba(0,0,0,0.18)] active:translate-y-[2px] sm:active:translate-y-[3px]"
-                    style={{ backgroundColor: canInc ? "#FF6B9D" : "#374151" }}
+                <div
+                    onPointerDown={inc.start}
+                    onPointerUp={inc.stop}
+                    onPointerLeave={inc.stop}
+                    onPointerCancel={inc.stop}
+                    style={{ touchAction: "none", userSelect: "none" }}
                 >
-                    +
-                </button>
+                    <TiltButton
+                        variant="solid"
+                        width={42} height={42} elevation={4} pressInset={4}
+                        tilt={0.85} radius={12} motion={40}
+                        surfaceColor={canInc ? "#FF6B9D" : "#374151"}
+                        sideColor={canInc ? "#D04E80" : "#1F2937"}
+                        textColor={canInc ? "#FFFFFF" : "#6B7280"}
+                        glareOpacity={0} glareWidth={0}
+                        disabled={!canInc}
+                    >
+                        <span style={{ fontSize: 24, fontWeight: 900, lineHeight: 1 }}>+</span>
+                    </TiltButton>
+                </div>
             </div>
         </div>
     );
