@@ -29,7 +29,7 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
     const decTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const incTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // ── hold-to-repeat — สร้าง start/stop สำหรับแต่ละปุ่ม ────────────
+    // ── hold-to-repeat ────────────────────────────
     const makeHold = (
         action: () => void,
         canRef: { current: boolean },
@@ -59,25 +59,32 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
 
     return (
         <div
-            className="flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 rounded-2xl sm:rounded-3xl shadow-md"
-            style={{ background: "#1E3340", border: `2px solid ${color}40` }}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-[24px] shadow-sm mb-1"
+            style={{
+                background: "#FFFAF4", // Soft cream/white
+                boxShadow: "0 4px 10px rgba(0,0,0,0.06), inset 0 2px 0 rgba(255,255,255,1)"
+            }}
         >
-            {/* Shape icon */}
+            {/* Shape icon in colored square */}
             <div
-                className="flex items-center justify-center shrink-0 rounded-xl sm:rounded-2xl w-10 h-10 sm:w-[52px] sm:h-[52px]"
-                style={{ background: `${color}22` }}
+                className="flex items-center justify-center shrink-0 rounded-[18px] w-14 h-14"
+                style={{ 
+                    // Using the shape color with some transparency for the square background
+                    background: `${color}33`,
+                    boxShadow: "inset 0 2px 4px rgba(255,255,255,0.6)"
+                }}
             >
-                <ShapeIcon type={type} size={30} className="drop-shadow-sm sm:w-[38px] sm:h-[38px]" hoverable />
+                <ShapeIcon type={type} size={38} className="drop-shadow-sm" hoverable />
             </div>
 
             {/* Label */}
-            <span className="flex-1 text-xs sm:text-sm font-extrabold select-none truncate pr-1 text-white">
+            <span className="flex-1 text-base sm:text-lg font-black select-none truncate pr-1" style={{ color: "#5C4D5D" }}>
                 {label}
             </span>
 
             {/* Counter controls */}
-            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-                {/* Decrement — wrapper div จับ pointer events เพราะ TiltButton ไม่ forward */}
+            <div className="flex items-center gap-2 shrink-0 pr-1">
+                {/* Decrement */}
                 <div
                     onPointerDown={dec.start}
                     onPointerUp={dec.stop}
@@ -87,22 +94,25 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
                 >
                     <TiltButton
                         variant="solid"
-                        width={42} height={42} elevation={4} pressInset={4}
-                        tilt={0.85} radius={12} motion={40}
-                        surfaceColor={canDec ? "#6B7280" : "#374151"}
-                        sideColor={canDec ? "#4B5563" : "#1F2937"}
-                        textColor={canDec ? "#FFFFFF" : "#6B7280"}
+                        width={46} height={46} elevation={4} pressInset={4}
+                        tilt={0.85} radius={14} motion={40}
+                        surfaceColor={canDec ? "#E2E8F0" : "#F1F5F9"}
+                        sideColor={canDec ? "#CBD5E1" : "#E2E8F0"}
+                        textColor="#FFFFFF"
                         glareOpacity={0} glareWidth={0}
                         disabled={!canDec}
                     >
-                        <span style={{ fontSize: 24, fontWeight: 900, lineHeight: 1 }}>−</span>
+                        <span style={{ fontSize: 32, fontWeight: 900, lineHeight: 1, textShadow: "0 1px 2px rgba(0,0,0,0.1)" }}>−</span>
                     </TiltButton>
                 </div>
 
                 {/* Count bubble */}
                 <div
-                    className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-black text-white select-none shadow-inner"
-                    style={{ background: color }}
+                    className="w-[46px] h-[46px] rounded-[16px] flex items-center justify-center text-xl font-black text-white select-none"
+                    style={{ 
+                        background: color,
+                        boxShadow: "0 2px 6px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.3)"
+                    }}
                 >
                     {value}
                 </div>
@@ -117,15 +127,15 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
                 >
                     <TiltButton
                         variant="solid"
-                        width={42} height={42} elevation={4} pressInset={4}
-                        tilt={0.85} radius={12} motion={40}
-                        surfaceColor={canInc ? "#FF6B9D" : "#374151"}
-                        sideColor={canInc ? "#D04E80" : "#1F2937"}
-                        textColor={canInc ? "#FFFFFF" : "#6B7280"}
+                        width={46} height={46} elevation={4} pressInset={4}
+                        tilt={0.85} radius={14} motion={40}
+                        surfaceColor={canInc ? "#81C784" : "#E0E0E0"}
+                        sideColor={canInc ? "#66BB6A" : "#C0C0C0"}
+                        textColor="#FFFFFF"
                         glareOpacity={0} glareWidth={0}
                         disabled={!canInc}
                     >
-                        <span style={{ fontSize: 24, fontWeight: 900, lineHeight: 1 }}>+</span>
+                        <span style={{ fontSize: 26, fontWeight: 900, lineHeight: 1, textShadow: "0 1px 2px rgba(0,0,0,0.1)" }}>+</span>
                     </TiltButton>
                 </div>
             </div>

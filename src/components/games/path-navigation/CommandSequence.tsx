@@ -42,6 +42,20 @@ export function CommandSequence({
     const [isDragOver, setIsDragOver] = useState(false);
     const [maxCommands] = useState(MAX_COMMANDS);
     const [tileSize, setTileSize] = useState(58);
+    const [removingIndex, setRemovingIndex] = useState<number | null>(null);
+    const prevLengthRef = useRef(commands.length);
+    const [newIndex, setNewIndex] = useState<number | null>(null);
+
+    // Detect newly added command
+    useEffect(() => {
+        if (commands.length > prevLengthRef.current) {
+            setNewIndex(commands.length - 1);
+            const t = setTimeout(() => setNewIndex(null), 350);
+            return () => clearTimeout(t);
+        }
+        prevLengthRef.current = commands.length;
+    }, [commands.length]);
+
 
     const innerRef = useRef<HTMLDivElement>(null);
 
@@ -123,45 +137,60 @@ export function CommandSequence({
                     </TiltButton>
 
                     {/* Filled command chips */}
-                    {commands.map((cmd, index) => (
-                        <div key={index} className="group relative shrink-0">
-                            <TiltButton
-                                width={tileSize}
-                                height={tileSize}
-                                elevation={6}
-                                pressInset={6}
-                                tilt={0.89}
-                                radius={tileRadius}
-                                motion={60}
-                                surfaceColor="#2D3748"
-                                sideColor="#1a2535"
-                                textColor="#ffffff"
-                                borderColor={activeCommandIndex === index ? "#1CB0F6" : "#3D4F66"}
-                                borderWidth={activeCommandIndex === index ? 4 : 3}
-                                glareOpacity={0}
-                                glareWidth={0}
-                                onClick={() => !disabled && onRemoveCommand(index)}
+                    {commands.map((cmd, index) => {
+                        const isNew = index === newIndex;
+                        const isRemoving = index === removingIndex;
+                        return (
+                            <div
+                                key={`${cmd}-${index}`}
+                                className={`group relative shrink-0 ${isNew ? "cmd-pop-in" : ""} ${isRemoving ? "cmd-pop-out" : ""}`}
                             >
-                                <div className="relative w-5 h-5">
-                                    <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-150 ${!disabled ? "group-hover:opacity-0" : ""}`}>
-                                        {directionIcons[cmd]}
-                                    </div>
-                                    {!disabled && (
-                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                                            <FaTimes className="w-4 h-4 text-red-400" />
+                                <TiltButton
+                                    width={tileSize}
+                                    height={tileSize}
+                                    elevation={6}
+                                    pressInset={6}
+                                    tilt={0.89}
+                                    radius={tileRadius}
+                                    motion={60}
+                                    surfaceColor="#2D3748"
+                                    sideColor="#1a2535"
+                                    textColor="#ffffff"
+                                    borderColor={activeCommandIndex === index ? "#1CB0F6" : "#3D4F66"}
+                                    borderWidth={activeCommandIndex === index ? 4 : 3}
+                                    glareOpacity={0}
+                                    glareWidth={0}
+                                    onClick={() => {
+                                        if (!disabled) {
+                                            setRemovingIndex(index);
+                                            setTimeout(() => {
+                                                setRemovingIndex(null);
+                                                onRemoveCommand(index);
+                                            }, 180);
+                                        }
+                                    }}
+                                >
+                                    <div className="relative w-5 h-5">
+                                        <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-150 ${!disabled ? "group-hover:opacity-0" : ""}`}>
+                                            {directionIcons[cmd]}
                                         </div>
-                                    )}
-                                </div>
-                            </TiltButton>
-                        </div>
-                    ))}
+                                        {!disabled && (
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                                                <FaTimes className="w-4 h-4 text-red-400" />
+                                            </div>
+                                        )}
+                                    </div>
+                                </TiltButton>
+                            </div>
+                        );
+                    })}
 
                     {/* 1 trailing empty slot */}
                     {commands.length < maxCommands && (
                         <div
                             className={`shrink-0 border-2 border-dashed transition-all duration-150 ${isOver
-                                    ? "border-[#1CB0F6] bg-[#1CB0F610]"
-                                    : "border-gray-400 opacity-50"
+                                ? "border-[#1CB0F6] bg-[#1CB0F610]"
+                                : "border-gray-400 opacity-50"
                                 }`}
                             style={{ width: tileSize, height: tileSize, borderRadius: tileRadius }}
                         />
@@ -170,4 +199,29 @@ export function CommandSequence({
             </div>
         </div>
     );
+}
+
+const _styles = `
+    @keyframes cmdPopIn {
+        0%   { transform: scale(0.4); opacity: 0; }
+        65%  { transform: scale(1.12); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    .cmd-pop-in { animation: cmdPopIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+
+    @keyframes cmdPopOut {
+        0%   { transform: scale(1); opacity: 1; }
+        100% { transform: scale(0.4); opacity: 0; }
+    }
+    .cmd-pop-out { animation: cmdPopOut 0.18s ease-in both; }
+`;
+
+if (typeof document !== "undefined") {
+    const id = "cmd-seq-styles";
+    if (!document.getElementById(id)) {
+        const s = document.createElement("style");
+        s.id = id;
+        s.textContent = _styles;
+        document.head.appendChild(s);
+    }
 }
