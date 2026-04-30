@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useState } from "react";
+import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { ScrollStackItem } from "@/components/common/ScrollStack";
 import type { GameConfig } from "@/constants/courses/gameConfig";
@@ -36,18 +37,30 @@ const resolvePosition = (
 
 export interface GameCardProps {
   game: GameConfig;
-  selectedLevel?: number;
   onLevelSelect?: (level: number) => void;
   // Fix #4: Accept isTablet from parent to avoid per-card resize listeners
   isTablet?: boolean;
+  latestLevel?: number;
 }
 
-export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevelSelect, isTablet = false }) => {
+export const GameCard: React.FC<GameCardProps> = React.memo(({ game, onLevelSelect, isTablet = false, latestLevel }) => {
   const router = useRouter();
   const t = useTranslations("Courses");
   const isMobile = useIsMobile();
-  const [activeLevel, setActiveLevel] = useState<number | null>(null);
   const [isNavigating, setIsNavigating] = useState(false);
+  
+  const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = React.useCallback((level: number) => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    hoverTimeoutRef.current = setTimeout(() => {
+      onLevelSelect?.(level);
+    }, 150);
+  }, [onLevelSelect]);
+
+  const handleMouseLeave = React.useCallback(() => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+  }, []);
 
   // Fix #4: isTablet is now a prop — no redundant useEffect/listener per card
 
@@ -109,10 +122,44 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
   };
 
   const gameNumber = gamesConfig.findIndex((g) => g.id === game.id) + 1;
-  const surfaceColor = game.baseColor;
-  const sideColor = darkenColor(game.baseColor, 60);
-  const borderColor = darkenColor(game.baseColor, 20);
-  const textColor = darkenColor(game.baseColor, 80);
+
+  // Helper to get difficulty-based colors
+  const getDifficultyColors = (levelNum: number, isLast: boolean) => {
+    if (isLast) {
+      return {
+        surface: "#FFF8E1",
+        side: "#B8860B",
+        text: "#B8860B",
+        border: "#DAA520"
+      };
+    }
+    
+    if (levelNum <= 3) {
+      // Easy: Original colors
+      return {
+        surface: "#ffffff",
+        side: darkenColor(game.baseColor, 60),
+        text: darkenColor(game.baseColor, 80),
+        border: darkenColor(game.baseColor, 20)
+      };
+    } else if (levelNum <= 6) {
+      // Medium: Darker colors
+      return {
+        surface: "#ffffff",
+        side: darkenColor(game.baseColor, 90),
+        text: darkenColor(game.baseColor, 110),
+        border: darkenColor(game.baseColor, 50)
+      };
+    } else {
+      // Hard: Darkest colors
+      return {
+        surface: "#ffffff",
+        side: darkenColor(game.baseColor, 120),
+        text: darkenColor(game.baseColor, 140),
+        border: darkenColor(game.baseColor, 80)
+      };
+    }
+  };
 
   return (
     <>
@@ -125,8 +172,8 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
           {/* Level Buttons Grid — 3x3 */}
           <div className="grid grid-cols-3 gap-y-5 gap-x-8 sm:gap-y-5 sm:gap-x-20 md:gap-y-6 md:gap-x-28 lg:gap-y-6 lg:gap-x-32">
             {game.levels.map((lvl) => {
-              const isActive = activeLevel === lvl.level;
               const isLastLevel = lvl.level === game.levels.length;
+              const diffColors = getDifficultyColors(lvl.level, isLastLevel);
 
               if (lvl.isLocked) {
                 return (
@@ -169,15 +216,31 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
                 <div
                   key={lvl.level}
                   className="relative flex flex-col items-center cursor-pointer"
-                  onMouseEnter={() => {
-                    setActiveLevel(lvl.level);
-                    onLevelSelect?.(lvl.level);
-                  }}
+                  onMouseEnter={() => handleMouseEnter(lvl.level)}
+                  onMouseLeave={handleMouseLeave}
                   onClick={() => {
                     setIsNavigating(true);
                     router.push(`/games/${game.id}/${lvl.level}`);
                   }}
                 >
+                  {lvl.level === latestLevel && (
+                    <motion.div
+                      className="absolute inset-0 rounded-3xl"
+                      style={{ 
+                        backgroundColor: diffColors.border,
+                        zIndex: -1 
+                      }}
+                      animate={{ 
+                        scale: [1, 1.3, 1],
+                        opacity: [0.3, 0.8, 0.3]
+                      }}
+                      transition={{ 
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  )}
                   <TiltButton
                     width={isMobile ? 68 : isTablet ? 74 : 80}
                     height={isMobile ? 72 : isTablet ? 78 : 86}
@@ -186,10 +249,10 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
                     tilt={1.33}
                     radius={isMobile ? 14 : 16}
                     motion={94}
-                    surfaceColor={isLastLevel ? "#FFF8E1" : "#ffffff"}
-                    sideColor={isLastLevel ? "#B8860B" : sideColor}
-                    textColor={isLastLevel ? "#B8860B" : textColor}
-                    borderColor={isLastLevel ? "#DAA520" : borderColor}
+                    surfaceColor={diffColors.surface}
+                    sideColor={diffColors.side}
+                    textColor={diffColors.text}
+                    borderColor={diffColors.border}
                     borderWidth={isMobile ? 4 : 6}
                   >
                     {isLastLevel ? (
@@ -213,4 +276,6 @@ export const GameCard: React.FC<GameCardProps> = ({ game, selectedLevel, onLevel
       <LoadingOverlay isLoading={isNavigating} message={t("GameCard.loading")} />
     </>
   );
-};
+});
+
+GameCard.displayName = "GameCard";

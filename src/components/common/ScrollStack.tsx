@@ -724,7 +724,7 @@ const ScrollStack = forwardRef<ScrollStackRef, ScrollStackProps>(({
 
     >
 
-      <div className="scroll-stack-inner pt-[1vh] px-2 sm:px-2.5 md:px-3 pb-[50rem] min-h-screen">
+      <div className="scroll-stack-inner pt-[1vh] px-2 sm:px-2.5 md:px-3 pb-[35vh] min-h-screen">
 
         {children}
 

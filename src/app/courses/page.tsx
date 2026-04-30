@@ -37,6 +37,10 @@ export default function CoursesPage() {
   const isInitialCallRef = useRef(true);
 
   const scrollStackRef = useRef<ScrollStackRef>(null);
+  
+  const [hasAutoScrolled, setHasAutoScrolled] = useState(false);
+  const [latestProgress, setLatestProgress] = useState<{ gameIndex: number; level: number } | null>(null);
+  const latestProgressRef = useRef<{ gameIndex: number; level: number } | null>(null);
 
   const isMobile = useIsMobile();
   const [isTablet, setIsTablet] = useState(false);
@@ -83,6 +87,40 @@ export default function CoursesPage() {
   useEffect(() => {
     mergedGamesRef.current = mergedGames;
   }, [mergedGames]);
+
+  // Progression Tracking Auto-Scroll
+  useEffect(() => {
+    // Only run when chapters data is loaded and we haven't scrolled yet
+    if (!chapters.length || hasAutoScrolled) return;
+    
+    let gameIdx = 0;
+    let lvlNum = 1;
+    
+    // Find furthest unlocked level (traverse backwards)
+    for (let i = mergedGames.length - 1; i >= 0; i--) {
+      const game = mergedGames[i];
+      const unlockedLevels = game.levels.filter(l => !l.isLocked);
+      if (unlockedLevels.length > 0) {
+        gameIdx = i;
+        // Last unlocked level in this game
+        lvlNum = unlockedLevels[unlockedLevels.length - 1].level;
+        break;
+      }
+    }
+    
+    const progress = { gameIndex: gameIdx, level: lvlNum };
+    latestProgressRef.current = progress;
+    setLatestProgress(progress);
+    
+    if (scrollStackRef.current) {
+      setTimeout(() => {
+        scrollStackRef.current?.scrollToIndex(gameIdx);
+        requestAnimationFrame(() => {
+          setHasAutoScrolled(true);
+        });
+      }, 50); // Short delay to ensure rendering completes before scroll
+    }
+  }, [chapters, mergedGames, hasAutoScrolled]);
 
   useEffect(() => {
     const checkTablet = () => {
@@ -141,7 +179,9 @@ export default function CoursesPage() {
       setCurrentGameIconIndex(index);
       setCurrentGameId(game.id);
       setCurrentGameIndex(index);
-      setSelectedLevel(1);
+      
+      const isLatestGame = latestProgressRef.current?.gameIndex === index;
+      setSelectedLevel(isLatestGame ? (latestProgressRef.current?.level || 1) : 1);
 
       const colorToUse = convertHeaderColorToHex(headerColor);
       setCurrentHeaderColor(colorToUse);
@@ -196,7 +236,7 @@ export default function CoursesPage() {
         {/* Center Area - ScrollStack */}
         <main className="flex-1 relative overflow-hidden max-w-[900px] mx-auto z-10">
         {/* ScrollStack with padding-top */}
-        <div className="pt-[80px] lg:pt-[4px] h-full pb-[70px] lg:pb-0">
+        <div className={`pt-[80px] lg:pt-[4px] h-full pb-[70px] lg:pb-0 transition-opacity duration-700 ease-in-out ${hasAutoScrolled ? 'opacity-100' : 'opacity-0'}`}>
           <ScrollStack
             ref={scrollStackRef}
             className="w-full h-full"
@@ -214,15 +254,18 @@ export default function CoursesPage() {
               currentIndex={currentGameIndex}
               onStepClick={handleStepClick}
             />
-            {mergedGames.map((game) => (
-              <GameCard
-                key={game.id}
-                game={game}
-                selectedLevel={selectedLevel}
-                onLevelSelect={handleLevelSelect}
-                isTablet={isTablet}
-              />
-            ))}
+            {mergedGames.map((game, index) => {
+              const isLatestGame = latestProgress?.gameIndex === index;
+              return (
+                <GameCard
+                  key={game.id}
+                  game={game}
+                  onLevelSelect={handleLevelSelect}
+                  isTablet={isTablet}
+                  latestLevel={isLatestGame ? latestProgress?.level : undefined}
+                />
+              );
+            })}
           </ScrollStack>
         </div>
       </main>
