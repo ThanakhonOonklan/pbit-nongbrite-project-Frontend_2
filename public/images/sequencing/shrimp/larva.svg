@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  
+  <!-- Zoea/Mysis Larva (Alien-like swimming form) -->
+  <g transform="translate(-10, 10)">
+    <!-- Long spiky rostrum (nose spike) -->
+    <path d="M220 250 L100 240 L220 260 Z" fill="#FCA5A5" />
+    
+    <!-- Main Body Carapace -->
+    <path d="M220 200 C300 200, 320 280, 220 280 C200 280, 180 250, 220 200 Z" fill="#FECDD3" opacity="0.9" />
+    
+    <!-- Segmented Tail pointing up/back -->
+    <path d="M300 220 Q350 200 380 150" stroke="#FECDD3" stroke-width="15" fill="none" stroke-linecap="round"/>
+    <!-- Tail fin (Telson) -->
+    <path d="M380 150 L420 120 L400 160 Z" fill="#FCA5A5" />
+    <path d="M380 150 L420 160 L400 180 Z" fill="#FCA5A5" />
+    
+    <!-- Lots of swimming legs (Maxillipeds) -->
+    <g stroke="#FCA5A5" stroke-width="4" stroke-linecap="round" fill="none">
+      <path d="M230 270 Q240 320 220 350" />
+      <path d="M250 275 Q260 330 240 360" />
+      <path d="M270 275 Q280 330 260 360" />
+      <path d="M290 270 Q300 320 280 350" />
+    </g>
+    
+    <!-- Giant Compound Eye on stalk -->
+    <path d="M200 240 L220 210" stroke="#FCA5A5" stroke-width="6" fill="none" />
+    <circle cx="190" cy="235" r="15" fill="#111827" />
+    <circle cx="185" cy="230" r="4" fill="#FFFFFF" />
+  </g>
+</svg>

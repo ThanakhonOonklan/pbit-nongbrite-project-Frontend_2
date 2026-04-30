@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M50 400 Q256 350 462 400 L462 512 L50 512 Z" fill="#78350F" /> <!-- Dirt mound -->
+  
+  <!-- Seed/Sapling just planted -->
+  <path d="M256 400 Q250 350 256 320" stroke="#16A34A" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <!-- Two tiny leaves -->
+  <path d="M256 340 Q280 320 276 340 Q266 350 256 340" fill="#22C55E"/>
+  <path d="M256 330 Q230 310 236 330 Q246 340 256 330" fill="#22C55E"/>
+  
+  <!-- Hand patting dirt (Optional) -->
+  <path d="M100 250 C150 250, 200 350, 220 380 C200 400, 100 350, 100 250 Z" fill="#FCA5A5" opacity="0.8"/>
+  <path d="M220 380 Q240 390 250 390 Q240 400 220 390" fill="#FCA5A5" opacity="0.8"/>
+  <path d="M412 250 C362 250, 312 350, 292 380 C312 400, 412 350, 412 250 Z" fill="#FCA5A5" opacity="0.8"/>
+  <path d="M292 380 Q272 390 262 390 Q272 400 292 390" fill="#FCA5A5" opacity="0.8"/>
+</svg>

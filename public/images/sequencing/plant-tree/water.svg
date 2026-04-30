@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M50 400 Q256 350 462 400 L462 512 L50 512 Z" fill="#78350F" /> 
+  <path d="M150 420 Q256 380 362 420" stroke="#451A03" stroke-width="15" fill="none" opacity="0.5"/> <!-- Wet dirt -->
+  
+  <!-- Tiny Sapling -->
+  <path d="M256 400 Q260 330 256 280" stroke="#16A34A" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <path d="M256 320 Q290 290 286 320 Q266 330 256 320" fill="#22C55E"/>
+  <path d="M256 300 Q220 270 226 300 Q246 310 256 300" fill="#22C55E"/>
+  
+  <!-- Watering Can pouring water -->
+  <g transform="translate(40, -40)">
+    <!-- Can Body -->
+    <path d="M300 150 L380 150 L400 250 L280 250 Z" fill="#3B82F6" />
+    <path d="M380 150 C420 120, 450 200, 400 230" stroke="#3B82F6" stroke-width="15" fill="none"/>
+    <!-- Spout -->
+    <path d="M300 220 L200 150 L210 130 L310 180 Z" fill="#60A5FA" />
+    <!-- Rose (sprinkler head) -->
+    <ellipse cx="205" cy="140" rx="20" ry="10" fill="#93C5FD" transform="rotate(-30 205 140)"/>
+    
+    <!-- Water drops -->
+    <path d="M180 160 L150 220 M190 170 L160 230 M200 180 L170 240 M210 190 L180 250" stroke="#38BDF8" stroke-width="4" stroke-dasharray="5 5" fill="none" />
+  </g>
+</svg>

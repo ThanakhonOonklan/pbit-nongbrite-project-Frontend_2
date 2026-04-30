@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Stove Top -->
+  <rect x="156" y="420" width="200" height="20" rx="10" fill="#475569" />
+  <path d="M200 440 L220 470 L292 470 L312 440 Z" fill="#334155" />
+  <!-- Flame -->
+  <path d="M256 400 C230 420, 200 420, 256 440 C312 420, 282 420, 256 400 Z" fill="#EF4444" />
+  <path d="M256 410 C240 425, 220 425, 256 440 C292 425, 272 425, 256 410 Z" fill="#F59E0B" />
+  
+  <!-- Frying Pan -->
+  <path d="M156 350 L356 350 C356 400, 316 420, 256 420 C196 420, 156 400, 156 350 Z" fill="#1E293B" />
+  <!-- Inner pan surface -->
+  <ellipse cx="256" cy="350" rx="100" ry="25" fill="#334155" />
+  <!-- Pan Handle -->
+  <path d="M356 350 L480 320" stroke="#0F172A" stroke-width="20" stroke-linecap="round" />
+  
+  <!-- Heat waves (Steam/Smoke) -->
+  <path d="M220 300 C200 250, 240 200, 220 150" stroke="#CBD5E1" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <path d="M256 290 C236 240, 276 190, 256 140" stroke="#CBD5E1" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M292 300 C272 250, 312 200, 292 150" stroke="#CBD5E1" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
+</svg>

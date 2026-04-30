@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Underwater background -->
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  
+  <!-- Underwater plant stem -->
+  <path d="M256 512 C240 400, 270 200, 256 0" stroke="#15803D" stroke-width="20" fill="none" />
+  <path d="M256 400 Q200 350 150 360" stroke="#15803D" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M260 250 Q320 200 360 220" stroke="#15803D" stroke-width="12" fill="none" stroke-linecap="round"/>
+  
+  <!-- Dragonfly Eggs attached to stem -->
+  <g fill="#FEF08A" stroke="#CA8A04" stroke-width="2">
+    <!-- Cluster 1 -->
+    <ellipse cx="230" cy="300" rx="8" ry="15" transform="rotate(-30 230 300)" />
+    <ellipse cx="240" cy="280" rx="8" ry="15" transform="rotate(-15 240 280)" />
+    <ellipse cx="225" cy="270" rx="8" ry="15" transform="rotate(-45 225 270)" />
+    <ellipse cx="235" cy="315" rx="8" ry="15" transform="rotate(-20 235 315)" />
+    
+    <!-- Cluster 2 -->
+    <ellipse cx="275" cy="180" rx="8" ry="15" transform="rotate(30 275 180)" />
+    <ellipse cx="285" cy="195" rx="8" ry="15" transform="rotate(45 285 195)" />
+    <ellipse cx="270" cy="210" rx="8" ry="15" transform="rotate(15 270 210)" />
+  </g>
+  
+  <!-- Bubbles -->
+  <circle cx="150" cy="200" r="10" fill="#FFFFFF" opacity="0.4" />
+  <circle cx="160" cy="150" r="6" fill="#FFFFFF" opacity="0.4" />
+  <circle cx="350" cy="350" r="8" fill="#FFFFFF" opacity="0.4" />
+</svg>

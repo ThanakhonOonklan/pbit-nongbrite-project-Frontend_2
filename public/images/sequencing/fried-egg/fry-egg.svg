@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Pan -->
+  <path d="M156 350 L356 350 C356 400, 316 420, 256 420 C196 420, 156 400, 156 350 Z" fill="#1E293B" />
+  <ellipse cx="256" cy="350" rx="100" ry="25" fill="#334155" />
+  <path d="M356 350 L480 320" stroke="#0F172A" stroke-width="20" stroke-linecap="round" />
+  
+  <!-- Frying Egg -->
+  <!-- Crispy edges -->
+  <path d="M180 350 C180 330, 220 320, 256 320 C300 320, 330 330, 320 360 C310 380, 270 380, 240 370 C200 360, 180 370, 180 350 Z" fill="#FBBF24" opacity="0.8"/>
+  <!-- White -->
+  <path d="M190 350 C190 335, 220 330, 256 330 C290 330, 320 340, 310 360 C300 370, 270 370, 240 365 C210 360, 190 365, 190 350 Z" fill="#FFFFFF" />
+  <!-- Yolk -->
+  <ellipse cx="256" cy="350" rx="25" ry="12" fill="#F59E0B" />
+  <ellipse cx="252" cy="347" rx="8" ry="4" fill="#FDE047" />
+  
+  <!-- Sizzling details (splatter lines/dots) -->
+  <circle cx="170" cy="345" r="3" fill="#FDE047" />
+  <circle cx="180" cy="335" r="2" fill="#FDE047" />
+  <circle cx="330" cy="365" r="3" fill="#FDE047" />
+  <circle cx="340" cy="350" r="2" fill="#FDE047" />
+  <path d="M200 320 L195 310 M250 315 L245 305 M300 320 L305 310" stroke="#FDE047" stroke-width="2" stroke-linecap="round" />
+  
+  <!-- Spatula lifting the edge -->
+  <path d="M380 150 L300 350" stroke="#64748B" stroke-width="8" stroke-linecap="round" />
+  <path d="M290 340 L310 350 L270 370 L250 360 Z" fill="#94A3B8" />
+</svg>

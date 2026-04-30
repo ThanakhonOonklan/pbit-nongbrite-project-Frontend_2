@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sand Background -->
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#FDE68A" />
+  <ellipse cx="150" cy="400" rx="15" ry="8" fill="#D1D5DB" />
+  <ellipse cx="350" cy="420" rx="20" ry="10" fill="#9CA3AF" />
+  
+  <!-- Tiny green blob (sprout) -->
+  <path d="M240 350 C240 310, 272 310, 272 350 Z" fill="#4ADE80" />
+  <!-- Baby spines (just 2 little dots/lines) -->
+  <line x1="245" y1="325" x2="240" y2="320" stroke="#FFFFFF" stroke-width="2" />
+  <line x1="265" y1="325" x2="270" y2="320" stroke="#FFFFFF" stroke-width="2" />
+  <line x1="256" y1="315" x2="256" y2="305" stroke="#FFFFFF" stroke-width="2" />
+</svg>

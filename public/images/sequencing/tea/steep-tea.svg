@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <ellipse cx="256" cy="400" rx="200" ry="50" fill="#E2E8F0" />
+  <ellipse cx="256" cy="380" rx="100" ry="25" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="4"/>
+  <ellipse cx="256" cy="385" rx="60" ry="15" fill="#F1F5F9" />
+  
+  <!-- Teacup -->
+  <path d="M186 280 C186 380, 206 380, 256 380 C306 380, 326 380, 326 280 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <path d="M326 300 C366 290, 376 340, 326 350" stroke="#E2E8F0" stroke-width="15" fill="none" stroke-linecap="round" />
+  
+  <!-- Inside Cup - Tea Steeping -->
+  <!-- Cup Rim -->
+  <ellipse cx="256" cy="280" rx="70" ry="20" fill="#F1F5F9" />
+  
+  <!-- Tea Liquid -->
+  <ellipse cx="256" cy="285" rx="65" ry="18" fill="#FDE68A" /> <!-- Light yellowish/orange base -->
+  <!-- Color spreading from tea bag -->
+  <ellipse cx="270" cy="285" rx="30" ry="12" fill="#D97706" opacity="0.6"/>
+  <ellipse cx="260" cy="285" rx="50" ry="15" fill="#F59E0B" opacity="0.4"/>
+  
+  <!-- Tea Bag inside -->
+  <rect x="250" y="270" width="30" height="20" rx="5" fill="#92400E" opacity="0.8" transform="rotate(-15 250 270)"/>
+  
+  <!-- Tea Bag string hanging out -->
+  <path d="M260 270 L220 280 L200 310" stroke="#CBD5E1" stroke-width="3" fill="none" />
+  <rect x="190" y="310" width="20" height="25" rx="2" fill="#FFFFFF" stroke="#EF4444" stroke-width="2" transform="rotate(-15 190 310)"/>
+  
+  <!-- Steeping Swirls in water -->
+  <path d="M260 290 Q240 280 230 290" stroke="#B45309" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <path d="M270 280 Q250 295 240 285" stroke="#B45309" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5"/>
+  
+  <!-- Steam -->
+  <path d="M240 260 C220 200, 260 150, 240 100" stroke="#E2E8F0" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M280 250 C260 190, 300 140, 280 90" stroke="#E2E8F0" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6"/>
+  
+  <!-- Clock / Timer Floating (Signifies waiting) -->
+  <g transform="translate(350, 150)">
+    <circle cx="0" cy="0" r="30" fill="#FFFFFF" stroke="#94A3B8" stroke-width="4"/>
+    <circle cx="0" cy="0" r="24" fill="#F8FAFC" />
+    <!-- Clock Hands -->
+    <line x1="0" y1="0" x2="0" y2="-15" stroke="#334155" stroke-width="4" stroke-linecap="round" />
+    <line x1="0" y1="0" x2="12" y2="12" stroke="#EF4444" stroke-width="3" stroke-linecap="round" />
+    <!-- Tick marks -->
+    <line x1="0" y1="-20" x2="0" y2="-24" stroke="#94A3B8" stroke-width="2" />
+    <line x1="0" y1="20" x2="0" y2="24" stroke="#94A3B8" stroke-width="2" />
+    <line x1="-20" y1="0" x2="-24" y2="0" stroke="#94A3B8" stroke-width="2" />
+    <line x1="20" y1="0" x2="24" y2="0" stroke="#94A3B8" stroke-width="2" />
+    
+    <!-- Action lines showing ticking -->
+    <path d="M15 20 Q20 25 15 30" stroke="#94A3B8" stroke-width="2" fill="none" />
+  </g>
+</svg>

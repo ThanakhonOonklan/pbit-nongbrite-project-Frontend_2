@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Back Leaves -->
+  <path d="M256 120 C180 80, 160 180, 200 200 C250 200, 256 150, 256 120 Z" fill="#15803D" />
+  <path d="M256 120 C330 80, 350 180, 310 200 C260 200, 256 150, 256 120 Z" fill="#16A34A" />
+  
+  <!-- Strawberry Body -->
+  <path d="M256 420 C150 420, 120 250, 180 160 C220 100, 290 100, 330 160 C390 250, 360 420, 256 420 Z" fill="#EF4444" />
+  
+  <!-- Shine -->
+  <path d="M200 180 C170 230, 180 300, 210 350 C180 280, 190 220, 220 180 Z" fill="#FCA5A5" opacity="0.6"/>
+  
+  <!-- Seeds (Yellow dots) -->
+  <circle cx="256" cy="180" r="4" fill="#FDE047" />
+  <circle cx="220" cy="220" r="4" fill="#FDE047" />
+  <circle cx="290" cy="210" r="4" fill="#FDE047" />
+  <circle cx="256" cy="250" r="4" fill="#FDE047" />
+  <circle cx="190" cy="270" r="4" fill="#FDE047" />
+  <circle cx="320" cy="270" r="4" fill="#FDE047" />
+  <circle cx="220" cy="320" r="4" fill="#FDE047" />
+  <circle cx="290" cy="330" r="4" fill="#FDE047" />
+  <circle cx="256" cy="350" r="4" fill="#FDE047" />
+  
+  <!-- Calyx (Green top leaves) -->
+  <path d="M256 150 C230 150, 180 160, 160 140 C190 130, 230 140, 256 150 Z" fill="#22C55E" />
+  <path d="M256 150 C280 150, 330 160, 350 140 C320 130, 280 140, 256 150 Z" fill="#22C55E" />
+  <path d="M256 150 C240 180, 190 220, 180 200 C210 180, 240 170, 256 150 Z" fill="#4ADE80" />
+  <path d="M256 150 C270 180, 320 220, 330 200 C300 180, 270 170, 256 150 Z" fill="#4ADE80" />
+  <path d="M256 150 L256 90" stroke="#16A34A" stroke-width="12" fill="none" stroke-linecap="round" />
+</svg>

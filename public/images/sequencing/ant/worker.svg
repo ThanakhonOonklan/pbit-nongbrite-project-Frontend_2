@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Ground -->
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#78350F" />
+  
+  <!-- Worker Ant (Wingless) -->
+  <g transform="translate(10, 30)">
+    <!-- Legs (6) -->
+    <!-- Back Leg -->
+    <path d="M300 250 L340 180 L380 340 L360 360" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M290 250 L320 200 L350 340 L340 360" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Middle Leg -->
+    <path d="M260 250 L280 200 L300 350 L280 360" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M250 250 L260 210 L270 350 L260 360" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Front Leg -->
+    <path d="M220 250 L180 200 L160 330 L140 350" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M230 250 L200 220 L190 330 L170 350" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Body -->
+    <!-- Abdomen -->
+    <ellipse cx="360" cy="230" rx="60" ry="45" fill="#290E01" transform="rotate(-15 360 230)" />
+    <!-- Petiole (tiny waist node) -->
+    <circle cx="295" cy="240" r="10" fill="#451A03" />
+    <circle cx="315" cy="235" r="8" fill="#451A03" />
+    <!-- Thorax -->
+    <ellipse cx="240" cy="245" rx="45" ry="30" fill="#451A03" transform="rotate(10 240 245)"/>
+    <!-- Head -->
+    <ellipse cx="140" cy="240" rx="35" ry="45" fill="#290E01" transform="rotate(-20 140 240)"/>
+    
+    <!-- Mandibles -->
+    <path d="M100 250 Q80 270 120 280" stroke="#290E01" stroke-width="10" fill="none" stroke-linecap="round" />
+    <path d="M110 260 Q90 280 130 290" stroke="#290E01" stroke-width="10" fill="none" stroke-linecap="round" />
+    
+    <!-- Antennae -->
+    <path d="M120 200 L80 150 L100 130" stroke="#451A03" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M140 190 L110 140 L130 120" stroke="#451A03" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Eyes -->
+    <circle cx="140" cy="220" r="8" fill="#000000" />
+    <circle cx="138" cy="218" r="2" fill="#FFFFFF" />
+  </g>
+</svg>

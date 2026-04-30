@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Floor/Wall -->
+  <path d="M0 350 L512 350 L512 512 L0 512 Z" fill="#F1F5F9" />
+  <path d="M0 0 L512 0 L512 350 L0 350 Z" fill="#E2E8F0" />
+  <path d="M0 350 L512 350" stroke="#CBD5E1" stroke-width="10" />
+  
+  <!-- Dirty Shirt in center -->
+  <g transform="translate(130, 100)">
+    <!-- Base Shirt Shape -->
+    <path d="M70 40 L120 40 L180 80 L250 80 L250 140 L190 140 L190 280 L60 280 L60 140 L0 140 L0 80 L70 40 Z" fill="#FFFFFF" stroke="#94A3B8" stroke-width="8" stroke-linejoin="round" />
+    <path d="M120 40 Q125 70 150 70 Q175 70 180 40" fill="none" stroke="#94A3B8" stroke-width="8" stroke-linecap="round"/>
+    
+    <!-- Dirt / Mud spots -->
+    <path d="M100 150 C120 130, 140 160, 120 180 C90 170, 80 140, 100 150 Z" fill="#78350F" opacity="0.8"/>
+    <circle cx="150" cy="120" r="15" fill="#78350F" opacity="0.6"/>
+    <circle cx="160" cy="110" r="8" fill="#78350F" opacity="0.8"/>
+    <circle cx="140" cy="135" r="10" fill="#78350F" opacity="0.7"/>
+    
+    <path d="M80 220 C100 200, 110 230, 90 250 C70 240, 60 210, 80 220 Z" fill="#854D0E" opacity="0.8"/>
+    <circle cx="130" cy="240" r="12" fill="#854D0E" opacity="0.6"/>
+    
+    <circle cx="40" cy="100" r="10" fill="#78350F" opacity="0.7"/>
+    <circle cx="210" cy="110" r="12" fill="#854D0E" opacity="0.6"/>
+  </g>
+  
+  <!-- Stink lines -->
+  <path d="M180 80 Q200 40 190 10 M250 70 Q270 30 260 0 M320 80 Q340 40 330 10" stroke="#84CC16" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.6"/>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 350 L512 350 L512 512 L0 512 Z" fill="#F1F5F9" />
+  <path d="M0 0 L512 0 L512 350 L0 350 Z" fill="#E2E8F0" />
+  
+  <!-- Washing Machine Base -->
+  <rect x="130" y="150" width="250" height="300" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="10"/>
+  <!-- Control Panel -->
+  <rect x="135" y="155" width="240" height="60" rx="10" fill="#F8FAFC" />
+  <circle cx="340" cy="185" r="15" fill="#3B82F6" />
+  <circle cx="160" cy="185" r="8" fill="#94A3B8" />
+  <circle cx="185" cy="185" r="8" fill="#94A3B8" />
+  
+  <!-- Door / Drum (Open) -->
+  <circle cx="255" cy="310" r="90" fill="#E2E8F0" stroke="#94A3B8" stroke-width="15"/>
+  <circle cx="255" cy="310" r="75" fill="#1E293B" /> <!-- Dark inside -->
+  
+  <!-- Open Door glass overlapping left -->
+  <ellipse cx="140" cy="310" rx="50" ry="90" fill="#BAE6FD" opacity="0.5" stroke="#94A3B8" stroke-width="8"/>
+  
+  <!-- Hand putting dirty shirt in -->
+  <g transform="translate(180, 50)">
+    <!-- Arm -->
+    <path d="M250 -50 L200 150" stroke="#FCA5A5" stroke-width="30" stroke-linecap="round"/>
+    <!-- Hand holding shirt -->
+    <circle cx="190" cy="160" r="25" fill="#FCA5A5" />
+    <!-- Bunched up dirty shirt -->
+    <path d="M120 180 C150 150, 200 160, 220 200 C240 250, 160 280, 120 250 C80 220, 90 180, 120 180 Z" fill="#FFFFFF" stroke="#94A3B8" stroke-width="4"/>
+    <!-- Dirt spots on bunched shirt -->
+    <circle cx="150" cy="200" r="10" fill="#78350F" />
+    <circle cx="180" cy="230" r="15" fill="#854D0E" />
+    <circle cx="140" cy="240" r="8" fill="#78350F" />
+    
+    <!-- Fingers over shirt -->
+    <path d="M170 160 L150 180 M180 155 L160 175" stroke="#F87171" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>

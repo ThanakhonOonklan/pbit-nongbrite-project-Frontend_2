@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sky background -->
+  <circle cx="400" cy="100" r="50" fill="#FEF08A" opacity="0.5" />
+  <path d="M50 150 Q100 100 150 150 T250 150" stroke="#E0F2FE" stroke-width="20" fill="none" stroke-linecap="round"/>
+  
+  <!-- Adult Dragonfly -->
+  <g transform="translate(0, -20)">
+    <!-- 4 Majestic Wings (Horizontal) -->
+    <!-- Forewings -->
+    <path d="M256 220 C350 150, 500 150, 480 220 C460 250, 350 250, 256 220 Z" fill="#BAE6FD" opacity="0.6" stroke="#38BDF8" stroke-width="2"/>
+    <path d="M256 220 C162 150, 12 150, 32 220 C52 250, 162 250, 256 220 Z" fill="#BAE6FD" opacity="0.6" stroke="#38BDF8" stroke-width="2"/>
+    
+    <!-- Hindwings (slightly wider at base) -->
+    <path d="M256 250 C330 250, 480 280, 460 330 C440 360, 350 300, 256 250 Z" fill="#7DD3FC" opacity="0.6" stroke="#38BDF8" stroke-width="2"/>
+    <path d="M256 250 C182 250, 32 280, 52 330 C72 360, 162 300, 256 250 Z" fill="#7DD3FC" opacity="0.6" stroke="#38BDF8" stroke-width="2"/>
+    
+    <!-- Wing Veins (Just a few for texture) -->
+    <path d="M256 220 L450 180 M256 220 L440 210 M256 220 L62 180 M256 220 L72 210" stroke="#0284C7" stroke-width="1" opacity="0.5"/>
+    <path d="M256 250 L420 300 M256 250 L430 320 M256 250 L92 300 M256 250 L82 320" stroke="#0284C7" stroke-width="1" opacity="0.5"/>
+    
+    <!-- Long Thin Abdomen -->
+    <path d="M256 280 C270 280, 260 480, 256 500 C252 480, 242 280, 256 280 Z" fill="#0284C7" />
+    <path d="M248 320 Q256 330 264 320 M249 360 Q256 370 263 360 M251 400 Q256 410 261 400 M252 440 Q256 450 260 440" stroke="#0369A1" stroke-width="3" fill="none" />
+    
+    <!-- Thorax -->
+    <ellipse cx="256" cy="230" rx="15" ry="50" fill="#0EA5E9" />
+    
+    <!-- Head -->
+    <ellipse cx="256" cy="160" rx="30" ry="20" fill="#0369A1" />
+    <!-- Giant Eyes -->
+    <circle cx="235" cy="155" r="15" fill="#0C4A6E" />
+    <circle cx="277" cy="155" r="15" fill="#0C4A6E" />
+    <circle cx="230" cy="150" r="4" fill="#FFFFFF" />
+    <circle cx="282" cy="150" r="4" fill="#FFFFFF" />
+  </g>
+</svg>

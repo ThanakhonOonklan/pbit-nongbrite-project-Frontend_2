@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 256 Q 128 200, 256 256 T 512 256 L 512 512 L 0 512 Z" fill="#0EA5E9" opacity="0.3"/>
+  <!-- Spines -->
+  <line x1="256" y1="150" x2="256" y2="80" stroke="#FDBA74" stroke-width="8" stroke-linecap="round"/>
+  <line x1="256" y1="300" x2="256" y2="380" stroke="#FDBA74" stroke-width="8" stroke-linecap="round"/>
+  <line x1="180" y1="220" x2="120" y2="200" stroke="#FDBA74" stroke-width="8" stroke-linecap="round"/>
+  <line x1="332" y1="220" x2="392" y2="200" stroke="#FDBA74" stroke-width="8" stroke-linecap="round"/>
+  <!-- Body -->
+  <circle cx="256" cy="220" r="50" fill="#FFEDD5"/>
+  <!-- Big Eyes -->
+  <circle cx="216" cy="200" r="18" fill="#1F2937"/>
+  <circle cx="296" cy="200" r="18" fill="#1F2937"/>
+  <circle cx="210" cy="195" r="5" fill="#FFFFFF"/>
+  <circle cx="290" cy="195" r="5" fill="#FFFFFF"/>
+  <!-- Tail -->
+  <path d="M236 270 L276 270 L266 330 L246 330 Z" fill="#FFEDD5"/>
+</svg>

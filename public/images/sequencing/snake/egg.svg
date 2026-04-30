@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Leaves background -->
+  <path d="M150 400 Q200 350 250 400 T350 400" stroke="#166534" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M180 380 Q230 330 280 380 T380 380" stroke="#15803D" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- Eggs -->
+  <ellipse cx="230" cy="350" rx="30" ry="45" fill="#F8FAFC" transform="rotate(-15 230 350)"/>
+  <ellipse cx="280" cy="360" rx="30" ry="45" fill="#F1F5F9" transform="rotate(20 280 360)"/>
+  <ellipse cx="256" cy="320" rx="30" ry="45" fill="#FFFFFF" transform="rotate(5 256 320)"/>
+</svg>

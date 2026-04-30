@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Ocean Water Background -->
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  
+  <!-- Cave Roof (Rock) where eggs hang -->
+  <path d="M100 0 C200 100, 300 120, 400 0 L512 0 L512 0 L0 0 Z" fill="#475569" />
+  
+  <!-- Hanging Egg Clusters (Teardrop strings) -->
+  <g fill="#F1F5F9" stroke="#E2E8F0" stroke-width="2">
+    <!-- Cluster 1 -->
+    <path d="M220 50 C230 150, 210 200, 220 250 C230 200, 240 150, 220 50" opacity="0.8"/>
+    <ellipse cx="220" cy="100" rx="8" ry="12" />
+    <ellipse cx="215" cy="140" rx="8" ry="12" />
+    <ellipse cx="225" cy="180" rx="8" ry="12" />
+    <ellipse cx="218" cy="220" rx="8" ry="12" />
+    
+    <!-- Cluster 2 (Main) -->
+    <path d="M260 80 C270 200, 250 280, 260 350 C270 280, 280 200, 260 80" opacity="0.8"/>
+    <ellipse cx="260" cy="120" rx="10" ry="15" />
+    <ellipse cx="252" cy="170" rx="10" ry="15" />
+    <ellipse cx="268" cy="220" rx="10" ry="15" />
+    <ellipse cx="255" cy="270" rx="10" ry="15" />
+    <ellipse cx="265" cy="320" rx="10" ry="15" />
+    
+    <!-- Cluster 3 -->
+    <path d="M300 60 C310 160, 290 220, 300 280 C310 220, 320 160, 300 60" opacity="0.8"/>
+    <ellipse cx="300" cy="110" rx="9" ry="13" />
+    <ellipse cx="292" cy="160" rx="9" ry="13" />
+    <ellipse cx="308" cy="210" rx="9" ry="13" />
+    <ellipse cx="295" cy="260" rx="9" ry="13" />
+  </g>
+  
+  <!-- Tiny eyes visible inside some eggs -->
+  <circle cx="260" cy="125" r="2" fill="#0F172A" />
+  <circle cx="252" cy="175" r="2" fill="#0F172A" />
+  <circle cx="268" cy="225" r="2" fill="#0F172A" />
+</svg>

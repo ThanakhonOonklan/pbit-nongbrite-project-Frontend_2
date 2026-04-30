@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  
+  <!-- Veliger Larva (Swimming clam with cilia) -->
+  <g transform="translate(0, 10)">
+    <!-- Tiny transparent shell starting to form -->
+    <path d="M256 300 C200 300, 180 250, 200 220 C220 190, 292 190, 312 220 C332 250, 312 300, 256 300 Z" fill="#FDF2F8" stroke="#CBD5E1" stroke-width="4"/>
+    
+    <!-- Velum (ciliated swimming organ) -->
+    <path d="M200 200 C150 150, 200 100, 256 150 C312 100, 362 150, 312 200" fill="#FCE7F3" opacity="0.8"/>
+    
+    <!-- Cilia (Hair-like structures for swimming) -->
+    <g stroke="#94A3B8" stroke-width="3" stroke-linecap="round">
+      <line x1="180" y1="160" x2="160" y2="150" />
+      <line x1="190" y1="140" x2="175" y2="125" />
+      <line x1="210" y1="130" x2="200" y2="110" />
+      <line x1="230" y1="135" x2="225" y2="115" />
+      <line x1="332" y1="160" x2="352" y2="150" />
+      <line x1="322" y1="140" x2="337" y2="125" />
+      <line x1="302" y1="130" x2="312" y2="110" />
+      <line x1="282" y1="135" x2="287" y2="115" />
+    </g>
+    
+    <!-- Inner organs visible -->
+    <circle cx="240" cy="250" r="15" fill="#F472B6" opacity="0.6"/>
+    <circle cx="270" cy="260" r="10" fill="#94A3B8" opacity="0.6"/>
+  </g>
+</svg>

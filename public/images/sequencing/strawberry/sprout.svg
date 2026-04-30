@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Soil Background -->
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#78350F" />
+  
+  <!-- Sprout Stem -->
+  <path d="M256 350 C260 300, 240 280, 250 220" stroke="#4ADE80" stroke-width="10" fill="none" stroke-linecap="round"/>
+  
+  <!-- Strawberry serrated leaves -->
+  <!-- Left Leaf -->
+  <path d="M245 230 C200 200, 160 240, 170 280 C200 290, 230 260, 245 230 Z" fill="#22C55E" />
+  <path d="M170 280 L180 270 L175 260 L190 250" stroke="#22C55E" stroke-width="4" fill="none" stroke-linejoin="round"/>
+  <!-- Right Leaf -->
+  <path d="M255 230 C300 200, 340 240, 330 280 C300 290, 270 260, 255 230 Z" fill="#22C55E" />
+  <path d="M330 280 L320 270 L325 260 L310 250" stroke="#22C55E" stroke-width="4" fill="none" stroke-linejoin="round"/>
+  <!-- Center Leaf -->
+  <path d="M250 220 C230 160, 280 150, 300 190 C300 210, 270 220, 250 220 Z" fill="#16A34A" />
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 350 L512 350 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  
+  <!-- Reed/Stick -->
+  <path d="M256 512 C240 400, 270 200, 256 0" stroke="#B45309" stroke-width="30" fill="none" />
+  
+  <!-- Empty Exuvia (Shell) on stick -->
+  <g transform="translate(0, 100)" opacity="0.6">
+    <path d="M240 200 L210 180 L230 150 M240 240 L190 230 L220 200 M240 280 L200 300 L230 280" stroke="#D1D5DB" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M272 200 L302 180 L282 150 M272 240 L322 230 L292 200 M272 280 L312 300 L282 280" stroke="#D1D5DB" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M256 200 C290 200, 280 320, 256 360 C232 320, 222 200, 256 200 Z" fill="#E5E7EB" />
+    <ellipse cx="256" cy="180" rx="25" ry="30" fill="#E5E7EB" />
+  </g>
+  
+  <!-- Adult Dragonfly Emerging (Arching backwards out of shell) -->
+  <g transform="translate(0, -60)">
+    <!-- Soft undeveloped wings unfolding -->
+    <path d="M256 180 C200 120, 100 150, 150 220 Z" fill="#BAE6FD" opacity="0.7" />
+    <path d="M256 180 C312 120, 412 150, 362 220 Z" fill="#BAE6FD" opacity="0.7" />
+    <path d="M256 180 C180 180, 120 250, 180 280 Z" fill="#7DD3FC" opacity="0.6" />
+    <path d="M256 180 C332 180, 392 250, 332 280 Z" fill="#7DD3FC" opacity="0.6" />
+    
+    <!-- Colorful Adult Body -->
+    <!-- Head arched back -->
+    <ellipse cx="256" cy="90" rx="30" ry="20" fill="#0369A1" />
+    <circle cx="235" cy="85" r="12" fill="#0284C7" />
+    <circle cx="277" cy="85" r="12" fill="#0284C7" />
+    
+    <!-- Thorax -->
+    <ellipse cx="256" cy="140" rx="20" ry="35" fill="#0EA5E9" />
+    
+    <!-- Long tail emerging -->
+    <path d="M256 170 C256 200, 240 300, 256 330 C272 300, 256 200, 256 170 Z" fill="#38BDF8" />
+    <!-- Bright blue bands -->
+    <path d="M246 200 Q256 210 266 200 M243 230 Q256 240 269 230 M245 260 Q256 270 267 260" stroke="#0284C7" stroke-width="4" fill="none" />
+  </g>
+</svg>

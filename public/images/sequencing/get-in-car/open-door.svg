@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 400 L512 400 L512 512 L0 512 Z" fill="#94A3B8" /> <!-- Ground -->
+  
+  <!-- Car Side View -->
+  <g transform="translate(50, 200)">
+    <!-- Car Body -->
+    <path d="M0 150 Q0 100 50 100 L120 100 L180 30 L300 30 L380 100 L420 100 Q450 100 450 150 L450 200 L0 200 Z" fill="#EF4444" />
+    <path d="M130 100 L185 40 L240 40 L240 100 Z" fill="#334155" /> <!-- Front window -->
+    <path d="M250 40 L295 40 L360 100 L250 100 Z" fill="#334155" /> <!-- Back window -->
+    <!-- Wheels -->
+    <circle cx="100" cy="200" r="40" fill="#1E293B" />
+    <circle cx="100" cy="200" r="20" fill="#CBD5E1" />
+    <circle cx="350" cy="200" r="40" fill="#1E293B" />
+    <circle cx="350" cy="200" r="20" fill="#CBD5E1" />
+    
+    <!-- Open Door -->
+    <path d="M120 100 L240 100 L240 200 L120 200 Z" fill="#94A3B8" /> <!-- Interior visible -->
+    <!-- Door swung open towards viewer -->
+    <path d="M120 100 L80 150 L80 250 L120 200 Z" fill="#DC2626" />
+    <path d="M130 100 L95 150 L95 200 L130 140 Z" fill="#334155" opacity="0.8"/> <!-- Door window -->
+    <rect x="90" y="170" width="15" height="5" fill="#1E293B" transform="rotate(30 90 170)"/> <!-- Handle inside -->
+  </g>
+  
+  <!-- Person standing next to open door -->
+  <g transform="translate(180, 250)">
+    <circle cx="0" cy="30" r="25" fill="#FCA5A5" />
+    <path d="M-15 70 L15 70 L15 130 L-15 130 Z" fill="#3B82F6" rx="5"/>
+    <path d="M-5 130 L-5 180 M5 130 L5 180" stroke="#1D4ED8" stroke-width="12" stroke-linecap="round"/>
+    <!-- Arm opening door -->
+    <path d="M-15 80 L-50 120" stroke="#FCA5A5" stroke-width="10" stroke-linecap="round"/>
+    <path d="M15 80 L15 120" stroke="#FCA5A5" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>

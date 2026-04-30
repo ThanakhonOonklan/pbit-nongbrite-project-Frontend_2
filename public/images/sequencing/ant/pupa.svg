@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Dirt Tunnel Background -->
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#78350F" />
+  <ellipse cx="256" cy="256" rx="200" ry="150" fill="#451A03" />
+  
+  <!-- Ant Pupa (Looks like a folded white ant) -->
+  <g transform="translate(10, 0)">
+    <!-- Base Body Silhouette (Abdomen, Thorax, Head) -->
+    <!-- Abdomen -->
+    <ellipse cx="320" cy="256" rx="70" ry="50" fill="#FEF3C7" transform="rotate(-15 320 256)" />
+    <!-- Thorax -->
+    <ellipse cx="220" cy="256" rx="45" ry="35" fill="#FEF3C7" />
+    <!-- Head -->
+    <ellipse cx="140" cy="256" rx="35" ry="40" fill="#FEF3C7" transform="rotate(15 140 256)"/>
+    
+    <!-- Folded Legs tightly against body -->
+    <path d="M200 280 L220 320 L240 280" stroke="#FDE68A" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M230 280 L250 330 L270 280" stroke="#FDE68A" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M260 280 L280 320 L300 270" stroke="#FDE68A" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Folded Antennae over face -->
+    <path d="M130 220 Q100 256 130 290" stroke="#FDE68A" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M150 220 Q120 256 150 290" stroke="#FDE68A" stroke-width="8" fill="none" stroke-linecap="round"/>
+    
+    <!-- Black eye starting to pigment (shows it's maturing) -->
+    <circle cx="140" cy="245" r="12" fill="#1F2937" opacity="0.6"/>
+  </g>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Table Top -->
+  <ellipse cx="256" cy="400" rx="200" ry="60" fill="#E2E8F0" />
+  
+  <!-- Plate -->
+  <ellipse cx="256" cy="380" rx="140" ry="45" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="4"/>
+  <ellipse cx="256" cy="385" rx="100" ry="30" fill="#FFFFFF" />
+  
+  <!-- Fried Egg on plate -->
+  <!-- Crispy edges -->
+  <path d="M170 380 C170 350, 220 340, 256 340 C310 340, 340 360, 330 390 C320 410, 270 410, 230 400 C180 390, 170 410, 170 380 Z" fill="#D97706" />
+  <!-- White -->
+  <path d="M180 380 C180 360, 220 350, 256 350 C300 350, 320 365, 310 385 C300 400, 270 400, 240 395 C200 390, 180 400, 180 380 Z" fill="#FFFFFF" />
+  <!-- Yolk -->
+  <ellipse cx="256" cy="375" rx="35" ry="20" fill="#F59E0B" />
+  <ellipse cx="250" cy="370" rx="12" ry="6" fill="#FDE047" />
+  
+  <!-- Pepper / Seasoning sprinkled -->
+  <g fill="#1F2937">
+    <circle cx="240" cy="370" r="1.5" />
+    <circle cx="245" cy="380" r="1.5" />
+    <circle cx="255" cy="375" r="1.5" />
+    <circle cx="265" cy="380" r="1.5" />
+    <circle cx="260" cy="365" r="1.5" />
+    <circle cx="230" cy="385" r="1.5" />
+    <circle cx="270" cy="370" r="1.5" />
+  </g>
+  
+  <!-- Fork and Knife -->
+  <path d="M100 250 L100 420" stroke="#94A3B8" stroke-width="12" stroke-linecap="round" />
+  <!-- Fork Tines -->
+  <path d="M85 200 L85 250 M95 200 L95 250 M105 200 L105 250 M115 200 L115 250" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" />
+  <path d="M85 250 C85 270, 115 270, 115 250 Z" fill="#94A3B8" />
+  
+  <path d="M412 250 L412 420" stroke="#94A3B8" stroke-width="12" stroke-linecap="round" />
+  <!-- Knife Blade -->
+  <path d="M412 250 L412 180 C425 180, 425 250, 412 250 Z" fill="#94A3B8" />
+</svg>

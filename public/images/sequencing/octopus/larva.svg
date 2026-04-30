@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <circle cx="100" cy="150" r="15" fill="#FFFFFF" opacity="0.3" />
+  <circle cx="400" cy="350" r="10" fill="#FFFFFF" opacity="0.3" />
+  
+  <!-- Paralarva (Tiny clear head, massive eyes, stubby arms) -->
+  <g transform="translate(20, -20)">
+    <!-- Tiny Arms -->
+    <path d="M220 300 C200 350, 180 340, 180 380" stroke="#F472B6" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M240 310 C220 360, 200 350, 210 390" stroke="#F472B6" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M260 315 C260 370, 250 380, 250 400" stroke="#F472B6" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M280 310 C290 360, 280 370, 290 390" stroke="#F472B6" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M300 300 C320 350, 310 360, 320 380" stroke="#F472B6" stroke-width="8" fill="none" stroke-linecap="round"/>
+    
+    <!-- Transparent Body -->
+    <ellipse cx="256" cy="240" rx="50" ry="70" fill="#FCE7F3" opacity="0.9"/>
+    
+    <!-- Massive Eyes -->
+    <circle cx="220" cy="260" r="15" fill="#1E293B" />
+    <circle cx="292" cy="260" r="15" fill="#1E293B" />
+    <circle cx="218" cy="256" r="4" fill="#FFFFFF" />
+    <circle cx="290" cy="256" r="4" fill="#FFFFFF" />
+    
+    <!-- Inside body (ink sac visible) -->
+    <ellipse cx="256" cy="220" rx="15" ry="20" fill="#64748B" opacity="0.5"/>
+  </g>
+</svg>

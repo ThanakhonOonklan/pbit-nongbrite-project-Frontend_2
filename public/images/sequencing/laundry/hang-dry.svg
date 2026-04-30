@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Outdoor Sky -->
+  <path d="M0 0 L512 0 L512 350 L0 350 Z" fill="#38BDF8" />
+  <!-- Grass -->
+  <path d="M0 350 L512 350 L512 512 L0 512 Z" fill="#22C55E" />
+  <!-- Sun -->
+  <circle cx="80" cy="80" r="40" fill="#FBBF24" />
+  
+  <!-- Clothesline Poles -->
+  <path d="M100 150 L100 400" stroke="#94A3B8" stroke-width="12" stroke-linecap="round" />
+  <path d="M412 150 L412 400" stroke="#94A3B8" stroke-width="12" stroke-linecap="round" />
+  
+  <!-- Clothesline Rope (Sagging) -->
+  <path d="M100 180 Q256 220 412 180" stroke="#E2E8F0" stroke-width="4" fill="none" />
+  
+  <!-- Shirt hanging to dry (Clean, White) -->
+  <g transform="translate(160, 160)">
+    <!-- Pegs -->
+    <rect x="50" y="25" width="8" height="20" fill="#EF4444" rx="2" />
+    <rect x="135" y="25" width="8" height="20" fill="#EF4444" rx="2" />
+    
+    <!-- Clean Shirt -->
+    <path d="M40 40 L96 50 L152 40 L212 90 L182 140 L152 110 L152 230 L40 230 L40 110 L10 140 L-20 90 L40 40 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="6" stroke-linejoin="round" />
+    <path d="M96 50 Q105 80 140 80 Q175 80 152 40" fill="none" stroke="#E2E8F0" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Water dripping from bottom -->
+    <path d="M60 240 L60 250" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" />
+    <path d="M100 240 L100 260" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" />
+    <path d="M130 240 L130 245" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" />
+    <circle cx="60" cy="260" r="3" fill="#38BDF8" />
+    <circle cx="100" cy="275" r="4" fill="#38BDF8" />
+    <circle cx="130" cy="255" r="2" fill="#38BDF8" />
+  </g>
+  
+  <!-- Sparkles on shirt indicating cleanness -->
+  <path d="M220 200 L230 210 M220 210 L230 200" stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+  <path d="M300 280 L310 290 M300 290 L310 280" stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+</svg>

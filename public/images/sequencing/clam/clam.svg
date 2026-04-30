@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <!-- Sandy Bottom -->
+  <path d="M50 400 Q256 350 462 400 L462 450 L50 450 Z" fill="#FDE68A" />
+  
+  <!-- Giant Mature Clam/Oyster open to show Pearl -->
+  <g transform="translate(0, -20)">
+    <!-- Back Shell (Top half, opened up) -->
+    <path d="M100 250 C100 50, 412 50, 412 250 C412 300, 256 250, 100 250 Z" fill="#E2E8F0" />
+    <!-- Inner Top Shell Texture -->
+    <path d="M120 230 C120 80, 392 80, 392 230 C392 270, 256 230, 120 230 Z" fill="#F1F5F9" />
+    <path d="M120 230 C120 80, 392 80, 392 230 C392 270, 256 230, 120 230 Z" fill="url(#pearlGradient)" opacity="0.3"/>
+    
+    <!-- Fleshy Mantle inside -->
+    <path d="M140 260 C140 230, 372 230, 372 260 C372 320, 256 340, 140 260 Z" fill="#FBCFE8" />
+    <!-- Mantle edges (wavy) -->
+    <path d="M130 255 Q150 240 170 255 T210 255 T250 255 T290 255 T330 255 T370 255 T385 265" stroke="#F472B6" stroke-width="4" fill="none" />
+    
+    <!-- Big Beautiful Pearl -->
+    <circle cx="256" cy="270" r="30" fill="#FFFFFF" />
+    <circle cx="245" cy="260" r="8" fill="#F8FAFC" />
+    <path d="M270 280 A20 20 0 0 0 280 260" stroke="#E2E8F0" stroke-width="3" fill="none" />
+    
+    <!-- Front Shell (Bottom half) -->
+    <path d="M80 260 C80 400, 432 400, 432 260 C432 320, 256 360, 80 260 Z" fill="#94A3B8" />
+    
+    <!-- Front Shell Details (Thick mature growth rings) -->
+    <g stroke="#64748B" stroke-width="5" fill="none" stroke-linecap="round">
+      <path d="M120 280 C120 360, 392 360, 392 280" />
+      <path d="M150 300 C150 340, 362 340, 362 300" />
+      <path d="M180 320 C180 330, 332 330, 332 320" />
+    </g>
+  </g>
+</svg>

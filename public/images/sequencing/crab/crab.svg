@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Legs -->
+  <path d="M160 220 Q80 180 50 240 L70 270 Z" fill="#DC2626"/>
+  <path d="M352 220 Q432 180 462 240 L442 270 Z" fill="#DC2626"/>
+  <path d="M160 270 Q80 290 60 360 L90 370 Z" fill="#DC2626"/>
+  <path d="M352 270 Q432 290 452 360 L422 370 Z" fill="#DC2626"/>
+  <!-- Claws -->
+  <path d="M200 180 Q100 100 80 180 C60 160, 60 100, 100 80 C140 60, 180 120, 200 180 Z" fill="#EF4444"/>
+  <path d="M312 180 Q412 100 432 180 C452 160, 452 100, 412 80 C372 60, 332 120, 312 180 Z" fill="#EF4444"/>
+  <!-- Body -->
+  <ellipse cx="256" cy="260" rx="120" ry="80" fill="#EF4444"/>
+  <!-- Shell Details -->
+  <path d="M180 260 Q256 220 332 260" stroke="#B91C1C" stroke-width="6" fill="none"/>
+  <path d="M190 290 Q256 250 322 290" stroke="#B91C1C" stroke-width="6" fill="none"/>
+  <!-- Eyes -->
+  <line x1="220" y1="180" x2="220" y2="130" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+  <line x1="292" y1="180" x2="292" y2="130" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="220" cy="130" r="16" fill="#FFFFFF"/>
+  <circle cx="292" cy="130" r="16" fill="#FFFFFF"/>
+  <circle cx="220" cy="125" r="6" fill="#1F2937"/>
+  <circle cx="292" cy="125" r="6" fill="#1F2937"/>
+  <!-- Smile -->
+  <path d="M236 210 Q256 230 276 210" stroke="#7F1D1D" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>

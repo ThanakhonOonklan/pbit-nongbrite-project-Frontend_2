@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Pan -->
+  <path d="M156 400 L356 400 C356 450, 316 470, 256 470 C196 470, 156 450, 156 400 Z" fill="#1E293B" />
+  <ellipse cx="256" cy="400" rx="100" ry="25" fill="#334155" />
+  <path d="M356 400 L480 370" stroke="#0F172A" stroke-width="20" stroke-linecap="round" />
+  <ellipse cx="256" cy="405" rx="60" ry="18" fill="#FEF08A" opacity="0.6" /> <!-- Oil -->
+  
+  <!-- Egg falling -->
+  <ellipse cx="256" cy="300" rx="15" ry="30" fill="#FEF08A" /> <!-- Yolk falling -->
+  <path d="M240 310 C240 250, 272 250, 272 310 C280 340, 230 340, 240 310 Z" fill="#FFFFFF" opacity="0.8"/> <!-- White falling -->
+  
+  <!-- Two hands breaking the shell -->
+  <g transform="translate(0, -60)">
+    <!-- Left Shell Half -->
+    <path d="M240 250 C240 200, 180 200, 180 250 C180 270, 190 280, 200 270 L210 280 L220 260 L230 280 L240 270 Z" fill="#FFF7ED" stroke="#FDBA74" stroke-width="4"/>
+    <!-- Right Shell Half -->
+    <path d="M272 250 C272 200, 332 200, 332 250 C332 270, 322 280, 312 270 L302 280 L292 260 L282 280 L272 270 Z" fill="#FFF7ED" stroke="#FDBA74" stroke-width="4"/>
+    
+    <!-- Left Hand (Simplified) -->
+    <path d="M80 180 C120 180, 160 220, 170 240 C170 260, 150 280, 140 260 C120 220, 80 240, 80 240" fill="#FCA5A5" stroke="#F87171" stroke-width="4"/>
+    <!-- Right Hand -->
+    <path d="M432 180 C392 180, 352 220, 342 240 C342 260, 362 280, 372 260 C392 220, 432 240, 432 240" fill="#FCA5A5" stroke="#F87171" stroke-width="4"/>
+  </g>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <!-- Sandy Bottom -->
+  <path d="M50 400 Q256 350 462 400 L462 450 L50 450 Z" fill="#FDE68A" />
+  
+  <!-- Majestic Adult Shrimp/Prawn -->
+  <g transform="translate(10, -20)">
+    <!-- Very Long Antennae -->
+    <path d="M120 230 Q20 50 100 20" stroke="#EF4444" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M120 240 Q0 150 40 280" stroke="#EF4444" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M130 250 Q50 350 150 420" stroke="#EF4444" stroke-width="3" fill="none" stroke-linecap="round"/>
+    
+    <!-- Thick Segmented Abdomen -->
+    <path d="M260 230 C360 230, 460 330, 380 430" stroke="#FCA5A5" stroke-width="45" fill="none" stroke-linecap="round"/>
+    <!-- Shell overlapping plates -->
+    <path d="M290 215 C330 215, 340 270, 310 275" fill="#EF4444" opacity="0.8"/>
+    <path d="M330 235 C370 245, 370 300, 340 310" fill="#EF4444" opacity="0.8"/>
+    <path d="M370 275 C400 295, 390 350, 360 350" fill="#EF4444" opacity="0.8"/>
+    <path d="M390 325 C420 355, 400 400, 370 395" fill="#EF4444" opacity="0.8"/>
+    
+    <!-- Tail Fan -->
+    <path d="M380 430 L450 460 L390 470 L360 440 Z" fill="#EF4444" />
+    <path d="M380 430 L460 430 L420 460 Z" fill="#EF4444" />
+    <path d="M380 430 L430 400 L440 430 Z" fill="#EF4444" />
+    
+    <!-- Large Carapace -->
+    <path d="M120 240 C120 170, 300 170, 300 240 C300 300, 120 300, 120 240 Z" fill="#EF4444" />
+    <!-- Carapace markings -->
+    <path d="M150 190 C220 190, 270 200, 290 240" stroke="#FCA5A5" stroke-width="6" fill="none" />
+    
+    <!-- Serrated Rostrum (Sword-like nose) -->
+    <path d="M130 200 L50 190 L70 205 L60 210 L85 220 L75 225 L100 235 L120 240 Z" fill="#EF4444" />
+    
+    <!-- Long Walking Legs with small claws -->
+    <g stroke="#EF4444" stroke-width="8" stroke-linecap="round" fill="none" stroke-linejoin="round">
+      <path d="M170 290 L140 380 L160 390" />
+      <path d="M210 295 L180 390 L200 400" />
+      <path d="M250 295 L220 390 L240 400" />
+      <!-- Chelae (tiny claws on first legs) -->
+      <path d="M160 390 L165 400 M160 390 L155 400" stroke-width="4"/>
+      <path d="M200 400 L205 410 M200 400 L195 410" stroke-width="4"/>
+    </g>
+    
+    <!-- Swimming Legs (Pleopods) -->
+    <g stroke="#FCA5A5" stroke-width="8" stroke-linecap="round" fill="none">
+      <path d="M310 280 Q290 330 260 340" />
+      <path d="M340 310 Q320 360 290 370" />
+      <path d="M370 350 Q350 400 320 410" />
+      <path d="M390 390 Q370 430 350 440" />
+    </g>
+    
+    <!-- Stalked Eye -->
+    <path d="M140 220 L130 195" stroke="#EF4444" stroke-width="6" fill="none" />
+    <circle cx="125" cy="190" r="12" fill="#111827" />
+    <circle cx="121" cy="186" r="4" fill="#FFFFFF" />
+  </g>
+</svg>

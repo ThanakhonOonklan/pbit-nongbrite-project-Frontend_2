@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  
+  <g transform="translate(0, 20)">
+    <!-- Legs -->
+    <path d="M220 250 L150 200 L120 250 M240 280 L140 300 L110 350 M220 320 L160 400 L130 450" stroke="#4B5563" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M292 250 L362 200 L392 250 M272 280 L372 300 L402 350 M292 320 L352 400 L382 450" stroke="#4B5563" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Body (Nymph/Naiad) -->
+    <!-- Abdomen -->
+    <path d="M256 260 C320 260, 310 400, 256 450 C202 400, 192 260, 256 260 Z" fill="#6B7280" />
+    <path d="M256 260 C320 260, 310 400, 256 450 C202 400, 192 260, 256 260 Z" fill="#4B5563" opacity="0.5"/>
+    
+    <!-- Abdomen segments -->
+    <path d="M210 300 Q256 320 302 300 M210 340 Q256 360 302 340 M215 380 Q256 400 297 380 M225 420 Q256 430 287 420" stroke="#374151" stroke-width="4" fill="none" />
+    
+    <!-- Wing pads (undeveloped wings) -->
+    <path d="M230 230 C200 280, 210 320, 240 280 Z" fill="#9CA3AF" />
+    <path d="M282 230 C312 280, 302 320, 272 280 Z" fill="#9CA3AF" />
+    
+    <!-- Thorax -->
+    <ellipse cx="256" cy="230" rx="35" ry="40" fill="#6B7280" />
+    
+    <!-- Head -->
+    <ellipse cx="256" cy="160" rx="45" ry="35" fill="#4B5563" />
+    
+    <!-- Fierce Jaws (Mask) -->
+    <path d="M220 180 Q256 220 292 180" stroke="#1F2937" stroke-width="8" fill="none" stroke-linecap="round"/>
+    
+    <!-- Big Compound Eyes -->
+    <circle cx="215" cy="150" r="15" fill="#111827" />
+    <circle cx="297" cy="150" r="15" fill="#111827" />
+  </g>
+</svg>
