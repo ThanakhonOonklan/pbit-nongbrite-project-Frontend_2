@@ -19,22 +19,21 @@ import { useUserStore } from "@/store/user.store";
 export type DrawingMode = "paint" | "fill" | "eraser";
 
 // ── Memory time (seconds) per difficulty ─────────────────────
-// easy: 0 = no memorize phase (reference always visible)
+// easy: 10s | normal: 8s | hard: 15s
 const getMemorizeTime = (difficulty: string) => {
-  if (difficulty === "easy") return 0;
+  if (difficulty === "easy") return 10;
   if (difficulty === "normal") return 8;
   if (difficulty === "hard") return 15;
   return 10;
 };
 
 // ── Max peek count per difficulty ────────────────────────────
-// easy: always visible (peek button hidden)
-// normal: unlimited peeks (no penalty)
-// hard: 3 peeks, 2nd+ penalised
+// easy: 5 peeks | normal: 3 peeks | hard: 2 peeks (2nd+ penalised)
 const getMaxPeeks = (difficulty: string) => {
+  if (difficulty === "easy") return 5;
   if (difficulty === "normal") return 3;
   if (difficulty === "hard") return 2;
-  return 999; // unlimited for easy
+  return 5;
 };
 
 interface GridColoringGameProps {
@@ -50,13 +49,25 @@ export function GridColoringGame({
   startTime,
   isGameActive = true,
 }: GridColoringGameProps) {
-  const { gridSize, palette, pattern } = config;
+  const { gridSize, patterns } = config;
+  // ── Randomly select one pattern variant (client-only to avoid hydration mismatch) ──
+  const [variantIndex, setVariantIndex] = useState(0);
+  const [isReady, setIsReady] = useState(false);
+  useEffect(() => {
+    const idx = Math.floor(Math.random() * patterns.length);
+    setVariantIndex(idx);
+    setSelectedColor(patterns[idx].palette[0]);
+    setIsReady(true);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const variant = patterns[variantIndex];
+  const pattern = variant.grid;
+  const palette = variant.palette;
   const { reduceLife } = useUserStore();
   // ── Canvas state ──────────────────────────────────────────
   const [canvas, setCanvas] = useState<(string | null)[][]>(
     () => Array.from({ length: gridSize }, () => Array(gridSize).fill(null))
   );
-  const [selectedColor, setSelectedColor] = useState<string | null>(palette[0]);
+  const [selectedColor, setSelectedColor] = useState<string | null>(patterns[0].palette[0]);
   const [drawingMode, setDrawingMode] = useState<DrawingMode>("paint");
   const [wrongCount, setWrongCount] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -106,8 +117,8 @@ export function GridColoringGame({
   const initialTime = getMemorizeTime(config.difficulty);
   const maxPeeks = getMaxPeeks(config.difficulty);
 
-  // easy → isMemorizing = false (never starts memorize phase)
-  const [isMemorizing, setIsMemorizing] = useState(config.difficulty !== "easy");
+  // All difficulties start with memorize phase
+  const [isMemorizing, setIsMemorizing] = useState(true);
   const [memorizeTimeLeft, setMemorizeTimeLeft] = useState(initialTime);
   const [isPeeking, setIsPeeking] = useState(false);
   const [peekTimeLeft, setPeekTimeLeft] = useState(0);
@@ -286,9 +297,8 @@ export function GridColoringGame({
     }, 0);
   }, [gridSize, historyIndex]);
 
-  // easy: always show reference | memorizing/peeking: show | else: hide
-  const isReferenceHidden =
-    config.difficulty !== "easy" && !isMemorizing && !isPeeking;
+  // Show reference only during memorize phase or peek
+  const isReferenceHidden = !isMemorizing && !isPeeking;
 
   return (
     <div className="flex flex-col gap-4 w-full h-full flex-1">
@@ -313,7 +323,7 @@ export function GridColoringGame({
                 : 0
             }
             isPeeking={isPeeking}
-            showPeekButton={config.difficulty !== "easy" && !isMemorizing}
+            showPeekButton={!isMemorizing}
             onSkip={handleSkipMemorize}
           />
         </div>
