@@ -3,12 +3,7 @@
 import { ForgetPasswordForm } from "@/components/auth/ForgetPasswordForm";
 
 export default function ForgotPasswordPage() {
-  const handleForgotPassword = (
-    email: string, 
-    otp: string, 
-    password: string, 
-    confirmPassword: string
-  ) => {
+  const handleForgotPassword = () => {
     // TODO: Add your forgot password logic here
   };
 

@@ -98,6 +98,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
         pin: otp.join(""),
         newPassword: password,
       });
+      onSubmit?.(email.trim(), otp.join(""), password, confirmPassword);
       return true;
     } catch {
       return false;
@@ -312,6 +313,16 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
         footerClassName="px-0"
         disableStepIndicators={true}
         backButtonProps={{ disabled: isLoading }}
+        footerLeftContent={
+          <button
+            type="button"
+            onClick={() => router.push("/login")}
+            disabled={isLoading}
+            className="duration-350 rounded px-2 py-1 text-sm font-medium text-neutral-400 transition hover:text-neutral-700 disabled:pointer-events-none disabled:opacity-50"
+          >
+            {t("stepper.back")}
+          </button>
+        }
         nextButtonProps={{
           disabled: isLoading,
           onClick: async (e) => {
