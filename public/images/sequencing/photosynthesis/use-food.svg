@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <path d="M256 512 L256 200" stroke="#15803D" stroke-width="20" stroke-linecap="round"/>
+  
+  <!-- Energy flowing DOWN the stem -->
+  <g fill="#FBBF24">
+    <polygon points="256,350 240,320 272,320" />
+    <polygon points="256,420 240,390 272,390" />
+    <polygon points="256,490 240,460 272,460" />
+  </g>
+  
+  <g transform="translate(256, 300) rotate(-30 0 0)">
+    <path d="M0 0 C70 0, 170 -150, -30 -350 C-230 -150, -130 0, 0 0 Z" fill="#22C55E" />
+    <path d="M0 0 Q-20 -150, -30 -330" stroke="#15803D" stroke-width="10" stroke-linecap="round" fill="none"/>
+    
+    <!-- Energy lines moving from leaf into stem -->
+    <path d="M-30 -200 L-10 -100 L0 0" stroke="#FBBF24" stroke-width="6" stroke-dasharray="10 10" stroke-linecap="round" fill="none"/>
+    <path d="M20 -150 L10 -75 L0 0" stroke="#FBBF24" stroke-width="6" stroke-dasharray="10 10" stroke-linecap="round" fill="none"/>
+    <path d="M-80 -150 L-40 -75 L0 0" stroke="#FBBF24" stroke-width="6" stroke-dasharray="10 10" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

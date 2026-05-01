@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#451A03" />
+  
+  <!-- Dead Plant (Just a brown stump and fallen leaves) -->
+  <path d="M256 220 L240 190" stroke="#78350F" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Leaves dead on the soil -->
+  <path d="M220 220 Q200 210 190 225 Q210 235 220 220" fill="#78350F"/>
+  <path d="M260 215 Q280 210 290 225 Q270 230 260 215" fill="#92400E"/>
+  <path d="M240 225 Q230 215 210 220 Q230 230 240 225" fill="#78350F"/>
+  <path d="M280 225 Q300 220 310 230 Q290 240 280 225" fill="#92400E"/>
+  <path d="M180 225 Q160 220 150 230 Q170 240 180 225" fill="#78350F"/>
+  
+  <!-- Ghost/Skull icon lightly showing death (Optional, maybe just a cross or simply dead leaves) -->
+  <path d="M256 120 L256 160 M236 140 L276 140" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+</svg>

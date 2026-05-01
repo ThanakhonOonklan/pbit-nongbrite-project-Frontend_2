@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <!-- Bigger Plant, Taller Stem -->
+  <path d="M256 512 Q240 250 256 100" stroke="#16A34A" stroke-width="24" stroke-linecap="round" fill="none"/>
+  
+  <!-- Original Leaf (lower now) -->
+  <g transform="translate(250, 400) rotate(-40 0 0)">
+    <path d="M0 0 C70 0, 170 -150, -30 -350 C-230 -150, -130 0, 0 0 Z" fill="#22C55E" />
+    <path d="M0 0 Q-20 -150, -30 -330" stroke="#15803D" stroke-width="10" stroke-linecap="round" fill="none"/>
+  </g>
+  
+  <!-- New Leaf Growing Right -->
+  <g transform="translate(256, 250) rotate(40 0 0)">
+    <path d="M0 0 C-70 0, -170 -150, 30 -350 C230 -150, 130 0, 0 0 Z" fill="#4ADE80" />
+    <path d="M0 0 Q20 -150, 30 -330" stroke="#16A34A" stroke-width="10" stroke-linecap="round" fill="none"/>
+  </g>
+  
+  <!-- New Sprout on top -->
+  <path d="M256 100 Q200 80 230 40 Q260 70 256 100" fill="#4ADE80"/>
+  <path d="M256 100 Q300 80 270 40 Q240 70 256 100" fill="#4ADE80"/>
+  
+  <!-- Growth Arrows -->
+  <g stroke="#FBBF24" stroke-width="8" stroke-linecap="round" fill="none">
+    <path d="M180 250 L180 150 M160 170 L180 150 L200 170" />
+    <path d="M330 250 L330 150 M310 170 L330 150 L350 170" />
+  </g>
+</svg>

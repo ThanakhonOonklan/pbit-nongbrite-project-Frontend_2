@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#334155" />
+  
+  <!-- Background silhouettes (Trees) -->
+  <path d="M80 400 L120 150 L160 400 Z" fill="#1E293B" />
+  <path d="M350 400 L400 100 L450 400 Z" fill="#1E293B" />
+  <path d="M250 400 L280 200 L310 400 Z" fill="#1E293B" />
+  
+  <!-- Light fog layers overlaying the bottom -->
+  <path d="M-50 450 Q100 350 250 400 T560 380 L560 512 L-50 512 Z" fill="#E2E8F0" opacity="0.6"/>
+  <path d="M-50 400 Q150 250 300 350 T560 300 L560 512 L-50 512 Z" fill="#F1F5F9" opacity="0.5"/>
+  <path d="M-50 350 Q200 200 350 300 T560 200 L560 512 L-50 512 Z" fill="#F8FAFC" opacity="0.4"/>
+</svg>

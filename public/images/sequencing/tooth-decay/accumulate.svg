@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#F1F5F9" />
+  
+  <g transform="translate(256, 256)">
+    <!-- Tooth filling is slightly yellow tinted overall -->
+    <path d="M-100 -120 C-100 -200, -50 -200, 0 -180 C50 -200, 100 -200, 100 -120 C100 -30, 80 50, 60 150 C50 200, 10 200, 0 150 C-10 100, -10 100, 0 150 C-10 200, -50 200, -60 150 C-80 50, -100 -30, -100 -120 Z" fill="#FFFBEB" stroke="#94A3B8" stroke-width="12" stroke-linejoin="round"/>
+    
+    <!-- Heavy Plaque -->
+    <path d="M20 -180 C80 -180, 100 -100, 80 -40 C50 -60, 40 -120, 20 -180 Z" fill="#FDE047" opacity="0.9"/>
+    <path d="M-90 -100 C-50 -80, -30 -20, -70 20 C-90 -10, -100 -50, -90 -100 Z" fill="#FDE047" opacity="0.9"/>
+    <path d="M0 40 C60 50, 80 120, 40 160 C10 120, -10 80, 0 40 Z" fill="#FDE047" opacity="0.9"/>
+    
+    <!-- Unhappy Face -->
+    <circle cx="-35" cy="-80" r="12" fill="#334155" />
+    <circle cx="35" cy="-80" r="12" fill="#334155" />
+    <!-- Sad mouth -->
+    <path d="M-25 -30 Q0 -50 25 -30" fill="none" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+    <!-- Worried eyebrows -->
+    <path d="M-50 -100 L-20 -110" stroke="#334155" stroke-width="6" stroke-linecap="round"/>
+    <path d="M50 -100 L20 -110" stroke="#334155" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>

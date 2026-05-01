@@ -435,6 +435,7 @@ export const sequencingLevels: SequencingLevelConfig[] = [
         level: 8,
         difficulty: "hard",
         patterns: [
+            // Pattern 1: ทำน้ำผลไม้ (ของเดิม)
             {
                 theme: "juice",
                 sequenceTitle: "ขั้นตอนการทำน้ำส้มปั่น",
@@ -447,6 +448,62 @@ export const sequencingLevels: SequencingLevelConfig[] = [
                     { id: "jc8_6", content: "/images/sequencing/juice/blend.svg", isImage: true, label: "ปั่นน้ำส้ม" },
                     { id: "jc8_7", content: "/images/sequencing/juice/pour-juice.svg", isImage: true, label: "เทใส่แก้ว" },
                 ],
+            },
+            // Pattern 2: วงจรน้ำ
+            {
+                theme: "water-cycle",
+                sequenceTitle: "วงจรน้ำ",
+                correctSequence: [
+                    { id: "wc8_1", content: "/images/sequencing/water-cycle/water.svg", isImage: true, label: "น้ำ" },
+                    { id: "wc8_2", content: "/images/sequencing/water-cycle/evaporate.svg", isImage: true, label: "ระเหย" },
+                    { id: "wc8_3", content: "/images/sequencing/water-cycle/vapor.svg", isImage: true, label: "ไอน้ำ" },
+                    { id: "wc8_4", content: "/images/sequencing/water-cycle/condense.svg", isImage: true, label: "รวมตัว" },
+                    { id: "wc8_5", content: "/images/sequencing/water-cycle/cloud.svg", isImage: true, label: "เมฆ" },
+                    { id: "wc8_6", content: "/images/sequencing/water-cycle/rain.svg", isImage: true, label: "ฝนตก" },
+                    { id: "wc8_7", content: "/images/sequencing/water-cycle/water-again.svg", isImage: true, label: "น้ำอีกครั้ง" },
+                ],
+            },
+            // Pattern 3: รุ้ง
+            {
+                theme: "rainbow",
+                sequenceTitle: "การเกิดรุ้ง",
+                correctSequence: [
+                    { id: "rb8_1", content: "/images/sequencing/rainbow/sun.svg", isImage: true, label: "แดด" },
+                    { id: "rb8_2", content: "/images/sequencing/rainbow/rain.svg", isImage: true, label: "ฝน" },
+                    { id: "rb8_3", content: "/images/sequencing/rainbow/light-thru-water.svg", isImage: true, label: "แสงผ่านน้ำ" },
+                    { id: "rb8_4", content: "/images/sequencing/rainbow/refract.svg", isImage: true, label: "หักเห" },
+                    { id: "rb8_5", content: "/images/sequencing/rainbow/split-colors.svg", isImage: true, label: "แยกสี" },
+                    { id: "rb8_6", content: "/images/sequencing/rainbow/see-rainbow.svg", isImage: true, label: "เห็นรุ้ง" },
+                    { id: "rb8_7", content: "/images/sequencing/rainbow/fade.svg", isImage: true, label: "หาย" },
+                ],
+            },
+            // Pattern 4: ไอน้ำกลายเป็นหมอก
+            {
+                theme: "fog-formation",
+                sequenceTitle: "ไอน้ำกลายเป็นหมอก",
+                correctSequence: [
+                    { id: "ff8_1", content: "/images/sequencing/fog-formation/vapor-rise.svg", isImage: true, label: "ไอ" },
+                    { id: "ff8_2", content: "/images/sequencing/fog-formation/float.svg", isImage: true, label: "ลอย" },
+                    { id: "ff8_3", content: "/images/sequencing/fog-formation/cool.svg", isImage: true, label: "เย็น" },
+                    { id: "ff8_4", content: "/images/sequencing/fog-formation/gather.svg", isImage: true, label: "รวมตัว" },
+                    { id: "ff8_5", content: "/images/sequencing/fog-formation/fog.svg", isImage: true, label: "หมอก" },
+                    { id: "ff8_6", content: "/images/sequencing/fog-formation/thick-fog.svg", isImage: true, label: "หนา" },
+                    { id: "ff8_7", content: "/images/sequencing/fog-formation/fade-fog.svg", isImage: true, label: "จาง" },
+                ],
+            },
+            // Pattern 5: ผสมสี
+            {
+                theme: "mixing-colors",
+                sequenceTitle: "การผสมสี",
+                correctSequence: [
+                    { id: "mc8_1", content: "/images/sequencing/mixing-colors/red.svg", isImage: true, label: "สีแดง" },
+                    { id: "mc8_2", content: "/images/sequencing/mixing-colors/yellow.svg", isImage: true, label: "สีเหลือง" },
+                    { id: "mc8_3", content: "/images/sequencing/mixing-colors/mix.svg", isImage: true, label: "ผสม" },
+                    { id: "mc8_4", content: "/images/sequencing/mixing-colors/stir.svg", isImage: true, label: "คน" },
+                    { id: "mc8_5", content: "/images/sequencing/mixing-colors/changing.svg", isImage: true, label: "เปลี่ยน" },
+                    { id: "mc8_6", content: "/images/sequencing/mixing-colors/new-color.svg", isImage: true, label: "สีใหม่" },
+                    { id: "mc8_7", content: "/images/sequencing/mixing-colors/clear-orange.svg", isImage: true, label: "ชัด" },
+                ],
             }
         ]
     },
@@ -457,17 +514,60 @@ export const sequencingLevels: SequencingLevelConfig[] = [
         level: 9,
         difficulty: "hard",
         patterns: [
+            // Pattern 2: พืชขาดน้ำ
             {
-                theme: "balloon",
-                sequenceTitle: "การเป่าลูกโป่ง",
+                theme: "plant-dehydration",
+                sequenceTitle: "พืชขาดน้ำ",
                 correctSequence: [
-                    { id: "bl9_1", content: "/images/sequencing/balloon/flat.svg", isImage: true, label: "ลูกโป่งแฟบ" },
-                    { id: "bl9_2", content: "/images/sequencing/balloon/blow1.svg", isImage: true, label: "เริ่มเป่าลม" },
-                    { id: "bl9_3", content: "/images/sequencing/balloon/blow2.svg", isImage: true, label: "พองขึ้นนิดนึง" },
-                    { id: "bl9_4", content: "/images/sequencing/balloon/blow3.svg", isImage: true, label: "พองครึ่งใบ" },
-                    { id: "bl9_5", content: "/images/sequencing/balloon/blow4.svg", isImage: true, label: "พองเต็มที่" },
-                    { id: "bl9_6", content: "/images/sequencing/balloon/tied.svg", isImage: true, label: "มัดจุก" },
-                    { id: "bl9_7", content: "/images/sequencing/balloon/floating.svg", isImage: true, label: "ผูกเชือกลอยได้" },
+                    { id: "pd9_1", content: "/images/sequencing/plant-dehydration/fresh.svg", isImage: true, label: "สด" },
+                    { id: "pd9_2", content: "/images/sequencing/plant-dehydration/needs-water.svg", isImage: true, label: "ขาดน้ำ" },
+                    { id: "pd9_3", content: "/images/sequencing/plant-dehydration/drooping.svg", isImage: true, label: "ใบตก" },
+                    { id: "pd9_4", content: "/images/sequencing/plant-dehydration/wilted.svg", isImage: true, label: "เหี่ยว" },
+                    { id: "pd9_5", content: "/images/sequencing/plant-dehydration/dry.svg", isImage: true, label: "แห้ง" },
+                    { id: "pd9_6", content: "/images/sequencing/plant-dehydration/yellow.svg", isImage: true, label: "เหลือง" },
+                    { id: "pd9_7", content: "/images/sequencing/plant-dehydration/dead.svg", isImage: true, label: "ตาย" },
+                ],
+            },
+            // Pattern 3: ใบไม้เปลี่ยนสี
+            {
+                theme: "leaves-changing",
+                sequenceTitle: "ใบไม้เปลี่ยนสี",
+                correctSequence: [
+                    { id: "lc9_1", content: "/images/sequencing/leaves-changing/green.svg", isImage: true, label: "เขียว" },
+                    { id: "lc9_2", content: "/images/sequencing/leaves-changing/light-green.svg", isImage: true, label: "เขียวอ่อน" },
+                    { id: "lc9_3", content: "/images/sequencing/leaves-changing/yellow.svg", isImage: true, label: "เหลือง" },
+                    { id: "lc9_4", content: "/images/sequencing/leaves-changing/dark-yellow.svg", isImage: true, label: "เหลืองเข้ม" },
+                    { id: "lc9_5", content: "/images/sequencing/leaves-changing/dry-brown.svg", isImage: true, label: "แห้ง" },
+                    { id: "lc9_6", content: "/images/sequencing/leaves-changing/brown.svg", isImage: true, label: "น้ำตาล" },
+                    { id: "lc9_7", content: "/images/sequencing/leaves-changing/fallen.svg", isImage: true, label: "ร่วง" },
+                ],
+            },
+            // Pattern 4: วัฏจักรแอปเปิล (เปลี่ยนจากทำอาหารเพื่อให้มีลำดับชัดเจน 100%)
+            {
+                theme: "apple-cycle",
+                sequenceTitle: "การเจริญเติบโตของแอปเปิล",
+                correctSequence: [
+                    { id: "ap9_1", content: "/images/sequencing/apple-cycle/seed.svg", isImage: true, label: "เมล็ดแอปเปิล" },
+                    { id: "ap9_2", content: "/images/sequencing/apple-cycle/sprout.svg", isImage: true, label: "ต้นอ่อนงอก" },
+                    { id: "ap9_3", content: "/images/sequencing/apple-cycle/tree.svg", isImage: true, label: "ต้นไม้โต" },
+                    { id: "ap9_4", content: "/images/sequencing/apple-cycle/flowers.svg", isImage: true, label: "ออกดอก" },
+                    { id: "ap9_5", content: "/images/sequencing/apple-cycle/green-apples.svg", isImage: true, label: "ผลสีเขียว" },
+                    { id: "ap9_6", content: "/images/sequencing/apple-cycle/red-apples.svg", isImage: true, label: "ผลสุกสีแดง" },
+                    { id: "ap9_7", content: "/images/sequencing/apple-cycle/eaten-apple.svg", isImage: true, label: "กินแอปเปิล" },
+                ],
+            },
+            // Pattern 5: ฟันผุ
+            {
+                theme: "tooth-decay",
+                sequenceTitle: "กระบวนการฟันผุ",
+                correctSequence: [
+                    { id: "td9_1", content: "/images/sequencing/tooth-decay/clean-tooth.svg", isImage: true, label: "ฟันสะอาด" },
+                    { id: "td9_2", content: "/images/sequencing/tooth-decay/eat-sweets.svg", isImage: true, label: "กินหวาน" },
+                    { id: "td9_3", content: "/images/sequencing/tooth-decay/plaque.svg", isImage: true, label: "คราบติด" },
+                    { id: "td9_4", content: "/images/sequencing/tooth-decay/accumulate.svg", isImage: true, label: "สะสม" },
+                    { id: "td9_5", content: "/images/sequencing/tooth-decay/cavity.svg", isImage: true, label: "เกิดรู" },
+                    { id: "td9_6", content: "/images/sequencing/tooth-decay/decay.svg", isImage: true, label: "ผุ" },
+                    { id: "td9_7", content: "/images/sequencing/tooth-decay/pain.svg", isImage: true, label: "เจ็บ" },
                 ],
             }
         ]

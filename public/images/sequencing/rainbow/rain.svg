@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#94A3B8" /> <!-- Grayer sky -->
+  
+  <!-- Sun peeking out -->
+  <circle cx="150" cy="150" r="80" fill="#FBBF24" />
+  <circle cx="150" cy="150" r="60" fill="#FDE047" />
+  <g stroke="#FBBF24" stroke-width="12" stroke-linecap="round">
+    <path d="M150 20 L150 50 M280 150 L250 150 M50 50 L75 75 M250 50 L225 75" />
+  </g>
+  
+  <!-- Dark Cloud covering part of sun -->
+  <path d="M150 250 Q100 250 100 200 Q100 150 150 150 Q170 80 250 80 Q330 80 350 150 Q400 150 400 200 Q400 250 350 250 Z" fill="#475569" />
+  <path d="M160 230 Q120 230 120 190 Q120 140 170 140 Q190 90 250 90 Q310 90 330 140 Q380 140 380 190 Q380 230 330 230 Z" fill="#64748B" />
+  
+  <!-- Rain Drops -->
+  <g stroke="#38BDF8" stroke-width="8" stroke-linecap="round">
+    <path d="M150 300 L140 330 M250 280 L240 310 M350 300 L340 330" />
+    <path d="M180 370 L170 400 M280 360 L270 390 M380 380 L370 410" />
+    <path d="M130 430 L120 460 M230 420 L220 450 M330 440 L320 470" />
+  </g>
+</svg>

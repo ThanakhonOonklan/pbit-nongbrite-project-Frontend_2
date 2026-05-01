@@ -219,7 +219,7 @@ export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, sta
 
   return (
     <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
-      <div className="flex flex-col gap-3 sm:gap-5 w-full">
+      <div className="flex flex-col gap-3 sm:gap-5 w-full relative">
         {/* Title */}
         <h2 className="text-center font-extrabold text-xl sm:text-2xl text-[#E9D5FF] px-2 tracking-wide" style={{ textShadow: '0 0 10px rgba(192,132,252,0.6), 0 0 20px rgba(168,85,247,0.4)' }}>
           {pattern.sequenceTitle}
@@ -243,7 +243,7 @@ export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, sta
         />
 
         {/* Interactive Momo Mascot */}
-        <div className="absolute -bottom-20 sm:-bottom-24 -left-2 sm:-left-8 md:-left-16 lg:-left-24 xl:-left-36 z-20 pointer-events-none transition-all duration-300 hidden sm:block">
+        <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-20 pointer-events-none transition-all duration-300 hidden sm:block">
           <style>{`
             @keyframes mascot-float {
               0%, 100% { transform: translateY(0px); }

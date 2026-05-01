@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <!-- Bright Sun -->
+  <circle cx="256" cy="150" r="100" fill="#FBBF24" />
+  <circle cx="256" cy="150" r="80" fill="#FDE047" />
+  <g stroke="#FBBF24" stroke-width="12" stroke-linecap="round">
+    <path d="M256 10 L256 40 M256 260 L256 290 M110 150 L140 150 M370 150 L400 150" />
+    <path d="M150 50 L175 75 M362 250 L337 225 M150 250 L175 225 M362 50 L337 75" />
+  </g>
+  
+  <!-- Sunlight rays shining down -->
+  <g stroke="#FEF08A" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.6">
+    <path d="M180 300 L120 450" />
+    <path d="M256 320 L256 480" />
+    <path d="M330 300 L390 450" />
+  </g>
+</svg>

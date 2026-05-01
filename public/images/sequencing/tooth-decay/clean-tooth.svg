@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#F1F5F9" />
+  
+  <!-- Happy Clean Tooth -->
+  <g transform="translate(256, 256)">
+    <!-- Tooth outline and fill -->
+    <path d="M-100 -120 C-100 -200, -50 -200, 0 -180 C50 -200, 100 -200, 100 -120 C100 -30, 80 50, 60 150 C50 200, 10 200, 0 150 C-10 100, -10 100, 0 150 C-10 200, -50 200, -60 150 C-80 50, -100 -30, -100 -120 Z" fill="#FFFFFF" stroke="#94A3B8" stroke-width="12" stroke-linejoin="round"/>
+    
+    <!-- Happy Face -->
+    <circle cx="-35" cy="-80" r="12" fill="#334155" />
+    <circle cx="35" cy="-80" r="12" fill="#334155" />
+    <!-- Cheeks -->
+    <ellipse cx="-60" cy="-60" rx="15" ry="10" fill="#FCA5A5" opacity="0.6"/>
+    <ellipse cx="60" cy="-60" rx="15" ry="10" fill="#FCA5A5" opacity="0.6"/>
+    <!-- Smile -->
+    <path d="M-25 -50 Q0 -20 25 -50" fill="none" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+    
+    <!-- Sparkles for clean -->
+    <path d="M-120 -180 L-140 -200 M-120 -200 L-140 -180" stroke="#FBBF24" stroke-width="6" stroke-linecap="round"/>
+    <path d="M120 -80 L150 -110 M120 -110 L150 -80" stroke="#FBBF24" stroke-width="8" stroke-linecap="round"/>
+    <path d="M-100 50 L-120 70 M-100 70 L-120 50" stroke="#FBBF24" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>

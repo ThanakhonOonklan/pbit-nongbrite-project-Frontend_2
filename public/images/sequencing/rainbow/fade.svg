@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#38BDF8" /> <!-- Very clear blue sky -->
+  
+  <!-- Sun Brightly Shining -->
+  <circle cx="100" cy="100" r="60" fill="#FBBF24" />
+  <circle cx="100" cy="100" r="45" fill="#FDE047" />
+  
+  <!-- Rainbow Arch FADING -->
+  <g fill="none" stroke-width="20" stroke-linecap="round" opacity="0.2">
+    <path d="M50 512 A206 206 0 0 1 462 512" stroke="#EF4444" />
+    <path d="M70 512 A186 186 0 0 1 442 512" stroke="#F97316" />
+    <path d="M90 512 A166 166 0 0 1 422 512" stroke="#FBBF24" />
+    <path d="M110 512 A146 146 0 0 1 402 512" stroke="#22C55E" />
+    <path d="M130 512 A126 126 0 0 1 382 512" stroke="#3B82F6" />
+    <path d="M150 512 A106 106 0 0 1 362 512" stroke="#8B5CF6" />
+  </g>
+  
+  <!-- Few white clouds -->
+  <path d="M350 200 Q320 200 320 170 Q320 140 350 140 Q360 100 400 110 Q430 120 430 150 Q430 180 400 190 Z" fill="#FFFFFF" opacity="0.9"/>
+  
+  <!-- Ground -->
+  <path d="M0 450 L512 450 L512 512 L0 512 Z" fill="#22C55E" />
+</svg>

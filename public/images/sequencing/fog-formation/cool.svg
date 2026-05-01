@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 400 L0 400 Z" fill="#475569" /> <!-- Getting darker/cooler -->
+  <path d="M0 400 L512 400 L512 512 L0 512 Z" fill="#1E3A8A" />
+  
+  <!-- Mist floating -->
+  <g fill="#F1F5F9" opacity="0.75">
+    <path d="M80 300 Q120 250 180 300 Q140 330 80 300 Z" />
+    <path d="M220 250 Q280 200 340 260 Q280 300 220 250 Z" />
+    <path d="M350 320 Q400 280 450 330 Q400 360 350 320 Z" />
+  </g>
+  
+  <!-- Cooling indicators (snowflakes or cold wind) -->
+  <g stroke="#60A5FA" stroke-width="4" stroke-linecap="round">
+    <!-- Snowflake 1 -->
+    <g transform="translate(150, 150)">
+      <path d="M0 -20 L0 20 M-20 0 L20 0 M-14 -14 L14 14 M-14 14 L14 -14" />
+    </g>
+    <!-- Snowflake 2 -->
+    <g transform="translate(350, 120)">
+      <path d="M0 -15 L0 15 M-15 0 L15 0 M-10 -10 L10 10 M-10 10 L10 -10" />
+    </g>
+    <!-- Snowflake 3 -->
+    <g transform="translate(420, 220)">
+      <path d="M0 -20 L0 20 M-20 0 L20 0 M-14 -14 L14 14 M-14 14 L14 -14" />
+    </g>
+  </g>
+  
+  <path d="M0 100 Q100 150 200 100 T400 100 T512 150" fill="none" stroke="#60A5FA" stroke-width="6" opacity="0.3"/>
+</svg>

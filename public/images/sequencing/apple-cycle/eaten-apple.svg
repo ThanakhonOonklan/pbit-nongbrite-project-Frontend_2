@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#F8FAFC" />
+  
+  <g transform="translate(256, 256) scale(1.5)">
+    <!-- Apple Core -->
+    <!-- Top red part -->
+    <path d="M-40 -60 C-40 -80, -20 -90, 0 -80 C20 -90, 40 -80, 40 -60 C40 -40, 20 -40, 0 -40 C-20 -40, -40 -40, -40 -60 Z" fill="#EF4444" />
+    <!-- Bottom red part -->
+    <path d="M-30 60 C-30 80, -15 90, 0 80 C15 90, 30 80, 30 60 C30 40, 15 40, 0 40 C-15 40, -30 40, -30 60 Z" fill="#EF4444" />
+    
+    <!-- Core middle -->
+    <path d="M-15 -40 L15 -40 L15 40 L-15 40 Z" fill="#FEF3C7" />
+    
+    <!-- Bite marks on sides -->
+    <path d="M-15 -30 C-25 -20, -25 -10, -15 0 C-25 10, -25 20, -15 30" fill="none" stroke="#FDE68A" stroke-width="4"/>
+    <path d="M15 -30 C25 -20, 25 -10, 15 0 C25 10, 25 20, 15 30" fill="none" stroke="#FDE68A" stroke-width="4"/>
+    
+    <!-- Seeds -->
+    <path d="M-5 -5 C-10 0, -10 10, -5 10 C0 10, 0 0, -5 -5 Z" fill="#451A03" />
+    <path d="M5 -5 C10 0, 10 10, 5 10 C0 10, 0 0, 5 -5 Z" fill="#451A03" />
+    
+    <!-- Stem and leaf -->
+    <path d="M0 -80 Q10 -100, 20 -110" stroke="#78350F" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M10 -90 Q30 -100, 40 -90 Q30 -80, 10 -90" fill="#22C55E"/>
+  </g>
+</svg>

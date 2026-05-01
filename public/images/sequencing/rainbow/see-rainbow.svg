@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" /> <!-- Sky clearing up -->
+  
+  <!-- Rainbow Arch -->
+  <!-- Center is bottom center -->
+  <g fill="none" stroke-width="20" stroke-linecap="round">
+    <path d="M50 512 A206 206 0 0 1 462 512" stroke="#EF4444" /> <!-- Red -->
+    <path d="M70 512 A186 186 0 0 1 442 512" stroke="#F97316" /> <!-- Orange -->
+    <path d="M90 512 A166 166 0 0 1 422 512" stroke="#FBBF24" /> <!-- Yellow -->
+    <path d="M110 512 A146 146 0 0 1 402 512" stroke="#22C55E" /> <!-- Green -->
+    <path d="M130 512 A126 126 0 0 1 382 512" stroke="#3B82F6" /> <!-- Blue -->
+    <path d="M150 512 A106 106 0 0 1 362 512" stroke="#8B5CF6" /> <!-- Violet -->
+  </g>
+  
+  <!-- Few white clouds -->
+  <path d="M100 200 Q70 200 70 170 Q70 140 100 140 Q110 100 150 110 Q180 120 180 150 Q180 180 150 190 Z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M400 150 Q380 150 380 130 Q380 100 420 100 Q440 80 460 90 Q480 100 480 130 Q480 150 450 150 Z" fill="#FFFFFF" opacity="0.8"/>
+  
+  <!-- Ground -->
+  <path d="M0 450 L512 450 L512 512 L0 512 Z" fill="#22C55E" opacity="0.8"/>
+</svg>

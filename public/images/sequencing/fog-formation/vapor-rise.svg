@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sky -->
+  <path d="M0 0 L512 0 L512 400 L0 400 Z" fill="#64748B" />
+  <!-- Damp Ground/Water -->
+  <path d="M0 400 L512 400 L512 512 L0 512 Z" fill="#1E3A8A" />
+  
+  <!-- Tiny vapor patches rising from surface -->
+  <g fill="#E2E8F0" opacity="0.6">
+    <!-- Wavy mist patches -->
+    <path d="M50 400 Q80 380 110 400 Q140 370 170 400 Z" />
+    <path d="M200 400 Q230 360 270 400 Q300 380 340 400 Z" />
+    <path d="M360 400 Q390 370 430 400 Q460 380 490 400 Z" />
+  </g>
+  
+  <!-- Arrows indicating rising -->
+  <g stroke="#FFFFFF" stroke-width="4" fill="none" opacity="0.5" stroke-linecap="round">
+    <path d="M110 370 L110 340 M100 350 L110 340 L120 350" />
+    <path d="M250 380 L250 330 M240 340 L250 330 L260 340" />
+    <path d="M410 360 L410 320 M400 330 L410 320 L420 330" />
+  </g>
+</svg>

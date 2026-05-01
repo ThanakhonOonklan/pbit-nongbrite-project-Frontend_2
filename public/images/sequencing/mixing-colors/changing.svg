@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 450 L512 450 L512 512 L0 512 Z" fill="#E2E8F0" />
+  
+  <g stroke="#94A3B8" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M150 150 L150 400 A50 50 0 0 0 200 450 L312 450 A50 50 0 0 0 362 400 L362 150" />
+    <path d="M120 150 L392 150" /> 
+  </g>
+  
+  <!-- Liquid (More Orange now, less distinct swirls) -->
+  <path d="M157 200 L355 200 L355 400 A42 42 0 0 1 312 442 L200 442 A42 42 0 0 1 157 400 Z" fill="#F97316" opacity="0.95"/>
+  <ellipse cx="256" cy="200" rx="99" ry="15" fill="#FDBA74" opacity="0.9"/>
+  
+  <!-- Subtle blending swirls -->
+  <path d="M180 250 Q250 230 320 270 T200 330 T300 390" stroke="#EA580C" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <path d="M330 240 Q260 260 200 290 T320 350 T250 410" stroke="#FB923C" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.5"/>
+  
+  <!-- Bubbles from chemical reaction/mixing -->
+  <circle cx="200" cy="280" r="5" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="230" cy="350" r="8" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="280" cy="300" r="6" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="310" cy="380" r="7" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="260" cy="240" r="4" fill="#FFFFFF" opacity="0.6"/>
+  
+  <path d="M170 180 L170 400 A30 30 0 0 0 200 430" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.5"/>
+</svg>

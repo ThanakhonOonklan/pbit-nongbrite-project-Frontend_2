@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#713F12" />
+  
+  <!-- Dry Plant (Thinner, browner/yellower) -->
+  <path d="M256 220 Q270 160 180 150 Q150 140 140 180" stroke="#CA8A04" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M230 190 Q160 200 140 210" stroke="#CA8A04" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M250 180 Q320 210 340 240" stroke="#CA8A04" stroke-width="4" fill="none" stroke-linecap="round"/>
+  
+  <!-- Dry wrinkled leaves -->
+  <path d="M140 180 Q130 210 150 230 Q160 200 140 180" fill="#EAB308"/>
+  <path d="M180 170 Q160 190 170 230 Q190 200 180 170" fill="#FDE047"/>
+  
+  <path d="M140 210 Q120 240 140 270 Q150 240 140 210" fill="#EAB308"/>
+  
+  <path d="M340 240 Q330 270 310 290 Q300 250 340 240" fill="#EAB308"/>
+  <path d="M300 210 Q290 240 270 260 Q260 220 300 210" fill="#FDE047"/>
+</svg>
