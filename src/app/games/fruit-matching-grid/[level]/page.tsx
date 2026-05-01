@@ -103,8 +103,8 @@ export default function FruitMatchingGridGamePage({
         />
       </div>
 
-      {/* Main game area — scrollable */}
-      <div className="flex-1 overflow-auto px-4 sm:px-6 pb-6 relative z-10 pt-2">
+      {/* Main game area */}
+      <div className="flex-1 min-h-0 overflow-auto md:overflow-hidden flex flex-col px-3 sm:px-4 lg:px-6 pb-4 sm:pb-6 relative z-10 pt-2">
         <FruitMatchingGame
           key={gameKey}
           config={config}
