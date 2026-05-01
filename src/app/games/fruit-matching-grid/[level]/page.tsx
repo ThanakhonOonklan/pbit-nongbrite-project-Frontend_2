@@ -53,6 +53,10 @@ export default function FruitMatchingGridGamePage({
     setGameKey((prev) => prev + 1);
   }, []);
 
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+
   // ── Fallback ─────────────────────────────────────────────
   if (!config) {
     return (
@@ -124,7 +128,7 @@ export default function FruitMatchingGridGamePage({
       />
 
       {/* Intro overlay — Level 1 only */}
-      {showIntro && (
+      {canShowGameOverlay && showIntro && (
         <GameOverlay
           type="hint"
           message={
@@ -141,7 +145,7 @@ export default function FruitMatchingGridGamePage({
       )}
 
       {/* WIN modal */}
-      {scoreResult && (
+      {scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
@@ -153,7 +157,7 @@ export default function FruitMatchingGridGamePage({
       )}
 
       {/* Out of Lives Modal */}
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
 
     </div>
   );

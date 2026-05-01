@@ -57,6 +57,10 @@ export default function GridBasedColoringGamePage({
     startTimeRef.current = Date.now();
   }, []);
 
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+
   // ── Fallback ─────────────────────────────────────────────
   if (!config) {
     return (
@@ -119,7 +123,7 @@ export default function GridBasedColoringGamePage({
       />
 
       {/* Intro overlay — level 1 เท่านั้น */}
-      {showIntro && (
+      {canShowGameOverlay && showIntro && (
         <GameOverlay
           type="hint"
           message={
@@ -136,7 +140,7 @@ export default function GridBasedColoringGamePage({
       )}
 
       {/* WIN/LOSE modal */}
-      {scoreResult && (
+      {scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
@@ -149,7 +153,7 @@ export default function GridBasedColoringGamePage({
       )}
 
       {/* Out of Lives Modal */}
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
 
       <style>{`
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }

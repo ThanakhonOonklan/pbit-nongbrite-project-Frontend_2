@@ -328,6 +328,9 @@ export default function ConditionalMatchingGamePage({
   const isAllFilled = Object.keys(connectedItems).length === config.leftItems.length;
   // compact = true เมื่อมี 6 items (hard level) ให้ขนาด card เล็กลงเพื่อไม่ scroll บนมือถือ
   const compact = config.leftItems.length >= 6;
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
 
   // ── Render ────────────────────────────────────────────────
   return (
@@ -485,7 +488,7 @@ export default function ConditionalMatchingGamePage({
         ]}
       />
 
-      {showIntro && (
+      {canShowGameOverlay && showIntro && (
         <GameOverlay
           type="hint"
           message={
@@ -502,7 +505,7 @@ export default function ConditionalMatchingGamePage({
         />
       )}
 
-      {scoreResult && (
+      {scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
@@ -513,7 +516,7 @@ export default function ConditionalMatchingGamePage({
         />
       )}
 
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
     </div>
   );
 }

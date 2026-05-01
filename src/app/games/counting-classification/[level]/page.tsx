@@ -154,6 +154,10 @@ export default function CountingClassificationGamePage({
     setShowWrongOverlay(false);
   };
 
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = submitted && Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+
   if (!LEVEL_SPECS[levelNum]) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#131F24]">
@@ -241,7 +245,7 @@ export default function CountingClassificationGamePage({
       </div>
 
       {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
-      {showIntro && (
+      {canShowGameOverlay && showIntro && (
         <GameOverlay
           type="hint"
           message={
@@ -258,7 +262,7 @@ export default function CountingClassificationGamePage({
       )}
 
       {/* ===== WRONG ANSWER OVERLAY ===== */}
-      {showWrongOverlay && (
+      {canShowGameOverlay && showWrongOverlay && (
         <GameOverlay
           type="error"
           message={`ลองนับใหม่อีกครั้งนะ `}
@@ -270,7 +274,7 @@ export default function CountingClassificationGamePage({
       )}
 
       {/* ===== RESULT MODAL ===== */}
-      {submitted && scoreResult && (
+      {submitted && scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
@@ -283,7 +287,7 @@ export default function CountingClassificationGamePage({
       )}
 
       {/* ===== OUT OF LIVES MODAL ===== */}
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
 
       <style>{`
         @media (min-width: 1024px) {

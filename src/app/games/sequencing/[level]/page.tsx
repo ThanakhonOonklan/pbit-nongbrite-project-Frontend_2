@@ -100,6 +100,9 @@ export default function SequencingPage() {
   const handleBack = () => router.push("/courses");
 
   const gameKey = `${levelNum}-${startTime}`;
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0B0620] relative overflow-hidden">
@@ -144,7 +147,7 @@ export default function SequencingPage() {
       </main>
 
       {/* WIN/LOSE modal */}
-      {scoreResult && (
+      {scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
@@ -156,10 +159,10 @@ export default function SequencingPage() {
       )}
 
       {/* ===== OUT OF LIVES MODAL ===== */}
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
 
       {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
-      {showIntro && (
+      {canShowGameOverlay && showIntro && (
         <GameOverlay
           type="hint"
           message={
@@ -176,7 +179,7 @@ export default function SequencingPage() {
       )}
 
       {/* ===== WRONG ANSWER OVERLAY ===== */}
-      {showWrongOverlay && (
+      {canShowGameOverlay && showWrongOverlay && (
         <GameOverlay
           type="error"
           message={`ลองจัดเรียงใหม่อีกครั้งนะ`}

@@ -399,6 +399,10 @@ export default function PathNavigationGamePage({
     if (d === "right") overlayIconSrc = "/icons/Arrow/ArrowRight.svg";
   }
 
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+
   return (
     <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
       <div
@@ -522,7 +526,7 @@ export default function PathNavigationGamePage({
         />
 
         {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
-        {showIntro && (
+        {canShowGameOverlay && showIntro && (
           <GameOverlay
             type="hint"
             message={
@@ -539,7 +543,7 @@ export default function PathNavigationGamePage({
         )}
 
         {/* ===== WRONG MOVE OVERLAY ===== */}
-        {errorMsg && (
+        {canShowGameOverlay && errorMsg && (
           <GameOverlay
             type="error"
             message="ลองอีกครั้ง"
@@ -551,7 +555,7 @@ export default function PathNavigationGamePage({
         )}
 
         {/* ===== HOME WITHOUT NONG-BRITE HINT OVERLAY ===== */}
-        {hintMsg && (
+        {canShowGameOverlay && hintMsg && (
           <GameOverlay
             type="hint"
             message={hintMsg}
@@ -563,10 +567,10 @@ export default function PathNavigationGamePage({
         )}
 
         {/* ===== OUT OF LIVES MODAL ===== */}
-        {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+        {isOutOfLives && <OutOfLivesModal />}
 
         {/* ===== WIN MODAL ===== */}
-        {scoreResult && (
+        {scoreResult && !isOutOfLives && (
           <GameResultModal
             levelNum={levelNum}
             score={scoreResult}

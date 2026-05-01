@@ -194,6 +194,10 @@ export default function StepCountingGamePage({
     setGameKey((k) => k + 1);
   }, [config]);
 
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+
   // ── Fallback ─────────────────────────────────────────────
   if (!config) {
     return (
@@ -262,7 +266,7 @@ export default function StepCountingGamePage({
       />
 
       {/* ===== INTRO OVERLAY ===== */}
-      {showIntro && (
+      {canShowGameOverlay && showIntro && (
         <GameOverlay
           type="hint"
           message={<>ช่วยคั้นน้ำส้มให้ครบเป้าเลย!<br />ตั้งจำนวนแล้วกดรัน</>}
@@ -275,7 +279,7 @@ export default function StepCountingGamePage({
       )}
 
       {/* ===== WRONG ANSWER OVERLAY ===== */}
-      {showWrongOverlay && (
+      {canShowGameOverlay && showWrongOverlay && (
         <GameOverlay
           type="error"
           message={wrongMessage}
@@ -287,7 +291,7 @@ export default function StepCountingGamePage({
       )}
 
       {/* ===== WIN MODAL ===== */}
-      {scoreResult && (
+      {scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
@@ -299,7 +303,7 @@ export default function StepCountingGamePage({
       )}
 
       {/* ===== OUT OF LIVES ===== */}
-      {user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0 && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
 
       <style>{`
         @media (min-width: 1024px) {
