@@ -1,22 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <!-- Shadow -->
-  <ellipse cx="32" cy="56" rx="20" ry="6" fill="rgba(0,0,0,0.15)"/>
+  <ellipse cx="32" cy="56" rx="20" ry="6" fill="rgba(30,100,180,0.18)"/>
   
-  <!-- Base dark brown (Bottom Right) -->
-  <path d="M12 46 L8 30 L20 12 L44 14 L56 28 L52 48 L34 56 L18 54 Z" fill="#6B5540" stroke="#6B5540" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Base dark ice (Bottom Right) -->
+  <path d="M12 46 L8 30 L20 12 L44 14 L56 28 L52 48 L34 56 L18 54 Z" fill="#5B9EC9" stroke="#4A87B0" stroke-width="4" stroke-linejoin="round"/>
   
-  <!-- Main body (Mid brown) -->
-  <path d="M12 46 L8 30 L20 12 L44 14 L36 28 L30 40 L20 54 Z" fill="#8B7355" stroke="#8B7355" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Main body (Mid ice blue) -->
+  <path d="M12 46 L8 30 L20 12 L44 14 L36 28 L30 40 L20 54 Z" fill="#7EC8E3" stroke="#6BB5D0" stroke-width="2" stroke-linejoin="round"/>
 
   <!-- Light face (Top) -->
-  <path d="M20 12 L44 14 L32 24 L22 20 Z" fill="#A08060" stroke="#A08060" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M20 12 L44 14 L32 24 L22 20 Z" fill="#A8DDEF" stroke="#90CCE0" stroke-width="2" stroke-linejoin="round"/>
 
-  <!-- Highlight -->
-  <path d="M24 15 L36 16 L30 20 Z" fill="#C4A882"/>
+  <!-- Highlight (shiny ice) -->
+  <path d="M24 15 L36 16 L30 20 Z" fill="#D6F0FA"/>
 
-  <!-- Cracks / Textures -->
-  <path d="M36 28 L44 38 L36 50" stroke="#4E3C2D" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M44 38 L52 34" stroke="#4E3C2D" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M24 36 L28 44 L20 50" stroke="#4E3C2D" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M14 26 L20 30" stroke="#4E3C2D" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Inner glow highlight -->
+  <path d="M22 20 L32 24 L28 32 L18 28 Z" fill="rgba(255,255,255,0.18)"/>
+
+  <!-- Ice cracks -->
+  <path d="M36 28 L44 38 L36 50" stroke="#3A7AA0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 38 L52 34" stroke="#3A7AA0" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M24 36 L28 44 L20 50" stroke="#3A7AA0" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14 26 L20 30" stroke="#3A7AA0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Sparkle on top -->
+  <circle cx="28" cy="17" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="34" cy="15" r="1" fill="white" opacity="0.6"/>
 </svg>
+

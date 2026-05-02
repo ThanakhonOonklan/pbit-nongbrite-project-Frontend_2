@@ -121,8 +121,8 @@ export function PathMap({
                         return (
                             <div
                                 key={key}
-                                className="absolute bg-white border border-gray-100"
-                                style={{ width: cellPx, height: cellPx, left: col * cellPx, top: row * cellPx }}
+                                className="absolute border border-[#C5E4F3]"
+                                style={{ width: cellPx, height: cellPx, left: col * cellPx, top: row * cellPx, backgroundColor: "#FFFFFF" }}
                             >
                                 <div
                                     style={{
@@ -130,16 +130,19 @@ export function PathMap({
                                         inset: 4,
                                         borderRadius: 5,
                                         backgroundColor: blocked
-                                            ? "#C8B89A"
-                                            : isNBTile ? "#9FC8E8" : "#DCF0FC",
+                                            ? "#C8E8F5"
+                                            : isNBTile
+                                            ? "#A3DAF2"
+                                            : "#DEF1FA",
+                                        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(180,220,240,0.3)",
                                     }}
                                 />
                                 {blocked && (
                                     <Image
-                                        src="/icons/game/rock.svg"
-                                        alt="Rock"
-                                        width={Math.round(cellPx * 0.72)}
-                                        height={Math.round(cellPx * 0.72)}
+                                        src="/icons/game/ice-wall.svg"
+                                        alt="Ice Wall"
+                                        width={Math.max(10, Math.round(cellPx - 8))}
+                                        height={Math.max(10, Math.round(cellPx - 8))}
                                         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-contain pointer-events-none"
                                         style={{ zIndex: 3 }}
                                     />
@@ -159,7 +162,8 @@ export function PathMap({
                         alt="Home"
                         width={Math.round(cellPx * 1.0)}
                         height={Math.round(cellPx * 1.0)}
-                        className="object-contain"
+                        className="object-contain tile-pop"
+                        style={{ animationDelay: "100ms" }}
                     />
                 </div>
 
@@ -182,42 +186,90 @@ export function PathMap({
 
                 {/* ── Player (Bit) ─────────── */}
                 <div
-                    className={`absolute pointer-events-none ${isStumbling ? "player-stumble" : ""}`}
+                    className={`absolute pointer-events-none player-pop ${isStumbling ? "player-stumble" : ""}`}
                     style={playerDivStyle}
                 >
                     {/* Player indicator arrow */}
                     {failType === "none" && (
                         <div
                             className="player-arrow absolute left-1/2"
-                            style={{ top: -Math.round(cellPx * 0.40), left: Math.round(cellPx * 0.54), zIndex: 22 }} // เอียงขวาเล็กน้อย
+                            style={{ top: -Math.round(cellPx * 0.40), left: Math.round(cellPx * 0.54), zIndex: 22 }}
                         >
                             <svg width={Math.round(cellPx * 0.3)} height={Math.round(cellPx * 0.3)} viewBox="0 0 12 12" fill="none">
                                 <path d="M6 2 L10 8 L6 6.5 L2 8 Z" fill="#1CB0F6" stroke="#fff" strokeWidth="0.8" strokeLinejoin="round" />
                             </svg>
                         </div>
                     )}
-                    <Image
-                        src={hasNongBrite ? "/images/P_Bit/bit-05.svg" : "/images/P_Bit/bit-02.svg"}
-                        alt="Bit"
-                        width={Math.round(cellPx * 1.35)}
-                        height={Math.round(cellPx * 1.35)}
-                        className="absolute left-1/2 -translate-x-1/2 object-contain drop-shadow-md"
-                        style={{ bottom: "10%" }}
-                    />
-                    {hasNongBrite && !isPlayerAtHome && (
+
+                    {/* Idle wrapper — breathes when standing still */}
+                    <div
+                        className={failType === "none" && !isRunning ? "player-idle" : ""}
+                        style={{ position: "absolute", inset: 0, transformOrigin: "center bottom" }}
+                    >
                         <Image
-                            src="/images/Nong_brite/nong-brite-01.svg"
-                            alt="Nong Brite (with Bit)"
-                            width={Math.round(cellPx * 0.5)}
-                            height={Math.round(cellPx * 0.5)}
-                            className="absolute bottom-0.5 right-0.5 object-contain"
-                            style={{ zIndex: 21 }}
+                            src={hasNongBrite ? "/images/P_Bit/bit-05.svg" : "/images/P_Bit/bit-02.svg"}
+                            alt="Bit"
+                            width={Math.round(cellPx * 1.35)}
+                            height={Math.round(cellPx * 1.35)}
+                            className="absolute left-1/2 -translate-x-1/2 object-contain drop-shadow-md"
+                            style={{ bottom: "10%" }}
                         />
-                    )}
+                        {hasNongBrite && !isPlayerAtHome && (
+                            <Image
+                                src="/images/Nong_brite/nong-brite-01.svg"
+                                alt="Nong Brite (with Bit)"
+                                width={Math.round(cellPx * 0.5)}
+                                height={Math.round(cellPx * 0.5)}
+                                className="absolute bottom-0.5 right-0.5 object-contain"
+                                style={{ zIndex: 21 }}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
 
             <style>{`
+                /* ── Pop-in ─────────────────────────── */
+                @keyframes popIn {
+                    0%   { transform: scale(0) rotate(-10deg); opacity: 0; }
+                    60%  { transform: scale(1.2) rotate(4deg);  opacity: 1; }
+                    80%  { transform: scale(0.9) rotate(-2deg); }
+                    100% { transform: scale(1)   rotate(0deg);  opacity: 1; }
+                }
+                .tile-pop {
+                    animation: popIn 0.45s cubic-bezier(0.34,1.56,0.64,1) both;
+                }
+
+                /* ── Player pop-in ───────────────────── */
+                @keyframes playerPopIn {
+                    0%   { transform: scale(0) translateY(10px); opacity: 0; }
+                    65%  { transform: scale(1.15) translateY(-4px); opacity: 1; }
+                    85%  { transform: scale(0.95) translateY(2px); }
+                    100% { transform: scale(1) translateY(0); opacity: 1; }
+                }
+                .player-pop {
+                    animation: playerPopIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+                    animation-delay: 50ms;
+                }
+
+                /* ── NongBrite pop + bounce ──────────── */
+                @keyframes nongbritePopIn {
+                    0%   { transform: translateX(-50%) scale(0);     opacity: 0; }
+                    60%  { transform: translateX(-50%) scale(1.2);   opacity: 1; }
+                    80%  { transform: translateX(-50%) scale(0.92); }
+                    100% { transform: translateX(-50%) scale(1);     opacity: 1; }
+                }
+                @keyframes nongbriteBounce {
+                    0%, 100% { transform: translateX(-50%) translateY(0px); }
+                    50%      { transform: translateX(-50%) translateY(-5px); }
+                }
+                .nongbrite-pop {
+                    animation:
+                        nongbritePopIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both,
+                        nongbriteBounce 1.4s ease-in-out 0.7s infinite;
+                }
+
+                /* ── Home shake ─────────────────────── */
                 @keyframes homeShake {
                     0%, 100% { transform: rotate(0deg); }
                     20% { transform: rotate(-8deg); }
@@ -242,6 +294,16 @@ export function PathMap({
                     50%       { transform: translateX(-50%) translateY(-4px); }
                 }
                 .player-arrow { animation: playerArrowBounce 0.9s ease-in-out infinite; }
+
+                /* ── Idle breathing ────────────────── */
+                @keyframes playerIdle {
+                    0%, 100% { transform: translateY(0) scaleY(1); }
+                    50%      { transform: translateY(-2px) scaleY(1.02); }
+                }
+                .player-idle {
+                    animation: playerIdle 1.8s ease-in-out infinite;
+                    transform-origin: center bottom;
+                }
             `}</style>
         </div>
     );
