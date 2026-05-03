@@ -1,9 +1,9 @@
 "use client";
 
-import { TiltButton } from "react-tilt-button";
 import { type ShapeType } from "@/constants/games/counting-classification-levels";
 import { CounterRow } from "./CounterRow";
 import { FaPlay } from "react-icons/fa";
+import { TiltButton } from "react-tilt-button";
 
 interface CounterPanelProps {
     shapeTypes: ShapeType[];
@@ -26,16 +26,20 @@ export function CounterPanel({
         <div className="flex flex-col gap-3 h-full">
 
             {/* Header */}
-            <div className="flex items-center justify-center gap-2 py-1">
-                <span className="text-sm sm:text-base font-extrabold text-white tracking-wide">
-                    ใส่จำนวนรูปทรงที่นับได้
+            <div className="flex items-center justify-center gap-2 py-2">
+                <span
+                    className="text-lg sm:text-2xl font-black tracking-wide"
+                    style={{
+                        color: "#4DB6AC", // Teal
+                        textShadow: "0 2px 0 rgba(255,255,255,1), 0 4px 6px rgba(0,0,0,0.05)"
+                    }}
+                >
+                    ใส่จำนวนรูปทรง<span style={{ color: "#F06292" }}>ที่นับได้</span>
                 </span>
             </div>
 
-
-
             {/* Counter rows */}
-            <div className="flex flex-col gap-2.5 flex-1 overflow-y-auto pr-1 pb-1">
+            <div className="flex flex-col gap-2 flex-1 overflow-y-auto pr-1 pb-1">
                 {shapeTypes.map((type) => (
                     <CounterRow
                         key={type}
@@ -49,27 +53,31 @@ export function CounterPanel({
                 ))}
             </div>
 
-            {/* Submit button */}
-            <div className="pt-1">
+            {/* Submit button — Green TiltButton */}
+            <div className="pt-2" style={{ flexShrink: 0 }}>
                 <TiltButton
+                    variant="solid"
                     width="100%"
-                    height={50} // slightly smaller base height
+                    height={60}
                     elevation={7}
-                    pressInset={5}
-                    tilt={0.5}
+                    pressInset={7}
+                    tilt={0.85}
                     radius={28}
-                    motion={60}
-                    surfaceColor="#FF6B9D"
-                    sideColor="#C2185B"
-                    textColor="#ffffff"
-                    onClick={onSubmit}
+                    motion={40}
+                    surfaceColor={disabled ? "#E0E0E0" : "#22C55E"}
+                    sideColor={disabled ? "#BDBDBD" : "#15803D"}
+                    textColor={disabled ? "#9E9E9E" : "#ffffff"}
+                    glareOpacity={0}
+                    glareWidth={0}
                     disabled={disabled}
+                    onClick={onSubmit}
                 >
-                    <span className="font-extrabold text-base sm:text-lg tracking-wide flex items-center justify-center gap-2 drop-shadow-sm">
-                        <FaPlay className="w-4 h-4" /> ยืนยัน!
+                    <span style={{ fontSize: 22, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
+                        <FaPlay className="w-5 h-5" /> ยืนยัน
                     </span>
                 </TiltButton>
             </div>
+
         </div>
     );
 }

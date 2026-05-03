@@ -1,8 +1,0 @@
-<svg width="100%" height="200" viewBox="0 0 1440 200" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-  <!-- Back hill (vibrant rich green) -->
-  <path d="M0 80C240 20 480 120 720 120C960 120 1200 60 1440 40V200H0V80Z" fill="#58D68D"/>
-  <!-- Front hill (bright lively green) -->
-  <path d="M0 120C320 160 640 60 1000 70C1200 75 1350 110 1440 130V200H0V120Z" fill="#82E0AA"/>
-  <!-- Top grass highlight (light sunny yellow-green for depth) -->
-  <path d="M0 120C320 160 640 60 1000 70C1200 75 1350 110 1440 130" stroke="#D1F2EB" stroke-width="4" stroke-linecap="round"/>
-</svg>

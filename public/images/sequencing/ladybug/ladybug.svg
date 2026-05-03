@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Legs -->
+  <path d="M160 250 L80 200 L60 220 M160 300 L80 320 L60 300 M200 360 L140 420 L120 400" stroke="#1F2937" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M352 250 L432 200 L452 220 M352 300 L432 320 L452 300 M312 360 L372 420 L392 400" stroke="#1F2937" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Body (Red Shell) -->
+  <circle cx="256" cy="280" r="130" fill="#EF4444" />
+  
+  <!-- Shell Shine -->
+  <ellipse cx="200" cy="220" rx="30" ry="60" fill="#FCA5A5" transform="rotate(-30 200 220)" opacity="0.6"/>
+  
+  <!-- Middle Line -->
+  <line x1="256" y1="150" x2="256" y2="410" stroke="#1F2937" stroke-width="6" />
+  <path d="M256 150 L240 170 L272 170 Z" fill="#1F2937" />
+  
+  <!-- Black Spots -->
+  <circle cx="190" cy="260" r="25" fill="#1F2937" />
+  <circle cx="322" cy="260" r="25" fill="#1F2937" />
+  <circle cx="220" cy="340" r="20" fill="#1F2937" />
+  <circle cx="292" cy="340" r="20" fill="#1F2937" />
+  <circle cx="170" cy="320" r="15" fill="#1F2937" />
+  <circle cx="342" cy="320" r="15" fill="#1F2937" />
+  <circle cx="256" cy="380" r="18" fill="#1F2937" />
+  
+  <!-- Head & Pronotum -->
+  <ellipse cx="256" cy="140" rx="60" ry="35" fill="#1F2937" />
+  <!-- White spots on Pronotum -->
+  <ellipse cx="210" cy="140" rx="15" ry="10" fill="#FFFFFF" transform="rotate(-15 210 140)"/>
+  <ellipse cx="302" cy="140" rx="15" ry="10" fill="#FFFFFF" transform="rotate(15 302 140)"/>
+  
+  <!-- Little Head -->
+  <circle cx="256" cy="100" r="20" fill="#1F2937" />
+  <!-- Antennae -->
+  <path d="M246 100 Q220 60 230 50" stroke="#1F2937" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M266 100 Q292 60 282 50" stroke="#1F2937" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <circle cx="230" cy="50" r="6" fill="#1F2937" />
+  <circle cx="282" cy="50" r="6" fill="#1F2937" />
+</svg>

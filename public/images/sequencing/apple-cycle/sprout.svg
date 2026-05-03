@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <path d="M0 400 L512 400 L512 512 L0 512 Z" fill="#A16207" />
+  
+  <!-- Sprout -->
+  <path d="M256 400 Q240 330 256 280" stroke="#16A34A" stroke-width="12" fill="none" stroke-linecap="round"/>
+  
+  <!-- Seed husk splitting -->
+  <path d="M256 400 Q230 380 230 400 Z" fill="#451A03" />
+  
+  <!-- Tiny leaves -->
+  <path d="M256 280 Q220 250 200 280 Q230 300 256 280" fill="#4ADE80"/>
+  <path d="M256 290 Q290 260 310 290 Q280 310 256 290" fill="#4ADE80"/>
+  
+  <!-- Sun in sky -->
+  <circle cx="400" cy="100" r="50" fill="#FBBF24"/>
+</svg>

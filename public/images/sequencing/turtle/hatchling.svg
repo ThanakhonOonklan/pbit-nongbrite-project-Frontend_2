@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sand Background -->
+  <path d="M0 300 Q 128 250, 256 300 T 512 300 L 512 512 L 0 512 Z" fill="#FDE047" opacity="0.6"/>
+  <!-- Flippers -->
+  <ellipse cx="180" cy="220" rx="20" ry="50" fill="#15803D" transform="rotate(-45 180 220)"/>
+  <ellipse cx="332" cy="220" rx="20" ry="50" fill="#15803D" transform="rotate(45 332 220)"/>
+  <ellipse cx="200" cy="320" rx="15" ry="40" fill="#15803D" transform="rotate(-30 200 320)"/>
+  <ellipse cx="312" cy="320" rx="15" ry="40" fill="#15803D" transform="rotate(30 312 320)"/>
+  <!-- Shell -->
+  <ellipse cx="256" cy="270" rx="60" ry="70" fill="#22C55E"/>
+  <path d="M226 230 L286 230 L296 270 L286 310 L226 310 L216 270 Z" fill="#16A34A"/>
+  <!-- Head -->
+  <circle cx="256" cy="180" r="30" fill="#15803D"/>
+  <circle cx="240" cy="170" r="5" fill="#FFFFFF"/>
+  <circle cx="272" cy="170" r="5" fill="#FFFFFF"/>
+  <circle cx="240" cy="170" r="2" fill="#1F2937"/>
+  <circle cx="272" cy="170" r="2" fill="#1F2937"/>
+  <path d="M246 190 Q256 200 266 190" stroke="#064E3B" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>

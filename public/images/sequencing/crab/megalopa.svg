@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 256 Q 128 200, 256 256 T 512 256 L 512 512 L 0 512 Z" fill="#0EA5E9" opacity="0.3"/>
+  <!-- Legs -->
+  <path d="M200 240 Q150 200 120 260" stroke="#FB923C" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M312 240 Q362 200 392 260" stroke="#FB923C" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M200 260 Q150 280 130 320" stroke="#FB923C" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M312 260 Q362 280 382 320" stroke="#FB923C" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- Body (Squarish) -->
+  <rect x="200" y="200" width="112" height="80" rx="20" fill="#FED7AA"/>
+  <!-- Eyes on stalks -->
+  <line x1="220" y1="200" x2="200" y2="160" stroke="#FB923C" stroke-width="8" stroke-linecap="round"/>
+  <line x1="292" y1="200" x2="312" y2="160" stroke="#FB923C" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="200" cy="160" r="12" fill="#1F2937"/>
+  <circle cx="312" cy="160" r="12" fill="#1F2937"/>
+  <circle cx="197" cy="157" r="3" fill="#FFFFFF"/>
+  <circle cx="309" cy="157" r="3" fill="#FFFFFF"/>
+  <!-- Tail tucked back -->
+  <path d="M226 280 L286 280 L276 340 L236 340 Z" fill="#FED7AA"/>
+</svg>

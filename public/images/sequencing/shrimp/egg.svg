@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  
+  <!-- Adult Shrimp Belly (where eggs are carried) -->
+  <path d="M100 150 C200 150, 400 100, 450 150 L450 200 C300 250, 200 200, 100 200 Z" fill="#FCA5A5" opacity="0.3" />
+  <path d="M150 200 L160 250 M200 210 L210 260 M250 220 L260 270 M300 220 L310 270 M350 210 L360 260" stroke="#F87171" stroke-width="4" fill="none" opacity="0.5" />
+  
+  <!-- Cluster of Orange Eggs carried under abdomen -->
+  <g fill="#F97316" stroke="#EA580C" stroke-width="2">
+    <!-- Row 1 -->
+    <circle cx="180" cy="220" r="10" />
+    <circle cx="205" cy="230" r="10" />
+    <circle cx="230" cy="235" r="10" />
+    <circle cx="255" cy="235" r="10" />
+    <circle cx="280" cy="230" r="10" />
+    <circle cx="305" cy="225" r="10" />
+    <circle cx="330" cy="215" r="10" />
+    
+    <!-- Row 2 -->
+    <circle cx="190" cy="240" r="10" />
+    <circle cx="215" cy="250" r="10" />
+    <circle cx="240" cy="255" r="10" />
+    <circle cx="265" cy="255" r="10" />
+    <circle cx="290" cy="245" r="10" />
+    <circle cx="315" cy="235" r="10" />
+    
+    <!-- Row 3 -->
+    <circle cx="225" cy="270" r="10" />
+    <circle cx="250" cy="275" r="10" />
+    <circle cx="275" cy="270" r="10" />
+  </g>
+  
+  <!-- Tiny black eyes starting to form in eggs -->
+  <g fill="#111827">
+    <circle cx="180" cy="220" r="2" />
+    <circle cx="230" cy="235" r="2" />
+    <circle cx="280" cy="230" r="2" />
+    <circle cx="215" cy="250" r="2" />
+    <circle cx="265" cy="255" r="2" />
+    <circle cx="250" cy="275" r="2" />
+  </g>
+</svg>

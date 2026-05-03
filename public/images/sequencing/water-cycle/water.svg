@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sky -->
+  <path d="M0 0 L512 0 L512 300 L0 300 Z" fill="#BAE6FD" />
+  <!-- Water Body -->
+  <path d="M0 300 L512 300 L512 512 L0 512 Z" fill="#3B82F6" />
+  
+  <!-- Waves -->
+  <path d="M50 350 Q100 320 150 350 T250 350 T350 350 T450 350" fill="none" stroke="#60A5FA" stroke-width="10" stroke-linecap="round"/>
+  <path d="M100 420 Q150 390 200 420 T300 420 T400 420 T500 420" fill="none" stroke="#2563EB" stroke-width="10" stroke-linecap="round"/>
+  <path d="M20 480 Q70 450 120 480 T220 480 T320 480 T420 480" fill="none" stroke="#60A5FA" stroke-width="10" stroke-linecap="round"/>
+  
+  <!-- Ground / Shoreline (optional) -->
+  <path d="M0 300 Q50 350 100 300 L0 300 Z" fill="#FCD34D" />
+</svg>

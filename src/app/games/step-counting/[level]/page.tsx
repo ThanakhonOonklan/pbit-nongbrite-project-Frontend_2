@@ -8,8 +8,10 @@ import { LoopScene, LoopCodePanel } from "@/components/games/step-counting";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { TutorialModal } from "@/components/games/TutorialModal";
+import { stepCountingTutorialSteps } from "@/components/games/tutorials";
 import { HelpButton } from "@/components/games/HelpButton";
-import { stepCountingLevels } from "@/constants/games/step-counting-levels";
+import { stepCountingLevels, type ResolvedLoopConfig } from "@/constants/games/step-counting-levels";
 import {
   calculateGameScore,
   getStarRating,
@@ -34,7 +36,24 @@ export default function StepCountingGamePage({
   const levelNum = Number(level);
   const router = useRouter();
   const { user, reduceLife } = useUserStore();
-  const config = stepCountingLevels[levelNum];
+  const levelConfig = stepCountingLevels[levelNum];
+
+  // ── Randomly select one variant (client-only to avoid hydration mismatch) ──
+  const [variantIndex, setVariantIndex] = useState(0);
+  useEffect(() => {
+    if (levelConfig) {
+      setVariantIndex(Math.floor(Math.random() * levelConfig.variants.length));
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Resolve variant into a flat config for components
+  const config: ResolvedLoopConfig | undefined = levelConfig
+    ? {
+      level: levelConfig.level,
+      difficulty: levelConfig.difficulty,
+      ...levelConfig.variants[variantIndex],
+    }
+    : undefined;
   const taskCount = config?.tasks.length ?? 1;
 
   // ── Game state ───────────────────────────────────────────
@@ -176,8 +195,11 @@ export default function StepCountingGamePage({
     setTaskStatuses(config?.tasks.map(() => null) ?? []);
   }, [config]);
 
-  // ── Retry ────────────────────────────────────────────────
+  // ── Retry (re-randomize variant) ────────────────────────
   const handleRetry = useCallback(() => {
+    if (levelConfig) {
+      setVariantIndex(Math.floor(Math.random() * levelConfig.variants.length));
+    }
     setScoreResult(null);
     setAttempts(0);
     setElapsedSeconds(0);
@@ -192,10 +214,14 @@ export default function StepCountingGamePage({
     setIsRunning(false);
     startTimeRef.current = Date.now();
     setGameKey((k) => k + 1);
-  }, [config]);
+  }, [config, levelConfig]);
+
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
 
   // ── Fallback ─────────────────────────────────────────────
-  if (!config) {
+  if (!config || !levelConfig) {
     return (
       <div className="flex h-screen items-center justify-center bg-gradient-to-b from-[#87CEEB] to-[#C9E8F7]">
         <div className="flex flex-col items-center text-center gap-4">
@@ -210,7 +236,7 @@ export default function StepCountingGamePage({
   }
 
   return (
-    <div className="flex flex-col relative zoom-wrapper" style={{ background: "linear-gradient(to top, #c6e7e6, #e8f8f7)" }}>
+    <div className="flex flex-col relative zoom-wrapper bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/images/Background/Step-countingBackground.png')" }}>
 
       {/* ===== Header ===== */}
       <div className="relative z-50 w-full">
@@ -261,21 +287,18 @@ export default function StepCountingGamePage({
         ]}
       />
 
-      {/* ===== INTRO OVERLAY ===== */}
+      {/* ===== INTRO TUTORIAL ===== */}
       {showIntro && (
-        <GameOverlay
-          type="hint"
-          message={<>ช่วยคั้นน้ำส้มให้ครบเป้าเลย!<br />ตั้งจำนวนแล้วกดรัน</>}
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/P_Bobo/bobo-01.svg"
-          imageAlt="Bobo"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
+        <TutorialModal
+          steps={stepCountingTutorialSteps}
+          onClose={() => setShowIntro(false)}
+          mascotSrc="/images/P_Bobo/bobo-01.svg"
+          accentColor="#F97316"
         />
       )}
 
       {/* ===== WRONG ANSWER OVERLAY ===== */}
-      {showWrongOverlay && (
+      {canShowGameOverlay && showWrongOverlay && (
         <GameOverlay
           type="error"
           message={wrongMessage}
@@ -287,7 +310,7 @@ export default function StepCountingGamePage({
       )}
 
       {/* ===== WIN MODAL ===== */}
-      {scoreResult && (
+      {scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
@@ -299,7 +322,7 @@ export default function StepCountingGamePage({
       )}
 
       {/* ===== OUT OF LIVES ===== */}
-      {user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0 && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
 
       <style>{`
         @media (min-width: 1024px) {

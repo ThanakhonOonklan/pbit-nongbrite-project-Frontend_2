@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { LoopLevelConfig, LoopTask, LoopTheme } from "@/constants/games/step-counting-levels";
+import type { ResolvedLoopConfig, LoopTask, LoopTheme } from "@/constants/games/step-counting-levels";
 import { TiltButton } from "react-tilt-button";
 import { FaPlay } from "react-icons/fa";
 import { Glass } from "./Glass";
@@ -19,7 +19,7 @@ const MINUS_BG = "#E0E0E0";
 
 // ── LoopCodePanel ──────────────────────────────────────────────
 interface LoopCodePanelProps {
-  config: LoopLevelConfig;
+  config: ResolvedLoopConfig;
   loopCounts: number[];
   onLoopChange: (taskIndex: number, delta: number) => void;
   onRun: () => void;

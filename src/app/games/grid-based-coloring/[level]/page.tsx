@@ -7,6 +7,8 @@ import Image from "next/image";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { TutorialModal } from "@/components/games/TutorialModal";
+import { gridColoringTutorialSteps } from "@/components/games/tutorials";
 import { HelpButton } from "@/components/games/HelpButton";
 import { GridColoringGame } from "@/components/games/grid-based-coloring";
 import { gridColoringLevels } from "@/constants/games/grid-based-coloring-levels";
@@ -57,6 +59,10 @@ export default function GridBasedColoringGamePage({
     startTimeRef.current = Date.now();
   }, []);
 
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+
   // ── Fallback ─────────────────────────────────────────────
   if (!config) {
     return (
@@ -81,11 +87,9 @@ export default function GridBasedColoringGamePage({
 
   return (
     // ── Sky and Grass background ─
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#7DE2FC] via-[#B9EFFF] to-[#E5F9FF] overflow-hidden relative z-0">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#7DE2FC] via-[#B9EFFF] to-[#E5F9FF] overflow-hidden relative z-0 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/images/Background/Gridbasedcoloringbackground.png')" }}>
 
-      {/* Decorative Grass Hills */}
-      <div className="absolute bottom-[-5%] left-[-20%] right-[10%] h-[35%] bg-[#A8D354] rounded-t-[100%] -z-10" />
-      <div className="absolute bottom-[-10%] left-[10%] right-[-20%] h-[40%] bg-[#8FBF3B] rounded-t-[100%] -z-10" />
 
       {/* Header */}
       <GameHeader
@@ -118,25 +122,18 @@ export default function GridBasedColoringGamePage({
         ]}
       />
 
-      {/* Intro overlay — level 1 เท่านั้น */}
+      {/* Intro tutorial — level 1 เท่านั้น */}
       {showIntro && (
-        <GameOverlay
-          type="hint"
-          message={
-            <>
-              ระบายสีให้เหมือนรูปต้นแบบเป๊ะๆ เลยนะ!
-            </>
-          }
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/Nong_brite/nong-brite-06.svg"
-          imageAlt="Nong Brite"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
+        <TutorialModal
+          steps={gridColoringTutorialSteps}
+          onClose={() => setShowIntro(false)}
+          mascotSrc="/images/Nong_brite/nong-brite-06.svg"
+          accentColor="#7AAB28"
         />
       )}
 
       {/* WIN/LOSE modal */}
-      {scoreResult && (
+      {scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
@@ -149,7 +146,7 @@ export default function GridBasedColoringGamePage({
       )}
 
       {/* Out of Lives Modal */}
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
 
       <style>{`
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }

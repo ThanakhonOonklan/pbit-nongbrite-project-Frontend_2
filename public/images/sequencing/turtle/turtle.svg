@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Water Background -->
+  <path d="M0 256 Q 128 200, 256 256 T 512 256 L 512 512 L 0 512 Z" fill="#0284C7" opacity="0.3"/>
+  <!-- Front Flippers (Huge) -->
+  <path d="M200 160 Q80 100 40 200 C80 260 160 200 200 240 Z" fill="#065F46"/>
+  <path d="M312 160 Q432 100 472 200 C432 260 352 200 312 240 Z" fill="#065F46"/>
+  <!-- Back Flippers -->
+  <ellipse cx="160" cy="380" rx="30" ry="80" fill="#065F46" transform="rotate(-45 160 380)"/>
+  <ellipse cx="352" cy="380" rx="30" ry="80" fill="#065F46" transform="rotate(45 352 380)"/>
+  <!-- Tail -->
+  <polygon points="236,410 276,410 256,460" fill="#065F46"/>
+  <!-- Shell -->
+  <ellipse cx="256" cy="290" rx="120" ry="140" fill="#15803D"/>
+  <path d="M206 210 L306 210 L336 290 L306 370 L206 370 L176 290 Z" fill="#047857"/>
+  <!-- Hexagon Pattern -->
+  <polygon points="256,230 286,250 286,290 256,310 226,290 226,250" fill="#16A34A"/>
+  <!-- Head -->
+  <ellipse cx="256" cy="110" rx="50" ry="60" fill="#065F46"/>
+  <circle cx="226" cy="100" r="10" fill="#FFFFFF"/>
+  <circle cx="286" cy="100" r="10" fill="#FFFFFF"/>
+  <circle cx="226" cy="100" r="5" fill="#1F2937"/>
+  <circle cx="286" cy="100" r="5" fill="#1F2937"/>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 450 L512 450 L512 512 L0 512 Z" fill="#E2E8F0" />
+  
+  <!-- Base Beaker (Red) -->
+  <g stroke="#94A3B8" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M150 200 L150 400 A50 50 0 0 0 200 450 L312 450 A50 50 0 0 0 362 400 L362 200" />
+    <path d="M120 200 L392 200" /> 
+  </g>
+  <path d="M157 280 L355 280 L355 400 A42 42 0 0 1 312 442 L200 442 A42 42 0 0 1 157 400 Z" fill="#EF4444" opacity="0.9"/>
+  <ellipse cx="256" cy="280" rx="99" ry="15" fill="#FCA5A5" opacity="0.8"/>
+  
+  <!-- Tilted Beaker (Yellow) pouring -->
+  <g transform="translate(180, 0) rotate(-45 150 150)">
+    <g stroke="#94A3B8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M150 50 L150 150 A30 30 0 0 0 180 180 L230 180 A30 30 0 0 0 260 150 L260 50" />
+      <path d="M130 50 L280 50" />
+    </g>
+    <!-- Little bit of yellow left -->
+    <path d="M156 120 L254 120 L254 150 A24 24 0 0 1 230 174 L180 174 A24 24 0 0 1 156 150 Z" fill="#FDE047" opacity="0.9"/>
+    <ellipse cx="205" cy="120" rx="49" ry="8" fill="#FEF08A" opacity="0.8"/>
+  </g>
+  
+  <!-- Pouring Liquid -->
+  <path d="M280 140 Q280 200 260 280" stroke="#FDE047" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.9"/>
+  <!-- Splash -->
+  <ellipse cx="260" cy="280" rx="20" ry="5" fill="#FDE047" />
+  <circle cx="240" cy="260" r="5" fill="#FDE047" />
+  <circle cx="280" cy="250" r="4" fill="#FDE047" />
+</svg>

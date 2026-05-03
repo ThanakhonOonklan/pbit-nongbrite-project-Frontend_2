@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Stove Top -->
+  <rect x="156" y="400" width="200" height="20" rx="10" fill="#475569" />
+  <path d="M200 420 L220 450 L292 450 L312 420 Z" fill="#334155" />
+  <!-- Flame -->
+  <path d="M256 380 C230 400, 200 400, 256 420 C312 400, 282 400, 256 380 Z" fill="#EF4444" />
+  <path d="M256 390 C240 405, 220 405, 256 420 C292 405, 272 405, 256 390 Z" fill="#F59E0B" />
+  <path d="M256 400 C246 410, 236 410, 256 420 C276 410, 266 410, 256 400 Z" fill="#FCD34D" />
+  
+  <!-- Pot -->
+  <path d="M176 250 L336 250 C336 330, 316 380, 256 380 C196 380, 176 330, 176 250 Z" fill="#94A3B8" />
+  <!-- Pot Handles -->
+  <path d="M176 280 C150 280, 150 320, 176 320" stroke="#64748B" stroke-width="15" fill="none" />
+  <path d="M336 280 C362 280, 362 320, 336 320" stroke="#64748B" stroke-width="15" fill="none" />
+  
+  <!-- Boiling Water inside pot -->
+  <ellipse cx="256" cy="250" rx="80" ry="25" fill="#38BDF8" />
+  <path d="M200 250 Q230 230 256 250 T312 250" stroke="#E0F2FE" stroke-width="4" fill="none" />
+  <circle cx="220" cy="240" r="5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="260" cy="245" r="8" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="290" cy="235" r="6" fill="#FFFFFF" opacity="0.8"/>
+  
+  <!-- Steam -->
+  <path d="M220 220 C200 180, 240 140, 220 100" stroke="#E2E8F0" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <path d="M256 210 C236 160, 276 120, 256 80" stroke="#E2E8F0" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M292 220 C272 180, 312 140, 292 100" stroke="#E2E8F0" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
+</svg>

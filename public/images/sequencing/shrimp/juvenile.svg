@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <!-- Sandy Bottom -->
+  <path d="M50 400 Q256 350 462 400 L462 450 L50 450 Z" fill="#FDE68A" />
+  
+  <!-- Juvenile Shrimp -->
+  <g transform="translate(20, -10)">
+    <!-- Long Antennae -->
+    <path d="M150 240 Q50 100 80 50" stroke="#F87171" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M150 250 Q50 200 60 280" stroke="#F87171" stroke-width="4" fill="none" stroke-linecap="round"/>
+    
+    <!-- Abdomen (Curved down) -->
+    <path d="M280 240 C350 240, 420 320, 380 400" stroke="#FCA5A5" stroke-width="30" fill="none" stroke-linecap="round"/>
+    <!-- Segments -->
+    <path d="M320 250 L340 280 M350 280 L370 310 M380 320 L395 350 M400 360 L405 390" stroke="#F87171" stroke-width="4" fill="none" />
+    
+    <!-- Tail Fan -->
+    <path d="M380 400 L430 430 L390 440 L370 410 Z" fill="#F87171" />
+    <path d="M380 400 L440 400 L410 430 Z" fill="#F87171" />
+    
+    <!-- Carapace -->
+    <path d="M150 250 C150 200, 300 200, 300 250 C300 290, 150 290, 150 250 Z" fill="#F87171" />
+    <path d="M170 210 C220 210, 270 220, 290 250" stroke="#FCA5A5" stroke-width="4" fill="none" />
+    
+    <!-- Rostrum (Serrated nose) -->
+    <path d="M160 220 L90 220 L110 230 L95 235 L120 245 L150 250 Z" fill="#F87171" />
+    
+    <!-- Walking Legs -->
+    <g stroke="#F87171" stroke-width="6" stroke-linecap="round" fill="none">
+      <path d="M200 280 L180 350 M180 350 L200 360" />
+      <path d="M230 285 L210 360 M210 360 L230 370" />
+      <path d="M260 285 L240 360 M240 360 L260 370" />
+    </g>
+    
+    <!-- Swimming Legs -->
+    <g stroke="#FCA5A5" stroke-width="6" stroke-linecap="round" fill="none">
+      <path d="M320 290 Q300 330 280 340" />
+      <path d="M350 320 Q330 360 310 370" />
+      <path d="M380 350 Q360 390 340 400" />
+    </g>
+    
+    <!-- Eye -->
+    <circle cx="160" cy="235" r="10" fill="#111827" />
+    <circle cx="156" cy="231" r="3" fill="#FFFFFF" />
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M50 450 Q256 400 462 450 L462 512 L50 512 Z" fill="#78350F" /> 
+  
+  <!-- Large Tree Trunk -->
+  <path d="M230 450 Q250 200 240 150 M280 450 Q260 200 270 150" fill="none" stroke="#713F12" stroke-width="40" stroke-linecap="round"/>
+  <!-- Base roots -->
+  <path d="M210 460 Q230 450 240 430 M300 460 Q280 450 270 430" fill="none" stroke="#713F12" stroke-width="15" stroke-linecap="round"/>
+  
+  <!-- Massive Leaf Canopy -->
+  <!-- Back layer -->
+  <ellipse cx="256" cy="200" rx="180" ry="120" fill="#16A34A" />
+  <ellipse cx="180" cy="150" rx="100" ry="80" fill="#15803D" />
+  <ellipse cx="350" cy="160" rx="110" ry="90" fill="#15803D" />
+  <ellipse cx="256" cy="100" rx="140" ry="80" fill="#16A34A" />
+  
+  <!-- Front layer (brighter) -->
+  <ellipse cx="256" cy="220" rx="120" ry="60" fill="#22C55E" />
+  <ellipse cx="160" cy="180" rx="80" ry="60" fill="#4ADE80" />
+  <ellipse cx="360" cy="190" rx="90" ry="70" fill="#4ADE80" />
+  <ellipse cx="260" cy="130" rx="100" ry="60" fill="#22C55E" />
+  <ellipse cx="230" cy="70" rx="80" ry="40" fill="#4ADE80" />
+  
+  <!-- Detail leaves -->
+  <path d="M150 160 Q170 140 160 180" stroke="#16A34A" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M350 170 Q380 150 360 200" stroke="#15803D" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M260 100 Q280 80 270 120" stroke="#15803D" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>

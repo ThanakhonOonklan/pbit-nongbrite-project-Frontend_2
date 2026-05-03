@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Dirt Tunnel Background -->
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#78350F" />
+  <ellipse cx="256" cy="256" rx="200" ry="150" fill="#451A03" />
+  
+  <!-- Ant Larva (Grub-like, curved, white/translucent) -->
+  <g transform="translate(10, 0)">
+    <!-- Body -->
+    <path d="M150 250 C150 150, 350 150, 380 250 C400 320, 300 350, 250 350 C180 350, 150 300, 150 250 Z" fill="#F8FAFC" />
+    <path d="M150 250 C150 150, 350 150, 380 250 C400 320, 300 350, 250 350 C180 350, 150 300, 150 250 Z" fill="#E2E8F0" opacity="0.6"/>
+    
+    <!-- Body Segments -->
+    <path d="M170 200 Q200 220 180 300" stroke="#CBD5E1" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M200 180 Q240 220 220 330" stroke="#CBD5E1" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M240 170 Q280 220 260 340" stroke="#CBD5E1" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M280 170 Q320 220 300 340" stroke="#CBD5E1" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M320 180 Q360 220 340 320" stroke="#CBD5E1" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M360 200 Q380 230 360 280" stroke="#CBD5E1" stroke-width="4" fill="none" stroke-linecap="round"/>
+    
+    <!-- Head/Mouth area (curved inward) -->
+    <path d="M140 280 C120 260, 150 220, 170 250" fill="#E2E8F0" />
+    <!-- Dark spot inside (stomach contents visible through skin) -->
+    <ellipse cx="280" cy="256" rx="40" ry="20" fill="#94A3B8" opacity="0.3" transform="rotate(15 280 256)"/>
+  </g>
+</svg>

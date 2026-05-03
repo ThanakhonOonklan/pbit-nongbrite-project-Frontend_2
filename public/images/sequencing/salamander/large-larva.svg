@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <path d="M50 400 Q256 350 462 400 L462 480 L50 480 Z" fill="#475569" />
+  
+  <g transform="translate(10, -10)">
+    <!-- Tail (still has some fin) -->
+    <path d="M300 260 C380 260, 460 300, 440 330 C400 360, 320 300, 300 260 Z" fill="#CBD5E1" opacity="0.4"/>
+    <path d="M300 260 C360 265, 420 300, 440 315" stroke="#334155" stroke-width="15" fill="none" stroke-linecap="round"/>
+    
+    <!-- Back Leg -->
+    <path d="M280 270 Q300 320 320 330" stroke="#334155" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path d="M320 330 L340 340 M320 330 L335 345 M320 330 L325 350" stroke="#334155" stroke-width="4" fill="none" stroke-linecap="round"/>
+    
+    <!-- Body -->
+    <ellipse cx="230" cy="260" rx="80" ry="35" fill="#334155" />
+    <ellipse cx="230" cy="275" rx="70" ry="15" fill="#FEF08A" opacity="0.8"/>
+    
+    <!-- Front Leg -->
+    <path d="M180 270 Q160 310 180 340" stroke="#334155" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path d="M180 340 L160 350 M180 340 L170 355 M180 340 L190 355" stroke="#334155" stroke-width="4" fill="none" stroke-linecap="round"/>
+    
+    <!-- Head -->
+    <ellipse cx="130" cy="260" rx="40" ry="30" fill="#334155" />
+    
+    <!-- External Gills (Still prominent but darker red) -->
+    <!-- Top Gill -->
+    <path d="M155 240 C180 200, 220 180, 240 190" stroke="#E11D48" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M180 215 L200 190 M195 220 L220 200 M210 225 L230 205" stroke="#E11D48" stroke-width="4" fill="none" />
+    <!-- Middle Gill -->
+    <path d="M160 250 C200 220, 240 220, 260 230" stroke="#E11D48" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M185 240 L210 210 M205 245 L230 220 M225 250 L245 230" stroke="#E11D48" stroke-width="4" fill="none" />
+    <!-- Bottom Gill -->
+    <path d="M160 270 C200 270, 240 280, 250 300" stroke="#E11D48" stroke-width="8" fill="none" stroke-linecap="round"/>
+    
+    <!-- Eye -->
+    <circle cx="120" cy="250" r="10" fill="#000000" />
+    <circle cx="117" cy="247" r="3" fill="#FFFFFF" />
+  </g>
+</svg>

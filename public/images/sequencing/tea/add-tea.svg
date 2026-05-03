@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Table -->
+  <ellipse cx="256" cy="400" rx="200" ry="50" fill="#E2E8F0" />
+  
+  <!-- Saucer -->
+  <ellipse cx="256" cy="380" rx="100" ry="25" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="4"/>
+  <ellipse cx="256" cy="385" rx="60" ry="15" fill="#F1F5F9" />
+  
+  <!-- Empty Teacup -->
+  <path d="M186 280 C186 380, 206 380, 256 380 C306 380, 326 380, 326 280 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <!-- Inside cup -->
+  <ellipse cx="256" cy="280" rx="70" ry="20" fill="#F1F5F9" />
+  
+  <!-- Cup Handle -->
+  <path d="M326 300 C366 290, 376 340, 326 350" stroke="#FFFFFF" stroke-width="15" fill="none" stroke-linecap="round" />
+  <path d="M326 300 C366 290, 376 340, 326 350" stroke="#E2E8F0" stroke-width="15" fill="none" stroke-linecap="round" opacity="0.5"/>
+  
+  <!-- Dropping Tea Bag -->
+  <!-- Hand -->
+  <path d="M220 -20 C220 50, 280 80, 260 120 C250 140, 220 140, 200 120 C180 100, 180 50, 180 -20" fill="#FCA5A5" />
+  <!-- Fingers pinching -->
+  <path d="M260 120 C270 140, 260 160, 240 160 C220 160, 210 140, 200 120" fill="#FCA5A5" />
+  
+  <!-- String -->
+  <path d="M240 160 L240 220" stroke="#CBD5E1" stroke-width="3" fill="none" />
+  <!-- Tea Bag -->
+  <rect x="220" y="220" width="40" height="50" rx="5" fill="#FEF3C7" stroke="#FDE68A" stroke-width="2"/>
+  <path d="M220 220 L240 210 L260 220 Z" fill="#FEF3C7" />
+  <!-- Tea leaves texture inside bag -->
+  <circle cx="230" cy="240" r="2" fill="#78350F" opacity="0.6"/>
+  <circle cx="245" cy="235" r="2" fill="#78350F" opacity="0.6"/>
+  <circle cx="250" cy="250" r="2" fill="#78350F" opacity="0.6"/>
+  <circle cx="235" cy="260" r="2" fill="#78350F" opacity="0.6"/>
+  <circle cx="240" cy="245" r="2" fill="#78350F" opacity="0.6"/>
+  
+  <!-- Tag -->
+  <rect x="250" y="130" width="20" height="25" rx="2" fill="#FFFFFF" stroke="#EF4444" stroke-width="2" transform="rotate(15 250 130)"/>
+</svg>

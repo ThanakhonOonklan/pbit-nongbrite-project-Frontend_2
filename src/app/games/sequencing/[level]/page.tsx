@@ -7,9 +7,11 @@ import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { TutorialModal } from "@/components/games/TutorialModal";
+import { sequencingTutorialSteps } from "@/components/games/tutorials";
 import { type ScoreResult } from "@/utils/game-scoring";
 
-import { sequencingLevels } from "@/constants/games/sequencing-levels";
+import { sequencingLevels, SequencingPattern } from "@/constants/games/sequencing-levels";
 import { SequencingGame } from "@/components/games/sequencing/SequencingGame";
 import { SequencingBackground } from "@/components/games/sequencing/SequencingBackground";
 import { useUserStore } from "@/store/user.store";
@@ -20,6 +22,8 @@ export default function SequencingPage() {
   const pathname = usePathname();
 
   const [levelNum, setLevelNum] = useState<number>(1);
+  const [activePattern, setActivePattern] = useState<SequencingPattern | null>(null);
+
   const [isClient, setIsClient] = useState(false);
   const { user, reduceLife } = useUserStore();
   const [startTime, setStartTime] = useState(() => Date.now());
@@ -29,6 +33,7 @@ export default function SequencingPage() {
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showIntro, setShowIntro] = useState(false);
   const [showWrongOverlay, setShowWrongOverlay] = useState(false);
+
 
   useEffect(() => {
     setIsClient(true);
@@ -47,9 +52,17 @@ export default function SequencingPage() {
 
   const config = sequencingLevels.find((l) => l.level === levelNum);
 
+  useEffect(() => {
+    if (config && config.patterns.length > 0) {
+      const randomIndex = Math.floor(Math.random() * config.patterns.length);
+      setActivePattern(config.patterns[randomIndex]);
+      setStartTime(Date.now());
+    }
+  }, [config, levelNum])
+
   if (!isClient) return null;
 
-  if (!config) {
+  if (!config || !activePattern) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#0B0620]">
         <div className="flex flex-col items-center text-center gap-4">
@@ -73,21 +86,30 @@ export default function SequencingPage() {
   };
 
   const handleRetry = () => {
+    if (config && config.patterns.length > 1) {
+      // สุ่มหา Pattern ใหม่ที่ไม่ซ้ำกับของเดิม
+      const availablePatterns = config.patterns.filter(p => p.theme !== activePattern?.theme);
+      const randomIndex = Math.floor(Math.random() * availablePatterns.length);
+      setActivePattern(availablePatterns[randomIndex]);
+    }
+
     setScoreResult(null);
     setWrongCount(0);
     setElapsedSeconds(0);
     setStartTime(Date.now());
-
   };
 
   const handleBack = () => router.push("/courses");
 
   const gameKey = `${levelNum}-${startTime}`;
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0620] relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-[#0B0620] relative overflow-hidden  bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/images/Background/sequencingBackground.png')" }}>
       {/* Cosmic Background */}
-      <SequencingBackground />
 
       {/* Top Header */}
       <div className="relative z-50 w-full">
@@ -106,6 +128,7 @@ export default function SequencingPage() {
         <SequencingGame
           key={gameKey}
           config={config}
+          pattern={activePattern}
           onGameEnd={handleGameEnd}
           onWrongAttempt={() => {
             reduceLife();
@@ -126,7 +149,7 @@ export default function SequencingPage() {
       </main>
 
       {/* WIN/LOSE modal */}
-      {scoreResult && (
+      {scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
@@ -138,27 +161,21 @@ export default function SequencingPage() {
       )}
 
       {/* ===== OUT OF LIVES MODAL ===== */}
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
 
-      {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
+      {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
       {showIntro && (
-        <GameOverlay
-          type="hint"
-          message={
-            <>
-              มาช่วยน้องไบร์ทเรียงลำดับ<br />วงจรชีวิตให้ถูกต้องกันเถอะ!
-            </>
-          }
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/P_Momo/momo-03.svg"
-          imageAlt="Nong Brite"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
+        <TutorialModal
+          steps={sequencingTutorialSteps}
+          onClose={() => setShowIntro(false)}
+          mascotSrc="/images/P_Momo/momo-03.svg"
+          accentColor="#7C3AED"
         />
       )}
 
+
       {/* ===== WRONG ANSWER OVERLAY ===== */}
-      {showWrongOverlay && (
+      {canShowGameOverlay && showWrongOverlay && (
         <GameOverlay
           type="error"
           message={`ลองจัดเรียงใหม่อีกครั้งนะ`}

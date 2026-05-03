@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <!-- Sandy Bottom -->
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#FDE68A" />
+  
+  <!-- Small Clam -->
+  <g transform="translate(0, 20)">
+    <!-- Back shell edge (darker) -->
+    <path d="M150 300 C150 180, 362 180, 362 300 C362 330, 256 350, 150 300 Z" fill="#94A3B8" />
+    <!-- Front Shell -->
+    <path d="M160 300 C160 200, 352 200, 352 300 C352 350, 256 370, 160 300 Z" fill="#F1F5F9" />
+    
+    <!-- Growth Rings (Concentric arcs from bottom hinge) -->
+    <g stroke="#CBD5E1" stroke-width="4" fill="none" stroke-linecap="round">
+      <path d="M230 330 C230 310, 282 310, 282 330" />
+      <path d="M210 310 C210 270, 302 270, 302 310" />
+      <path d="M190 290 C190 230, 322 230, 322 290" />
+      <path d="M175 270 C175 200, 337 200, 337 270" />
+    </g>
+    
+    <!-- Siphon sticking out slightly -->
+    <path d="M340 310 C370 320, 380 300, 370 290" fill="#FBCFE8" stroke="#F472B6" stroke-width="2"/>
+  </g>
+</svg>

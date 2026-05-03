@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#64748B" />
+  
+  <!-- Huge Rain Drop (Left side) -->
+  <path d="M150 50 Q280 300 150 450 Q20 300 150 50 Z" fill="#0284C7" opacity="0.4"/>
+  <path d="M100 200 Q80 300 150 400" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" fill="none" opacity="0.8"/>
+  
+  <!-- White Light Beam entering from far left -->
+  <path d="M-50 250 L50 250" stroke="#FFFFFF" stroke-width="30" stroke-linecap="round" opacity="0.9"/>
+  
+  <!-- Inside refraction -->
+  <path d="M50 250 L180 230" stroke="#EF4444" stroke-width="8" />
+  <path d="M50 250 L175 250" stroke="#22C55E" stroke-width="8" />
+  <path d="M50 250 L170 270" stroke="#3B82F6" stroke-width="8" />
+  
+  <!-- Splitting Colors coming OUT of the drop -->
+  <g stroke-linecap="round" fill="none" stroke-width="15">
+    <path d="M180 230 L500 150" stroke="#EF4444" /> <!-- Red -->
+    <path d="M180 230 L500 180" stroke="#F97316" /> <!-- Orange -->
+    <path d="M175 250 L500 210" stroke="#FBBF24" /> <!-- Yellow -->
+    <path d="M175 250 L500 240" stroke="#22C55E" /> <!-- Green -->
+    <path d="M170 270 L500 270" stroke="#3B82F6" /> <!-- Blue -->
+    <path d="M170 270 L500 300" stroke="#8B5CF6" /> <!-- Indigo/Violet -->
+  </g>
+</svg>

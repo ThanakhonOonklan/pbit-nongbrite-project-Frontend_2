@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Juvenile snake coiled -->
+  <path d="M256 380 C360 380, 360 280, 256 280 C170 280, 170 190, 256 190 C300 190, 300 130, 256 130" stroke="#16A34A" stroke-width="30" fill="none" stroke-linecap="round"/>
+  <!-- Head -->
+  <circle cx="256" cy="130" r="25" fill="#16A34A"/>
+  <circle cx="245" cy="120" r="5" fill="#1F2937"/>
+  <!-- Tongue -->
+  <path d="M256 105 L256 85 L246 75 M256 85 L266 75" stroke="#EF4444" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Pattern -->
+  <circle cx="256" cy="280" r="6" fill="#15803D"/>
+  <circle cx="330" cy="330" r="6" fill="#15803D"/>
+  <circle cx="190" cy="235" r="6" fill="#15803D"/>
+</svg>

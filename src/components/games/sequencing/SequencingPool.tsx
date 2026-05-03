@@ -8,21 +8,15 @@ interface SequencingPoolProps {
 }
 
 function getItemsPerRow(count: number): number {
-  if (count <= 5) return count;
-  if (count === 6) return 3;
-  if (count === 7) return 4;
-  if (count === 8) return 4;
-  if (count === 9) return 5;
-  if (count >= 10) return 5;
-  return 5;
+  return count;
 }
 
 function getSizeByRow() {
   return {
-    box: "w-[54px] h-[54px] sm:w-[72px] sm:h-[72px] md:w-20 md:h-20 lg:w-24 lg:h-24",
-    text: "text-2xl sm:text-3xl lg:text-4xl",
-    img: "w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16",
-    gap: "gap-1 sm:gap-2 md:gap-3 lg:gap-4"
+    box: "w-12 h-12 xs:w-[50px] xs:h-[50px] sm:w-[68px] sm:h-[68px] md:w-[76px] md:h-[76px] lg:w-[90px] lg:h-[90px]",
+    text: "text-xl xs:text-2xl sm:text-3xl lg:text-4xl",
+    img: "w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 md:w-13 md:h-13 lg:w-15 lg:h-15",
+    gap: "gap-1 xs:gap-1.5 sm:gap-2 md:gap-3 lg:gap-4"
   };
 }
 
@@ -105,7 +99,7 @@ export function SequencingPool({ pool, slotCount }: SequencingPoolProps) {
       {/* Items — structured rows matching slots exactly */}
       <div className="flex flex-col items-center justify-center pt-2 px-1 gap-2 sm:gap-3 md:gap-4">
         {rows.map((row, rowIdx) => (
-          <div key={`pool-row-${rowIdx}`} className={`flex items-center justify-center ${sc.gap}`}>
+          <div key={`pool-row-${rowIdx}`} className={`flex flex-wrap items-center justify-center ${sc.gap}`}>
             {row.map((item, colIdx) => {
               const originalIdx = rowIdx * itemsPerRow + colIdx;
               return (

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Adult Elephant (Majestic & Strong) -->
+  <g transform="translate(10, -10)">
+    <!-- Back Legs -->
+    <rect x="220" y="250" width="50" height="150" rx="15" fill="#334155" />
+    <rect x="360" y="250" width="50" height="150" rx="15" fill="#334155" />
+    <!-- Body -->
+    <path d="M140 220 C140 100, 420 100, 440 220 C460 320, 180 340, 140 220 Z" fill="#475569" />
+    <!-- Front Legs -->
+    <rect x="170" y="270" width="55" height="150" rx="15" fill="#475569" />
+    <rect x="290" y="270" width="55" height="150" rx="15" fill="#475569" />
+    <!-- Toenails -->
+    <path d="M180 410 Q195 400 210 410" stroke="#CBD5E1" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M300 410 Q315 400 330 410" stroke="#CBD5E1" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Tail -->
+    <path d="M430 180 Q480 200 470 290" stroke="#334155" stroke-width="10" fill="none" stroke-linecap="round" />
+    <path d="M470 290 L460 310 L480 310 Z" fill="#0F172A" />
+    <!-- Back Ear -->
+    <path d="M220 120 C290 80, 320 170, 270 230 C230 260, 190 200, 220 120 Z" fill="#334155" />
+    <!-- Head -->
+    <circle cx="130" cy="170" r="80" fill="#475569" />
+    <!-- Big Tusks -->
+    <path d="M100 220 C60 280, 50 340, 80 380" stroke="#F8FAFC" stroke-width="16" fill="none" stroke-linecap="round" />
+    <!-- Trunk (Long and curved down then up) -->
+    <path d="M80 200 C30 280, 40 400, 120 440 Q150 450, 150 420" fill="none" stroke="#475569" stroke-width="38" stroke-linecap="round" />
+    <!-- Front Ear (Massive) -->
+    <path d="M140 130 C60 60, 20 180, 70 240 C120 280, 180 200, 140 130 Z" fill="#64748B" />
+    <!-- Eyes -->
+    <circle cx="100" cy="150" r="9" fill="#0F172A" />
+    <circle cx="150" cy="150" r="9" fill="#0F172A" />
+    <circle cx="97" cy="147" r="3" fill="#FFFFFF" />
+    <circle cx="147" cy="147" r="3" fill="#FFFFFF" />
+  </g>
+</svg>

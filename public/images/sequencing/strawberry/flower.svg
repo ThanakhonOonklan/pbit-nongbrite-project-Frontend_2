@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Leaves at back -->
+  <path d="M256 300 C150 250, 150 400, 200 450 C250 450, 300 350, 256 300 Z" fill="#16A34A" />
+  <path d="M256 300 C350 250, 350 400, 300 450 C250 450, 200 350, 256 300 Z" fill="#15803D" />
+  <path d="M256 320 C180 180, 330 180, 256 320 Z" fill="#22C55E" />
+  
+  <!-- Flower Stem -->
+  <path d="M256 400 C270 300, 250 280, 256 250" stroke="#4ADE80" stroke-width="12" fill="none" stroke-linecap="round"/>
+  
+  <!-- 5 White Petals -->
+  <ellipse cx="256" cy="180" rx="35" ry="45" fill="#FFFFFF" />
+  <ellipse cx="200" cy="220" rx="35" ry="45" fill="#FFFFFF" transform="rotate(-72 200 220)"/>
+  <ellipse cx="312" cy="220" rx="35" ry="45" fill="#FFFFFF" transform="rotate(72 312 220)"/>
+  <ellipse cx="220" cy="280" rx="35" ry="45" fill="#FFFFFF" transform="rotate(-144 220 280)"/>
+  <ellipse cx="292" cy="280" rx="35" ry="45" fill="#FFFFFF" transform="rotate(144 292 280)"/>
+  
+  <!-- Yellow Center -->
+  <circle cx="256" cy="240" r="25" fill="#FACC15" />
+  <!-- Center Details -->
+  <circle cx="256" cy="240" r="18" fill="#EAB308" />
+  <circle cx="245" cy="235" r="3" fill="#CA8A04" />
+  <circle cx="265" cy="245" r="3" fill="#CA8A04" />
+  <circle cx="255" cy="250" r="3" fill="#CA8A04" />
+  <circle cx="250" cy="230" r="3" fill="#CA8A04" />
+  <circle cx="265" cy="230" r="3" fill="#CA8A04" />
+</svg>

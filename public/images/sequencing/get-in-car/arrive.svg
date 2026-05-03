@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sky -->
+  <path d="M0 0 L512 0 L512 250 L0 250 Z" fill="#38BDF8" />
+  
+  <!-- Background House/Building -->
+  <path d="M100 250 L100 150 L250 150 L250 250 Z" fill="#FDE047" /> <!-- House wall -->
+  <path d="M80 150 L175 80 L270 150 Z" fill="#EA580C" /> <!-- Roof -->
+  <rect x="150" y="190" width="40" height="60" fill="#78350F" /> <!-- Door -->
+  <rect x="120" y="170" width="30" height="30" fill="#BAE6FD" stroke="#0284C7" stroke-width="4"/> <!-- Window -->
+  <rect x="200" y="170" width="30" height="30" fill="#BAE6FD" stroke="#0284C7" stroke-width="4"/> <!-- Window -->
+  
+  <!-- Tree -->
+  <path d="M350 250 L350 180" stroke="#713F12" stroke-width="15" />
+  <circle cx="350" cy="150" r="50" fill="#16A34A" />
+  <circle cx="320" cy="130" r="40" fill="#22C55E" />
+  <circle cx="380" cy="130" r="40" fill="#22C55E" />
+  
+  <!-- Ground / Driveway -->
+  <path d="M0 250 L512 250 L512 512 L0 512 Z" fill="#10B981" /> <!-- Grass -->
+  <path d="M150 250 L350 250 L450 512 L50 512 Z" fill="#94A3B8" /> <!-- Driveway -->
+  
+  <!-- Car parked (Front View) -->
+  <g transform="translate(180, 280)">
+    <!-- Body -->
+    <path d="M10 80 Q10 40 40 40 L110 40 Q140 40 140 80 L150 150 L0 150 Z" fill="#EF4444" />
+    <!-- Window -->
+    <path d="M25 45 L125 45 L135 80 L15 80 Z" fill="#334155" />
+    <path d="M35 50 L115 50 L120 75 L30 75 Z" fill="#E2E8F0" opacity="0.3"/> <!-- Reflection -->
+    <!-- Headlights -->
+    <circle cx="25" cy="110" r="15" fill="#FEF08A" />
+    <circle cx="125" cy="110" r="15" fill="#FEF08A" />
+    <circle cx="25" cy="110" r="10" fill="#FFFFFF" />
+    <circle cx="125" cy="110" r="10" fill="#FFFFFF" />
+    <!-- Grill -->
+    <rect x="50" y="100" width="50" height="20" fill="#1E293B" rx="5" />
+    <path d="M50 110 L100 110" stroke="#475569" stroke-width="4" />
+    <!-- Wheels -->
+    <path d="M-5 130 L10 130 L10 160 L-5 160 Z" fill="#1E293B" rx="2" />
+    <path d="M140 130 L155 130 L155 160 L140 160 Z" fill="#1E293B" rx="2" />
+  </g>
+</svg>

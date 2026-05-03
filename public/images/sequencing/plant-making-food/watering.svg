@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#F8FAFC" />
+  
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#78350F" /> <!-- Darker soil = wet -->
+  
+  <!-- Plant -->
+  <path d="M256 220 Q240 100 256 60" stroke="#16A34A" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M256 60 Q230 40 220 70 Q250 80 256 60" fill="#4ADE80"/>
+  <path d="M256 100 Q200 100 190 130 Q230 130 256 100" fill="#4ADE80"/>
+  <path d="M256 140 Q310 130 330 160 Q290 170 256 140" fill="#4ADE80"/>
+  
+  <!-- Watering Can (Top Left) pouring water -->
+  <g transform="translate(50, 50)">
+    <path d="M100 100 L150 50 L180 80 L130 130 Z" fill="#3B82F6"/> <!-- Spout -->
+    <circle cx="165" cy="65" r="15" fill="#60A5FA"/> <!-- Shower head -->
+    <path d="M50 50 L100 50 L110 150 L40 150 Z" fill="#2563EB"/> <!-- Body -->
+    <path d="M50 50 C20 50, 20 150, 40 150" fill="none" stroke="#2563EB" stroke-width="15"/> <!-- Handle -->
+  </g>
+  
+  <!-- Water lines pouring -->
+  <g stroke="#38BDF8" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 10" fill="none">
+    <path d="M220 120 L250 200" />
+    <path d="M230 110 L270 210" />
+    <path d="M210 130 L230 200" />
+  </g>
+  
+  <!-- Splashes on soil -->
+  <circle cx="240" cy="220" r="5" fill="#38BDF8"/>
+  <circle cx="260" cy="210" r="4" fill="#38BDF8"/>
+  <circle cx="270" cy="225" r="6" fill="#38BDF8"/>
+</svg>

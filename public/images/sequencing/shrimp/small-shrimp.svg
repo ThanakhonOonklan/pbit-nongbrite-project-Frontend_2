@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <!-- Small rock at bottom -->
+  <path d="M200 450 C300 350, 500 400, 512 450 Z" fill="#94A3B8" />
+  
+  <!-- Post-larval Small Shrimp -->
+  <g transform="translate(10, 0)">
+    <!-- Antennae -->
+    <path d="M180 250 Q100 150 50 200" stroke="#FCA5A5" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M180 260 Q100 200 80 280" stroke="#FCA5A5" stroke-width="3" fill="none" stroke-linecap="round"/>
+    
+    <!-- Body (Starting to look like a shrimp) -->
+    <!-- Tail (Curved down slightly) -->
+    <path d="M300 250 C350 250, 400 300, 380 350" stroke="#FECDD3" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <!-- Tail Fin -->
+    <path d="M380 350 L420 380 L390 390 L380 350 Z" fill="#FCA5A5" />
+    
+    <!-- Carapace (Head/Thorax) -->
+    <path d="M180 250 C180 220, 300 220, 300 250 C300 280, 180 280, 180 250 Z" fill="#FCA5A5" />
+    
+    <!-- Rostrum -->
+    <path d="M180 230 L130 235 L180 250 Z" fill="#FCA5A5" />
+    
+    <!-- Tiny Legs -->
+    <g stroke="#FCA5A5" stroke-width="4" stroke-linecap="round" fill="none">
+      <!-- Walking legs -->
+      <path d="M220 270 Q220 320 200 340" />
+      <path d="M240 275 Q240 325 220 345" />
+      <path d="M260 275 Q260 325 240 345" />
+      <!-- Swimming legs (pleopods) -->
+      <path d="M320 280 Q320 310 300 320" />
+      <path d="M340 300 Q340 320 320 330" />
+      <path d="M360 320 Q360 340 340 350" />
+    </g>
+    
+    <!-- Eye -->
+    <circle cx="190" cy="240" r="8" fill="#111827" />
+    <circle cx="187" cy="237" r="2" fill="#FFFFFF" />
+  </g>
+</svg>

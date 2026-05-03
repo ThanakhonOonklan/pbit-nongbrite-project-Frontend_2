@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <ellipse cx="256" cy="450" rx="200" ry="50" fill="#E2E8F0" />
+  <ellipse cx="256" cy="430" rx="100" ry="25" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="4"/>
+  <ellipse cx="256" cy="435" rx="60" ry="15" fill="#F1F5F9" />
+  
+  <!-- Teacup -->
+  <path d="M186 330 C186 430, 206 430, 256 430 C306 430, 326 430, 326 330 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <path d="M326 350 C366 340, 376 390, 326 400" stroke="#E2E8F0" stroke-width="15" fill="none" stroke-linecap="round" />
+  
+  <!-- Tea Bag string hanging out -->
+  <path d="M220 330 L200 360" stroke="#CBD5E1" stroke-width="3" fill="none" />
+  <rect x="190" y="360" width="20" height="25" rx="2" fill="#FFFFFF" stroke="#EF4444" stroke-width="2" transform="rotate(-15 190 360)"/>
+  
+  <!-- Hot Water filling cup -->
+  <!-- Inner cup -->
+  <ellipse cx="256" cy="330" rx="70" ry="20" fill="#F1F5F9" />
+  <ellipse cx="256" cy="335" rx="60" ry="15" fill="#BAE6FD" opacity="0.5" />
+  <!-- Stream of water -->
+  <path d="M256 180 L256 335" stroke="#38BDF8" stroke-width="15" fill="none" opacity="0.6"/>
+  <path d="M256 180 L256 335" stroke="#E0F2FE" stroke-width="8" fill="none" opacity="0.8"/>
+  
+  <!-- Kettle pouring (Tilted) -->
+  <g transform="translate(-100, -80) rotate(-30 350 200)">
+    <!-- Body -->
+    <path d="M256 150 C236 220, 236 280, 256 290 L416 290 C436 280, 436 220, 416 150 C396 80, 366 80, 336 80 C306 80, 276 80, 256 150 Z" fill="#94A3B8" />
+    <!-- Spout (pointing down) -->
+    <path d="M236 180 L152 120 L172 100 L246 150 Z" fill="#94A3B8" />
+    <!-- Lid -->
+    <ellipse cx="336" cy="80" rx="40" ry="10" fill="#64748B" />
+    <circle cx="336" cy="60" r="10" fill="#1E293B" />
+    <rect x="332" y="60" width="8" height="20" fill="#1E293B" />
+    <!-- Handle -->
+    <path d="M296 80 C296 0, 376 0, 376 80" stroke="#1E293B" stroke-width="20" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Splashes -->
+  <circle cx="240" cy="330" r="4" fill="#38BDF8" />
+  <circle cx="270" cy="325" r="3" fill="#38BDF8" />
+  <circle cx="260" cy="315" r="5" fill="#38BDF8" />
+</svg>

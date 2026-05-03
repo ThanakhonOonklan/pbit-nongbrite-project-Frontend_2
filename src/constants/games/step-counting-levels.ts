@@ -18,8 +18,22 @@ export interface LoopTask {
   maxStepper: number;
 }
 
-// ── Level config (1–N tasks) ───────────────────────────────────
+// ── Per-variant (theme + tasks + description) ──────────────────
+export interface LoopVariant {
+  theme: LoopTheme;
+  tasks: LoopTask[];
+  description: string;
+}
+
+// ── Level config (1–N variants, one randomly selected per game) ─
 export interface LoopLevelConfig {
+  level: number;
+  difficulty: Difficulty;
+  variants: LoopVariant[];
+}
+
+// ── Resolved config (after picking a variant) — used by components ─
+export interface ResolvedLoopConfig {
   level: number;
   difficulty: Difficulty;
   theme: LoopTheme;
@@ -84,39 +98,94 @@ function appleTask(target: number, maxStepper: number): LoopTask {
   };
 }
 
-// ── Level builders ─────────────────────────────────────────────
-function single(level: number, difficulty: Difficulty, task: LoopTask, desc: string): LoopLevelConfig {
-  return { level, difficulty, theme: task.theme, tasks: [task], description: desc };
+// ── Variant builders ──────────────────────────────────────────
+function singleV(task: LoopTask, desc: string): LoopVariant {
+  return { theme: task.theme, tasks: [task], description: desc };
 }
 
-function multi(level: number, difficulty: Difficulty, tasks: LoopTask[], desc: string): LoopLevelConfig {
-  return { level, difficulty, theme: tasks[0].theme, tasks, description: desc };
+function multiV(tasks: LoopTask[], desc: string): LoopVariant {
+  return { theme: tasks[0].theme, tasks, description: desc };
 }
 
-// ── 9 Levels ───────────────────────────────────────────────────
+// ── 9 Levels × 4 variants each ─────────────────────────────────
 // ตอบ: 🍊÷0.5  🍉÷2  🍍÷1  🍏÷0.5
 export const stepCountingLevels: Record<number, LoopLevelConfig> = {
+
   // ─── Easy (Level 1–3) ─────────────────────────────────────────
-  // L1: ส้ม 4 แก้ว → ใช้ 8 ลูก
-  1: single(1, "easy", orangeTask(4, 15), "น้ำส้ม: 1 ลูก → ½ แก้ว"),
-  // L2: สับปะรด 5 แก้ว → ใช้ 5 ลูก
-  2: single(2, "easy", pineappleTask(5, 10), "น้ำสับปะรด: 1 ลูก → 1 แก้ว"),
-  // L3: แตงโม 4 แก้ว (2 ลูก) + แอปเปิ้ล 4 แก้ว (8 ลูก)
-  3: multi(3, "easy", [watermelonTask(4, 8), appleTask(4, 15)], "น้ำแตงโม + น้ำแอปเปิ้ล"),
+
+  // L1: single task
+  1: { level: 1, difficulty: "easy", variants: [
+    singleV(orangeTask(4, 15), "น้ำส้ม: 1 ลูก → ½ แก้ว"),
+    singleV(pineappleTask(6, 10), "น้ำสับปะรด: 1 ลูก → 1 แก้ว"),
+    singleV(watermelonTask(6, 8), "น้ำแตงโม: 1 ลูก → 2 แก้ว"),
+    singleV(appleTask(3, 12), "น้ำแอปเปิ้ล: 1 ลูก → ½ แก้ว"),
+  ]},
+
+  // L2: single task
+  2: { level: 2, difficulty: "easy", variants: [
+    singleV(pineappleTask(5, 10), "น้ำสับปะรด: 1 ลูก → 1 แก้ว"),
+    singleV(orangeTask(3, 12), "น้ำส้ม: 1 ลูก → ½ แก้ว"),
+    singleV(watermelonTask(4, 8), "น้ำแตงโม: 1 ลูก → 2 แก้ว"),
+    singleV(appleTask(4, 15), "น้ำแอปเปิ้ล: 1 ลูก → ½ แก้ว"),
+  ]},
+
+  // L3: 2 tasks
+  3: { level: 3, difficulty: "easy", variants: [
+    multiV([watermelonTask(4, 8), appleTask(4, 15)], "น้ำแตงโม + น้ำแอปเปิ้ล"),
+    multiV([orangeTask(3, 12), pineappleTask(5, 10)], "น้ำส้ม + น้ำสับปะรด"),
+    multiV([pineappleTask(4, 10), watermelonTask(6, 8)], "น้ำสับปะรด + น้ำแตงโม"),
+    multiV([appleTask(2, 10), orangeTask(4, 15)], "น้ำแอปเปิ้ล + น้ำส้ม"),
+  ]},
 
   // ─── Normal (Level 4–6) ───────────────────────────────────────
-  // L4: ส้ม 3 แก้ว (6 ลูก) + สับปะรด 4 แก้ว (4 ลูก)
-  4: multi(4, "normal", [orangeTask(3, 15), pineappleTask(4, 10)], "น้ำส้ม + น้ำสับปะรด"),
-  // L5: แอปเปิ้ล 3 แก้ว (6 ลูก) + สับปะรด 4 แก้ว (4 ลูก)
-  5: multi(5, "normal", [appleTask(3, 12), pineappleTask(4, 10)], "น้ำแอปเปิ้ล + น้ำสับปะรด"),
-  // L6: ส้ม 2 แก้ว (4 ลูก) + แตงโม 6 แก้ว (3 ลูก)
-  6: multi(6, "normal", [orangeTask(2, 12), watermelonTask(6, 8)], "น้ำส้ม + น้ำแตงโม"),
+
+  // L4: 2 tasks
+  4: { level: 4, difficulty: "normal", variants: [
+    multiV([orangeTask(3, 15), pineappleTask(4, 10)], "น้ำส้ม + น้ำสับปะรด"),
+    multiV([watermelonTask(4, 8), appleTask(3, 12)], "น้ำแตงโม + น้ำแอปเปิ้ล"),
+    multiV([pineappleTask(3, 10), orangeTask(2, 10)], "น้ำสับปะรด + น้ำส้ม"),
+    multiV([appleTask(4, 15), watermelonTask(6, 8)], "น้ำแอปเปิ้ล + น้ำแตงโม"),
+  ]},
+
+  // L5: 2 tasks
+  5: { level: 5, difficulty: "normal", variants: [
+    multiV([appleTask(3, 12), pineappleTask(4, 10)], "น้ำแอปเปิ้ล + น้ำสับปะรด"),
+    multiV([orangeTask(4, 15), watermelonTask(4, 8)], "น้ำส้ม + น้ำแตงโม"),
+    multiV([pineappleTask(5, 10), appleTask(2, 10)], "น้ำสับปะรด + น้ำแอปเปิ้ล"),
+    multiV([watermelonTask(6, 8), orangeTask(3, 12)], "น้ำแตงโม + น้ำส้ม"),
+  ]},
+
+  // L6: 2 tasks
+  6: { level: 6, difficulty: "normal", variants: [
+    multiV([orangeTask(2, 12), watermelonTask(6, 8)], "น้ำส้ม + น้ำแตงโม"),
+    multiV([pineappleTask(4, 10), appleTask(3, 12)], "น้ำสับปะรด + น้ำแอปเปิ้ล"),
+    multiV([watermelonTask(4, 8), orangeTask(3, 15)], "น้ำแตงโม + น้ำส้ม"),
+    multiV([appleTask(4, 15), pineappleTask(3, 10)], "น้ำแอปเปิ้ล + น้ำสับปะรด"),
+  ]},
 
   // ─── Hard (Level 7–9) ────────────────────────────────────────
-  // L7: ส้ม 2 (4) + สับปะรด 4 (4) + แอปเปิ้ล 3 (6) ลูก
-  7: multi(7, "hard", [orangeTask(2, 10), pineappleTask(4, 10), appleTask(3, 15)], "น้ำส้ม + น้ำสับปะรด + น้ำแอปเปิ้ล"),
-  // L8: แตงโม 4 (2) + สับปะรด 4 (4) + แอปเปิ้ล 3 (6) ลูก
-  8: multi(8, "hard", [watermelonTask(4, 8), pineappleTask(4, 10), appleTask(3, 15)], "น้ำแตงโม + น้ำสับปะรด + น้ำแอปเปิ้ล"),
-  // L9: ส้ม 3 (6) + แตงโม 4 (2) + สับปะรด 4 (4) + แอปเปิ้ล 3 (6) ลูก
-  9: multi(9, "hard", [orangeTask(3, 15), watermelonTask(4, 8), pineappleTask(4, 10), appleTask(3, 15)], "4 น้ำผสม"),
+
+  // L7: 3 tasks
+  7: { level: 7, difficulty: "hard", variants: [
+    multiV([orangeTask(2, 10), pineappleTask(4, 10), appleTask(3, 15)], "น้ำส้ม + น้ำสับปะรด + น้ำแอปเปิ้ล"),
+    multiV([watermelonTask(4, 8), orangeTask(3, 12), pineappleTask(3, 10)], "น้ำแตงโม + น้ำส้ม + น้ำสับปะรด"),
+    multiV([pineappleTask(5, 10), appleTask(2, 10), watermelonTask(4, 8)], "น้ำสับปะรด + น้ำแอปเปิ้ล + น้ำแตงโม"),
+    multiV([appleTask(3, 12), watermelonTask(6, 8), orangeTask(2, 10)], "น้ำแอปเปิ้ล + น้ำแตงโม + น้ำส้ม"),
+  ]},
+
+  // L8: 3 tasks
+  8: { level: 8, difficulty: "hard", variants: [
+    multiV([watermelonTask(4, 8), pineappleTask(4, 10), appleTask(3, 15)], "น้ำแตงโม + น้ำสับปะรด + น้ำแอปเปิ้ล"),
+    multiV([orangeTask(3, 12), watermelonTask(6, 8), pineappleTask(3, 10)], "น้ำส้ม + น้ำแตงโม + น้ำสับปะรด"),
+    multiV([appleTask(4, 15), orangeTask(2, 10), watermelonTask(4, 8)], "น้ำแอปเปิ้ล + น้ำส้ม + น้ำแตงโม"),
+    multiV([pineappleTask(5, 10), appleTask(2, 10), orangeTask(3, 12)], "น้ำสับปะรด + น้ำแอปเปิ้ล + น้ำส้ม"),
+  ]},
+
+  // L9: 4 tasks
+  9: { level: 9, difficulty: "hard", variants: [
+    multiV([orangeTask(3, 15), watermelonTask(4, 8), pineappleTask(4, 10), appleTask(3, 15)], "4 น้ำผสม"),
+    multiV([pineappleTask(5, 10), appleTask(2, 10), watermelonTask(6, 8), orangeTask(2, 10)], "4 น้ำผสม"),
+    multiV([watermelonTask(4, 8), orangeTask(4, 15), appleTask(3, 12), pineappleTask(3, 10)], "4 น้ำผสม"),
+    multiV([appleTask(4, 15), pineappleTask(4, 10), orangeTask(3, 12), watermelonTask(4, 8)], "4 น้ำผสม"),
+  ]},
 };

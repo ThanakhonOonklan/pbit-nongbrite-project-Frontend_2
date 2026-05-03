@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sand Background -->
+  <path d="M50 400 Q256 350 462 400 L462 480 L50 480 Z" fill="#FDE68A" />
+  <ellipse cx="150" cy="430" rx="15" ry="8" fill="#D1D5DB" />
+  <ellipse cx="350" cy="440" rx="20" ry="10" fill="#9CA3AF" />
+  
+  <!-- Large Cactus (Saguaro style) -->
+  <!-- Left Arm -->
+  <path d="M220 250 L160 250 C140 250, 140 230, 140 210 L140 150 C140 130, 170 130, 170 150 L170 220 L220 220 Z" fill="#16A34A" />
+  <!-- Right Arm -->
+  <path d="M290 200 L350 200 C370 200, 370 180, 370 160 L370 100 C370 80, 340 80, 340 100 L340 170 L290 170 Z" fill="#16A34A" />
+  <!-- Main Trunk -->
+  <rect x="220" y="80" width="70" height="340" rx="35" fill="#22C55E" />
+  
+  <!-- Ribs (Main trunk) -->
+  <path d="M255 80 L255 420" stroke="#15803D" stroke-width="4" fill="none" />
+  <path d="M235 85 C235 200, 235 300, 235 415" stroke="#15803D" stroke-width="4" fill="none" />
+  <path d="M275 85 C275 200, 275 300, 275 415" stroke="#15803D" stroke-width="4" fill="none" />
+  
+  <!-- Pink Flower on top right arm -->
+  <ellipse cx="355" cy="80" rx="15" ry="10" fill="#EC4899" />
+  <ellipse cx="345" cy="85" rx="10" ry="15" fill="#F472B6" />
+  <ellipse cx="365" cy="85" rx="10" ry="15" fill="#F472B6" />
+  <circle cx="355" cy="85" r="5" fill="#FDE047" />
+  
+  <!-- Pink Flower on main trunk -->
+  <ellipse cx="255" cy="70" rx="20" ry="15" fill="#EC4899" />
+  <ellipse cx="240" cy="75" rx="15" ry="20" fill="#F472B6" />
+  <ellipse cx="270" cy="75" rx="15" ry="20" fill="#F472B6" />
+  <circle cx="255" cy="75" r="8" fill="#FDE047" />
+  
+  <!-- Spines (Simplified) -->
+  <g stroke="#FEF08A" stroke-width="3" stroke-linecap="round">
+    <path d="M220 150 L210 145 M290 150 L300 145" />
+    <path d="M220 200 L210 195 M290 280 L300 275" />
+    <path d="M220 250 L210 245 M290 320 L300 315" />
+    <path d="M220 300 L210 295 M290 360 L300 355" />
+    <path d="M220 350 L210 345" />
+    <path d="M255 150 L255 145 M255 200 L255 195 M255 250 L255 245 M255 300 L255 295 M255 350 L255 345" />
+    <!-- Left Arm spines -->
+    <path d="M140 180 L130 175 M170 180 L180 175" />
+    <path d="M140 210 L130 205 M170 210 L180 205" />
+    <!-- Right Arm spines -->
+    <path d="M340 130 L330 125 M370 130 L380 125" />
+    <path d="M340 160 L330 155 M370 160 L380 155" />
+  </g>
+</svg>

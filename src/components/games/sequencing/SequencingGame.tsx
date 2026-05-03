@@ -1,21 +1,21 @@
 "use client";
 
 import { useState, useCallback, useId } from "react";
-import { type SequencingLevelConfig, type SequencingItem } from "@/constants/games/sequencing-levels";
+import { type SequencingLevelConfig, type SequencingItem, SequencingPattern } from "@/constants/games/sequencing-levels";
 import { type ScoreResult, calculateGameScore, getStarRating } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
 
-import { 
-  DndContext, 
-  DragEndEvent, 
-  DragStartEvent, 
-  closestCenter, 
-  useSensor, 
-  useSensors, 
-  PointerSensor, 
-  TouchSensor, 
-  DragOverlay 
+import {
+  DndContext,
+  DragEndEvent,
+  DragStartEvent,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  TouchSensor,
+  DragOverlay
 } from "@dnd-kit/core";
 
 import { SequencingSlots } from "./SequencingSlots";
@@ -24,6 +24,7 @@ import { GameControls } from "./GameControls";
 
 interface SequencingGameProps {
   config: SequencingLevelConfig;
+  pattern: SequencingPattern;
   onGameEnd: (result: ScoreResult, attempts: number, elapsed: number) => void;
   onWrongAttempt?: () => void;
   startTime: number;
@@ -39,11 +40,11 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return newArray;
 };
 
-export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }: SequencingGameProps) {
+export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, startTime }: SequencingGameProps) {
   const dndId = useId();
   // We keep a pool of items at the bottom (answers). Null means it's been picked up.
-  const [pool, setPool] = useState<(SequencingItem | null)[]>(() => shuffleArray([...config.correctSequence]));
-  const [slots, setSlots] = useState<(SequencingItem | null)[]>(() => Array(config.correctSequence.length).fill(null));
+  const [pool, setPool] = useState<(SequencingItem | null)[]>(() => shuffleArray([...pattern.correctSequence]));
+  const [slots, setSlots] = useState<(SequencingItem | null)[]>(() => Array(pattern.correctSequence.length).fill(null));
 
   const [wrongCount, setWrongCount] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -92,7 +93,7 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
     if (activeId.startsWith("pool-item-") && targetId.startsWith("slot-")) {
       const poolIdx = parseInt(activeId.split("pool-item-")[1], 10);
       const slotIdx = parseInt(targetId.split("slot-")[1], 10);
-      
+
       const item = pool[poolIdx];
       if (!item || slots[slotIdx] !== null) return; // ignore if slot filled or pool empty
 
@@ -127,7 +128,7 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
         return next;
       });
     }
-    
+
     // Case 3: Dragging from Slot to another Slot
     if (activeId.startsWith("slot-item-") && targetId.startsWith("slot-")) {
       const fromSlotIdx = parseInt(activeId.split("slot-item-")[1], 10);
@@ -153,7 +154,7 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
       return;
     }
 
-    const isMatch = slots.every((slot, idx) => slot?.id === config.correctSequence[idx].id);
+    const isMatch = slots.every((slot, idx) => slot?.id === pattern.correctSequence[idx].id);
 
     if (isMatch) {
       setIsCompleted(true);
@@ -195,7 +196,7 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
   const handleReset = () => {
     setShowErrors(false);
     const filledSlots = slots.filter((s): s is SequencingItem => s !== null);
-    setSlots(Array(config.correctSequence.length).fill(null));
+    setSlots(Array(pattern.correctSequence.length).fill(null));
     setPool((prev) => {
       const newPool = [...prev];
       filledSlots.forEach((item) => {
@@ -218,16 +219,16 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
 
   return (
     <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
-      <div className="flex flex-col gap-3 sm:gap-5 w-full">
+      <div className="flex flex-col gap-3 sm:gap-5 w-full relative">
         {/* Title */}
         <h2 className="text-center font-extrabold text-xl sm:text-2xl text-[#E9D5FF] px-2 tracking-wide" style={{ textShadow: '0 0 10px rgba(192,132,252,0.6), 0 0 20px rgba(168,85,247,0.4)' }}>
-          {config.sequenceTitle}
+          {pattern.sequenceTitle}
         </h2>
 
         <SequencingSlots
           slots={slots}
           onRemove={handleSlotRemove}
-          correctSequence={config.correctSequence}
+          correctSequence={pattern.correctSequence}
           showErrors={showErrors}
           shakeKey={wrongCount}
         />
@@ -240,16 +241,16 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
           isAllFilled={isAllFilled}
           isCompleted={isCompleted}
         />
-        
+
         {/* Interactive Momo Mascot */}
-        <div className="absolute -bottom-20 sm:-bottom-24 -left-2 sm:-left-8 md:-left-16 lg:-left-24 xl:-left-36 z-20 pointer-events-none transition-all duration-300 hidden sm:block">
+        <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-20 pointer-events-none transition-all duration-300 hidden sm:block">
           <style>{`
             @keyframes mascot-float {
               0%, 100% { transform: translateY(0px); }
               50% { transform: translateY(-12px); }
             }
           `}</style>
-          
+
           <div className="relative">
             {/* Speech Bubbles */}
             {showErrors && (
@@ -262,11 +263,11 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
                 ยอดเยี่ยมไปเลย!
               </div>
             )}
-            
+
             {/* Mascot Image */}
-            <img 
-              src={isCompleted ? "/images/P_Momo/momo-04.svg" : showErrors ? "/images/P_Momo/momo-05.svg" : "/images/P_Momo/momo-03.svg"} 
-              alt="Momo Mascot" 
+            <img
+              src={isCompleted ? "/images/P_Momo/momo-04.svg" : showErrors ? "/images/P_Momo/momo-05.svg" : "/images/P_Momo/momo-03.svg"}
+              alt="Momo Mascot"
               style={{
                 animation: isCompleted ? 'bounce 1s infinite' : showErrors ? 'shake 0.5s ease-in-out' : 'mascot-float 4s ease-in-out infinite',
                 filter: isCompleted ? 'drop-shadow(0 0 20px rgba(192,132,252,0.8))' : showErrors ? 'drop-shadow(0 0 15px rgba(248,113,113,0.5))' : 'drop-shadow(0 0 15px rgba(192,132,252,0.4))'
@@ -275,7 +276,7 @@ export function SequencingGame({ config, onGameEnd, onWrongAttempt, startTime }:
             />
           </div>
         </div>
-        
+
         <DragOverlay dropAnimation={null}>
           {activeItemObj && (
             <div className="w-[54px] h-[54px] sm:w-[72px] sm:h-[72px] md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-xl flex items-center justify-center bg-[#241350]/90 backdrop-blur-md shadow-[0_8px_0_#6D28D9,0_0_25px_rgba(168,85,247,0.6)] border-[2px] border-[#A855F7] scale-110 rotate-3 cursor-grabbing pointer-events-none ring-2 ring-[#C084FC]/40">

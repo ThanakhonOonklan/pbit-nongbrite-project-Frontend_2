@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sky -->
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#94A3B8" />
+  
+  <!-- Huge Rain Drop in Center -->
+  <path d="M256 150 Q356 350 256 450 Q156 350 256 150 Z" fill="#38BDF8" opacity="0.6"/>
+  <!-- Highlight on drop -->
+  <path d="M226 250 Q216 350 256 420" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" fill="none" opacity="0.8"/>
+  
+  <!-- Beam of sunlight hitting the drop -->
+  <path d="M0 250 L180 250" stroke="#FEF08A" stroke-width="30" stroke-linecap="round" />
+  <path d="M0 250 L180 250" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" />
+  
+  <!-- Impact effect -->
+  <circle cx="180" cy="250" r="10" fill="#FFFFFF" />
+  <path d="M180 220 L180 200 M180 280 L180 300 M200 230 L220 210 M200 270 L220 290" stroke="#FEF08A" stroke-width="4" stroke-linecap="round"/>
+</svg>

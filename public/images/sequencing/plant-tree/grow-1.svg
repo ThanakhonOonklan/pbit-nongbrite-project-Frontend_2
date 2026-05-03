@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M50 400 Q256 350 462 400 L462 512 L50 512 Z" fill="#78350F" /> 
+  <path d="M150 420 Q256 380 362 420" stroke="#451A03" stroke-width="15" fill="none" opacity="0.3"/> 
+  
+  <!-- Small Tree (Grow 1) -->
+  <path d="M256 400 Q260 250 256 180" stroke="#854D0E" stroke-width="15" stroke-linecap="round" fill="none"/>
+  
+  <!-- Leaves (More now) -->
+  <!-- Left branch -->
+  <path d="M256 300 Q220 280 190 250" stroke="#854D0E" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M210 270 Q180 230 190 260 Q210 280 210 270" fill="#22C55E"/>
+  <path d="M190 250 Q160 240 170 260 Q190 260 190 250" fill="#4ADE80"/>
+  
+  <!-- Right branch -->
+  <path d="M256 250 Q290 230 320 200" stroke="#854D0E" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M300 220 Q330 180 320 210 Q300 230 300 220" fill="#22C55E"/>
+  <path d="M320 200 Q350 190 340 210 Q320 210 320 200" fill="#4ADE80"/>
+  
+  <!-- Top leaves -->
+  <path d="M256 180 Q220 140 240 160 Q260 180 256 180" fill="#22C55E"/>
+  <path d="M256 180 Q290 140 270 160 Q250 180 256 180" fill="#4ADE80"/>
+  
+  <!-- Sun in background -->
+  <circle cx="100" cy="100" r="40" fill="#FBBF24" />
+  <path d="M100 40 L100 20 M100 160 L100 180 M40 100 L20 100 M160 100 L180 100 M60 60 L45 45 M140 140 L155 155 M60 140 L45 155 M140 60 L155 45" stroke="#FBBF24" stroke-width="6" stroke-linecap="round" />
+</svg>

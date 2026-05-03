@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Soil Background -->
+  <path d="M50 250 Q256 200 462 250 L462 450 L50 450 Z" fill="#78350F" />
+  <path d="M80 280 Q256 230 432 280 L432 450 L80 450 Z" fill="#451A03" />
+  
+  <!-- Mycelium (White, branching threads) -->
+  <path d="M256 260 C256 300, 200 320, 150 360 M180 340 L160 380 M256 260 C256 300, 300 330, 350 380 M320 350 L360 350" stroke="#F1F5F9" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M240 260 C230 300, 260 350, 250 420 M250 350 L280 400 M250 380 L220 420" stroke="#E2E8F0" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M270 260 C290 280, 280 320, 320 350 M300 330 L320 310" stroke="#F8FAFC" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M220 260 C200 290, 150 300, 120 320 M140 300 L110 280" stroke="#E2E8F0" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Tiny knots where mushrooms will grow -->
+  <circle cx="256" cy="260" r="8" fill="#F8FAFC" />
+  <circle cx="240" cy="265" r="5" fill="#E2E8F0" />
+  <circle cx="270" cy="262" r="6" fill="#F1F5F9" />
+</svg>

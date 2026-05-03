@@ -1,6 +1,12 @@
 "use client";
 
 import { Eye, SkipForward } from "lucide-react";
+import {
+  getGridCellSizeClass,
+  gridContainerClass,
+  gridPanelClass,
+  gridStageClass,
+} from "./grid-layout";
 
 interface ReferenceGridProps {
   gridSize: number;
@@ -26,12 +32,9 @@ export function ReferenceGrid({
   isMemorizing = false,
   timeLeft = 0,
   isPeeking = false,
-  showPeekButton = false,
   onSkip,
 }: ReferenceGridProps) {
-  const cellSize = gridSize <= 5 ? "w-[60px] h-[60px] sm:w-[72px] sm:h-[72px] lg:w-[84px] lg:h-[84px]" :
-    gridSize <= 6 ? "w-[52px] h-[52px] sm:w-[60px] sm:h-[60px] lg:w-[72px] lg:h-[72px]" :
-      "w-[44px] h-[44px] sm:w-[52px] sm:h-[52px] lg:w-[60px] lg:h-[60px]";
+  const cellSize = getGridCellSizeClass(gridSize);
 
   const isUnlimited = maxPeeks >= 999;
   const canPeek = isUnlimited || peekCount < maxPeeks;
@@ -39,15 +42,15 @@ export function ReferenceGrid({
   const isReferenceHidden = isHidden;
 
   return (
-    <div className="relative rounded-lg p-3 sm:p-4 w-full flex-1 flex flex-col overflow-hidden bg-[#E2CDAE] border-4 border-[#8B5A2B] shadow-xl shadow-amber-900/30">
+    <div className={gridPanelClass}>
 
       {/* Peek button row — always render to ensure layout stability */}
       {onPeek && (
-        <div className="flex justify-end mb-2 min-h-[32px]">
+        <div className="absolute right-3 top-3 z-50 m-1.5 sm:m-2 lg:right-4 lg:top-4">
           <button
             onClick={onPeek}
             disabled={!canPeek || isPeeking || !isReferenceHidden}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold transition-all shadow-sm
+            className={`flex max-w-[34vw] items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-bold transition-all shadow-sm sm:max-w-none sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs
               ${canPeek && !isPeeking && isReferenceHidden
                 ? isPenaltyPeek
                   ? "bg-rose-50 border-rose-300 text-rose-600 hover:bg-rose-100"
@@ -57,22 +60,22 @@ export function ReferenceGrid({
             `}
             title={!isReferenceHidden ? "กำลังแสดงรูปต้นแบบอยู่" : !canPeek ? "หมดโควต้าดูแล้ว" : isPenaltyPeek ? "ระวัง! หัก 1 คะแนน" : "ดูรูปต้นแบบ"}
           >
-            <Eye className="w-4 h-4" />
+            <Eye className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
             <span>ดูรูป {isUnlimited ? "∞" : `(${peekCount}/${maxPeeks})`}</span>
           </button>
         </div>
       )}
 
       {/* Grid */}
-      <div className="flex-1 flex flex-col items-center justify-center px-1 sm:px-4">
+      <div className={gridStageClass}>
         <div
-          className="inline-grid border border-gray-300 shadow-sm overflow-hidden bg-white"
+          className={gridContainerClass}
           style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }}
         >
           {/* Timer overlay during memorize/peek phase */}
           {(isMemorizing || isPeeking) && (
             <div
-              className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center flex-col"
+              className="absolute inset-0 rounded-lg bg-black/50 z-10 flex items-center justify-center flex-col"
               style={{ gridColumn: `1 / -1`, gridRow: `1 / -1` }}
             >
               <span className="text-4xl sm:text-6xl font-black text-white tabular-nums animate-pulse drop-shadow-lg">

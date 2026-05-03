@@ -13,24 +13,18 @@ interface SequencingSlotsProps {
 }
 
 function getItemsPerRow(count: number): number {
-  if (count <= 5) return count;
-  if (count === 6) return 3;
-  if (count === 7) return 4;
-  if (count === 8) return 4;
-  if (count === 9) return 5;
-  if (count >= 10) return 5;
-  return 5;
+  return count;
 }
 
 function getSizeByRow() {
   return { 
-    box: "w-[54px] h-[54px] sm:w-[72px] sm:h-[72px] md:w-20 md:h-20 lg:w-24 lg:h-24", 
-    text: "text-2xl sm:text-3xl lg:text-4xl", 
-    img: "w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16", 
-    btn: "w-5 h-5 -top-1.5 -right-1.5 sm:w-6 sm:h-6 sm:-top-2 sm:-right-2 md:w-7 md:h-7 lg:w-8 lg:h-8", 
-    btnIcon: "w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5", 
-    gap: "gap-1 sm:gap-2 md:gap-3 lg:gap-4", 
-    arrowSize: "w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5" 
+    box: "w-11 h-11 xs:w-[50px] xs:h-[50px] sm:w-[68px] sm:h-[68px] md:w-[76px] md:h-[76px] lg:w-[90px] lg:h-[90px]", 
+    text: "text-lg xs:text-xl sm:text-3xl lg:text-4xl", 
+    img: "w-7 h-7 xs:w-8 xs:h-8 sm:w-11 sm:h-11 md:w-13 md:h-13 lg:w-15 lg:h-15", 
+    btn: "w-4 h-4 -top-1 -right-1 sm:w-6 sm:h-6 sm:-top-2 sm:-right-2 md:w-7 md:h-7 lg:w-8 lg:h-8", 
+    btnIcon: "w-2 h-2 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5", 
+    gap: "gap-0.5 xs:gap-1 sm:gap-2 md:gap-3 lg:gap-4", 
+    arrowSize: "w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5" 
   };
 }
 
@@ -149,7 +143,7 @@ export function SequencingSlots({ slots, onRemove, correctSequence, showErrors, 
       {/* Unified View for all sizes: Strict Rows */}
       <div className="flex flex-col items-center gap-8 sm:gap-10 pt-1 pb-6 sm:pb-8 px-1 sm:px-2 w-full">
         {rows.map((rowIndices, rowIdx) => (
-          <div key={`row-${rowIdx}`} className={`flex items-center justify-center ${sc.gap}`}>
+          <div key={`row-${rowIdx}`} className={`flex flex-wrap items-center justify-center ${sc.gap}`}>
             {rowIndices.map((idx) => {
               const slot = slots[idx];
               const isWrong = !!(showErrors && slot && correctSequence && slot.id !== correctSequence[idx]?.id);

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Soil Background -->
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#78350F" />
+  <circle cx="150" cy="400" r="10" fill="#451A03" />
+  <circle cx="350" cy="420" r="15" fill="#451A03" />
+  
+  <!-- Baby Mushrooms (Pinheads) -->
+  <!-- Left -->
+  <rect x="190" y="300" width="16" height="40" rx="8" fill="#FEF3C7" transform="rotate(-15 198 340)"/>
+  <ellipse cx="190" cy="290" rx="20" ry="15" fill="#EF4444" transform="rotate(-15 190 290)"/>
+  <circle cx="185" cy="285" r="3" fill="#FFFFFF" />
+  
+  <!-- Middle (Main) -->
+  <rect x="240" y="270" width="24" height="60" rx="10" fill="#FEF3C7" />
+  <path d="M252 240 C210 240, 200 280, 252 280 C300 280, 290 240, 252 240 Z" fill="#EF4444" />
+  <circle cx="240" cy="255" r="4" fill="#FFFFFF" />
+  <circle cx="265" cy="260" r="5" fill="#FFFFFF" />
+  <circle cx="250" cy="270" r="3" fill="#FFFFFF" />
+  
+  <!-- Right -->
+  <rect x="290" y="290" width="12" height="45" rx="6" fill="#FEF3C7" transform="rotate(20 296 335)"/>
+  <ellipse cx="305" cy="285" rx="16" ry="12" fill="#EF4444" transform="rotate(20 305 285)"/>
+  <circle cx="305" cy="280" r="2" fill="#FFFFFF" />
+  
+  <!-- Bits of mycelium at base -->
+  <path d="M230 330 Q250 320 270 330" stroke="#F8FAFC" stroke-width="4" fill="none" />
+</svg>

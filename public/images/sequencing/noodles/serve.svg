@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Table surface -->
+  <ellipse cx="256" cy="400" rx="180" ry="50" fill="#E2E8F0" />
+  
+  <!-- Bowl -->
+  <path d="M126 300 C126 400, 186 420, 256 420 C326 420, 386 400, 386 300 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <ellipse cx="256" cy="300" rx="130" ry="40" fill="#EF4444" opacity="0.8" />
+  <path d="M126 300 L386 300" stroke="#EF4444" stroke-width="8" fill="none" />
+  <path d="M156 350 L356 350" stroke="#EF4444" stroke-width="4" fill="none" opacity="0.5"/>
+  
+  <!-- Noodles piled up -->
+  <g stroke="#FDE047" stroke-width="8" stroke-linecap="round" fill="none">
+    <path d="M180 300 Q200 250 256 260 T330 300" />
+    <path d="M170 310 Q220 270 280 280 T340 310" />
+    <path d="M200 320 Q256 240 300 270 T350 290" />
+    <path d="M210 280 Q256 310 290 290" />
+    <path d="M230 260 Q280 250 320 280" />
+  </g>
+  
+  <!-- Toppings (Egg, Green onion) -->
+  <ellipse cx="280" cy="280" rx="25" ry="15" fill="#FFFFFF" transform="rotate(15 280 280)"/>
+  <circle cx="280" cy="280" r="10" fill="#F59E0B" />
+  
+  <circle cx="200" cy="270" r="8" fill="#22C55E" />
+  <circle cx="215" cy="280" r="6" fill="#22C55E" />
+  <circle cx="230" cy="265" r="7" fill="#22C55E" />
+  <circle cx="320" cy="290" r="8" fill="#22C55E" />
+  <circle cx="335" cy="280" r="6" fill="#22C55E" />
+  
+  <!-- Chopsticks resting on bowl -->
+  <path d="M100 270 L400 240" stroke="#78350F" stroke-width="10" stroke-linecap="round" />
+  <path d="M90 290 L400 260" stroke="#78350F" stroke-width="10" stroke-linecap="round" />
+  
+  <!-- Steam -->
+  <path d="M220 220 C200 150, 240 100, 220 50" stroke="#E2E8F0" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M292 230 C272 160, 312 110, 292 60" stroke="#E2E8F0" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.6"/>
+</svg>

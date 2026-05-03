@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#854D0E" />
+  
+  <!-- Wilted Plant (Stems severely bent) -->
+  <path d="M256 220 Q280 150 200 120 Q180 110 160 140" stroke="#4D7C0F" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M240 180 Q150 190 120 180" stroke="#4D7C0F" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M250 170 Q330 190 360 200" stroke="#4D7C0F" stroke-width="8" fill="none" stroke-linecap="round"/>
+  
+  <!-- Wilted leaves hanging limp -->
+  <path d="M160 140 Q150 180 170 200 Q180 170 160 140" fill="#65A30D"/>
+  <path d="M200 150 Q180 180 190 220 Q210 190 200 150" fill="#A3E635"/>
+  
+  <path d="M120 180 Q110 220 130 250 Q140 210 120 180" fill="#65A30D"/>
+  <path d="M150 190 Q140 230 160 260 Q170 220 150 190" fill="#A3E635"/>
+  
+  <path d="M360 200 Q360 240 340 270 Q330 230 360 200" fill="#65A30D"/>
+  <path d="M310 190 Q310 230 290 260 Q280 220 310 190" fill="#A3E635"/>
+</svg>

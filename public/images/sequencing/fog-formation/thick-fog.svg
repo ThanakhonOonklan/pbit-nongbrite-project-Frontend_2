@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#CBD5E1" /> <!-- Sky is gray with fog -->
+  
+  <!-- Background silhouettes (Trees) - Barely visible -->
+  <path d="M80 400 L120 150 L160 400 Z" fill="#94A3B8" opacity="0.5"/>
+  <path d="M350 400 L400 100 L450 400 Z" fill="#94A3B8" opacity="0.5"/>
+  <path d="M250 400 L280 200 L310 400 Z" fill="#94A3B8" opacity="0.5"/>
+  
+  <!-- Thick Fog Layers blocking almost everything -->
+  <path d="M-50 500 Q100 100 250 300 T560 100 L560 512 L-50 512 Z" fill="#F1F5F9" opacity="0.9"/>
+  <path d="M-50 400 Q200 50 350 200 T560 50 L560 512 L-50 512 Z" fill="#F8FAFC" opacity="0.95"/>
+  
+  <!-- Foreground completely covered -->
+  <rect x="0" y="300" width="512" height="212" fill="#FFFFFF" opacity="0.95" />
+</svg>

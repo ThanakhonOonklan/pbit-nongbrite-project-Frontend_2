@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Ground -->
+  <path d="M50 400 Q256 350 462 400 L462 480 L50 480 Z" fill="#78350F" />
+  
+  <!-- Alate (Winged Ant) -->
+  <g transform="translate(10, 0)">
+    <!-- Back Wings -->
+    <path d="M256 220 C180 50, 400 50, 480 150 C460 180, 300 200, 256 220 Z" fill="#E0F2FE" opacity="0.6" stroke="#BAE6FD" stroke-width="4"/>
+    
+    <!-- Legs (6) -->
+    <!-- Back Leg -->
+    <path d="M280 280 L320 210 L360 380 L340 400" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M270 280 L300 230 L330 380 L320 400" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Middle Leg -->
+    <path d="M240 280 L260 230 L280 390 L260 400" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M230 280 L240 240 L250 390 L240 400" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Front Leg -->
+    <path d="M200 280 L160 230 L140 370 L120 390" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M210 280 L180 250 L170 370 L150 390" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Body -->
+    <!-- Abdomen (Larger for queen/alate) -->
+    <ellipse cx="360" cy="280" rx="80" ry="55" fill="#290E01" transform="rotate(-10 360 280)" />
+    <!-- Petiole -->
+    <circle cx="275" cy="275" r="12" fill="#451A03" />
+    <circle cx="295" cy="275" r="10" fill="#451A03" />
+    <!-- Thorax (Thicker to hold wing muscles) -->
+    <ellipse cx="220" cy="270" rx="50" ry="40" fill="#451A03" transform="rotate(10 220 270)"/>
+    <!-- Head -->
+    <ellipse cx="120" cy="260" rx="35" ry="45" fill="#290E01" transform="rotate(-20 120 260)"/>
+    
+    <!-- Mandibles -->
+    <path d="M80 270 Q60 290 100 300" stroke="#290E01" stroke-width="10" fill="none" stroke-linecap="round" />
+    <path d="M90 280 Q70 300 110 310" stroke="#290E01" stroke-width="10" fill="none" stroke-linecap="round" />
+    
+    <!-- Antennae -->
+    <path d="M100 220 L60 170 L80 150" stroke="#451A03" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M120 210 L90 160 L110 140" stroke="#451A03" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Front Wings (Large and translucent) -->
+    <path d="M220 240 C120 20, 380 20, 480 120 C460 160, 260 200, 220 240 Z" fill="#BAE6FD" opacity="0.8" stroke="#7DD3FC" stroke-width="4"/>
+    <path d="M220 240 C280 80, 380 120, 450 140" stroke="#7DD3FC" stroke-width="2" fill="none" opacity="0.6"/>
+    <path d="M260 200 L320 180" stroke="#7DD3FC" stroke-width="2" fill="none" opacity="0.6"/>
+    
+    <!-- Eyes -->
+    <circle cx="120" cy="240" r="10" fill="#000000" />
+    <circle cx="117" cy="237" r="3" fill="#FFFFFF" />
+  </g>
+</svg>

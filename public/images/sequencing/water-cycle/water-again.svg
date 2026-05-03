@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sky -->
+  <path d="M0 0 L512 0 L512 300 L0 300 Z" fill="#64748B" />
+  <!-- Water Body -->
+  <path d="M0 300 L512 300 L512 512 L0 512 Z" fill="#2563EB" />
+  
+  <!-- Rain hitting water -->
+  <g stroke="#38BDF8" stroke-width="6" stroke-linecap="round">
+    <path d="M150 150 L140 200" />
+    <path d="M250 120 L240 170" />
+    <path d="M350 160 L340 210" />
+    <path d="M200 230 L190 280" />
+    <path d="M300 240 L290 290" />
+  </g>
+  
+  <!-- Splashes and ripples on water -->
+  <g fill="none" stroke="#60A5FA" stroke-width="4">
+    <!-- Ripple 1 -->
+    <ellipse cx="140" cy="350" rx="30" ry="10" />
+    <ellipse cx="140" cy="350" rx="15" ry="5" />
+    <path d="M135 345 L130 330 M145 345 L150 330" stroke-linecap="round"/>
+    
+    <!-- Ripple 2 -->
+    <ellipse cx="280" cy="400" rx="40" ry="15" />
+    <ellipse cx="280" cy="400" rx="20" ry="8" />
+    <path d="M275 395 L270 380 M285 395 L290 380" stroke-linecap="round"/>
+    
+    <!-- Ripple 3 -->
+    <ellipse cx="400" cy="320" rx="25" ry="8" />
+    <path d="M395 315 L390 300 M405 315 L410 300" stroke-linecap="round"/>
+    
+    <!-- Ripple 4 -->
+    <ellipse cx="100" cy="450" rx="50" ry="20" />
+    <ellipse cx="100" cy="450" rx="25" ry="10" />
+  </g>
+</svg>

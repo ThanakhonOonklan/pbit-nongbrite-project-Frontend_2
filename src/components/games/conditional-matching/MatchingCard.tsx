@@ -7,7 +7,9 @@ type MatchingCardProps = {
   isCorrect?: boolean;
   compact?: boolean;
   className?: string;
-  align?: "left" | "right";
+  align?: "top" | "bottom";
+  nodeRef?: (el: HTMLDivElement | null) => void;
+  onPointerDown?: (e: React.PointerEvent<HTMLDivElement>) => void;
 };
 
 export const MatchingCard = ({
@@ -17,40 +19,112 @@ export const MatchingCard = ({
   isCorrect = false,
   compact = false,
   className = "",
-  align = "left",
+  align = "top",
+  nodeRef,
+  onPointerDown,
 }: MatchingCardProps) => {
+  const isTop = align === "top";
 
-  const boxClasses = [
-    "flex flex-col items-center justify-center border-2 rounded-2xl shadow-sm transition-all duration-300",
-    compact
-      ? "px-1.5 pt-1.5 pb-1 gap-0.5 min-w-[58px] sm:min-w-[76px] md:min-w-[96px] lg:min-w-[110px]"
-      : "px-2.5 pt-2 pb-1.5 gap-0.5 sm:px-4 sm:pt-3 sm:pb-2 sm:gap-1 md:px-5 md:pt-3.5 md:pb-2.5 min-w-[76px] sm:min-w-[100px] md:min-w-[120px] lg:min-w-[135px]",
-    isCorrect
-      ? "bg-white/95 backdrop-blur-sm border-[#4ade80] shadow-[0_0_15px_rgba(74,222,128,0.5)] scale-105"
-      : isConnected
-      ? "bg-white/95 backdrop-blur-sm border-[#ffb356] shadow-[0_0_15px_rgba(255,179,86,0.5)] scale-105"
-      : "bg-white/90 backdrop-blur-sm border-[#94a3b8] shadow-md hover:border-[#cbd5e1] hover:bg-white",
-  ].join(" ");
+  // ── State-based styles ──────────────────────────────────
+  let cardBg: string;
+  let cardBorderColor: string;
+  let cardShadow: string;
+  let labelColor: string;
 
-  const emojiClasses = compact
-    ? "text-2xl sm:text-3xl md:text-4xl drop-shadow-sm shrink-0 leading-none"
-    : "text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] drop-shadow-sm shrink-0 leading-none";
+  if (isCorrect) {
+    cardBg = "#ECFDF5";
+    cardBorderColor = "transparent";
+    cardShadow = "0 4px 12px rgba(52,211,153,0.25)";
+    labelColor = "#065F46";
+  } else if (isConnected) {
+    cardBg = "#FFFBEB";
+    cardBorderColor = "transparent";
+    cardShadow = "0 4px 12px rgba(251,191,36,0.25)";
+    labelColor = "#92400E";
+  } else {
+    cardBg = "#FFFFFF";
+    cardBorderColor = "transparent";
+    cardShadow = "0 4px 12px rgba(0,0,0,0.06)";
+    labelColor = "#4B5563";
+  }
 
-  const textClasses = compact
-    ? "font-semibold text-[9px] sm:text-[10px] md:text-xs text-[#5D4037] whitespace-nowrap text-center"
-    : "font-medium text-[10px] sm:text-xs md:text-sm text-[#5D4037] whitespace-nowrap text-center";
+  // ── Sizes ────────────────────────────────────────────────
+  let cardWidth = "w-[68px] sm:w-[110px] md:w-[130px]";
+  let cardHeight = "h-[76px] sm:h-[115px] md:h-[135px]";
+  let emojiSize = "text-xl sm:text-4xl md:text-5xl";
+  let textSize = "text-[8px] sm:text-[11px] md:text-[12px]";
+  let labelHeight = "h-[26px] sm:h-[36px] md:h-[40px]";
+
+  if (compact) {
+    cardWidth = "w-[56px] sm:w-[85px] md:w-[100px]";
+    cardHeight = "h-[64px] sm:h-[95px] md:h-[115px]";
+    emojiSize = "text-lg sm:text-3xl md:text-4xl";
+    textSize = "text-[7px] sm:text-[9px] md:text-[10px]";
+    labelHeight = "h-[22px] sm:h-[30px] md:h-[34px]";
+  }
+  const scaleClass = isCorrect || isConnected ? "scale-[1.04]" : "hover:scale-[1.02]";
+  const shouldPulse = isTop && !isConnected && !isCorrect;
+
+  // ── Anchor Element (The connection dot) ──────────────────
+  const anchorEl = (
+    <div
+      ref={nodeRef}
+      onPointerDown={isCorrect ? undefined : onPointerDown}
+      style={{
+        touchAction: "none",
+        background: "#F97316",
+        border: "4px solid white",
+        boxShadow: shouldPulse ? "0 0 0 3px rgba(253,141,29,0.25)" : "0 1px 3px rgba(0,0,0,0.2)",
+      }}
+      className={`absolute w-4 h-4 sm:w-6 sm:h-6 rounded-full z-20 flex items-center justify-center transition-transform
+        ${isTop
+          ? "right-0 translate-x-1/2 top-1/2 -translate-y-1/2 sm:right-auto sm:-translate-x-1/2 sm:top-auto sm:-bottom-3 sm:left-1/2 sm:translate-y-0 cursor-grab active:cursor-grabbing hover:scale-110"
+          : "left-0 -translate-x-1/2 top-1/2 -translate-y-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-top-3 sm:translate-y-0 cursor-default pointer-events-none"}
+        ${shouldPulse ? "animate-pulse" : ""}
+      `}
+    >
+      {isCorrect && (
+        <svg viewBox="0 0 12 12" className="w-2.5 h-2.5 sm:w-3 sm:h-3" fill="none">
+          <path d="M2 6.5l2.5 2.5 5-5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </div>
+  );
 
   return (
-    <div 
-      className={`${isCorrect ? "cursor-default" : "cursor-pointer"} select-none ${className}`}
+    <div
+      className={`relative flex flex-col items-center justify-center transition-transform duration-300 ${scaleClass} select-none ${isTop && !isCorrect ? "cursor-grab active:cursor-grabbing" : "cursor-default"} ${className}`}
       draggable={false}
-      onDragStart={(e) => e.preventDefault()}
-      style={{ WebkitUserDrag: 'none', userSelect: 'none' } as React.CSSProperties}
+      style={{ WebkitUserDrag: "none", userSelect: "none" } as React.CSSProperties}
+      onPointerDown={isCorrect ? undefined : onPointerDown}
     >
-      <div className={boxClasses}>
-        <span className={emojiClasses} style={{ WebkitUserDrag: 'none' } as React.CSSProperties}>{emoji}</span>
-        <span className={textClasses}>{label}</span>
+      {/* Main Card */}
+      <div
+        className={`relative z-10 flex flex-col items-center p-1.5 sm:p-2 rounded-2xl sm:rounded-3xl transition-all duration-300 ${cardWidth} ${cardHeight}`}
+        style={{ background: cardBg, boxShadow: cardShadow }}
+      >
+        {/* Emoji Area */}
+        <div className="flex-1 w-full bg-black/5 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-inner">
+          <span className={`${emojiSize} leading-none drop-shadow-sm`}>{emoji}</span>
+        </div>
+
+        {/* Label Area */}
+        <div
+          className="w-full flex items-center justify-center px-1 mt-1 sm:mt-1.5"
+          style={{ minHeight: labelHeight }}
+        >
+          <span
+            className={`font-extrabold tracking-wide ${textSize} text-center leading-tight`}
+            style={{ color: labelColor }}
+          >
+            {label}
+          </span>
+        </div>
       </div>
+
+      {/* Connection Anchor */}
+      {anchorEl}
     </div>
   );
 };
+

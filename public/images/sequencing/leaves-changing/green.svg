@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" /> <!-- Sky -->
+  
+  <g transform="translate(100, 50)">
+    <!-- Stem connecting to branch -->
+    <path d="M200 0 L180 50" stroke="#15803D" stroke-width="15" stroke-linecap="round"/>
+    
+    <!-- Big Green Leaf -->
+    <path d="M180 50 C250 50, 350 200, 150 400 C-50 200, 50 50, 180 50 Z" fill="#16A34A" />
+    <path d="M180 50 C250 50, 350 200, 150 400" fill="none" stroke="#15803D" stroke-width="6"/>
+    <path d="M180 50 C-50 200, 50 50, 180 50" fill="none" stroke="#15803D" stroke-width="6"/>
+    
+    <!-- Veins -->
+    <path d="M180 50 Q160 200 150 380" stroke="#15803D" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M175 100 Q200 120 220 150" stroke="#15803D" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M170 150 Q120 170 100 200" stroke="#15803D" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M165 200 Q200 220 230 250" stroke="#15803D" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M160 250 Q110 270 90 300" stroke="#15803D" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M155 300 Q180 320 200 350" stroke="#15803D" stroke-width="6" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

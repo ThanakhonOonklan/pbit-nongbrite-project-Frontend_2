@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Mossy Rock Ground -->
+  <path d="M50 350 C150 250, 350 250, 462 350 L462 480 L50 480 Z" fill="#374151" />
+  <path d="M50 350 C150 250, 350 250, 462 350 L462 400 C300 350, 150 380, 50 400 Z" fill="#16A34A" opacity="0.6"/>
+  
+  <g transform="translate(10, 0)">
+    <!-- Thick Tail -->
+    <path d="M120 280 C60 280, 40 350, 90 380" stroke="#111827" stroke-width="25" fill="none" stroke-linecap="round"/>
+    
+    <!-- Back Leg -->
+    <path d="M140 280 Q120 340 160 360" stroke="#111827" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <path d="M160 360 L140 375 M160 360 L155 380 M160 360 L175 375" stroke="#111827" stroke-width="6" fill="none" stroke-linecap="round"/>
+    
+    <!-- Body -->
+    <path d="M120 280 C200 240, 300 240, 350 280" stroke="#111827" stroke-width="55" fill="none" stroke-linecap="round"/>
+    
+    <!-- Front Leg -->
+    <path d="M320 270 Q320 330 350 340" stroke="#111827" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <path d="M350 340 L340 360 M350 340 L360 365 M350 340 L375 350" stroke="#111827" stroke-width="6" fill="none" stroke-linecap="round"/>
+    
+    <!-- Head -->
+    <ellipse cx="380" cy="270" rx="45" ry="35" fill="#111827" transform="rotate(15 380 270)"/>
+    
+    <!-- Bright Yellow Spots (Fire Salamander or Spotted Salamander) -->
+    <circle cx="360" cy="250" r="6" fill="#FDE047" />
+    <circle cx="330" cy="245" r="8" fill="#FDE047" />
+    <circle cx="290" cy="240" r="10" fill="#FDE047" />
+    <circle cx="250" cy="245" r="9" fill="#FDE047" />
+    <circle cx="210" cy="255" r="8" fill="#FDE047" />
+    <circle cx="170" cy="265" r="7" fill="#FDE047" />
+    <circle cx="130" cy="275" r="6" fill="#FDE047" />
+    <circle cx="100" cy="290" r="5" fill="#FDE047" />
+    <circle cx="80" cy="320" r="4" fill="#FDE047" />
+    <circle cx="70" cy="350" r="4" fill="#FDE047" />
+    
+    <!-- Second row of spots -->
+    <circle cx="340" cy="270" r="5" fill="#FDE047" />
+    <circle cx="300" cy="275" r="7" fill="#FDE047" />
+    <circle cx="260" cy="280" r="8" fill="#FDE047" />
+    <circle cx="220" cy="285" r="6" fill="#FDE047" />
+    <circle cx="180" cy="290" r="5" fill="#FDE047" />
+    <circle cx="140" cy="300" r="4" fill="#FDE047" />
+    
+    <!-- Eye -->
+    <circle cx="400" cy="260" r="10" fill="#000000" />
+    <circle cx="403" cy="257" r="3" fill="#FFFFFF" />
+    <path d="M390 250 Q400 240 415 255" stroke="#FDE047" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

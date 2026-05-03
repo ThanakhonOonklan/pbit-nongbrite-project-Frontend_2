@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Stove Top -->
+  <rect x="156" y="420" width="200" height="20" rx="10" fill="#475569" />
+  <path d="M200 440 L220 470 L292 470 L312 440 Z" fill="#334155" />
+  <!-- Flame -->
+  <path d="M256 400 C230 420, 200 420, 256 440 C312 420, 282 420, 256 400 Z" fill="#EF4444" />
+  <path d="M256 410 C240 425, 220 425, 256 440 C292 425, 272 425, 256 410 Z" fill="#F59E0B" />
+  
+  <!-- Kettle -->
+  <g transform="translate(0, 30)">
+    <!-- Body -->
+    <path d="M176 250 C156 320, 156 380, 176 390 L336 390 C356 380, 356 320, 336 250 C316 180, 286 180, 256 180 C226 180, 196 180, 176 250 Z" fill="#94A3B8" />
+    <path d="M190 240 C170 310, 170 370, 190 380 L322 380 C342 370, 342 310, 322 240 C302 170, 276 170, 256 170 C236 170, 210 170, 190 240 Z" fill="#E2E8F0" opacity="0.3"/>
+    
+    <!-- Base stripe -->
+    <path d="M176 370 L336 370 L336 390 L176 390 Z" fill="#475569" />
+    
+    <!-- Spout -->
+    <path d="M336 280 L420 220 L400 200 L326 250 Z" fill="#94A3B8" />
+    
+    <!-- Lid -->
+    <ellipse cx="256" cy="180" rx="40" ry="10" fill="#64748B" />
+    <circle cx="256" cy="160" r="10" fill="#1E293B" />
+    <rect x="252" y="160" width="8" height="20" fill="#1E293B" />
+    
+    <!-- Handle -->
+    <path d="M216 180 C216 100, 296 100, 296 180" stroke="#1E293B" stroke-width="20" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Steam whistling out of spout -->
+  <path d="M410 210 C450 180, 480 150, 460 100" stroke="#E2E8F0" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M430 200 C470 160, 440 120, 480 80" stroke="#E2E8F0" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <!-- Action lines -->
+  <path d="M430 230 L450 250 M440 210 L470 210 M420 180 L440 160" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" />
+</svg>

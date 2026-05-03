@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <!-- Sun -->
+  <circle cx="400" cy="100" r="60" fill="#FBBF24"/>
+  <circle cx="400" cy="100" r="45" fill="#FDE047"/>
+  <g stroke="#FBBF24" stroke-width="10" stroke-linecap="round">
+    <path d="M400 20 L400 30 M400 170 L400 180 M320 100 L330 100 M470 100 L480 100" />
+    <path d="M340 40 L350 50 M450 150 L460 160 M340 160 L350 150 M450 40 L460 50" />
+  </g>
+  
+  <!-- Sun rays hitting plant -->
+  <path d="M400 160 L280 300" stroke="#FEF08A" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.6"/>
+  <path d="M340 130 L230 250" stroke="#FEF08A" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.6"/>
+  
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#78350F" />
+  
+  <path d="M256 220 Q240 100 256 60" stroke="#15803D" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M256 60 Q230 30 220 60 Q250 80 256 60" fill="#22C55E"/>
+  <path d="M256 100 Q200 80 190 120 Q230 130 256 100" fill="#22C55E"/>
+  <path d="M256 140 Q310 110 330 150 Q290 170 256 140" fill="#22C55E"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 400 L0 400 Z" fill="#475569" />
+  <path d="M0 400 L512 400 L512 512 L0 512 Z" fill="#1E3A8A" />
+  
+  <!-- Mist patches gathering into larger clumps -->
+  <g fill="#F8FAFC" opacity="0.8">
+    <path d="M50 280 Q150 200 280 250 Q200 350 50 280 Z" />
+    <path d="M220 260 Q350 180 460 280 Q350 350 220 260 Z" />
+    <!-- Connecting middle -->
+    <ellipse cx="256" cy="270" rx="80" ry="40" />
+  </g>
+  
+  <!-- Gathering arrows -->
+  <g stroke="#FFFFFF" stroke-width="6" fill="none" opacity="0.6" stroke-linecap="round">
+    <path d="M100 250 L180 260 M160 240 L180 260 L160 280" />
+    <path d="M410 270 L330 270 M350 250 L330 270 L350 290" />
+  </g>
+</svg>
