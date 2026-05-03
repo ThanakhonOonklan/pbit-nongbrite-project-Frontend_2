@@ -34,6 +34,8 @@ import {
 import { calculateGameScore, getStarRating, type ScoreResult } from "@/utils/game-scoring";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { TutorialModal } from "@/components/games/TutorialModal";
+import { pathNavigationTutorialSteps } from "@/components/games/tutorials";
 import { useUserStore } from "@/store/user.store";
 import { OutOfLivesModal } from "@/components/common";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
@@ -403,9 +405,9 @@ export default function PathNavigationClientPage({
     <>
       <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={() => setActiveDragId(null)}>
         <div
-          className="flex flex-col min-h-screen lg:h-screen lg:overflow-hidden overflow-y-auto relative"
+          className="flex flex-col min-h-screen lg:h-screen lg:overflow-hidden overflow-y-auto relative  bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/images/Background/PathnavigationBackground.png')" }}
         >
-          <IceBackground />
           {/* ===== TOP HEADER ===== */}
           <div className="relative z-50 w-full">
             <GameHeader
@@ -539,20 +541,13 @@ export default function PathNavigationClientPage({
         </div>
       </DndContext>
 
-      {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
+      {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
       {showIntro && (
-        <GameOverlay
-          type="hint"
-          message={
-            <>
-              น้องไบร์ทกำลังหลงทาง<br />ช่วยน้องกลับบ้านกันเถอะ!
-            </>
-          }
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/P_Bit/bit-01.svg"
-          imageAlt="Nong Brite"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
+        <TutorialModal
+          steps={pathNavigationTutorialSteps}
+          onClose={() => setShowIntro(false)}
+          mascotSrc="/images/P_Bit/bit-01.svg"
+          accentColor="#1E3A5F"
         />
       )}
 

@@ -8,6 +8,8 @@ import { Container } from "@/components/common";
 import { ShapeScene, CounterPanel, SkyBackground } from "@/components/games/counting-classification";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { TutorialModal } from "@/components/games/TutorialModal";
+import { countingClassificationTutorialSteps } from "@/components/games/tutorials";
 import { useUserStore } from "@/store/user.store";
 import { OutOfLivesModal } from "@/components/common";
 import {
@@ -188,10 +190,11 @@ export default function CountingClassificationGamePage({
 
   return (
     <div
-      className="flex flex-col relative zoom-wrapper"
+      className="flex flex-col relative zoom-wrapper bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/images/Background/counting-classificationBackground.png')" }}
     >
-      {/* ===== SKY BACKGROUND ===== */}
-      <SkyBackground />
+
+
       {/* ===== TOP HEADER ===== */}
       <div className="relative">
         <GameHeader
@@ -272,20 +275,13 @@ export default function CountingClassificationGamePage({
 
       </div>
 
-      {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
-      {canShowGameOverlay && showIntro && (
-        <GameOverlay
-          type="hint"
-          message={
-            <>
-              มาเรียนรู้เรื่องรูปทรง<br />และการนับกันเถอะ!
-            </>
-          }
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/P_Minnie/minnie-01.svg"
-          imageAlt="Minnie"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
+      {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
+      {showIntro && (
+        <TutorialModal
+          steps={countingClassificationTutorialSteps}
+          onClose={() => setShowIntro(false)}
+          mascotSrc="/images/P_Minnie/minnie-01.svg"
+          accentColor="#D946A8"
         />
       )}
 

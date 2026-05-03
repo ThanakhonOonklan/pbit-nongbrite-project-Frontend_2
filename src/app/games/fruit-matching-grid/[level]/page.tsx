@@ -8,6 +8,8 @@ import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { TutorialModal } from "@/components/games/TutorialModal";
+import { fruitMatchingTutorialSteps } from "@/components/games/tutorials";
 import { FruitMatchingGame } from "@/components/games/fruit-matching-grid";
 import { fruitMatchingGridLevels } from "@/constants/games/fruit-matching-grid-levels";
 import { type ScoreResult } from "@/utils/game-scoring";
@@ -86,16 +88,10 @@ export default function FruitMatchingGridGamePage({
 
   // ── Render ────────────────────────────────────────────────
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#A4C500] relative">
-      
-      {/* Background Pattern - Grass */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none opacity-80"
-        style={{ 
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg stroke='%238FB500' stroke-width='4' stroke-linecap='round' fill='none'%3E%3Cpath d='M30,140 Q25,125 20,115 M30,140 Q30,125 31,110 M30,140 Q35,130 40,120' /%3E%3Cpath d='M110,60 Q105,50 100,45 M110,60 Q110,50 111,40 M110,60 Q115,55 120,50' /%3E%3Cpath d='M140,120 Q138,110 135,105 M140,120 Q142,110 144,105' /%3E%3C/g%3E%3C/svg%3E\")",
-          backgroundSize: "160px 160px" 
-        }}
-      />
+    <div className="flex flex-col h-screen overflow-hidden   relative bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/images/Background/FruitmatchinggridBackground.png')" }}>
+
+
 
       {/* Header */}
       <div className="relative z-20">
@@ -127,20 +123,13 @@ export default function FruitMatchingGridGamePage({
         ]}
       />
 
-      {/* Intro overlay — Level 1 only */}
-      {canShowGameOverlay && showIntro && (
-        <GameOverlay
-          type="hint"
-          message={
-            <>
-              หาพิกัดผลไม้ในตารางให้ถูกต้องนะ!
-            </>
-          }
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/P_PingPing/pingping-01.svg"
-          imageAlt="PingPing"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
+      {/* Intro tutorial — Level 1 only */}
+      {showIntro && (
+        <TutorialModal
+          steps={fruitMatchingTutorialSteps}
+          onClose={() => setShowIntro(false)}
+          mascotSrc="/images/P_PingPing/pingping-01.svg"
+          accentColor="#1565C0"
         />
       )}
 

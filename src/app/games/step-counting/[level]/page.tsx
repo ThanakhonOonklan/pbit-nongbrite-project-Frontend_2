@@ -8,6 +8,8 @@ import { LoopScene, LoopCodePanel } from "@/components/games/step-counting";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { TutorialModal } from "@/components/games/TutorialModal";
+import { stepCountingTutorialSteps } from "@/components/games/tutorials";
 import { HelpButton } from "@/components/games/HelpButton";
 import { stepCountingLevels, type ResolvedLoopConfig } from "@/constants/games/step-counting-levels";
 import {
@@ -47,10 +49,10 @@ export default function StepCountingGamePage({
   // Resolve variant into a flat config for components
   const config: ResolvedLoopConfig | undefined = levelConfig
     ? {
-        level: levelConfig.level,
-        difficulty: levelConfig.difficulty,
-        ...levelConfig.variants[variantIndex],
-      }
+      level: levelConfig.level,
+      difficulty: levelConfig.difficulty,
+      ...levelConfig.variants[variantIndex],
+    }
     : undefined;
   const taskCount = config?.tasks.length ?? 1;
 
@@ -234,7 +236,7 @@ export default function StepCountingGamePage({
   }
 
   return (
-    <div className="flex flex-col relative zoom-wrapper" style={{ background: "linear-gradient(to top, #c6e7e6, #e8f8f7)" }}>
+    <div className="flex flex-col relative zoom-wrapper bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/images/Background/Step-countingBackground.png')" }}>
 
       {/* ===== Header ===== */}
       <div className="relative z-50 w-full">
@@ -285,16 +287,13 @@ export default function StepCountingGamePage({
         ]}
       />
 
-      {/* ===== INTRO OVERLAY ===== */}
-      {canShowGameOverlay && showIntro && (
-        <GameOverlay
-          type="hint"
-          message={<>ช่วยคั้นน้ำส้มให้ครบเป้าเลย!<br />ตั้งจำนวนแล้วกดรัน</>}
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/P_Bobo/bobo-01.svg"
-          imageAlt="Bobo"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
+      {/* ===== INTRO TUTORIAL ===== */}
+      {showIntro && (
+        <TutorialModal
+          steps={stepCountingTutorialSteps}
+          onClose={() => setShowIntro(false)}
+          mascotSrc="/images/P_Bobo/bobo-01.svg"
+          accentColor="#F97316"
         />
       )}
 

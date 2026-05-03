@@ -7,6 +7,8 @@ import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { TutorialModal } from "@/components/games/TutorialModal";
+import { sequencingTutorialSteps } from "@/components/games/tutorials";
 import { type ScoreResult } from "@/utils/game-scoring";
 
 import { sequencingLevels, SequencingPattern } from "@/constants/games/sequencing-levels";
@@ -105,9 +107,9 @@ export default function SequencingPage() {
   const canShowGameOverlay = !isOutOfLives && !hasGameResult;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0620] relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-[#0B0620] relative overflow-hidden  bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/images/Background/sequencingBackground.png')" }}>
       {/* Cosmic Background */}
-      <SequencingBackground />
 
       {/* Top Header */}
       <div className="relative z-50 w-full">
@@ -161,22 +163,16 @@ export default function SequencingPage() {
       {/* ===== OUT OF LIVES MODAL ===== */}
       {isOutOfLives && <OutOfLivesModal />}
 
-      {/* ===== INTRO OVERLAY (Level 1 only) ===== */}
-      {canShowGameOverlay && showIntro && (
-        <GameOverlay
-          type="hint"
-          message={
-            <>
-              มาช่วยน้องไบร์ทเรียงลำดับ<br />วงจรชีวิตให้ถูกต้องกันเถอะ!
-            </>
-          }
-          subtitle="แตะเพื่อเริ่มเล่น"
-          imageSrc="/images/P_Momo/momo-03.svg"
-          imageAlt="Nong Brite"
-          autoDismissMs={0}
-          onDismiss={() => setShowIntro(false)}
+      {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
+      {showIntro && (
+        <TutorialModal
+          steps={sequencingTutorialSteps}
+          onClose={() => setShowIntro(false)}
+          mascotSrc="/images/P_Momo/momo-03.svg"
+          accentColor="#7C3AED"
         />
       )}
+
 
       {/* ===== WRONG ANSWER OVERLAY ===== */}
       {canShowGameOverlay && showWrongOverlay && (

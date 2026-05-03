@@ -52,7 +52,7 @@ const gameCards: LogoItem[] = [
 ];
 
 
-const GameCard = ({ src, alt }: { src: string; alt: string }) => (
+const GameCard = ({ src, alt, priority = false }: { src: string; alt: string; priority?: boolean }) => (
   <div className="relative rounded-xl overflow-hidden bg-gray-100 
                   w-[280px] h-[180px]
                   sm:w-[320px] sm:h-[200px]
@@ -65,6 +65,7 @@ const GameCard = ({ src, alt }: { src: string; alt: string }) => (
       alt={alt}
       width={350}
       height={230}
+      priority={priority}
       className="w-full h-full object-contain transition-transform duration-300 hover:scale-100 rounded-xl"
       sizes="(max-width: 640px) 280px, (max-width: 1024px) 320px, 350px"
     />
@@ -132,6 +133,7 @@ export function FeaturesSection() {
                     key={key}
                     src={item.src}
                     alt={item.alt || item.title || 'Game'}
+                    priority={Number(key) < 2}
                   />
                 );
               }
