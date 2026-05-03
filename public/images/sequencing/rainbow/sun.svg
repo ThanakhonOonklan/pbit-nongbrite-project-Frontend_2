@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <!-- Bright Sun -->
+  <circle cx="256" cy="256" r="100" fill="#FBBF24" />
+  <g stroke="#FBBF24" stroke-width="15" stroke-linecap="round">
+    <!-- Straight rays -->
+    <path d="M256 50 L256 100" />
+    <path d="M256 462 L256 412" />
+    <path d="M50 256 L100 256" />
+    <path d="M462 256 L412 256" />
+    <!-- Diagonal rays -->
+    <path d="M110 110 L145 145" />
+    <path d="M402 402 L367 367" />
+    <path d="M110 402 L145 367" />
+    <path d="M402 110 L367 145" />
+  </g>
+  <!-- Inner glow -->
+  <circle cx="256" cy="256" r="80" fill="#FDE047" />
+</svg>

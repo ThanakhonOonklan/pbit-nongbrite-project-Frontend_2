@@ -111,17 +111,32 @@ export function DirectionControls({
                 กดหรือลากคำสั่ง
             </p>
             <div className="flex gap-3">
-                {BUTTONS.map((btn) => (
-                    <DirectionButton
+                {BUTTONS.map((btn, i) => (
+                    <div
                         key={btn.direction}
-                        direction={btn.direction}
-                        icon={btn.icon}
-                        label={btn.label}
-                        disabled={disabled}
-                        onAddCommand={onAddCommand}
-                    />
+                        className="btn-pop"
+                        style={{ animationDelay: `${i * 60}ms` }}
+                    >
+                        <DirectionButton
+                            direction={btn.direction}
+                            icon={btn.icon}
+                            label={btn.label}
+                            disabled={disabled}
+                            onAddCommand={onAddCommand}
+                        />
+                    </div>
                 ))}
             </div>
+            <style>{`
+                @keyframes btnPop {
+                    0%   { transform: scale(0.6) translateY(8px); opacity: 0; }
+                    70%  { transform: scale(1.08) translateY(-2px); opacity: 1; }
+                    100% { transform: scale(1) translateY(0); opacity: 1; }
+                }
+                .btn-pop {
+                    animation: btnPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+                }
+            `}</style>
         </div>
     );
 }

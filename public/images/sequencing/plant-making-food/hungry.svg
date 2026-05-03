@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#F8FAFC" />
+  
+  <!-- Pot -->
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#A16207" />
+  
+  <!-- Hungry Plant -->
+  <path d="M256 220 Q240 100 256 60" stroke="#65A30D" stroke-width="12" fill="none" stroke-linecap="round"/>
+  
+  <!-- Drooping Leaves -->
+  <path d="M256 60 Q230 40 220 70 Q250 80 256 60" fill="#A3E635"/>
+  <path d="M256 100 Q200 100 190 130 Q230 130 256 100" fill="#A3E635"/>
+  <path d="M256 140 Q310 130 330 160 Q290 170 256 140" fill="#A3E635"/>
+  
+  <!-- Thought Bubble with Water and Sun -->
+  <path d="M150 150 Q100 150 100 100 Q100 50 150 50 Q200 50 200 100 Q200 150 150 150 Z" fill="#FFFFFF" stroke="#94A3B8" stroke-width="4"/>
+  <!-- Bubble tail -->
+  <circle cx="180" cy="170" r="10" fill="#FFFFFF" stroke="#94A3B8" stroke-width="3"/>
+  <circle cx="200" cy="190" r="5" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+  
+  <!-- Water Drop in thought -->
+  <path d="M130 90 Q140 120 130 130 Q120 120 130 90 Z" fill="#38BDF8"/>
+  <!-- Mini Sun in thought -->
+  <circle cx="170" cy="95" r="15" fill="#FBBF24"/>
+  <g stroke="#FBBF24" stroke-width="3" stroke-linecap="round">
+    <path d="M170 70 L170 75 M170 115 L170 120 M145 95 L150 95 M190 95 L195 95" />
+  </g>
+</svg>

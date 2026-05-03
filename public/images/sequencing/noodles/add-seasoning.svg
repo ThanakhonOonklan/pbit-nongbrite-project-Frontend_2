@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Pot & Cooked Noodles (Base) -->
+  <path d="M176 300 L336 300 C336 380, 316 430, 256 430 C196 430, 176 380, 176 300 Z" fill="#94A3B8" />
+  <path d="M176 330 C150 330, 150 370, 176 370" stroke="#64748B" stroke-width="15" fill="none" />
+  <path d="M336 330 C362 330, 362 370, 336 370" stroke="#64748B" stroke-width="15" fill="none" />
+  <ellipse cx="256" cy="300" rx="80" ry="25" fill="#38BDF8" opacity="0.5" />
+  <path d="M200 295 Q230 270 250 310 T300 300" stroke="#FEF08A" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M210 305 Q240 330 260 280 T310 290" stroke="#FDE047" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Hands pouring seasoning packet -->
+  <g transform="translate(40, -40)">
+    <!-- Packet -->
+    <path d="M220 180 L280 240 L310 210 L250 150 Z" fill="#EF4444" />
+    <path d="M250 150 L270 170 L280 160 L260 140 Z" fill="#FCA5A5" />
+    <!-- Jagged edge where torn -->
+    <path d="M220 180 L210 190 L220 195 L215 205 L230 200 L235 215 L245 205 L255 215 L260 200 L275 205 L270 190 L280 180 L270 170" fill="#EF4444" />
+    <!-- Powder falling -->
+    <path d="M240 215 L245 240 M230 210 L235 250 M250 205 L260 235" stroke="#FCA5A5" stroke-width="4" stroke-dasharray="4 4" fill="none" />
+    <path d="M220 200 L220 260 M265 200 L275 245 M245 230 L255 270" stroke="#B91C1C" stroke-width="3" stroke-dasharray="3 5" fill="none" />
+  </g>
+  
+  <!-- Red broth mixing in water -->
+  <ellipse cx="256" cy="300" rx="60" ry="15" fill="#EF4444" opacity="0.4" />
+</svg>

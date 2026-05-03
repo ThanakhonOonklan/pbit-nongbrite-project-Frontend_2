@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  <path d="M0 450 L512 450 L512 512 L0 512 Z" fill="#65A30D" />
+  
+  <path d="M256 450 Q240 300 256 150" stroke="#78350F" stroke-width="40" fill="none" stroke-linecap="round"/>
+  <path d="M250 250 Q180 200 120 180" stroke="#78350F" stroke-width="20" fill="none" stroke-linecap="round"/>
+  <path d="M260 220 Q340 180 380 150" stroke="#78350F" stroke-width="20" fill="none" stroke-linecap="round"/>
+  
+  <circle cx="256" cy="150" r="120" fill="#15803D" />
+  <circle cx="150" cy="200" r="80" fill="#16A34A" />
+  <circle cx="360" cy="180" r="90" fill="#22C55E" />
+  <circle cx="200" cy="100" r="90" fill="#22C55E" />
+  <circle cx="320" cy="120" r="80" fill="#16A34A" />
+  
+  <!-- Small Green Apples -->
+  <g fill="#A3E635">
+    <circle cx="150" cy="150" r="15" />
+    <circle cx="250" cy="80" r="15" />
+    <circle cx="350" cy="140" r="15" />
+    <circle cx="200" cy="200" r="15" />
+    <circle cx="300" cy="220" r="15" />
+    <circle cx="280" cy="130" r="15" />
+    <circle cx="120" cy="220" r="15" />
+  </g>
+  <!-- Apple Stems -->
+  <g stroke="#78350F" stroke-width="3" stroke-linecap="round">
+    <path d="M150 135 L150 125" />
+    <path d="M250 65 L250 55" />
+    <path d="M350 125 L350 115" />
+    <path d="M200 185 L200 175" />
+    <path d="M300 205 L300 195" />
+    <path d="M280 115 L280 105" />
+    <path d="M120 205 L120 195" />
+  </g>
+</svg>

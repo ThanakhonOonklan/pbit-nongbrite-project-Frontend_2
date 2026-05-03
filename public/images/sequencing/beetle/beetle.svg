@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Beetle Legs -->
+  <!-- Back Legs -->
+  <path d="M200 300 L120 380 L100 360" stroke="#451A03" stroke-width="15" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M312 300 L392 380 L412 360" stroke="#451A03" stroke-width="15" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Middle Legs -->
+  <path d="M180 250 L90 250 L70 280" stroke="#451A03" stroke-width="15" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M332 250 L422 250 L442 280" stroke="#451A03" stroke-width="15" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Front Legs -->
+  <path d="M200 200 L120 140 L140 100" stroke="#451A03" stroke-width="15" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M312 200 L392 140 L372 100" stroke="#451A03" stroke-width="15" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Abdomen (Shell) -->
+  <ellipse cx="256" cy="320" rx="80" ry="100" fill="#290E01" />
+  <!-- Wing casing split -->
+  <line x1="256" y1="220" x2="256" y2="420" stroke="#1A0900" stroke-width="6" />
+  <!-- Shell Highlights -->
+  <ellipse cx="220" cy="300" rx="20" ry="60" fill="#451A03" opacity="0.6" transform="rotate(-15 220 300)"/>
+  <ellipse cx="292" cy="300" rx="20" ry="60" fill="#451A03" opacity="0.6" transform="rotate(15 292 300)"/>
+  
+  <!-- Thorax -->
+  <ellipse cx="256" cy="200" rx="70" ry="40" fill="#290E01" />
+  
+  <!-- Head -->
+  <ellipse cx="256" cy="150" rx="40" ry="30" fill="#1A0900" />
+  
+  <!-- Massive Rhino Horn -->
+  <path d="M256 140 C256 60, 200 40, 256 20 C312 40, 256 60, 256 140 Z" fill="#290E01" />
+  <!-- Side Horns -->
+  <path d="M220 180 C180 150, 160 120, 200 130 Z" fill="#290E01" />
+  <path d="M292 180 C332 150, 352 120, 312 130 Z" fill="#290E01" />
+  
+  <!-- Cute little Eyes -->
+  <circle cx="230" cy="140" r="5" fill="#FFFFFF" />
+  <circle cx="282" cy="140" r="5" fill="#FFFFFF" />
+  <circle cx="230" cy="140" r="2" fill="#000000" />
+  <circle cx="282" cy="140" r="2" fill="#000000" />
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Leaf Background -->
+  <path d="M50 350 C150 450, 350 450, 450 350 C350 250, 150 250, 50 350 Z" fill="#4ADE80" opacity="0.8"/>
+  
+  <!-- Larva Body (Looks like tiny black gator with orange spots) -->
+  <path d="M120 260 C200 210, 320 210, 400 260 C380 300, 260 320, 120 260 Z" fill="#1F2937" />
+  
+  <!-- Segments & Spikes -->
+  <path d="M160 245 Q160 220 160 245 M160 275 Q160 300 160 275" stroke="#111827" stroke-width="12" stroke-linecap="round"/>
+  <path d="M200 235 Q200 210 200 235 M200 285 Q200 310 200 285" stroke="#111827" stroke-width="12" stroke-linecap="round"/>
+  <path d="M240 230 Q240 205 240 230 M240 290 Q240 315 240 290" stroke="#111827" stroke-width="12" stroke-linecap="round"/>
+  <path d="M280 230 Q280 205 280 230 M280 290 Q280 315 280 290" stroke="#111827" stroke-width="12" stroke-linecap="round"/>
+  <path d="M320 235 Q320 210 320 235 M320 285 Q320 310 320 285" stroke="#111827" stroke-width="12" stroke-linecap="round"/>
+  <path d="M360 245 Q360 220 360 245 M360 275 Q360 300 360 275" stroke="#111827" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Orange Spots -->
+  <circle cx="200" cy="245" r="8" fill="#F97316" />
+  <circle cx="200" cy="275" r="8" fill="#F97316" />
+  <circle cx="240" cy="240" r="8" fill="#F97316" />
+  <circle cx="240" cy="280" r="8" fill="#F97316" />
+  <circle cx="280" cy="240" r="8" fill="#F97316" />
+  <circle cx="280" cy="280" r="8" fill="#F97316" />
+  
+  <!-- Head -->
+  <circle cx="100" cy="260" r="20" fill="#111827" />
+  <!-- Antennae/Jaws -->
+  <path d="M90 250 L70 230 M90 270 L70 290" stroke="#111827" stroke-width="4" fill="none" stroke-linecap="round" />
+  <!-- Legs -->
+  <path d="M160 280 Q150 320 140 330 M200 290 Q190 330 180 340 M240 290 Q230 330 220 340 M280 290 Q270 330 260 340 M320 280 Q310 320 300 330" stroke="#111827" stroke-width="6" fill="none" stroke-linecap="round" />
+</svg>

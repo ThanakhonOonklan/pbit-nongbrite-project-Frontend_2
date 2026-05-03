@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Soil Pocket Background -->
+  <circle cx="256" cy="256" r="180" fill="#451A03" />
+  <circle cx="256" cy="256" r="150" fill="#290E01" />
+  <!-- Pupa Body -->
+  <path d="M180 256 C180 140, 332 140, 332 256 C332 380, 256 420, 256 420 C256 420, 180 380, 180 256 Z" fill="#92400E" />
+  <!-- Folded Horn (shows it will be a rhino beetle) -->
+  <path d="M256 160 C220 160, 200 120, 200 120 C220 100, 256 120, 256 160 Z" fill="#B45309" />
+  <!-- Segments -->
+  <path d="M190 280 Q256 310 322 280" stroke="#78350F" stroke-width="6" fill="none" stroke-linecap="round" />
+  <path d="M200 320 Q256 350 312 320" stroke="#78350F" stroke-width="6" fill="none" stroke-linecap="round" />
+  <path d="M215 360 Q256 380 297 360" stroke="#78350F" stroke-width="6" fill="none" stroke-linecap="round" />
+  <!-- Folded Legs/Wings outline -->
+  <path d="M220 200 C240 250, 240 280, 220 280" stroke="#78350F" stroke-width="6" fill="none" stroke-linecap="round" />
+  <path d="M292 200 C272 250, 272 280, 292 280" stroke="#78350F" stroke-width="6" fill="none" stroke-linecap="round" />
+</svg>

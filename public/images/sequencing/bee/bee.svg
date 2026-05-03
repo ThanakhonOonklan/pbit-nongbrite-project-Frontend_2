@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Wings -->
+  <ellipse cx="200" cy="180" rx="40" ry="70" fill="#E0F2FE" opacity="0.8" transform="rotate(-30 200 180)"/>
+  <ellipse cx="312" cy="180" rx="40" ry="70" fill="#E0F2FE" opacity="0.8" transform="rotate(30 312 180)"/>
+  <ellipse cx="160" cy="220" rx="30" ry="50" fill="#BAE6FD" opacity="0.8" transform="rotate(-50 160 220)"/>
+  <ellipse cx="352" cy="220" rx="30" ry="50" fill="#BAE6FD" opacity="0.8" transform="rotate(50 352 220)"/>
+  <!-- Body -->
+  <ellipse cx="256" cy="280" rx="60" ry="80" fill="#FACC15"/>
+  <!-- Stripes -->
+  <path d="M198 250 Q256 270 314 250 L318 280 Q256 300 194 280 Z" fill="#1F2937"/>
+  <path d="M205 310 Q256 330 307 310 L300 340 Q256 360 212 340 Z" fill="#1F2937"/>
+  <!-- Head -->
+  <circle cx="256" cy="180" r="50" fill="#FACC15"/>
+  <!-- Eyes -->
+  <circle cx="230" cy="170" r="10" fill="#1F2937"/>
+  <circle cx="282" cy="170" r="10" fill="#1F2937"/>
+  <!-- Smile -->
+  <path d="M240 200 Q256 210 272 200" stroke="#1F2937" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Antennae -->
+  <path d="M240 135 Q220 100 200 110" stroke="#1F2937" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="200" cy="110" r="6" fill="#1F2937"/>
+  <path d="M272 135 Q292 100 312 110" stroke="#1F2937" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="312" cy="110" r="6" fill="#1F2937"/>
+  <!-- Stinger -->
+  <path d="M256 360 L246 390 L266 390 Z" fill="#1F2937"/>
+</svg>

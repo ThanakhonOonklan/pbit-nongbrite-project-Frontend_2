@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <!-- Plant -->
+  <path d="M256 512 L256 200" stroke="#15803D" stroke-width="20" stroke-linecap="round"/>
+  
+  <g transform="translate(256, 300) rotate(-30 0 0)">
+    <path d="M0 0 C70 0, 170 -150, -30 -350 C-230 -150, -130 0, 0 0 Z" fill="#22C55E" />
+    <path d="M0 0 Q-20 -150, -30 -330" stroke="#15803D" stroke-width="10" stroke-linecap="round" fill="none"/>
+  </g>
+  
+  <!-- O2 Bubbles / Clouds escaping from leaf -->
+  <g fill="#FFFFFF" opacity="0.9">
+    <!-- Bubble 1 -->
+    <circle cx="100" cy="150" r="30" />
+    <text x="100" y="160" font-family="Arial" font-size="24" font-weight="bold" fill="#0284C7" text-anchor="middle">O2</text>
+    
+    <!-- Bubble 2 -->
+    <circle cx="200" cy="80" r="40" />
+    <text x="200" y="90" font-family="Arial" font-size="30" font-weight="bold" fill="#0284C7" text-anchor="middle">O2</text>
+    
+    <!-- Bubble 3 -->
+    <circle cx="80" cy="250" r="25" />
+    <text x="80" y="260" font-family="Arial" font-size="20" font-weight="bold" fill="#0284C7" text-anchor="middle">O2</text>
+  </g>
+  
+  <!-- Outward arrows -->
+  <g stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" fill="none">
+    <path d="M150 250 L120 200 M120 200 L110 220 M120 200 L140 190" />
+    <path d="M220 180 L200 130 M200 130 L190 150 M200 130 L220 120" />
+    <path d="M100 300 L70 280 M70 280 L70 300 M70 280 L90 270" />
+  </g>
+</svg>

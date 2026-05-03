@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  <!-- Small Rock at bottom -->
+  <path d="M150 450 C256 350, 350 400, 450 450 Z" fill="#94A3B8" />
+  
+  <g transform="translate(0, 10)">
+    <!-- Longer Arms (Curling) -->
+    <path d="M200 320 C140 380, 100 350, 150 420" stroke="#EC4899" stroke-width="15" fill="none" stroke-linecap="round"/>
+    <path d="M230 330 C180 400, 200 450, 230 430" stroke="#EC4899" stroke-width="15" fill="none" stroke-linecap="round"/>
+    <path d="M256 330 C256 420, 256 450, 270 420" stroke="#EC4899" stroke-width="15" fill="none" stroke-linecap="round"/>
+    <path d="M280 330 C330 400, 310 450, 280 430" stroke="#EC4899" stroke-width="15" fill="none" stroke-linecap="round"/>
+    <path d="M312 320 C372 380, 412 350, 362 420" stroke="#EC4899" stroke-width="15" fill="none" stroke-linecap="round"/>
+    
+    <!-- Body (Pink) -->
+    <ellipse cx="256" cy="220" rx="70" ry="100" fill="#F472B6" />
+    
+    <!-- Spots -->
+    <circle cx="230" cy="150" r="5" fill="#BE185D" opacity="0.5"/>
+    <circle cx="280" cy="170" r="8" fill="#BE185D" opacity="0.5"/>
+    <circle cx="260" cy="140" r="6" fill="#BE185D" opacity="0.5"/>
+    
+    <!-- Big Cute Eyes -->
+    <circle cx="210" cy="270" r="18" fill="#0F172A" />
+    <circle cx="302" cy="270" r="18" fill="#0F172A" />
+    <circle cx="205" cy="265" r="5" fill="#FFFFFF" />
+    <circle cx="297" cy="265" r="5" fill="#FFFFFF" />
+  </g>
+</svg>

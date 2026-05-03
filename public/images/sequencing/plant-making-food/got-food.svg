@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#78350F" />
+  
+  <path d="M256 220 Q240 100 256 60" stroke="#15803D" stroke-width="14" fill="none" stroke-linecap="round"/>
+  
+  <!-- Plumper leaves with happy face on the main stem maybe? Or just very vibrant -->
+  <path d="M256 60 Q220 20 210 60 Q250 90 256 60" fill="#22C55E"/>
+  <path d="M256 100 Q190 70 180 120 Q230 140 256 100" fill="#22C55E"/>
+  <path d="M256 140 Q320 100 340 150 Q290 180 256 140" fill="#22C55E"/>
+  
+  <!-- Food Energy flowing down to roots -->
+  <g fill="#FDE047">
+    <polygon points="256,120 246,100 266,100" />
+    <polygon points="256,160 246,140 266,140" />
+    <polygon points="256,200 246,180 266,180" />
+  </g>
+  
+  <!-- Happy Face on the pot just for fun/cuteness -->
+  <circle cx="230" cy="350" r="8" fill="#431407" />
+  <circle cx="280" cy="350" r="8" fill="#431407" />
+  <path d="M240 370 Q256 390 270 370" stroke="#431407" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <ellipse cx="210" cy="360" rx="15" ry="10" fill="#C2410C" opacity="0.6"/>
+  <ellipse cx="300" cy="360" rx="15" ry="10" fill="#C2410C" opacity="0.6"/>
+</svg>

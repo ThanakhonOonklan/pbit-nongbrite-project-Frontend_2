@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Soil Background -->
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#78350F" />
+  <circle cx="150" cy="400" r="10" fill="#451A03" />
+  <circle cx="350" cy="420" r="15" fill="#451A03" />
+  <circle cx="280" cy="380" r="8" fill="#451A03" />
+  
+  <!-- Little grass -->
+  <path d="M200 330 Q190 280 170 270 M210 330 Q220 290 240 280" stroke="#22C55E" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M310 330 Q330 280 350 270" stroke="#22C55E" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Stem -->
+  <path d="M230 350 L220 180 C220 160, 290 160, 290 180 L280 350 Z" fill="#FEF3C7" />
+  <!-- Stem skirt (Annulus) -->
+  <path d="M210 220 Q256 260 300 220" stroke="#FDE68A" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M220 230 Q256 270 290 230" stroke="#FEF3C7" stroke-width="8" fill="none" stroke-linecap="round"/>
+  
+  <!-- Gills (Under cap) -->
+  <ellipse cx="256" cy="180" rx="100" ry="25" fill="#FCD34D" />
+  
+  <!-- Cap (Red, majestic) -->
+  <path d="M140 180 C140 30, 370 30, 370 180 C370 195, 140 195, 140 180 Z" fill="#EF4444" />
+  
+  <!-- White Spots -->
+  <circle cx="256" cy="110" r="15" fill="#FFFFFF" />
+  <circle cx="200" cy="130" r="12" fill="#FFFFFF" />
+  <circle cx="310" cy="140" r="14" fill="#FFFFFF" />
+  <circle cx="170" cy="160" r="8" fill="#FFFFFF" />
+  <circle cx="340" cy="160" r="10" fill="#FFFFFF" />
+  <circle cx="280" cy="90" r="10" fill="#FFFFFF" />
+  <circle cx="220" cy="90" r="8" fill="#FFFFFF" />
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Soil Background -->
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#78350F" />
+  <circle cx="150" cy="400" r="10" fill="#451A03" />
+  <circle cx="350" cy="420" r="15" fill="#451A03" />
+  <!-- Falling Spores (Tiny, Magical) -->
+  <circle cx="200" cy="200" r="4" fill="#FDE047" opacity="0.8" />
+  <circle cx="250" cy="150" r="5" fill="#FEF08A" opacity="0.9" />
+  <circle cx="300" cy="220" r="3" fill="#FACC15" opacity="0.7" />
+  <circle cx="180" cy="280" r="5" fill="#FDE047" opacity="0.9" />
+  <circle cx="270" cy="300" r="4" fill="#FEF08A" opacity="0.8" />
+  <circle cx="330" cy="260" r="6" fill="#FACC15" opacity="0.9" />
+  <circle cx="230" cy="330" r="5" fill="#FDE047" />
+  <circle cx="280" cy="350" r="4" fill="#FDE047" />
+  <!-- Spores on ground -->
+  <ellipse cx="230" cy="360" rx="6" ry="3" fill="#FEF08A" />
+  <ellipse cx="280" cy="370" rx="8" ry="4" fill="#FEF08A" />
+  <ellipse cx="200" cy="380" rx="5" ry="3" fill="#FEF08A" />
+</svg>

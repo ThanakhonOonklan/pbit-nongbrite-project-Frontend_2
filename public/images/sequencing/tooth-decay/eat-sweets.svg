@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#F1F5F9" />
+  
+  <g transform="translate(180, 256)">
+    <path d="M-100 -120 C-100 -200, -50 -200, 0 -180 C50 -200, 100 -200, 100 -120 C100 -30, 80 50, 60 150 C50 200, 10 200, 0 150 C-10 100, -10 100, 0 150 C-10 200, -50 200, -60 150 C-80 50, -100 -30, -100 -120 Z" fill="#FFFFFF" stroke="#94A3B8" stroke-width="12" stroke-linejoin="round"/>
+    <circle cx="-35" cy="-80" r="12" fill="#334155" />
+    <circle cx="35" cy="-80" r="12" fill="#334155" />
+    <path d="M-25 -50 Q0 -20 25 -50" fill="none" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="-60" cy="-60" rx="15" ry="10" fill="#FCA5A5" opacity="0.6"/>
+    <ellipse cx="60" cy="-60" rx="15" ry="10" fill="#FCA5A5" opacity="0.6"/>
+  </g>
+  
+  <!-- Sweets (Lollipop and Candy) -->
+  <g transform="translate(400, 150)">
+    <!-- Lollipop stick -->
+    <path d="M0 0 L-40 100" stroke="#CBD5E1" stroke-width="10" stroke-linecap="round"/>
+    <!-- Lollipop swirl -->
+    <circle cx="0" cy="0" r="40" fill="#F472B6" />
+    <path d="M-20 0 Q-20 -20 0 -20 Q20 -20 20 0 Q20 20 0 20 Q-10 20 -10 0" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+    
+    <!-- Hard Candy -->
+    <g transform="translate(-80, -20) rotate(-20 0 0)">
+      <polygon points="-30,-15 -50,-30 -50,15 -30,15" fill="#38BDF8" />
+      <polygon points="30,-15 50,-30 50,15 30,15" fill="#38BDF8" />
+      <circle cx="0" cy="0" r="30" fill="#FDE047" />
+      <!-- Wrappers lines -->
+      <path d="M-30 0 L-45 0 M30 0 L45 0" stroke="#FFFFFF" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

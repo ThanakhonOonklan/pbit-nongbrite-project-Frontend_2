@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#A16207" />
+  
+  <!-- Drooping Plant (Stems bending down) -->
+  <path d="M256 220 Q270 120 220 80" stroke="#65A30D" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M256 180 Q160 170 130 130" stroke="#65A30D" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M256 160 Q340 160 380 150" stroke="#65A30D" stroke-width="10" fill="none" stroke-linecap="round"/>
+  
+  <!-- Leaves pointing down -->
+  <path d="M220 80 Q190 70 200 40 Q230 50 220 80" fill="#84CC16"/>
+  <path d="M240 120 Q190 130 180 160 Q210 150 240 120" fill="#A3E635"/>
+  <path d="M250 140 Q300 140 310 170 Q280 160 250 140" fill="#A3E635"/>
+  
+  <path d="M130 130 Q90 140 100 180 Q130 160 130 130" fill="#84CC16"/>
+  <path d="M160 160 Q120 180 130 210 Q160 190 160 160" fill="#A3E635"/>
+  
+  <path d="M380 150 Q410 160 410 200 Q380 180 380 150" fill="#84CC16"/>
+  <path d="M340 170 Q390 190 380 230 Q350 200 340 170" fill="#A3E635"/>
+</svg>

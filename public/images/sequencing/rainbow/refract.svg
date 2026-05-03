@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#64748B" />
+  
+  <!-- Huge Rain Drop -->
+  <path d="M256 100 Q386 350 256 480 Q126 350 256 100 Z" fill="#0284C7" opacity="0.4"/>
+  <path d="M206 250 Q186 350 256 430" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.8"/>
+  
+  <!-- White Light Beam entering -->
+  <path d="M-50 250 L150 250" stroke="#FFFFFF" stroke-width="30" stroke-linecap="round" opacity="0.9"/>
+  
+  <!-- Light refracting (bending and splitting slightly) INSIDE the drop -->
+  <g stroke-linecap="round" fill="none">
+    <path d="M150 250 L280 230" stroke="#EF4444" stroke-width="8" opacity="0.8"/> <!-- Red bends less -->
+    <path d="M150 250 L275 250" stroke="#22C55E" stroke-width="8" opacity="0.8"/> <!-- Green -->
+    <path d="M150 250 L270 270" stroke="#3B82F6" stroke-width="8" opacity="0.8"/> <!-- Blue bends more -->
+  </g>
+  
+  <!-- Reflection point inside drop -->
+  <circle cx="280" cy="230" r="5" fill="#EF4444" />
+  <circle cx="275" cy="250" r="5" fill="#22C55E" />
+  <circle cx="270" cy="270" r="5" fill="#3B82F6" />
+</svg>

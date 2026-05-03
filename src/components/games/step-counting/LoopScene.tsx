@@ -3,13 +3,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import type { LoopLevelConfig } from "@/constants/games/step-counting-levels";
+import type { ResolvedLoopConfig } from "@/constants/games/step-counting-levels";
 import { BOBO_IMAGES } from "./constants";
 import { Glass } from "./Glass";
 
 // ── Main LoopScene ─────────────────────────────────────────────
 export interface LoopSceneProps {
-  config: LoopLevelConfig;
+  config: ResolvedLoopConfig;
   filledAmounts: number[];
   currentTaskIndex: number;
   isRunning: boolean;
@@ -82,7 +82,7 @@ function MultiTaskRow({
   rowTop,
   sceneWidth,
 }: {
-  tasks: LoopLevelConfig["tasks"];
+  tasks: ResolvedLoopConfig["tasks"];
   startIdx: number;
   filledAmounts: number[];
   currentTaskIndex: number;

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <!-- Sunlight hitting leaf -->
+  <g stroke="#FEF08A" stroke-width="15" stroke-linecap="round" fill="none" opacity="0.8">
+    <path d="M50 50 L150 150" />
+    <path d="M150 20 L220 120" />
+    <path d="M50 150 L120 220" />
+  </g>
+  
+  <path d="M256 512 L256 200" stroke="#15803D" stroke-width="20" stroke-linecap="round"/>
+  
+  <g transform="translate(256, 300) rotate(-30 0 0)">
+    <path d="M0 0 C70 0, 170 -150, -30 -350 C-230 -150, -130 0, 0 0 Z" fill="#4ADE80" /> <!-- Brighter leaf -->
+    <path d="M0 0 Q-20 -150, -30 -330" stroke="#16A34A" stroke-width="10" stroke-linecap="round" fill="none"/>
+    
+    <!-- Sugar / Energy sparkles inside the leaf -->
+    <g fill="#FFFFFF" stroke="#FBBF24" stroke-width="2">
+      <!-- Hexagons to represent glucose -->
+      <polygon points="-30,-80 -15,-70 -15,-50 -30,-40 -45,-50 -45,-70" />
+      <polygon points="10,-150 25,-140 25,-120 10,-110 -5,-120 -5,-140" />
+      <polygon points="-60,-180 -45,-170 -45,-150 -60,-140 -75,-150 -75,-170" />
+      <polygon points="-10,-240 5,-230 5,-210 -10,-200 -25,-210 -25,-230" />
+    </g>
+    
+    <!-- Sparkle lines -->
+    <path d="M-30 -120 L-30 -100 M-40 -110 L-20 -110" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-80 -200 L-80 -180 M-90 -190 L-70 -190" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

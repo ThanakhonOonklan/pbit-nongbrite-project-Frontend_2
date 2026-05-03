@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#451A03" /> <!-- Very dry cracked soil -->
+  
+  <!-- Yellow/Brown Plant -->
+  <path d="M256 220 Q260 180 160 180 Q140 180 130 210" stroke="#B45309" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M220 200 Q160 220 150 240" stroke="#B45309" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M240 200 Q300 240 310 270" stroke="#B45309" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Yellow / Brown leaves lying flat or completely curled -->
+  <path d="M130 210 Q120 240 140 250 Q150 220 130 210" fill="#D97706"/>
+  <path d="M170 190 Q150 210 160 240 Q180 210 170 190" fill="#F59E0B"/>
+  
+  <!-- A fallen leaf on soil -->
+  <path d="M200 225 Q220 215 230 225 Q210 235 200 225" fill="#D97706"/>
+  
+  <path d="M310 270 Q290 290 270 300 Q280 260 310 270" fill="#D97706"/>
+  
+  <!-- Falling leaf -->
+  <path d="M350 280 Q370 270 380 290 Q360 300 350 280" fill="#F59E0B"/>
+  <path d="M360 260 Q365 270 370 275" stroke="#94A3B8" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+</svg>

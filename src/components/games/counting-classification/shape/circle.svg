@@ -6,36 +6,37 @@
       <stop offset="100%" stop-color="#E84A4A" />
     </radialGradient>
     
-    <!-- Shadow gradient -->
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#E84A4A" flood-opacity="0.4" />
+    <!-- Sticker shadow (subtle drop shadow for the white border) -->
+    <filter id="stickerShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.15" />
     </filter>
   </defs>
 
-  <!-- Shadow & Base -->
-  <circle cx="60" cy="60" r="50" fill="url(#circleGrad)" filter="url(#shadow)" />
+  <!-- White border (Sticker effect) -->
+  <circle cx="60" cy="60" r="56" fill="#FFFFFF" filter="url(#stickerShadow)" />
+  
+  <!-- Base Red Circle -->
+  <circle cx="60" cy="60" r="48" fill="url(#circleGrad)" />
   
   <!-- Outer stroke for cartoon style -->
-  <circle cx="60" cy="60" r="50" fill="none" stroke="#B83A3A" stroke-width="4" />
+  <circle cx="60" cy="60" r="48" fill="none" stroke="#B83A3A" stroke-width="4" />
 
   <!-- Main highlight (top left) -->
-  <path d="M 30 45 C 35 25, 55 20, 65 25 C 50 30, 40 40, 35 55 Z" fill="#ffffff" opacity="0.6" />
-  <!-- Small dot highlight -->
-  <circle cx="45" cy="25" r="4" fill="#ffffff" opacity="0.8" />
+  <path d="M 33 43 C 38 25, 54 22, 63 26 C 50 30, 42 38, 38 52 Z" fill="#ffffff" opacity="0.6" />
 
   <!-- Blush / Cheeks -->
-  <circle cx="35" cy="70" r="10" fill="#D63A3A" opacity="0.7" />
-  <circle cx="85" cy="70" r="10" fill="#D63A3A" opacity="0.7" />
+  <circle cx="36" cy="68" r="9" fill="#D63A3A" opacity="0.7" />
+  <circle cx="84" cy="68" r="9" fill="#D63A3A" opacity="0.7" />
 
   <!-- Eyes (Dark brown/black) -->
-  <circle cx="45" cy="55" r="6" fill="#3D2929" />
+  <circle cx="45" cy="55" r="5.5" fill="#3D2929" />
   <!-- Eye highlights -->
-  <circle cx="43" cy="53" r="2.5" fill="#ffffff" />
+  <circle cx="43.5" cy="53.5" r="2" fill="#ffffff" />
   
-  <circle cx="75" cy="55" r="6" fill="#3D2929" />
+  <circle cx="75" cy="55" r="5.5" fill="#3D2929" />
   <!-- Eye highlights -->
-  <circle cx="73" cy="53" r="2.5" fill="#ffffff" />
+  <circle cx="73.5" cy="53.5" r="2" fill="#ffffff" />
 
   <!-- Mouth (Smile) -->
-  <path d="M 54 62 Q 60 70 66 62" fill="none" stroke="#3D2929" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M 55 62 Q 60 68 65 62" fill="none" stroke="#3D2929" stroke-width="4" stroke-linecap="round" />
 </svg>

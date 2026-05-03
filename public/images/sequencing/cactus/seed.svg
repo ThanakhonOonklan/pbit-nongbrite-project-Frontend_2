@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sand Background -->
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#D4D4D8" />
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#FDE68A" />
+  <!-- Pebbles -->
+  <ellipse cx="150" cy="400" rx="15" ry="8" fill="#D1D5DB" />
+  <ellipse cx="350" cy="420" rx="20" ry="10" fill="#9CA3AF" />
+  <ellipse cx="280" cy="380" rx="12" ry="6" fill="#D1D5DB" />
+  
+  <!-- Cactus Seed (Black/Brown oval) -->
+  <ellipse cx="256" cy="350" rx="10" ry="6" fill="#1F2937" />
+  <ellipse cx="253" cy="348" rx="3" ry="1.5" fill="#4B5563" />
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#78350F" />
+  
+  <!-- Bigger Plant -->
+  <path d="M256 220 Q240 50 256 20" stroke="#15803D" stroke-width="16" fill="none" stroke-linecap="round"/>
+  
+  <path d="M256 20 Q210 -20 190 30 Q240 60 256 20" fill="#22C55E"/>
+  <path d="M256 60 Q180 20 160 80 Q220 110 256 60" fill="#22C55E"/>
+  <path d="M256 100 Q340 60 360 120 Q290 150 256 100" fill="#22C55E"/>
+  <path d="M256 140 Q170 110 150 170 Q210 190 256 140" fill="#22C55E"/>
+  <path d="M256 180 Q330 150 350 200 Q280 220 256 180" fill="#22C55E"/>
+  
+  <!-- Growing arrows up -->
+  <path d="M140 180 L140 100 M120 120 L140 100 L160 120" stroke="#FBBF24" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M380 180 L380 100 M360 120 L380 100 L400 120" stroke="#FBBF24" stroke-width="8" stroke-linecap="round" fill="none"/>
+  
+  <!-- Happy Face on the pot -->
+  <circle cx="230" cy="350" r="8" fill="#431407" />
+  <circle cx="280" cy="350" r="8" fill="#431407" />
+  <path d="M235 370 Q256 390 275 370" stroke="#431407" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <ellipse cx="210" cy="360" rx="15" ry="10" fill="#C2410C" opacity="0.6"/>
+  <ellipse cx="300" cy="360" rx="15" ry="10" fill="#C2410C" opacity="0.6"/>
+</svg>

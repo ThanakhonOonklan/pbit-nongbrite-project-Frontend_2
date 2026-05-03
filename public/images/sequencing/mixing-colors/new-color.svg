@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 450 L512 450 L512 512 L0 512 Z" fill="#E2E8F0" />
+  
+  <g stroke="#94A3B8" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M150 150 L150 400 A50 50 0 0 0 200 450 L312 450 A50 50 0 0 0 362 400 L362 150" />
+    <path d="M120 150 L392 150" /> 
+  </g>
+  
+  <!-- Liquid (Solid Orange) -->
+  <path d="M157 200 L355 200 L355 400 A42 42 0 0 1 312 442 L200 442 A42 42 0 0 1 157 400 Z" fill="#EA580C" opacity="0.95"/>
+  <ellipse cx="256" cy="200" rx="99" ry="15" fill="#FB923C" opacity="0.95"/>
+  
+  <path d="M170 180 L170 400 A30 30 0 0 0 200 430" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.5"/>
+</svg>

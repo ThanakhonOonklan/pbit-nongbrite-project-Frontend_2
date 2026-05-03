@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Walking Stick -->
+  <path d="M80 450 L110 300 C115 280, 90 270, 80 290" stroke="#78350F" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <!-- Legs -->
+  <line x1="180" y1="350" x2="180" y2="450" stroke="#1F2937" stroke-width="16" stroke-linecap="round"/>
+  <line x1="330" y1="350" x2="330" y2="450" stroke="#1F2937" stroke-width="16" stroke-linecap="round"/>
+  <line x1="220" y1="350" x2="220" y2="430" stroke="#374151" stroke-width="16" stroke-linecap="round"/>
+  <line x1="290" y1="350" x2="290" y2="430" stroke="#374151" stroke-width="16" stroke-linecap="round"/>
+  <!-- Body Fluff (Greyish/Wrinkly) -->
+  <path d="M256 120 C360 120, 420 160, 440 240 C500 250, 480 350, 360 360 C360 400, 150 400, 150 360 C30 350, 10 250, 70 240 C90 160, 150 120, 256 120 Z" fill="#CBD5E1"/>
+  <!-- Head -->
+  <ellipse cx="140" cy="220" rx="45" ry="55" fill="#64748B"/>
+  <!-- Horns (Big/Curved down) -->
+  <path d="M120 170 C60 140, 40 200, 70 230 C100 260, 120 220, 100 200" stroke="#94A3B8" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M160 170 C220 140, 240 200, 210 230 C180 260, 160 220, 180 200" stroke="#94A3B8" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <!-- Glasses -->
+  <circle cx="120" cy="210" r="15" stroke="#F59E0B" stroke-width="4" fill="none"/>
+  <circle cx="160" cy="210" r="15" stroke="#F59E0B" stroke-width="4" fill="none"/>
+  <line x1="135" y1="210" x2="145" y2="210" stroke="#F59E0B" stroke-width="4"/>
+  <!-- Eyes (half closed) -->
+  <path d="M115 210 Q120 205 125 210" stroke="#1F2937" stroke-width="3" fill="none"/>
+  <path d="M155 210 Q160 205 165 210" stroke="#1F2937" stroke-width="3" fill="none"/>
+  <!-- Beard -->
+  <path d="M120 260 Q140 300 160 260 Z" fill="#F8FAFC"/>
+  <!-- Head Fluff -->
+  <circle cx="140" cy="170" r="35" fill="#F8FAFC"/>
+</svg>

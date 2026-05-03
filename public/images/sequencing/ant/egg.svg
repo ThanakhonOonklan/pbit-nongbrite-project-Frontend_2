@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Dirt Tunnel Background -->
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#78350F" />
+  <ellipse cx="256" cy="256" rx="200" ry="150" fill="#451A03" />
+  
+  <!-- Cluster of Pill-shaped White Ant Eggs -->
+  <g fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2">
+    <!-- Center group -->
+    <rect x="230" y="240" width="20" height="40" rx="10" transform="rotate(-15 240 260)" />
+    <rect x="260" y="230" width="20" height="40" rx="10" transform="rotate(20 270 250)" />
+    <rect x="245" y="250" width="20" height="40" rx="10" transform="rotate(45 255 270)" />
+    <rect x="220" y="270" width="20" height="40" rx="10" transform="rotate(-60 230 290)" />
+    <rect x="270" y="270" width="20" height="40" rx="10" transform="rotate(-30 280 290)" />
+    
+    <!-- Outer group -->
+    <rect x="200" y="220" width="18" height="35" rx="9" transform="rotate(30 209 237)" />
+    <rect x="290" y="210" width="18" height="35" rx="9" transform="rotate(-40 299 227)" />
+    <rect x="190" y="260" width="18" height="35" rx="9" transform="rotate(-15 199 277)" />
+    <rect x="300" y="250" width="18" height="35" rx="9" transform="rotate(15 309 267)" />
+  </g>
+</svg>

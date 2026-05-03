@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Old Elephant (Wrinkled, Wise, Drooping) -->
+  <g transform="translate(10, 0)">
+    <!-- Back Legs -->
+    <rect x="220" y="240" width="50" height="150" rx="15" fill="#1E293B" />
+    <rect x="360" y="240" width="50" height="150" rx="15" fill="#1E293B" />
+    <!-- Body (Slightly sagging) -->
+    <path d="M130 220 C130 90, 410 90, 430 220 C450 330, 170 350, 130 220 Z" fill="#334155" />
+    <!-- Body Wrinkles -->
+    <path d="M210 180 Q230 230 220 280" stroke="#1E293B" stroke-width="3" fill="none" />
+    <path d="M260 160 Q280 240 270 300" stroke="#1E293B" stroke-width="3" fill="none" />
+    <path d="M320 170 Q340 230 330 290" stroke="#1E293B" stroke-width="3" fill="none" />
+    <!-- Front Legs -->
+    <rect x="160" y="260" width="55" height="150" rx="15" fill="#334155" />
+    <rect x="290" y="260" width="55" height="150" rx="15" fill="#334155" />
+    <!-- Toenails -->
+    <path d="M170 400 Q185 390 200 400" stroke="#94A3B8" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M300 400 Q315 390 330 400" stroke="#94A3B8" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Tail -->
+    <path d="M420 170 Q470 190 460 280" stroke="#1E293B" stroke-width="8" fill="none" stroke-linecap="round" />
+    <path d="M460 280 L450 300 L470 300 Z" fill="#020617" />
+    <!-- Back Ear -->
+    <path d="M210 110 C280 70, 310 160, 260 240 C220 270, 180 190, 210 110 Z" fill="#1E293B" />
+    <!-- Head -->
+    <circle cx="120" cy="170" r="80" fill="#334155" />
+    <!-- Very Long Tusks (Slightly yellowed/cracked) -->
+    <path d="M90 220 C40 300, 30 380, 50 440" stroke="#E2E8F0" stroke-width="16" fill="none" stroke-linecap="round" />
+    <path d="M75 270 L65 260 M60 320 L50 310" stroke="#94A3B8" stroke-width="3" fill="none" />
+    <!-- Trunk (Long, wrinkly, resting) -->
+    <path d="M70 200 C10 300, 20 420, 100 460 Q130 470, 140 440" fill="none" stroke="#334155" stroke-width="40" stroke-linecap="round" />
+    <!-- Trunk Wrinkles -->
+    <path d="M55 260 Q70 265 85 260 M45 310 Q60 315 75 310 M50 360 Q65 365 80 360" stroke="#1E293B" stroke-width="3" fill="none" />
+    <!-- Front Ear (Massive, Drooping) -->
+    <path d="M130 120 C50 50, 0 170, 50 250 C100 300, 170 210, 130 120 Z" fill="#475569" />
+    <path d="M70 170 Q50 200 80 230" stroke="#1E293B" stroke-width="2" fill="none" />
+    <!-- Eyes (Half-closed, wise) -->
+    <path d="M85 155 Q95 145 105 155" stroke="#0F172A" stroke-width="4" fill="none" stroke-linecap="round" />
+    <path d="M135 155 Q145 145 155 155" stroke="#0F172A" stroke-width="4" fill="none" stroke-linecap="round" />
+    <!-- Head Wrinkles -->
+    <path d="M100 120 Q120 110 140 120 M105 130 Q120 125 135 130" stroke="#1E293B" stroke-width="3" fill="none" stroke-linecap="round" />
+  </g>
+</svg>

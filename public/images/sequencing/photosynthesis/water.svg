@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  
+  <!-- Ground -->
+  <path d="M0 350 L512 350 L512 512 L0 512 Z" fill="#A16207" />
+  <path d="M0 350 Q256 320 512 350" fill="none" stroke="#713F12" stroke-width="10"/>
+  
+  <!-- Roots in soil -->
+  <g stroke="#FDE047" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.8">
+    <path d="M256 350 Q240 400 200 450" />
+    <path d="M256 370 Q280 410 300 460" />
+    <path d="M256 350 Q260 420 260 480" />
+  </g>
+  
+  <!-- Water Drops entering soil/roots -->
+  <g fill="#38BDF8">
+    <!-- Drops falling -->
+    <path d="M150 200 Q160 250 150 300 Q140 250 150 200 Z" />
+    <path d="M256 150 Q266 200 256 250 Q246 200 256 150 Z" />
+    <path d="M350 220 Q360 270 350 320 Q340 270 350 220 Z" />
+    
+    <!-- Water in soil -->
+    <circle cx="210" cy="380" r="10" />
+    <circle cx="250" cy="400" r="15" />
+    <circle cx="300" cy="390" r="12" />
+    <circle cx="270" cy="450" r="10" />
+    <circle cx="200" cy="420" r="8" />
+  </g>
+  
+  <path d="M150 100 Q256 150 350 100" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 10" fill="none"/>
+</svg>

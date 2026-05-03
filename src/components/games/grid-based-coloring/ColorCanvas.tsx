@@ -3,6 +3,12 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
 import { type DrawingMode } from "./GridColoringGame";
+import {
+  getGridCellSizeClass,
+  gridContainerClass,
+  gridPanelClass,
+  gridStageClass,
+} from "./grid-layout";
 
 interface ColorCanvasProps {
   gridSize: number;
@@ -22,7 +28,6 @@ interface ColorCanvasProps {
 export function ColorCanvas({
   gridSize,
   canvas,
-  selectedColor,
   disabled,
   onCellClick,
   onCellDrag,
@@ -33,9 +38,7 @@ export function ColorCanvas({
   const [isPainting, setIsPainting] = useState(false);
   const lastCellRef = useRef<string | null>(null);
 
-  const cellSize = gridSize <= 5 ? "w-[60px] h-[60px] sm:w-[72px] sm:h-[72px] lg:w-[84px] lg:h-[84px]" :
-    gridSize <= 6 ? "w-[52px] h-[52px] sm:w-[60px] sm:h-[60px] lg:w-[72px] lg:h-[72px]" :
-      "w-[44px] h-[44px] sm:w-[52px] sm:h-[52px] lg:w-[60px] lg:h-[60px]";
+  const cellSize = getGridCellSizeClass(gridSize);
 
   const handlePointerDown = useCallback(
     (row: number, col: number) => {
@@ -90,11 +93,11 @@ export function ColorCanvas({
   }
 
   return (
-    <div className="relative rounded-lg p-3 sm:p-4 w-full flex-1 flex flex-col overflow-hidden bg-[#E2CDAE] border-4 border-[#8B5A2B] shadow-xl shadow-amber-900/30">
+    <div className={gridPanelClass}>
 
-      <div className="relative flex-1 flex flex-col items-center justify-center px-1 sm:px-3">
+      <div className={gridStageClass}>
         <div
-          className="inline-grid border border-gray-300 shadow-sm overflow-hidden select-none bg-white"
+          className={`${gridContainerClass} select-none`}
           style={{
             gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
             touchAction: "none",

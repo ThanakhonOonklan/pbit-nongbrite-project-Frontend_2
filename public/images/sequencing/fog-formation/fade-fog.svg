@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sky getting blue again -->
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#7DD3FC" />
+  
+  <!-- Sun burning off the fog -->
+  <circle cx="150" cy="150" r="80" fill="#FBBF24" />
+  <g stroke="#FBBF24" stroke-width="12" stroke-linecap="round">
+    <path d="M150 20 L150 50 M280 150 L250 150 M50 50 L75 75 M250 50 L225 75 M250 250 L225 225 M50 250 L75 225" />
+  </g>
+  
+  <!-- Trees clearly visible again -->
+  <path d="M80 400 L120 150 L160 400 Z" fill="#15803D" />
+  <path d="M350 400 L400 100 L450 400 Z" fill="#15803D" />
+  <path d="M250 400 L280 200 L310 400 Z" fill="#15803D" />
+  
+  <!-- Fading mist near the ground only -->
+  <path d="M-50 500 Q100 400 250 450 T560 420 L560 512 L-50 512 Z" fill="#F8FAFC" opacity="0.4"/>
+  <path d="M-50 450 Q200 350 350 420 T560 380 L560 512 L-50 512 Z" fill="#F1F5F9" opacity="0.3"/>
+</svg>

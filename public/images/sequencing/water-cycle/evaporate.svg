@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 300 L0 300 Z" fill="#BAE6FD" />
+  <path d="M0 300 L512 300 L512 512 L0 512 Z" fill="#3B82F6" />
+  
+  <!-- Sun shining hot -->
+  <circle cx="256" cy="100" r="60" fill="#FBBF24" />
+  <g stroke="#FBBF24" stroke-width="8" stroke-linecap="round">
+    <path d="M256 15 L256 30 M256 170 L256 185 M171 100 L156 100 M356 100 L341 100" />
+    <path d="M195 39 L184 28 M317 161 L328 172 M195 161 L184 172 M317 39 L328 28" />
+  </g>
+  
+  <!-- Waves -->
+  <path d="M50 350 Q100 320 150 350 T250 350 T350 350 T450 350" fill="none" stroke="#60A5FA" stroke-width="10" stroke-linecap="round"/>
+  
+  <!-- Evaporation lines rising -->
+  <g stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.7">
+    <path d="M150 280 Q130 250 150 220 T150 160" stroke-dasharray="10 10" />
+    <path d="M256 280 Q236 250 256 220 T256 160" stroke-dasharray="10 10" />
+    <path d="M362 280 Q342 250 362 220 T362 160" stroke-dasharray="10 10" />
+    
+    <!-- Arrows -->
+    <path d="M140 170 L150 160 L160 170" />
+    <path d="M246 170 L256 160 L266 170" />
+    <path d="M352 170 L362 160 L372 170" />
+  </g>
+</svg>

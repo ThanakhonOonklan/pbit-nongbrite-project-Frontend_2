@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  
+  <!-- Majestic Adult Octopus -->
+  <g transform="translate(0, 10)">
+    <!-- Swirling thick arms with visible suckers -->
+    <!-- Far Left Arm -->
+    <path d="M150 250 C50 250, 40 380, 80 440 C100 470, 140 450, 120 400" stroke="#9D174D" stroke-width="35" fill="none" stroke-linecap="round"/>
+    <circle cx="85" cy="400" r="6" fill="#FDF2F8" opacity="0.8"/>
+    <circle cx="75" cy="360" r="7" fill="#FDF2F8" opacity="0.8"/>
+    
+    <!-- Inner Left Arm -->
+    <path d="M200 280 C120 380, 150 480, 220 480 C260 480, 250 420, 210 420" stroke="#BE185D" stroke-width="35" fill="none" stroke-linecap="round"/>
+    <circle cx="170" cy="430" r="7" fill="#FDF2F8" opacity="0.8"/>
+    
+    <!-- Front Center Arm -->
+    <path d="M256 300 C256 420, 300 480, 270 480 C240 480, 240 440, 270 420" stroke="#DB2777" stroke-width="35" fill="none" stroke-linecap="round"/>
+    
+    <!-- Inner Right Arm -->
+    <path d="M312 280 C392 380, 362 480, 292 480 C252 480, 262 420, 302 420" stroke="#BE185D" stroke-width="35" fill="none" stroke-linecap="round"/>
+    <circle cx="342" cy="430" r="7" fill="#FDF2F8" opacity="0.8"/>
+    
+    <!-- Far Right Arm -->
+    <path d="M362 250 C462 250, 472 380, 432 440 C412 470, 372 450, 392 400" stroke="#9D174D" stroke-width="35" fill="none" stroke-linecap="round"/>
+    <circle cx="427" cy="400" r="6" fill="#FDF2F8" opacity="0.8"/>
+    <circle cx="437" cy="360" r="7" fill="#FDF2F8" opacity="0.8"/>
+    
+    <!-- Massive Head/Mantle -->
+    <path d="M126 180 C126 30, 386 30, 386 180 C386 300, 256 320, 256 320 C256 320, 126 300, 126 180 Z" fill="#DB2777" />
+    
+    <!-- Texture/Spots on Mantle -->
+    <ellipse cx="180" cy="120" rx="15" ry="10" fill="#831843" opacity="0.4" transform="rotate(-15 180 120)"/>
+    <ellipse cx="280" cy="90" rx="20" ry="15" fill="#831843" opacity="0.4" transform="rotate(15 280 90)"/>
+    <circle cx="340" cy="140" r="12" fill="#831843" opacity="0.4"/>
+    <circle cx="230" cy="80" r="8" fill="#831843" opacity="0.4"/>
+    <ellipse cx="210" cy="160" rx="12" ry="8" fill="#831843" opacity="0.4"/>
+    <circle cx="310" cy="160" r="10" fill="#831843" opacity="0.4"/>
+    
+    <!-- Sophisticated Eyes -->
+    <path d="M170 230 C170 200, 240 200, 240 230" fill="#FBCFE8" />
+    <path d="M272 230 C272 200, 342 200, 342 230" fill="#FBCFE8" />
+    <ellipse cx="205" cy="235" rx="25" ry="18" fill="#020617" />
+    <ellipse cx="307" cy="235" rx="25" ry="18" fill="#020617" />
+    <!-- Rectangular pupils (characteristic of octopuses) -->
+    <rect x="185" y="233" width="40" height="6" fill="#FDF2F8" rx="2" />
+    <rect x="287" y="233" width="40" height="6" fill="#FDF2F8" rx="2" />
+    <circle cx="205" cy="225" r="4" fill="#FFFFFF" />
+    <circle cx="307" cy="225" r="4" fill="#FFFFFF" />
+  </g>
+</svg>

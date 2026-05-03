@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+  
+  <!-- Pot & Water -->
+  <path d="M176 300 L336 300 C336 380, 316 430, 256 430 C196 430, 176 380, 176 300 Z" fill="#94A3B8" />
+  <path d="M176 330 C150 330, 150 370, 176 370" stroke="#64748B" stroke-width="15" fill="none" />
+  <path d="M336 330 C362 330, 362 370, 336 370" stroke="#64748B" stroke-width="15" fill="none" />
+  <ellipse cx="256" cy="300" rx="80" ry="25" fill="#38BDF8" />
+  
+  <!-- Dropping Instant Noodle Block -->
+  <!-- Motion lines -->
+  <line x1="200" y1="50" x2="200" y2="100" stroke="#CBD5E1" stroke-width="4" stroke-dasharray="8 8" />
+  <line x1="256" y1="40" x2="256" y2="110" stroke="#CBD5E1" stroke-width="4" stroke-dasharray="8 8" />
+  <line x1="312" y1="50" x2="312" y2="100" stroke="#CBD5E1" stroke-width="4" stroke-dasharray="8 8" />
+  
+  <g transform="translate(0, 50)">
+    <!-- Block of Noodles -->
+    <rect x="186" y="80" width="140" height="100" rx="15" fill="#FDE047" stroke="#FBBF24" stroke-width="4"/>
+    <!-- Noodle texture -->
+    <path d="M196 90 Q206 100 216 90 T236 90 T256 90 T276 90 T296 90 T316 90" stroke="#F59E0B" stroke-width="4" fill="none"/>
+    <path d="M196 110 Q206 120 216 110 T236 110 T256 110 T276 110 T296 110 T316 110" stroke="#F59E0B" stroke-width="4" fill="none"/>
+    <path d="M196 130 Q206 140 216 130 T236 130 T256 130 T276 130 T296 130 T316 130" stroke="#F59E0B" stroke-width="4" fill="none"/>
+    <path d="M196 150 Q206 160 216 150 T236 150 T256 150 T276 150 T296 150 T316 150" stroke="#F59E0B" stroke-width="4" fill="none"/>
+    <path d="M196 170 Q206 180 216 170 T236 170 T256 170 T276 170 T296 170 T316 170" stroke="#F59E0B" stroke-width="4" fill="none"/>
+  </g>
+</svg>

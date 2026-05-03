@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#0EA5E9" opacity="0.2" />
+  
+  <!-- Big Rock Background -->
+  <path d="M100 450 C150 250, 350 250, 450 450 Z" fill="#64748B" />
+  <path d="M150 450 C200 350, 300 350, 380 450 Z" fill="#475569" />
+  
+  <!-- Byssus threads (attaching to rock) -->
+  <g stroke="#94A3B8" stroke-width="3">
+    <line x1="256" y1="350" x2="230" y2="390" />
+    <line x1="256" y1="350" x2="250" y2="395" />
+    <line x1="256" y1="350" x2="270" y2="395" />
+    <line x1="256" y1="350" x2="290" y2="385" />
+  </g>
+  
+  <!-- Tiny Shell (Spat) -->
+  <path d="M256 360 C210 360, 200 300, 230 270 C256 250, 282 270, 312 290 C322 310, 302 360, 256 360 Z" fill="#F8FAFC" />
+  <path d="M256 360 C210 360, 200 300, 230 270 C256 250, 282 270, 312 290 C322 310, 302 360, 256 360 Z" fill="#E2E8F0" opacity="0.5" />
+  
+  <!-- Tiny growth rings -->
+  <path d="M240 280 C260 270, 280 280, 290 295" stroke="#CBD5E1" stroke-width="2" fill="none" />
+  <path d="M225 300 C256 280, 290 300, 305 320" stroke="#CBD5E1" stroke-width="2" fill="none" />
+</svg>

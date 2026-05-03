@@ -43,7 +43,7 @@ export function FruitGrid({ grid, gridSize, onCellClick, foundCoordinates = [], 
           animation: fruitPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
         }
       `}</style>
-      <div className="w-full max-w-lg mx-auto p-3 sm:p-5 md:p-6 relative rounded-2xl sm:rounded-[2rem] bg-gradient-to-br from-amber-500 to-amber-700 border-b-8 border-r-8 border-amber-800">
+      <div className="w-full max-w-lg mx-auto p-3 sm:p-5 md:p-6 relative rounded-2xl sm:rounded-[2rem] bg-gradient-to-br from-amber-500 to-amber-700 border-b-8 border-r-8 border-amber-800 md:max-h-full">
         {/* Wood Highlights */}
       <div className="absolute inset-0 border-[6px] sm:border-[8px] border-amber-400/30 rounded-2xl sm:rounded-[2rem] pointer-events-none" />
 

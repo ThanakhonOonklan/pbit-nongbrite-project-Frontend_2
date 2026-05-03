@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Calf Elephant (Cute & Small) -->
+  <g transform="translate(0, 30)">
+    <!-- Back Legs -->
+    <rect x="250" y="300" width="25" height="50" rx="10" fill="#64748B" />
+    <rect x="330" y="300" width="25" height="50" rx="10" fill="#64748B" />
+    <!-- Body -->
+    <path d="M190 280 C190 230, 350 230, 370 280 C380 320, 200 330, 190 280 Z" fill="#94A3B8" />
+    <!-- Front Legs -->
+    <rect x="210" y="310" width="30" height="50" rx="12" fill="#94A3B8" />
+    <rect x="280" y="310" width="30" height="50" rx="12" fill="#94A3B8" />
+    <!-- Toenails -->
+    <path d="M215 350 Q225 345 235 350" stroke="#E2E8F0" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M285 350 Q295 345 305 350" stroke="#E2E8F0" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- Tail -->
+    <path d="M365 260 Q390 270 380 300" stroke="#64748B" stroke-width="6" fill="none" stroke-linecap="round" />
+    <!-- Back Ear -->
+    <path d="M250 180 C280 160, 300 200, 270 250 C250 260, 240 220, 250 180 Z" fill="#64748B" />
+    <!-- Head -->
+    <circle cx="190" cy="220" r="45" fill="#94A3B8" />
+    <!-- Trunk (Short & Cute) -->
+    <path d="M165 240 C140 270, 150 310, 175 320 C185 325, 195 315, 185 305 C170 290, 175 260, 185 240" fill="#94A3B8" />
+    <!-- Front Ear (Big & Floppy) -->
+    <path d="M190 190 C150 160, 130 230, 150 260 C170 280, 200 230, 190 190 Z" fill="#CBD5E1" />
+    <!-- Cute Eyes -->
+    <circle cx="175" cy="215" r="8" fill="#1E293B" />
+    <circle cx="205" cy="215" r="8" fill="#1E293B" />
+    <circle cx="172" cy="212" r="3" fill="#FFFFFF" />
+    <circle cx="202" cy="212" r="3" fill="#FFFFFF" />
+    <!-- Little Smile -->
+    <path d="M185 250 Q190 255 195 250" stroke="#1E293B" stroke-width="2" fill="none" stroke-linecap="round" />
+  </g>
+</svg>

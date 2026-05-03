@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#BAE6FD" />
+  <path d="M0 450 L512 450 L512 512 L0 512 Z" fill="#65A30D" />
+  
+  <path d="M256 450 Q240 300 256 150" stroke="#78350F" stroke-width="40" fill="none" stroke-linecap="round"/>
+  <path d="M250 250 Q180 200 120 180" stroke="#78350F" stroke-width="20" fill="none" stroke-linecap="round"/>
+  <path d="M260 220 Q340 180 380 150" stroke="#78350F" stroke-width="20" fill="none" stroke-linecap="round"/>
+  
+  <circle cx="256" cy="150" r="120" fill="#15803D" />
+  <circle cx="150" cy="200" r="80" fill="#16A34A" />
+  <circle cx="360" cy="180" r="90" fill="#22C55E" />
+  <circle cx="200" cy="100" r="90" fill="#22C55E" />
+  <circle cx="320" cy="120" r="80" fill="#16A34A" />
+  
+  <!-- Apple Blossoms (White/Pink flowers) -->
+  <g fill="#FFFFFF" stroke="#F472B6" stroke-width="2">
+    <!-- Flower 1 -->
+    <g transform="translate(150, 150)">
+      <circle cx="-10" cy="-10" r="10" /><circle cx="10" cy="-10" r="10" />
+      <circle cx="-10" cy="10" r="10" /><circle cx="10" cy="10" r="10" />
+      <circle cx="0" cy="0" r="5" fill="#FDE047" stroke="none"/>
+    </g>
+    <!-- Flower 2 -->
+    <g transform="translate(250, 80)">
+      <circle cx="-10" cy="-10" r="10" /><circle cx="10" cy="-10" r="10" />
+      <circle cx="-10" cy="10" r="10" /><circle cx="10" cy="10" r="10" />
+      <circle cx="0" cy="0" r="5" fill="#FDE047" stroke="none"/>
+    </g>
+    <!-- Flower 3 -->
+    <g transform="translate(350, 140)">
+      <circle cx="-10" cy="-10" r="10" /><circle cx="10" cy="-10" r="10" />
+      <circle cx="-10" cy="10" r="10" /><circle cx="10" cy="10" r="10" />
+      <circle cx="0" cy="0" r="5" fill="#FDE047" stroke="none"/>
+    </g>
+    <!-- Flower 4 -->
+    <g transform="translate(200, 200)">
+      <circle cx="-10" cy="-10" r="10" /><circle cx="10" cy="-10" r="10" />
+      <circle cx="-10" cy="10" r="10" /><circle cx="10" cy="10" r="10" />
+      <circle cx="0" cy="0" r="5" fill="#FDE047" stroke="none"/>
+    </g>
+    <!-- Flower 5 -->
+    <g transform="translate(300, 220)">
+      <circle cx="-10" cy="-10" r="10" /><circle cx="10" cy="-10" r="10" />
+      <circle cx="-10" cy="10" r="10" /><circle cx="10" cy="10" r="10" />
+      <circle cx="0" cy="0" r="5" fill="#FDE047" stroke="none"/>
+    </g>
+  </g>
+</svg>

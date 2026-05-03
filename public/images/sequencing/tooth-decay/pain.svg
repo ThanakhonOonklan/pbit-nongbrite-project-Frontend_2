@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#F1F5F9" />
+  
+  <g transform="translate(256, 256)">
+    <!-- Red Pain Radiating -->
+    <path d="M0 -220 L0 -260 M40 -210 L60 -240 M-40 -210 L-60 -240" stroke="#EF4444" stroke-width="10" stroke-linecap="round"/>
+    <path d="M120 -150 L160 -160 M-120 -150 L-160 -160" stroke="#EF4444" stroke-width="10" stroke-linecap="round"/>
+    <path d="M100 -50 L140 -40 M-100 -50 L-140 -40" stroke="#EF4444" stroke-width="10" stroke-linecap="round"/>
+    
+    <!-- Tooth heavily stained -->
+    <path d="M-100 -120 C-100 -200, -50 -200, 0 -180 C50 -200, 100 -200, 100 -120 C100 -30, 80 50, 60 150 C50 200, 10 200, 0 150 C-10 100, -10 100, 0 150 C-10 200, -50 200, -60 150 C-80 50, -100 -30, -100 -120 Z" fill="#FDE68A" stroke="#94A3B8" stroke-width="12" stroke-linejoin="round"/>
+    
+    <!-- Large Cavity Hole with cracks -->
+    <path d="M30 -150 C70 -160, 90 -100, 60 -70 C30 -40, 0 -80, 10 -120 Z" fill="#0F172A" />
+    <path d="M40 -110 L-20 -40" stroke="#0F172A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M20 -60 L40 0" stroke="#0F172A" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Crying Pained Face -->
+    <!-- Eyes squinted shut in pain -->
+    <path d="M-50 -80 L-20 -90 M-50 -90 L-20 -80" stroke="#334155" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M50 -80 L20 -90 M50 -90 L20 -80" stroke="#334155" stroke-width="6" stroke-linecap="round" fill="none"/>
+    
+    <!-- Tears -->
+    <path d="M-40 -60 Q-40 -40 -30 -30 Q-20 -40 -20 -60 Z" fill="#38BDF8" />
+    <path d="M40 -60 Q40 -40 30 -30 Q20 -40 20 -60 Z" fill="#38BDF8" />
+    
+    <!-- Open crying mouth -->
+    <path d="M-20 -10 Q0 -30 20 -10 L10 20 L-10 20 Z" fill="#334155" stroke-linejoin="round"/>
+  </g>
+</svg>

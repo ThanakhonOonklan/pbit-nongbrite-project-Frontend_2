@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Pot -->
+  <path d="M180 450 L332 450 L362 250 L150 250 Z" fill="#EA580C" />
+  <rect x="130" y="220" width="252" height="40" rx="10" fill="#C2410C" />
+  <!-- Soil -->
+  <ellipse cx="256" cy="220" rx="120" ry="15" fill="#78350F" />
+  
+  <!-- Healthy Plant -->
+  <!-- Stems -->
+  <path d="M256 220 Q240 100 256 50" stroke="#15803D" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M256 180 Q180 150 150 80" stroke="#15803D" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M256 150 Q350 130 380 90" stroke="#15803D" stroke-width="10" fill="none" stroke-linecap="round"/>
+  
+  <!-- Leaves (Perky and Green) -->
+  <!-- Top -->
+  <path d="M256 50 Q220 20 256 0 Q290 20 256 50" fill="#22C55E"/>
+  <path d="M256 80 Q210 60 180 90 Q220 110 256 80" fill="#22C55E"/>
+  <path d="M256 100 Q310 80 330 110 Q290 130 256 100" fill="#4ADE80"/>
+  
+  <!-- Left -->
+  <path d="M150 80 Q110 50 100 90 Q140 110 150 80" fill="#22C55E"/>
+  <path d="M180 130 Q130 120 110 160 Q150 160 180 130" fill="#4ADE80"/>
+  
+  <!-- Right -->
+  <path d="M380 90 Q420 60 440 100 Q390 120 380 90" fill="#22C55E"/>
+  <path d="M340 140 Q400 130 410 170 Q360 170 340 140" fill="#4ADE80"/>
+</svg>

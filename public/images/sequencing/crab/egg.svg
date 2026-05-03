@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Water Background -->
+  <path d="M0 256 Q 128 200, 256 256 T 512 256 L 512 512 L 0 512 Z" fill="#0EA5E9" opacity="0.3"/>
+  <circle cx="200" cy="300" r="15" fill="#F97316"/>
+  <circle cx="230" cy="280" r="15" fill="#F97316"/>
+  <circle cx="260" cy="290" r="15" fill="#F97316"/>
+  <circle cx="220" cy="320" r="15" fill="#F97316"/>
+  <circle cx="250" cy="330" r="15" fill="#F97316"/>
+  <circle cx="280" cy="310" r="15" fill="#F97316"/>
+  <circle cx="290" cy="280" r="15" fill="#F97316"/>
+  <!-- Eyes inside eggs -->
+  <circle cx="195" cy="295" r="3" fill="#1F2937"/>
+  <circle cx="225" cy="275" r="3" fill="#1F2937"/>
+  <circle cx="255" cy="285" r="3" fill="#1F2937"/>
+  <circle cx="215" cy="315" r="3" fill="#1F2937"/>
+  <circle cx="245" cy="325" r="3" fill="#1F2937"/>
+  <circle cx="275" cy="305" r="3" fill="#1F2937"/>
+  <circle cx="285" cy="275" r="3" fill="#1F2937"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Soil Background -->
+  <path d="M50 350 Q256 300 462 350 L462 450 L50 450 Z" fill="#78350F" />
+  <path d="M80 380 Q256 330 432 380 L432 450 L80 450 Z" fill="#451A03" />
+  <!-- Small stones/dirt bits -->
+  <circle cx="150" cy="400" r="10" fill="#290E01" />
+  <circle cx="350" cy="420" r="15" fill="#290E01" />
+  <circle cx="280" cy="380" r="8" fill="#290E01" />
+  <!-- Eggs -->
+  <ellipse cx="230" cy="340" rx="20" ry="25" fill="#FEF3C7" transform="rotate(-15 230 340)" />
+  <ellipse cx="270" cy="350" rx="20" ry="25" fill="#FFFBEB" transform="rotate(25 270 350)" />
+  <ellipse cx="256" cy="320" rx="20" ry="25" fill="#FFFFFF" transform="rotate(5 256 320)" />
+</svg>

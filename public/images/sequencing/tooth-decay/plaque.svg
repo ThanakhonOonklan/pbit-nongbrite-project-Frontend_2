@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M0 0 L512 0 L512 512 L0 512 Z" fill="#F1F5F9" />
+  
+  <g transform="translate(256, 256)">
+    <path d="M-100 -120 C-100 -200, -50 -200, 0 -180 C50 -200, 100 -200, 100 -120 C100 -30, 80 50, 60 150 C50 200, 10 200, 0 150 C-10 100, -10 100, 0 150 C-10 200, -50 200, -60 150 C-80 50, -100 -30, -100 -120 Z" fill="#FFFFFF" stroke="#94A3B8" stroke-width="12" stroke-linejoin="round"/>
+    
+    <!-- Slight Plaque (Yellowish patches) -->
+    <path d="M40 -150 Q60 -130 80 -160 Q70 -180 50 -170 Z" fill="#FEF08A" opacity="0.8"/>
+    <path d="M-80 -80 Q-50 -70 -70 -40 Q-90 -50 -80 -80 Z" fill="#FEF08A" opacity="0.8"/>
+    <path d="M10 50 Q40 60 30 90 Q0 80 10 50 Z" fill="#FEF08A" opacity="0.8"/>
+    
+    <!-- Face looking a bit worried -->
+    <circle cx="-35" cy="-80" r="12" fill="#334155" />
+    <circle cx="35" cy="-80" r="12" fill="#334155" />
+    <!-- Straight mouth -->
+    <path d="M-25 -40 L25 -40" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>
