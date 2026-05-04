@@ -436,7 +436,7 @@ export default function ConditionalMatchingGamePage({
       className="flex flex-col min-h-screen overflow-y-auto sm:h-screen sm:overflow-hidden relative bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/images/Background/conditionalmatchingBackground.png')" }}
     >
-      <GameHeader level={level} gameTitle="Conditional Matching" characterSrc="/images/P_Coco/coco-03.svg" />
+      <GameHeader level={level} gameTitle="Conditional Matching" characterSrc="/images/P_Coco/coco-03.svg" bgColor="#FEAA50" />
 
       {/* Global & inline custom animations */}
       <style>{`
@@ -820,20 +820,14 @@ export default function ConditionalMatchingGamePage({
         </div>
       </main>
 
-      <HelpButton
-        steps={[
-          { emoji: "❓", text: "อ่านชื่อและดูรูปในแต่ละช่อง" },
-          { emoji: "🔑", text: "ลากเส้นจากกุญแจ ไปหาแม่กุญแจที่จับคู่กัน" },
-          { emoji: "✅", text: "ลากให้ครบทุกเส้น แล้วกดตรวจคำตอบ!" },
-        ]}
-      />
+      <HelpButton onClick={() => setShowIntro(true)} color="#FEAA50" />
 
       {showIntro && (
         <TutorialModal
           steps={conditionalMatchingTutorialSteps}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_Coco/coco-03.svg"
-          accentColor="#4F46E5"
+          accentColor="#FEAA50"
         />
       )}
 

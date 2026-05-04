@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { GameHeader } from "@/components/games/GameHeader";
 import { Container } from "@/components/common";
-import { ShapeScene, CounterPanel, SkyBackground } from "@/components/games/counting-classification";
+import { ShapeScene, CounterPanel } from "@/components/games/counting-classification";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
+import { HelpButton } from "@/components/games/HelpButton";
 import { TutorialModal } from "@/components/games/TutorialModal";
 import { countingClassificationTutorialSteps } from "@/components/games/tutorials";
 import { useUserStore } from "@/store/user.store";
@@ -99,6 +100,11 @@ export default function CountingClassificationGamePage({
     setCounts((prev) => ({ ...prev, [type]: newValue }));
   };
 
+  const handleResetCounts = () => {
+    if (!config) return;
+    setCounts(Object.fromEntries(config.shapeTypes.map((t) => [t, 0])) as Record<ShapeType, number>);
+  };
+
   // ── ตรวจคำตอบ ────────────────────────────────────────────
   const handleSubmit = () => {
     if (!config) return;
@@ -165,7 +171,6 @@ export default function CountingClassificationGamePage({
   if (!LEVEL_SPECS[levelNum]) {
     return (
       <div className="flex h-screen items-center justify-center relative overflow-hidden" style={{ background: "linear-gradient(180deg, #87CEEB 0%, #C9E8F5 100%)" }}>
-        <SkyBackground />
         <div className="flex flex-col items-center text-center gap-4 relative z-10">
           <Image src="/images/P_Minnie/minnie-06.svg" alt="Minnie" width={110} height={110} className="object-contain drop-shadow-lg" />
           <p className="text-[#1E5A80] text-xl font-bold">ไม่พบด่านนี้</p>
@@ -212,12 +217,12 @@ export default function CountingClassificationGamePage({
         <div
           className="lg:flex-[6] h-[55vh] lg:h-auto relative shrink-0"
           style={{
-            /* 1. Outer Frame: White border + Light Pastel Green */
+            /* 1. Outer Frame: White border + Soft Pink */
             borderRadius: "36px",
-            border: "8px solid #FFFFFF",
-            background: "#DCEDC8",
-            boxShadow: "0 12px 32px rgba(139,195,74,0.3)",
-            padding: "8px", // Reduced distance, close to the outer border but not touching
+            border: "6px solid #FFFFFF",
+            background: "#FFCDE0",
+            boxShadow: "0 12px 32px rgba(251,150,187,0.3)",
+            padding: "6px", // Reduced distance, close to the outer border but not touching
             position: "relative",
             zIndex: 10
           }}
@@ -227,7 +232,7 @@ export default function CountingClassificationGamePage({
             style={{
               background: "#FFFFFF",
               borderRadius: "26px", // Adjusted to match the outer curve beautifully
-              padding: "6px", // Thickness of the white inner line
+              padding: "4px", // Thickness of the white inner line
               height: "100%",
               // Soft shadow for depth
               boxShadow: "0 4px 8px rgba(0,0,0,0.06), inset 0 3px 6px rgba(0,0,0,0.1)"
@@ -256,7 +261,7 @@ export default function CountingClassificationGamePage({
           <Container
             className="flex flex-col p-4 lg:p-6 flex-1 lg:overflow-hidden"
             style={{
-              backgroundColor: "#BCE8D5", // Pastel teal green
+              backgroundColor: "#FFCDE0", // Soft pink
               border: "6px solid #FFFFFF",
               borderRadius: "32px",
               boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
@@ -268,12 +273,16 @@ export default function CountingClassificationGamePage({
               maxPerShape={config.shapes.length}
               onCountChange={handleCountChange}
               onSubmit={handleSubmit}
+              onReset={handleResetCounts}
               disabled={submitted}
             />
           </Container>
         </div>
 
       </div>
+
+      {/* ===== Help button ===== */}
+      <HelpButton onClick={() => setShowIntro(true)} color="#FB96BB" />
 
       {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
       {showIntro && (

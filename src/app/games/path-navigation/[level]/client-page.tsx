@@ -22,7 +22,6 @@ import {
   DirectionControls,
   CommandSequence,
   PathMap,
-  IceBackground,
 } from "@/components/games/path-navigation";
 import { HelpButton } from "@/components/games/HelpButton";
 import {
@@ -419,7 +418,7 @@ export default function PathNavigationClientPage({
           </div>
 
           {/* ===== MAIN CONTENT ===== */}
-          <div className="flex flex-col lg:flex-row flex-1 gap-4 px-4 pb-4 relative z-10 lg:overflow-hidden lg:min-h-0">
+          <div className="flex flex-col lg:flex-row flex-1 gap-4 px-4 pb-4 pt-2 sm:pt-4 relative z-10 lg:overflow-hidden lg:min-h-0">
             {/* ===== TOP/LEFT PANEL: Path Map ===== */}
             <Container className="lg:flex-[6] flex flex-col items-center justify-center p-2 lg:p-6 min-h-[260px] lg:min-h-0 lg:overflow-hidden" style={{ background: "rgba(13,27,42,0.7)", boxShadow: "none", border: "1px solid rgba(91,200,245,0.2)", backdropFilter: "blur(4px)" }}>
               <p className="hidden lg:block text-lg font-bold text-[#F1F7FB] mb-6">
@@ -477,8 +476,8 @@ export default function PathNavigationClientPage({
                     tilt={0.5}
                     radius={14}
                     motion={60}
-                    surfaceColor="#2196F3"
-                    sideColor="#1565C0"
+                    surfaceColor="#58CC02"
+                    sideColor="#46A302"
                     textColor="#ffffff"
                     borderColor="transparent"
                     borderWidth={0}
@@ -520,14 +519,7 @@ export default function PathNavigationClientPage({
             </Container>
           </div>
 
-          <HelpButton
-            steps={[
-              { emoji: "👆", text: "กดปุ่มลูกศร เพื่อสั่งให้เดิน" },
-              { emoji: "💙", text: "ไปรับน้องไบร์ท" },
-              { emoji: "🏠", text: "พาน้องกลับบ้าน" },
-              { emoji: "▶️", text: "กด Run เพื่อเริ่ม!" },
-            ]}
-          />
+          <HelpButton onClick={() => setShowIntro(true)} color="#1CB0F6" />
 
           {/* ===== DRAG OVERLAY ===== */}
           <DragOverlay dropAnimation={null}>

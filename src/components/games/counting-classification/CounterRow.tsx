@@ -59,10 +59,9 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
 
     return (
         <div
-            className="flex items-center gap-3 px-3 py-2.5 rounded-[24px] shadow-sm mb-1"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-[24px] mb-1"
             style={{
                 background: "#FFFAF4", // Soft cream/white
-                boxShadow: "0 4px 10px rgba(0,0,0,0.06), inset 0 2px 0 rgba(255,255,255,1)"
             }}
         >
             {/* Shape icon in colored square */}
@@ -71,7 +70,6 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
                 style={{ 
                     // Using the shape color with some transparency for the square background
                     background: `${color}33`,
-                    boxShadow: "inset 0 2px 4px rgba(255,255,255,0.6)"
                 }}
             >
                 <ShapeIcon type={type} size={38} className="drop-shadow-sm" hoverable />
@@ -111,7 +109,6 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
                     className="w-[46px] h-[46px] rounded-[16px] flex items-center justify-center text-xl font-black text-white select-none"
                     style={{ 
                         background: color,
-                        boxShadow: "0 2px 6px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.3)"
                     }}
                 >
                     {value}

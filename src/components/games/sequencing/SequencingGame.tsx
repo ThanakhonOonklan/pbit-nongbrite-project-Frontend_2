@@ -129,16 +129,15 @@ export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, sta
       });
     }
 
-    // Case 3: Dragging from Slot to another Slot
+    // Case 3: Dragging from Slot to another Slot (swap if target is filled)
     if (activeId.startsWith("slot-item-") && targetId.startsWith("slot-")) {
       const fromSlotIdx = parseInt(activeId.split("slot-item-")[1], 10);
       const toSlotIdx = parseInt(targetId.split("slot-")[1], 10);
 
-      if (fromSlotIdx !== toSlotIdx && slots[toSlotIdx] === null) {
+      if (fromSlotIdx !== toSlotIdx) {
         setSlots((prev) => {
           const next = [...prev];
-          next[toSlotIdx] = next[fromSlotIdx];
-          next[fromSlotIdx] = null;
+          [next[toSlotIdx], next[fromSlotIdx]] = [next[fromSlotIdx], next[toSlotIdx]];
           return next;
         });
       }

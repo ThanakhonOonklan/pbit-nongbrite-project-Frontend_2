@@ -50,6 +50,7 @@ function PoolItem({
         ref={setNodeRef}
         {...listeners}
         {...attributes}
+        style={{ animation: `poolItemPop 0.45s cubic-bezier(0.34,1.56,0.64,1) ${idx * 60}ms both` }}
         className={`${sc.box} rounded-xl flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none
           bg-[#1A0938]/80 backdrop-blur-sm shadow-[0_4px_0_#6D28D9] hover:-translate-y-1.5 hover:shadow-[0_6px_0_#7C3AED,0_0_16px_rgba(124,58,237,0.3)]
           active:translate-y-1 active:shadow-none border-[2px] border-[#3B1D7A] 
@@ -77,7 +78,7 @@ function PoolItem({
 export function SequencingPool({ pool, slotCount }: SequencingPoolProps) {
   const itemsPerRow = getItemsPerRow(slotCount);
   const sc = getSizeByRow();
-  
+
   const { setNodeRef, isOver } = useDroppable({ id: "pool" });
 
   const rows: (SequencingItem | null)[][] = [];
@@ -88,10 +89,16 @@ export function SequencingPool({ pool, slotCount }: SequencingPoolProps) {
   return (
     <div
       ref={setNodeRef}
-      className={`bg-[#0F0825]/70 backdrop-blur-md rounded-2xl sm:rounded-3xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 border-[3px] sm:border-4 ${
-        isOver ? "border-[#7C3AED] ring-2 ring-[#7C3AED]/30 shadow-[0_0_20px_rgba(124,58,237,0.25)]" : "border-[#2D1B69]/60"
-      } shadow-[inset_0_2px_10px_rgba(124,58,237,0.08)] w-full relative z-10 transition-all duration-150`}
+      className={`bg-[#0F0825]/70 backdrop-blur-md rounded-2xl sm:rounded-3xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 border-[3px] sm:border-4 ${isOver ? "border-[#7C3AED] ring-2 ring-[#7C3AED]/30 shadow-[0_0_20px_rgba(124,58,237,0.25)]" : "border-[#2D1B69]/60"
+        } shadow-[inset_0_2px_10px_rgba(124,58,237,0.08)] w-full relative z-10 transition-all duration-150`}
     >
+      <style>{`
+        @keyframes poolItemPop {
+          0%   { transform: scale(0.3) rotate(-6deg); opacity: 0; }
+          70%  { transform: scale(1.15) rotate(1deg); opacity: 1; }
+          100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+        }
+      `}</style>
       <p className="text-[10px] sm:text-xs font-bold text-[#A855F7] uppercase tracking-wider text-center" style={{ textShadow: '0 0 8px rgba(168,85,247,0.4)' }}>
         ลากหรือแตะเพื่อนำไปวาง
       </p>

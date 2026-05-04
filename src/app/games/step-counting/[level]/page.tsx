@@ -278,14 +278,7 @@ export default function StepCountingGamePage({
       </div>
 
       {/* ===== Help button ===== */}
-      <HelpButton
-        steps={[
-          { emoji: "📖", text: "อ่านโจทย์ด้านบน เช่น 'ส้ม 1 ลูก คั้นได้ครึ่งแก้ว'" },
-          { emoji: "🔢", text: "กด + / − ตั้งจำนวนที่ต้องการ" },
-          { emoji: "▶️", text: "กดรันเพื่อดูผลลัพธ์" },
-          { emoji: "🎯", text: "ตั้งจำนวนให้พอดีกับเป้าหมาย!" },
-        ]}
-      />
+      <HelpButton onClick={() => setShowIntro(true)} color="#6ED1CF" />
 
       {/* ===== INTRO TUTORIAL ===== */}
       {showIntro && (
@@ -293,7 +286,7 @@ export default function StepCountingGamePage({
           steps={stepCountingTutorialSteps}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_Bobo/bobo-01.svg"
-          accentColor="#F97316"
+          accentColor="#6ED1CF"
         />
       )}
 

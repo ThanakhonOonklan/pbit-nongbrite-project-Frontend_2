@@ -113,14 +113,7 @@ export default function GridBasedColoringGamePage({
       </div>
 
       {/* Help button */}
-      <HelpButton
-        steps={[
-          { emoji: "🎨", text: "เลือกสีจาก Color Palette" },
-          { emoji: "👆", text: "คลิกหรือลากเพื่อระบายสี" },
-          { emoji: "🎯", text: "ระบายให้ตรงกับรูปต้นแบบ" },
-          { emoji: "✅", text: "กด ส่ง เพื่อตรวจคำตอบ" },
-        ]}
-      />
+      <HelpButton onClick={() => setShowIntro(true)} color="#7AAB28" />
 
       {/* Intro tutorial — level 1 เท่านั้น */}
       {showIntro && (
