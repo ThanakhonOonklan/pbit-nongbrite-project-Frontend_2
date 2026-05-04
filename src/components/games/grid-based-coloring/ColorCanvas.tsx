@@ -102,6 +102,7 @@ export function ColorCanvas({
             gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
             touchAction: "none",
             '--hover-color': hoverColor,
+            animation: 'canvasGridEnter 0.55s cubic-bezier(0.34,1.56,0.64,1) both',
           } as React.CSSProperties}
           onPointerLeave={handlePointerUp}
           onPointerUp={handlePointerUp}
@@ -160,6 +161,12 @@ export function ColorCanvas({
       </div>
 
       <style>{`
+                @keyframes canvasGridEnter {
+                    0%   { transform: scale(0.82) translateY(16px); opacity: 0; }
+                    65%  { transform: scale(1.02) translateY(-2px); opacity: 1; }
+                    100% { transform: scale(1) translateY(0);       opacity: 1; }
+                }
+
                 .cell-painted { animation: cellGrow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
                 @keyframes cellGrow {
                     0% { transform: scale(0.4); opacity: 0.5; }

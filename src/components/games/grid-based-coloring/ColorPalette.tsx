@@ -66,8 +66,16 @@ export function ColorPalette({
   return (
     <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
 
+      <style>{`
+        @keyframes paletteItemIn {
+          0%   { transform: scale(0) rotate(-10deg); opacity: 0; }
+          65%  { transform: scale(1.15) rotate(2deg);  opacity: 1; }
+          100% { transform: scale(1) rotate(0deg);    opacity: 1; }
+        }
+      `}</style>
+
       {/* ── Color swatches ── */}
-      {displayPalette.map((color) => {
+      {displayPalette.map((color, swatchIdx) => {
         const isActive = drawingMode === "paint" && selectedColor?.toLowerCase() === color.toLowerCase();
         const name = colorNameMap[color.toUpperCase()] || colorNameMap[color] || color;
         return (
@@ -75,7 +83,7 @@ export function ColorPalette({
             key={color}
             onClick={() => { onSelectColor(color); onSelectMode("paint"); }}
             title={name}
-            style={{ backgroundColor: color }}
+            style={{ backgroundColor: color, animation: `paletteItemIn 0.4s cubic-bezier(0.34,1.56,0.64,1) ${swatchIdx * 45}ms both` }}
             className={`
               w-12 h-12 rounded-full transition-all duration-150 active:scale-90 flex items-center justify-center shrink-0
               ${isActive
@@ -93,13 +101,14 @@ export function ColorPalette({
       <div className="w-px self-stretch bg-amber-900/10 mx-1" />
 
       {/* ── Tool buttons ── */}
-      {TOOLS.map(({ mode, label, icon }) => {
+      {TOOLS.map(({ mode, label, icon }, toolIdx) => {
         const isActive = drawingMode === mode;
         return (
           <button
             key={mode}
             onClick={() => { if (mode === "eraser") onSelectColor(null); onSelectMode(mode); }}
             title={label}
+            style={{ animation: `paletteItemIn 0.4s cubic-bezier(0.34,1.56,0.64,1) ${(displayPalette.length + 1 + toolIdx) * 45}ms both` }}
             className={`
               w-[3.5rem] h-[3.5rem] rounded-full border-2 flex items-center justify-center shrink-0
               transition-all duration-150 active:scale-90 shadow-sm
