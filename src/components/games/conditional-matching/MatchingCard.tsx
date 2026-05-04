@@ -32,18 +32,18 @@ export const MatchingCard = ({
   let labelColor: string;
 
   if (isCorrect) {
-    cardBg = "#ECFDF5";
-    cardBorderColor = "transparent";
-    cardShadow = "0 4px 12px rgba(52,211,153,0.25)";
-    labelColor = "#065F46";
+    cardBg = "#DCFCE7";
+    cardBorderColor = "#4ADE80";
+    cardShadow = "0 4px 12px rgba(0,0,0,0.08)";
+    labelColor = "#15803D";
   } else if (isConnected) {
-    cardBg = "#FFFBEB";
-    cardBorderColor = "transparent";
-    cardShadow = "0 4px 12px rgba(251,191,36,0.25)";
-    labelColor = "#92400E";
+    cardBg = "#FFF7ED";
+    cardBorderColor = "#FDBA74";
+    cardShadow = "0 4px 12px rgba(0,0,0,0.08)";
+    labelColor = "#C2410C";
   } else {
     cardBg = "#FFFFFF";
-    cardBorderColor = "transparent";
+    cardBorderColor = "#E5E7EB";
     cardShadow = "0 4px 12px rgba(0,0,0,0.06)";
     labelColor = "#4B5563";
   }
@@ -101,7 +101,7 @@ export const MatchingCard = ({
       {/* Main Card */}
       <div
         className={`relative z-10 flex flex-col items-center p-1.5 sm:p-2 rounded-2xl sm:rounded-3xl transition-all duration-300 ${cardWidth} ${cardHeight}`}
-        style={{ background: cardBg, boxShadow: cardShadow }}
+        style={{ background: cardBg, boxShadow: cardShadow, border: `2px solid ${cardBorderColor}` }}
       >
         {/* Emoji Area */}
         <div className="flex-1 w-full bg-black/5 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-inner">

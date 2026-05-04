@@ -92,10 +92,7 @@ export function PathMap({
         zIndex: 20,
         ...(isFalling
             ? {
-                transition:
-                    "left 0.45s ease-in, top 0.45s ease-in, transform 0.5s ease-in, opacity 0.4s ease-in",
-                transform: "scale(0.05) rotate(360deg)",
-                opacity: 0,
+                transition: "left 0.45s ease-in, top 0.45s ease-in",
             }
             : isRunning
                 ? {
@@ -132,8 +129,8 @@ export function PathMap({
                                         backgroundColor: blocked
                                             ? "#C8E8F5"
                                             : isNBTile
-                                            ? "#A3DAF2"
-                                            : "#DEF1FA",
+                                                ? "#A3DAF2"
+                                                : "#DEF1FA",
                                         boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(180,220,240,0.3)",
                                     }}
                                 />
@@ -186,7 +183,7 @@ export function PathMap({
 
                 {/* ── Player (Bit) ─────────── */}
                 <div
-                    className={`absolute pointer-events-none player-pop ${isStumbling ? "player-stumble" : ""}`}
+                    className={`absolute pointer-events-none player-pop ${isStumbling ? "player-stumble" : ""} ${isFalling ? "player-fall" : ""}`}
                     style={playerDivStyle}
                 >
                     {/* Player indicator arrow */}
@@ -196,7 +193,7 @@ export function PathMap({
                             style={{ top: -Math.round(cellPx * 0.40), left: Math.round(cellPx * 0.54), zIndex: 22 }}
                         >
                             <svg width={Math.round(cellPx * 0.3)} height={Math.round(cellPx * 0.3)} viewBox="0 0 12 12" fill="none">
-                                <path d="M6 2 L10 8 L6 6.5 L2 8 Z" fill="#1CB0F6" stroke="#fff" strokeWidth="0.8" strokeLinejoin="round" />
+                                <path d="M6 10 L10 4 L6 5.5 L2 4 Z" fill="#1CB0F6" stroke="#fff" strokeWidth="0.8" strokeLinejoin="round" />
                             </svg>
                         </div>
                     )}
@@ -288,6 +285,18 @@ export function PathMap({
                     100% { transform: rotate(90deg)  translateY(18px) scale(0.7);  }
                 }
                 .player-stumble { animation: playerStumble 0.65s ease-in forwards; }
+
+                @keyframes playerFall {
+                    0%   { transform: scale(1)    rotate(0deg)   translateY(0px);   opacity: 1; }
+                    15%  { transform: scale(1.2)  rotate(-22deg) translateY(-8px);  opacity: 1; }
+                    35%  { transform: scale(0.95) rotate(14deg)  translateY(2px);   opacity: 1; }
+                    60%  { transform: scale(0.5)  rotate(200deg) translateY(0px);   opacity: 0.7; }
+                    100% { transform: scale(0.05) rotate(420deg) translateY(0px);   opacity: 0; }
+                }
+                .player-fall {
+                    animation: playerFall 0.55s ease-in forwards;
+                    pointer-events: none;
+                }
 
                 @keyframes playerArrowBounce {
                     0%, 100% { transform: translateX(-50%) translateY(0px); }
