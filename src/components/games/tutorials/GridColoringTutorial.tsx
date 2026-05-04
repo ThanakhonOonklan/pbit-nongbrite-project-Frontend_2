@@ -14,16 +14,16 @@ function Step1Reference() {
     return (
         <div className="flex flex-col items-center gap-3">
             <div className="flex items-center gap-2 text-xs font-bold text-gray-500 bg-gray-50 px-3 py-1.5 rounded-xl">
-                📋 รูปแบบต้นแบบ — จำให้ดีนะ!
+                จดจำรูปต้นแบบให้ดี!
             </div>
             <div
                 className="grid gap-2 p-4 bg-white rounded-2xl shadow border border-gray-100"
-                style={{ gridTemplateColumns: "repeat(3, 56px)", gridTemplateRows: "repeat(3, 56px)" }}
+                style={{ gridTemplateColumns: "repeat(3, 68px)", gridTemplateRows: "repeat(3, 68px)" }}
             >
                 {pattern.flat().map((color, i) => (
                     <div
                         key={i}
-                        className="w-14 h-14 rounded-xl border border-gray-200"
+                        className="w-[68px] h-[68px] rounded-xl border border-gray-200"
                         style={{
                             background: color,
                             animation: `gcFadeCell ${0.08 * i + 0.2}s ease-out both`,
@@ -110,10 +110,10 @@ function Step3Fill() {
                     <p className="text-[10px] text-gray-400 font-bold">ต้นแบบ</p>
                     <div
                         className="grid gap-1 p-2 bg-gray-50 rounded-xl border border-gray-200"
-                        style={{ gridTemplateColumns: "repeat(3, 34px)", gridTemplateRows: "repeat(3, 34px)" }}
+                        style={{ gridTemplateColumns: "repeat(3, 44px)", gridTemplateRows: "repeat(3, 44px)" }}
                     >
                         {pattern.map((c, i) => (
-                            <div key={i} className="w-[34px] h-[34px] rounded-lg" style={{ background: c }} />
+                            <div key={i} className="w-[44px] h-[44px] rounded-lg" style={{ background: c }} />
                         ))}
                     </div>
                 </div>
@@ -123,12 +123,12 @@ function Step3Fill() {
                     <p className="text-[10px] text-gray-400 font-bold">กำลังระบาย</p>
                     <div
                         className="grid gap-1 p-2 bg-gray-50 rounded-xl border border-gray-200"
-                        style={{ gridTemplateColumns: "repeat(3, 34px)", gridTemplateRows: "repeat(3, 34px)" }}
+                        style={{ gridTemplateColumns: "repeat(3, 44px)", gridTemplateRows: "repeat(3, 44px)" }}
                     >
                         {pattern.map((c, i) => (
                             <div
                                 key={i}
-                                className="w-[34px] h-[34px] rounded-lg border border-gray-100 transition-all duration-300"
+                                className="w-[44px] h-[44px] rounded-lg border border-gray-100 transition-all duration-300"
                                 style={{
                                     background: i < filled ? c : "#F9FAFB",
                                     transform: i === filled - 1 ? "scale(1.18)" : "scale(1)",
@@ -145,7 +145,7 @@ function Step3Fill() {
                     className="text-xs text-green-600 font-bold bg-green-50 px-3 py-1.5 rounded-xl"
                     style={{ animation: "gcFadeCell 0.3s ease-out" }}
                 >
-                    ✅ ระบายครบแล้ว — กด ✓ ส่ง!
+                    ระบายครบแล้ว — กด ✓ ส่ง!
                 </div>
             )}
         </div>
