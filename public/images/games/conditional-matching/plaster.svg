@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Band-aid body -->
+  <rect x="10" y="42" width="108" height="44" rx="8" fill="#F5C89A" transform="rotate(-10 64 64)"/>
+  <!-- Band-aid border -->
+  <rect x="10" y="42" width="108" height="44" rx="8" fill="none" stroke="#E0B070" stroke-width="2" transform="rotate(-10 64 64)"/>
+  <!-- Pad area (center) -->
+  <rect x="42" y="46" width="44" height="36" rx="4" fill="#F0E0C8" transform="rotate(-10 64 64)"/>
+  <!-- Pad texture dots -->
+  <circle cx="52" cy="58" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="60" cy="54" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="68" cy="58" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="76" cy="54" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="56" cy="66" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="64" cy="62" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="72" cy="66" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="52" cy="74" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="60" cy="70" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="68" cy="74" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <circle cx="76" cy="70" r="1.5" fill="#E0D0B8" transform="rotate(-10 64 64)"/>
+  <!-- Side holes (left) -->
+  <circle cx="22" cy="52" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="28" cy="52" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="34" cy="52" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="22" cy="62" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="28" cy="62" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="34" cy="62" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="22" cy="72" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="28" cy="72" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="34" cy="72" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <!-- Side holes (right) -->
+  <circle cx="94" cy="52" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="100" cy="52" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="106" cy="52" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="94" cy="62" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="100" cy="62" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="106" cy="62" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="94" cy="72" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="100" cy="72" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <circle cx="106" cy="72" r="2" fill="#E8C090" transform="rotate(-10 64 64)"/>
+  <!-- Heart on pad -->
+  <path d="M60 60 Q60 56 64 56 Q68 56 68 60 Q68 64 64 68 Q60 64 60 60" fill="#FF6B6B" opacity="0.5" transform="rotate(-10 64 64)"/>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- T-shirt body -->
+  <path d="M30 44 L30 112 Q30 118 36 118 L92 118 Q98 118 98 112 L98 44 L80 44 Q78 56 64 58 Q50 56 48 44 Z" fill="#5B9BD5"/>
+  <!-- Sleeves -->
+  <path d="M30 44 L8 56 L8 72 Q8 76 12 76 L30 70 Z" fill="#5B9BD5"/>
+  <path d="M98 44 L120 56 L120 72 Q120 76 116 76 L98 70 Z" fill="#5B9BD5"/>
+  <!-- Collar -->
+  <path d="M48 44 Q56 50 64 52 Q72 50 80 44" fill="none" stroke="#4A8AC4" stroke-width="2.5"/>
+  <!-- Shirt highlight -->
+  <path d="M40 50 L40 100" stroke="white" stroke-width="0.8" opacity="0.1"/>
+
+  <!-- === DIRT STAINS === -->
+  <!-- Big ketchup/sauce stain -->
+  <ellipse cx="58" cy="80" rx="12" ry="8" fill="#C0543A" opacity="0.8" transform="rotate(-10 58 80)"/>
+  <ellipse cx="60" cy="78" rx="8" ry="5" fill="#D4654A" opacity="0.6"/>
+  <!-- Drip from stain -->
+  <path d="M62 86 Q64 94 62 98" stroke="#C0543A" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+
+  <!-- Mud splatter -->
+  <circle cx="78" cy="68" r="6" fill="#8B6E4E" opacity="0.7"/>
+  <circle cx="82" cy="64" r="3" fill="#8B6E4E" opacity="0.5"/>
+  <circle cx="74" cy="72" r="3.5" fill="#8B6E4E" opacity="0.6"/>
+
+  <!-- Grass stain -->
+  <ellipse cx="44" cy="96" rx="10" ry="5" fill="#5DA34A" opacity="0.5" transform="rotate(15 44 96)"/>
+
+  <!-- Small food spots -->
+  <circle cx="70" cy="90" r="3" fill="#E8A030" opacity="0.6"/>
+  <circle cx="50" cy="70" r="2.5" fill="#D4654A" opacity="0.5"/>
+
+  <!-- Shirt wrinkle lines (messy) -->
+  <path d="M45 60 Q50 62 48 66" stroke="#4A8AC4" stroke-width="1" opacity="0.3" fill="none"/>
+  <path d="M75 58 Q78 62 76 66" stroke="#4A8AC4" stroke-width="1" opacity="0.3" fill="none"/>
+</svg>

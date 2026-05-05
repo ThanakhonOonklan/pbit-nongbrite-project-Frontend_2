@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Cave ceiling -->
+  <path d="M0 0 L128 0 L128 24 Q100 30 80 26 Q60 22 40 28 Q20 32 0 26 Z" fill="#5A5A5A"/>
+  <path d="M0 0 L128 0 L128 18 Q100 22 80 20 Q60 16 40 22 Q20 26 0 20 Z" fill="#6B6B6B"/>
+  <!-- Stalactites -->
+  <path d="M25 24 L28 38 L31 24" fill="#5A5A5A"/>
+  <path d="M95 22 L98 34 L101 22" fill="#5A5A5A"/>
+  <!-- Bat feet gripping ceiling -->
+  <path d="M58 26 L58 34" stroke="#4A4A5A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M70 26 L70 34" stroke="#4A4A5A" stroke-width="2" stroke-linecap="round"/>
+  <!-- Bat body (upside down) -->
+  <ellipse cx="64" cy="52" rx="10" ry="14" fill="#6B6B7A"/>
+  <!-- Bat head (at bottom since upside down) -->
+  <circle cx="64" cy="70" r="9" fill="#5A5A6A"/>
+  <!-- Ears pointing down -->
+  <path d="M56 64 L52 56 L58 62" fill="#5A5A6A"/>
+  <path d="M72 64 L76 56 L70 62" fill="#5A5A6A"/>
+  <!-- Inner ears -->
+  <path d="M56 63 L54 58 L58 62" fill="#8A7A8A"/>
+  <path d="M72 63 L74 58 L70 62" fill="#8A7A8A"/>
+  <!-- Eyes (closed/sleeping) -->
+  <path d="M58 72 Q60 74 62 72" fill="none" stroke="#2A2A3A" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M66 72 Q68 74 70 72" fill="none" stroke="#2A2A3A" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Nose -->
+  <ellipse cx="64" cy="76" rx="2" ry="1.5" fill="#4A4A5A"/>
+  <!-- Wings folded around body -->
+  <path d="M54 40 Q40 46 38 60 Q38 70 44 76 Q48 68 52 55 Q53 48 54 42" fill="#7A7A8A" opacity="0.8"/>
+  <path d="M74 40 Q88 46 90 60 Q90 70 84 76 Q80 68 76 55 Q75 48 74 42" fill="#7A7A8A" opacity="0.8"/>
+  <!-- Wing membrane lines -->
+  <path d="M42 58 Q46 54 50 48" fill="none" stroke="#6B6B7A" stroke-width="0.8" opacity="0.5"/>
+  <path d="M86 58 Q82 54 78 48" fill="none" stroke="#6B6B7A" stroke-width="0.8" opacity="0.5"/>
+  <!-- "Zzz" sleeping -->
+  <text x="92" y="50" font-family="Arial" font-size="11" font-weight="bold" fill="#7A9EC4" opacity="0.6">z</text>
+  <text x="100" y="42" font-family="Arial" font-size="9" font-weight="bold" fill="#7A9EC4" opacity="0.45">z</text>
+  <text x="106" y="36" font-family="Arial" font-size="7" font-weight="bold" fill="#7A9EC4" opacity="0.35">z</text>
+</svg>

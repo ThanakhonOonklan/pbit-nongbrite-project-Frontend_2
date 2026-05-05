@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Main germ body -->
+  <circle cx="64" cy="64" r="28" fill="#8BC34A"/>
+  <!-- Bumps/tentacles -->
+  <circle cx="40" cy="44" r="8" fill="#7CB342"/>
+  <circle cx="88" cy="44" r="8" fill="#7CB342"/>
+  <circle cx="36" cy="68" r="7" fill="#7CB342"/>
+  <circle cx="92" cy="68" r="7" fill="#7CB342"/>
+  <circle cx="44" cy="88" r="7" fill="#7CB342"/>
+  <circle cx="84" cy="88" r="7" fill="#7CB342"/>
+  <circle cx="64" cy="36" r="7" fill="#7CB342"/>
+  <circle cx="64" cy="94" r="6" fill="#7CB342"/>
+  <!-- Tentacle tips -->
+  <circle cx="34" cy="38" r="4" fill="#9CCC65"/>
+  <circle cx="94" cy="38" r="4" fill="#9CCC65"/>
+  <circle cx="30" cy="68" r="3.5" fill="#9CCC65"/>
+  <circle cx="98" cy="68" r="3.5" fill="#9CCC65"/>
+  <circle cx="38" cy="94" r="3.5" fill="#9CCC65"/>
+  <circle cx="90" cy="94" r="3.5" fill="#9CCC65"/>
+  <circle cx="64" cy="30" r="3.5" fill="#9CCC65"/>
+  <!-- Evil eyes -->
+  <ellipse cx="54" cy="58" rx="7" ry="8" fill="white"/>
+  <ellipse cx="74" cy="58" rx="7" ry="8" fill="white"/>
+  <circle cx="56" cy="60" r="4" fill="#2C1810"/>
+  <circle cx="76" cy="60" r="4" fill="#2C1810"/>
+  <circle cx="57" cy="59" r="1.5" fill="white"/>
+  <circle cx="77" cy="59" r="1.5" fill="white"/>
+  <!-- Angry eyebrows -->
+  <path d="M46 50 L58 52" stroke="#558B2F" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M82 50 L70 52" stroke="#558B2F" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Evil grin -->
+  <path d="M52 72 Q64 82 76 72" fill="#558B2F"/>
+  <path d="M54 72 Q64 78 74 72" fill="#33691E"/>
+  <!-- Spots -->
+  <circle cx="50" cy="44" r="3" fill="#689F38" opacity="0.5"/>
+  <circle cx="78" cy="48" r="2.5" fill="#689F38" opacity="0.5"/>
+  <circle cx="56" cy="80" r="2.5" fill="#689F38" opacity="0.4"/>
+</svg>

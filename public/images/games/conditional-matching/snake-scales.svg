@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Snake body coiling -->
+  <path d="M20 90 Q10 70 24 54 Q40 36 60 38 Q80 40 90 56 Q100 72 88 88 Q76 100 60 98 Q44 96 40 82" stroke="#5DA34A" stroke-width="18" stroke-linecap="round" fill="none"/>
+  <!-- Snake body inner (lighter) -->
+  <path d="M20 90 Q10 70 24 54 Q40 36 60 38 Q80 40 90 56 Q100 72 88 88 Q76 100 60 98 Q44 96 40 82" stroke="#6BCB77" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <!-- Scale pattern on body -->
+  <!-- Scales along the coil -->
+  <path d="M16 82 Q20 78 24 82" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M18 72 Q22 68 26 72" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M22 62 Q26 58 30 62" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M30 52 Q34 48 38 52" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M40 44 Q44 40 48 44" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M52 40 Q56 36 60 40" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M64 42 Q68 38 72 42" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M76 48 Q80 44 84 48" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M86 58 Q90 54 94 58" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M94 68 Q98 64 96 72" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M92 80 Q96 76 94 84" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M86 90 Q90 86 88 94" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M76 96 Q80 92 78 100" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M64 98 Q68 94 66 100" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M52 96 Q56 92 54 98" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <path d="M44 90 Q48 86 46 92" fill="none" stroke="#4A9040" stroke-width="1.8"/>
+  <!-- Diamond pattern (snake markings) -->
+  <path d="M30 54 L34 50 L38 54 L34 58 Z" fill="#4A9040" opacity="0.5"/>
+  <path d="M50 40 L54 36 L58 40 L54 44 Z" fill="#4A9040" opacity="0.5"/>
+  <path d="M72 44 L76 40 L80 44 L76 48 Z" fill="#4A9040" opacity="0.5"/>
+  <path d="M88 62 L92 58 L96 62 L92 66 Z" fill="#4A9040" opacity="0.5"/>
+  <path d="M90 82 L94 78 L98 82 L94 86 Z" fill="#4A9040" opacity="0.4"/>
+  <path d="M74 96 L78 92 L82 96 L78 100 Z" fill="#4A9040" opacity="0.4"/>
+  <path d="M54 94 L58 90 L62 94 L58 98 Z" fill="#4A9040" opacity="0.4"/>
+  <!-- Snake head -->
+  <ellipse cx="38" cy="78" rx="10" ry="8" fill="#5DA34A"/>
+  <ellipse cx="36" cy="76" rx="9" ry="7" fill="#6BCB77"/>
+  <!-- Eyes -->
+  <circle cx="32" cy="74" r="3" fill="#FFD700"/>
+  <ellipse cx="32" cy="74" rx="1.2" ry="2.5" fill="#2C1810"/>
+  <!-- Tongue -->
+  <path d="M28 80 L20 82 L18 80" stroke="#FF4444" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M20 82 L18 84" stroke="#FF4444" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- Magnifying glass on scales -->
+  <circle cx="90" cy="24" r="16" fill="none" stroke="#FFB74D" stroke-width="3"/>
+  <line x1="102" y1="36" x2="112" y2="46" stroke="#FFB74D" stroke-width="4" stroke-linecap="round"/>
+  <!-- Enlarged scales in magnifier -->
+  <circle cx="90" cy="24" r="14" fill="#6BCB77" opacity="0.5"/>
+  <path d="M82 20 L86 16 L90 20 L86 24 Z" fill="#4A9040" opacity="0.7"/>
+  <path d="M90 20 L94 16 L98 20 L94 24 Z" fill="#4A9040" opacity="0.7"/>
+  <path d="M86 28 L90 24 L94 28 L90 32 Z" fill="#4A9040" opacity="0.7"/>
+</svg>

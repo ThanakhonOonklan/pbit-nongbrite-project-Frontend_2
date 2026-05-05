@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Ground surface -->
+  <rect x="0" y="75" width="128" height="53" rx="4" fill="#8B6E4E"/>
+  <!-- Grass tufts -->
+  <path d="M10 75 Q12 65 14 75" fill="#5DA34A" stroke="#4A8A3A" stroke-width="1"/>
+  <path d="M20 75 Q23 62 26 75" fill="#5DA34A" stroke="#4A8A3A" stroke-width="1"/>
+  <path d="M100 75 Q103 63 106 75" fill="#5DA34A" stroke="#4A8A3A" stroke-width="1"/>
+  <path d="M112 75 Q114 67 116 75" fill="#5DA34A" stroke="#4A8A3A" stroke-width="1"/>
+  <!-- Burrow hole -->
+  <ellipse cx="64" cy="78" rx="24" ry="14" fill="#3E2712"/>
+  <!-- Darker inner hole -->
+  <ellipse cx="64" cy="80" rx="16" ry="9" fill="#2A1A0A"/>
+  <!-- Dirt pile around hole -->
+  <path d="M36 82 Q40 68 50 72 Q54 65 64 64 Q74 65 78 72 Q88 68 92 82" fill="#A0845C" opacity="0.6"/>
+  <!-- Soil texture -->
+  <circle cx="45" cy="90" r="2" fill="#6B5438" opacity="0.5"/>
+  <circle cx="75" cy="95" r="2.5" fill="#6B5438" opacity="0.5"/>
+  <circle cx="58" cy="100" r="1.5" fill="#6B5438" opacity="0.5"/>
+  <circle cx="85" cy="88" r="1.8" fill="#6B5438" opacity="0.4"/>
+  <!-- Worm peeking -->
+  <path d="M72 76 Q76 70 74 64 Q72 60 68 62" fill="none" stroke="#E8A0B0" stroke-width="3" stroke-linecap="round"/>
+</svg>

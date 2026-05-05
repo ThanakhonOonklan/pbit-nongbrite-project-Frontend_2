@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Face -->
+  <circle cx="64" cy="56" r="36" fill="#FFD3B5"/>
+  <!-- Hair -->
+  <path d="M28 44 Q28 18 64 14 Q100 18 100 44" fill="#5C4033"/>
+  <!-- Eyes (healthy) -->
+  <ellipse cx="48" cy="48" rx="6" ry="7" fill="white"/>
+  <circle cx="48" cy="50" r="4" fill="#2C1810"/>
+  <circle cx="49" cy="49" r="1.5" fill="white"/>
+  <ellipse cx="80" cy="48" rx="6" ry="7" fill="white"/>
+  <circle cx="80" cy="50" r="4" fill="#2C1810"/>
+  <circle cx="81" cy="49" r="1.5" fill="white"/>
+  <!-- Mask -->
+  <path d="M32 58 Q32 54 40 52 L88 52 Q96 54 96 58 L96 80 Q96 92 64 96 Q32 92 32 80 Z" fill="#87CEEB"/>
+  <!-- Mask folds -->
+  <path d="M36 64 L92 64" stroke="#6BB8D8" stroke-width="1.5" opacity="0.5"/>
+  <path d="M34 72 L94 72" stroke="#6BB8D8" stroke-width="1.5" opacity="0.5"/>
+  <path d="M36 80 L92 80" stroke="#6BB8D8" stroke-width="1.5" opacity="0.4"/>
+  <!-- Ear loops -->
+  <path d="M32 58 Q20 60 22 70 Q24 80 32 78" stroke="#87CEEB" stroke-width="2.5" fill="none"/>
+  <path d="M96 58 Q108 60 106 70 Q104 80 96 78" stroke="#87CEEB" stroke-width="2.5" fill="none"/>
+  <!-- Mask nose wire -->
+  <path d="M52 54 Q64 50 76 54" stroke="#A0D8E8" stroke-width="2" fill="none"/>
+</svg>

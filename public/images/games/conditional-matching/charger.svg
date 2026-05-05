@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Cable -->
+  <path d="M64 108 Q64 88 64 76" stroke="#424242" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <!-- Plug body -->
+  <rect x="42" y="36" width="44" height="42" rx="8" fill="#EEEEEE"/>
+  <rect x="42" y="36" width="44" height="42" rx="8" fill="none" stroke="#BDBDBD" stroke-width="2"/>
+  <!-- Plug face highlight -->
+  <rect x="46" y="40" width="36" height="34" rx="6" fill="#F5F5F5"/>
+  <!-- Prongs -->
+  <rect x="52" y="14" width="8" height="26" rx="3" fill="#FFB74D"/>
+  <rect x="52" y="14" width="8" height="26" rx="3" fill="none" stroke="#F9A825" stroke-width="1"/>
+  <rect x="68" y="14" width="8" height="26" rx="3" fill="#FFB74D"/>
+  <rect x="68" y="14" width="8" height="26" rx="3" fill="none" stroke="#F9A825" stroke-width="1"/>
+  <!-- Prong shine -->
+  <rect x="54" y="16" width="3" height="10" rx="1.5" fill="#FFCC80" opacity="0.5"/>
+  <rect x="70" y="16" width="3" height="10" rx="1.5" fill="#FFCC80" opacity="0.5"/>
+  <!-- Lightning bolt on plug -->
+  <path d="M60 46 L66 46 L62 56 L70 56 L58 72 L62 60 L56 60 Z" fill="#FDD835"/>
+  <path d="M60 46 L66 46 L62 56 L70 56 L58 72 L62 60 L56 60 Z" fill="none" stroke="#F9A825" stroke-width="1"/>
+  <!-- Energy sparkles -->
+  <path d="M36 28 L38 24 L40 28 L36 26 L40 26 Z" fill="#FDD835" opacity="0.5"/>
+  <path d="M88 24 L90 20 L92 24 L88 22 L92 22 Z" fill="#FDD835" opacity="0.5"/>
+  <path d="M36 60 L38 56 L40 60 L36 58 L40 58 Z" fill="#FDD835" opacity="0.35"/>
+</svg>

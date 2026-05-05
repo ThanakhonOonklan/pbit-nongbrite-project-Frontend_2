@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Body -->
+  <ellipse cx="62" cy="68" rx="28" ry="20" fill="#6BCB77"/>
+  <!-- Color changing spots -->
+  <circle cx="50" cy="62" r="6" fill="#FFD93D" opacity="0.7"/>
+  <circle cx="68" cy="58" r="5" fill="#FF6B6B" opacity="0.6"/>
+  <circle cx="58" cy="74" r="5" fill="#4ECDC4" opacity="0.7"/>
+  <circle cx="76" cy="68" r="4" fill="#A66CFF" opacity="0.6"/>
+  <circle cx="44" cy="72" r="4" fill="#FF9A3C" opacity="0.6"/>
+  <!-- Head -->
+  <path d="M34 58 Q24 52 20 56 Q16 60 20 66 Q24 72 34 68" fill="#6BCB77"/>
+  <!-- Eye bump -->
+  <circle cx="24" cy="58" r="7" fill="#5AB869"/>
+  <!-- Eye -->
+  <circle cx="24" cy="58" r="5" fill="white"/>
+  <circle cx="24" cy="58" r="2.5" fill="#2C1810"/>
+  <circle cx="25" cy="57" r="1" fill="white"/>
+  <!-- Mouth line -->
+  <path d="M20 66 Q16 66 14 64" fill="none" stroke="#4A9E55" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Curled tail -->
+  <path d="M90 68 Q100 66 104 60 Q108 52 104 46 Q100 40 96 44 Q92 48 96 52" fill="none" stroke="#6BCB77" stroke-width="5" stroke-linecap="round"/>
+  <!-- Tail color spots -->
+  <circle cx="98" cy="62" r="3" fill="#FFD93D" opacity="0.5"/>
+  <circle cx="104" cy="52" r="2.5" fill="#FF6B6B" opacity="0.5"/>
+  <!-- Legs -->
+  <path d="M48 84 Q44 94 40 98" stroke="#5AB869" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M72 84 Q76 94 80 98" stroke="#5AB869" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <!-- Feet -->
+  <circle cx="39" cy="98" r="3" fill="#5AB869"/>
+  <circle cx="81" cy="98" r="3" fill="#5AB869"/>
+  <!-- Color sparkles -->
+  <path d="M42 42 L44 36 L46 42 L40 40 L48 40 Z" fill="#FFD93D" opacity="0.6"/>
+  <path d="M78 44 L80 38 L82 44 L76 42 L84 42 Z" fill="#FF6B6B" opacity="0.5"/>
+  <path d="M56 38 L58 32 L60 38 L54 36 L62 36 Z" fill="#4ECDC4" opacity="0.5"/>
+</svg>

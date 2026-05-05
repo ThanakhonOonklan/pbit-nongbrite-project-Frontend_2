@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Face -->
+  <circle cx="64" cy="58" r="36" fill="#FFD3B5"/>
+  <!-- Flushed cheeks -->
+  <ellipse cx="42" cy="68" rx="10" ry="6" fill="#FF8080" opacity="0.5"/>
+  <ellipse cx="86" cy="68" rx="10" ry="6" fill="#FF8080" opacity="0.5"/>
+  <!-- Sick eyes (droopy) -->
+  <ellipse cx="48" cy="52" rx="6" ry="7" fill="white"/>
+  <circle cx="48" cy="54" r="4" fill="#2C1810"/>
+  <circle cx="49" cy="53" r="1.5" fill="white"/>
+  <ellipse cx="80" cy="52" rx="6" ry="7" fill="white"/>
+  <circle cx="80" cy="54" r="4" fill="#2C1810"/>
+  <circle cx="81" cy="53" r="1.5" fill="white"/>
+  <!-- Droopy eyelids -->
+  <path d="M42 46 Q48 44 54 46" fill="#FFD3B5" stroke="#E0B090" stroke-width="1.5"/>
+  <path d="M74 46 Q80 44 86 46" fill="#FFD3B5" stroke="#E0B090" stroke-width="1.5"/>
+  <!-- Sad mouth -->
+  <path d="M54 74 Q64 70 74 74" fill="none" stroke="#C08060" stroke-width="2" stroke-linecap="round"/>
+  <!-- Thermometer -->
+  <rect x="86" y="62" width="6" height="36" rx="3" fill="white" stroke="#DDD" stroke-width="1" transform="rotate(30 89 80)"/>
+  <circle cx="98" cy="92" r="5" fill="#FF4444" transform="rotate(30 89 80)"/>
+  <rect x="88" y="74" width="2" height="14" fill="#FF4444" transform="rotate(30 89 80)"/>
+  <!-- Sweat drop -->
+  <path d="M34 40 Q32 34 34 28 Q36 34 34 40" fill="#7AC4E8" opacity="0.7"/>
+  <!-- Heat lines -->
+  <path d="M50 22 Q52 16 50 10" stroke="#FF6B6B" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M64 18 Q66 12 64 6" stroke="#FF6B6B" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M78 22 Q80 16 78 10" stroke="#FF6B6B" stroke-width="1.5" fill="none" opacity="0.5"/>
+</svg>

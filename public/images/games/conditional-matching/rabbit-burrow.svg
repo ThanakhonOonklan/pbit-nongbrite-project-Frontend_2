@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Sky/background hint -->
+  <rect x="0" y="0" width="128" height="65" fill="#B8D8A8" opacity="0.3"/>
+  <!-- Ground surface -->
+  <rect x="0" y="65" width="128" height="63" fill="#8B6E4E"/>
+  <!-- Grass on surface -->
+  <path d="M5 65 Q7 55 9 65" fill="#5DA34A"/>
+  <path d="M15 65 Q18 52 21 65" fill="#5DA34A"/>
+  <path d="M28 65 Q30 56 32 65" fill="#5DA34A"/>
+  <path d="M96 65 Q99 54 102 65" fill="#5DA34A"/>
+  <path d="M108 65 Q110 57 112 65" fill="#5DA34A"/>
+  <path d="M118 65 Q120 58 122 65" fill="#5DA34A"/>
+  <!-- Dirt mound around hole -->
+  <path d="M30 65 Q38 52 52 48 Q64 46 76 48 Q90 52 98 65" fill="#A0845C"/>
+  <path d="M34 65 Q42 54 54 50 Q64 48 74 50 Q86 54 94 65" fill="#B89A70"/>
+  <!-- Burrow entrance hole -->
+  <ellipse cx="64" cy="62" rx="22" ry="14" fill="#3E2712"/>
+  <!-- Inner darkness -->
+  <ellipse cx="64" cy="64" rx="16" ry="10" fill="#2A1A0A"/>
+  <!-- Tunnel going down (cross-section visible) -->
+  <path d="M48 68 Q46 80 44 95 Q42 108 50 115 Q58 120 70 118 Q78 115 80 105 Q82 90 80 76 Q78 68 76 65" fill="#3E2712"/>
+  <path d="M52 70 Q50 82 48 95 Q47 106 54 112 Q60 116 68 114 Q74 112 76 102 Q78 88 76 76" fill="#2A1A0A"/>
+  <!-- Small chamber at bottom -->
+  <ellipse cx="62" cy="112" rx="14" ry="8" fill="#4A3020"/>
+  <!-- Rabbit ears peeking from hole -->
+  <path d="M56 52 Q54 36 52 28 Q51 24 54 24 Q57 24 58 32 Q59 42 58 52" fill="#E8C8A8"/>
+  <path d="M56 52 Q54 38 53 30" fill="none" stroke="#D4A880" stroke-width="1"/>
+  <!-- Inner ear -->
+  <path d="M55 34 Q54 28 55 26 Q56 28 56 34" fill="#F0A0A0" opacity="0.6"/>
+  <path d="M70 52 Q72 36 74 28 Q75 24 72 24 Q69 24 68 32 Q67 42 68 52" fill="#E8C8A8"/>
+  <path d="M70 52 Q72 38 73 30" fill="none" stroke="#D4A880" stroke-width="1"/>
+  <!-- Inner ear -->
+  <path d="M71 34 Q72 28 71 26 Q70 28 70 34" fill="#F0A0A0" opacity="0.6"/>
+  <!-- Rabbit eyes peeking -->
+  <circle cx="58" cy="56" r="2.5" fill="#2C1810"/>
+  <circle cx="70" cy="56" r="2.5" fill="#2C1810"/>
+  <circle cx="59" cy="55" r="1" fill="white"/>
+  <circle cx="71" cy="55" r="1" fill="white"/>
+  <!-- Dirt particles -->
+  <circle cx="38" cy="58" r="2" fill="#A0845C" opacity="0.5"/>
+  <circle cx="88" cy="56" r="1.5" fill="#A0845C" opacity="0.4"/>
+  <circle cx="42" cy="72" r="1.5" fill="#6B5438" opacity="0.3"/>
+  <circle cx="86" cy="74" r="2" fill="#6B5438" opacity="0.3"/>
+</svg>

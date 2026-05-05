@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Sharpener body -->
+  <rect x="28" y="38" width="72" height="52" rx="6" fill="#5B9BD5"/>
+  <!-- Body highlight -->
+  <rect x="28" y="38" width="72" height="20" rx="6" fill="#6BAAE5" opacity="0.5"/>
+  <!-- Metal blade plate -->
+  <rect x="36" y="48" width="40" height="32" rx="3" fill="#C0C0C0"/>
+  <rect x="36" y="48" width="40" height="12" rx="3" fill="#D8D8D8" opacity="0.5"/>
+  <!-- Blade hole (cone shape) -->
+  <path d="M44 56 L68 64 L44 72 Z" fill="#888"/>
+  <path d="M44 58 L64 64 L44 70 Z" fill="#666"/>
+  <!-- Inner dark hole -->
+  <circle cx="48" cy="64" r="4" fill="#333"/>
+  <!-- Blade screw -->
+  <circle cx="60" cy="54" r="3" fill="#A0A0A0"/>
+  <line x1="58" y1="54" x2="62" y2="54" stroke="#888" stroke-width="1.5"/>
+  <line x1="60" y1="52" x2="60" y2="56" stroke="#888" stroke-width="1.5"/>
+  <!-- Pencil going in -->
+  <path d="M20 46 L44 60" stroke="#F5C542" stroke-width="6" stroke-linecap="round"/>
+  <path d="M20 46 L44 60" stroke="#E8B830" stroke-width="4" stroke-linecap="round"/>
+  <!-- Pencil tip -->
+  <path d="M40 58 L48 62 L40 64" fill="#DEB887"/>
+  <path d="M44 60 L48 62 L44 64" fill="#333"/>
+  <!-- Shavings -->
+  <path d="M80 55 Q88 50 92 55 Q96 60 90 62" fill="none" stroke="#F5C542" stroke-width="1.5" opacity="0.7"/>
+  <path d="M82 65 Q90 62 94 68 Q96 74 88 72" fill="none" stroke="#F5C542" stroke-width="1.5" opacity="0.6"/>
+  <path d="M84 74 Q90 78 86 82" fill="none" stroke="#E8B830" stroke-width="1" opacity="0.5"/>
+</svg>

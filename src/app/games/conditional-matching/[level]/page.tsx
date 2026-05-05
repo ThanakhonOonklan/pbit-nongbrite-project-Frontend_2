@@ -22,7 +22,7 @@ import type { MatchItem, CondMatchPattern } from "@/constants/games/conditional-
 
 type NodePos = { x: number; y: number };
 
-const CONN_COLORS = ["#EF4444", "#F97316", "#EAB308", "#22C55E", "#3B82F6", "#A855F7"];
+const CONN_COLORS = ["#FF3366", "#FF8800", "#00C853", "#2979FF", "#AA00FF", "#00BCD4", "#FFD600", "#FF1744"];
 const ptsToPath = (pts: NodePos[]): string =>
   pts.length < 2 ? "" : "M " + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" L ");
 
@@ -572,27 +572,6 @@ export default function ConditionalMatchingGamePage({
             </svg>
           </div>
 
-          {/* Level Badge (Top Left Border) */}
-          <div className="absolute -top-2.5 sm:-top-5 left-2 sm:left-20 z-30 pointer-events-none whitespace-nowrap">
-            <div
-              className="px-2 sm:px-5 py-0.5 sm:py-1.5 rounded-full flex items-center justify-center"
-              style={{
-                background: "rgba(255,255,255,0.92)",
-                boxShadow: "0 4px 14px rgba(254,170,80,0.45), inset 0 -2px 0 rgba(231,104,27,0.18)",
-                border: "2px solid #FEAA50",
-              }}
-            >
-              <span
-                className="text-[9px] sm:text-sm md:text-base font-bold tracking-wide"
-                style={{
-                  color: "#E7681B",
-                  textShadow: "0 1px 0 rgba(255,255,255,1)",
-                }}
-              >
-                LEVEL {config.level} - {config.difficulty === "easy" ? "ง่าย" : config.difficulty === "normal" ? "ปานกลาง" : "ยาก"}
-              </span>
-            </div>
-          </div>
 
           {/* Game Title Badge (Centered on Top Border) */}
           <div className="absolute -top-5 sm:-top-7 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-none whitespace-nowrap">
@@ -638,10 +617,10 @@ export default function ConditionalMatchingGamePage({
 
                 return (
                   <g key={startId}>
-                    <path d={pathD} stroke={glowColor} strokeWidth="10"
+                    <path d={pathD} stroke={glowColor} strokeWidth="14"
                       strokeLinecap="round" strokeLinejoin="round"
-                      fill="none" opacity="0.25" />
-                    <path d={pathD} stroke={strokeColor} strokeWidth="3.5"
+                      fill="none" opacity="0.3" />
+                    <path d={pathD} stroke={strokeColor} strokeWidth="5"
                       strokeLinecap="round" strokeLinejoin="round"
                       fill="none"
                       className={isCorr ? "line-flow" : ""}
@@ -660,10 +639,10 @@ export default function ConditionalMatchingGamePage({
                   <g>
                     {pathD && (
                       <>
-                        <path d={pathD} stroke={drawColor} strokeWidth="10"
+                        <path d={pathD} stroke={drawColor} strokeWidth="14"
                           strokeLinecap="round" strokeLinejoin="round"
-                          fill="none" opacity="0.2" />
-                        <path d={pathD} stroke={drawColor} strokeWidth="3.5"
+                          fill="none" opacity="0.25" />
+                        <path d={pathD} stroke={drawColor} strokeWidth="5"
                           strokeLinecap="round" strokeLinejoin="round"
                           fill="none" opacity="0.9" />
                       </>

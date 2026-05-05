@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Sun -->
+  <circle cx="100" cy="20" r="16" fill="#FFD93D" opacity="0.8"/>
+  <line x1="100" y1="0" x2="100" y2="8" stroke="#FFD93D" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="116" y1="10" x2="112" y2="16" stroke="#FFD93D" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="120" y1="26" x2="114" y2="24" stroke="#FFD93D" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+  <!-- Sun rays hitting -->
+  <line x1="90" y1="32" x2="70" y2="46" stroke="#FFD93D" stroke-width="2" stroke-linecap="round" opacity="0.4" stroke-dasharray="4 3"/>
+  <line x1="96" y1="36" x2="80" y2="50" stroke="#FFD93D" stroke-width="2" stroke-linecap="round" opacity="0.4" stroke-dasharray="4 3"/>
+  <!-- Face (red/sunburned) -->
+  <circle cx="56" cy="64" r="34" fill="#FF9070"/>
+  <!-- Sunburn patches -->
+  <ellipse cx="42" cy="58" rx="8" ry="6" fill="#FF6B50" opacity="0.5"/>
+  <ellipse cx="70" cy="56" rx="10" ry="7" fill="#FF6B50" opacity="0.4"/>
+  <ellipse cx="56" cy="74" rx="12" ry="6" fill="#FF6B50" opacity="0.3"/>
+  <!-- Pain eyes -->
+  <path d="M42 56 L50 60" stroke="#2C1810" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M50 56 L42 60" stroke="#2C1810" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M62 56 L70 60" stroke="#2C1810" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M70 56 L62 60" stroke="#2C1810" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Wavy mouth (pain) -->
+  <path d="M44 78 Q48 74 52 78 Q56 82 60 78 Q64 74 68 78" fill="none" stroke="#C04030" stroke-width="2" stroke-linecap="round"/>
+  <!-- Sweat -->
+  <path d="M28 46 Q26 40 28 34 Q30 40 28 46" fill="#7AC4E8" opacity="0.7"/>
+  <!-- Pain stars -->
+  <path d="M80 68 L82 64 L84 68 L80 66 L84 66 Z" fill="#FFD93D" opacity="0.5"/>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Arm/skin area -->
+  <path d="M10 50 Q10 30 30 28 L98 28 Q118 30 118 50 L118 90 Q118 110 98 110 L30 110 Q10 110 10 90 Z" fill="#FFD3B5"/>
+  <!-- Cut wound -->
+  <path d="M40 56 Q54 52 64 56 Q74 60 88 56" stroke="#CC3333" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M44 58 Q54 54 64 58 Q74 62 84 58" stroke="#990000" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <!-- Blood drops -->
+  <path d="M52 60 Q50 68 52 74 Q54 68 52 60" fill="#CC3333"/>
+  <path d="M64 62 Q62 72 64 80 Q66 72 64 62" fill="#CC3333"/>
+  <path d="M76 60 Q74 66 76 72 Q78 66 76 60" fill="#CC3333" opacity="0.8"/>
+  <!-- Small blood spots -->
+  <circle cx="48" cy="78" r="3" fill="#CC3333" opacity="0.5"/>
+  <circle cx="70" cy="82" r="2.5" fill="#CC3333" opacity="0.4"/>
+  <!-- Wound redness around cut -->
+  <ellipse cx="64" cy="58" rx="26" ry="8" fill="#FF8080" opacity="0.25"/>
+  <!-- Pain indicator -->
+  <path d="M96 40 L94 46 L100 44 L96 52" stroke="#FFD93D" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Ouch text-like stars -->
+  <path d="M30 40 L32 36 L34 40 L30 38 L34 38 Z" fill="#FFD93D" opacity="0.5"/>
+  <path d="M90 36 L92 32 L94 36 L90 34 L94 34 Z" fill="#FFD93D" opacity="0.4"/>
+</svg>

@@ -1,7 +1,9 @@
 import React from "react";
+import { TwemojiIcon } from "./TwemojiIcon";
 
 type MatchingCardProps = {
   emoji: string;
+  icon?: string;
   label: string;
   isConnected?: boolean;
   isCorrect?: boolean;
@@ -14,6 +16,7 @@ type MatchingCardProps = {
 
 export const MatchingCard = ({
   emoji,
+  icon,
   label,
   isConnected = false,
   isCorrect = false,
@@ -51,14 +54,14 @@ export const MatchingCard = ({
   // ── Sizes ────────────────────────────────────────────────
   let cardWidth = "w-[68px] sm:w-[110px] md:w-[130px]";
   let cardHeight = "h-[76px] sm:h-[115px] md:h-[135px]";
-  let emojiSize = "text-xl sm:text-4xl md:text-5xl";
+  let emojiSizePx = { base: 38, sm: 58, md: 74 };
   let textSize = "text-[8px] sm:text-[11px] md:text-[12px]";
   let labelHeight = "h-[26px] sm:h-[36px] md:h-[40px]";
 
   if (compact) {
     cardWidth = "w-[56px] sm:w-[85px] md:w-[100px]";
     cardHeight = "h-[64px] sm:h-[95px] md:h-[115px]";
-    emojiSize = "text-lg sm:text-3xl md:text-4xl";
+    emojiSizePx = { base: 30, sm: 46, md: 58 };
     textSize = "text-[7px] sm:text-[9px] md:text-[10px]";
     labelHeight = "h-[22px] sm:h-[30px] md:h-[34px]";
   }
@@ -105,7 +108,19 @@ export const MatchingCard = ({
       >
         {/* Emoji Area */}
         <div className="flex-1 w-full bg-black/5 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-inner">
-          <span className={`${emojiSize} leading-none drop-shadow-sm`}>{emoji}</span>
+          {icon ? (
+            <>
+              <img src={icon} alt={label} draggable={false} className="drop-shadow-sm block sm:hidden" style={{ width: emojiSizePx.base, height: emojiSizePx.base }} />
+              <img src={icon} alt={label} draggable={false} className="drop-shadow-sm hidden sm:block md:hidden" style={{ width: emojiSizePx.sm, height: emojiSizePx.sm }} />
+              <img src={icon} alt={label} draggable={false} className="drop-shadow-sm hidden md:block" style={{ width: emojiSizePx.md, height: emojiSizePx.md }} />
+            </>
+          ) : (
+            <>
+              <span className="drop-shadow-sm block sm:hidden"><TwemojiIcon emoji={emoji} size={emojiSizePx.base} /></span>
+              <span className="drop-shadow-sm hidden sm:block md:hidden"><TwemojiIcon emoji={emoji} size={emojiSizePx.sm} /></span>
+              <span className="drop-shadow-sm hidden md:block"><TwemojiIcon emoji={emoji} size={emojiSizePx.md} /></span>
+            </>
+          )}
         </div>
 
         {/* Label Area */}

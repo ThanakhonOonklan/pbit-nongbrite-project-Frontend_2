@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Music notes floating -->
+  <g opacity="0.7">
+    <circle cx="28" cy="30" r="5" fill="#FF7043"/>
+    <rect x="32" y="10" width="3" height="22" rx="1" fill="#FF7043"/>
+    <path d="M35 10 Q42 6 42 14" stroke="#FF7043" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.5">
+    <circle cx="96" cy="22" r="4.5" fill="#AB47BC"/>
+    <rect x="100" y="4" width="2.5" height="20" rx="1" fill="#AB47BC"/>
+    <path d="M102.5 4 Q108 0 108 8" stroke="#AB47BC" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.4">
+    <circle cx="18" cy="70" r="4" fill="#42A5F5"/>
+    <rect x="22" y="52" width="2.5" height="20" rx="1" fill="#42A5F5"/>
+    <path d="M24.5 52 Q30 48 30 56" stroke="#42A5F5" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- Head -->
+  <circle cx="64" cy="62" r="28" fill="#FFCCAB"/>
+  <!-- Hair -->
+  <path d="M36 56 Q36 32 64 28 Q92 32 92 56" fill="#6D4C41"/>
+  <path d="M40 54 Q40 36 64 32 Q88 36 88 54" fill="#795548"/>
+  <!-- Eyes (happy, closed - enjoying music) -->
+  <path d="M50 60 Q56 64 62 60" fill="none" stroke="#4E342E" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M66 60 Q72 64 78 60" fill="none" stroke="#4E342E" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Happy mouth -->
+  <path d="M54 72 Q64 80 74 72" fill="#E8967A" stroke="#BF7B5E" stroke-width="1.5"/>
+  <!-- Blush -->
+  <ellipse cx="44" cy="68" rx="6" ry="3.5" fill="#FFAB91" opacity="0.5"/>
+  <ellipse cx="84" cy="68" rx="6" ry="3.5" fill="#FFAB91" opacity="0.5"/>
+  <!-- Headphones -->
+  <path d="M32 56 Q32 34 64 28 Q96 34 96 56" stroke="#424242" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- Left ear cup -->
+  <rect x="26" y="52" width="14" height="20" rx="7" fill="#616161"/>
+  <rect x="28" y="54" width="10" height="16" rx="5" fill="#757575"/>
+  <ellipse cx="33" cy="62" rx="3" ry="5" fill="#9E9E9E" opacity="0.4"/>
+  <!-- Right ear cup -->
+  <rect x="88" y="52" width="14" height="20" rx="7" fill="#616161"/>
+  <rect x="90" y="54" width="10" height="16" rx="5" fill="#757575"/>
+  <ellipse cx="95" cy="62" rx="3" ry="5" fill="#9E9E9E" opacity="0.4"/>
+  <!-- Sound waves from headphones -->
+  <path d="M104 58 Q108 56 108 62 Q108 68 104 66" stroke="#AB47BC" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M108 54 Q114 52 114 62 Q114 72 108 70" stroke="#AB47BC" stroke-width="1.5" fill="none" opacity="0.25"/>
+</svg>
