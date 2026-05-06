@@ -176,15 +176,18 @@ export function LoopScene({
         }}
       >
         {/* ── z-20: Bobo — beside the shop, bottom left ── */}
-        <div style={{
-          position: "absolute",
-          bottom: "2%",
-          left: "1%",
-          zIndex: 20,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}>
+        <div
+          className="bobo-mascot"
+          style={{
+            position: "absolute",
+            bottom: "2%",
+            left: "1%",
+            zIndex: 20,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <SpeechBubble
             tailSide="left"
             lines={(() => {
@@ -204,6 +207,7 @@ export function LoopScene({
             alt="Bobo"
             width={90}
             height={90}
+            className="bobo-mascot-image"
             style={{ width: "clamp(60px, 11vw, 130px)", height: "auto", display: "block" }}
             initial="idle"
             animate={boboState}
@@ -296,6 +300,22 @@ export function LoopScene({
             sceneWidth={sceneWidth}
           />
         )}
+
+        <style>{`
+          @media (max-width: 640px) {
+            .bobo-mascot {
+              bottom: 0 !important;
+              left: 3% !important;
+              z-index: 8 !important;
+              transform: scale(0.88);
+              transform-origin: left bottom;
+            }
+
+            .bobo-mascot > div:first-child {
+              display: none;
+            }
+          }
+        `}</style>
 
       </div>
     </div>
