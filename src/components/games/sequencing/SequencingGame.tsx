@@ -278,11 +278,11 @@ export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, sta
 
         <DragOverlay dropAnimation={null}>
           {activeItemObj && (
-            <div className="w-[54px] h-[54px] sm:w-[72px] sm:h-[72px] md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-xl flex items-center justify-center bg-[#241350]/90 backdrop-blur-md shadow-[0_8px_0_#6D28D9,0_0_25px_rgba(168,85,247,0.6)] border-[2px] border-[#A855F7] scale-110 rotate-3 cursor-grabbing pointer-events-none ring-2 ring-[#C084FC]/40">
+            <div className="w-[60px] h-[60px] sm:w-[82px] sm:h-[82px] md:w-[98px] md:h-[98px] lg:w-[112px] lg:h-[112px] rounded-xl flex items-center justify-center bg-[#241350]/90 backdrop-blur-md shadow-[0_8px_0_#6D28D9,0_0_25px_rgba(168,85,247,0.6)] border-[2px] border-[#A855F7] scale-110 rotate-3 cursor-grabbing pointer-events-none ring-2 ring-[#C084FC]/40">
               {activeItemObj.isImage ? (
-                <img src={activeItemObj.content} alt="Dragging" className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain drop-shadow-sm pointer-events-none" />
+                <img src={activeItemObj.content} alt="Dragging" className="w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-[104px] lg:h-[104px] object-contain drop-shadow-sm pointer-events-none" />
               ) : (
-                <span className="text-2xl sm:text-3xl lg:text-4xl drop-shadow-sm pointer-events-none text-white font-black">{activeItemObj.content}</span>
+                <span className="text-2xl sm:text-4xl md:text-5xl drop-shadow-sm pointer-events-none text-white font-black">{activeItemObj.content}</span>
               )}
             </div>
           )}

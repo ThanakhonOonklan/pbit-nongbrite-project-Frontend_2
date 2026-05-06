@@ -13,10 +13,10 @@ function getItemsPerRow(count: number): number {
 
 function getSizeByRow() {
   return {
-    box: "w-12 h-12 xs:w-[50px] xs:h-[50px] sm:w-[68px] sm:h-[68px] md:w-[76px] md:h-[76px] lg:w-[90px] lg:h-[90px]",
-    text: "text-xl xs:text-2xl sm:text-3xl lg:text-4xl",
-    img: "w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 md:w-13 md:h-13 lg:w-15 lg:h-15",
-    gap: "gap-1 xs:gap-1.5 sm:gap-2 md:gap-3 lg:gap-4"
+    box: "w-[50px] h-[50px] xs:w-[54px] xs:h-[54px] sm:w-[72px] sm:h-[72px] md:w-[84px] md:h-[84px] lg:w-[96px] lg:h-[96px]",
+    text: "text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl",
+    img: "w-[38px] h-[38px] xs:w-[40px] xs:h-[40px] sm:w-[54px] sm:h-[54px] md:w-[64px] md:h-[64px] lg:w-[74px] lg:h-[74px]",
+    gap: "gap-1.5 xs:gap-2 sm:gap-3 md:gap-4 lg:gap-5"
   };
 }
 
@@ -63,7 +63,7 @@ function PoolItem({
             alt={item.label ?? "Item"}
             width={64}
             height={64}
-            className={`${sc.img} object-contain drop-shadow-sm pointer-events-none`}
+            className={`${sc.img} object-contain drop-shadow-sm pointer-events-none rounded-lg`}
           />
         ) : (
           <span className={`${sc.text} drop-shadow-sm pointer-events-none text-white font-bold`}>

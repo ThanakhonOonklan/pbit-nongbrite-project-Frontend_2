@@ -18,13 +18,13 @@ function getItemsPerRow(count: number): number {
 
 function getSizeByRow() {
   return {
-    box: "w-11 h-11 xs:w-[50px] xs:h-[50px] sm:w-[68px] sm:h-[68px] md:w-[76px] md:h-[76px] lg:w-[90px] lg:h-[90px]",
+    box: "w-[52px] h-[52px] xs:w-[56px] xs:h-[56px] sm:w-[72px] sm:h-[72px] md:w-[86px] md:h-[86px] lg:w-[98px] lg:h-[98px]",
     text: "text-lg xs:text-xl sm:text-3xl lg:text-4xl",
-    img: "w-7 h-7 xs:w-8 xs:h-8 sm:w-11 sm:h-11 md:w-13 md:h-13 lg:w-15 lg:h-15",
-    btn: "w-4 h-4 -top-1 -right-1 sm:w-6 sm:h-6 sm:-top-2 sm:-right-2 md:w-7 md:h-7 lg:w-8 lg:h-8",
-    btnIcon: "w-2 h-2 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5",
-    gap: "gap-0.5 xs:gap-1 sm:gap-2 md:gap-3 lg:gap-4",
-    arrowSize: "w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5"
+    img: "w-[38px] h-[38px] xs:w-[42px] xs:h-[42px] sm:w-[54px] sm:h-[54px] md:w-[66px] md:h-[66px] lg:w-[74px] lg:h-[74px]",
+    btn: "w-5 h-5 -top-1.5 -right-1.5 sm:w-6 sm:h-6 sm:-top-2 sm:-right-2 md:w-7 md:h-7 lg:w-8 lg:h-8",
+    btnIcon: "w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 lg:w-4 lg:h-4",
+    gap: "gap-1 xs:gap-1.5 sm:gap-2 md:gap-3 lg:gap-4",
+    arrowSize: "w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4 md:w-4.5 md:h-4.5 lg:w-5 lg:h-5"
   };
 }
 
@@ -63,7 +63,7 @@ function DraggableSlotItem({
 
       {slot.isImage ? (
         <Image src={slot.content} alt={`Item ${idx}`} width={64} height={64}
-          className={`${sc.img} object-contain drop-shadow-sm pointer-events-none`} />
+          className={`${sc.img} object-contain drop-shadow-sm pointer-events-none rounded-lg`} />
       ) : (
         <span className={`${sc.text} drop-shadow-sm pointer-events-none text-white font-black`}>
           {slot.content}
