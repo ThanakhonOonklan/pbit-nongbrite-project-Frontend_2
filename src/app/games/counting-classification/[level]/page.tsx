@@ -167,6 +167,7 @@ export default function CountingClassificationGamePage({
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
   const hasGameResult = submitted && Boolean(scoreResult);
   const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   if (!LEVEL_SPECS[levelNum]) {
     return (
@@ -285,7 +286,7 @@ export default function CountingClassificationGamePage({
       <HelpButton onClick={() => setShowIntro(true)} color="#FB96BB" />
 
       {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={countingClassificationTutorialSteps}
           onClose={() => setShowIntro(false)}

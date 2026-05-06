@@ -399,6 +399,10 @@ export default function PathNavigationClientPage({
     if (d === "left") overlayIconSrc = "/icons/Arrow/ArrowLeft.svg";
     if (d === "right") overlayIconSrc = "/icons/Arrow/ArrowRight.svg";
   }
+  const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
+  const hasGameResult = Boolean(scoreResult);
+  const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   return (
     <>
@@ -534,7 +538,7 @@ export default function PathNavigationClientPage({
       </DndContext>
 
       {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={pathNavigationTutorialSteps}
           onClose={() => setShowIntro(false)}
@@ -544,7 +548,7 @@ export default function PathNavigationClientPage({
       )}
 
       {/* ===== WRONG MOVE OVERLAY ===== */}
-      {errorMsg && (
+      {canShowGameOverlay && errorMsg && (
         <GameOverlay
           type="error"
           message="ลองอีกครั้ง"
@@ -556,7 +560,7 @@ export default function PathNavigationClientPage({
       )}
 
       {/* ===== HOME WITHOUT NONG-BRITE HINT OVERLAY ===== */}
-      {hintMsg && (
+      {canShowGameOverlay && hintMsg && (
         <GameOverlay
           type="hint"
           message={hintMsg}
@@ -568,10 +572,10 @@ export default function PathNavigationClientPage({
       )}
 
       {/* ===== OUT OF LIVES MODAL ===== */}
-      {(user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0) && <OutOfLivesModal />}
+      {isOutOfLives && <OutOfLivesModal />}
 
       {/* ===== WIN MODAL ===== */}
-      {scoreResult && (
+      {scoreResult && !isOutOfLives && (
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}

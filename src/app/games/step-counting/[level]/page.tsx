@@ -219,6 +219,7 @@ export default function StepCountingGamePage({
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
   const hasGameResult = Boolean(scoreResult);
   const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   // ── Fallback ─────────────────────────────────────────────
   if (!config || !levelConfig) {
@@ -281,7 +282,7 @@ export default function StepCountingGamePage({
       <HelpButton onClick={() => setShowIntro(true)} color="#6ED1CF" />
 
       {/* ===== INTRO TUTORIAL ===== */}
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={stepCountingTutorialSteps}
           onClose={() => setShowIntro(false)}

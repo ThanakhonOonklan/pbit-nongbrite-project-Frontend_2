@@ -104,6 +104,7 @@ export default function SequencingPage() {
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
   const hasGameResult = Boolean(scoreResult);
   const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0B0620] relative overflow-hidden  bg-cover bg-center bg-no-repeat"
@@ -156,7 +157,7 @@ export default function SequencingPage() {
       {isOutOfLives && <OutOfLivesModal />}
 
       {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={sequencingTutorialSteps}
           onClose={() => setShowIntro(false)}

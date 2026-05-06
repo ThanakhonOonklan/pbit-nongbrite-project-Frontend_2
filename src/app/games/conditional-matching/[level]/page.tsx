@@ -54,6 +54,8 @@ export default function ConditionalMatchingGamePage({
   const [isCompleted, setIsCompleted] = useState(false);
   const [errorLines, setErrorLines] = useState<string[]>([]);
   const [correctLines, setCorrectLines] = useState<string[]>([]);
+  const hasGameResult = Boolean(scoreResult);
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   const [shuffledLeftItems, setShuffledLeftItems] = useState<MatchItem[]>([]);
   const [shuffledRightItems, setShuffledRightItems] = useState<MatchItem[]>([]);
@@ -801,7 +803,7 @@ export default function ConditionalMatchingGamePage({
 
       <HelpButton onClick={() => setShowIntro(true)} color="#FEAA50" />
 
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={conditionalMatchingTutorialSteps}
           onClose={() => setShowIntro(false)}

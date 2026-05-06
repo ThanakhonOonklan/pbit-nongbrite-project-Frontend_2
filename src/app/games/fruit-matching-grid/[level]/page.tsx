@@ -58,6 +58,7 @@ export default function FruitMatchingGridGamePage({
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
   const hasGameResult = Boolean(scoreResult);
   const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   // ── Fallback ─────────────────────────────────────────────
   if (!config) {
@@ -117,7 +118,7 @@ export default function FruitMatchingGridGamePage({
       <HelpButton onClick={() => setShowIntro(true)} color="#F0767C" />
 
       {/* Intro tutorial — Level 1 only */}
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={fruitMatchingTutorialSteps}
           onClose={() => setShowIntro(false)}

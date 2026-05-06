@@ -62,6 +62,7 @@ export default function GridBasedColoringGamePage({
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
   const hasGameResult = Boolean(scoreResult);
   const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   // ── Fallback ─────────────────────────────────────────────
   if (!config) {
@@ -116,7 +117,7 @@ export default function GridBasedColoringGamePage({
       <HelpButton onClick={() => setShowIntro(true)} color="#7AAB28" />
 
       {/* Intro tutorial — level 1 เท่านั้น */}
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={gridColoringTutorialSteps}
           onClose={() => setShowIntro(false)}
