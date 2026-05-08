@@ -62,38 +62,7 @@
   <path d="M 520 120 Q 560 160 600 120" fill="url(#awningOrange)" />
   <path d="M 600 120 Q 640 160 680 120" fill="url(#awningWhite)" />
 
-  <!-- Empty Blender -->
-  <g id="blender" transform="translate(62.5, 72.5) scale(0.75)">
-    <!-- Handle -->
-    <path d="M 280 155 C 320 155 315 215 270 225" fill="none" stroke="#7ACCC8" stroke-width="12" stroke-linecap="round" />
-
-    <!-- Pitcher Body with Spout -->
-    <path d="M 225 240 L 275 240 L 285 140 L 215 140 L 202 135 L 216 152 Z" fill="#E0F7F6" opacity="0.6" />
-    <path d="M 225 240 L 275 240 L 285 140 L 215 140 L 202 135 L 216 152 Z" fill="none" stroke="#7ACCC8" stroke-width="5" stroke-linejoin="round" />
-
-    <!-- Glass Highlight -->
-    <path d="M 228 230 L 222 155" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.8" />
-
-    <!-- Blender Base -->
-    <path d="M 210 290 L 290 290 L 280 240 L 220 240 Z" fill="#F3E5D8" />
-    <rect x="208" y="282" width="84" height="8" fill="#A8A8A8" rx="2" />
-    
-    <!-- Pitcher connector rim -->
-    <rect x="218" y="236" width="64" height="6" fill="#DBC8B6" rx="2" />
-
-    <!-- Control Panel -->
-    <path d="M 235 290 L 265 290 L 265 255 A 15 15 0 0 0 235 255 Z" fill="#6B6B6B" />
-    <circle cx="250" cy="268" r="10" fill="#FFFFFF" />
-    <circle cx="250" cy="268" r="5" fill="#A4D8B6" />
-    <circle cx="250" cy="284" r="2.5" fill="#FF5C5C" />
-
-    <!-- Lid (Slightly Open) -->
-    <g transform="rotate(-12 250 135)">
-      <ellipse cx="250" cy="135" rx="38" ry="6" fill="#CCCCCC" />
-      <ellipse cx="250" cy="132" rx="38" ry="6" fill="#E6E6E6" />
-      <path d="M 243 132 L 257 132 L 254 120 L 246 120 Z" fill="#B3B3B3" />
-    </g>
-  </g>
+  <!-- Blender rendered by React Blender.tsx component -->
 
   <!-- Hanging Sign Removed -->
 
