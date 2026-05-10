@@ -309,7 +309,7 @@ export default function StepCountingGamePage({
       )}
 
       {/* ===== WARNING OVERLAY ===== */}
-      {canShowOverlay && showWarningOverlay && (
+      {canShowGameOverlay && showWarningOverlay && (
         <GameOverlay
           type="error"
           message={warningMessage}
