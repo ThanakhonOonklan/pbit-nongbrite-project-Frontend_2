@@ -1,0 +1,248 @@
+# 📚 pbit-nongbrite-project-Frontend_2 — Project Overview
+
+> Next.js + TypeScript | แพลตฟอร์มการเรียนรู้สำหรับเด็ก  
+> มาสคอตหลัก: **P'Bit** และ **Nong Brite**
+
+---
+
+## 🗂️ หน้าต่างๆ ในระบบ
+
+| หน้า | Route | คำอธิบาย |
+|------|-------|-----------|
+| Landing Page | `/` | Hero, Features, Stats, CTA Footer |
+| Login | `/login` | เข้าสู่ระบบ (username + password) |
+| Register | `/register` | สมัครสมาชิก 2 ขั้นตอน (ข้อมูลบัญชี → ข้อมูลส่วนตัว) |
+| Forget Password | `/forget-password` | 4 steps: อีเมล → OTP → รหัสใหม่ → สำเร็จ |
+| Courses | `/courses` | เลือกเกม (ScrollStack scroll-based navigation) |
+| Games | `/games/[game-name]/[level]` | หน้าเล่นเกมแต่ละด่าน |
+| Profile | `/profile` | โปรไฟล์ผู้ใช้ แก้ไขชื่อ/รูป/เพศ |
+| Rank | `/rank` | Leaderboard อันดับผู้เล่น |
+| Settings | `/settings` | ตั้งค่าภาษา + เสียง + ออกจากระบบ |
+
+---
+
+## ⚙️ ระบบต่างๆ ในโปรเจ็ค
+
+### 🌐 ระบบแปลภาษา (i18n)
+- รองรับ **2 ภาษา**: ไทย (`messages/th.json`) และ อังกฤษ (`messages/en.json`)
+- ครอบคลุมทุกหน้า: Landing, Auth, Courses, Profile, Rank, Settings, Navbar, Sidebar
+- ไฟล์: `src/i18n/`
+
+### 🔊 ระบบเสียง (Sound System)
+- ตั้งค่าเปิด/ปิดเสียง effect ได้ผ่านหน้า Settings
+- ใช้กับเสียง effect ภายในเกม
+
+### ❤️ ระบบชีวิต (Life/Heart System)
+- หัวใจสูงสุด **5 ดวง** (`lifeMax`)
+- ตอบผิด → `reduceLife()` หักหัวใจ 1 ดวง
+- หัวใจ reset อัตโนมัติตาม `lastResetAt` timer
+- มี animation สั่น (shake) เมื่อหัวใจลด
+- Store: `user.store.ts` → `lifeDetails`, `reduceLife`
+- Component: `GameHearts.tsx`
+
+### 🔥 ระบบ Streak
+- ติดตามจำนวนวันที่เล่นติดต่อกัน
+- แสดงใน Courses (ResourceBars) และ Profile
+- `fetchAndUpdateStreak()` ทุกครั้งที่เปิด Courses
+
+### ⭐ ระบบคะแนนและดาว (Score & Star)
+- คำนวณจาก: **difficulty + attempts (ผิดกี่ครั้ง) + timeSeconds**
+- ดาว 1–3 ดวง จาก `getStarRating(totalScore)`
+- ส่งคะแนน Backend: `gameService.submitScore({ levelId, score, stars, playTime })`
+- มี Confetti animation เมื่อชนะ (ใช้ `canvas-confetti`)
+- Utils: `src/utils/game-scoring.ts`
+
+### 🏆 ระบบ Rank (แรงค์ 7 ระดับ)
+```
+มือใหม่ → นักสำรวจ → นักคิด → นักแก้ปัญหา → นักวางแผน → ปรมาจารย์ → ตำนาน
+Beginner → Explorer → Thinker → Solver → Strategist → Master → Legend
+```
+
+### 📖 ระบบ Tutorial Modal
+- ทุกเกมมี Tutorial ก่อนเล่น (step-by-step)
+- แต่ละ step มี countdown **3 วินาที** ก่อนกดถัดไปได้
+- มีปุ่ม "ข้าม" ได้ตลอด
+- Component: `TutorialModal.tsx`, `src/components/games/tutorials/`
+
+### 🔐 ระบบ Authentication
+- State จัดการด้วย **Zustand** (`auth.store.ts`)
+- Login / Register 2-step / Forgot Password 4-step
+- Persist: `auth-storage` (localStorage)
+- Service: `src/services/auth.service.ts`
+
+### 🎮 ระบบ Game Header (ส่วนกลางทุกเกม)
+- ปุ่มกลับ → ถามยืนยัน (ExitConfirmModal)
+- แสดงชื่อเกม + ด่าน
+- แสดง GameHearts (❤️ หัวใจ)
+- Component: `GameHeader.tsx`
+
+### 📊 ระบบ ResourceBars (Courses)
+- แสดง: หัวใจ / คะแนนรวม / วัน Streak
+- Mobile: แสดงเป็น navbar ด้านบน
+- Desktop: แสดงใน Right Panel
+
+---
+
+## 🎮 เกมทั้ง 7 เกม
+
+### 1. 🗺️ Path Navigation — "เกมการนำทาง"
+- **Route**: `/games/path-navigation/[level]`
+- **Concept**: ผู้เล่นเป็น Bit ต้องพาไปช่วย Nong Brite กลับบ้าน
+- **Mechanic**: วางคำสั่งทิศทาง (↑↓←→) ล่วงหน้าเป็นลำดับ แล้วกด Run
+- **Map**: Grid มีสิ่งกีดขวาง (กำแพงน้ำแข็ง `ice-wall.svg`)
+- **Fail Animation**: หกล้ม (stumble) / ตกขอบ (fall) แบบ CSS animation
+- **ฝึกทักษะ**: Algorithm / Sequence / การวางแผนคำสั่ง
+- **Components**: `PathMap.tsx`, `CommandSequence.tsx`, `DirectionControls.tsx`
+
+### 2. 🔢 Counting & Classification — "นับจำนวนและจัดหมวดหมู่"
+- **Route**: `/games/counting-classification/[level]`
+- **Concept**: รูปทรงต่างๆ กระจายอยู่ในฉาก
+- **Mechanic**: นับจำนวนรูปทรง → กรอกตัวเลขใส่ช่อง CounterPanel
+- **Visual**: รูปทรงลอยขึ้นลง (float-bob animation), background ฉากสีสัน
+- **ฝึกทักษะ**: การนับ, การจัดหมวดหมู่, คณิตศาสตร์พื้นฐาน
+- **Components**: `ShapeScene.tsx`, `ShapeIcon.tsx`, `CounterPanel.tsx`, `CounterRow.tsx`
+
+### 3. 🔗 Conditional Matching — "จับคู่ตามเงื่อนไข"
+- **Route**: `/games/conditional-matching/[level]`
+- **Concept**: การ์ด emoji สองฝั่ง (บน/ล่าง) ต้องจับคู่ตามเงื่อนไข
+- **Mechanic**: ลาก pointer จากจุดสีส้มของการ์ดบน → การ์ดล่างที่ตรงเงื่อนไข
+- **Visual**: เส้น SVG แสดง connection แบบ real-time drag
+- **State Card**: ปกติ (สีขาว) → Connected (ส้ม) → Correct (เขียว ✓)
+- **ฝึกทักษะ**: Conditional Logic (IF-THEN), การเปรียบเทียบ
+- **Components**: `MatchingCard.tsx`, `ColItems.tsx`
+
+### 4. 📋 Sequencing — "เรียงลำดับขั้นตอน"
+- **Route**: `/games/sequencing/[level]`
+- **Concept**: เรียงการ์ด (รูปภาพ/ข้อความ) ให้ถูกลำดับ
+- **Mechanic**: Drag & Drop (ใช้ `@dnd-kit/core`) จาก Pool → Slot
+- **Feedback**: ผิด → highlight แดง + มาสคอต Momo แสดงอารมณ์ ("ลองสลับดูใหม่นะ!")
+- **Mascot**: Momo (`/images/P_Momo/momo-03/04/05.svg`) ลอยอยู่ซ้ายล่าง
+- **ฝึกทักษะ**: Algorithmic Thinking, การคิดเป็นขั้นตอน
+- **Components**: `SequencingGame.tsx`, `SequencingSlots.tsx`, `SequencingPool.tsx`, `GameControls.tsx`
+
+### 5. 🧮 Step Counting — "นับจำนวนก้าว (Loop)"
+- **Route**: `/games/step-counting/[level]`
+- **Concept**: ร้านคั้นน้ำผลไม้ คำนวณว่าต้องใช้ผลไม้กี่ลูก
+- **Mechanic**: กรอกจำนวน → กด Run → เครื่องปั่น Blender ทำงาน → เทน้ำลงแก้ว
+- **Mascot**: Bobo (`/images/P_Bobo/`) อยู่ซ้ายล่าง มี speech bubble
+- **Animation**: Blender drop emoji ตกลงมา, แก้วเต็มทีละใบ
+- **ฝึกทักษะ**: Loop, การนับซ้ำ, การคำนวณ
+- **Components**: `LoopScene.tsx`, `LoopCodePanel.tsx`, `Blender.tsx`, `Glass.tsx`
+
+### 6. 🍎 Fruit Matching Grid — "จับคู่ผลไม้ในตาราง"
+- **Route**: `/games/fruit-matching-grid/[level]`
+- **Concept**: ตาราง grid แสดง emoji ผลไม้, ถามตามพิกัด
+- **Mechanic**: ระบบบอกพิกัด (เช่น A2, B3) → เลือกผลไม้ที่ถูกต้องจาก 4 ตัวเลือก
+- **Mascot**: PingPing (`/images/P_PingPing/`) อยู่หลังป้ายพิกัด
+- **Random**: Grid และพิกัด shuffle ทุกรอบ (client-side เพื่อป้องกัน hydration mismatch)
+- **ฝึกทักษะ**: การอ่านพิกัด, Pattern Recognition, ความจำ
+- **Components**: `FruitMatchingGame.tsx`, `FruitGrid.tsx`, `FruitChoices.tsx`
+
+### 7. 🎨 Grid-based Coloring — "ระบายสีตามตาราง"
+- **Route**: `/games/grid-based-coloring/[level]`
+- **Concept**: ดูภาพต้นฉบับ (Memory phase) แล้ววาดใหม่จากความจำ
+- **Mechanic**:
+  - Phase 1 (Memorize): ดูภาพต้นฉบับ countdown (easy=10s, normal=8s, hard=15s)
+  - Phase 2 (Draw): ระบายสีบน Canvas ว่างเปล่า
+  - Peek: แอบดูต้นฉบับได้จำกัดครั้ง (easy=5, normal=3, hard=2)
+- **เครื่องมือ**: Paint 🖌️ / Flood Fill 🪣 / Eraser / Undo / Redo
+- **Feedback**: กด Check → highlight ช่องที่วาดผิดเป็นสีแดง
+- **ฝึกทักษะ**: การอ่านพิกัดตาราง, ความจำ, ความคิดสร้างสรรค์
+- **Components**: `GridColoringGame.tsx`, `ColorCanvas.tsx`, `ReferenceGrid.tsx`, `ColorPalette.tsx`
+
+---
+
+## 📁 โครงสร้าง src/
+
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── page.tsx            # Landing
+│   ├── login/
+│   ├── register/
+│   ├── forget-password/
+│   ├── courses/
+│   ├── games/
+│   │   ├── path-navigation/[level]/
+│   │   ├── counting-classification/[level]/
+│   │   ├── conditional-matching/[level]/
+│   │   ├── sequencing/[level]/
+│   │   ├── step-counting/[level]/
+│   │   ├── fruit-matching-grid/[level]/
+│   │   └── grid-based-coloring/[level]/
+│   ├── profile/
+│   ├── rank/
+│   └── settings/
+├── components/
+│   ├── auth/               # LoginForm, RegisterForm, ForgetPasswordForm
+│   ├── games/              # GameHeader, GameHearts, TutorialModal, GameResultModal
+│   │   ├── path-navigation/
+│   │   ├── counting-classification/
+│   │   ├── conditional-matching/
+│   │   ├── sequencing/
+│   │   ├── step-counting/
+│   │   ├── fruit-matching-grid/
+│   │   ├── grid-based-coloring/
+│   │   └── tutorials/      # Tutorial step components ทุกเกม
+│   ├── landing/            # HeroSection, FeaturesSection, StatsSection, CTA
+│   ├── layout/             # Navbar, Sidebar
+│   ├── courses/            # GameCard, GameStepper, ResourceBars
+│   └── common/             # StarRating, LoadingOverlay, BackgroundSquares
+├── store/                  # Zustand stores
+│   ├── auth.store.ts
+│   ├── user.store.ts       # life, streak, profile
+│   ├── chapter.store.ts
+│   └── rank.store.ts
+├── services/               # API calls
+│   ├── auth.service.ts
+│   ├── game.service.ts     # submitScore
+│   ├── user.service.ts
+│   └── chapter.service.ts
+├── constants/
+│   └── games/              # level configs ทุกเกม
+├── utils/
+│   ├── game-scoring.ts     # calculateGameScore, getStarRating
+│   └── level-mapper.ts     # getAbsoluteLevelId
+└── messages/
+    ├── th.json             # ภาษาไทย
+    └── en.json             # ภาษาอังกฤษ
+```
+
+---
+
+## 🎯 ข้อมูลสำหรับเอกสาร (หัวข้อ 3.3 พัฒนาระบบเกม)
+
+```
+3.3 พัฒนาระบบเกม
+  3.3.1 การพัฒนาหน้าต่างๆ ในระบบ
+    3.3.1.1 หน้า Landing Page
+    3.3.1.2 หน้าเข้าสู่ระบบ (Login)
+    3.3.1.3 หน้าสมัครสมาชิก (Register) — 2 ขั้นตอน
+    3.3.1.4 หน้าลืมรหัสผ่าน (Forget Password) — 4 ขั้นตอน
+    3.3.1.5 หน้าเลือกเกม (Courses)
+    3.3.1.6 หน้าโปรไฟล์ (Profile)
+    3.3.1.7 หน้าอันดับ (Rank)
+    3.3.1.8 หน้าตั้งค่า (Settings)
+
+  3.3.2 การพัฒนาระบบสนับสนุน
+    3.3.2.1 ระบบแปลภาษา (ไทย / อังกฤษ)
+    3.3.2.2 ระบบเสียง (Sound Effect)
+    3.3.2.3 ระบบชีวิต (Life / Heart System)
+    3.3.2.4 ระบบ Streak (วันที่เล่นติดต่อกัน)
+    3.3.2.5 ระบบคะแนนและดาว (Score & Star)
+    3.3.2.6 ระบบแรงค์ (Rank System — 7 ระดับ)
+    3.3.2.7 ระบบสอนวิธีเล่น (Tutorial Modal)
+
+  3.3.3 การพัฒนาเกมทั้ง 7 เกม
+    3.3.3.1 เกม Path Navigation — การวางแผนเส้นทาง
+    3.3.3.2 เกม Counting & Classification — การนับและจัดหมวดหมู่
+    3.3.3.3 เกม Conditional Matching — การจับคู่ตามเงื่อนไข
+    3.3.3.4 เกม Sequencing — การเรียงลำดับขั้นตอน
+    3.3.3.5 เกม Step Counting — การนับจำนวนซ้ำ (Loop)
+    3.3.3.6 เกม Fruit Matching Grid — การอ่านพิกัดตาราง
+    3.3.3.7 เกม Grid-based Coloring — การระบายสีจากความจำ
+```
+
+---
+
+*บันทึก: 2026-05-08 | Conversation 957740d0-86d0-4556-af96-595410e31d5f*

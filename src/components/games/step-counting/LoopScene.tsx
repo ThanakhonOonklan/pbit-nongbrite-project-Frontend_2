@@ -3,9 +3,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import type { ResolvedLoopConfig } from "@/constants/games/step-counting-levels";
+import type { ResolvedLoopConfig, LoopTheme } from "@/constants/games/step-counting-levels";
 import { BOBO_IMAGES } from "./constants";
 import { Glass } from "./Glass";
+import { Blender, type BlenderPhase } from "./Blender";
 
 // ── Main LoopScene ─────────────────────────────────────────────
 export interface LoopSceneProps {
@@ -16,6 +17,11 @@ export interface LoopSceneProps {
   boboState: "idle" | "squeeze" | "celebrate" | "bounce";
   taskStatuses?: ("ok" | "over" | null)[];
   blenderDrop?: { emoji: string; id: number } | null;
+  blenderPhase: BlenderPhase;
+  blenderTheme: LoopTheme | null;
+  blenderFruitCount: number;
+  blenderCapacity: number;
+  blenderResidueTheme: LoopTheme | null;
 }
 
 // ── Helper ─────────────────────────────────────────────────────
@@ -140,6 +146,11 @@ export function LoopScene({
   boboState,
   taskStatuses,
   blenderDrop,
+  blenderPhase,
+  blenderTheme,
+  blenderFruitCount,
+  blenderCapacity,
+  blenderResidueTheme,
 }: LoopSceneProps) {
   const tasks = config.tasks;
   const row1Tasks = tasks.slice(0, 2);
@@ -175,16 +186,37 @@ export function LoopScene({
           maxHeight: "100%",
         }}
       >
-        {/* ── z-20: Bobo — beside the shop, bottom left ── */}
+        {/* ── z-25: Blender — right side of shop counter ── */}
         <div style={{
           position: "absolute",
-          bottom: "2%",
-          left: "1%",
-          zIndex: 20,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          bottom: "5%",
+          right: "5%",
+          zIndex: 25,
+          width: "clamp(70px, 12vw, 140px)",
+          pointerEvents: "none",
         }}>
+          <Blender
+            phase={blenderPhase}
+            theme={blenderTheme}
+            fruitCount={blenderFruitCount}
+            capacity={blenderCapacity}
+            residueTheme={blenderResidueTheme}
+          />
+        </div>
+
+        {/* ── z-20: Bobo — beside the shop, bottom left ── */}
+        <div
+          className="bobo-mascot"
+          style={{
+            position: "absolute",
+            bottom: "2%",
+            left: "1%",
+            zIndex: 20,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <SpeechBubble
             tailSide="left"
             lines={(() => {
@@ -204,6 +236,7 @@ export function LoopScene({
             alt="Bobo"
             width={90}
             height={90}
+            className="bobo-mascot-image"
             style={{ width: "clamp(60px, 11vw, 130px)", height: "auto", display: "block" }}
             initial="idle"
             animate={boboState}
@@ -296,6 +329,22 @@ export function LoopScene({
             sceneWidth={sceneWidth}
           />
         )}
+
+        <style>{`
+          @media (max-width: 640px) {
+            .bobo-mascot {
+              bottom: 0 !important;
+              left: 3% !important;
+              z-index: 8 !important;
+              transform: scale(0.88);
+              transform-origin: left bottom;
+            }
+
+            .bobo-mascot > div:first-child {
+              display: none;
+            }
+          }
+        `}</style>
 
       </div>
     </div>

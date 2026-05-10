@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Big tooth -->
+  <path d="M40 28 Q40 16 52 12 Q64 8 76 12 Q88 16 88 28 L88 60 Q88 68 82 72 L78 86 Q76 92 72 92 Q68 92 68 86 L66 72 Q64 70 62 72 L60 86 Q60 92 56 92 Q52 92 50 86 L46 72 Q40 68 40 60 Z" fill="white" stroke="#E0E0E0" stroke-width="2"/>
+  <!-- Tooth shine -->
+  <ellipse cx="56" cy="36" rx="6" ry="14" fill="white" opacity="0.5"/>
+  <path d="M50 24 Q56 20 62 22" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <!-- Happy tooth eyes -->
+  <circle cx="54" cy="40" r="4" fill="#2C1810"/>
+  <circle cx="74" cy="40" r="4" fill="#2C1810"/>
+  <circle cx="55" cy="39" r="1.8" fill="white"/>
+  <circle cx="75" cy="39" r="1.8" fill="white"/>
+  <!-- Tooth smile -->
+  <path d="M56 52 Q64 60 72 52" fill="none" stroke="#2C1810" stroke-width="2" stroke-linecap="round"/>
+  <!-- Cheeks -->
+  <ellipse cx="46" cy="50" rx="4" ry="3" fill="#FFB0B0" opacity="0.4"/>
+  <ellipse cx="82" cy="50" rx="4" ry="3" fill="#FFB0B0" opacity="0.4"/>
+
+  <!-- Dental mirror -->
+  <line x1="16" y1="110" x2="28" y2="62" stroke="#A0A0A0" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="26" cy="56" r="8" fill="none" stroke="#A0A0A0" stroke-width="2.5"/>
+  <circle cx="26" cy="56" r="6" fill="#C8E8F8"/>
+  <!-- Mirror reflection -->
+  <ellipse cx="24" cy="54" rx="2.5" ry="3" fill="white" opacity="0.5"/>
+
+  <!-- Toothbrush -->
+  <line x1="112" y1="110" x2="100" y2="62" stroke="#5BB5E8" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Brush head -->
+  <rect x="96" y="50" width="10" height="16" rx="3" fill="#5BB5E8" transform="rotate(-12 101 58)"/>
+  <!-- Bristles -->
+  <line x1="96" y1="54" x2="93" y2="53" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="96" y1="58" x2="93" y2="57" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="96" y1="62" x2="93" y2="61" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Sparkles around tooth -->
+  <path d="M32 20 L34 14 L36 20 L30 18 L38 18 Z" fill="#FFD700" opacity="0.6"/>
+  <path d="M90 24 L92 18 L94 24 L88 22 L96 22 Z" fill="#FFD700" opacity="0.5"/>
+  <circle cx="44" cy="14" r="2" fill="#FFD700" opacity="0.4"/>
+  <circle cx="86" cy="14" r="1.5" fill="#FFD700" opacity="0.35"/>
+</svg>

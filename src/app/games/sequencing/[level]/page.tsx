@@ -13,7 +13,6 @@ import { type ScoreResult } from "@/utils/game-scoring";
 
 import { sequencingLevels, SequencingPattern } from "@/constants/games/sequencing-levels";
 import { SequencingGame } from "@/components/games/sequencing/SequencingGame";
-import { SequencingBackground } from "@/components/games/sequencing/SequencingBackground";
 import { useUserStore } from "@/store/user.store";
 import { OutOfLivesModal } from "@/components/common";
 
@@ -105,6 +104,7 @@ export default function SequencingPage() {
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
   const hasGameResult = Boolean(scoreResult);
   const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0B0620] relative overflow-hidden  bg-cover bg-center bg-no-repeat"
@@ -138,14 +138,7 @@ export default function SequencingPage() {
         />
 
         {/* Floating Help Button */}
-        <HelpButton
-          steps={[
-            { emoji: "1", text: "ดูที่ชื่อเรื่องด้านบนนะ ว่ารูปภาพคือเรื่องราวของอะไร" },
-            { emoji: "2", text: "แตะที่ภาพด้านล่างเพื่อเลือกวางในกล่องด้านบน" },
-            { emoji: "3", text: "ถ้าจะเปลี่ยนใจ ให้กดปุ่มกากบาท (x) สีแดงได้เลย" },
-            { emoji: "4", text: "เมื่อเรียงเสร็จครบทุกช่องแล้ว กดปุ่ม ตรวจสอบ!" },
-          ]}
-        />
+        <HelpButton onClick={() => setShowIntro(true)} color="#7C3AED" />
       </main>
 
       {/* WIN/LOSE modal */}
@@ -164,7 +157,7 @@ export default function SequencingPage() {
       {isOutOfLives && <OutOfLivesModal />}
 
       {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={sequencingTutorialSteps}
           onClose={() => setShowIntro(false)}

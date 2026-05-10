@@ -280,7 +280,7 @@
       "colRank": "Rank",
       "colName": "Display Name",
       "colScore": "Top Score",
-      "colTier": "Tier",
+      "colTier": "Rank",
       "emptyData": "No ranking data available"
     }
   },

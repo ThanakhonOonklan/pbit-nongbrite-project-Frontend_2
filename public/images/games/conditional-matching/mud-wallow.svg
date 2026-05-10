@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Mud puddle -->
+  <ellipse cx="64" cy="80" rx="50" ry="25" fill="#8B6E4E"/>
+  <!-- Mud surface -->
+  <ellipse cx="64" cy="78" rx="46" ry="22" fill="#A07850"/>
+  <!-- Wet/shiny spots -->
+  <ellipse cx="50" cy="74" rx="12" ry="6" fill="#B89070" opacity="0.6"/>
+  <ellipse cx="78" cy="80" rx="10" ry="5" fill="#B89070" opacity="0.5"/>
+  <!-- Mud bubbles -->
+  <circle cx="42" cy="76" r="4" fill="#967058" stroke="#8B6E4E" stroke-width="1"/>
+  <circle cx="42" cy="76" r="2" fill="#B89070" opacity="0.5"/>
+  <circle cx="72" cy="72" r="3" fill="#967058" stroke="#8B6E4E" stroke-width="1"/>
+  <circle cx="72" cy="72" r="1.5" fill="#B89070" opacity="0.5"/>
+  <circle cx="58" cy="82" r="3.5" fill="#967058" stroke="#8B6E4E" stroke-width="1"/>
+  <!-- Splash drops -->
+  <ellipse cx="35" cy="62" rx="3" ry="5" fill="#A07850" opacity="0.7" transform="rotate(-15 35 62)"/>
+  <ellipse cx="88" cy="65" rx="2.5" ry="4" fill="#A07850" opacity="0.6" transform="rotate(10 88 65)"/>
+  <!-- Happy pig face in mud -->
+  <circle cx="64" cy="60" r="16" fill="#F8B4C0"/>
+  <ellipse cx="64" cy="64" rx="10" ry="7" fill="#F0A0B0"/>
+  <!-- Pig nostrils -->
+  <circle cx="60" cy="64" r="2" fill="#D08090"/>
+  <circle cx="68" cy="64" r="2" fill="#D08090"/>
+  <!-- Pig eyes -->
+  <circle cx="56" cy="56" r="2.5" fill="#2C1810"/>
+  <circle cx="72" cy="56" r="2.5" fill="#2C1810"/>
+  <!-- Eye shine -->
+  <circle cx="57" cy="55" r="1" fill="white"/>
+  <circle cx="73" cy="55" r="1" fill="white"/>
+  <!-- Pig ears -->
+  <path d="M48 48 Q44 38 50 42" fill="#F0A0B0" stroke="#E090A0" stroke-width="1"/>
+  <path d="M80 48 Q84 38 78 42" fill="#F0A0B0" stroke="#E090A0" stroke-width="1"/>
+</svg>

@@ -17,7 +17,7 @@ const POOL_POS_OF_SLOT = [1, 3, 0, 2]; // slot i → pool position of its item
 // Which slot gets filled from each pool position
 const SLOT_OF_POOL = [2, 0, 3, 1];
 
-const CARD = 58; const GAP = 10;
+const CARD = 74; const GAP = 10;
 
 /* shared card style */
 const cardStyle = (active: boolean, placed: boolean) => ({
@@ -30,13 +30,41 @@ const cardStyle = (active: boolean, placed: boolean) => ({
     opacity: placed ? 0.28 : 1,
 });
 
-/* ── Step 1: Shuffled pool + empty slots ─────────────────────── */
+/* ── Step 1: Shuffled pool — cards swap positions repeatedly ──── */
 function Step1Pool() {
+    const [displayOrder, setDisplayOrder] = useState([...POOL_ORDER]);
+    const [flipping, setFlipping] = useState<number[]>([]);
+
+    useEffect(() => {
+        let alive = true;
+        const PAIRS = [[0, 2], [1, 3], [0, 1], [2, 3], [0, 3], [1, 2]];
+        let pi = 0;
+        const cycle = () => {
+            if (!alive) return;
+            const [a, b] = PAIRS[pi % PAIRS.length];
+            pi++;
+            setFlipping([a, b]);
+            setTimeout(() => {
+                if (!alive) return;
+                setDisplayOrder(prev => {
+                    const n = [...prev];[n[a], n[b]] = [n[b], n[a]]; return n;
+                });
+            }, 230);
+            setTimeout(() => {
+                if (!alive) return;
+                setFlipping([]);
+                setTimeout(() => { if (alive) cycle(); }, 950);
+            }, 460);
+        };
+        const t = setTimeout(cycle, 800);
+        return () => { alive = false; clearTimeout(t); };
+    }, []);
+
     return (
         <div className="flex flex-col items-center gap-4">
             <p className="text-[11px] font-bold text-purple-300 uppercase tracking-widest"
                 style={{ textShadow: "0 0 8px rgba(168,85,247,0.5)" }}>
-                ลากหรือแตะเพื่อนำไปวาง
+                ของจะถูกสุ่มลำดับทุกด่าน
             </p>
             {/* Slots row */}
             <div className="flex" style={{ gap: GAP }}>
@@ -47,25 +75,35 @@ function Step1Pool() {
                     </div>
                 ))}
             </div>
-            {/* Pool */}
+            {/* Pool — cards flip & swap */}
             <div className="flex rounded-2xl border-2 border-[#2D1B69]/60 p-3"
                 style={{ background: "#0F0825", gap: GAP }}>
-                {POOL_ORDER.map((itemIdx, pi) => (
-                    <div key={pi} className="flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-200"
-                        style={{
-                            width: CARD, height: CARD, ...cardStyle(false, false),
-                            animation: `seqCardIn 0.4s cubic-bezier(0.34,1.56,0.64,1) ${pi * 0.08}s both`
-                        }}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={SEQ[itemIdx].src} alt="" width={36} height={36} className="object-contain" />
-                        <span className="text-[8px] text-purple-300 font-bold mt-0.5">{SEQ[itemIdx].label}</span>
-                    </div>
-                ))}
+                {displayOrder.map((itemIdx, pos) => {
+                    const isFlipping = flipping.includes(pos);
+                    return (
+                        <div key={pos} className="flex flex-col items-center justify-center rounded-xl border-2"
+                            style={{
+                                width: CARD, height: CARD,
+                                background: isFlipping ? "#3D1A70" : "#1A0938",
+                                borderColor: isFlipping ? "#A855F7" : "#3B1D7A",
+                                boxShadow: isFlipping
+                                    ? "0 4px 0 #9333EA, 0 0 14px rgba(168,85,247,0.55)"
+                                    : "0 4px 0 #6D28D9",
+                                transform: isFlipping ? "scaleX(0)" : "scaleX(1)",
+                                transition: "transform 0.23s ease-in-out, background 0.15s, border-color 0.15s, box-shadow 0.15s",
+                                animation: `seqCardIn 0.4s cubic-bezier(0.34,1.56,0.64,1) ${pos * 0.08}s both`,
+                            }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={SEQ[itemIdx].src} alt="" width={46} height={46} className="object-contain" />
+                            <span className="text-[10px] text-purple-300 font-bold mt-0.5">{SEQ[itemIdx].label}</span>
+                        </div>
+                    );
+                })}
             </div>
             <style>{`
                 @keyframes seqCardIn {
                     from { transform: scale(0) rotate(-8deg); opacity: 0; }
-                    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+                    to   { transform: scale(1) rotate(0deg);  opacity: 1; }
                 }
             `}</style>
         </div>
@@ -118,8 +156,8 @@ function Step2Drag() {
                         {itemIdx !== null ? (
                             <>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={SEQ[itemIdx].src} alt="" width={34} height={34} className="object-contain" />
-                                <span className="text-[8px] text-purple-300 font-bold mt-0.5">{SEQ[itemIdx].label}</span>
+                                <img src={SEQ[itemIdx].src} alt="" width={44} height={44} className="object-contain" />
+                                <span className="text-[10px] text-purple-300 font-bold mt-0.5">{SEQ[itemIdx].label}</span>
                             </>
                         ) : (
                             <span className="text-purple-700/50 text-sm font-bold">{si + 1}</span>
@@ -138,8 +176,8 @@ function Step2Drag() {
                         <div key={pi} className="flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-300"
                             style={{ width: CARD, height: CARD, ...cardStyle(active, placed) }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={SEQ[itemIdx].src} alt="" width={34} height={34} className="object-contain" style={{ opacity: placed ? 0.3 : 1 }} />
-                            <span className="text-[8px] text-purple-300 font-bold mt-0.5">{SEQ[itemIdx].label}</span>
+                            <img src={SEQ[itemIdx].src} alt="" width={44} height={44} className="object-contain" style={{ opacity: placed ? 0.3 : 1 }} />
+                            <span className="text-[10px] text-purple-300 font-bold mt-0.5">{SEQ[itemIdx].label}</span>
                         </div>
                     );
                 })}
@@ -186,8 +224,8 @@ function Step3Complete() {
                             transform: phase === "correct" ? "scale(1.06)" : "scale(1)"
                         }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={item.src} alt="" width={34} height={34} className="object-contain" />
-                        <span className="text-[8px] text-purple-300 font-bold mt-0.5">{item.label}</span>
+                        <img src={item.src} alt="" width={44} height={44} className="object-contain" />
+                        <span className="text-[10px] text-purple-300 font-bold mt-0.5">{item.label}</span>
                         {phase === "correct" && <span className="text-[7px] text-green-400 font-bold">✓</span>}
                     </div>
                 ))}

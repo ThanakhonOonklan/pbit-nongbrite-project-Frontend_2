@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- === POUCH BAG === -->
+  <!-- Pouch body (soft rounded bag shape) -->
+  <path d="M24 42 Q24 110 64 114 Q104 110 104 42" fill="#E8B078"/>
+  <!-- Pouch inner lighter area -->
+  <path d="M30 46 Q30 104 64 108 Q98 104 98 46" fill="#F0C898"/>
+
+  <!-- Pouch opening fold at top -->
+  <path d="M20 42 Q42 52 64 48 Q86 52 108 42" fill="#D49060" stroke="#C48050" stroke-width="2"/>
+  <!-- Fold shadow -->
+  <path d="M24 44 Q44 54 64 50 Q84 54 104 44" fill="none" stroke="#C4A070" stroke-width="1.5" opacity="0.4"/>
+  <!-- Second fold line -->
+  <path d="M22 40 Q42 34 64 36 Q86 34 106 40" fill="#D49060" stroke="#B87040" stroke-width="2"/>
+
+  <!-- Fur texture lines -->
+  <path d="M40 60 Q42 58 44 60" stroke="#D4A870" stroke-width="1.2" opacity="0.4" fill="none"/>
+  <path d="M58 56 Q60 54 62 56" stroke="#D4A870" stroke-width="1.2" opacity="0.4" fill="none"/>
+  <path d="M78 60 Q80 58 82 60" stroke="#D4A870" stroke-width="1.2" opacity="0.4" fill="none"/>
+  <path d="M48 76 Q50 74 52 76" stroke="#D4A870" stroke-width="1.2" opacity="0.3" fill="none"/>
+  <path d="M68 74 Q70 72 72 74" stroke="#D4A870" stroke-width="1.2" opacity="0.3" fill="none"/>
+
+  <!-- === BABY JOEY peeking out === -->
+  <!-- Joey head -->
+  <ellipse cx="64" cy="40" rx="16" ry="14" fill="#E8A860"/>
+  <!-- Joey face lighter -->
+  <ellipse cx="64" cy="44" rx="11" ry="9" fill="#F0C088"/>
+
+  <!-- Joey ears -->
+  <path d="M50 28 Q48 16 50 12 Q54 14 54 26" fill="#E8A860"/>
+  <path d="M74 28 Q72 16 74 12 Q78 14 78 26" fill="#E8A860"/>
+  <!-- Inner ears -->
+  <path d="M51 26 Q49 18 51 14 Q53 16 53 24" fill="#F5C8A0"/>
+  <path d="M75 26 Q73 18 75 14 Q77 16 77 24" fill="#F5C8A0"/>
+
+  <!-- Joey eyes (big, cute) -->
+  <circle cx="56" cy="36" r="5" fill="white"/>
+  <circle cx="72" cy="36" r="5" fill="white"/>
+  <circle cx="57" cy="37" r="3.5" fill="#2C1810"/>
+  <circle cx="73" cy="37" r="3.5" fill="#2C1810"/>
+  <!-- Eye shine -->
+  <circle cx="58" cy="35" r="1.5" fill="white"/>
+  <circle cx="74" cy="35" r="1.5" fill="white"/>
+
+  <!-- Joey nose -->
+  <ellipse cx="64" cy="44" rx="3" ry="2.2" fill="#8B5E3C"/>
+
+  <!-- Joey mouth (happy) -->
+  <path d="M59 47 Q64 52 69 47" fill="none" stroke="#8B5E3C" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Joey blush -->
+  <ellipse cx="50" cy="42" rx="4" ry="2.5" fill="#F0A0A0" opacity="0.3"/>
+  <ellipse cx="78" cy="42" rx="4" ry="2.5" fill="#F0A0A0" opacity="0.3"/>
+
+  <!-- Joey little paws on pouch edge -->
+  <ellipse cx="48" cy="48" rx="5" ry="4" fill="#E8A860"/>
+  <ellipse cx="80" cy="48" rx="5" ry="4" fill="#E8A860"/>
+  <!-- Paw pads -->
+  <circle cx="46" cy="48" r="1.2" fill="#D49060"/>
+  <circle cx="49" cy="50" r="1.2" fill="#D49060"/>
+  <circle cx="82" cy="48" r="1.2" fill="#D49060"/>
+  <circle cx="79" cy="50" r="1.2" fill="#D49060"/>
+
+  <!-- Stitch/seam detail on pouch -->
+  <path d="M40 90 Q52 96 64 94 Q76 96 88 90" stroke="#C48050" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" fill="none"/>
+
+  <!-- Pouch highlight -->
+  <ellipse cx="48" cy="70" rx="8" ry="14" fill="white" opacity="0.08"/>
+</svg>

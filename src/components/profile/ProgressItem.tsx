@@ -49,31 +49,38 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({
   };
 
   return (
-    <div className={cn("bg-white rounded-[10px]", className)}>
+    <div className={cn("rounded-[12px] sm:rounded-[14px] overflow-hidden", className)}
+      style={{
+        boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+      }}
+    >
       {/* Main section */}
       <div
-        className="flex items-center gap-2 sm:gap-3 px-3 py-3 sm:px-4 sm:py-4 rounded-[12px] sm:rounded-[14px] transition-colors duration-200 hover:bg-gray-50 cursor-pointer relative z-10"
+        className="flex items-center gap-2 sm:gap-3 px-3 py-3 sm:px-4 sm:py-4 cursor-pointer relative z-10 transition-all duration-200"
         style={{
-          boxShadow:
-            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+          background: `linear-gradient(to right, ${hexToRgba(color, 0.08)}, transparent)`,
+          borderLeft: `4px solid ${color}`,
         }}
         onClick={handleClick}
       >
-        <div className="flex-1">
+        {/* Icon Box */}
+        {icon && (
+          <div
+            className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-[10px]"
+            style={{ backgroundColor: hexToRgba(color, 0.15), color }}
+          >
+            {icon}
+          </div>
+        )}
+
+        <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              {icon && (
-                <span className="flex-shrink-0" style={{ color }}>
-                  {icon}
-                </span>
-              )}
-              <span className="text-[15px] md:text-[14px] lg:text-[15px] leading-[18px] font-semibold text-gray-800">
-                {title}
-              </span>
-            </div>
-            <div className="flex items-center gap-1">
+            <span className="text-[15px] md:text-[14px] lg:text-[15px] leading-[18px] font-semibold text-gray-800 truncate">
+              {title}
+            </span>
+            <div className="flex items-center gap-1 flex-shrink-0 ml-2">
               <FaStar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FFD700]" />
-              <span className="text-[12px] md:text-[11px] lg:text-[12px] leading-[16px] font-medium text-gray-600">
+              <span className="text-[12px] md:text-[11px] lg:text-[12px] leading-[16px] font-bold" style={{ color }}>
                 {totalStarsEarned}/{maxStars}
               </span>
             </div>
@@ -86,27 +93,18 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({
             className="w-full"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            className={cn(
-              "w-6 h-6 sm:w-7 sm:h-7 inline-flex items-center justify-center rounded-full bg-white border border-neutral-200",
-              "hover:bg-[#F5FAFF] hover:border-[#1CB0F6] transition-all duration-200",
-              isExpanded && "bg-[#F5FAFF] border-[#1CB0F6]"
-            )}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleClick();
-            }}
-            aria-expanded={isExpanded}
-          >
-            <FaCaretDown
-              className={cn(
-                "w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#7F7F7F] transition-transform duration-200",
-                isExpanded && "rotate-180"
-              )}
-            />
-          </button>
-        </div>
+
+        <button
+          className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0 inline-flex items-center justify-center rounded-full bg-white border border-neutral-200 hover:border-current transition-all duration-200"
+          style={isExpanded ? { borderColor: color, backgroundColor: hexToRgba(color, 0.08) } : undefined}
+          onClick={(e) => { e.stopPropagation(); handleClick(); }}
+          aria-expanded={isExpanded}
+        >
+          <FaCaretDown
+            className={cn("w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200", isExpanded && "rotate-180")}
+            style={{ color }}
+          />
+        </button>
       </div>
 
       {/* Dropdown section */}
@@ -114,62 +112,60 @@ export const ProgressItem: React.FC<ProgressItemProps> = ({
         className={cn(
           "overflow-hidden transition-all relative z-0",
           isExpanded
-            ? "max-h-[500px] opacity-100 scale-y-100 translate-y-0"
-            : "max-h-0 opacity-0 scale-y-95 -translate-y-2"
+            ? "max-h-[500px] opacity-100"
+            : "max-h-0 opacity-0"
         )}
         style={{
           transitionDuration: "400ms",
           transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+          background: hexToRgba(color, 0.03),
+          borderTop: isExpanded ? `1px solid ${hexToRgba(color, 0.2)}` : undefined,
         }}
       >
         {levels.length > 0 && (
-          <div
-            className="px-4 py-3"
-            style={{
-              boxShadow:
-                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-            }}
-          >
+          <div className="px-3 sm:px-4 py-3">
             <div className="grid grid-cols-3 gap-2">
               {levels.map((level) => (
                 <div
                   key={level.level}
                   className={cn(
-                    "flex flex-col items-center gap-1 py-2 px-2 rounded-lg",
-                    "transition-all duration-200 cursor-pointer",
-                    !level.completed && "bg-gray-50"
+                    "flex flex-col items-center gap-1.5 py-2.5 px-2 rounded-[10px]",
+                    "transition-all duration-200 cursor-pointer border",
+                    level.completed
+                      ? "border-transparent"
+                      : "bg-gray-50 border-gray-100"
                   )}
                   style={level.completed ? {
                     backgroundColor: hexToRgba(color, 0.1),
+                    borderColor: hexToRgba(color, 0.25),
                   } : undefined}
                   onMouseEnter={(e) => {
                     if (level.completed) {
                       e.currentTarget.style.backgroundColor = hexToRgba(color, 0.2);
                     } else {
-                      e.currentTarget.style.backgroundColor = "#f3f4f6"; // gray-100
+                      e.currentTarget.style.backgroundColor = "#f3f4f6";
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (level.completed) {
                       e.currentTarget.style.backgroundColor = hexToRgba(color, 0.1);
                     } else {
-                      e.currentTarget.style.backgroundColor = "#f9fafb"; // gray-50
+                      e.currentTarget.style.backgroundColor = "#f9fafb";
                     }
                   }}
                 >
-                  <span className="text-[13px] font-semibold text-gray-700">
+                  <span
+                    className="text-[12px] sm:text-[13px] font-bold leading-none"
+                    style={{ color: level.completed ? color : "#9CA3AF" }}
+                  >
                     {t("levelPrefix", { level: level.level })}
                   </span>
                   <div className="flex items-center gap-0.5">
                     {[1, 2, 3].map((star) => (
                       <FaStar
                         key={star}
-                        className={cn(
-                          "w-3 h-3",
-                          star <= level.stars
-                            ? "text-[#FFD700]"
-                            : "text-gray-300"
-                        )}
+                        className={cn("w-3 h-3 sm:w-3.5 sm:h-3.5")}
+                        style={{ color: star <= level.stars ? "#FFD700" : "#E5E7EB" }}
                       />
                     ))}
                   </div>

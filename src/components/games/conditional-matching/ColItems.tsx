@@ -26,6 +26,7 @@ export const TopRowItem = ({
     >
       <MatchingCard
         emoji={item.emoji}
+        icon={item.icon}
         label={item.label}
         isConnected={isConnected}
         isCorrect={isCorrect}
@@ -64,6 +65,7 @@ export const BottomRowItem = ({
     >
       <MatchingCard
         emoji={item.emoji}
+        icon={item.icon}
         label={item.label}
         isConnected={isConnected}
         isCorrect={isCorrect}

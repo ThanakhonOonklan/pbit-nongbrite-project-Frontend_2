@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Ground -->
+  <ellipse cx="64" cy="105" rx="55" ry="8" fill="#8B6E4E"/>
+  <!-- Mound body -->
+  <path d="M20 105 Q30 60 64 35 Q98 60 108 105 Z" fill="#C49A6C"/>
+  <!-- Mound texture/layers -->
+  <path d="M30 95 Q50 75 64 65 Q78 75 98 95" fill="none" stroke="#A07850" stroke-width="2" opacity="0.5"/>
+  <path d="M36 85 Q52 68 64 58 Q76 68 92 85" fill="none" stroke="#A07850" stroke-width="1.5" opacity="0.4"/>
+  <!-- Entrance holes -->
+  <ellipse cx="64" cy="90" rx="7" ry="5" fill="#5C3D2E"/>
+  <ellipse cx="48" cy="80" rx="4" ry="3" fill="#5C3D2E"/>
+  <ellipse cx="78" cy="82" rx="4" ry="3" fill="#5C3D2E"/>
+  <!-- Small ant -->
+  <circle cx="55" cy="70" r="2" fill="#2C1810"/>
+  <circle cx="57" cy="68" r="1.5" fill="#2C1810"/>
+  <circle cx="72" cy="75" r="2" fill="#2C1810"/>
+  <circle cx="74" cy="73" r="1.5" fill="#2C1810"/>
+  <!-- Highlight -->
+  <path d="M50 55 Q58 42 64 38" fill="none" stroke="white" stroke-width="2" opacity="0.2" stroke-linecap="round"/>
+</svg>

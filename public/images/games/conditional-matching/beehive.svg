@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Beehive body -->
+  <ellipse cx="64" cy="58" rx="38" ry="18" fill="#F6C94E"/>
+  <ellipse cx="64" cy="42" rx="32" ry="16" fill="#F6C94E"/>
+  <ellipse cx="64" cy="28" rx="24" ry="13" fill="#F6C94E"/>
+  <ellipse cx="64" cy="74" rx="42" ry="18" fill="#F6C94E"/>
+  <ellipse cx="64" cy="90" rx="36" ry="14" fill="#F6C94E"/>
+  <!-- Stripes -->
+  <ellipse cx="64" cy="35" rx="28" ry="3" fill="#D4A017" opacity="0.5"/>
+  <ellipse cx="64" cy="50" rx="36" ry="3" fill="#D4A017" opacity="0.5"/>
+  <ellipse cx="64" cy="66" rx="40" ry="3" fill="#D4A017" opacity="0.5"/>
+  <ellipse cx="64" cy="82" rx="38" ry="3" fill="#D4A017" opacity="0.5"/>
+  <!-- Entrance hole -->
+  <ellipse cx="64" cy="95" rx="10" ry="12" fill="#8B6914"/>
+  <!-- Branch on top -->
+  <rect x="56" y="10" width="16" height="6" rx="3" fill="#8B5E3C"/>
+  <rect x="44" y="8" width="40" height="4" rx="2" fill="#6B4226"/>
+  <!-- Highlight -->
+  <ellipse cx="50" cy="40" rx="6" ry="10" fill="white" opacity="0.2"/>
+</svg>

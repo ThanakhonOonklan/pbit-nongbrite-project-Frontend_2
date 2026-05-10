@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Sky gradient -->
+  <rect x="0" y="0" width="128" height="80" fill="#FF9A5C"/>
+  <rect x="0" y="0" width="128" height="40" fill="#FF7043" opacity="0.5"/>
+  <rect x="0" y="60" width="128" height="20" fill="#FF6B3A" opacity="0.3"/>
+
+  <!-- Clouds -->
+  <ellipse cx="30" cy="24" rx="20" ry="8" fill="#FFB88C" opacity="0.5"/>
+  <ellipse cx="100" cy="18" rx="16" ry="6" fill="#FFB88C" opacity="0.4"/>
+  <ellipse cx="70" cy="30" rx="14" ry="5" fill="#FFC8A0" opacity="0.35"/>
+
+  <!-- Sun (half visible on horizon) -->
+  <clipPath id="horizon">
+    <rect x="0" y="0" width="128" height="80"/>
+  </clipPath>
+  <circle cx="64" cy="80" r="28" fill="#FFD93D" clip-path="url(#horizon)"/>
+  <!-- Sun glow -->
+  <circle cx="64" cy="80" r="36" fill="#FFD93D" opacity="0.2" clip-path="url(#horizon)"/>
+  <circle cx="64" cy="80" r="44" fill="#FFD93D" opacity="0.1" clip-path="url(#horizon)"/>
+
+  <!-- Sun rays -->
+  <line x1="64" y1="48" x2="64" y2="38" stroke="#FFD93D" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="42" y1="58" x2="34" y2="50" stroke="#FFD93D" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="86" y1="58" x2="94" y2="50" stroke="#FFD93D" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="32" y1="72" x2="22" y2="68" stroke="#FFD93D" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <line x1="96" y1="72" x2="106" y2="68" stroke="#FFD93D" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- Ground/horizon line -->
+  <rect x="0" y="78" width="128" height="50" fill="#5A4030"/>
+  <!-- Ground highlight -->
+  <rect x="0" y="78" width="128" height="4" fill="#FF8C5A" opacity="0.4"/>
+
+  <!-- Water/ground reflection -->
+  <line x1="40" y1="86" x2="56" y2="86" stroke="#FFB870" stroke-width="1.5" opacity="0.4"/>
+  <line x1="60" y1="90" x2="80" y2="90" stroke="#FFB870" stroke-width="1.5" opacity="0.3"/>
+  <line x1="50" y1="94" x2="68" y2="94" stroke="#FFB870" stroke-width="1.5" opacity="0.25"/>
+
+  <!-- Small arrow pointing down (sunset direction) -->
+  <path d="M64 102 L58 94 L62 94 L62 86 L66 86 L66 94 L70 94 Z" fill="#FFD93D" opacity="0.4"/>
+</svg>

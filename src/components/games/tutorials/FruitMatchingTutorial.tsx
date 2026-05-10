@@ -2,170 +2,183 @@
 
 import { useEffect, useState } from "react";
 import type { TutorialStep } from "../TutorialModal";
+import { FruitChoices } from "../fruit-matching-grid/FruitChoices";
 
-/* ── Step 1: Mini grid with highlighted cell ─────────────────── */
-function Step1Grid() {
-    const cells = [
-        ["🍎", "🍌", "🍊"],
-        ["🍇", "🍓", "🍋"],
-        ["🍑", "🍍", "🥝"],
-    ];
-    const rows = ["A", "B", "C"];
-    const cols = ["1", "2", "3"];
+const CELLS = [
+    ["🍎", "🍌", "🍊"],
+    ["🍇", "🍓", "🍋"],
+    ["🍑", "🍍", "🥝"],
+];
+const ROWS = ["A", "B", "C"];
+const COLS = ["1", "2", "3"];
+const ROW_COLORS = ["#EC4899", "#F97316", "#22C55E"];
+const COL_COLORS = ["#EC4899", "#F97316", "#22C55E"];
+const ALL_COORDS = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"];
+const CELL_SZ = 52;
+const BADGE_SZ = 22;
+const GAP = 5;
 
+function MiniGrid({ highlight, found = [], activeCoord }: { highlight?: string; found?: string[]; activeCoord?: string }) {
+    const activeRow = activeCoord ? activeCoord[0] : null;
+    const activeCol = activeCoord ? activeCoord[1] : null;
     return (
-        <div className="flex flex-col items-center gap-1">
-            <div className="flex gap-1 ml-6">
-                {cols.map(c => (
-                    <div key={c} className="w-12 h-6 flex items-center justify-center text-xs font-bold text-gray-400">{c}</div>
-                ))}
+        <div style={{ display: "flex", flexDirection: "column", gap: GAP }}>
+            <div style={{ display: "flex", gap: GAP, marginLeft: BADGE_SZ + GAP }}>
+                {COLS.map((c, ci) => {
+                    const isAc = activeCol === c;
+                    return (
+                        <div key={c} style={{ width: CELL_SZ, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{
+                                width: BADGE_SZ, height: BADGE_SZ, borderRadius: "50%",
+                                background: COL_COLORS[ci], color: "#fff", fontSize: 12, fontWeight: 900,
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                transform: isAc ? "scale(1.3)" : "scale(1)",
+                                boxShadow: isAc ? `0 0 8px ${COL_COLORS[ci]}99` : "none",
+                                transition: "all 0.25s",
+                            }}>{c}</div>
+                        </div>
+                    );
+                })}
             </div>
-            {cells.map((row, ri) => (
-                <div key={ri} className="flex items-center gap-1">
-                    <div className="w-6 h-12 flex items-center justify-center text-xs font-bold text-gray-400">{rows[ri]}</div>
-                    {row.map((fruit, ci) => {
-                        const isTarget = ri === 1 && ci === 1;
-                        return (
-                            <div
-                                key={ci}
-                                className="w-12 h-12 flex items-center justify-center rounded-xl text-xl border-2 transition-all"
-                                style={{
-                                    background: isTarget ? "#FFF3CD" : "#F9FAFB",
-                                    borderColor: isTarget ? "#F59E0B" : "#E5E7EB",
-                                    animation: isTarget ? "fmCellPulse 1s ease-in-out infinite" : "none",
-                                }}
-                            >
-                                {fruit}
-                            </div>
-                        );
-                    })}
-                </div>
-            ))}
-            <p className="text-xs text-amber-600 font-bold mt-2 bg-amber-50 px-3 py-1 rounded-xl">
-                B2 = แถว B, คอลัมน์ 2
-            </p>
-            <style>{`
-                @keyframes fmCellPulse {
-                    0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); transform: scale(1); }
-                    50%      { box-shadow: 0 0 0 6px rgba(245,158,11,0.35); transform: scale(1.12); }
-                }
-            `}</style>
+            {CELLS.map((row, ri) => {
+                const isAr = activeRow === ROWS[ri];
+                return (
+                    <div key={ri} style={{ display: "flex", alignItems: "center", gap: GAP }}>
+                        <div style={{
+                            width: BADGE_SZ, height: BADGE_SZ, borderRadius: "50%",
+                            background: ROW_COLORS[ri], color: "#fff", fontSize: 12, fontWeight: 900,
+                            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                            transform: isAr ? "scale(1.3)" : "scale(1)",
+                            boxShadow: isAr ? `0 0 8px ${ROW_COLORS[ri]}99` : "none",
+                            transition: "all 0.25s",
+                        }}>{ROWS[ri]}</div>
+                        {row.map((fruit, ci) => {
+                            const coord = `${ROWS[ri]}${ci + 1}`;
+                            const isHl = highlight === coord;
+                            const isDone = found.includes(coord);
+                            return (
+                                <div key={ci} style={{
+                                    width: CELL_SZ, height: CELL_SZ, borderRadius: 12,
+                                    background: isDone ? "#DCFCE7" : isHl ? "#FFF3CD" : "#F9FAFB",
+                                    border: `2px solid ${isDone ? "#4ade80" : isHl ? "#F59E0B" : "#E5E7EB"}`,
+                                    display: "flex", alignItems: "center", justifyContent: "center",
+                                    fontSize: 24,
+                                    boxShadow: isDone ? "0 3px 0 #4ade80" : isHl ? "0 3px 0 #F59E0B" : "0 3px 0 #E5E7EB",
+                                    transform: isHl ? "scale(1.1) translateY(-2px)" : isDone ? "scale(0.95)" : "scale(1)",
+                                    transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+                                }}>{fruit}</div>
+                            );
+                        })}
+                    </div>
+                );
+            })}
         </div>
     );
 }
 
-/* ── Step 2: Coordinate badge + fruit reveal ─────────────────── */
-function Step2Coord() {
-    const [showFruit, setShowFruit] = useState(false);
+/* ── Step 1: Observe fruits in the grid ─────────────────────────── */
+function Step1Grid() {
+    const [hlIdx, setHlIdx] = useState(0);
 
     useEffect(() => {
-        let alive = true;
-        const cycle = () => {
-            const t1 = setTimeout(() => { if (alive) setShowFruit(true); }, 1000);
-            const t2 = setTimeout(() => { if (alive) setShowFruit(false); }, 2600);
-            const t3 = setTimeout(() => { if (alive) cycle(); }, 3400);
-            return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-        };
-        const cleanup = cycle();
-        return () => { alive = false; cleanup(); };
+        const t = setInterval(() => setHlIdx(h => (h + 1) % ALL_COORDS.length), 750);
+        return () => clearInterval(t);
     }, []);
 
     return (
-        <div className="flex flex-col items-center gap-5">
-            <div
-                className="flex items-center gap-2 px-5 py-3 rounded-2xl font-extrabold text-xl text-white shadow-lg"
-                style={{ background: "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)", animation: "fmPop 0.5s ease-out" }}
-            >
-                <span>📍</span>
-                <span>B2</span>
+        <div className="flex flex-col items-center gap-3">
+            <p className="text-[11px] font-bold text-amber-700 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
+                ตารางมีผลไม้ต่างกันในแต่ละช่อง สังเกตดูนะ!
+            </p>
+            <MiniGrid highlight={ALL_COORDS[hlIdx]} />
+        </div>
+    );
+}
+
+/* ── Step 2: Read coordinates — grid + badge ─────────────────────── */
+function Step2CoordRead() {
+    const DEMO = ["A1", "B2", "C3", "A3", "C1"];
+    const [idx, setIdx] = useState(0);
+
+    useEffect(() => {
+        const t = setInterval(() => setIdx(i => (i + 1) % DEMO.length), 1400);
+        return () => clearInterval(t);
+    }, []);
+
+    const coord = DEMO[idx];
+    const ri = ROWS.indexOf(coord[0]);
+    const ci = parseInt(coord[1]) - 1;
+
+    return (
+        <div className="flex flex-col items-center gap-3">
+            <div key={coord} style={{ display: "flex", alignItems: "center", gap: 6, animation: "fmPop 0.3s ease-out" }}>
+                <div style={{ background: ROW_COLORS[ri], color: "#fff", borderRadius: 10, padding: "4px 12px", fontSize: 17, fontWeight: 900, boxShadow: `0 3px 0 ${ROW_COLORS[ri]}99` }}>
+                    แถว {coord[0]}
+                </div>
+                <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 700 }}>+</span>
+                <div style={{ background: COL_COLORS[ci], color: "#fff", borderRadius: 10, padding: "4px 12px", fontSize: 17, fontWeight: 900, boxShadow: `0 3px 0 ${COL_COLORS[ci]}99` }}>
+                    คอลัมน์ {coord[1]}
+                </div>
+                <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 700 }}>=</span>
+                <div style={{ background: "#1D4ED8", color: "#fff", borderRadius: 10, padding: "4px 14px", fontSize: 18, fontWeight: 900, boxShadow: "0 3px 0 #1e40af" }}>
+                    {coord}
+                </div>
             </div>
-            <div
-                className="w-16 h-16 rounded-2xl flex items-center justify-center text-4xl border-2 transition-all duration-500"
-                style={{
-                    background: showFruit ? "#FFF3CD" : "#F3F4F6",
-                    borderColor: showFruit ? "#F59E0B" : "#E5E7EB",
-                    transform: showFruit ? "scale(1.15)" : "scale(1)",
-                    boxShadow: showFruit ? "0 0 16px rgba(245,158,11,0.4)" : "none",
-                }}
-            >
-                {showFruit ? "🍓" : "❓"}
-            </div>
-            {showFruit && (
-                <p className="text-green-600 font-bold text-sm" style={{ animation: "fmPop 0.3s ease-out" }}>
-                    พิกัด B2 คือ 🍓 !
-                </p>
-            )}
+            <MiniGrid highlight={coord} activeCoord={coord} />
             <style>{`
                 @keyframes fmPop {
-                    0%   { transform: scale(0.5); opacity: 0; }
+                    0%   { transform: scale(0.6); opacity: 0; }
                     70%  { transform: scale(1.1); }
-                    100% { transform: scale(1);   opacity: 1; }
+                    100% { transform: scale(1); opacity: 1; }
                 }
             `}</style>
         </div>
     );
 }
 
-/* ── Step 3: Choices — correct one glows green ───────────────── */
-function Step3Choices() {
-    const [selected, setSelected] = useState<number | null>(null);
-
-    useEffect(() => {
-        let alive = true;
-        const cycle = () => {
-            const t1 = setTimeout(() => { if (alive) setSelected(2); }, 1200);
-            const t2 = setTimeout(() => { if (alive) setSelected(null); }, 2800);
-            const t3 = setTimeout(() => { if (alive) cycle(); }, 3600);
-            return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-        };
-        const cleanup = cycle();
-        return () => { alive = false; cleanup(); };
-    }, []);
-
-    const fruits = ["🍎", "🍌", "🍓", "🍇"];
+/* ── Step 3: FruitChoices — click to answer ─────────────────────── */
+function Step3FruitChoices() {
+    const CHOICES = ["🍎", "🍓", "🍌", "🍋"];
+    const CORRECT = "🍓";
+    const NAMES: Record<string, string> = { "🍎": "แอปเปิ้ล", "🍓": "สตรอว์เบอร์รี", "🍌": "กล้วย", "🍋": "มะนาว" };
+    const [cycleKey, setCycleKey] = useState(0);
 
     return (
-        <div className="flex flex-col items-center gap-3 w-full">
-            <p className="text-xs font-bold text-gray-500 bg-blue-50 px-3 py-1.5 rounded-xl">📍 B2 มีผลไม้อะไร?</p>
-            <div className="grid grid-cols-2 gap-2 w-full max-w-[200px]">
-                {fruits.map((fruit, i) => (
-                    <div
-                        key={i}
-                        className="py-3 rounded-2xl text-2xl border-2 flex flex-col items-center gap-0.5 transition-all duration-300 select-none"
-                        style={{
-                            background: selected === i ? (i === 2 ? "#DCFCE7" : "#FEE2E2") : "#F9FAFB",
-                            borderColor: selected === i ? (i === 2 ? "#22C55E" : "#EF4444") : "#E5E7EB",
-                            transform: selected === i ? "scale(1.08)" : "scale(1)",
-                            boxShadow: selected === i && i === 2 ? "0 0 16px rgba(34,197,94,0.4)" : "none",
-                        }}
-                    >
-                        {fruit}
-                        {selected === i && i === 2 && (
-                            <span className="text-[10px] text-green-600 font-bold" style={{ animation: "fmPop 0.2s ease-out" }}>
-                                ✓ ถูก!
-                            </span>
-                        )}
-                    </div>
-                ))}
+        <div className="flex flex-col items-center gap-3 w-full max-w-[260px]">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-2xl font-extrabold text-sm text-white"
+                style={{ background: "linear-gradient(135deg, #3B82F6, #2563EB)" }}>
+                <span>📍</span><span>B2 มีผลไม้อะไร?</span>
             </div>
+            <FruitChoices
+                key={cycleKey}
+                choices={CHOICES}
+                correctAnswer={CORRECT}
+                fruitNames={NAMES}
+                onCorrect={() => setTimeout(() => setCycleKey(k => k + 1), 900)}
+                onWrong={() => { }}
+                disabled={false}
+            />
+            <p className="text-[11px] font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200">
+                👆 กดเลือกผลไม้ที่ถูกต้อง!
+            </p>
         </div>
     );
 }
 
 export const fruitMatchingTutorialSteps: TutorialStep[] = [
     {
-        title: "ดูพิกัดในตาราง",
+        title: "สังเกตผลไม้ในตาราง",
         content: <Step1Grid />,
-        hint: "ตารางมีแกน A, B, C (แถว) และ 1, 2, 3 (คอลัมน์)",
+        hint: "ตารางมีผลไม้ต่างกันในแต่ละช่อง สังเกตให้ดีนะ!",
     },
     {
-        title: "โจทย์จะบอกพิกัดเป้าหมาย",
-        content: <Step2Coord />,
-        hint: "อ่านพิกัด แล้วหาว่าตำแหน่งนั้นมีผลไม้อะไร",
+        title: "อ่านพิกัด: แถว + คอลัมน์",
+        content: <Step2CoordRead />,
+        hint: "A1 หมายถึง แถว A คอลัมน์ 1 — อ่านตัวอักษรก่อน เสร็จแล้วตามด้วยตัวเลข!",
     },
     {
-        title: "จิ้มเลือกผลไม้ที่ถูกต้อง",
-        content: <Step3Choices />,
-        hint: "เลือกผลไม้ที่อยู่ในพิกัดนั้นจากตัวเลือก 4 อัน",
+        title: "กดเลือกผลไม้ที่ถูกต้อง",
+        content: <Step3FruitChoices />,
+        hint: "กดคลิกผลไม้ที่อยู่ในตำแหน่งที่โจทย์บอก!",
     },
 ];

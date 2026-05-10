@@ -11,6 +11,7 @@ interface CounterPanelProps {
     maxPerShape?: number;
     onCountChange: (type: ShapeType, newValue: number) => void;
     onSubmit: () => void;
+    onReset?: () => void;
     disabled?: boolean;
 }
 
@@ -20,6 +21,7 @@ export function CounterPanel({
     maxPerShape = 30,
     onCountChange,
     onSubmit,
+    onReset,
     disabled = false,
 }: CounterPanelProps) {
     return (
@@ -53,29 +55,54 @@ export function CounterPanel({
                 ))}
             </div>
 
-            {/* Submit button — Green TiltButton */}
-            <div className="pt-2" style={{ flexShrink: 0 }}>
-                <TiltButton
-                    variant="solid"
-                    width="100%"
-                    height={60}
-                    elevation={7}
-                    pressInset={7}
-                    tilt={0.85}
-                    radius={28}
-                    motion={40}
-                    surfaceColor={disabled ? "#E0E0E0" : "#22C55E"}
-                    sideColor={disabled ? "#BDBDBD" : "#15803D"}
-                    textColor={disabled ? "#9E9E9E" : "#ffffff"}
-                    glareOpacity={0}
-                    glareWidth={0}
-                    disabled={disabled}
-                    onClick={onSubmit}
-                >
-                    <span style={{ fontSize: 22, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
-                        <FaPlay className="w-5 h-5" /> ยืนยัน
-                    </span>
-                </TiltButton>
+            {/* Action buttons */}
+            <div className="flex gap-3 pt-2" style={{ flexShrink: 0 }}>
+                <div className="flex-[2]">
+                    <TiltButton
+                        variant="solid"
+                        width="100%"
+                        height={60}
+                        elevation={7}
+                        pressInset={7}
+                        tilt={0.85}
+                        radius={28}
+                        motion={40}
+                        surfaceColor={disabled ? "#E0E0E0" : "#22C55E"}
+                        sideColor={disabled ? "#BDBDBD" : "#15803D"}
+                        textColor={disabled ? "#9E9E9E" : "#ffffff"}
+                        glareOpacity={0}
+                        glareWidth={0}
+                        disabled={disabled}
+                        onClick={onSubmit}
+                    >
+                        <span style={{ fontSize: 22, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
+                            <FaPlay className="w-5 h-5" /> ยืนยัน
+                        </span>
+                    </TiltButton>
+                </div>
+                {onReset && (
+                    <div className="flex-[1]">
+                        <TiltButton
+                            variant="solid"
+                            width="100%"
+                            height={60}
+                            elevation={7}
+                            pressInset={7}
+                            tilt={0.85}
+                            radius={28}
+                            motion={40}
+                            surfaceColor={disabled ? "#E0E0E0" : "#ffffff"}
+                            sideColor={disabled ? "#BDBDBD" : "#D1D5DB"}
+                            textColor={disabled ? "#9E9E9E" : "#131F24"}
+                            glareOpacity={0}
+                            glareWidth={0}
+                            disabled={disabled}
+                            onClick={onReset}
+                        >
+                            <span style={{ fontSize: 18, fontWeight: 900 }}>เริ่มใหม่</span>
+                        </TiltButton>
+                    </div>
+                )}
             </div>
 
         </div>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Water stream -->
+  <rect x="58" y="4" width="12" height="20" rx="4" fill="#7AC4E8" opacity="0.5"/>
+  <path d="M60 24 Q64 30 68 24" fill="#7AC4E8" opacity="0.4"/>
+  <!-- Faucet -->
+  <rect x="52" y="0" width="24" height="10" rx="3" fill="#B0B0B0"/>
+  <rect x="70" y="2" width="16" height="6" rx="2" fill="#C0C0C0"/>
+  <!-- Hands -->
+  <path d="M38 56 Q34 48 30 42 Q28 38 32 36 Q36 36 38 42 L40 50" fill="#FFD3B5"/>
+  <path d="M42 60 Q40 44 42 32 Q44 26 48 26 Q52 26 52 34 Q52 46 50 60" fill="#FFD3B5"/>
+  <path d="M50 60 Q50 42 52 28 Q54 20 58 20 Q62 20 62 28 Q62 44 60 60" fill="#FFD3B5"/>
+  <path d="M60 60 Q60 44 62 32 Q64 26 68 26 Q72 26 72 34 Q70 48 68 60" fill="#FFD3B5"/>
+  <path d="M68 60 Q70 48 72 40 Q74 34 78 36 Q82 38 80 44 Q78 52 76 60" fill="#FFD3B5"/>
+  <!-- Palm -->
+  <path d="M36 56 Q34 76 38 86 Q42 92 58 94 Q74 92 78 86 Q82 76 80 56 Z" fill="#FFD3B5"/>
+  <!-- Soap bubbles -->
+  <circle cx="46" cy="50" r="8" fill="white" opacity="0.7" stroke="#E0E8F0" stroke-width="1"/>
+  <circle cx="62" cy="46" r="7" fill="white" opacity="0.65" stroke="#E0E8F0" stroke-width="1"/>
+  <circle cx="74" cy="52" r="6" fill="white" opacity="0.6" stroke="#E0E8F0" stroke-width="1"/>
+  <circle cx="54" cy="38" r="5" fill="white" opacity="0.55" stroke="#E0E8F0" stroke-width="1"/>
+  <circle cx="52" cy="66" r="7" fill="white" opacity="0.6" stroke="#E0E8F0" stroke-width="1"/>
+  <circle cx="66" cy="62" r="6" fill="white" opacity="0.55" stroke="#E0E8F0" stroke-width="1"/>
+  <!-- Bubble shine -->
+  <circle cx="44" cy="48" r="2" fill="white" opacity="0.8"/>
+  <circle cx="60" cy="44" r="1.5" fill="white" opacity="0.8"/>
+  <!-- Water drops -->
+  <path d="M42 96 Q40 102 42 106" stroke="#7AC4E8" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <path d="M58 98 Q56 106 58 112" stroke="#7AC4E8" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <path d="M72 96 Q70 102 72 108" stroke="#7AC4E8" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <!-- Sparkles -->
+  <path d="M26 60 L28 56 L30 60 L26 58 L30 58 Z" fill="#7AC4E8" opacity="0.4"/>
+  <path d="M86 56 L88 52 L90 56 L86 54 L90 54 Z" fill="#7AC4E8" opacity="0.4"/>
+</svg>

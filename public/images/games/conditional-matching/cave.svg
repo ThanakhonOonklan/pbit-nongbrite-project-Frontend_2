@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Mountain/rock background -->
+  <path d="M10 110 L30 30 Q50 10 64 8 Q78 10 98 30 L118 110 Z" fill="#8B8B8B"/>
+  <!-- Rock texture -->
+  <path d="M30 30 Q50 10 64 8 Q78 10 98 30" fill="#9E9E9E"/>
+  <path d="M25 60 Q45 35 64 28 Q83 35 103 60" fill="none" stroke="#7A7A7A" stroke-width="1.5" opacity="0.4"/>
+  <!-- Cave entrance -->
+  <path d="M34 110 Q36 70 50 58 Q58 50 64 48 Q70 50 78 58 Q92 70 94 110 Z" fill="#2C2C2C"/>
+  <!-- Inner cave darkness -->
+  <path d="M42 110 Q44 78 56 66 Q60 60 64 58 Q68 60 72 66 Q84 78 86 110 Z" fill="#1A1A1A"/>
+  <!-- Stalactites -->
+  <path d="M50 58 L52 68 L54 58" fill="#6B6B6B"/>
+  <path d="M60 50 L62 62 L64 50" fill="#6B6B6B"/>
+  <path d="M74 58 L76 66 L78 58" fill="#6B6B6B"/>
+  <!-- Ground -->
+  <rect x="0" y="105" width="128" height="23" fill="#6B5438"/>
+  <!-- Small rocks near entrance -->
+  <ellipse cx="38" cy="108" rx="5" ry="3" fill="#7A7A7A"/>
+  <ellipse cx="90" cy="106" rx="4" ry="3" fill="#7A7A7A"/>
+  <!-- Eyes in cave (spooky) -->
+  <circle cx="58" cy="85" r="2.5" fill="#FFD700"/>
+  <circle cx="70" cy="85" r="2.5" fill="#FFD700"/>
+  <circle cx="59" cy="85" r="1" fill="#1A1A1A"/>
+  <circle cx="71" cy="85" r="1" fill="#1A1A1A"/>
+</svg>

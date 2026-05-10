@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Broken vase - left half -->
+  <path d="M34 40 Q30 36 32 28 Q36 20 44 18 L52 18 Q54 20 56 24 L58 34 L56 50 Q52 60 48 70 L42 80 Q38 86 36 94 L34 100 Q32 106 36 108 L48 110" fill="#E8A060" stroke="#C48040" stroke-width="1.5"/>
+  <!-- Crack line on left piece -->
+  <path d="M48 20 L50 28 L46 36 L52 42 L48 50" stroke="#B87040" stroke-width="1.5" fill="none"/>
+
+  <!-- Broken vase - right half (displaced) -->
+  <path d="M68 44 L72 36 Q74 28 72 22 Q70 18 78 18 Q86 20 90 28 Q92 36 88 42 L86 52 Q82 62 80 72 L78 82 Q80 88 82 96 L84 102 Q86 108 82 110 L72 112" fill="#E8A060" stroke="#C48040" stroke-width="1.5" transform="translate(4, 2) rotate(8 78 60)"/>
+
+  <!-- Broken pieces scattered -->
+  <!-- Small shard 1 -->
+  <path d="M56 70 L62 66 L64 74 Z" fill="#D89050" stroke="#C48040" stroke-width="1"/>
+  <!-- Small shard 2 -->
+  <path d="M60 86 L66 82 L68 88 L62 90 Z" fill="#D89050" stroke="#C48040" stroke-width="1" transform="rotate(15 64 86)"/>
+  <!-- Small shard 3 -->
+  <path d="M50 90 L56 88 L54 96 Z" fill="#D89050" stroke="#C48040" stroke-width="1"/>
+
+  <!-- Crack/break gap -->
+  <path d="M54 24 L58 34 L54 44 L60 54 L56 64 L62 74 L58 84 L54 94 L56 104" stroke="#C48040" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.4"/>
+
+  <!-- Impact lines -->
+  <line x1="46" y1="54" x2="36" y2="50" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <line x1="48" y1="58" x2="38" y2="60" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <line x1="76" y1="52" x2="86" y2="48" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <line x1="78" y1="56" x2="88" y2="58" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- Vase decoration on pieces -->
+  <path d="M38 36 L48 36" stroke="#C48040" stroke-width="1.5" opacity="0.5"/>
+  <path d="M36 44 L50 44" stroke="#C48040" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Ground shadow -->
+  <ellipse cx="64" cy="116" rx="34" ry="4" fill="#888" opacity="0.15"/>
+
+  <!-- "Crack" star burst -->
+  <path d="M60 48 L62 42 L64 48 L58 46 L66 46 Z" fill="#FFD700" opacity="0.4"/>
+</svg>

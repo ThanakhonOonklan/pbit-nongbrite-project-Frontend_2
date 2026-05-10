@@ -321,11 +321,6 @@ function Step3RunMap() {
                         );
                     })}
                 </div>
-                {done && (
-                    <p className="text-green-400 text-[10px] font-extrabold text-center animate-bounce">
-                        ถึงบ้านแล้ว! 🎉
-                    </p>
-                )}
             </div>
 
             <style>{`

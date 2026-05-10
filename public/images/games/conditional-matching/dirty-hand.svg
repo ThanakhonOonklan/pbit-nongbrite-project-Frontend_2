@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Palm -->
+  <path d="M36 68 Q32 90 34 108 Q36 118 50 120 L82 120 Q94 118 96 108 Q98 90 94 68 Z" fill="#F5C89A"/>
+  <!-- Thumb -->
+  <path d="M36 68 Q24 62 20 52 Q18 44 24 42 Q30 40 34 48 Q38 56 38 64" fill="#F5C89A"/>
+  <!-- Index finger -->
+  <path d="M44 68 Q42 46 44 30 Q46 22 52 22 Q58 22 58 30 Q58 46 56 68" fill="#F5C89A"/>
+  <!-- Middle finger -->
+  <path d="M56 68 Q56 42 58 24 Q60 14 66 14 Q72 14 72 24 Q72 42 72 68" fill="#F5C89A"/>
+  <!-- Ring finger -->
+  <path d="M72 68 Q72 46 74 30 Q76 22 82 22 Q88 22 88 30 Q86 46 84 68" fill="#F5C89A"/>
+  <!-- Pinky -->
+  <path d="M84 68 Q86 50 88 38 Q90 30 94 32 Q98 34 96 42 Q94 54 92 68" fill="#F5C89A"/>
+
+  <!-- Mud/dirt stains -->
+  <ellipse cx="50" cy="90" rx="14" ry="10" fill="#8B6E4E" opacity="0.75" transform="rotate(-5 50 90)"/>
+  <ellipse cx="76" cy="85" rx="10" ry="8" fill="#8B6E4E" opacity="0.65"/>
+  <circle cx="62" cy="100" r="8" fill="#7A5E3E" opacity="0.6"/>
+  <!-- Dirt on fingers -->
+  <ellipse cx="50" cy="36" rx="6" ry="8" fill="#8B6E4E" opacity="0.6"/>
+  <ellipse cx="66" cy="30" rx="6" ry="10" fill="#8B6E4E" opacity="0.55"/>
+  <ellipse cx="82" cy="36" rx="5" ry="8" fill="#8B6E4E" opacity="0.5"/>
+  <!-- Thumb dirt -->
+  <ellipse cx="28" cy="48" rx="5" ry="6" fill="#8B6E4E" opacity="0.55"/>
+  <!-- Splatter spots -->
+  <circle cx="44" cy="78" r="3" fill="#6B5438" opacity="0.5"/>
+  <circle cx="86" cy="96" r="4" fill="#6B5438" opacity="0.45"/>
+  <circle cx="90" cy="50" r="3" fill="#7A5E3E" opacity="0.4"/>
+  <circle cx="58" cy="108" r="3.5" fill="#6B5438" opacity="0.4"/>
+  <!-- Drip -->
+  <path d="M54 96 Q56 104 54 110" stroke="#7A5E3E" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+</svg>

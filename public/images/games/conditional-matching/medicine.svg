@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Pill capsule 1 (big, tilted) -->
+  <g transform="rotate(-20 64 60)">
+    <rect x="34" y="44" width="60" height="28" rx="14" fill="#FF6B6B"/>
+    <rect x="64" y="44" width="30" height="28" rx="14" fill="#FFF0E0"/>
+  </g>
+  <!-- Pill capsule 2 (small) -->
+  <g transform="rotate(15 40 96)">
+    <rect x="20" y="86" width="40" height="18" rx="9" fill="#5BB5E8"/>
+    <rect x="40" y="86" width="20" height="18" rx="9" fill="#FFF0E0"/>
+  </g>
+  <!-- Round pill -->
+  <circle cx="90" cy="92" r="12" fill="#FFD93D"/>
+  <circle cx="90" cy="92" r="10" fill="#FFE066"/>
+  <!-- Cross on round pill -->
+  <line x1="84" y1="92" x2="96" y2="92" stroke="#FFD93D" stroke-width="2"/>
+  <line x1="90" y1="86" x2="90" y2="98" stroke="#FFD93D" stroke-width="2"/>
+  <!-- Sparkle (healing) -->
+  <path d="M100 44 L102 38 L104 44 L98 42 L106 42 Z" fill="#FFD93D" opacity="0.5"/>
+  <path d="M18 70 L20 64 L22 70 L16 68 L24 68 Z" fill="#5BB5E8" opacity="0.4"/>
+  <!-- Small pill dots -->
+  <circle cx="76" cy="108" r="5" fill="#FF9090"/>
+  <circle cx="108" cy="74" r="4" fill="#90D090"/>
+</svg>

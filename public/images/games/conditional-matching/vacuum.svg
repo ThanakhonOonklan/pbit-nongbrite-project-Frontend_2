@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Body/canister -->
+  <ellipse cx="64" cy="85" rx="28" ry="22" fill="#E05050"/>
+  <ellipse cx="64" cy="82" rx="28" ry="22" fill="#E86060"/>
+  <!-- Canister highlight -->
+  <ellipse cx="54" cy="76" rx="10" ry="6" fill="#F08080" opacity="0.5"/>
+  <!-- Wheels -->
+  <circle cx="46" cy="102" r="6" fill="#444"/>
+  <circle cx="46" cy="102" r="3" fill="#666"/>
+  <circle cx="82" cy="102" r="6" fill="#444"/>
+  <circle cx="82" cy="102" r="3" fill="#666"/>
+  <!-- Hose connection -->
+  <circle cx="42" cy="72" r="5" fill="#BBB"/>
+  <circle cx="42" cy="72" r="3" fill="#999"/>
+  <!-- Hose -->
+  <path d="M42 72 Q30 60 28 45 Q26 30 34 22 Q40 16 48 18" fill="none" stroke="#888" stroke-width="5" stroke-linecap="round"/>
+  <!-- Handle -->
+  <path d="M48 18 L56 14 L60 20 L52 24 Z" fill="#444"/>
+  <!-- Nozzle -->
+  <rect x="52" y="12" width="20" height="6" rx="2" fill="#666"/>
+  <rect x="50" y="10" width="24" height="4" rx="2" fill="#555"/>
+  <!-- Power button -->
+  <circle cx="72" cy="76" r="4" fill="#4CAF50"/>
+  <circle cx="72" cy="76" r="2" fill="#66CC66"/>
+  <!-- Cord -->
+  <path d="M88 85 Q95 85 100 80 Q105 75 108 78" stroke="#444" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>

@@ -5,15 +5,16 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import { LoopScene, LoopCodePanel } from "@/components/games/step-counting";
+import type { BlenderPhase } from "@/components/games/step-counting/Blender";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
 import { TutorialModal } from "@/components/games/TutorialModal";
 import { stepCountingTutorialSteps } from "@/components/games/tutorials";
 import { HelpButton } from "@/components/games/HelpButton";
-import { stepCountingLevels, type ResolvedLoopConfig } from "@/constants/games/step-counting-levels";
+import { stepCountingLevels, type ResolvedLoopConfig, type LoopTheme } from "@/constants/games/step-counting-levels";
 import {
-  calculateGameScore,
+  calculateStepCountingScore,
   getStarRating,
   type ScoreResult,
 } from "@/utils/game-scoring";
@@ -25,7 +26,6 @@ import { OutOfLivesModal } from "@/components/common";
 function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }
-
 
 export default function StepCountingGamePage({
   params,
@@ -57,108 +57,135 @@ export default function StepCountingGamePage({
   const taskCount = config?.tasks.length ?? 1;
 
   // ── Game state ───────────────────────────────────────────
-  const [loopCounts, setLoopCounts] = useState<number[]>(() => Array(taskCount).fill(0));
-  const [filledAmounts, setFilledAmounts] = useState<number[]>(() => Array(taskCount).fill(0));
-  const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
-  const [currentLoop, setCurrentLoop] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
+  const [totalFilled, setTotalFilled] = useState<number[]>(() => Array(taskCount).fill(0));
+  const [taskStatuses, setTaskStatuses] = useState<("ok" | "over" | null)[]>(() => Array(taskCount).fill(null));
   const [boboState, setBoboState] = useState<"idle" | "squeeze" | "celebrate" | "bounce">("idle");
-  const [attemptCount, setAttemptCount] = useState(0);
+  const [isBlending, setIsBlending] = useState(false);
   const [showIntro, setShowIntro] = useState(levelNum === 1);
   const [gameKey, setGameKey] = useState(0);
 
-  // ── Overlay state ────────────────────────────────────────
-  const [showWrongOverlay, setShowWrongOverlay] = useState(false);
-  const [wrongMessage, setWrongMessage] = useState("");
-  const [taskStatuses, setTaskStatuses] = useState<("ok" | "over" | null)[]>(() => Array(taskCount).fill(null));
-  const [blenderDrop, setBlenderDrop] = useState<{ emoji: string; id: number } | null>(null);
+  // ── Blender state ─────────────────────────────────────────
+  const [blenderContents, setBlenderContents] = useState<{ theme: LoopTheme; count: number } | null>(null);
+  const [blenderPhase, setBlenderPhase] = useState<BlenderPhase>("empty");
+  const [lockedTheme, setLockedTheme] = useState<LoopTheme | null>(null);
+  const [residueTheme, setResidueTheme] = useState<LoopTheme | null>(null);
+  const residueTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ── Result state ─────────────────────────────────────────
+  // ── Penalty / score state ─────────────────────────────────
+  const [penaltyCount, setPenaltyCount] = useState(0);
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null);
-  const [attempts, setAttempts] = useState(0);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+
+  // ── Overlay state ─────────────────────────────────────────
+  const [showWarningOverlay, setShowWarningOverlay] = useState(false);
+  const [warningMessage, setWarningMessage] = useState("");
 
   const startTimeRef = useRef<number>(0);
   useEffect(() => { startTimeRef.current = Date.now(); }, []);
 
-  // ── Loop count change ────────────────────────────────────
-  const handleLoopChange = useCallback(
-    (taskIndex: number, delta: number) => {
-      if (isRunning || !config) return;
-      const task = config.tasks[taskIndex];
-      setLoopCounts((prev) => {
-        const next = [...prev];
-        next[taskIndex] = Math.max(0, Math.min(task.maxStepper, next[taskIndex] + delta));
-        return next;
-      });
-      if (delta > 0) setBlenderDrop({ emoji: task.inputEmoji, id: Date.now() });
-      setFilledAmounts((prev) => {
-        const next = [...prev];
-        next[taskIndex] = 0;
-        return next;
-      });
-      setCurrentLoop(0);
-      setBoboState("idle");
+  // ── Helper: show warning overlay ─────────────────────────
+  const showWarning = useCallback((msg: string) => {
+    setWarningMessage(msg);
+    setShowWarningOverlay(true);
+  }, []);
+
+  // ── Add / remove fruit from blender ──────────────────────
+  const handleAddFruit = useCallback(
+    (theme: LoopTheme, delta: number) => {
+      if (isBlending || !config) return;
+      if (blenderPhase === "dirty") return;
+      if (delta > 0 && lockedTheme !== null && lockedTheme !== theme) return;
+
+      const task = config.tasks.find((t) => t.theme === theme);
+      if (!task) return;
+
+      const currentCount = blenderContents?.theme === theme ? blenderContents.count : 0;
+      const newCount = Math.max(0, Math.min(task.blenderCapacity, currentCount + delta));
+
+      if (newCount === 0) {
+        setBlenderContents(null);
+        setLockedTheme(null);
+        setBlenderPhase("empty");
+      } else {
+        setBlenderContents({ theme, count: newCount });
+        setLockedTheme(theme);
+        setBlenderPhase("filling");
+      }
     },
-    [isRunning, config]
+    [isBlending, config, blenderPhase, lockedTheme, blenderContents]
   );
 
-  // ── Run loop ─────────────────────────────────────────────
-  const handleRun = useCallback(async () => {
-    if (isRunning || !config) return;
-    if (loopCounts.some((c) => c === 0)) return;
+  // ── Blend (คั้นน้ำ) ──────────────────────────────────────
+  const handleBlend = useCallback(async () => {
+    if (isBlending || !config) return;
 
-    setIsRunning(true);
-    setFilledAmounts(config.tasks.map(() => 0));
-    setCurrentTaskIndex(0);
-    setCurrentLoop(0);
-    setBoboState("idle");
-
-    const newAttempts = attemptCount + 1;
-    setAttemptCount(newAttempts);
-
-    const results: { total: number; isCorrect: boolean; taskIdx: number }[] = [];
-
-    for (let taskIdx = 0; taskIdx < config.tasks.length; taskIdx++) {
-      const task = config.tasks[taskIdx];
-      setCurrentTaskIndex(taskIdx);
-      setCurrentLoop(0);
-      let total = 0;
-
-      for (let i = 0; i < loopCounts[taskIdx]; i++) {
-        setBoboState("squeeze");
-        setCurrentLoop(i + 1);
-        total += task.yieldsPerAction;
-        total = Math.round(total * 100) / 100;
-        setFilledAmounts((prev) => {
-          const next = [...prev];
-          next[taskIdx] = total;
-          return next;
-        });
-        await sleep(500);
-        setBoboState("idle");
-        await sleep(200);
-
-        if (total > task.targetAmount) break;
-      }
-
-      results.push({ taskIdx, total, isCorrect: total === task.targetAmount });
+    // Penalty: blend when dirty (without cleaning)
+    if (blenderPhase === "dirty") {
+      setPenaltyCount((p) => p + 1);
+      reduceLife();
+      showWarning("ต้องล้างเครื่องก่อนนะ! โทษ 1 ครั้ง ⚠️");
+      return;
     }
 
-    const allCorrect = results.every((r) => r.isCorrect);
+    if (!blenderContents || blenderContents.count === 0) return;
 
-    setTaskStatuses(results.map((r) => {
-      if (r.isCorrect) return "ok";
-      return r.total > config.tasks[r.taskIdx].targetAmount ? "over" : null;
-    }));
+    setIsBlending(true);
+    setBoboState("squeeze");
+    setBlenderPhase("blending");
+    await sleep(1100);
 
-    if (allCorrect) {
+    const blendedTheme = blenderContents.theme;
+    const blendedCount = blenderContents.count;
+    const task = config.tasks.find((t) => t.theme === blendedTheme);
+    if (!task) { setIsBlending(false); return; }
+
+    const yieldAmount = Math.round(blendedCount * task.yieldsPerAction * 100) / 100;
+    const taskIdx = config.tasks.indexOf(task);
+
+    const newFilled = [...totalFilled];
+    newFilled[taskIdx] = Math.round((newFilled[taskIdx] + yieldAmount) * 100) / 100;
+
+    const newStatuses = [...taskStatuses];
+
+    // Check over-pour
+    if (newFilled[taskIdx] > task.targetAmount) {
+      setPenaltyCount((p) => p + 1);
+      reduceLife();
+      showWarning(`น้ำ${task.inputUnit}เกิน! ได้ ${newFilled[taskIdx]} แก้ว แต่ต้องการ ${task.targetAmount} แก้ว ⚠️`);
+      // Reset all glasses
+      setTotalFilled(config.tasks.map(() => 0));
+      setTaskStatuses(config.tasks.map(() => null));
+      setBlenderContents(null);
+      setLockedTheme(null);
+      setResidueTheme(blendedTheme);
+      setBlenderPhase("dirty");
+      setBoboState("bounce");
+      setIsBlending(false);
+      return;
+    }
+
+    // Update filled + statuses
+    newStatuses[taskIdx] = newFilled[taskIdx] === task.targetAmount ? "ok" : null;
+    setTotalFilled(newFilled);
+    setTaskStatuses(newStatuses);
+
+    // Reset blender — briefly dirty then auto-clear
+    setBlenderContents(null);
+    setLockedTheme(null);
+    setResidueTheme(blendedTheme);
+    setBlenderPhase("dirty");
+    if (residueTimerRef.current) clearTimeout(residueTimerRef.current);
+    residueTimerRef.current = setTimeout(() => setBlenderPhase("empty"), 800);
+
+    // Check win: all tasks filled exactly
+    const allDone = config.tasks.every((t, i) => newFilled[i] === t.targetAmount);
+    if (allDone) {
       setBoboState("celebrate");
       await sleep(600);
       const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
-      const result = calculateGameScore({
+      const result = calculateStepCountingScore({
         difficulty: config.difficulty,
-        attempts: newAttempts,
+        penaltyCount,
         timeSeconds: elapsed,
       });
       const { stars } = getStarRating(result.totalScore);
@@ -167,33 +194,11 @@ export default function StepCountingGamePage({
         .submitScore({ levelId: absoluteLevelId, score: result.totalScore, stars, playTime: elapsed })
         .catch((err) => console.error("Failed to submit score", err));
       setScoreResult(result);
-      setAttempts(newAttempts);
       setElapsedSeconds(elapsed);
-    } else {
-      setBoboState("bounce");
-      reduceLife();
-      const errorMsg = results
-        .filter((r) => !r.isCorrect)
-        .map((r) => {
-          const task = config.tasks[r.taskIdx];
-          return r.total < task.targetAmount
-            ? `น้ำ${task.inputUnit}: ได้ ${r.total} แก้ว ยังไม่ครบ ${task.targetAmount} แก้ว`
-            : `น้ำ${task.inputUnit}: มากเกิน! ได้ ${r.total} แก้ว แต่ต้องการแค่ ${task.targetAmount} แก้ว`;
-        })
-        .join("\n");
-      setWrongMessage(errorMsg);
-      setShowWrongOverlay(true);
     }
-    setIsRunning(false);
-  }, [isRunning, config, loopCounts, attemptCount, reduceLife]);
 
-  // ── Wrong overlay dismiss ────────────────────────────────
-  const handleWrongDismiss = useCallback(() => {
-    setShowWrongOverlay(false);
-    setBoboState("idle");
-    setFilledAmounts(config?.tasks.map(() => 0) ?? []);
-    setTaskStatuses(config?.tasks.map(() => null) ?? []);
-  }, [config]);
+    setIsBlending(false);
+  }, [isBlending, config, blenderPhase, blenderContents, totalFilled, taskStatuses, penaltyCount, reduceLife, showWarning]);
 
   // ── Retry (re-randomize variant) ────────────────────────
   const handleRetry = useCallback(() => {
@@ -201,24 +206,30 @@ export default function StepCountingGamePage({
       setVariantIndex(Math.floor(Math.random() * levelConfig.variants.length));
     }
     setScoreResult(null);
-    setAttempts(0);
     setElapsedSeconds(0);
-    setLoopCounts(config?.tasks.map(() => 0) ?? [0]);
-    setFilledAmounts(config?.tasks.map(() => 0) ?? [0]);
-    setCurrentTaskIndex(0);
-    setCurrentLoop(0);
-    setAttemptCount(0);
+    setTotalFilled(Array(taskCount).fill(0));
+    setTaskStatuses(Array(taskCount).fill(null));
     setBoboState("idle");
-    setTaskStatuses(config?.tasks.map(() => null) ?? []);
-    setShowWrongOverlay(false);
-    setIsRunning(false);
+    setIsBlending(false);
+    setBlenderContents(null);
+    setBlenderPhase("empty");
+    setLockedTheme(null);
+    setResidueTheme(null);
+    setPenaltyCount(0);
+    if (residueTimerRef.current) clearTimeout(residueTimerRef.current);
+    setShowWarningOverlay(false);
     startTimeRef.current = Date.now();
     setGameKey((k) => k + 1);
-  }, [config, levelConfig]);
+  }, [levelConfig, taskCount]);
+
+  // ── Derived blender capacity for scene ───────────────────
+  const activeTask = config?.tasks.find((t) => t.theme === (blenderContents?.theme ?? lockedTheme));
+  const blenderCapacity = activeTask?.blenderCapacity ?? (config?.tasks[0]?.blenderCapacity ?? 1);
 
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
   const hasGameResult = Boolean(scoreResult);
   const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   // ── Fallback ─────────────────────────────────────────────
   if (!config || !levelConfig) {
@@ -251,61 +262,61 @@ export default function StepCountingGamePage({
       {/* ===== Main content ===== */}
       <div className="flex flex-1 flex-col lg:flex-row gap-4 lg:gap-6 px-4 lg:px-12 pb-4 lg:pb-8 relative z-10 pt-4 lg:pt-5 lg:overflow-hidden">
 
-        {/* ===== LEFT PANEL: Scene area (60%) ===== */}
+        {/* ===== LEFT PANEL: Scene ===== */}
         <div className="lg:flex-[7] h-[55vh] lg:h-auto flex flex-col relative shrink-0" key={gameKey}>
           <LoopScene
             config={config}
-            filledAmounts={filledAmounts}
-            currentTaskIndex={currentTaskIndex}
-            isRunning={isRunning}
+            filledAmounts={totalFilled}
+            currentTaskIndex={0}
+            isRunning={isBlending}
             boboState={boboState}
             taskStatuses={taskStatuses}
-            blenderDrop={blenderDrop}
+            blenderPhase={blenderPhase}
+            blenderTheme={blenderContents?.theme ?? null}
+            blenderFruitCount={blenderContents?.count ?? 0}
+            blenderCapacity={blenderCapacity}
+            blenderResidueTheme={residueTheme}
           />
         </div>
 
-        {/* ===== RIGHT PANEL: Code panel (40%) ===== */}
+        {/* ===== RIGHT PANEL: Code panel ===== */}
         <div className="lg:flex-[4] flex flex-col relative min-h-[45vh] mb-8 lg:mb-0 shrink-0">
           <LoopCodePanel
             config={config}
-            loopCounts={loopCounts}
-            onLoopChange={handleLoopChange}
-            onRun={handleRun}
-            isRunning={isRunning}
-            activeTaskIndex={currentTaskIndex}
+            blenderContents={blenderContents}
+            blenderPhase={blenderPhase}
+            lockedTheme={lockedTheme}
+            totalFilled={totalFilled}
+            penaltyCount={penaltyCount}
+            onAddFruit={handleAddFruit}
+            onBlend={handleBlend}
+            isBlending={isBlending}
           />
         </div>
       </div>
 
       {/* ===== Help button ===== */}
-      <HelpButton
-        steps={[
-          { emoji: "📖", text: "อ่านโจทย์ด้านบน เช่น 'ส้ม 1 ลูก คั้นได้ครึ่งแก้ว'" },
-          { emoji: "🔢", text: "กด + / − ตั้งจำนวนที่ต้องการ" },
-          { emoji: "▶️", text: "กดรันเพื่อดูผลลัพธ์" },
-          { emoji: "🎯", text: "ตั้งจำนวนให้พอดีกับเป้าหมาย!" },
-        ]}
-      />
+      <HelpButton onClick={() => setShowIntro(true)} color="#6ED1CF" />
 
       {/* ===== INTRO TUTORIAL ===== */}
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={stepCountingTutorialSteps}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_Bobo/bobo-01.svg"
-          accentColor="#F97316"
+          accentColor="#6ED1CF"
         />
       )}
 
-      {/* ===== WRONG ANSWER OVERLAY ===== */}
-      {canShowGameOverlay && showWrongOverlay && (
+      {/* ===== WARNING OVERLAY ===== */}
+      {canShowOverlay && showWarningOverlay && (
         <GameOverlay
           type="error"
-          message={wrongMessage}
+          message={warningMessage}
           imageSrc="/images/P_Bobo/bobo-05.svg"
           imageAlt="Bobo"
-          autoDismissMs={2500}
-          onDismiss={handleWrongDismiss}
+          autoDismissMs={2200}
+          onDismiss={() => { setShowWarningOverlay(false); setBoboState("idle"); }}
         />
       )}
 
@@ -314,7 +325,7 @@ export default function StepCountingGamePage({
         <GameResultModal
           levelNum={levelNum}
           score={scoreResult}
-          attempts={attempts}
+          attempts={penaltyCount + 1}
           timeSeconds={elapsedSeconds}
           gamePath="step-counting"
           onRetry={handleRetry}

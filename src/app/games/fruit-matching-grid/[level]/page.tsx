@@ -58,6 +58,7 @@ export default function FruitMatchingGridGamePage({
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
   const hasGameResult = Boolean(scoreResult);
   const canShowGameOverlay = !isOutOfLives && !hasGameResult;
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   // ── Fallback ─────────────────────────────────────────────
   if (!config) {
@@ -99,7 +100,7 @@ export default function FruitMatchingGridGamePage({
           level={level}
           gameTitle="Coordinate Crunch"
           characterSrc="/images/P_PingPing/pingping-01.svg"
-          bgColor="transparent"
+          bgColor="#F0767C"
         />
       </div>
 
@@ -114,22 +115,15 @@ export default function FruitMatchingGridGamePage({
       </div>
 
       {/* Help button */}
-      <HelpButton
-        steps={[
-          { emoji: "👀", text: `ดูพิกัดตัวอักษรและตัวเลขบนตาราง` },
-          { emoji: "📌", text: "ดูเป้าหมายพิกัดที่ต้องหาทางขวามือ" },
-          { emoji: "👆", text: "จิ้มที่ช่องนั้นเลย!" },
-          { emoji: "✅", text: "หาให้ครบทุกพิกัดเพื่อผ่านด่าน!" },
-        ]}
-      />
+      <HelpButton onClick={() => setShowIntro(true)} color="#F0767C" />
 
       {/* Intro tutorial — Level 1 only */}
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={fruitMatchingTutorialSteps}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_PingPing/pingping-01.svg"
-          accentColor="#1565C0"
+          accentColor="#F0767C"
         />
       )}
 
