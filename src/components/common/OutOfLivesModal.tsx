@@ -20,7 +20,7 @@ export function OutOfLivesModal() {
     <>
       <LoadingOverlay isLoading={isNavigating} message="กำลังกลับสู่หน้าหลัก..." />
       {!isNavigating && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div
             className="relative w-[360px] rounded-3xl overflow-hidden shadow-2xl bg-white border-2 border-red-200"
             style={{ animation: "modalIn 0.35s ease-out" }}

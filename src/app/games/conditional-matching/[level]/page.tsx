@@ -22,6 +22,10 @@ import type { MatchItem, CondMatchPattern } from "@/constants/games/conditional-
 
 type NodePos = { x: number; y: number };
 
+const CONN_COLORS = ["#FF3366", "#FF8800", "#00C853", "#2979FF", "#AA00FF", "#00BCD4", "#FFD600", "#FF1744"];
+const ptsToPath = (pts: NodePos[]): string =>
+  pts.length < 2 ? "" : "M " + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" L ");
+
 // Components are imported from "@/components/games/conditional-matching"
 
 export default function ConditionalMatchingGamePage({
@@ -43,12 +47,15 @@ export default function ConditionalMatchingGamePage({
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showIntro, setShowIntro] = useState(levelNum === 1);
   const [connectedItems, setConnectedItems] = useState<Record<string, string>>({});
+  const [connectedPaths, setConnectedPaths] = useState<Record<string, NodePos[]>>({});
   const [, setTick] = useState(0);
   const [retryKey, setRetryKey] = useState(0); // bump to force re-shuffle on retry
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [errorLines, setErrorLines] = useState<string[]>([]);
   const [correctLines, setCorrectLines] = useState<string[]>([]);
+  const hasGameResult = Boolean(scoreResult);
+  const canShowTutorial = showIntro && !isOutOfLives && !hasGameResult;
 
   const [shuffledLeftItems, setShuffledLeftItems] = useState<MatchItem[]>([]);
   const [shuffledRightItems, setShuffledRightItems] = useState<MatchItem[]>([]);
@@ -89,10 +96,11 @@ export default function ConditionalMatchingGamePage({
   const containerRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [nodePositions, setNodePositions] = useState<Record<string, NodePos>>({});
-  const [activeLine, setActiveLine] = useState<{ startId: string; currentX: number; currentY: number } | null>(null);
+  const [activeLine, setActiveLine] = useState<{ startId: string; points: NodePos[] } | null>(null);
 
   // Refs สำหรับ window-level pointer handlers (หลีกเลี่ยง stale closure บน touch)
-  const activeLineRef = useRef<{ startId: string; currentX: number; currentY: number } | null>(null);
+  const activeLineRef = useRef<{ startId: string; points: NodePos[] } | null>(null);
+  const activePointsRef = useRef<NodePos[]>([]);
   const nodePositionsRef = useRef<Record<string, NodePos>>({});
   const errorLinesRef = useRef<string[]>([]);
   const correctLinesRef = useRef<string[]>([]);
@@ -165,16 +173,15 @@ export default function ConditionalMatchingGamePage({
         return next;
       });
 
-      // Snap the starting point of the dragged line to the anchor dot position
-      // so the line always visually starts from the dot, not from where the user tapped
       const dotPos = nodePositionsRef.current[id];
       const startX = dotPos ? dotPos.x : e.clientX - containerRect.left;
       const startY = dotPos ? dotPos.y : e.clientY - containerRect.top;
+      const startPt: NodePos = { x: startX, y: startY };
+      activePointsRef.current = [startPt];
 
       setActiveLine({
         startId: id,
-        currentX: startX,
-        currentY: startY,
+        points: [startPt],
       });
     }
   };
@@ -189,9 +196,15 @@ export default function ConditionalMatchingGamePage({
       e.preventDefault(); // ป้องกัน scroll ขณะลาก
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      setActiveLine((prev) =>
-        prev ? { ...prev, currentX: e.clientX - rect.left, currentY: e.clientY - rect.top } : null
-      );
+      const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+      const y = Math.min(Math.max(e.clientY - rect.top, 0), rect.height);
+      const pts = activePointsRef.current;
+      if (pts.length > 0) {
+        const last = pts[pts.length - 1];
+        if (Math.hypot(x - last.x, y - last.y) < 4) return;
+      }
+      activePointsRef.current = [...pts, { x, y }];
+      setActiveLine((prev) => prev ? { ...prev, points: activePointsRef.current } : null);
     };
 
     const onUp = (e: PointerEvent) => {
@@ -231,6 +244,12 @@ export default function ConditionalMatchingGamePage({
         const leftId = startId;
         const rightId = finalDroppedId;
 
+        const rightNodePos = nodePositionsRef.current[rightId];
+        const pathToSave = rightNodePos
+          ? [...activePointsRef.current, rightNodePos]
+          : activePointsRef.current;
+        setConnectedPaths((prev) => ({ ...prev, [leftId]: pathToSave }));
+
         setConnectedItems((prev) => {
           const next = { ...prev };
           if (correctLinesRef.current.includes(leftId)) return prev;
@@ -244,6 +263,7 @@ export default function ConditionalMatchingGamePage({
         });
       }
 
+      activePointsRef.current = [];
       setActiveLine(null);
     };
 
@@ -322,9 +342,12 @@ export default function ConditionalMatchingGamePage({
       errorFlashTimeoutRef.current = setTimeout(() => {
         setConnectedItems((prev) => {
           const next = { ...prev };
-          newErrorLines.forEach((id) => {
-            delete next[id];
-          });
+          newErrorLines.forEach((id) => { delete next[id]; });
+          return next;
+        });
+        setConnectedPaths((prev) => {
+          const next = { ...prev };
+          newErrorLines.forEach((id) => { delete next[id]; });
           return next;
         });
         setErrorLines([]);
@@ -348,6 +371,13 @@ export default function ConditionalMatchingGamePage({
       });
       return next;
     });
+    setConnectedPaths((prev) => {
+      const next = { ...prev };
+      Object.keys(next).forEach((k) => {
+        if (!correctLines.includes(k)) delete next[k];
+      });
+      return next;
+    });
     setErrorLines([]);
   }, [isCompleted, correctLines]);
 
@@ -364,6 +394,7 @@ export default function ConditionalMatchingGamePage({
     setScoreResult(null);
     setElapsedSeconds(0);
     setConnectedItems({});
+    setConnectedPaths({});
     setErrorLines([]);
     setCorrectLines([]);
     startTimeRef.current = Date.now();
@@ -392,31 +423,9 @@ export default function ConditionalMatchingGamePage({
   const activeRightItems = activePattern?.rightItems ?? config.rightItems ?? [];
 
 
-  // ── SVG Curved Line: Proper Cubic Bezier (Option A) ─────────
-  const getSCurvePath = (start: NodePos, end: NodePos) => {
-    const dx = end.x - start.x;
-    const dy = end.y - start.y;
-    const absDx = Math.abs(dx);
-    const absDy = Math.abs(dy);
-
-    if (absDx > absDy) {
-      // Horizontal layout (mobile): anchors face left / right
-      // tension scales with distance so the curve always looks proportional
-      const tension = Math.max(absDx * 0.5, 50);
-      const cx1 = start.x + (dx > 0 ? tension : -tension);
-      const cy1 = start.y;
-      const cx2 = end.x - (dx > 0 ? tension : -tension);
-      const cy2 = end.y;
-      return `M ${start.x} ${start.y} C ${cx1} ${cy1} ${cx2} ${cy2} ${end.x} ${end.y}`;
-    }
-
-    // Vertical layout (desktop): anchors face up / down
-    const tension = Math.max(absDy * 0.5, 50);
-    const cx1 = start.x;
-    const cy1 = start.y + (dy > 0 ? tension : -tension);
-    const cx2 = end.x;
-    const cy2 = end.y - (dy > 0 ? tension : -tension);
-    return `M ${start.x} ${start.y} C ${cx1} ${cy1} ${cx2} ${cy2} ${end.x} ${end.y}`;
+  const getConnColor = (leftId: string): string => {
+    const idx = shuffledLeftItems.findIndex(item => item.id === leftId);
+    return CONN_COLORS[idx % CONN_COLORS.length] ?? "#F97316";
   };
 
   const isAllFilled = Object.keys(connectedItems).length === activeLeftItems.length;
@@ -429,7 +438,7 @@ export default function ConditionalMatchingGamePage({
       className="flex flex-col min-h-screen overflow-y-auto sm:h-screen sm:overflow-hidden relative bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/images/Background/conditionalmatchingBackground.png')" }}
     >
-      <GameHeader level={level} gameTitle="Conditional Matching" characterSrc="/images/P_Coco/coco-03.svg" />
+      <GameHeader level={level} gameTitle="Conditional Matching" characterSrc="/images/P_Coco/coco-03.svg" bgColor="#FEAA50" />
 
       {/* Global & inline custom animations */}
       <style>{`
@@ -459,6 +468,24 @@ export default function ConditionalMatchingGamePage({
         .animate-card-pop {
           animation: card-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
           opacity: 0;
+        }
+        @keyframes penTipRing {
+          0%   { transform: scale(1);   opacity: 0.6; }
+          100% { transform: scale(2.8); opacity: 0; }
+        }
+        @keyframes penTipDot {
+          0%, 100% { transform: scale(1); }
+          50%      { transform: scale(1.25); }
+        }
+        .pen-tip-ring {
+          animation: penTipRing 0.6s ease-out infinite;
+          transform-box: fill-box;
+          transform-origin: center;
+        }
+        .pen-tip-dot {
+          animation: penTipDot 0.35s ease-in-out infinite;
+          transform-box: fill-box;
+          transform-origin: center;
         }
       `}</style>
 
@@ -547,27 +574,6 @@ export default function ConditionalMatchingGamePage({
             </svg>
           </div>
 
-          {/* Level Badge (Top Left Border) */}
-          <div className="absolute -top-3.5 sm:-top-5 left-4 sm:left-20 z-30 pointer-events-none whitespace-nowrap">
-            <div
-              className="px-3 sm:px-5 py-1 sm:py-1.5 rounded-full flex items-center justify-center"
-              style={{
-                background: "rgba(255,255,255,0.92)",
-                boxShadow: "0 4px 14px rgba(254,170,80,0.45), inset 0 -2px 0 rgba(231,104,27,0.18)",
-                border: "2px solid #FEAA50",
-              }}
-            >
-              <span
-                className="text-xs sm:text-sm md:text-base font-bold tracking-wide"
-                style={{
-                  color: "#E7681B",
-                  textShadow: "0 1px 0 rgba(255,255,255,1)",
-                }}
-              >
-                LEVEL {config.level} - {config.difficulty === "easy" ? "ง่าย" : config.difficulty === "normal" ? "ปานกลาง" : "ยาก"}
-              </span>
-            </div>
-          </div>
 
           {/* Game Title Badge (Centered on Top Border) */}
           <div className="absolute -top-5 sm:-top-7 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-none whitespace-nowrap">
@@ -600,62 +606,60 @@ export default function ConditionalMatchingGamePage({
             {/* SVG Overlay for Connections */}
             <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" style={{ overflow: 'visible' }}>
 
-              {/* Established Connections */}
-              {Object.entries(connectedItems).map(([startId, endId]) => {
-                const start = nodePositions[startId];
-                const end = nodePositions[endId];
-                if (!start || !end) return null;
+              {/* Established freehand connections */}
+              {Object.keys(connectedItems).map((startId) => {
+                const pts = connectedPaths[startId];
+                if (!pts || pts.length < 2) return null;
                 const isErr = errorLines.includes(startId);
                 const isCorr = correctLines.includes(startId);
-
-                // Color palette matching the orange game theme
-                const glowColor = isErr ? "#ef4444" : isCorr ? "#22c55e" : "#f97316";
-                const lineColor = isErr ? "#dc2626" : isCorr ? "#16a34a" : "#ea580c";
-                const path = getSCurvePath(start, end);
+                const connColor = getConnColor(startId);
+                const strokeColor = isErr ? "#DC2626" : isCorr ? "#16A34A" : connColor;
+                const glowColor = isErr ? "#EF4444" : isCorr ? "#22C55E" : connColor;
+                const pathD = ptsToPath(pts);
 
                 return (
-                  <g key={`${startId}-${endId}`}>
-                    {/* Wide soft glow */}
-                    <path d={path} stroke={glowColor} strokeWidth="22" strokeLinecap="round"
-                      fill="none" opacity="0.20" />
-                    {/* Main line */}
-                    <path d={path} stroke={lineColor} strokeWidth="7"
-                      strokeLinecap="round" fill="none"
+                  <g key={startId}>
+                    <path d={pathD} stroke={glowColor} strokeWidth="14"
+                      strokeLinecap="round" strokeLinejoin="round"
+                      fill="none" opacity="0.3" />
+                    <path d={pathD} stroke={strokeColor} strokeWidth="5"
+                      strokeLinecap="round" strokeLinejoin="round"
+                      fill="none"
                       className={isCorr ? "line-flow" : ""}
-                      style={isCorr ? { strokeDasharray: "12 6" } : undefined}
+                      style={isCorr ? { strokeDasharray: "8 4" } : undefined}
                     />
-                    {/* White inner highlight for premium depth */}
-                    <path d={path} stroke="white" strokeWidth="2"
-                      strokeLinecap="round" fill="none" opacity="0.45" />
                   </g>
                 );
               })}
 
-              {/* Currently Dragging Line */}
-              {activeLine && nodePositions[activeLine.startId] && (
-                <g>
-                  {/* Glow */}
-                  <path
-                    d={getSCurvePath(nodePositions[activeLine.startId], { x: activeLine.currentX, y: activeLine.currentY })}
-                    stroke="#f97316" strokeWidth="22" strokeLinecap="round"
-                    fill="none" opacity="0.18"
-                  />
-                  {/* Dashed main line while dragging */}
-                  <path
-                    d={getSCurvePath(nodePositions[activeLine.startId], { x: activeLine.currentX, y: activeLine.currentY })}
-                    stroke="#ea580c" strokeWidth="6" strokeLinecap="round"
-                    strokeDasharray="10 5"
-                    fill="none"
-                    className="line-flow"
-                  />
-                  {/* White inner highlight */}
-                  <path
-                    d={getSCurvePath(nodePositions[activeLine.startId], { x: activeLine.currentX, y: activeLine.currentY })}
-                    stroke="white" strokeWidth="2" strokeLinecap="round"
-                    fill="none" opacity="0.5"
-                  />
-                </g>
-              )}
+              {/* Currently drawing freehand line */}
+              {activeLine && activeLine.points.length >= 1 && (() => {
+                const drawColor = getConnColor(activeLine.startId);
+                const lastPt = activeLine.points[activeLine.points.length - 1];
+                const pathD = activeLine.points.length >= 2 ? ptsToPath(activeLine.points) : null;
+                return (
+                  <g>
+                    {pathD && (
+                      <>
+                        <path d={pathD} stroke={drawColor} strokeWidth="14"
+                          strokeLinecap="round" strokeLinejoin="round"
+                          fill="none" opacity="0.25" />
+                        <path d={pathD} stroke={drawColor} strokeWidth="5"
+                          strokeLinecap="round" strokeLinejoin="round"
+                          fill="none" opacity="0.9" />
+                      </>
+                    )}
+                    {/* Pen tip: pulse ring */}
+                    <circle cx={lastPt.x} cy={lastPt.y} r="5"
+                      fill="none" stroke={drawColor} strokeWidth="1.5"
+                      className="pen-tip-ring" />
+                    {/* Pen tip: solid dot */}
+                    <circle cx={lastPt.x} cy={lastPt.y} r="3.5"
+                      fill={drawColor}
+                      className="pen-tip-dot" />
+                  </g>
+                );
+              })()}
             </svg>
 
             {/* Left Column (mobile) / Top Row (desktop): Questions */}
@@ -797,20 +801,14 @@ export default function ConditionalMatchingGamePage({
         </div>
       </main>
 
-      <HelpButton
-        steps={[
-          { emoji: "❓", text: "อ่านชื่อและดูรูปในแต่ละช่อง" },
-          { emoji: "🔑", text: "ลากเส้นจากกุญแจ ไปหาแม่กุญแจที่จับคู่กัน" },
-          { emoji: "✅", text: "ลากให้ครบทุกเส้น แล้วกดตรวจคำตอบ!" },
-        ]}
-      />
+      <HelpButton onClick={() => setShowIntro(true)} color="#FEAA50" />
 
-      {showIntro && (
+      {canShowTutorial && (
         <TutorialModal
           steps={conditionalMatchingTutorialSteps}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_Coco/coco-03.svg"
-          accentColor="#4F46E5"
+          accentColor="#FEAA50"
         />
       )}
 

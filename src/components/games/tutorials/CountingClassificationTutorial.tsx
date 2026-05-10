@@ -17,18 +17,21 @@ const DEMO_ROWS: { type: ShapeType; answer: number }[] = [
 
 /* ── Step 1: ShapeIcon floating, no background ─────────────────── */
 const FLOAT_SHAPES: { type: ShapeType; size: number; top: string; left: string; dur: string; delay: string; rot: number }[] = [
-    { type: "circle", size: 56, top: "8%", left: "10%", dur: "3.2s", delay: "0s", rot: 0 },
-    { type: "triangle", size: 52, top: "12%", left: "62%", dur: "2.8s", delay: "0.4s", rot: 15 },
-    { type: "circle", size: 48, top: "48%", left: "78%", dur: "3.5s", delay: "0.8s", rot: 0 },
-    { type: "square", size: 54, top: "55%", left: "22%", dur: "2.6s", delay: "0.2s", rot: -12 },
-    { type: "circle", size: 50, top: "70%", left: "55%", dur: "3.0s", delay: "1.0s", rot: 0 },
-    { type: "triangle", size: 46, top: "32%", left: "40%", dur: "2.9s", delay: "0.6s", rot: -8 },
-    { type: "circle", size: 44, top: "18%", left: "85%", dur: "3.3s", delay: "1.2s", rot: 0 },
+    { type: "circle", size: 52, top: "22%", left: "12%", dur: "3.2s", delay: "0s", rot: 0 },
+    { type: "circle", size: 48, top: "72%", left: "62%", dur: "3.0s", delay: "0.8s", rot: 0 },
+    { type: "triangle", size: 50, top: "20%", left: "58%", dur: "2.8s", delay: "0.4s", rot: 10 },
+    { type: "triangle", size: 44, top: "78%", left: "28%", dur: "3.1s", delay: "1.0s", rot: -8 },
+    { type: "square", size: 48, top: "50%", left: "82%", dur: "2.6s", delay: "0.2s", rot: -10 },
+    { type: "square", size: 44, top: "38%", left: "22%", dur: "3.3s", delay: "0.6s", rot: 8 },
+    { type: "pentagon", size: 46, top: "22%", left: "80%", dur: "2.9s", delay: "0.3s", rot: 5 },
+    { type: "pentagon", size: 42, top: "75%", left: "78%", dur: "3.4s", delay: "1.2s", rot: -5 },
+    { type: "hexagon", size: 48, top: "55%", left: "44%", dur: "3.0s", delay: "0.7s", rot: 0 },
+    { type: "hexagon", size: 44, top: "30%", left: "40%", dur: "2.7s", delay: "1.5s", rot: 12 },
 ];
 
 function Step1Scene() {
     return (
-        <div className="relative w-full" style={{ height: 220 }}>
+        <div className="relative w-full rounded-2xl overflow-hidden" style={{ height: 220, background: "#FFFFFF", boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}>
             {FLOAT_SHAPES.map((s, i) => (
                 <div key={i} className="absolute"
                     style={{
@@ -174,7 +177,7 @@ function Step3Submit() {
                     transform: phase === "checking" ? "translateY(4px) scale(0.97)" : phase === "correct" ? "scale(1.06)" : "scale(1)",
                     animation: phase === "idle" ? "ccBtnPulse 1.2s ease-in-out infinite" : "none",
                 }}>
-                {phase === "correct" ? "✅ ถูกต้อง!" : phase === "checking" ? "⏳ กำลังตรวจ..." : "✓ ส่งคำตอบ"}
+                {phase === "correct" ? "ถูกต้อง!" : phase === "checking" ? "⏳ กำลังตรวจ..." : "✓ ยืนยัน"}
             </button>
 
             <style>{`
@@ -191,7 +194,7 @@ export const countingClassificationTutorialSteps: TutorialStep[] = [
     {
         title: "มองหารูปทรงในภาพ",
         content: <Step1Scene />,
-        hint: "มองหารูปทรงต่างๆ ที่ลอยอยู่ในฉาก แล้วนับจำนวนแต่ละแบบ",
+        hint: "มองหารูปทรงต่างๆ แล้วนับจำนวนแต่ละแบบ",
     },
     {
         title: "กด + เพื่อนับจำนวน",
@@ -199,8 +202,8 @@ export const countingClassificationTutorialSteps: TutorialStep[] = [
         hint: "กด + บนแถวของแต่ละรูปทรงเพื่อเพิ่มจำนวนที่นับได้",
     },
     {
-        title: "ส่งคำตอบ",
+        title: "ยืนยัน",
         content: <Step3Submit />,
-        hint: "เมื่อนับครบทุกรูปทรงแล้ว กดส่งคำตอบเพื่อตรวจ!",
+        hint: "เมื่อนับครบทุกรูปทรงแล้ว กดยืนยันคำตอบ!",
     },
 ];

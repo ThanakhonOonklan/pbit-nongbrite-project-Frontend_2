@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Shell body -->
+  <ellipse cx="64" cy="62" rx="34" ry="32" fill="#D4A56A"/>
+  <!-- Shell spiral - outer -->
+  <path d="M64 30 Q96 32 96 62 Q96 90 64 92 Q34 90 34 66 Q34 44 54 38" fill="none" stroke="#B8864E" stroke-width="3.5"/>
+  <!-- Shell spiral - middle -->
+  <path d="M58 40 Q84 42 84 62 Q84 82 64 82 Q46 80 44 66 Q44 52 56 48" fill="none" stroke="#B8864E" stroke-width="3"/>
+  <!-- Shell spiral - inner -->
+  <path d="M58 50 Q74 52 74 62 Q74 72 64 72 Q56 71 54 64 Q54 58 60 56" fill="none" stroke="#B8864E" stroke-width="2.5"/>
+  <!-- Shell spiral center -->
+  <circle cx="62" cy="60" r="3" fill="#B8864E"/>
+  <!-- Shell highlight -->
+  <ellipse cx="50" cy="48" rx="8" ry="12" fill="white" opacity="0.15" transform="rotate(-20 50 48)"/>
+  <!-- Ground/base -->
+  <ellipse cx="64" cy="100" rx="40" ry="6" fill="#8B6E4E" opacity="0.3"/>
+  <!-- Snail body peeking slightly from bottom -->
+  <path d="M42 88 Q38 92 36 96 Q34 100 38 100 Q44 100 48 96 Q50 92 48 88" fill="#A8A0D0" opacity="0.7"/>
+  <!-- Small eye stalks barely visible -->
+  <path d="M40 90 Q38 86 36 84" stroke="#A8A0D0" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <circle cx="35" cy="83" r="1.5" fill="#A8A0D0" opacity="0.5"/>
+  <!-- "Zzz" sleeping indicator -->
+  <text x="82" y="36" font-family="Arial" font-size="12" font-weight="bold" fill="#7A9EC4" opacity="0.7">z</text>
+  <text x="90" y="28" font-family="Arial" font-size="10" font-weight="bold" fill="#7A9EC4" opacity="0.5">z</text>
+  <text x="96" y="22" font-family="Arial" font-size="8" font-weight="bold" fill="#7A9EC4" opacity="0.4">z</text>
+</svg>

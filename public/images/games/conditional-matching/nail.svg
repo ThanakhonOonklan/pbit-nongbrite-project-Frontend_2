@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Nail shadow -->
+  <ellipse cx="66" cy="120" rx="20" ry="3" fill="#888" opacity="0.15"/>
+
+  <!-- Nail shaft -->
+  <rect x="60" y="32" width="8" height="76" rx="1" fill="#B0B0B0"/>
+  <!-- Shaft highlight -->
+  <rect x="61" y="32" width="3" height="76" rx="1" fill="#D0D0D0" opacity="0.5"/>
+  <!-- Shaft shadow -->
+  <rect x="66" y="32" width="2" height="76" fill="#909090" opacity="0.4"/>
+
+  <!-- Nail point -->
+  <polygon points="60,108 68,108 64,122" fill="#A0A0A0"/>
+  <polygon points="61,108 64,118 63,108" fill="#C0C0C0" opacity="0.4"/>
+
+  <!-- Nail head (flat top) -->
+  <ellipse cx="64" cy="30" rx="18" ry="6" fill="#909090"/>
+  <ellipse cx="64" cy="28" rx="18" ry="6" fill="#B0B0B0"/>
+  <ellipse cx="64" cy="28" rx="14" ry="4" fill="#C8C8C8" opacity="0.5"/>
+  <!-- Head highlight -->
+  <ellipse cx="58" cy="26" rx="6" ry="2.5" fill="white" opacity="0.25"/>
+
+  <!-- Wood plank behind -->
+  <rect x="10" y="56" width="108" height="24" rx="3" fill="#D4A56A"/>
+  <rect x="10" y="56" width="108" height="24" rx="3" fill="none" stroke="#B8864E" stroke-width="1.5"/>
+  <!-- Wood grain -->
+  <path d="M14 62 Q40 60 70 63 Q100 66 114 64" stroke="#C4945A" stroke-width="1" fill="none" opacity="0.5"/>
+  <path d="M14 70 Q50 72 80 69 Q100 68 114 70" stroke="#C4945A" stroke-width="1" fill="none" opacity="0.5"/>
+  <path d="M14 76 Q30 74 60 76 Q90 78 114 76" stroke="#C4945A" stroke-width="1" fill="none" opacity="0.4"/>
+</svg>

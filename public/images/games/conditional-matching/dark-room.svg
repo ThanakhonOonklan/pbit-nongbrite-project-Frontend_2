@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Room background (softer dark blue) -->
+  <rect x="10" y="10" width="108" height="108" rx="12" fill="#2D3561"/>
+  <!-- Wall texture -->
+  <rect x="10" y="10" width="108" height="108" rx="12" fill="#3A4278" opacity="0.4"/>
+  <!-- Floor -->
+  <rect x="10" y="88" width="108" height="30" rx="0" fill="#252B4A"/>
+  <!-- Window frame -->
+  <rect x="58" y="20" width="44" height="40" rx="4" fill="#1B2240" stroke="#5C6BC0" stroke-width="2"/>
+  <line x1="80" y1="20" x2="80" y2="60" stroke="#5C6BC0" stroke-width="1.5"/>
+  <line x1="58" y1="40" x2="102" y2="40" stroke="#5C6BC0" stroke-width="1.5"/>
+  <!-- Night sky through window -->
+  <rect x="60" y="22" width="18" height="16" fill="#1A237E"/>
+  <rect x="82" y="22" width="18" height="16" fill="#1A237E"/>
+  <rect x="60" y="42" width="18" height="16" fill="#1A237E"/>
+  <rect x="82" y="42" width="18" height="16" fill="#1A237E"/>
+  <!-- Moon -->
+  <circle cx="72" cy="32" r="6" fill="#FFF9C4"/>
+  <circle cx="75" cy="30" r="5" fill="#1A237E"/>
+  <!-- Stars -->
+  <circle cx="92" cy="28" r="1.2" fill="#FFF9C4" opacity="0.8"/>
+  <circle cx="88" cy="48" r="1" fill="#FFF9C4" opacity="0.7"/>
+  <circle cx="96" cy="50" r="0.8" fill="#FFF9C4" opacity="0.6"/>
+  <!-- Moonlight beam on floor -->
+  <polygon points="70,60 92,60 100,98 62,98" fill="#FFF9C4" opacity="0.08"/>
+  <!-- Table silhouette -->
+  <rect x="20" y="68" width="30" height="5" rx="2" fill="#3D4470"/>
+  <rect x="24" y="73" width="4" height="18" rx="1" fill="#3D4470"/>
+  <rect x="42" y="73" width="4" height="18" rx="1" fill="#3D4470"/>
+  <!-- Lamp on table (off) -->
+  <rect x="32" y="60" width="8" height="8" rx="2" fill="#4A5080"/>
+  <path d="M30 60 Q36 52 42 60" fill="#4A5080"/>
+  <!-- Bed silhouette -->
+  <rect x="14" y="80" width="36" height="12" rx="3" fill="#3D4470"/>
+  <ellipse cx="20" cy="78" rx="8" ry="5" fill="#4A5080"/>
+  <!-- Zzz (sleeping / nighttime feel) -->
+  <text x="44" y="44" font-family="Arial" font-size="14" font-weight="bold" fill="#B8C1EC" opacity="0.5" text-anchor="middle">z</text>
+  <text x="50" y="34" font-family="Arial" font-size="10" font-weight="bold" fill="#B8C1EC" opacity="0.35" text-anchor="middle">z</text>
+</svg>

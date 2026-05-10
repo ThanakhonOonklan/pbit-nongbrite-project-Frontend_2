@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Mat shadow -->
+  <path d="M18 52 L110 42 L114 92 L22 102 Z" fill="#000" opacity="0.08"/>
+  <!-- Mat body -->
+  <path d="M16 48 L108 38 L112 88 L20 98 Z" fill="#E85D3A"/>
+  <!-- Checkered pattern rows -->
+  <path d="M16 48 L108 38 L108 48 L16 58 Z" fill="#E85D3A"/>
+  <path d="M16 58 L108 48 L108 58 L16 68 Z" fill="#F5F0E0"/>
+  <path d="M16 68 L108 58 L108 68 L16 78 Z" fill="#E85D3A"/>
+  <path d="M16 78 L108 68 L108 78 L16 88 Z" fill="#F5F0E0"/>
+  <path d="M16 88 L108 78 L112 88 L20 98 Z" fill="#E85D3A"/>
+  <!-- Vertical stripes for checkered look -->
+  <path d="M39 45 L39 95" stroke="#C44A2A" stroke-width="0.5" opacity="0.3"/>
+  <path d="M62 42 L62 92" stroke="#C44A2A" stroke-width="0.5" opacity="0.3"/>
+  <path d="M85 40 L85 90" stroke="#C44A2A" stroke-width="0.5" opacity="0.3"/>
+  <!-- Fringe on edge -->
+  <path d="M20 98 L22 104 L26 98 L28 104 L32 98 L34 104 L38 98 L40 104 L44 98 L46 104 L50 98 L52 104 L56 98 L58 104 L62 98 L64 104 L68 98 L70 104 L74 98 L76 104 L80 98 L82 104 L86 98 L88 104 L92 98 L94 104 L98 98 L100 104 L104 98 L106 104 L110 98 L112 88" fill="#E85D3A" stroke="none"/>
+  <!-- Mat border -->
+  <path d="M16 48 L108 38 L112 88 L20 98 Z" fill="none" stroke="#C44A2A" stroke-width="1.5"/>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Top half of pencil (tilted up-left) -->
+  <g transform="rotate(-35 58 52)">
+    <!-- Pencil body top -->
+    <rect x="20" y="44" width="50" height="16" rx="2" fill="#FFB74D"/>
+    <rect x="20" y="44" width="50" height="5" rx="1" fill="#FFA726"/>
+    <rect x="20" y="55" width="50" height="5" rx="1" fill="#FF9800"/>
+    <!-- Metal band -->
+    <rect x="14" y="43" width="8" height="18" rx="1" fill="#E0E0E0"/>
+    <rect x="16" y="43" width="2" height="18" fill="#BDBDBD"/>
+    <rect x="20" y="43" width="2" height="18" fill="#BDBDBD"/>
+    <!-- Eraser -->
+    <rect x="6" y="45" width="10" height="14" rx="3" fill="#FF8A80"/>
+  </g>
+  <!-- Bottom half of pencil (tilted down-right) -->
+  <g transform="rotate(15 78 78)">
+    <!-- Pencil body bottom -->
+    <rect x="62" y="70" width="40" height="16" rx="2" fill="#FFB74D"/>
+    <rect x="62" y="70" width="40" height="5" rx="1" fill="#FFA726"/>
+    <rect x="62" y="81" width="40" height="5" rx="1" fill="#FF9800"/>
+    <!-- Tip -->
+    <polygon points="102,70 116,78 102,86" fill="#FFE0B2"/>
+    <polygon points="112,75 116,78 112,81" fill="#424242"/>
+  </g>
+  <!-- Break point - jagged edges -->
+  <path d="M56 50 L60 46 L58 52 L62 48 L60 56 L56 52 Z" fill="#FFCC80" transform="rotate(-35 58 52)"/>
+  <path d="M62 72 L66 68 L64 74 L68 70 L66 78 L62 74 Z" fill="#FFCC80" transform="rotate(15 78 78)"/>
+  <!-- Impact lines -->
+  <line x1="62" y1="58" x2="68" y2="54" stroke="#FF8A65" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <line x1="56" y1="68" x2="52" y2="74" stroke="#FF8A65" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <line x1="70" y1="62" x2="74" y2="58" stroke="#FF8A65" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <!-- Small debris -->
+  <circle cx="64" cy="64" r="2" fill="#FFCC80" opacity="0.6"/>
+  <circle cx="58" cy="62" r="1.5" fill="#FFCC80" opacity="0.5"/>
+  <circle cx="70" cy="66" r="1.5" fill="#FFCC80" opacity="0.4"/>
+</svg>

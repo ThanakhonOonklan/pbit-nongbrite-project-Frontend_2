@@ -491,20 +491,6 @@ export const sequencingLevels: SequencingLevelConfig[] = [
                     { id: "ff8_7", content: "/images/sequencing/fog-formation/fade-fog.svg", isImage: true, label: "จาง" },
                 ],
             },
-            // Pattern 5: ผสมสี
-            {
-                theme: "mixing-colors",
-                sequenceTitle: "การผสมสี",
-                correctSequence: [
-                    { id: "mc8_1", content: "/images/sequencing/mixing-colors/red.svg", isImage: true, label: "สีแดง" },
-                    { id: "mc8_2", content: "/images/sequencing/mixing-colors/yellow.svg", isImage: true, label: "สีเหลือง" },
-                    { id: "mc8_3", content: "/images/sequencing/mixing-colors/mix.svg", isImage: true, label: "ผสม" },
-                    { id: "mc8_4", content: "/images/sequencing/mixing-colors/stir.svg", isImage: true, label: "คน" },
-                    { id: "mc8_5", content: "/images/sequencing/mixing-colors/changing.svg", isImage: true, label: "เปลี่ยน" },
-                    { id: "mc8_6", content: "/images/sequencing/mixing-colors/new-color.svg", isImage: true, label: "สีใหม่" },
-                    { id: "mc8_7", content: "/images/sequencing/mixing-colors/clear-orange.svg", isImage: true, label: "ชัด" },
-                ],
-            }
         ]
     },
 

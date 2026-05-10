@@ -208,6 +208,47 @@ export function calculateCountingClassificationScore(input: ScoreInput): ScoreRe
     };
 }
 
+// ── Step Counting specific scoring ──────────────────────────
+
+const STEP_COUNTING_PENALTY_TABLE: ScoreTable = [
+    [0, 60],
+    [2, 40],
+    [4, 20],
+];
+
+const STEP_COUNTING_TIME_TABLES: Record<Difficulty, ScoreTable> = {
+    easy: [
+        [90, 40],
+        [120, 25],
+        [150, 10],
+    ],
+    normal: [
+        [120, 40],
+        [150, 25],
+        [180, 10],
+    ],
+    hard: [
+        [150, 40],
+        [180, 25],
+        [210, 10],
+    ],
+};
+
+export function calculateStepCountingScore(input: {
+    difficulty: Difficulty;
+    penaltyCount: number;
+    timeSeconds: number;
+}): ScoreResult {
+    const penaltyScore = lookup(STEP_COUNTING_PENALTY_TABLE, input.penaltyCount);
+    const timeScore = lookup(STEP_COUNTING_TIME_TABLES[input.difficulty], input.timeSeconds);
+
+    return {
+        attemptScore: penaltyScore,
+        timeScore,
+        totalScore: Math.max(0, penaltyScore + timeScore),
+    };
+}
+
 // ── Star rating ─────────────────────────────────────────────
 
 export interface StarResult {

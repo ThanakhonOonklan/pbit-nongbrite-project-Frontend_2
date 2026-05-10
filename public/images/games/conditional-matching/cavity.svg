@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Tooth -->
+  <path d="M40 24 Q40 12 52 8 Q64 4 76 8 Q88 12 88 24 L88 60 Q88 70 80 74 L76 90 Q74 96 70 96 Q66 96 66 90 L64 74 Q64 72 62 74 L60 90 Q58 96 54 96 Q50 96 48 90 L44 74 Q38 70 38 60 Z" fill="white" stroke="#E0E0E0" stroke-width="2"/>
+  <!-- Tooth highlight -->
+  <ellipse cx="54" cy="34" rx="6" ry="14" fill="white" opacity="0.5"/>
+  <!-- CAVITY (dark hole) -->
+  <ellipse cx="68" cy="42" rx="8" ry="7" fill="#6B4226"/>
+  <ellipse cx="68" cy="42" rx="5" ry="4.5" fill="#3E2010"/>
+  <!-- Cavity crack lines -->
+  <path d="M62 38 Q60 34 58 36" stroke="#8B6E4E" stroke-width="1" fill="none" opacity="0.5"/>
+  <path d="M74 40 Q78 38 76 36" stroke="#8B6E4E" stroke-width="1" fill="none" opacity="0.5"/>
+  <!-- Sad eyes -->
+  <circle cx="50" cy="30" r="3.5" fill="#2C1810"/>
+  <circle cx="76" cy="30" r="3.5" fill="#2C1810"/>
+  <circle cx="51" cy="29" r="1.4" fill="white"/>
+  <circle cx="77" cy="29" r="1.4" fill="white"/>
+  <!-- Tear -->
+  <path d="M50 36 Q50 40 48 42" stroke="#7AC4E8" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <!-- Sad mouth -->
+  <path d="M56 56 Q64 52 72 56" fill="none" stroke="#C08060" stroke-width="2" stroke-linecap="round"/>
+  <!-- Pain lightning -->
+  <path d="M90 28 L86 36 L92 34 L88 44" stroke="#FFD93D" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M96 22 L94 28 L98 26 L96 32" stroke="#FFD93D" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Face -->
+  <circle cx="58" cy="58" r="36" fill="#FFD3B5"/>
+  <!-- Eyes (squinting) -->
+  <path d="M38 50 Q44 46 50 50" fill="none" stroke="#2C1810" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M66 50 Q72 46 78 50" fill="none" stroke="#2C1810" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Open mouth (coughing) -->
+  <ellipse cx="58" cy="74" rx="12" ry="8" fill="#C0543A"/>
+  <ellipse cx="58" cy="72" rx="10" ry="5" fill="#E06050"/>
+  <!-- Hand covering mouth -->
+  <path d="M76 66 Q88 62 94 56 Q98 52 96 60 Q94 68 86 74 Q80 78 74 76" fill="#FFD3B5" stroke="#E0B090" stroke-width="1.5"/>
+  <!-- Cough particles -->
+  <circle cx="100" cy="54" r="3" fill="#B8E8B8" opacity="0.6"/>
+  <circle cx="108" cy="48" r="2.5" fill="#B8E8B8" opacity="0.5"/>
+  <circle cx="112" cy="58" r="2" fill="#B8E8B8" opacity="0.4"/>
+  <circle cx="104" cy="64" r="2.5" fill="#B8E8B8" opacity="0.45"/>
+  <circle cx="116" cy="52" r="1.5" fill="#B8E8B8" opacity="0.35"/>
+  <!-- Nose (red) -->
+  <ellipse cx="58" cy="62" rx="4" ry="3" fill="#FF9090"/>
+  <!-- Flushed cheeks -->
+  <ellipse cx="38" cy="64" rx="6" ry="4" fill="#FF8080" opacity="0.35"/>
+</svg>

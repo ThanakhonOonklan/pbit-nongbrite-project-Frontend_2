@@ -21,8 +21,16 @@ export function HeroSection() {
     router.push("/courses");
   };
   return (
-    <section className="flex-1 bg-[#EDF0F7] py-12 md:py-20 px-6 md:px-12 lg:px-16">
-      <div className="max-w-7xl mx-auto">
+    <section
+      className="flex-1 -mt-[80px] px-6 md:px-12 lg:px-16"
+      style={{
+        backgroundImage: "url('/images/Background/HeroSectionBackground.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center bottom",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="max-w-7xl mx-auto pt-32 md:pt-40 pb-12 md:pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Side - Content */}
           <div className="flex flex-col gap-6 md:gap-8 text-center lg:text-left">
@@ -39,18 +47,18 @@ export function HeroSection() {
                 />
               </div>
               <div className="flex flex-wrap items-baseline justify-center lg:justify-start gap-2">
-            <BlurText
+                <BlurText
                   text="P'Bit"
-              delay={150}
-              animateBy="words"
-              direction="top"
+                  delay={150}
+                  animateBy="words"
+                  direction="top"
                   className="m-0 text-4xl md:text-4xl lg:text-5xl font-bold leading-tight text-[#38bdf8]"
-            />
-            <BlurText
+                />
+                <BlurText
                   text="Nong Brite"
                   delay={180}
-              animateBy="words"
-              direction="top"
+                  animateBy="words"
+                  direction="top"
                   className="m-0 text-4xl md:text-4xl lg:text-5xl font-bold leading-tight text-[#fbbf24]"
                 />
               </div>
@@ -60,7 +68,7 @@ export function HeroSection() {
             <TextType
               key={t("description")}
               as="p"
-              className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0"
+              className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl mx-auto lg:mx-0 drop-shadow-sm"
               text={t("description")}
               typingSpeed={50}
               pauseDuration={1500}
@@ -71,8 +79,8 @@ export function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-row flex-wrap gap-3 justify-center lg:justify-start mt-4">
-              <PrimaryButton 
-                variant="sky-blue" 
+              <PrimaryButton
+                variant="sky-blue"
                 size="sm"
                 className="w-full sm:w-auto min-w-[150px] px-4 py-3 text-base"
                 onClick={handleStartLearningClick}
@@ -81,8 +89,8 @@ export function HeroSection() {
                 {t("startLearning")}
               </PrimaryButton>
               <Link href="#features" className="w-full sm:w-auto">
-                <PrimaryButton 
-                  variant="outline" 
+                <PrimaryButton
+                  variant="outline"
                   size="sm"
                   className="w-full sm:w-auto min-w-[150px] px-4 py-3 text-base"
                 >
@@ -123,8 +131,8 @@ export function HeroSection() {
                   />
                 </div>
               </div>
-               {/* P_Momo Mascot พี่วัว*/}
-               <div className="absolute top-1/2 left-1/2 w-[120px] md:w-[155px] lg:w-[155px] h-[155px] md:h-[195px] lg:h-[195px] -translate-x-[-60px] md:-translate-x-[-60px] lg:-translate-x-[-60px] translate-y-[-50px] md:translate-y-[-70px] lg:translate-y-[-70px]">
+              {/* P_Momo Mascot พี่วัว*/}
+              <div className="absolute top-1/2 left-1/2 w-[120px] md:w-[155px] lg:w-[155px] h-[155px] md:h-[195px] lg:h-[195px] -translate-x-[-60px] md:-translate-x-[-60px] lg:-translate-x-[-60px] translate-y-[-50px] md:translate-y-[-70px] lg:translate-y-[-70px]">
                 <div className="w-full h-full ">
                   <Image
                     src="/images/P_Momo/momo-02.svg"
@@ -196,8 +204,8 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-      <LoadingOverlay 
-        isLoading={isLoading} 
+      <LoadingOverlay
+        isLoading={isLoading}
         message={t("loading")}
       />
     </section>

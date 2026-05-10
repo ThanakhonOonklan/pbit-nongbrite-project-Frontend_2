@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useEffect } from "react";
 import { Eye, SkipForward } from "lucide-react";
 import {
   getGridCellSizeClass,
@@ -40,6 +41,16 @@ export function ReferenceGrid({
   const canPeek = isUnlimited || peekCount < maxPeeks;
   const isPenaltyPeek = !isUnlimited && peekCount > 0;
   const isReferenceHidden = isHidden;
+
+  // Track hidden→visible transitions to re-trigger reveal animation
+  const [revealKey, setRevealKey] = useState(0);
+  const prevHiddenRef = useRef(isHidden);
+  useEffect(() => {
+    if (prevHiddenRef.current && !isHidden) {
+      setRevealKey((k) => k + 1);
+    }
+    prevHiddenRef.current = isHidden;
+  }, [isHidden]);
 
   return (
     <div className={gridPanelClass}>
@@ -100,14 +111,24 @@ export function ReferenceGrid({
           {pattern.map((row, rowIdx) =>
             row.map((cellColor, colIdx) => (
               <div
-                key={`ref-${rowIdx}-${colIdx}`}
+                key={`ref-${rowIdx}-${colIdx}-${revealKey}`}
                 className={`${cellSize} flex items-center justify-center border-gray-300 ${colIdx < gridSize - 1 ? 'border-r' : ''} ${rowIdx < gridSize - 1 ? 'border-b' : ''}`}
                 style={{
                   backgroundColor: isHidden ? "#ffffff" : (cellColor || "#ffffff"),
+                  animation: !isHidden
+                    ? `refCellReveal 0.32s cubic-bezier(0.34,1.56,0.64,1) ${(rowIdx * gridSize + colIdx) * 14}ms both`
+                    : undefined,
                 }}
               />
             ))
           )}
+          <style>{`
+            @keyframes refCellReveal {
+              0%   { transform: scale(0) rotate(-8deg); opacity: 0; }
+              65%  { transform: scale(1.12) rotate(1deg); opacity: 1; }
+              100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+            }
+          `}</style>
         </div>
       </div>
     </div>
