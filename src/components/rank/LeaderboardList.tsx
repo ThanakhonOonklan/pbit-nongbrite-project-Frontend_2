@@ -5,8 +5,18 @@ import { TopThreeCards } from "./TopThreeCards";
 import { RankUser } from "@/types";
 import { cn } from "@/lib/utils";
 import { FaUsers, FaMars, FaVenus, FaGenderless } from "react-icons/fa";
-import { getRankBadgeImage } from "@/constants/ranks";
+import { getRankBadgeImage, getRankByScore } from "@/constants/ranks";
 import { useTranslations } from "next-intl";
+
+const RANK_BADGE_GLOW: Record<string, string> = {
+  Beginner: "rgba(180, 110, 40, 0.75)",
+  Explorer: "rgba(155, 160, 170, 0.75)",
+  Thinker: "rgba(230, 175, 0, 0.8)",
+  Solver: "rgba(28, 176, 246, 0.8)",
+  Strategist: "rgba(220, 50, 200, 0.8)",
+  Master: "rgba(235, 80, 50, 0.8)",
+  Legend: "rgba(210, 30, 30, 0.85)",
+};
 
 export interface LeaderboardListProps {
   items?: RankUser[];
@@ -29,6 +39,13 @@ const getRankCircleTextColor = (rank: number) => {
   if (rank === 2) return "text-[#5F6368]";
   if (rank === 3) return "text-[#B45309]";
   return "text-[#5F6368]";
+};
+
+const getTopThreeRowStyle = (rank: number): React.CSSProperties => {
+  if (rank === 1) return { background: "linear-gradient(to right, #FFFBEB, #FFFDE7)", borderLeft: "4px solid #F4D03F" };
+  if (rank === 2) return { background: "linear-gradient(to right, #F8F9FA, #ECEFF1)", borderLeft: "4px solid #B0BEC5" };
+  if (rank === 3) return { background: "linear-gradient(to right, #FFF7ED, #FEF0E0)", borderLeft: "4px solid #FFAB76" };
+  return {};
 };
 
 const getGenderIcon = (gender?: string) => {
@@ -115,9 +132,11 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
               <div
                 key={user.id}
                 className={cn(
-                  "grid grid-cols-[60px_1fr_100px_80px] sm:grid-cols-[70px_1fr_110px_90px] lg:grid-cols-[80px_1fr_120px_100px] gap-2 sm:gap-3 lg:gap-4 px-3 sm:px-4 lg:px-4 py-2.5 sm:py-2.5 lg:py-3 items-center transition-colors duration-200 hover:bg-gray-50 border-b border-gray-200 last:border-b-0 bg-white",
+                  "grid grid-cols-[60px_1fr_100px_80px] sm:grid-cols-[70px_1fr_110px_90px] lg:grid-cols-[80px_1fr_120px_100px] gap-2 sm:gap-3 lg:gap-4 px-3 sm:px-4 lg:px-4 py-2.5 sm:py-2.5 lg:py-3 items-center transition-all duration-200 border-b border-gray-200 last:border-b-0",
+                  user.rank <= 3 ? "hover:brightness-95" : "bg-white hover:bg-gray-50",
                   itemClassName
                 )}
+                style={getTopThreeRowStyle(user.rank)}
                 onClick={() => onItemSelect?.(user, index)}
               >
                 {/* Rank Circle */}
@@ -137,14 +156,14 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
                 {/* Student: Avatar + Name + Gender */}
                 <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                   <div className="relative w-8 h-8 sm:w-10 sm:h-10 min-w-[32px] sm:min-w-[40px] flex-shrink-0 z-10">
-                      <Image
-                        src={user.avatar || "/icons/icon-Profile/icon_P_Bit.png"}
-                        alt={user.name}
-                        fill
-                        containerClassName="w-full h-full"
-                        className="object-cover"
-                        sizes="(max-width: 640px) 32px, 40px"
-                      />
+                    <Image
+                      src={user.avatar || "/icons/icon-Profile/icon_P_Bit.png"}
+                      alt={user.name}
+                      fill
+                      containerClassName="w-full h-full"
+                      className="object-cover"
+                      sizes="(max-width: 640px) 32px, 40px"
+                    />
                   </div>
                   <div className="flex-1 min-w-0 overflow-hidden">
                     <p className="text-[13px] sm:text-[13px] lg:text-[14px] font-normal text-gray-800 truncate">
@@ -172,7 +191,10 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
 
                 {/* Rank */}
                 <div className="flex items-center justify-center">
-                  <div className="relative w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 flex-shrink-0 z-10">
+                  <div
+                    className="relative w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 flex-shrink-0 z-10"
+                    style={{ filter: `drop-shadow(0 0 5px ${RANK_BADGE_GLOW[getRankByScore(user.score).name] ?? "transparent"})` }}
+                  >
                     <Image
                       src={getRankBadgeImage(user.score)}
                       alt={`Rank ${user.rank}`}
