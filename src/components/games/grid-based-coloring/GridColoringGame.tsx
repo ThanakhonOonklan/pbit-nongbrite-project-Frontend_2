@@ -39,14 +39,12 @@ const getMaxPeeks = (difficulty: string) => {
 interface GridColoringGameProps {
   config: GridColoringLevelConfig;
   onGameEnd: (result: ScoreResult, wrongCount: number, elapsed: number) => void;
-  startTime: number;
   isGameActive?: boolean;
 }
 
 export function GridColoringGame({
   config,
   onGameEnd,
-  startTime,
   isGameActive = true,
 }: GridColoringGameProps) {
   const { gridSize, patterns } = config;
@@ -84,6 +82,13 @@ export function GridColoringGame({
   useEffect(() => {
     canvasRef.current = canvas;
   }, [canvas]);
+
+  const startTimeRef = useRef<number>(0);
+  useEffect(() => {
+    if (isGameActive && startTimeRef.current === 0) {
+      startTimeRef.current = Date.now();
+    }
+  }, [isGameActive]);
 
   const handleDrawEnd = useCallback(() => {
     const currentSaved = history[historyIndex];
@@ -248,7 +253,7 @@ export function GridColoringGame({
       // ── WIN ──────────────────────────────────────────────
       setWrongCells([]);
       setIsCompleted(true);
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
       // peekPenalty: hard เท่านั้น — ครั้งที่ 2+ จะโดนหัก 1 attempt ต่อครั้ง
       const peekPenalty =
         config.difficulty === "hard" ? Math.max(0, peekCount - 1) : 0;
@@ -278,7 +283,7 @@ export function GridColoringGame({
       setWrongCount((prev) => prev + 1);
       reduceLife();
     }
-  }, [canvas, pattern, gridSize, isCompleted, wrongCount, config, onGameEnd, startTime, peekCount, reduceLife]);
+  }, [canvas, pattern, gridSize, isCompleted, wrongCount, config, onGameEnd, peekCount, reduceLife]);
 
   // ── Reset canvas ──────────────────────────────────────────
   const handleReset = useCallback(() => {

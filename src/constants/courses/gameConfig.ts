@@ -66,7 +66,6 @@ export const getDefaultLevels = (): LevelConfig[] => {
 export interface GameConfig {
   id: string;
   title: string;
-  description: string;
   icon: React.ComponentType<{ className?: string }>;
   headerColor: string;
   baseColor: string;
@@ -82,7 +81,6 @@ export const gamesConfig: GameConfig[] = [
   {
     id: "path-navigation",
     title: "เกมการนำทาง",
-    description: "เกมนำทางบนเส้นทาง! ลากตัวละครไปตามเส้นทางที่กำหนด ฝึกทักษะการวางแผนเส้นทางและการคิดเชิงตรรกะ เลือกทิศทางที่ถูกต้องเพื่อไปถึงจุดหมาย",
     icon: FaRoute,
     headerColor: "sky-blue",
     baseColor: "#1CB0F6",
@@ -107,7 +105,6 @@ export const gamesConfig: GameConfig[] = [
   {
     id: "counting-classification",
     title: "นับจำนวนและจัดหมวดหมู่สิ่งของ",
-    description: "นับจำนวนและจัดหมวดหมู่สิ่งของ! ฝึกทักษะการนับ การแยกประเภท และการจัดกลุ่มสิ่งของตามลักษณะที่กำหนด เหมาะสำหรับพัฒนาทักษะคณิตศาสตร์พื้นฐาน",
     icon: FaSquare,
     headerColor: "#FB96BB",
     baseColor: "#FB96BB",
@@ -132,7 +129,6 @@ export const gamesConfig: GameConfig[] = [
   {
     id: "conditional-matching",
     title: "จับคู่ตามเงื่อนไขที่กำหนด",
-    description: "จับคู่ตามเงื่อนไข! เลือกสิ่งของที่ตรงกับเงื่อนไขที่กำหนด ฝึกทักษะการคิดเชิงเงื่อนไข (if-then) และการเปรียบเทียบ พัฒนาความเข้าใจเรื่องตรรกศาสตร์",
     icon: FaLink,
     headerColor: "#FFB356",
     baseColor: "#FFB356",
@@ -157,7 +153,6 @@ export const gamesConfig: GameConfig[] = [
   {
     id: "sequencing",
     title: "เรียงลำดับขั้นตอน",
-    description: "เรียงลำดับขั้นตอน! จัดเรียงคำสั่งหรือเหตุการณ์ให้ถูกต้องตามลำดับ ฝึกทักษะการคิดเป็นขั้นตอน (Algorithmic Thinking) และการวางแผนอย่างเป็นระบบ",
     icon: FaRecycle,
     headerColor: "#9956DE",
     baseColor: "#9956DE",
@@ -173,8 +168,7 @@ export const gamesConfig: GameConfig[] = [
   },
   {
     id: "step-counting",
-    title: "นับจำนวนก้าวเดิน",
-    description: "นับจำนวนก้าว! คำนวณจำนวนก้าวที่ต้องเดินเพื่อไปถึงจุดหมาย ฝึกทักษะการนับ การวัดระยะทาง และการคาดคะเนจำนวนที่ต้องใช้",
+    title: "การทำงานแบบวนซ้ำ (Loop)",
     icon: FaRuler,
     headerColor: "#6ED1CF",
     baseColor: "#6ED1CF",
@@ -199,7 +193,6 @@ export const gamesConfig: GameConfig[] = [
   {
     id: "fruit-matching-grid",
     title: "จับคู่ผลไม้ในตารางสี่เหลี่ยม",
-    description: "จับคู่ผลไม้ในตาราง! หาผลไม้ที่ตรงกันในตารางสี่เหลี่ยม ฝึกทักษะการจดจำรูปแบบ (Pattern Recognition) ความจำ และการสังเกต พัฒนาสมาธิและความละเอียด",
     icon: FaTh,
     headerColor: "#FF8B8B",
     baseColor: "#FF8B8B",
@@ -224,7 +217,6 @@ export const gamesConfig: GameConfig[] = [
   {
     id: "grid-based-coloring",
     title: "ระบายสีตามตารางพิกัด",
-    description: "ระบายสีตามตาราง! ระบายสีช่องในตารางตามรูปแบบที่กำหนด ฝึกทักษะการอ่านพิกัด ความเข้าใจเรื่องตำแหน่งในตาราง และความคิดสร้างสรรค์",
     icon: FaPalette,
     headerColor: "#AACE30",
     baseColor: "#AACE30",

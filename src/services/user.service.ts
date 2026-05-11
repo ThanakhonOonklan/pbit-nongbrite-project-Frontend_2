@@ -68,9 +68,9 @@ export const userService: UserService = {
   },
 
   reduceLife: async (): Promise<ReduceLifeResponse> => {
-    const response = await apiClient.put<ReduceLifeResponse>('/users/lives');
-    return response.data;
-    // return { success: true, message: "Mocked", data: { lifeCurrent: 5 } };
+    // const response = await apiClient.put<ReduceLifeResponse>('/users/lives');
+    // return response.data;
+    return { success: true, message: "Mocked", data: { lifeCurrent: 5 } };
   },
 
   getLife: async (): Promise<GetLifeResponse> => {

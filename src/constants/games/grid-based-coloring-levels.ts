@@ -1,12 +1,7 @@
-// Grid-based Coloring Game — Pixel Pattern
-// ระบายสีตามแพตเทิร์นในตาราง
-
 import { type Difficulty } from "@/lib/games/types";
 
 export interface PatternVariant {
-    /** Available colors (HEX) for this pattern */
     palette: string[];
-    /** 2D grid — null = white/empty cell */
     grid: (string | null)[][];
 }
 
@@ -15,7 +10,6 @@ export interface GridColoringLevelConfig {
     difficulty: Difficulty;
     title: string;
     gridSize: number;
-    /** Pattern variants — one is randomly selected per game. Each has its own palette + grid. */
     patterns: PatternVariant[];
 }
 

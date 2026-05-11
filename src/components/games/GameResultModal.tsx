@@ -46,14 +46,16 @@ export function GameResultModal({
     return m > 0 ? `${m} นาที ${s} วินาที` : `${s} วินาที`;
   };
 
+  const effectiveType = type === "win" && stars === 0 ? "lose" : type;
+
   // Fire confetti
   useEffect(() => {
-    if (type === "win") {
+    if (effectiveType === "win") {
       import('canvas-confetti').then(mod => {
         mod.default({ particleCount: 80, spread: 70, origin: { y: 0.6 }, ticks: 120, gravity: 0.9, decay: 0.9 });
       });
     }
-  }, [type]);
+  }, [effectiveType]);
 
   return (
     <>
@@ -66,7 +68,7 @@ export function GameResultModal({
           >
             {/* Title */}
             <div className="pt-6 pb-2 text-center">
-              {type === "win" ? (
+              {effectiveType === "win" ? (
                 <>
                   <p className="text-gray-800 text-sm font-bold">Level {levelNum}</p>
                   <h2 className="text-3xl font-extrabold text-[#1CB0F6] mt-1">
@@ -76,24 +78,22 @@ export function GameResultModal({
               ) : (
                 <>
                   <p className="text-gray-800 text-sm font-bold">Level {levelNum}</p>
-                  <h2 className="text-3xl font-extrabold text-[#1CB0F6] mt-1">
-                    ลองอีกครั้ง
+                  <h2 className="text-3xl font-extrabold text-[#FF4B4B] mt-1">
+                    ไม่ผ่าน!
                   </h2>
                 </>
               )}
             </div>
 
             {/* Star Rating */}
-            {type === "win" && (
-              <div className="flex flex-col items-center pb-1">
-                <StarRating stars={stars} size={44} animated className="modal-stars" />
-              </div>
-            )}
+            <div className="flex flex-col items-center pb-1">
+              <StarRating stars={stars} size={44} animated={effectiveType === "win"} className="modal-stars" />
+            </div>
 
             {/* Image */}
             <div className="flex justify-center py-4">
               <Image
-                src={type === "win" ? "/images/Nong_brite/nong-brite-01.svg" : "/images/Nong_brite/nong-brite-02.svg"}
+                src={effectiveType === "win" ? "/images/Nong_brite/nong-brite-01.svg" : "/images/Nong_brite/nong-brite-02.svg"}
                 alt="Nong Brite"
                 width={120}
                 height={120}
@@ -108,7 +108,7 @@ export function GameResultModal({
 
             {/* Action Buttons */}
             <div className="flex gap-3 px-6 pb-6">
-              {type === "win" ? (
+              {effectiveType === "win" ? (
                 <>
                   {/* Left button */}
                   <div className="flex-1">

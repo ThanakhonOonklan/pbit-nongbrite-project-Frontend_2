@@ -93,7 +93,7 @@
         "countingClassification": "Counting & Classification",
         "conditionalMatching": "Conditional Matching",
         "sequencing": "Sequencing",
-        "stepCounting": "Step Counting",
+        "stepCounting": "Loop Patterns",
         "fruitMatching": "Fruit Matching Grid",
         "gridColoring": "Grid-based Coloring"
       }
@@ -237,31 +237,31 @@
     "Games": {
       "path-navigation": {
         "title": "Path Navigation",
-        "description": "Path navigation game! Drag the character along the specified path. Practice path planning and logical thinking. Choose the correct direction to reach the destination."
+        "description": "Draw a path to guide P'Bit through the grid to the correct destination. Develops logical thinking and systematic planning skills."
       },
       "counting-classification": {
         "title": "Counting & Classification",
-        "description": "Count and classify items! Practice counting, categorizing, and grouping items based on specified criteria. Ideal for developing foundational math skills."
+        "description": "Find and count the hidden shapes based on given conditions. Enhances observation and classification skills."
       },
       "conditional-matching": {
         "title": "Conditional Matching",
-        "description": "Conditional matching! Select items that match the specified conditions. Practice conditional thinking (if-then) and comparison. Develop understanding of logic."
+        "description": "Analyze the given conditions and select the matching item. Practices conditional logic and analytical thinking (If-Then)."
       },
       "sequencing": {
         "title": "Sequencing",
-        "description": "Sequencing steps! Arrange instructions or events correctly in order. Practice algorithmic thinking and systematic planning."
+        "description": "Arrange the picture events in the correct chronological order. Learn about sequential processes and algorithmic thinking."
       },
       "step-counting": {
-        "title": "Step Counting",
-        "description": "Step counting! Calculate the number of steps required to reach the destination. Practice counting, measuring distance, and estimating."
+        "title": "Loop Patterns",
+        "description": "Select and loop ingredients to make a smoothie based on a recipe. Learn the fundamentals of loops in basic programming."
       },
       "fruit-matching-grid": {
         "title": "Fruit Matching Grid",
-        "description": "Fruit matching! Find identical fruits in the square grid. Practice pattern recognition, memory, and observation. Develop focus and attention to detail."
+        "description": "Memorize the positions of fruits in the grid, then select the correct fruit to fill in the missing spots to test memory and observation skills."
       },
       "grid-based-coloring": {
         "title": "Grid-based Coloring",
-        "description": "Grid coloring! Color the cells in the grid according to the specified pattern. Practice reading coordinates, understanding grid positions, and creativity."
+        "description": "Memorize and color the grid to match the original pattern. Enhances memory, spatial matching skills, and observation."
       }
     }
   },

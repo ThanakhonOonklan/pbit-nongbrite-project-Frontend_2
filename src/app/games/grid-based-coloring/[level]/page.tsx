@@ -37,10 +37,6 @@ export default function GridBasedColoringGamePage({
   // intro overlay — เฉพาะ level 1 เท่านั้น (เหมือน path-navigation / sequencing)
   const [showIntro, setShowIntro] = useState(levelNum === 1);
   const [gameKey, setGameKey] = useState(0);
-  const startTimeRef = useRef<number>(0);
-  useEffect(() => {
-    startTimeRef.current = Date.now();
-  }, []);
 
   const handleGameEnd = useCallback(
     (result: ScoreResult, wrongs: number, elapsed: number) => {
@@ -56,7 +52,6 @@ export default function GridBasedColoringGamePage({
     setWrongCount(0);
     setElapsedSeconds(0);
     setGameKey((prev) => prev + 1);
-    startTimeRef.current = Date.now();
   }, []);
 
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
@@ -108,7 +103,6 @@ export default function GridBasedColoringGamePage({
           key={gameKey}
           config={config}
           onGameEnd={handleGameEnd}
-          startTime={startTimeRef.current}
           isGameActive={!showIntro}
         />
       </div>

@@ -34,13 +34,14 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-// ── Helper: shuffle grid positions (Fisher-Yates) ────────────
-function shuffleGrid(grid: string[][]): string[][] {
-  const flat = shuffle(grid.flat());
-  const size = grid.length;
+// ── Helper: generate random grid without duplicates ────────────
+function generateRandomGrid(size: number): string[][] {
+  const allAvailableFruits = Object.keys(FRUIT_NAMES);
+  const selectedFruits = shuffle(allAvailableFruits).slice(0, size * size);
+  
   const newGrid: string[][] = [];
   for (let r = 0; r < size; r++) {
-    newGrid.push(flat.slice(r * size, (r + 1) * size));
+    newGrid.push(selectedFruits.slice(r * size, (r + 1) * size));
   }
   return newGrid;
 }
@@ -69,13 +70,13 @@ export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps)
 
   // ── Compute shuffled grid, target coordinates and choices ───────────────
   // Use state and useEffect to shuffle on the client side, avoiding hydration mismatch
-  const [randomGrid, setRandomGrid] = useState<string[][]>(config.grid);
+  const [randomGrid, setRandomGrid] = useState<string[][]>([]);
   const [targetCoordinates, setTargetCoordinates] = useState<string[]>([]);
   const [allChoices, setAllChoices] = useState<string[][]>([]);
 
   useEffect(() => {
-    // 0. Shuffle fruit positions in the grid
-    const newGrid = shuffleGrid(config.grid);
+    // 0. Generate random grid with unique fruits
+    const newGrid = generateRandomGrid(config.gridSize);
     setRandomGrid(newGrid);
 
     // 1. Generate all possible coordinates for the grid
@@ -98,7 +99,7 @@ export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps)
       return generateChoices(newGrid, correct);
     });
     setAllChoices(choices);
-  }, [config.targetCount, config.grid]);
+  }, [config.targetCount, config.gridSize]);
 
   // ── State ────────────────────────────────────────────────────
   const [currentTargetIndex, setCurrentTargetIndex] = useState(0);
