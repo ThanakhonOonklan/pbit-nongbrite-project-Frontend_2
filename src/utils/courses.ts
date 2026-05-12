@@ -14,12 +14,12 @@ const HEADER_COLOR_MAP: Record<string, string> = {
  */
 export const convertHeaderColorToHex = (headerColor?: string): string | undefined => {
   if (!headerColor) return undefined;
-  
+
   // Check if it's a variant name
   if (HEADER_COLOR_MAP[headerColor]) {
     return HEADER_COLOR_MAP[headerColor];
   }
-  
+
   // Return as-is if it's already a hex color
   return headerColor;
 };
@@ -62,21 +62,29 @@ const GAME_ICON_MAP: Record<string, string> = {
 };
 
 /**
+ * Mapping for number of posters available for each game
+ */
+const GAME_POSTER_COUNTS: Record<string, number> = {
+  "path-navigation": 4,
+  "counting-classification": 4,
+  "conditional-matching": 4,
+  "sequencing": 4,
+  "step-counting": 4,
+  "fruit-matching-grid": 4,
+  "grid-based-coloring": 4,
+};
+
+/**
  * Helper function to generate carousel items for a specific game
- * สร้าง carousel items ตาม gameId โดยใช้ icon-Profile
+ * สร้าง carousel items ตาม gameId โดยใช้รูปจาก public/images/game-posters
  */
 export const getCarouselItemsForGame = (gameId: string): CarouselItem[] => {
-  // หา icon name จาก mapping
-  const iconName = GAME_ICON_MAP[gameId];
-  
-  // ใช้ icon path จาก mapping
-  const iconPath = `/icons/icon-Profile/${iconName}.png`;
-  
-  // สร้าง 4 items ต่อเกม โดยใช้ icon เดียวกันทั้ง 4 รูป
-  return Array.from({ length: 4 }, (_, index) => ({
+  const posterCount = GAME_POSTER_COUNTS[gameId] || 1;
+
+  return Array.from({ length: posterCount }, (_, index) => ({
     id: `${gameId}-${index + 1}`,
-    imageSrc: iconPath,
-    imageAlt: `${iconName} carousel image ${index + 1} for ${gameId}`,
+    imageSrc: `/images/game-posters/${gameId}/posters${index + 1}.png`,
+    imageAlt: `Poster ${index + 1} for ${gameId}`,
   }));
 };
 

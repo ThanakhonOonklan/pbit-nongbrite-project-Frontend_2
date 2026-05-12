@@ -8,43 +8,43 @@ import { useTranslations } from "next-intl";
 // ข้อมูลเกมทั้ง 7 เกมในรูปแบบ LogoItem
 const gameCards: LogoItem[] = [
   {
-    src: "/icons/game/gameprofile.png",
+    src: "/images/game-posters/path-navigation/posters1.png",
     alt: "Path Navigation",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/game/gameprofile.png",
+    src: "/images/game-posters/counting-classification/posters1.png",
     alt: "Counting & Classification",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/game/gameprofile.png",
+    src: "/images/game-posters/conditional-matching/posters1.png",
     alt: "Conditional Matching",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/game/gameprofile.png",
+    src: "/images/game-posters/sequencing/posters1.png",
     alt: "Sequencing",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/game/gameprofile.png",
+    src: "/images/game-posters/step-counting/posters1.png",
     alt: "Step Counting",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/game/gameprofile.png",
+    src: "/images/game-posters/fruit-matching-grid/posters1.png",
     alt: "Fruit Matching Grid",
     width: 320,
     height: 400,
   },
   {
-    src: "/icons/game/gameprofile.png",
+    src: "/images/game-posters/grid-based-coloring/posters1.png",
     alt: "Grid-based Coloring",
     width: 320,
     height: 400,

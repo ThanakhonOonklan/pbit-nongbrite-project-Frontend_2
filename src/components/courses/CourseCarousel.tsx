@@ -32,26 +32,26 @@ export interface CarouselProps {
 const DEFAULT_ITEMS: CarouselItem[] = [
   {
     id: 1,
-    imageSrc: "/icons/game/gameprofile.png",
+    imageSrc: "/images/game-posters/path-navigation/posters1.png",
   },
   {
     id: 2,
-    imageSrc: "/icons/game/gameprofile.png",
+    imageSrc: "/images/game-posters/counting-classification/posters1.png",
   },
   {
     id: 3,
-    imageSrc: "/icons/game/gameprofile.png",
+    imageSrc: "/images/game-posters/conditional-matching/posters1.png",
   },
   {
     id: 4,
-    imageSrc: "/icons/game/gameprofile.png",
+    imageSrc: "/images/game-posters/sequencing/posters1.png",
   },
 ];
 
 const DRAG_BUFFER = 0; // ค่า threshold สำหรับการลาก
 const VELOCITY_THRESHOLD = 500; // ความเร็วขั้นต่ำสำหรับการเลื่อนอัตโนมัติ
 const GAP = 16; // ระยะห่างระหว่าง items
-const SPRING_OPTIONS: Transition = { type: "spring", stiffness: 300, damping: 30 }; 
+const SPRING_OPTIONS: Transition = { type: "spring", stiffness: 300, damping: 30 };
 
 interface CarouselCardProps {
   item: CarouselItem;
@@ -82,9 +82,8 @@ const CarouselCard: React.FC<CarouselCardProps> = ({
 
   return (
     <motion.div
-      className={`relative shrink-0 overflow-hidden cursor-grab active:cursor-grabbing ${
-        round ? "flex items-center justify-center bg-[#060010]" : "flex flex-col bg-white"
-      }`}
+      className={`relative shrink-0 overflow-hidden cursor-grab active:cursor-grabbing ${round ? "flex items-center justify-center bg-[#060010]" : "flex flex-col bg-white"
+        }`}
       style={{
         width: itemWidth,
         height: cardHeight,
@@ -92,12 +91,13 @@ const CarouselCard: React.FC<CarouselCardProps> = ({
         borderRadius: cardRadius,
       }}
       transition={transition}
-    >   
+    >
       <Image
         src={item.imageSrc}
         alt={item.imageAlt || item.title || "Carousel image"}
         fill
         sizes={`${itemWidth}px`}
+        quality={100}
         className={`object-cover pointer-events-none ${round ? "opacity-100" : ""}`}
         loading={index === 0 ? "eager" : "lazy"}
         priority={index === 0}
@@ -115,14 +115,14 @@ const Carousel: React.FC<CarouselProps> = ({
   loop = false,
   round = false,
 }) => {
-  const containerPadding = 16; 
-  const itemWidth = baseWidth - containerPadding * 2; 
+  const containerPadding = 16;
+  const itemWidth = baseWidth - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
-  const carouselItems = loop ? [...items, items[0]] : items; 
-  const [currentIndex, setCurrentIndex] = React.useState(0); 
-  const x = useMotionValue(0); 
-  const [isHovered, setIsHovered] = React.useState(false); 
-  const [isResetting, setIsResetting] = React.useState(false); 
+  const carouselItems = loop && items.length > 0 ? [...items, items[0]] : items;
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const x = useMotionValue(0);
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [isResetting, setIsResetting] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   // จัดการ hover event สำหรับ pause autoplay
@@ -196,7 +196,7 @@ const Carousel: React.FC<CarouselProps> = ({
       } else {
         setCurrentIndex((prev) => Math.min(prev + 1, carouselItems.length - 1));
       }
-    } 
+    }
     // ลากไปทางขวา (เลื่อนกลับไปหน้าก่อนหน้า)
     else if (offset > DRAG_BUFFER || velocity > VELOCITY_THRESHOLD) {
       if (loop && currentIndex === 0) {
@@ -211,11 +211,11 @@ const Carousel: React.FC<CarouselProps> = ({
   const dragProps = loop
     ? {}
     : {
-        dragConstraints: {
-          left: -trackItemOffset * (carouselItems.length - 1),
-          right: 0,
-        },
-      };
+      dragConstraints: {
+        left: -trackItemOffset * (carouselItems.length - 1),
+        right: 0,
+      },
+    };
 
   // คำนวณความกว้างของ track
   const trackWidth = carouselItems.length * trackItemOffset;
@@ -261,9 +261,8 @@ const Carousel: React.FC<CarouselProps> = ({
 
       {items.length > 0 && (
         <div
-          className={`flex w-full justify-center ${
-            round ? "absolute bottom-12 left-1/2 -translate-x-1/2 z-10" : ""
-          }`}
+          className={`flex w-full justify-center ${round ? "absolute bottom-12 left-1/2 -translate-x-1/2 z-10" : ""
+            }`}
         >
           <div className="mt-4 flex w-[140px] justify-between px-8">
             {items.map((_, index) => {
@@ -271,15 +270,14 @@ const Carousel: React.FC<CarouselProps> = ({
               return (
                 <motion.div
                   key={index}
-                  className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
-                    isActive
-                      ? round
-                        ? "bg-white"
-                        : "bg-[#333333]"
-                      : round
-                        ? "bg-[#666666]"
-                        : "bg-[#666666]"
-                  }`}
+                  className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${isActive
+                    ? round
+                      ? "bg-white"
+                      : "bg-[#333333]"
+                    : round
+                      ? "bg-[#666666]"
+                      : "bg-[#666666]"
+                    }`}
                   animate={{
                     scale: isActive ? 1.2 : 1,
                   }}

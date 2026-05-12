@@ -128,6 +128,10 @@
         "satisfaction": "Satisfaction"
       }
     },
+    "Physics": {
+      "title": "Interactive Mascot Playground",
+      "description": "Drag, toss, and play with our mascots! Click anywhere in the box to add more friends."
+    },
     "CTA": {
       "title": "Ready to Start Your Adventure?",
       "description": "Join thousands of learners and begin your journey to fun learning.",

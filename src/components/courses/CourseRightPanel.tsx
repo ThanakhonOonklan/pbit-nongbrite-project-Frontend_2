@@ -142,7 +142,7 @@ export const CourseRightPanel: React.FC<CourseRightPanelProps> = ({
 
           {/* Carousel */}
           <Carousel
-            // items={carouselItems}
+            items={carouselItems}
             baseWidth={302}
             autoplay
             autoplayDelay={3000}
