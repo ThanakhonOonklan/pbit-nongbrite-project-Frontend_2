@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useCallback, useRef, useEffect } from "react";
+import { use, useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -47,22 +47,41 @@ export default function StepCountingGamePage({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Resolve variant into a flat config for components
-  const config: ResolvedLoopConfig | undefined = levelConfig
-    ? {
-      level: levelConfig.level,
-      difficulty: levelConfig.difficulty,
-      ...levelConfig.variants[variantIndex],
-    }
-    : undefined;
+  const config: ResolvedLoopConfig | undefined = useMemo(() => {
+    return levelConfig
+      ? {
+        level: levelConfig.level,
+        difficulty: levelConfig.difficulty,
+        ...levelConfig.variants[variantIndex],
+      }
+      : undefined;
+  }, [levelConfig, variantIndex]);
   const taskCount = config?.tasks.length ?? 1;
 
   // ── Game state ───────────────────────────────────────────
-  const [totalFilled, setTotalFilled] = useState<number[]>(() => Array(taskCount).fill(0));
-  const [taskStatuses, setTaskStatuses] = useState<("ok" | "over" | null)[]>(() => Array(taskCount).fill(null));
+  const [gameKey, setGameKey] = useState(0);
+  const [glasses, setGlasses] = useState<{ id: string; taskIdx: number; glassIdxWithinTask: number; theme: LoopTheme; actualTheme: LoopTheme | null; filled: number; status: "ok" | "over" | "wrong" | null }[]>([]);
+
+  useEffect(() => {
+    if (config) {
+      const arr: any[] = [];
+      config.tasks.forEach((task, ti) => {
+        for (let i = 0; i < task.targetAmount; i++) {
+          arr.push({ id: `${ti}-${i}`, taskIdx: ti, glassIdxWithinTask: i, theme: task.theme, actualTheme: null, filled: 0, status: null });
+        }
+      });
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      setGlasses(arr);
+    }
+  }, [config, gameKey]);
+
+  const totalFilled = useMemo(() => config?.tasks.map((_, idx) => glasses.filter(g => g.taskIdx === idx && g.filled >= 1 && g.status === "ok").length) || [], [config, glasses]);
   const [boboState, setBoboState] = useState<"idle" | "squeeze" | "celebrate" | "bounce">("idle");
   const [isBlending, setIsBlending] = useState(false);
   const [showIntro, setShowIntro] = useState(levelNum === 1);
-  const [gameKey, setGameKey] = useState(0);
 
   // ── Blender state ─────────────────────────────────────────
   const [blenderContents, setBlenderContents] = useState<{ theme: LoopTheme; count: number } | null>(null);
@@ -70,6 +89,7 @@ export default function StepCountingGamePage({
   const [lockedTheme, setLockedTheme] = useState<LoopTheme | null>(null);
   const [residueTheme, setResidueTheme] = useState<LoopTheme | null>(null);
   const residueTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const penaltyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Penalty / score state ─────────────────────────────────
   const [penaltyCount, setPenaltyCount] = useState(0);
@@ -79,6 +99,9 @@ export default function StepCountingGamePage({
   // ── Overlay state ─────────────────────────────────────────
   const [showWarningOverlay, setShowWarningOverlay] = useState(false);
   const [warningMessage, setWarningMessage] = useState("");
+
+  // Bobo speech bubble override
+  const [boboMessage, setBoboMessage] = useState<string | null>(null);
 
   const startTimeRef = useRef<number>(0);
   useEffect(() => { startTimeRef.current = Date.now(); }, []);
@@ -94,7 +117,6 @@ export default function StepCountingGamePage({
     (theme: LoopTheme, delta: number) => {
       if (isBlending || !config) return;
       if (blenderPhase === "dirty") return;
-      if (delta > 0 && lockedTheme !== null && lockedTheme !== theme) return;
 
       const task = config.tasks.find((t) => t.theme === theme);
       if (!task) return;
@@ -119,11 +141,17 @@ export default function StepCountingGamePage({
   const handleBlend = useCallback(async () => {
     if (isBlending || !config) return;
 
+    if (penaltyTimerRef.current) {
+      clearTimeout(penaltyTimerRef.current);
+      penaltyTimerRef.current = null;
+      setGlasses(prev => prev.map(g => (g.status === "wrong" || g.status === "over") ? { ...g, filled: 0, actualTheme: null, status: null } : g));
+    }
+
     // Penalty: blend when dirty (without cleaning)
     if (blenderPhase === "dirty") {
       setPenaltyCount((p) => p + 1);
       reduceLife();
-      showWarning("ต้องล้างเครื่องก่อนนะ! โทษ 1 ครั้ง ⚠️");
+      showWarning("ต้องรอล้างเครื่องปั่นก่อนนะ! ⚠️");
       return;
     }
 
@@ -140,36 +168,83 @@ export default function StepCountingGamePage({
     if (!task) { setIsBlending(false); return; }
 
     const yieldAmount = Math.round(blendedCount * task.yieldsPerAction * 100) / 100;
-    const taskIdx = config.tasks.indexOf(task);
 
-    const newFilled = [...totalFilled];
-    newFilled[taskIdx] = Math.round((newFilled[taskIdx] + yieldAmount) * 100) / 100;
+    let remainingYield = yieldAmount;
+    let newGlasses = [...glasses];
+    let penaltyTriggered = false;
+    let overfillTriggered = false;
+    let wrongColorTriggered = false;
+    let errorIdx = -1;
 
-    const newStatuses = [...taskStatuses];
+    for (let i = 0; i < newGlasses.length; i++) {
+      if (remainingYield <= 0) break;
+      if (newGlasses[i].filled >= 1) continue;
 
-    // Check over-pour
-    if (newFilled[taskIdx] > task.targetAmount) {
+      const g = newGlasses[i];
+      const spaceLeft = 1 - g.filled;
+      const amountToAdd = Math.min(spaceLeft, remainingYield);
+
+      if (g.theme !== blendedTheme) {
+        newGlasses[i] = { ...g, filled: Math.round((g.filled + remainingYield) * 100) / 100, actualTheme: blendedTheme, status: "wrong" };
+        wrongColorTriggered = true;
+        errorIdx = i;
+        remainingYield = 0;
+        break;
+      }
+
+      newGlasses[i] = { ...g, filled: Math.round((g.filled + amountToAdd) * 100) / 100, actualTheme: blendedTheme };
+      remainingYield -= amountToAdd;
+      remainingYield = Math.round(remainingYield * 100) / 100;
+
+      if (i === newGlasses.length - 1 && remainingYield > 0) {
+        newGlasses[i].filled = Math.round((newGlasses[i].filled + remainingYield) * 100) / 100;
+        newGlasses[i].status = "over";
+        overfillTriggered = true;
+        errorIdx = i;
+        remainingYield = 0;
+        break;
+      }
+    }
+
+    newGlasses = newGlasses.map(g => g.filled === 1 && !g.status ? { ...g, status: "ok" } : g);
+    setGlasses(newGlasses);
+
+    if (wrongColorTriggered || overfillTriggered) {
       setPenaltyCount((p) => p + 1);
       reduceLife();
-      showWarning(`น้ำ${task.inputUnit}เกิน! ได้ ${newFilled[taskIdx]} แก้ว แต่ต้องการ ${task.targetAmount} แก้ว ⚠️`);
-      // Reset all glasses
-      setTotalFilled(config.tasks.map(() => 0));
-      setTaskStatuses(config.tasks.map(() => null));
+
+      if (wrongColorTriggered) {
+        const FRUIT_NAME: Record<string, string> = { orange: "ส้ม", watermelon: "แตงโม", pineapple: "สับปะรด", apple: "แอปเปิล" };
+        showWarning(`ผิดสี! แก้วนี้ต้องการน้ำ${FRUIT_NAME[newGlasses[errorIdx].theme]} ⚠️`);
+      } else {
+        showWarning(`น้ำล้นแก้ว! ⚠️`);
+      }
+
       setBlenderContents(null);
       setLockedTheme(null);
-      setResidueTheme(blendedTheme);
       setBlenderPhase("dirty");
+      if (residueTimerRef.current) clearTimeout(residueTimerRef.current);
+      residueTimerRef.current = setTimeout(() => setBlenderPhase("empty"), 800);
       setBoboState("bounce");
+
+      penaltyTimerRef.current = setTimeout(() => {
+        setGlasses(prev => {
+          const reset = [...prev];
+          if (reset[errorIdx] && (reset[errorIdx].status === "wrong" || reset[errorIdx].status === "over")) {
+            reset[errorIdx] = { ...reset[errorIdx], filled: 0, actualTheme: null, status: null };
+          }
+          return reset;
+        });
+        penaltyTimerRef.current = null;
+      }, 2000);
+
       setIsBlending(false);
       return;
     }
 
-    // Update filled + statuses
-    newStatuses[taskIdx] = newFilled[taskIdx] === task.targetAmount ? "ok" : null;
-    setTotalFilled(newFilled);
-    setTaskStatuses(newStatuses);
+    // Check win condition
+    const allDone = newGlasses.every(g => g.filled === 1 && g.status === "ok");
 
-    // Reset blender — briefly dirty then auto-clear
     setBlenderContents(null);
     setLockedTheme(null);
     setResidueTheme(blendedTheme);
@@ -177,8 +252,6 @@ export default function StepCountingGamePage({
     if (residueTimerRef.current) clearTimeout(residueTimerRef.current);
     residueTimerRef.current = setTimeout(() => setBlenderPhase("empty"), 800);
 
-    // Check win: all tasks filled exactly
-    const allDone = config.tasks.every((t, i) => newFilled[i] === t.targetAmount);
     if (allDone) {
       setBoboState("celebrate");
       await sleep(600);
@@ -198,7 +271,7 @@ export default function StepCountingGamePage({
     }
 
     setIsBlending(false);
-  }, [isBlending, config, blenderPhase, blenderContents, totalFilled, taskStatuses, penaltyCount, reduceLife, showWarning]);
+  }, [isBlending, config, blenderPhase, blenderContents, glasses, penaltyCount, reduceLife, showWarning]);
 
   // ── Retry (re-randomize variant) ────────────────────────
   const handleRetry = useCallback(() => {
@@ -207,8 +280,6 @@ export default function StepCountingGamePage({
     }
     setScoreResult(null);
     setElapsedSeconds(0);
-    setTotalFilled(Array(taskCount).fill(0));
-    setTaskStatuses(Array(taskCount).fill(null));
     setBoboState("idle");
     setIsBlending(false);
     setBlenderContents(null);
@@ -266,11 +337,11 @@ export default function StepCountingGamePage({
         <div className="lg:flex-[7] h-[55vh] lg:h-auto flex flex-col relative shrink-0" key={gameKey}>
           <LoopScene
             config={config}
-            filledAmounts={totalFilled}
-            currentTaskIndex={0}
+            glasses={glasses}
             isRunning={isBlending}
             boboState={boboState}
-            taskStatuses={taskStatuses}
+            boboMessage={boboMessage}
+            blenderDrop={null}
             blenderPhase={blenderPhase}
             blenderTheme={blenderContents?.theme ?? null}
             blenderFruitCount={blenderContents?.count ?? 0}

@@ -9,26 +9,28 @@ import { Glass } from "./Glass";
 import { Blender, type BlenderPhase } from "./Blender";
 
 // ── Main LoopScene ─────────────────────────────────────────────
+export interface GlassData {
+  id: string;
+  taskIdx: number;
+  glassIdxWithinTask: number;
+  theme: LoopTheme;
+  actualTheme: LoopTheme | null;
+  filled: number;
+  status: "ok" | "over" | "wrong" | null;
+}
+
 export interface LoopSceneProps {
   config: ResolvedLoopConfig;
-  filledAmounts: number[];
-  currentTaskIndex: number;
+  glasses: GlassData[];
   isRunning: boolean;
   boboState: "idle" | "squeeze" | "celebrate" | "bounce";
-  taskStatuses?: ("ok" | "over" | null)[];
+  boboMessage?: string | null;
   blenderDrop?: { emoji: string; id: number } | null;
   blenderPhase: BlenderPhase;
   blenderTheme: LoopTheme | null;
   blenderFruitCount: number;
   blenderCapacity: number;
   blenderResidueTheme: LoopTheme | null;
-}
-
-// ── Helper ─────────────────────────────────────────────────────
-function getCurrentGlass(isActive: boolean, filledAmount: number, targetAmount: number): number {
-  return isActive && filledAmount > 0 && filledAmount <= targetAmount
-    ? Math.min(Math.floor(filledAmount - 0.001), targetAmount - 1)
-    : -1;
 }
 
 // ── Speech bubble ──────────────────────────────────────────────
@@ -76,61 +78,45 @@ function SpeechBubble({ lines, tailSide }: { lines: string[]; tailSide: "left" |
   );
 }
 
-// ── Multi-task glass row (renders 1-2 tasks side-by-side) ──────
-function MultiTaskRow({
-  tasks,
-  startIdx,
-  filledAmounts,
-  currentTaskIndex,
+// ── Flat glass row ──────
+function GlassRow({
+  glasses,
   isRunning,
-  taskStatuses,
+  targetGlassId,
   rowZ,
   rowTop,
   sceneWidth,
 }: {
-  tasks: ResolvedLoopConfig["tasks"];
-  startIdx: number;
-  filledAmounts: number[];
-  currentTaskIndex: number;
+  glasses: GlassData[];
   isRunning: boolean;
-  taskStatuses?: ("ok" | "over" | null)[];
+  targetGlassId: string | undefined;
   rowZ: number;
   rowTop: string;
   sceneWidth: number;
 }) {
-  const totalGlasses = tasks.reduce((s, t) => s + t.targetAmount, 0);
-  const glassW = Math.max(24, Math.min(58, Math.floor((sceneWidth * 0.45) / totalGlasses) - 3));
+  const glassW = Math.max(24, Math.min(58, Math.floor((sceneWidth * 0.45) / Math.max(1, glasses.length)) - 3));
 
-  let glassOffset = 0;
   return (
     <div
       className="absolute left-0 w-full flex justify-center items-end"
       style={{ top: rowTop, transform: "translateY(-100%)", zIndex: rowZ, gap: "clamp(2px, 0.5vw, 6px)" }}
     >
-      {tasks.map((task, ti) => {
-        const taskIdx = startIdx + ti;
-        const filled = filledAmounts[taskIdx] ?? 0;
-        const isActiveTask = isRunning && currentTaskIndex === taskIdx;
-        const currentGlass = getCurrentGlass(isActiveTask, filled, task.targetAmount);
-        const taskOffset = glassOffset;
-        glassOffset += task.targetAmount;
+      {glasses.map((g, idx) => {
+        const isCurrent = g.id === targetGlassId && isRunning;
         return (
-          <React.Fragment key={taskIdx}>
-            {Array.from({ length: task.targetAmount }, (_, i) => (
-              <Glass
-                key={`${taskIdx}-${i}`}
-                index={i}
-                taskIndex={taskIdx}
-                currentAmount={filled}
-                currentGlass={currentGlass}
-                isRunning={isActiveTask}
-                theme={task.theme}
-                showOverflow={taskStatuses?.[taskIdx] === "over" && i === task.targetAmount - 1}
-                sizeOverride={glassW}
-                enterDelay={parseFloat(((taskOffset + i) * 0.07).toFixed(2))}
-              />
-            ))}
-          </React.Fragment>
+          <Glass
+            key={g.id}
+            index={g.glassIdxWithinTask}
+            taskIndex={g.taskIdx}
+            currentAmount={g.filled}
+            currentGlass={isCurrent ? g.glassIdxWithinTask : -1}
+            isRunning={isCurrent}
+            theme={g.theme}
+            actualTheme={g.actualTheme}
+            showOverflow={g.status === "over"}
+            sizeOverride={glassW}
+            enterDelay={parseFloat((idx * 0.07).toFixed(2))}
+          />
         );
       })}
     </div>
@@ -140,11 +126,10 @@ function MultiTaskRow({
 // ── LoopScene ──────────────────────────────────────────────────
 export function LoopScene({
   config,
-  filledAmounts,
-  currentTaskIndex,
+  glasses,
   isRunning,
   boboState,
-  taskStatuses,
+  boboMessage,
   blenderDrop,
   blenderPhase,
   blenderTheme,
@@ -153,9 +138,13 @@ export function LoopScene({
   blenderResidueTheme,
 }: LoopSceneProps) {
   const tasks = config.tasks;
-  const row1Tasks = tasks.slice(0, 2);
-  const row2Tasks = tasks.slice(2);
-  const hasRow2 = row2Tasks.length > 0;
+  
+  // Split glasses into two rows if there are more than 4 glasses, to fit screen
+  const splitIndex = glasses.length > 4 ? Math.ceil(glasses.length / 2) : glasses.length;
+  const row1Glasses = glasses.slice(0, splitIndex);
+  const row2Glasses = glasses.slice(splitIndex);
+  const hasRow2 = row2Glasses.length > 0;
+  const targetGlassId = glasses.find(g => g.filled < 1)?.id;
 
   const sceneRef = useRef<HTMLDivElement>(null);
   const [sceneWidth, setSceneWidth] = useState(800);
@@ -220,6 +209,7 @@ export function LoopScene({
           <SpeechBubble
             tailSide="left"
             lines={(() => {
+              if (boboMessage) return [boboMessage];
               const t = tasks;
               if (t.length === 1) {
                 return [
@@ -302,28 +292,22 @@ export function LoopScene({
           style={{ objectFit: "contain", objectPosition: "center bottom", zIndex: 5 }}
         />
 
-        {/* ── Row 1: tasks[0-1] on counter ── */}
-        <MultiTaskRow
-          tasks={row1Tasks}
-          startIdx={0}
-          filledAmounts={filledAmounts}
-          currentTaskIndex={currentTaskIndex}
+        {/* ── Row 1 on counter ── */}
+        <GlassRow
+          glasses={row1Glasses}
           isRunning={isRunning}
-          taskStatuses={taskStatuses}
+          targetGlassId={targetGlassId}
           rowZ={10}
           rowTop="52%"
           sceneWidth={sceneWidth}
         />
 
-        {/* ── Row 2: tasks[2-3] on display shelf ── */}
+        {/* ── Row 2 on display shelf ── */}
         {hasRow2 && (
-          <MultiTaskRow
-            tasks={row2Tasks}
-            startIdx={2}
-            filledAmounts={filledAmounts}
-            currentTaskIndex={currentTaskIndex}
+          <GlassRow
+            glasses={row2Glasses}
             isRunning={isRunning}
-            taskStatuses={taskStatuses}
+            targetGlassId={targetGlassId}
             rowZ={15}
             rowTop="77%"
             sceneWidth={sceneWidth}

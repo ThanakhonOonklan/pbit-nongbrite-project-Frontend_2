@@ -28,6 +28,7 @@ interface GlassProps {
   currentGlass: number;
   isRunning: boolean;
   theme: LoopTheme;
+  actualTheme?: LoopTheme | null;
   showOverflow?: boolean;
   showLabel?: boolean;
   sizeOverride?: number;
@@ -41,19 +42,21 @@ export function Glass({
   currentGlass,
   isRunning,
   theme,
+  actualTheme,
   showOverflow = false,
   showLabel = true,
   sizeOverride,
   enterDelay = 0,
 }: GlassProps) {
   const t = THEME[theme];
-  const filled = Math.max(0, Math.min(currentAmount - index, 1));
+  const liqT = actualTheme ? THEME[actualTheme] : t;
+  const filled = Math.max(0, Math.min(currentAmount, 1));
   const isFull = filled >= 1;
   const clipId = `gc-${taskIndex}-${index}`;
   const gradId = `gd-${taskIndex}-${index}`;
   const bodyGradId = `gb-${taskIndex}-${index}`;
-  const liquidColor = t.fillColor;
-  const translateY = (1 - filled) * FILL_H;
+  const liquidColor = liqT.fillColor;
+  const translateY = filled === 0 ? FILL_H + 15 : (1 - filled) * FILL_H;
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -116,7 +119,7 @@ export function Glass({
               {/* Liquid gradient */}
               <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor={liquidColor} stopOpacity="0.95" />
-                <stop offset="100%" stopColor={t.fillActive} stopOpacity="1" />
+                <stop offset="100%" stopColor={liqT.fillActive} stopOpacity="1" />
               </linearGradient>
 
               {/* Glass surface gradient — tinted with fruit color */}

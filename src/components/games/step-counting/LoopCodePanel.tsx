@@ -30,27 +30,6 @@ interface LoopCodePanelProps {
   isBlending: boolean;
 }
 
-// ── Capacity dots bar ──────────────────────────────────────────
-function CapacityBar({ capacity, filled, accent }: { capacity: number; filled: number; accent: string }) {
-  return (
-    <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
-      {Array.from({ length: capacity }, (_, i) => (
-        <div
-          key={i}
-          style={{
-            width: 12,
-            height: 12,
-            borderRadius: "50%",
-            background: i < filled ? accent : "#E0E0E0",
-            border: `2px solid ${i < filled ? accent : "#BDBDBD"}`,
-            transition: "background 0.2s",
-            flexShrink: 0,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
 
 // ── Task row ───────────────────────────────────────────────────
 function TaskRow({
@@ -73,16 +52,15 @@ function TaskRow({
   isBlending: boolean;
 }) {
   const rc = ROW_LIGHT[task.theme];
-  const isLocked = lockedTheme !== null && lockedTheme !== task.theme;
   const isDirty = blenderPhase === "dirty";
   const filledHere = blenderContents?.theme === task.theme ? blenderContents.count : 0;
   const atCapacity = filledHere >= task.blenderCapacity;
   const isTaskDone = (totalFilled[taskIndex] ?? 0) >= task.targetAmount;
 
-  const plusDisabled = isBlending || isDirty || isLocked || atCapacity || isTaskDone;
+  const plusDisabled = isBlending || isDirty || atCapacity || isTaskDone;
   const minusDisabled = isBlending || isDirty || filledHere <= 0;
 
-  const grayOut = isLocked || isDirty;
+  const grayOut = isDirty;
   const rowBg = isTaskDone ? "#F1F8E9" : grayOut ? "#F5F5F5" : rc.bg;
   const rowBorder = isTaskDone ? "#AED581" : grayOut ? "#E0E0E0" : rc.border;
   const iconBg = isTaskDone ? "#DCEDC8" : grayOut ? "#E0E0E0" : rc.icon;
@@ -124,10 +102,9 @@ function TaskRow({
         )}
       </div>
 
-      {/* Name + capacity */}
+      {/* Name */}
       <div style={{ minWidth: 0, flex: 1 }}>
         <div style={{ color: nameColor, fontWeight: 800, fontSize: 14, lineHeight: 1.2, transition: "color 0.2s" }}>{task.inputUnit}</div>
-        <CapacityBar capacity={task.blenderCapacity} filled={filledHere} accent={grayOut ? "#BDBDBD" : rc.accent} />
       </div>
 
       {/* Minus */}
