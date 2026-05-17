@@ -1,9 +1,50 @@
 "use client";
 
+import { useRef, useCallback } from "react";
 import { FaEraser, FaPaintBrush, FaFillDrip, FaTrashAlt, FaPlay } from "react-icons/fa";
 import { Undo2, Redo2 } from "lucide-react";
 import { type DrawingMode } from "./GridColoringGame";
 import { TiltButton } from "react-tilt-button";
+
+const BASE = "/audio/games/grid-based-coloring";
+
+/** Hex (uppercase) → audio file */
+const COLOR_AUDIO: Record<string, string> = {
+  "#EF4444": `${BASE}/Red.wav`,
+  "#22C55E": `${BASE}/Green.wav`,
+  "#8B5A2B": `${BASE}/Brown.wav`,
+  "#F97316": `${BASE}/Orange.wav`,
+  "#3B82F6": `${BASE}/Blue.wav`,
+  "#D2B48C": `${BASE}/Skin.wav`,
+  "#FFFFFF": `${BASE}/White.wav`,
+  "#111827": `${BASE}/Black.wav`,
+  "#FACC15": `${BASE}/Yellow.wav`,
+  "#FCA5A5": `${BASE}/LightPink.wav`,
+  "#D4A373": `${BASE}/Tan.wav`,
+  "#EC4899": `${BASE}/Pink.wav`,
+  "#6B7280": `${BASE}/Gray.wav`,
+  "#14B8A6": `${BASE}/Teal.wav`,
+  "#A855F7": `${BASE}/Purple.wav`,
+};
+
+/** Tool mode → audio file */
+const TOOL_AUDIO: Partial<Record<DrawingMode | "undo" | "redo" | "reset", string>> = {
+  paint:  `${BASE}/PaintBrush.wav`,
+  fill:   `${BASE}/BucketFill.wav`,
+  eraser: `${BASE}/Eraser.wav`,
+  undo:   `${BASE}/Undo.wav`,
+  redo:   `${BASE}/Redo.wav`,
+  reset:  `${BASE}/ClearAll.wav`,
+};
+
+/** Shared helper — stop previous audio then play new one */
+function playAudio(ref: React.MutableRefObject<HTMLAudioElement | null>, src: string | undefined) {
+  if (!src) return;
+  if (ref.current) { ref.current.pause(); ref.current.currentTime = 0; }
+  const a = new Audio(src);
+  ref.current = a;
+  a.play().catch(() => {});
+}
 
 interface ColorPaletteProps {
   palette: string[];
@@ -58,6 +99,16 @@ export function ColorPalette({
   canRedo,
   isCheckDisabled = false,
 }: ColorPaletteProps) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const playColor = useCallback((hex: string) => {
+    playAudio(audioRef, COLOR_AUDIO[hex.toUpperCase()]);
+  }, []);
+
+  const playTool = useCallback((key: keyof typeof TOOL_AUDIO) => {
+    playAudio(audioRef, TOOL_AUDIO[key]);
+  }, []);
+
   const displayPalette = palette.reduce((acc: string[], curr: string) => {
     if (!acc.some((c) => c.toLowerCase() === curr.toLowerCase())) acc.push(curr);
     return acc;
@@ -81,7 +132,7 @@ export function ColorPalette({
         return (
           <button
             key={color}
-            onClick={() => { onSelectColor(color); onSelectMode("paint"); }}
+            onClick={() => { onSelectColor(color); onSelectMode("paint"); playColor(color); }}
             title={name}
             style={{ backgroundColor: color, animation: `paletteItemIn 0.4s cubic-bezier(0.34,1.56,0.64,1) ${swatchIdx * 45}ms both` }}
             className={`
@@ -106,7 +157,7 @@ export function ColorPalette({
         return (
           <button
             key={mode}
-            onClick={() => { if (mode === "eraser") onSelectColor(null); onSelectMode(mode); }}
+            onClick={() => { if (mode === "eraser") onSelectColor(null); onSelectMode(mode); playTool(mode); }}
             title={label}
             style={{ animation: `paletteItemIn 0.4s cubic-bezier(0.34,1.56,0.64,1) ${(displayPalette.length + 1 + toolIdx) * 45}ms both` }}
             className={`
@@ -126,7 +177,7 @@ export function ColorPalette({
       {/* ── Undo / Redo ── */}
       {onUndo && (
         <button
-          onClick={onUndo}
+          onClick={() => { onUndo?.(); playTool("undo"); }}
           disabled={!canUndo}
           title="เลิกทำ"
           className="w-[3.5rem] h-[3.5rem] rounded-full border-2 border-amber-900/10 bg-white hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center shadow-sm text-amber-900/60 hover:text-amber-900 transition-all duration-150 active:scale-90 shrink-0"
@@ -136,7 +187,7 @@ export function ColorPalette({
       )}
       {onRedo && (
         <button
-          onClick={onRedo}
+          onClick={() => { onRedo?.(); playTool("redo"); }}
           disabled={!canRedo}
           title="ทำซ้ำ"
           className="w-[3.5rem] h-[3.5rem] rounded-full border-2 border-amber-900/10 bg-white hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center shadow-sm text-amber-900/60 hover:text-amber-900 transition-all duration-150 active:scale-90 shrink-0"
@@ -148,7 +199,7 @@ export function ColorPalette({
       {/* ── Reset ── */}
       {onReset && (
         <button
-          onClick={onReset}
+          onClick={() => { onReset?.(); playTool("reset"); }}
           title="ล้างทั้งหมด"
           className="w-[3.5rem] h-[3.5rem] rounded-full border-2 border-amber-900/10 bg-white hover:bg-rose-50 hover:border-rose-300 flex items-center justify-center shadow-sm text-amber-900/60 hover:text-rose-600 transition-all duration-150 active:scale-90 shrink-0"
         >

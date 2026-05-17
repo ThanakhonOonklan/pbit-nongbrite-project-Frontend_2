@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export interface TutorialStep {
     title: string;
     content: React.ReactNode;
     hint: string;
+    /** Optional audio file path, e.g. "/audio/games/path-navigation/PathNavigation_step1.wav" */
+    audio?: string;
 }
 
 interface TutorialModalProps {
@@ -27,6 +29,31 @@ export function TutorialModal({
     const [countdown, setCountdown] = useState(3);
     const isLast = step === steps.length - 1;
     const current = steps[step];
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    // Tracks whether step-0 audio is still pending (blocked by autoplay policy)
+    const pendingStep0Ref = useRef(false);
+
+    /** Stop and discard the currently playing audio */
+    const stopAudio = useCallback(() => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            audioRef.current = null;
+        }
+    }, []);
+
+    /** Play an audio file immediately — must be called inside a user-gesture handler
+     *  OR on mount (step 0 attempt). */
+    const playAudio = useCallback((src: string | undefined) => {
+        stopAudio();
+        if (!src) return;
+        const audio = new Audio(src);
+        audioRef.current = audio;
+        audio.play().catch(() => {
+            // Browser blocked autoplay — will retry on first user interaction
+            pendingStep0Ref.current = true;
+        });
+    }, [stopAudio]);
 
     // Reset 3-second cooldown whenever the step changes
     useEffect(() => {
@@ -48,14 +75,32 @@ export function TutorialModal({
         };
     }, [step]);
 
+    // Play step-0 audio on mount (autoplay may be blocked)
+    useEffect(() => {
+        playAudio(steps[0]?.audio);
+        return () => stopAudio();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const handleOverlayClick = useCallback(() => {
+        // If step-0 audio was blocked by autoplay, retry it on first user click
+        if (pendingStep0Ref.current) {
+            pendingStep0Ref.current = false;
+            playAudio(steps[0]?.audio);
+        }
+
         if (!ready) return;
+
         if (isLast) {
+            stopAudio();
             onClose();
         } else {
-            setStep(s => s + 1);
+            const nextStep = step + 1;
+            // Play INSIDE the click handler = user-gesture context = never blocked
+            playAudio(steps[nextStep]?.audio);
+            setStep(nextStep);
         }
-    }, [ready, isLast, onClose]);
+    }, [ready, isLast, onClose, step, steps, playAudio, stopAudio]);
 
     return (
         <div
@@ -65,7 +110,7 @@ export function TutorialModal({
         >
             {/* Skip button — always available */}
             <button
-                onClick={(e) => { e.stopPropagation(); onClose(); }}
+                onClick={(e) => { e.stopPropagation(); stopAudio(); onClose(); }}
                 className="absolute top-5 right-5 text-white/40 hover:text-white/80 text-sm font-bold transition-colors px-3 py-1.5 rounded-xl hover:bg-white/10"
                 aria-label="ข้าม tutorial"
             >

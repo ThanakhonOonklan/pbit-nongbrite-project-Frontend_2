@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import type { LoopTheme } from "@/constants/games/step-counting-levels";
 import { THEME } from "./constants";
+
+const JUICE_AUDIO: Record<LoopTheme, string> = {
+  orange:     "/audio/games/step-counting/orange.wav",
+  watermelon: "/audio/games/step-counting/watermelon.wav",
+  pineapple:  "/audio/games/step-counting/pineapple.wav",
+  apple:      "/audio/games/step-counting/apple.wav",
+};
 
 const STRAW_COLOR: Record<LoopTheme, string> = {
   orange: "#FF8C00",
@@ -58,6 +65,14 @@ export function Glass({
   const liquidColor = liqT.fillColor;
   const translateY = filled === 0 ? FILL_H + 15 : (1 - filled) * FILL_H;
   const [hovered, setHovered] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleClick = useCallback(() => {
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    const a = new Audio(JUICE_AUDIO[theme]);
+    audioRef.current = a;
+    a.play().catch(() => {});
+  }, [theme]);
 
   return (
     <>
@@ -98,6 +113,7 @@ export function Glass({
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        onClick={handleClick}
       >
         {showLabel && (
           <div style={{ fontSize: "clamp(10px, 1.2vw, 14px)", lineHeight: 1, userSelect: "none" }}>

@@ -1,6 +1,39 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
+
+const BASE = "/audio/games/fruit-matching-grid";
+
+const FRUIT_AUDIO: Record<string, string> = {
+  "\uD83C\uDF4E": `${BASE}/Apple.wav`,
+  "\uD83C\uDF4A": `${BASE}/Orange.wav`,
+  "\uD83C\uDF47": `${BASE}/Grape.wav`,
+  "\uD83C\uDF4C": `${BASE}/Banana.wav`,
+  "\uD83C\uDF53": `${BASE}/Strawberry.wav`,
+  "\uD83E\uDD5D": `${BASE}/Kiwi.wav`,
+  "\uD83C\uDF49": `${BASE}/Watermelon.wav`,
+  "\uD83C\uDF51": `${BASE}/Peach.wav`,
+  "\uD83C\uDF52": `${BASE}/Cherry.wav`,
+  "\uD83C\uDF4D": `${BASE}/Pineapple.wav`,
+  "\uD83E\uDED0": `${BASE}/Blueberry.wav`,
+  "\uD83E\uDD6D": `${BASE}/Mango.wav`,
+  "\uD83C\uDF4B": `${BASE}/Lemon.wav`,
+  "\uD83C\uDF48": `${BASE}/Melon.wav`,
+  "\uD83E\uDD65": `${BASE}/Coconut.wav`,
+  "\uD83C\uDF50": `${BASE}/Pear.wav`,
+  "\uD83E\uDD51": `${BASE}/Avocado.wav`,
+  "\uD83C\uDF45": `${BASE}/Tomato.wav`,
+  "\uD83E\uDD55": `${BASE}/Carrot.wav`,
+  "\uD83E\uDDC5": `${BASE}/Onion.wav`,
+  "\uD83E\uDD54": `${BASE}/Potato.wav`,
+  "\uD83C\uDF3D": `${BASE}/Corn.wav`,
+  "\uD83E\uDD66": `${BASE}/Broccoli.wav`,
+  "\uD83C\uDF44": `${BASE}/Mushroom.wav`,
+  "\uD83C\uDF36\uFE0F": `${BASE}/Chili.wav`,
+  "\uD83E\uDD52": `${BASE}/Cucumber.wav`,
+  "\uD83C\uDF46": `${BASE}/Eggplant.wav`,
+  "\uD83E\uDD6C": `${BASE}/Lettuce.wav`,
+};
 
 interface FruitChoicesProps {
   choices: string[];
@@ -21,6 +54,16 @@ export function FruitChoices({
 }: FruitChoicesProps) {
   const [shakingIdx, setShakingIdx] = useState<number | null>(null);
   const [correctIdx, setCorrectIdx] = useState<number | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const playFruitAudio = useCallback((fruit: string) => {
+    const src = FRUIT_AUDIO[fruit];
+    if (!src) return;
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    const a = new Audio(src);
+    audioRef.current = a;
+    a.play().catch(() => {});
+  }, []);
 
   const handleSelect = useCallback((fruit: string, idx: number) => {
     if (disabled || shakingIdx !== null || correctIdx !== null) return;
@@ -53,6 +96,7 @@ export function FruitChoices({
             type="button"
             disabled={disabled || shakingIdx !== null || correctIdx !== null}
             onClick={() => handleSelect(fruit, idx)}
+            onMouseEnter={() => playFruitAudio(fruit)}
             className={`
               flex flex-col items-center justify-center gap-1.5 sm:gap-2 md:gap-2
               rounded-xl sm:rounded-[1.5rem] md:rounded-[1.5rem] p-2.5 sm:p-3 md:p-3 lg:p-5 border-[3px] sm:border-4

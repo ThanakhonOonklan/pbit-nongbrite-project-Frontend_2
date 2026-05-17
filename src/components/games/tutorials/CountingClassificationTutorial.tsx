@@ -195,15 +195,18 @@ export const countingClassificationTutorialSteps: TutorialStep[] = [
         title: "มองหารูปทรงในภาพ",
         content: <Step1Scene />,
         hint: "มองหารูปทรงต่างๆ แล้วนับจำนวนแต่ละแบบ",
+        audio: "/audio/games/counting-classification/CountingClassification_step1.wav",
     },
     {
         title: "กด + เพื่อนับจำนวน",
         content: <Step2Counters />,
         hint: "กด + บนแถวของแต่ละรูปทรงเพื่อเพิ่มจำนวนที่นับได้",
+        audio: "/audio/games/counting-classification/CountingClassification_step2.wav",
     },
     {
         title: "ยืนยัน",
         content: <Step3Submit />,
         hint: "เมื่อนับครบทุกรูปทรงแล้ว กดยืนยันคำตอบ!",
+        audio: "/audio/games/counting-classification/CountingClassification_step3.wav",
     },
 ];

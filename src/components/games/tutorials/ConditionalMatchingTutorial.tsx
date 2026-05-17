@@ -181,15 +181,18 @@ export const conditionalMatchingTutorialSteps: TutorialStep[] = [
         title: "อ่านการ์ดเงื่อนไข",
         content: <Step1Cards />,
         hint: 'อ่านการ์ดเงื่อนไข "ถ้า..." ให้เข้าใจก่อนเริ่มเล่น',
+        audio: "/audio/games/conditional-matching/ConditionalMatching_step1.wav",
     },
     {
         title: "ลากเส้นโยงคู่ที่ตรงกัน",
         content: <Step2Connect />,
         hint: "ลากเส้นจากการ์ดเงื่อนไขไปหาคำตอบที่ตรงกัน",
+        audio: "/audio/games/conditional-matching/ConditionalMatching_step2.wav",
     },
     {
         title: "โยงครบแล้วกดยืนยัน",
         content: <Step3AllCorrect />,
         hint: "เมื่อโยงครบทุกคู่แล้ว กดยืนยันเพื่อตรวจคำตอบ!",
+        audio: "/audio/games/conditional-matching/ConditionalMatching_step3.wav",
     },
 ];

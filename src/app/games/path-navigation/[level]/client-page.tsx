@@ -129,6 +129,27 @@ export default function PathNavigationClientPage({
 
   const startTimeRef = useRef<number>(0);
   const animTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const dirAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Map direction → audio path
+  const DIR_AUDIO: Record<Direction, string> = {
+    up:    "/audio/games/path-navigation/up.wav",
+    down:  "/audio/games/path-navigation/down.wav",
+    left:  "/audio/games/path-navigation/left.wav",
+    right: "/audio/games/path-navigation/right.wav",
+  };
+
+  /** Play direction audio (stops previous one first) */
+  const playDirAudio = useCallback((dir: Direction) => {
+    if (dirAudioRef.current) {
+      dirAudioRef.current.pause();
+      dirAudioRef.current.currentTime = 0;
+    }
+    const audio = new Audio(DIR_AUDIO[dir]);
+    dirAudioRef.current = audio;
+    audio.play().catch(() => {});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ── init: startTime + cleanup on unmount ───────────
   useEffect(() => {
@@ -162,8 +183,9 @@ export default function PathNavigationClientPage({
         return [...prev, direction];
       });
       setErrorMsg(null);
+      playDirAudio(direction);
     },
-    [config, isRunning, maxCommands]
+    [config, isRunning, maxCommands, playDirAudio]
   );
 
   const handleRemoveCommand = useCallback(

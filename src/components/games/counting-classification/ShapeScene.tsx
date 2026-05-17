@@ -1,8 +1,16 @@
 "use client";
 
-import React from "react";
-import { type ShapePlacement } from "@/constants/games/counting-classification-levels";
+import React, { useRef, useCallback } from "react";
+import { type ShapePlacement, type ShapeType } from "@/constants/games/counting-classification-levels";
 import { ShapeIcon } from "./ShapeIcon";
+
+const SHAPE_AUDIO: Record<ShapeType, string> = {
+    circle:   "/audio/games/counting-classification/circle.wav",
+    triangle: "/audio/games/counting-classification/triangle.wav",
+    square:   "/audio/games/counting-classification/square.wav",
+    pentagon: "/audio/games/counting-classification/pentagon.wav",
+    hexagon:  "/audio/games/counting-classification/hexagon.wav",
+};
 
 interface ShapeSceneProps {
     placements: ShapePlacement[];
@@ -12,6 +20,18 @@ interface ShapeSceneProps {
  * พื้นที่แสดงรูปทรงฝั่งซ้าย (Theme: Vibrant Kawaii Pastel Pink to Yellow)
  */
 export const ShapeScene = React.memo(function ShapeScene({ placements }: ShapeSceneProps) {
+    const shapeAudioRef = useRef<HTMLAudioElement | null>(null);
+
+    const playShapeAudio = useCallback((type: ShapeType) => {
+        if (shapeAudioRef.current) {
+            shapeAudioRef.current.pause();
+            shapeAudioRef.current.currentTime = 0;
+        }
+        const audio = new Audio(SHAPE_AUDIO[type]);
+        shapeAudioRef.current = audio;
+        audio.play().catch(() => {});
+    }, []);
+
     // ฟังก์ชันช่วยสุ่มเลขที่มีค่าเท่าเดิมเสมอสำหรับ id เดิม (กัน Hydration Mismatch)
     const getDeterministicRandom = (id: string) => {
         let hash = 0;
@@ -108,6 +128,7 @@ export const ShapeScene = React.memo(function ShapeScene({ placements }: ShapeSc
                                         width: `${finalSize}px`,
                                         height: `${finalSize}px`,
                                     }}
+                                    onClick={() => playShapeAudio(p.type)}
                                 >
                                     <div
                                         className="w-full h-full shape-pop-in"

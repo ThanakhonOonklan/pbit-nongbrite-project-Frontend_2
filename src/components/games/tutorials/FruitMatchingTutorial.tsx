@@ -170,15 +170,18 @@ export const fruitMatchingTutorialSteps: TutorialStep[] = [
         title: "สังเกตผลไม้ในตาราง",
         content: <Step1Grid />,
         hint: "ตารางมีผลไม้ต่างกันในแต่ละช่อง สังเกตให้ดีนะ!",
+        audio: "/audio/games/fruit-matching-grid/FruitMatchingGrid_step1.wav",
     },
     {
         title: "อ่านพิกัด: แถว + คอลัมน์",
         content: <Step2CoordRead />,
         hint: "A1 หมายถึง แถว A คอลัมน์ 1 — อ่านตัวอักษรก่อน เสร็จแล้วตามด้วยตัวเลข!",
+        audio: "/audio/games/fruit-matching-grid/FruitMatchingGrid_step2.wav",
     },
     {
         title: "กดเลือกผลไม้ที่ถูกต้อง",
         content: <Step3FruitChoices />,
         hint: "กดคลิกผลไม้ที่อยู่ในตำแหน่งที่โจทย์บอก!",
+        audio: "/audio/games/fruit-matching-grid/FruitMatchingGrid_step3.wav",
     },
 ];

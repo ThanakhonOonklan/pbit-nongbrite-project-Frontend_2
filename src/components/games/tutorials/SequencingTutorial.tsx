@@ -255,15 +255,18 @@ export const sequencingTutorialSteps: TutorialStep[] = [
         title: "ดูของในคลังที่สุ่มมา",
         content: <Step1Pool />,
         hint: "ของจะถูกสุ่มลำดับ คุณต้องเรียงให้ถูกต้องตามลำดับ",
+        audio: "/audio/games/sequencing/Sequencing_step1.wav",
     },
     {
         title: "ลากของใส่ช่องตามลำดับ",
         content: <Step2Drag />,
         hint: "ลากของจากคลังขึ้นไปใส่ช่องหมายเลขให้ถูกลำดับ",
+        audio: "/audio/games/sequencing/Sequencing_step2.wav",
     },
     {
         title: "เรียงครบแล้วกดตรวจ",
         content: <Step3Complete />,
         hint: "เมื่อวางครบทุกช่องแล้ว กดปุ่มตรวจคำตอบ!",
+        audio: "/audio/games/sequencing/Sequencing_step3.wav",
     },
 ];

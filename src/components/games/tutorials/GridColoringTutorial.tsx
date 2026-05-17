@@ -157,15 +157,18 @@ export const gridColoringTutorialSteps: TutorialStep[] = [
         title: "ดูรูปแบบต้นแบบ",
         content: <Step1Reference />,
         hint: "จำสีและตำแหน่งของตารางต้นแบบให้ดี",
+        audio: "/audio/games/grid-based-coloring/GridColoring_step1.wav",
     },
     {
         title: "เลือกสีจาก Palette",
         content: <Step2Palette />,
         hint: "คลิกที่วงสีเพื่อเลือก แล้วนำไประบายบนตาราง",
+        audio: "/audio/games/grid-based-coloring/GridColoring_step2.wav",
     },
     {
         title: "ระบายสีให้ตรงต้นแบบ",
         content: <Step3Fill />,
         hint: "คลิกหรือลากบนช่องเพื่อระบาย แล้วกด ✓ ส่ง",
+        audio: "/audio/games/grid-based-coloring/GridColoring_step3.wav",
     },
 ];

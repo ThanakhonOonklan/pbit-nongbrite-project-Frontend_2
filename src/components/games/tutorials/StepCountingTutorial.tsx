@@ -229,15 +229,18 @@ export const stepCountingTutorialSteps: TutorialStep[] = [
         title: "สังเกตแก้วน้ำว่าคือน้ำอะไร",
         content: <Step1Glasses />,
         hint: "ดูสีของแก้วน้ำว่าเป็นน้ำผลไม้ชนิดใด — แต่ละสีคือน้ำคนละอย่าง",
+        audio: "/audio/games/step-counting/StepCounting_step1.wav",
     },
     {
         title: "ผลไม้แต่ละลูกให้น้ำได้แค่ไหน",
         content: <Step2RatioCard />,
         hint: "ส้ม 1 ลูก ได้ครึ่งแก้ว แตงโม 1 ลูก ได้ 2 แก้วเลย! แต่ละชนิดไม่เหมือนกัน",
+        audio: "/audio/games/step-counting/StepCounting_step2.wav",
     },
     {
         title: "กด + แล้วกด Run เพื่อปั่น!",
         content: <Step3CountRun />,
         hint: "กด + เพิ่มจำนวนผลไม้ให้ได้น้ำตามเป้าหมาย แล้วกด Run เพื่อปั่น!",
+        audio: "/audio/games/step-counting/StepCounting_step3.wav",
     },
 ];
