@@ -40,6 +40,16 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return newArray;
 };
 
+const playGrabSound = () => {
+  try {
+    const audio = new Audio("/audio/sfx/pop_5.mp3");
+    audio.volume = 0.8;
+    audio.play().catch(() => {});
+  } catch (error) {
+    console.error("Audio playback error:", error);
+  }
+};
+
 export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, startTime }: SequencingGameProps) {
   const dndId = useId();
   // We keep a pool of items at the bottom (answers). Null means it's been picked up.
@@ -78,6 +88,7 @@ export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, sta
 
   const handleDragStart = useCallback((event: DragStartEvent) => {
     if (showErrors) setShowErrors(false);
+    playGrabSound();
     setActiveDragId(event.active.id as string);
   }, [showErrors]);
 

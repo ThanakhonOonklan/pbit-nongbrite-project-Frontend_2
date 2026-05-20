@@ -28,6 +28,26 @@ const ptsToPath = (pts: NodePos[]): string =>
 
 // Components are imported from "@/components/games/conditional-matching"
 
+const playDragSound = () => {
+  try {
+    const audio = new Audio("/audio/sfx/pop_5.mp3");
+    audio.volume = 0.8;
+    audio.play().catch(() => { });
+  } catch (error) {
+    console.error("Audio playback error:", error);
+  }
+};
+
+const playMatchSound = () => {
+  try {
+    const audio = new Audio("/audio/sfx/pop_3.mp3");
+    audio.volume = 0.8;
+    audio.play().catch(() => { });
+  } catch (error) {
+    console.error("Audio playback error:", error);
+  }
+};
+
 export default function ConditionalMatchingGamePage({
   params,
 }: {
@@ -162,6 +182,7 @@ export default function ConditionalMatchingGamePage({
     if (isLeftCorrect) return;
 
     if (containerRef.current) {
+      playDragSound();
       const containerRect = containerRef.current.getBoundingClientRect();
 
       setConnectedItems((prev) => {
@@ -241,6 +262,7 @@ export default function ConditionalMatchingGamePage({
       }
 
       if (finalDroppedId) {
+        playMatchSound();
         const leftId = startId;
         const rightId = finalDroppedId;
 

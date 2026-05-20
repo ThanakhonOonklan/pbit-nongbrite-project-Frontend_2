@@ -40,6 +40,22 @@ export function GameOverlay({
         return () => clearTimeout(t);
     }, [autoDismissMs, onDismiss]);
 
+    // เล่นเสียงพูดเตือนสุ่ม (tryagain_1.wav หรือ tryagain_2.wav) เมื่อเล่นผิด / มีข้อผิดพลาด
+    useEffect(() => {
+        let audio: HTMLAudioElement | null = null;
+        if (type === "error") {
+            const randomNum = Math.random() < 0.5 ? 1 : 2;
+            audio = new Audio(`/audio/sfx/tryagain_${randomNum}.wav`);
+            audio.play().catch(() => {});
+        }
+        return () => {
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        };
+    }, [type]);
+
     return (
         <div
             className={`fixed inset-0 z-[100] flex flex-col items-center justify-center backdrop-blur-sm cursor-pointer select-none ${OVERLAY_STYLES[type]}`}

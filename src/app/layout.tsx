@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
+import BackgroundMusic from "@/components/common/BackgroundMusic";
 
 export const metadata: Metadata = {
   title: {
@@ -51,6 +52,7 @@ export default async function RootLayout({
         <HeaderColorProvider>
           <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
           <Toaster position="top-center" />
+          <BackgroundMusic />
         </HeaderColorProvider>
       </body>
     </html>

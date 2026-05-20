@@ -17,6 +17,16 @@ const PANEL_BG = "rgba(255,255,255,0.97)";
 const PLUS_BG = "#6ED1CF";
 const MINUS_BG = "#E0E0E0";
 
+const playPopSound = () => {
+  try {
+    const audio = new Audio("/audio/sfx/pop_4.mp3");
+    audio.volume = 0.8;
+    audio.play().catch(() => {});
+  } catch (error) {
+    console.error("Audio playback error:", error);
+  }
+};
+
 // ── LoopCodePanel ──────────────────────────────────────────────
 interface LoopCodePanelProps {
   config: ResolvedLoopConfig;
@@ -117,7 +127,10 @@ function TaskRow({
         textColor="#BDBDBD"
         glareOpacity={0} glareWidth={0}
         disabled={minusDisabled}
-        onClick={() => onAddFruit(task.theme, -1)}
+        onClick={() => {
+          playPopSound();
+          onAddFruit(task.theme, -1);
+        }}
       >
         <span style={{ fontSize: 22, fontWeight: "900", lineHeight: 1 }}>−</span>
       </TiltButton>
@@ -150,7 +163,10 @@ function TaskRow({
         textColor={plusDisabled ? "#BDBDBD" : "#FFFFFF"}
         glareOpacity={0} glareWidth={0}
         disabled={plusDisabled}
-        onClick={() => onAddFruit(task.theme, 1)}
+        onClick={() => {
+          playPopSound();
+          onAddFruit(task.theme, 1);
+        }}
       >
         <span style={{ fontSize: 22, fontWeight: "900", lineHeight: 1 }}>+</span>
       </TiltButton>

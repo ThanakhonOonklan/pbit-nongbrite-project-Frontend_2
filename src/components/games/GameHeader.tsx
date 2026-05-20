@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import { ExitConfirmModal } from "@/components/games/ExitConfirmModal";
@@ -23,6 +23,26 @@ export function GameHeader({
 }: GameHeaderProps) {
     const router = useRouter();
     const [showExitModal, setShowExitModal] = useState(false);
+
+    // เล่นเสียงเตือนสุ่ม (thing_1.wav หรือ thing_2.wav) เมื่ออยู่ในเกมนี้นานเกิน 1 นาที
+    useEffect(() => {
+        let thingAudio: HTMLAudioElement | null = null;
+        
+        const timer = setTimeout(() => {
+            const randomNum = Math.random() < 0.5 ? 1 : 2;
+            thingAudio = new Audio(`/audio/sfx/thing_${randomNum}.wav`);
+            thingAudio.volume = 1.0;
+            thingAudio.play().catch(() => {});
+        }, 60000); // 60,000 มิลลิวินาที = 1 นาที
+
+        return () => {
+            clearTimeout(timer);
+            if (thingAudio) {
+                thingAudio.pause();
+                thingAudio.currentTime = 0;
+            }
+        };
+    }, []);
 
     const handleConfirmExit = () => {
         setShowExitModal(false);

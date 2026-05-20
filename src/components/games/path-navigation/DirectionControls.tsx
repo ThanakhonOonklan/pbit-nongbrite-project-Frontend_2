@@ -28,6 +28,16 @@ function useIsDesktop() {
 }
 
 
+const playPopSound = () => {
+    try {
+        const audio = new Audio("/audio/sfx/pop_2.mp3");
+        audio.volume = 0.8;
+        audio.play().catch(() => {});
+    } catch (error) {
+        console.error("Audio playback error:", error);
+    }
+};
+
 function DirectionButton({
     direction,
     icon,
@@ -91,6 +101,7 @@ function DirectionButton({
                 disabled={disabled}
                 onClick={() => {
                     if (!disabled && !wasDraggingRecently.current) {
+                        playPopSound();
                         onAddCommand(direction);
                     }
                 }}

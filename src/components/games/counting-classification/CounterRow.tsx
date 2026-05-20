@@ -5,6 +5,16 @@ import { TiltButton } from "react-tilt-button";
 import { type ShapeType, SHAPE_COLORS, SHAPE_LABELS } from "@/constants/games/counting-classification-levels";
 import { ShapeIcon } from "./ShapeIcon";
 
+const playPopSound = () => {
+    try {
+        const audio = new Audio("/audio/sfx/pop_4.mp3");
+        audio.volume = 0.8;
+        audio.play().catch(() => {});
+    } catch (error) {
+        console.error("Audio playback error:", error);
+    }
+};
+
 interface CounterRowProps {
     type: ShapeType;
     value: number;
@@ -45,6 +55,7 @@ export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, di
         };
         const start = () => {
             if (!canRef.current) return;
+            playPopSound();
             action();
             schedule(0);
         };

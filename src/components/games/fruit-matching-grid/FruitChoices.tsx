@@ -35,6 +35,16 @@ const FRUIT_AUDIO: Record<string, string> = {
   "\uD83E\uDD6C": `${BASE}/Lettuce.wav`,
 };
 
+const playPopSound = () => {
+  try {
+    const audio = new Audio("/audio/sfx/pop_2.mp3");
+    audio.volume = 0.8;
+    audio.play().catch(() => {});
+  } catch (error) {
+    console.error("Audio playback error:", error);
+  }
+};
+
 interface FruitChoicesProps {
   choices: string[];
   correctAnswer: string;
@@ -67,6 +77,7 @@ export function FruitChoices({
 
   const handleSelect = useCallback((fruit: string, idx: number) => {
     if (disabled || shakingIdx !== null || correctIdx !== null) return;
+    playPopSound();
 
     if (fruit === correctAnswer) {
       setCorrectIdx(idx);

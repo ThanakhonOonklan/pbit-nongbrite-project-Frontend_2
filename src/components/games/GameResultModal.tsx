@@ -48,13 +48,57 @@ export function GameResultModal({
 
   const effectiveType = type === "win" && stars === 0 ? "lose" : type;
 
-  // Fire confetti
+  // Fire confetti and play randomized audio
   useEffect(() => {
+    let winAudio: HTMLAudioElement | null = null;
+    let praiseAudio: HTMLAudioElement | null = null;
+    let loseAudio: HTMLAudioElement | null = null;
+    let timer: NodeJS.Timeout;
+
     if (effectiveType === "win") {
       import('canvas-confetti').then(mod => {
         mod.default({ particleCount: 80, spread: 70, origin: { y: 0.6 }, ticks: 120, gravity: 0.9, decay: 0.9 });
       });
+
+      // สุ่มเสียงเพลงชนะ (win_1.mp3 หรือ win_2.mp3)
+      const winNum = Math.random() < 0.5 ? 1 : 2;
+      winAudio = new Audio(`/audio/sfx/win_${winNum}.mp3`);
+      winAudio.volume = 0.6; // ลดความดังเล็กน้อยเพื่อให้เสียงพูดเด่นชัดขึ้น
+      winAudio.play().catch(() => {});
+
+      // สุ่มเสียงพูดชมเชย (praise_1.wav หรือ praise_2.wav)
+      const praiseNum = Math.random() < 0.5 ? 1 : 2;
+      praiseAudio = new Audio(`/audio/sfx/praise_${praiseNum}.wav`);
+      praiseAudio.volume = 1.0;
+      // เล่นหลังจากเล่นเพลงสั้นน้อยๆ เพื่อให้เสียงเข้ากันได้นุ่มนวล
+      timer = setTimeout(() => {
+        if (praiseAudio) {
+          praiseAudio.play().catch(() => {});
+        }
+      }, 150);
+    } else if (effectiveType === "lose") {
+      // สุ่มเสียงแพ้ / ลองใหม่ (tryagain_1.wav หรือ tryagain_2.wav)
+      const loseNum = Math.random() < 0.5 ? 1 : 2;
+      loseAudio = new Audio(`/audio/sfx/tryagain_${loseNum}.wav`);
+      loseAudio.volume = 1.0;
+      loseAudio.play().catch(() => {});
     }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+      if (winAudio) {
+        winAudio.pause();
+        winAudio.currentTime = 0;
+      }
+      if (praiseAudio) {
+        praiseAudio.pause();
+        praiseAudio.currentTime = 0;
+      }
+      if (loseAudio) {
+        loseAudio.pause();
+        loseAudio.currentTime = 0;
+      }
+    };
   }, [effectiveType]);
 
   return (

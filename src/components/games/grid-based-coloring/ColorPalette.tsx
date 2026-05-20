@@ -29,21 +29,32 @@ const COLOR_AUDIO: Record<string, string> = {
 
 /** Tool mode → audio file */
 const TOOL_AUDIO: Partial<Record<DrawingMode | "undo" | "redo" | "reset", string>> = {
-  paint:  `${BASE}/PaintBrush.wav`,
-  fill:   `${BASE}/BucketFill.wav`,
+  paint: `${BASE}/PaintBrush.wav`,
+  fill: `${BASE}/BucketFill.wav`,
   eraser: `${BASE}/Eraser.wav`,
-  undo:   `${BASE}/Undo.wav`,
-  redo:   `${BASE}/Redo.wav`,
-  reset:  `${BASE}/ClearAll.wav`,
+  undo: `${BASE}/Undo.wav`,
+  redo: `${BASE}/Redo.wav`,
+  reset: `${BASE}/ClearAll.wav`,
+};
+
+const playPopSound = () => {
+  try {
+    const audio = new Audio("/audio/sfx/pop_4.mp3");
+    audio.volume = 0.8;
+    audio.play().catch(() => { });
+  } catch (error) {
+    console.error("Audio playback error:", error);
+  }
 };
 
 /** Shared helper — stop previous audio then play new one */
 function playAudio(ref: React.MutableRefObject<HTMLAudioElement | null>, src: string | undefined) {
+  playPopSound();
   if (!src) return;
   if (ref.current) { ref.current.pause(); ref.current.currentTime = 0; }
   const a = new Audio(src);
   ref.current = a;
-  a.play().catch(() => {});
+  a.play().catch(() => { });
 }
 
 interface ColorPaletteProps {
