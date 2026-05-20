@@ -9,13 +9,13 @@ import { getRankBadgeImage, getRankBadgeInfo, RANKS } from "@/constants/ranks";
 import { useTranslations } from "next-intl";
 
 const RANK_GLOW: Record<string, { glow: string; card: string; text: string }> = {
-  Beginner: { glow: "rgba(180, 110, 40, 0.75)", card: "rgba(180, 110, 40, 0.15)", text: "#B46E28" },
-  Explorer: { glow: "rgba(155, 160, 170, 0.75)", card: "rgba(155, 160, 170, 0.15)", text: "#8A8E99" },
-  Thinker: { glow: "rgba(230, 175, 0, 0.8)", card: "rgba(230, 175, 0, 0.15)", text: "#C48A00" },
-  Solver: { glow: "rgba(28, 176, 246, 0.8)", card: "rgba(28, 176, 246, 0.15)", text: "#1cb0f6" },
-  Strategist: { glow: "rgba(220, 50, 200, 0.8)", card: "rgba(220, 50, 200, 0.12)", text: "#D020C0" },
-  Master: { glow: "rgba(235, 80, 50, 0.8)", card: "rgba(235, 80, 50, 0.13)", text: "#E05020" },
-  Legend: { glow: "rgba(210, 30, 30, 0.85)", card: "rgba(210, 30, 30, 0.13)", text: "#CC1818" },
+  Newbie:  { glow: "rgba(160, 160, 180, 0.8)",  card: "rgba(160, 160, 180, 0.15)", text: "#8A8E9A" },
+  Junior:  { glow: "rgba(180, 100, 40, 0.8)",   card: "rgba(180, 100, 40, 0.15)",  text: "#B46428" },
+  Smart:   { glow: "rgba(140, 180, 210, 0.8)",  card: "rgba(140, 180, 210, 0.15)", text: "#6090B0" },
+  Hero:    { glow: "rgba(230, 175, 0, 0.85)",   card: "rgba(230, 175, 0, 0.15)",   text: "#C48A00" },
+  Super:   { glow: "rgba(0, 210, 200, 0.85)",   card: "rgba(0, 210, 200, 0.15)",   text: "#00B8A0" },
+  Master:  { glow: "rgba(80, 140, 255, 0.9)",   card: "rgba(80, 140, 255, 0.15)",  text: "#3060E0" },
+  Legend:  { glow: "rgba(200, 0, 255, 0.9)",    card: "rgba(200, 0, 255, 0.13)",   text: "#A000E0" },
 };
 
 export interface MyRankCardProps {
@@ -217,12 +217,6 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
                       {tRanks(rank.name)}
                     </p>
 
-                    {/* Score range */}
-                    <p className="text-[11px] text-[#888] text-center leading-tight">
-                      {rank.maxScore === Infinity
-                        ? `${rank.minScore.toLocaleString()}+`
-                        : `${rank.minScore.toLocaleString()}–${rank.maxScore.toLocaleString()}`}
-                    </p>
 
                     {/* Current badge */}
                     {isCurrentRank && (

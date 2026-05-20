@@ -163,7 +163,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
 
       {/* Input Field */}
       <div className="flex flex-col gap-4 md:gap-5 w-full items-center mb-1 ">
-        <div className="w-[390px] max-w-[460px]">
+        <div className="w-[360px] max-w-[460px]">
           <InputField
             label={t("forgetPassword.emailLabel")}
             type="email"
@@ -240,7 +240,7 @@ const ForgetPasswordForm: React.FC<ForgetPasswordFormProps> = ({ onSubmit }) => 
 
       {/* Password Fields */}
       <div className="flex flex-col gap-4 md:gap-5 w-full items-center">
-        <div className="w-[390px] max-w-[460px] flex flex-col gap-4 md:gap-5 ">
+        <div className="w-full max-w-[460px] flex flex-col gap-4 md:gap-5 ">
           <PasswordField
             label={t("forgetPassword.passwordLabel")}
             placeholder={t("forgetPassword.passwordPlaceholder")}

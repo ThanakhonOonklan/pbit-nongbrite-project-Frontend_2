@@ -2,16 +2,69 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useSettingsStore } from "@/store";
+
+// Global tracking of active media elements to sync mute state in real-time
+const activeElements = new Set<HTMLMediaElement>();
+
+if (typeof window !== "undefined" && window.HTMLMediaElement) {
+  const originalPlay = window.HTMLMediaElement.prototype.play;
+  window.HTMLMediaElement.prototype.play = function (...args) {
+    const { soundOn } = useSettingsStore.getState();
+    
+    // Add to active elements set
+    activeElements.add(this);
+    
+    // Set initial mute state based on setting
+    this.muted = !soundOn;
+
+    // Clean up from the set when playback ends or is paused
+    if (!(this as any)._hasSoundMuteListeners) {
+      (this as any)._hasSoundMuteListeners = true;
+      const cleanup = () => {
+        activeElements.delete(this);
+      };
+      this.addEventListener("ended", cleanup);
+      this.addEventListener("pause", cleanup);
+    }
+
+    const playPromise = originalPlay.apply(this, args);
+    if (playPromise !== undefined) {
+      return playPromise.catch((error) => {
+        console.warn("Audio playback was blocked or interrupted:", error.message);
+      });
+    }
+    return playPromise;
+  };
+}
 
 export default function BackgroundMusic() {
   const pathname = usePathname();
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const soundOn = useSettingsStore((state) => state.soundOn);
+
+  // Real-time synchronization of all active elements when soundOn changes
+  useEffect(() => {
+    for (const element of activeElements) {
+      element.muted = !soundOn;
+    }
+
+    const audio = audioRef.current;
+    if (audio) {
+      audio.muted = !soundOn;
+      // If unmuted, make sure the BGM is playing
+      if (soundOn) {
+        audio.play().catch(() => {});
+      }
+    }
+  }, [soundOn]);
 
   useEffect(() => {
     // Create background audio instance pointing to the BGM file
     const audio = new Audio("/audio/sfx/เสียงในเกม.mp3");
     audio.loop = true;
     audio.volume = 0.12; // Start with relaxed volume for courses/home pages
+    audio.muted = !useSettingsStore.getState().soundOn;
     audioRef.current = audio;
 
     // Attain audio play bypassing autoplay browser restrictions

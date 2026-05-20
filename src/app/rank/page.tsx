@@ -107,6 +107,7 @@ export default function RankPage() {
                     topThree={topThree}
                     className="flex-1 min-h-0"
                     displayScrollbar={true}
+                    currentUserId={user?.id}
                   />
                 </section>
               </div>

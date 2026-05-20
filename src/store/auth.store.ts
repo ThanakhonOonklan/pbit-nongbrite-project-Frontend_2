@@ -40,6 +40,46 @@ interface AuthState {
   resetPassword: (payload: ResetPasswordPayload) => Promise<void>;
 }
 
+const translateAuthError = (message: string): string => {
+  const msg = message.toLowerCase();
+  if (msg.includes("username already exists") || msg.includes("username_already_exists")) {
+    return "ชื่อผู้ใช้นี้ถูกใช้งานแล้ว";
+  }
+  if (msg.includes("email already exists") || msg.includes("email_already_exists")) {
+    return "อีเมลนี้ถูกใช้งานแล้ว";
+  }
+  if (
+    msg.includes("invalid username or password") ||
+    msg.includes("invalid identifier or password") ||
+    msg.includes("credentials") ||
+    msg.includes("unauthorized")
+  ) {
+    return "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+  }
+  if (msg.includes("user not found") || msg.includes("cannot find user")) {
+    return "ไม่พบข้อมูลผู้ใช้งาน";
+  }
+  if (msg.includes("password is incorrect") || msg.includes("incorrect password")) {
+    return "รหัสผ่านไม่ถูกต้อง";
+  }
+  if (
+    msg.includes("invalid pin") ||
+    msg.includes("invalid otp") ||
+    msg.includes("incorrect pin") ||
+    msg.includes("incorrect otp") ||
+    msg.includes("pin is incorrect")
+  ) {
+    return "รหัสยืนยันตัวตน (PIN) หรือ OTP ไม่ถูกต้อง";
+  }
+  if (msg.includes("expired")) {
+    return "รหัสยืนยันตัวตน (PIN) หรือ OTP หมดอายุแล้ว";
+  }
+  if (msg.includes("email not found") || msg.includes("email is not registered")) {
+    return "ไม่พบอีเมลนี้ในระบบ";
+  }
+  return message;
+};
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
@@ -89,6 +129,9 @@ export const useAuthStore = create<AuthState>()(
               }
             }
 
+            // Translate error message
+            errorMessage = translateAuthError(errorMessage);
+
             // If no message found, use status-based messages
             if (errorMessage === "เกิดข้อผิดพลาดในการเข้าสู่ระบบ") {
               const status = axiosError.response?.status;
@@ -108,6 +151,8 @@ export const useAuthStore = create<AuthState>()(
             // If it's a regular Error, use its message
             errorMessage = error.message;
           }
+
+          errorMessage = translateAuthError(errorMessage);
 
           console.error("Login error details:", error);
 
@@ -193,6 +238,9 @@ export const useAuthStore = create<AuthState>()(
               }
             }
 
+            // Translate error message
+            errorMessage = translateAuthError(errorMessage);
+
             if (errorMessage === "เกิดข้อผิดพลาดในการสมัครสมาชิก") {
               const status = axiosError.response?.status;
               if (status === 400) {
@@ -206,6 +254,8 @@ export const useAuthStore = create<AuthState>()(
           } else if (error instanceof Error) {
             errorMessage = error.message;
           }
+
+          errorMessage = translateAuthError(errorMessage);
 
           console.error("Register Step 1 error:", error);
 
@@ -272,6 +322,9 @@ export const useAuthStore = create<AuthState>()(
               }
             }
 
+            // Translate error message
+            errorMessage = translateAuthError(errorMessage);
+
             if (errorMessage === "เกิดข้อผิดพลาดในการสมัครสมาชิก") {
               const status = axiosError.response?.status;
               if (status === 400) {
@@ -285,6 +338,8 @@ export const useAuthStore = create<AuthState>()(
           } else if (error instanceof Error) {
             errorMessage = error.message;
           }
+
+          errorMessage = translateAuthError(errorMessage);
 
           console.error("Register Step 2 error:", error);
 
@@ -327,6 +382,9 @@ export const useAuthStore = create<AuthState>()(
               else if (typeof responseData === 'string') errorMessage = responseData;
             }
 
+            // Translate error message
+            errorMessage = translateAuthError(errorMessage);
+
             if (errorMessage === "เกิดข้อผิดพลาดในการส่งข้อมูล") {
               const status = axiosError.response?.status;
               if (status === 404) errorMessage = "ไม่พบอีเมลในระบบ";
@@ -335,6 +393,8 @@ export const useAuthStore = create<AuthState>()(
           } else if (error instanceof Error) {
             errorMessage = error.message;
           }
+
+          errorMessage = translateAuthError(errorMessage);
 
           console.error("Forgot Password error:", error);
           set({ isLoading: false, error: errorMessage });
@@ -363,9 +423,14 @@ export const useAuthStore = create<AuthState>()(
               else if (responseData.error) errorMessage = responseData.error;
               else if (typeof responseData === 'string') errorMessage = responseData;
             }
+
+            // Translate error message
+            errorMessage = translateAuthError(errorMessage);
           } else if (error instanceof Error) {
             errorMessage = error.message;
           }
+
+          errorMessage = translateAuthError(errorMessage);
 
           console.error("Reset Password error:", error);
           set({ isLoading: false, error: errorMessage });

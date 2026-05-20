@@ -289,11 +289,11 @@
     }
   },
   "Ranks": {
-    "Beginner": "Beginner",
-    "Explorer": "Explorer",
-    "Thinker": "Thinker",
-    "Solver": "Solver",
-    "Strategist": "Strategist",
+    "Newbie": "Newbie",
+    "Junior": "Junior",
+    "Smart": "Smart",
+    "Hero": "Hero",
+    "Super": "Super",
     "Master": "Master",
     "Legend": "Legend"
   }

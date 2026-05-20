@@ -29,7 +29,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-start pt-10 sm:pt-0 sm:items-center justify-center bg-[#EDF0F7] p-4 sm:p-6 md:p-8 relative overflow-hidden">
+    <div
+      className="min-h-screen flex items-start pt-10 sm:pt-0 sm:items-center justify-center p-4 sm:p-6 md:p-8 bg-cover bg-center bg-no-repeat relative overflow-hidden"
+      style={{
+        backgroundImage: "url('/images/Background/LoginRegBackground.png')",
+      }}
+    >
       <div className="relative z-10 w-full max-w-[420px]">
         <LoginForm
           onSubmit={handleLogin}

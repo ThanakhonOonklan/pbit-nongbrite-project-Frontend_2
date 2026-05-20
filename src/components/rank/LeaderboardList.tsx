@@ -15,7 +15,7 @@ const RANK_BADGE_GLOW: Record<string, string> = {
   Solver: "rgba(28, 176, 246, 0.8)",
   Strategist: "rgba(220, 50, 200, 0.8)",
   Master: "rgba(235, 80, 50, 0.8)",
-  Legend: "rgba(210, 30, 30, 0.85)",
+  Legend: "rgba(235, 243, 0, 0.85)",
 };
 
 export interface LeaderboardListProps {
@@ -25,6 +25,7 @@ export interface LeaderboardListProps {
   className?: string;
   itemClassName?: string;
   displayScrollbar?: boolean;
+  currentUserId?: string | number;
 }
 
 const getRankCircleColor = (rank: number) => {
@@ -72,6 +73,7 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
   className = "",
   itemClassName = "",
   displayScrollbar = true,
+  currentUserId,
 }) => {
   const safeItems = items ?? [];
   const t = useTranslations("Rank.LeaderboardList");
@@ -102,8 +104,8 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
       <div className="grid grid-cols-[60px_1fr_100px_80px] sm:grid-cols-[70px_1fr_110px_90px] lg:grid-cols-[80px_1fr_120px_100px] gap-2 sm:gap-3 lg:gap-4 px-3 sm:px-4 lg:px-4 py-2 sm:py-2.5 lg:py-3 border border-gray-200 bg-gray-50">
         <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700">{t("colRank")}</div>
         <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 min-w-0">{t("colName")}</div>
-        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:text-left sm:pl-2 lg:pl-0">{t("colScore")}</div>
-        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center sm:pl-4 lg:pl-1">{t("colTier")}</div>
+        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center">{t("colScore")}</div>
+        <div className="text-[12px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-700 text-center">{t("colTier")}</div>
       </div>
 
       {/* Table Rows */}
@@ -166,24 +168,24 @@ const LeaderboardList: React.FC<LeaderboardListProps> = ({
                     />
                   </div>
                   <div className="flex-1 min-w-0 overflow-hidden">
-                    <p className="text-[13px] sm:text-[13px] lg:text-[14px] font-normal text-gray-800 truncate">
-                      {user.name}
-                    </p>
-                    {user.gender ? (
-                      <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5">
-                        <span className="text-[11px] sm:text-[12px] text-gray-500 truncate">
-                          {getTranslatedGender(user.gender, tProfile)}
-                        </span>
+                    <div className="flex items-center gap-1 min-w-0">
+                      <p className={cn(
+                        "text-[13px] sm:text-[13px] lg:text-[14px] font-bold truncate",
+                        currentUserId && (String(user.userId) === String(currentUserId) || String(user.id) === String(currentUserId))
+                          ? "text-[#1CB0F6]"
+                          : "text-gray-800"
+                      )}>
+                        {user.name}
+                      </p>
+                      {user.gender && (
                         <span className="flex-shrink-0">{getGenderIcon(user.gender)}</span>
-                      </div>
-                    ) : (
-                      <div className="h-4 sm:h-5 mt-0.5" /> // Spacer for alignment if no gender
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 {/* Score */}
-                <div className="flex items-center justify-center sm:justify-start">
+                <div className="flex items-center justify-center">
                   <span className="text-[13px] sm:text-[13px] lg:text-[14px] font-semibold text-gray-800 whitespace-nowrap">
                     {user.score.toLocaleString()}
                   </span>

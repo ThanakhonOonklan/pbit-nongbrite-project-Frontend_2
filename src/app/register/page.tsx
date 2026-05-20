@@ -29,8 +29,13 @@ export default function RegisterPage() {
   }, [isAuthenticated, registerStep, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#EDF0F7] p-4 sm:p-6 md:p-8">
-      <div className="w-full max-w-[420px]">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 bg-cover bg-center bg-no-repeat relative overflow-hidden"
+      style={{
+        backgroundImage: "url('/images/Background/LoginRegBackground.png')",
+      }}
+    >
+      <div className="w-full max-w-[420px] relative z-10">
         <RegisterForm />
       </div>
     </div>

@@ -11,7 +11,7 @@ export interface RankConfig {
 export const RANKS: RankConfig[] = [
   {
     id: 1,
-    name: "Beginner",
+    name: "Newbie",
     label: "มือใหม่",
     minScore: 0,
     maxScore: 499,
@@ -20,8 +20,8 @@ export const RANKS: RankConfig[] = [
   },
   {
     id: 2,
-    name: "Explorer",
-    label: "นักสำรวจ",
+    name: "Junior",
+    label: "จูเนียร์",
     minScore: 500,
     maxScore: 1499,
     scoreRequired: 1000,
@@ -29,8 +29,8 @@ export const RANKS: RankConfig[] = [
   },
   {
     id: 3,
-    name: "Thinker",
-    label: "นักคิด",
+    name: "Smart",
+    label: "สมาร์ท",
     minScore: 1500,
     maxScore: 2499,
     scoreRequired: 1000,
@@ -38,8 +38,8 @@ export const RANKS: RankConfig[] = [
   },
   {
     id: 4,
-    name: "Solver",
-    label: "นักแก้ปัญหา",
+    name: "Hero",
+    label: "ฮีโร่",
     minScore: 2500,
     maxScore: 3499,
     scoreRequired: 1000,
@@ -47,8 +47,8 @@ export const RANKS: RankConfig[] = [
   },
   {
     id: 5,
-    name: "Strategist",
-    label: "นักวางแผน",
+    name: "Super",
+    label: "ซูเปอร์",
     minScore: 3500,
     maxScore: 4499,
     scoreRequired: 1000,
@@ -57,7 +57,7 @@ export const RANKS: RankConfig[] = [
   {
     id: 6,
     name: "Master",
-    label: "ปรมาจารย์",
+    label: "มาสเตอร์",
     minScore: 4500,
     maxScore: 5499,
     scoreRequired: 1000,
@@ -66,7 +66,7 @@ export const RANKS: RankConfig[] = [
   {
     id: 7,
     name: "Legend",
-    label: "ตำนาน",
+    label: "เลเจนด์",
     minScore: 5500,
     maxScore: Infinity,
     scoreRequired: Infinity,

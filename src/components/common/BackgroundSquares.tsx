@@ -8,26 +8,18 @@ export function BackgroundSquares() {
       {/* ✨ วงกลม (Circles) - 3 วง */}
       {/* Circle 1: มุมขวาบน */}
       <div
-        className="absolute rounded-full opacity-60 animate-float-settings"
+        className="absolute rounded-full opacity-50 sm:opacity-60 animate-float-settings w-[150px] h-[150px] sm:w-[300px] sm:h-[300px] -top-[50px] sm:-top-[100px] right-[5%] sm:right-[15%]"
         style={{
-          width: "300px",
-          height: "300px",
           background: "linear-gradient(135deg, rgba(0, 168, 232, 0.2) 0%, rgba(79, 194, 247, 0.2) 100%)",
-          top: "-100px",
-          right: "15%",
           willChange: "transform",
         }}
       ></div>
 
       {/* Circle 2: มุมซ้ายล่าง */}
       <div
-        className="absolute rounded-full opacity-60 animate-float-reverse-settings"
+        className="absolute rounded-full opacity-50 sm:opacity-60 animate-float-reverse-settings w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] bottom-[10%] sm:bottom-[15%] -left-[5%] sm:-left-[10%]"
         style={{
-          width: "200px",
-          height: "200px",
           background: "linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 224, 130, 0.1) 100%)",
-          bottom: "15%",
-          left: "-10%",
           animationDelay: "2s",
           willChange: "transform",
         }}
@@ -35,13 +27,9 @@ export function BackgroundSquares() {
 
       {/* Circle 3: กลางขวา */}
       <div
-        className="absolute rounded-full opacity-60 animate-float-settings"
+        className="absolute rounded-full opacity-50 sm:opacity-60 animate-float-settings w-[85px] h-[85px] sm:w-[150px] sm:h-[150px] top-[40%] right-[2%] sm:right-[5%]"
         style={{
-          width: "150px",
-          height: "150px",
           background: "linear-gradient(135deg, rgba(129, 212, 250, 0.25) 0%, rgba(187, 222, 251, 0.1) 100%)",
-          top: "40%",
-          right: "5%",
           animationDelay: "4s",
           willChange: "transform",
         }}
@@ -50,13 +38,9 @@ export function BackgroundSquares() {
       {/* 📦 สี่เหลี่ยม (Squares) - 2 อัน */}
       {/* Square 1: มุมซ้ายบน */}
       <div
-        className="absolute rounded-[20px] opacity-60 animate-rotate-settings"
+        className="absolute rounded-[12px] sm:rounded-[20px] opacity-50 sm:opacity-60 animate-rotate-settings w-[130px] h-[130px] sm:w-[250px] sm:h-[250px] top-[15%] -left-[5%]"
         style={{
-          width: "250px",
-          height: "250px",
           background: "linear-gradient(135deg, rgba(0, 168, 232, 0.15) 0%, rgba(79, 194, 247, 0.38) 100%)",
-          top: "15%",
-          left: "-5%",
           transform: "rotate(15deg)",
           willChange: "transform",
         }}
@@ -64,13 +48,9 @@ export function BackgroundSquares() {
 
       {/* Square 2: มุมขวาล่าง */}
       <div
-        className="absolute rounded-[20px] opacity-60 animate-rotate-reverse-settings"
+        className="absolute rounded-[10px] sm:rounded-[20px] opacity-50 sm:opacity-60 animate-rotate-reverse-settings w-[90px] h-[90px] sm:w-[180px] sm:h-[180px] bottom-[20%] sm:bottom-[25%] right-[5%] sm:right-[15%]"
         style={{
-          width: "180px",
-          height: "180px",
           background: "linear-gradient(135deg, rgba(174, 213, 255, 0.2) 0%, rgba(227, 242, 253, 0.1) 100%)",
-          bottom: "25%",
-          right: "15%",
           transform: "rotate(-20deg)",
           animationDelay: "3s",
           willChange: "transform",
@@ -78,9 +58,9 @@ export function BackgroundSquares() {
       ></div>
 
       {/* 🔺 สามเหลี่ยม (Triangles) - 2 อัน */}
-      {/* Triangle 1: กลางซ้าย */}
+      {/* Triangle 1: กลางซ้าย - ซ่อนบนหน้าจอเล็กเพื่อลดความแออัด */}
       <div
-        className="absolute opacity-60 animate-float-settings"
+        className="absolute opacity-50 sm:opacity-60 animate-float-settings hidden md:block"
         style={{
           width: "0",
           height: "0",
@@ -94,9 +74,9 @@ export function BackgroundSquares() {
         }}
       ></div>
 
-      {/* Triangle 2: กลางขวาล่าง */}
+      {/* Triangle 2: กลางขวาล่าง - ย่อขนาดแบบ Responsive */}
       <div
-        className="absolute opacity-60 animate-float-reverse-settings"
+        className="absolute opacity-50 sm:opacity-60 animate-float-reverse-settings scale-50 sm:scale-100 origin-bottom-right"
         style={{
           width: "0",
           height: "0",
@@ -112,9 +92,9 @@ export function BackgroundSquares() {
       ></div>
 
       {/* ⭕ วงแหวน (Rings) - 2 วง */}
-      {/* Ring 1: กลางซ้าย */}
+      {/* Ring 1: กลางซ้าย - ซ่อนบนหน้าจอเล็กเพื่อเน้นเนื้อหา */}
       <div
-        className="absolute rounded-full opacity-60 animate-rotate-slow-settings"
+        className="absolute rounded-full opacity-50 sm:opacity-60 animate-rotate-slow-settings hidden md:block"
         style={{
           width: "220px",
           height: "220px",
@@ -125,9 +105,9 @@ export function BackgroundSquares() {
         }}
       ></div>
 
-      {/* Ring 2: มุมขวาบน */}
+      {/* Ring 2: มุมขวาบน - ย่อขนาดบนหน้าจอมือถือ */}
       <div
-        className="absolute rounded-full opacity-60 animate-rotate-slow-reverse-settings"
+        className="absolute rounded-full opacity-50 sm:opacity-60 animate-rotate-slow-reverse-settings scale-50 sm:scale-100 origin-top-right"
         style={{
           width: "160px",
           height: "160px",
@@ -140,9 +120,9 @@ export function BackgroundSquares() {
       ></div>
 
       {/* 🌙 ครึ่งวงกลม (Half Circles) - 2 อัน */}
-      {/* Half Circle 1: มุมขวาล่าง */}
+      {/* Half Circle 1: มุมขวาล่าง - ย่อขนาดบนหน้าจอมือถือ */}
       <div
-        className="absolute rounded-t-full opacity-60 animate-float-settings"
+        className="absolute rounded-t-full opacity-50 sm:opacity-60 animate-float-settings scale-50 sm:scale-100 origin-bottom-right"
         style={{
           width: "280px",
           height: "140px",
@@ -155,9 +135,9 @@ export function BackgroundSquares() {
         }}
       ></div>
 
-      {/* Half Circle 2: มุมซ้ายบน */}
+      {/* Half Circle 2: มุมซ้ายบน - ย่อขนาดบนหน้าจอมือถือ */}
       <div
-        className="absolute rounded-t-full opacity-60 animate-float-reverse-settings"
+        className="absolute rounded-t-full opacity-50 sm:opacity-60 animate-float-reverse-settings scale-50 sm:scale-100 origin-top-left"
         style={{
           width: "200px",
           height: "100px",
@@ -173,21 +153,14 @@ export function BackgroundSquares() {
 
       {/* ⚫ ลายจุด (Dots Pattern) */}
       <div
-        className="absolute opacity-60 animate-float-settings"
+        className="absolute opacity-50 sm:opacity-60 animate-float-settings w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] top-[65%] right-[4%] sm:right-[8%]"
         style={{
-          width: "200px",
-          height: "200px",
           backgroundImage: "radial-gradient(circle, rgba(0, 168, 232, 0.15) 2px, transparent 2px)",
           backgroundSize: "25px 25px",
-          top: "65%",
-          right: "8%",
           animationDelay: "7s",
           willChange: "transform",
         }}
       ></div>
-
-    
     </div>
   );
 }
-

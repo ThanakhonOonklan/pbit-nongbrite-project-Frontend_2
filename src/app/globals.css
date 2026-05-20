@@ -318,27 +318,27 @@
     animation-delay: -8.5714285714s;
   }
 
-  /* Background Squares Settings Animations */
+  /* Background Squares Settings Animations - Hardware Accelerated */
   @keyframes float-settings {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(30px, -30px); }
-    66% { transform: translate(-20px, 20px); }
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    33% { transform: translate3d(30px, -30px, 0); }
+    66% { transform: translate3d(-20px, 20px, 0); }
   }
 
   @keyframes float-reverse-settings {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(-30px, 30px); }
-    66% { transform: translate(20px, -20px); }
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    33% { transform: translate3d(-30px, 30px, 0); }
+    66% { transform: translate3d(20px, -20px, 0); }
   }
 
   @keyframes rotate-slow-settings {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from { transform: rotate(0deg) translate3d(0, 0, 0); }
+    to { transform: rotate(360deg) translate3d(0, 0, 0); }
   }
 
   @keyframes rotate-slow-reverse-settings {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
+    from { transform: rotate(0deg) translate3d(0, 0, 0); }
+    to { transform: rotate(-360deg) translate3d(0, 0, 0); }
   }
 
   .animate-float-settings {

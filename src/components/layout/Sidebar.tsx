@@ -81,25 +81,21 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     {
       label: t("navItems.profile"),
       path: "/profile",
-      icon: user?.profile?.icon ? (
+      icon: (
         <div className="relative w-[36px] h-[36px] flex-shrink-0">
           <Image
-            src={`/icons/icon-Profile/${user.profile.icon}`}
+            src={
+              user?.profile?.icon
+                ? `/icons/icon-Profile/${user.profile.icon}`
+                : "/icons/icon-Profile/icon_P_Bit.png"
+            }
             alt="Profile"
             fill
-            containerClassName="w-[36px] h-[36px] rounded-full bg-[#EAF8FF]"
-            className="object-cover"
+            containerClassName="w-[36px] h-[36px]"
+            className="object-contain"
             sizes="36px"
           />
         </div>
-      ) : (
-        <Image
-          src="/icons/sidebar/profile.svg"
-          alt="Profile"
-          width={38}
-          height={38}
-          className="object-contain"
-        />
       ),
     },
     {
@@ -216,10 +212,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             isCollapsed ? "px-2 py-4" : "px-4 py-5"
           )}
         >
-          <div
+          <Link
+            href="/profile"
+            prefetch={true}
             className={cn(
-              "flex items-center transition-all duration-300",
-              isCollapsed ? "justify-center" : "gap-3"
+              "flex items-center transition-all duration-300 w-full cursor-pointer hover:opacity-80 active:scale-[0.98]",
+              isCollapsed ? "justify-center p-1" : "gap-3 p-[6px]"
             )}
           >
             {/* User Avatar */}
@@ -232,8 +230,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
                 }
                 alt="User Avatar"
                 fill
-                containerClassName="w-[42px] h-[42px] rounded-full bg-[#EAF8FF]"
-                className="object-cover"
+                containerClassName="w-[42px] h-[42px]"
+                className="object-contain"
                 sizes="42px"
               />
             </div>
@@ -247,7 +245,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
                 </span>
               </div>
             )}
-          </div>
+          </Link>
         </div>
 
       </aside>

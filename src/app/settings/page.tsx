@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/auth.store";
+import { useAuthStore, useSettingsStore } from "@/store";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Divider, PrimaryButton, LoadingOverlay, BackgroundSquares, Container, LanguageDropdown, SoundToggle } from "@/components/common";
 import { IoLanguage, IoVolumeHigh, IoLogOut } from "react-icons/io5";
@@ -12,10 +12,15 @@ import { setUserLocale } from "@/actions/locale";
 export default function SettingsPage() {
   const router = useRouter();
   const { logout, isLoading } = useAuthStore();
+  const { soundOn, setSoundOn } = useSettingsStore();
   const currentLocale = useLocale() as "th" | "en";
   const [selectedLanguage, setSelectedLanguage] = React.useState<"th" | "en">(currentLocale);
-  const [soundOn, setSoundOn] = React.useState(true);
+  const [mounted, setMounted] = React.useState(false);
   const t = useTranslations("Settings");
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const languages = [
     { code: "th", label: "ไทย", flag: "/icons/language/th.svg" },
@@ -99,7 +104,7 @@ export default function SettingsPage() {
                   </p>
                 </div>
                 <SoundToggle
-                  isOn={soundOn}
+                  isOn={mounted ? soundOn : true}
                   onToggle={setSoundOn}
                 />
               </div>
