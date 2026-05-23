@@ -1,9 +1,10 @@
 import { AuthGuard } from "@/components/auth";
 
-export default function CoursesLayout({
+export default function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return <AuthGuard>{children}</AuthGuard>;
 }
+

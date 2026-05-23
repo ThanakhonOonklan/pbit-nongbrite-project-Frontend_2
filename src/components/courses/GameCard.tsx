@@ -13,6 +13,7 @@ import { TiltButton } from "react-tilt-button";
 import { StarRating, LoadingOverlay } from "@/components/common";
 import { FaLock, FaTrophy } from "react-icons/fa";
 import { useTranslations } from "next-intl";
+import { createGamePath, markGameNavigation } from "@/utils/game-navigation";
 
 // Helper to resolve responsive width/height values
 const resolveSize = (
@@ -219,8 +220,10 @@ export const GameCard: React.FC<GameCardProps> = React.memo(({ game, onLevelSele
                   onMouseEnter={() => handleMouseEnter(lvl.level)}
                   onMouseLeave={handleMouseLeave}
                   onClick={() => {
+                    const gamePath = createGamePath(game.id, lvl.level);
+                    markGameNavigation(gamePath);
                     setIsNavigating(true);
-                    router.push(`/games/${game.id}/${lvl.level}`);
+                    router.push(gamePath);
                   }}
                 >
                   {lvl.level === latestLevel && (

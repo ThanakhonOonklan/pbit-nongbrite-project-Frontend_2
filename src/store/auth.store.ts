@@ -7,12 +7,12 @@ import {
   type RegisterStep1Payload,
   type RegisterStep2Payload,
   type ResetPasswordPayload,
-  Gender
 } from "@/services/auth.service";
 import { useUserStore } from "./user.store";
 
 interface AuthState {
   isAuthenticated: boolean;
+  hasHydrated: boolean;
   isLoading: boolean;
   error: string | null;
 
@@ -27,8 +27,10 @@ interface AuthState {
   // Actions
   login: (payload: LoginPayload) => Promise<void>;
   logout: () => Promise<void>;
+  clearAuth: () => void;
   clearError: () => void;
   setUser: (user: User | null) => void;
+  setHasHydrated: (hasHydrated: boolean) => void;
 
   // Register actions
   registerStep1: (payload: RegisterStep1Payload) => Promise<void>;
@@ -84,6 +86,7 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       isAuthenticated: false,
+      hasHydrated: false,
       isLoading: false,
       error: null,
       registerStep: 1,
@@ -186,8 +189,22 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
+      clearAuth: () => {
+        useUserStore.getState().setUser(null);
+
+        set({
+          isAuthenticated: false,
+          isLoading: false,
+          error: null,
+        });
+      },
+
       clearError: () => {
         set({ error: null });
+      },
+
+      setHasHydrated: (hasHydrated: boolean) => {
+        set({ hasHydrated });
       },
 
       setUser: (user: User | null) => {
@@ -443,6 +460,9 @@ export const useAuthStore = create<AuthState>()(
       partialize: (state) => ({
         isAuthenticated: state.isAuthenticated,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );
