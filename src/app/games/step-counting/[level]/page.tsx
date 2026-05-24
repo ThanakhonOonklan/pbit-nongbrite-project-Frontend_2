@@ -10,7 +10,8 @@ import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
 import { TutorialModal } from "@/components/games/TutorialModal";
-import { stepCountingTutorialSteps } from "@/components/games/tutorials";
+import { useTranslations } from "next-intl";
+import { getStepCountingTutorialSteps } from "@/components/games/tutorials";
 import { HelpButton } from "@/components/games/HelpButton";
 import { stepCountingLevels, type ResolvedLoopConfig, type LoopTheme } from "@/constants/games/step-counting-levels";
 import {
@@ -32,6 +33,7 @@ export default function StepCountingGamePage({
 }: {
   params: Promise<{ level: string }>;
 }) {
+  const t = useTranslations("StepCounting");
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
@@ -151,7 +153,7 @@ export default function StepCountingGamePage({
     if (blenderPhase === "dirty") {
       setPenaltyCount((p) => p + 1);
       reduceLife();
-      showWarning("ต้องรอล้างเครื่องปั่นก่อนนะ! ⚠️");
+      showWarning(t("waitCleanWarning"));
       return;
     }
 
@@ -214,10 +216,9 @@ export default function StepCountingGamePage({
       reduceLife();
 
       if (wrongColorTriggered) {
-        const FRUIT_NAME: Record<string, string> = { orange: "ส้ม", watermelon: "แตงโม", pineapple: "สับปะรด", apple: "แอปเปิล" };
-        showWarning(`ผิดสี! แก้วนี้ต้องการน้ำ${FRUIT_NAME[newGlasses[errorIdx].theme]} ⚠️`);
+        showWarning(t("wrongColorWarning", { fruit: t("fruits." + newGlasses[errorIdx].theme) }));
       } else {
-        showWarning(`น้ำล้นแก้ว! ⚠️`);
+        showWarning(t("overflowWarning"));
       }
 
       setBlenderContents(null);
@@ -308,9 +309,9 @@ export default function StepCountingGamePage({
       <div className="flex h-screen items-center justify-center bg-gradient-to-b from-[#87CEEB] to-[#C9E8F7]">
         <div className="flex flex-col items-center text-center gap-4">
           <Image src="/images/P_Bobo/bobo-03.svg" alt="Bobo" width={110} height={110} className="w-auto h-auto object-contain drop-shadow-lg" />
-          <p className="text-amber-900 text-xl font-bold">ไม่พบด่านนี้</p>
+          <p className="text-amber-900 text-xl font-bold">{t("levelNotFound")}</p>
           <button onClick={() => router.push("/courses")} className="mt-2 px-6 py-2 bg-[#D85A30] text-white rounded-xl font-bold hover:bg-[#C04828] transition-colors shadow-lg">
-            กลับหน้าหลัก
+            {t("backToHome")}
           </button>
         </div>
       </div>
@@ -324,7 +325,7 @@ export default function StepCountingGamePage({
       <div className="relative z-50 w-full">
         <GameHeader
           level={level}
-          gameTitle="ร้านขายน้ำผลไม้"
+          gameTitle={t("gameTitle")}
           characterSrc="/images/P_Bobo/bobo-01.svg"
           bgColor="#6ED1CF"
         />
@@ -372,7 +373,7 @@ export default function StepCountingGamePage({
       {/* ===== INTRO TUTORIAL ===== */}
       {canShowTutorial && (
         <TutorialModal
-          steps={stepCountingTutorialSteps}
+          steps={getStepCountingTutorialSteps(t)}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_Bobo/bobo-01.svg"
           accentColor="#6ED1CF"

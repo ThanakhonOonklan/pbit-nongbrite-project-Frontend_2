@@ -2,17 +2,18 @@ import { useState, useEffect, useRef } from "react";
 import { TiltButton } from "react-tilt-button";
 import { type Direction } from "@/constants/games/path-navigation-levels";
 import { useDraggable } from "@dnd-kit/core";
+import { useTranslations } from "next-intl";
 
 interface DirectionControlsProps {
     onAddCommand: (direction: Direction) => void;
     disabled?: boolean;
 }
 
-const BUTTONS: { direction: Direction; icon: React.ReactNode; label: string }[] = [
-    { direction: "left", icon: <img src="/icons/Arrow/ArrowLeft.svg" alt="ซ้าย" className="w-6 h-6 lg:w-7 lg:h-7" />, label: "ซ้าย" },
-    { direction: "up", icon: <img src="/icons/Arrow/ArrowUp.svg" alt="บน" className="w-6 h-6 lg:w-7 lg:h-7" />, label: "บน" },
-    { direction: "down", icon: <img src="/icons/Arrow/ArrowDown.svg" alt="ล่าง" className="w-6 h-6 lg:w-7 lg:h-7" />, label: "ล่าง" },
-    { direction: "right", icon: <img src="/icons/Arrow/ArrowRight.svg" alt="ขวา" className="w-6 h-6 lg:w-7 lg:h-7" />, label: "ขวา" },
+const BUTTONS: { direction: Direction }[] = [
+    { direction: "left" },
+    { direction: "up" },
+    { direction: "down" },
+    { direction: "right" },
 ];
 
 function useIsDesktop() {
@@ -116,27 +117,38 @@ export function DirectionControls({
     onAddCommand,
     disabled = false,
 }: DirectionControlsProps) {
+    const t = useTranslations("PathNavigation");
     return (
         <div>
             <p className="text-sm font-semibold text-[#F1F7FB] mb-3">
-                กดหรือลากคำสั่ง
+                {t("pressOrDrag")}
             </p>
             <div className="flex gap-3">
-                {BUTTONS.map((btn, i) => (
-                    <div
-                        key={btn.direction}
-                        className="btn-pop"
-                        style={{ animationDelay: `${i * 60}ms` }}
-                    >
-                        <DirectionButton
-                            direction={btn.direction}
-                            icon={btn.icon}
-                            label={btn.label}
-                            disabled={disabled}
-                            onAddCommand={onAddCommand}
+                {BUTTONS.map((btn, i) => {
+                    const label = t(`direction.${btn.direction}`);
+                    const iconWithAlt = (
+                        <img
+                            src={`/icons/Arrow/Arrow${btn.direction.charAt(0).toUpperCase() + btn.direction.slice(1)}.svg`}
+                            alt={label}
+                            className="w-6 h-6 lg:w-7 lg:h-7"
                         />
-                    </div>
-                ))}
+                    );
+                    return (
+                        <div
+                            key={btn.direction}
+                            className="btn-pop"
+                            style={{ animationDelay: `${i * 60}ms` }}
+                        >
+                            <DirectionButton
+                                direction={btn.direction}
+                                icon={iconWithAlt}
+                                label={label}
+                                disabled={disabled}
+                                onAddCommand={onAddCommand}
+                            />
+                        </div>
+                    );
+                })}
             </div>
             <style>{`
                 @keyframes btnPop {

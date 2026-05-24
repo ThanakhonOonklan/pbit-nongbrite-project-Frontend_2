@@ -5,32 +5,32 @@ import type { TutorialStep } from "../TutorialModal";
 import { Glass } from "../step-counting/Glass";
 import type { LoopTheme } from "@/constants/games/step-counting-levels";
 
-const JUICE_TYPES: { theme: LoopTheme; label: string }[] = [
-    { theme: "orange", label: "น้ำส้ม" },
-    { theme: "pineapple", label: "น้ำสับปะรด" },
-    { theme: "watermelon", label: "น้ำแตงโม" },
-    { theme: "apple", label: "น้ำแอปเปิ้ล" },
+const JUICE_TYPES: { theme: LoopTheme }[] = [
+    { theme: "orange" },
+    { theme: "pineapple" },
+    { theme: "watermelon" },
+    { theme: "apple" },
 ];
 
-const RATIO_DATA: { theme: LoopTheme; emoji: string; yields: number; label: string }[] = [
-    { theme: "orange", emoji: "🍊", yields: 0.5, label: "ครึ่งแก้ว" },
-    { theme: "pineapple", emoji: "🍍", yields: 1, label: "1 แก้ว" },
-    { theme: "watermelon", emoji: "🍉", yields: 2, label: "2 แก้ว" },
+const RATIO_DATA: { theme: LoopTheme; emoji: string; yields: number }[] = [
+    { theme: "orange", emoji: "🍊", yields: 0.5 },
+    { theme: "pineapple", emoji: "🍍", yields: 1 },
+    { theme: "watermelon", emoji: "🍉", yields: 2 },
 ];
 
 /* ── Step 1: Glass identification ────────────────────────────── */
-function Step1Glasses() {
+function Step1Glasses({ t }: { t: any }) {
     const [active, setActive] = useState(0);
 
     useEffect(() => {
-        const t = setInterval(() => setActive(a => (a + 1) % JUICE_TYPES.length), 1300);
-        return () => clearInterval(t);
+        const tInterval = setInterval(() => setActive(a => (a + 1) % JUICE_TYPES.length), 1300);
+        return () => clearInterval(tInterval);
     }, []);
 
     return (
         <div className="flex flex-col items-center gap-3">
             <p className="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1.5 rounded-xl border border-teal-200">
-                สังเกตสีแก้วน้ำ ว่าคือน้ำผลไม้อะไร
+                {t("tutorial.step1Label")}
             </p>
             <div className="flex items-end gap-3">
                 {JUICE_TYPES.map((j, i) => (
@@ -53,7 +53,7 @@ function Step1Glasses() {
                         </div>
                         <span className="text-[10px] font-bold text-center"
                             style={{ color: active === i ? "#FFFFFF" : "rgba(255,255,255,0.4)", transition: "color 0.2s" }}>
-                            {j.label}
+                            {t("juiceTypes." + j.theme)}
                         </span>
                     </div>
                 ))}
@@ -63,12 +63,12 @@ function Step1Glasses() {
 }
 
 /* ── Step 2: Fruit → yield ratio card ───────────────────────── */
-function Step2RatioCard() {
+function Step2RatioCard({ t }: { t: any }) {
     const [active, setActive] = useState(0);
 
     useEffect(() => {
-        const t = setInterval(() => setActive(a => (a + 1) % RATIO_DATA.length), 2000);
-        return () => clearInterval(t);
+        const tInterval = setInterval(() => setActive(a => (a + 1) % RATIO_DATA.length), 2000);
+        return () => clearInterval(tInterval);
     }, []);
 
     const cur = RATIO_DATA[active];
@@ -76,7 +76,7 @@ function Step2RatioCard() {
     return (
         <div className="flex flex-col items-center gap-3">
             <p className="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1.5 rounded-xl border border-teal-200">
-                ผลไม้แต่ละลูกให้น้ำได้ไม่เท่ากัน
+                {t("tutorial.step2Label")}
             </p>
             <div key={active}
                 style={{
@@ -90,7 +90,9 @@ function Step2RatioCard() {
                     animation: "scFadeIn 0.35s cubic-bezier(0.34,1.56,0.64,1)",
                 }}>
                 <span style={{ fontSize: 42 }}>{cur.emoji}</span>
-                <span style={{ fontSize: 15, fontWeight: 800, color: "#00695C", whiteSpace: "nowrap" }}>1 ลูก →</span>
+                <span style={{ fontSize: 15, fontWeight: 800, color: "#00695C", whiteSpace: "nowrap" }}>
+                    {t("oneFruitRatio", { fruit: t("fruits." + cur.theme) })}
+                </span>
                 <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 70, overflow: "visible" }}>
                     {cur.yields <= 1
                         ? (
@@ -105,7 +107,9 @@ function Step2RatioCard() {
                         ))
                     }
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "#00695C" }}>{cur.label}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#00695C" }}>
+                    {cur.yields === 0.5 ? t("yieldHalf") : cur.yields === 1 ? t("yieldOne") : t("yieldTwo")}
+                </span>
             </div>
             <style>{`
                 @keyframes scFadeIn {
@@ -118,7 +122,7 @@ function Step2RatioCard() {
 }
 
 /* ── Step 3: Stepper + Run button ───────────────────────────── */
-function Step3CountRun() {
+function Step3CountRun({ t }: { t: any }) {
     const [count, setCount] = useState(0);
     const [flash, setFlash] = useState(false);
     const [phase, setPhase] = useState<"counting" | "running" | "done">("counting");
@@ -172,7 +176,7 @@ function Step3CountRun() {
                 <div style={{ width: 44, height: 44, borderRadius: 12, background: "#FFB74D", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 3px 10px #FFB74D88", flexShrink: 0 }}>
                     <span style={{ fontSize: 26 }}>🍊</span>
                 </div>
-                <span style={{ fontWeight: 800, color: "#BF360C", fontSize: 15, flex: 1 }}>ส้ม</span>
+                <span style={{ fontWeight: 800, color: "#BF360C", fontSize: 15, flex: 1 }}>{t("fruits.orange")}</span>
                 <div style={{ width: 40, height: 40, borderRadius: 12, background: "#E0E0E0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 900, color: "#9CA3AF" }}>−</div>
                 <div style={{ width: 50, height: 40, borderRadius: 12, background: "#fff", border: "2px solid #F57F17", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, fontWeight: 900, color: "#F57F17" }}>
                     {count}
@@ -211,7 +215,7 @@ function Step3CountRun() {
                 transition: "all 0.3s",
                 animation: phase === "counting" ? "scRunGlow 1.2s ease-in-out infinite" : "none",
             }}>
-                {phase === "done" ? "✅ เสร็จแล้ว!" : phase === "running" ? "⏳ กำลังปั่น..." : "▶ Run!"}
+                {phase === "done" ? t("tutorial.doneBtn") : phase === "running" ? t("tutorial.checking") : "▶ Run!"}
             </button>
 
             <style>{`
@@ -224,23 +228,25 @@ function Step3CountRun() {
     );
 }
 
-export const stepCountingTutorialSteps: TutorialStep[] = [
-    {
-        title: "สังเกตแก้วน้ำว่าคือน้ำอะไร",
-        content: <Step1Glasses />,
-        hint: "ดูสีของแก้วน้ำว่าเป็นน้ำผลไม้ชนิดใด — แต่ละสีคือน้ำคนละอย่าง",
-        audio: "/audio/games/step-counting/StepCounting_step1.wav",
-    },
-    {
-        title: "ผลไม้แต่ละลูกให้น้ำได้แค่ไหน",
-        content: <Step2RatioCard />,
-        hint: "ส้ม 1 ลูก ได้ครึ่งแก้ว แตงโม 1 ลูก ได้ 2 แก้วเลย! แต่ละชนิดไม่เหมือนกัน",
-        audio: "/audio/games/step-counting/StepCounting_step2.wav",
-    },
-    {
-        title: "กด + แล้วกด Run เพื่อปั่น!",
-        content: <Step3CountRun />,
-        hint: "กด + เพิ่มจำนวนผลไม้ให้ได้น้ำตามเป้าหมาย แล้วกด Run เพื่อปั่น!",
-        audio: "/audio/games/step-counting/StepCounting_step3.wav",
-    },
-];
+export function getStepCountingTutorialSteps(t: any): TutorialStep[] {
+    return [
+        {
+            title: t("tutorial.step1Title"),
+            content: <Step1Glasses t={t} />,
+            hint: t("tutorial.step1Hint"),
+            audio: "/audio/games/step-counting/StepCounting_step1.wav",
+        },
+        {
+            title: t("tutorial.step2Title"),
+            content: <Step2RatioCard t={t} />,
+            hint: t("tutorial.step2Hint"),
+            audio: "/audio/games/step-counting/StepCounting_step2.wav",
+        },
+        {
+            title: t("tutorial.step3Title"),
+            content: <Step3CountRun t={t} />,
+            hint: t("tutorial.step3Hint"),
+            audio: "/audio/games/step-counting/StepCounting_step3.wav",
+        },
+    ];
+}

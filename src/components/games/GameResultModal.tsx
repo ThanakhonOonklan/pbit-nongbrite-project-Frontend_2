@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { TiltButton } from "react-tilt-button";
 import { FaArrowRight, FaRedo, FaHome } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 import { type ScoreResult, getStarRating } from "@/utils/game-scoring";
 import { StarRating } from "@/components/common/StarRating";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
@@ -31,6 +32,7 @@ export function GameResultModal({
   type = "win",
 }: GameResultModalProps) {
   const router = useRouter();
+  const t = useTranslations("GameResultModal");
   const hasNextLevel = levelNum < totalLevels;
   const { stars } = getStarRating(score.totalScore);
   const [isNavigating, setIsNavigating] = useState(false);
@@ -43,7 +45,9 @@ export function GameResultModal({
   const formatTime = (sec: number) => {
     const m = Math.floor(sec / 60);
     const s = sec % 60;
-    return m > 0 ? `${m} นาที ${s} วินาที` : `${s} วินาที`;
+    return m > 0 
+      ? `${t("minuteUnit", { m })} ${t("secondUnit", { s })}` 
+      : t("secondUnit", { s });
   };
 
   const effectiveType = type === "win" && stars === 0 ? "lose" : type;
@@ -103,7 +107,7 @@ export function GameResultModal({
 
   return (
     <>
-      <LoadingOverlay isLoading={isNavigating} message="กำลังโหลด..." />
+      <LoadingOverlay isLoading={isNavigating} message={t("loading")} />
       {!isNavigating && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div
@@ -116,14 +120,14 @@ export function GameResultModal({
                 <>
                   <p className="text-gray-800 text-sm font-bold">Level {levelNum}</p>
                   <h2 className="text-3xl font-extrabold text-[#1CB0F6] mt-1">
-                    สำเร็จ!
+                    {t("success")}
                   </h2>
                 </>
               ) : (
                 <>
                   <p className="text-gray-800 text-sm font-bold">Level {levelNum}</p>
                   <h2 className="text-3xl font-extrabold text-[#FF4B4B] mt-1">
-                    ไม่ผ่าน!
+                    {t("failed")}
                   </h2>
                 </>
               )}
@@ -147,7 +151,7 @@ export function GameResultModal({
 
             {/* Time info (small) */}
             <p className="text-center text-gray-400 text-xs pb-4">
-              เวลาที่ใช้ {formatTime(timeSeconds)}
+              {t("timeUsed", { time: formatTime(timeSeconds) })}
             </p>
 
             {/* Action Buttons */}
@@ -164,17 +168,17 @@ export function GameResultModal({
                       tilt={0.5}
                       radius={14}
                       motion={60}
-                      surfaceColor={!hasNextLevel ? "#E5E7EB" : "#E5E7EB"}
-                      sideColor={!hasNextLevel ? "#D1D5DB" : "#D1D5DB"}
-                      textColor={!hasNextLevel ? "#374151" : "#374151"}
+                      surfaceColor="#E5E7EB"
+                      sideColor="#D1D5DB"
+                      textColor="#374151"
                       borderColor="transparent"
                       borderWidth={0}
                       glareOpacity={0}
                       glareWidth={0}
-                      onClick={!hasNextLevel ? onRetry : onRetry}
+                      onClick={onRetry}
                     >
                       <span className="flex items-center justify-center gap-2 font-bold text-sm">
-                        <FaRedo className="w-3 h-3" /> เล่นอีกครั้ง
+                        <FaRedo className="w-3 h-3" /> {t("playAgain")}
                       </span>
                     </TiltButton>
                   </div>
@@ -188,9 +192,9 @@ export function GameResultModal({
                       tilt={0.5}
                       radius={14}
                       motion={60}
-                      surfaceColor={hasNextLevel ? "#1CB0F6" : "#1CB0F6"}
-                      sideColor={hasNextLevel ? "#0A8ED9" : "#0A8ED9"}
-                      textColor={hasNextLevel ? "#ffffff" : "#ffffff"}
+                      surfaceColor="#1CB0F6"
+                      sideColor="#0A8ED9"
+                      textColor="#ffffff"
                       borderColor="transparent"
                       borderWidth={0}
                       glareOpacity={0}
@@ -202,9 +206,9 @@ export function GameResultModal({
                     >
                       <span className="flex items-center justify-center gap-2 font-bold text-sm">
                         {hasNextLevel ? (
-                          <>ด่านถัดไป <FaArrowRight className="w-3.5 h-3.5" /></>
+                          <>{t("nextLevel")} <FaArrowRight className="w-3.5 h-3.5" /></>
                         ) : (
-                          <><FaHome className="w-3.5 h-3.5" /> หน้าหลัก</>
+                          <><FaHome className="w-3.5 h-3.5" /> {t("home")}</>
                         )}
                       </span>
                     </TiltButton>
@@ -230,7 +234,7 @@ export function GameResultModal({
                     onClick={onRetry}
                   >
                     <span className="flex items-center justify-center gap-2 font-bold text-sm">
-                      <FaRedo className="w-3.5 h-3.5" /> ลองใหม่เลย!
+                      <FaRedo className="w-3.5 h-3.5" /> {t("tryAgain")}
                     </span>
                   </TiltButton>
                 </div>

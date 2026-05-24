@@ -8,7 +8,8 @@ import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
 import { GameOverlay } from "@/components/games/GameOverlay";
 import { TutorialModal } from "@/components/games/TutorialModal";
-import { sequencingTutorialSteps } from "@/components/games/tutorials";
+import { getSequencingTutorialSteps } from "@/components/games/tutorials";
+import { useTranslations } from "next-intl";
 import { type ScoreResult } from "@/utils/game-scoring";
 
 import { sequencingLevels, SequencingPattern } from "@/constants/games/sequencing-levels";
@@ -22,6 +23,8 @@ export default function SequencingPage() {
 
   const [levelNum, setLevelNum] = useState<number>(1);
   const [activePattern, setActivePattern] = useState<SequencingPattern | null>(null);
+
+  const t = useTranslations("Sequencing");
 
   const [isClient, setIsClient] = useState(false);
   const { user, reduceLife } = useUserStore();
@@ -66,12 +69,12 @@ export default function SequencingPage() {
       <div className="flex h-screen items-center justify-center bg-[#0B0620]">
         <div className="flex flex-col items-center text-center gap-4">
           <Image src="/images/P_Momo/momo-03.svg" alt="Momo" width={110} height={110} className="object-contain drop-shadow-lg" />
-          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+          <p className="text-white text-xl font-bold">{t("levelNotFound")}</p>
           <button
             onClick={() => router.push("/courses")}
             className="mt-2 px-6 py-2 bg-[#7C3AED] text-white rounded-xl font-bold hover:bg-[#6D28D9] transition-colors shadow-md"
           >
-            กลับหน้าหลัก
+            {t("backToHome")}
           </button>
         </div>
       </div>
@@ -114,7 +117,7 @@ export default function SequencingPage() {
       {/* Top Header */}
       <div className="relative z-50 w-full">
         <GameHeader
-          gameTitle="เกมเรียงลำดับวงจรชีวิต"
+          gameTitle={t("gameTitle")}
           level={levelNum}
           onBack={handleBack}
           bgColor="#7C3AED"
@@ -159,7 +162,7 @@ export default function SequencingPage() {
       {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
       {canShowTutorial && (
         <TutorialModal
-          steps={sequencingTutorialSteps}
+          steps={getSequencingTutorialSteps(t)}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_Momo/momo-03.svg"
           accentColor="#7C3AED"
@@ -171,7 +174,7 @@ export default function SequencingPage() {
       {canShowGameOverlay && showWrongOverlay && (
         <GameOverlay
           type="error"
-          message={`ลองจัดเรียงใหม่อีกครั้งนะ`}
+          message={t("wrongAnswer")}
           imageSrc="/images/P_Momo/momo-05.svg"
           imageAlt="Momo"
           autoDismissMs={2000}

@@ -1,7 +1,7 @@
-export { fruitMatchingTutorialSteps } from "./FruitMatchingTutorial";
-export { pathNavigationTutorialSteps } from "./PathNavigationTutorial";
-export { gridColoringTutorialSteps } from "./GridColoringTutorial";
-export { countingClassificationTutorialSteps } from "./CountingClassificationTutorial";
-export { conditionalMatchingTutorialSteps } from "./ConditionalMatchingTutorial";
-export { sequencingTutorialSteps } from "./SequencingTutorial";
-export { stepCountingTutorialSteps } from "./StepCountingTutorial";
+export { getFruitMatchingTutorialSteps } from "./FruitMatchingTutorial";
+export { getPathNavigationTutorialSteps } from "./PathNavigationTutorial";
+export { getGridColoringTutorialSteps } from "./GridColoringTutorial";
+export { getCountingClassificationTutorialSteps } from "./CountingClassificationTutorial";
+export { getConditionalMatchingTutorialSteps } from "./ConditionalMatchingTutorial";
+export { getSequencingTutorialSteps } from "./SequencingTutorial";
+export { getStepCountingTutorialSteps } from "./StepCountingTutorial";

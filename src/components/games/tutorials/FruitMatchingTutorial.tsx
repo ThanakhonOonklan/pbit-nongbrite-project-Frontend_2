@@ -77,18 +77,18 @@ function MiniGrid({ highlight, found = [], activeCoord }: { highlight?: string; 
 }
 
 /* ── Step 1: Observe fruits in the grid ─────────────────────────── */
-function Step1Grid() {
+function Step1Grid({ t }: { t: any }) {
     const [hlIdx, setHlIdx] = useState(0);
 
     useEffect(() => {
-        const t = setInterval(() => setHlIdx(h => (h + 1) % ALL_COORDS.length), 750);
-        return () => clearInterval(t);
+        const tInterval = setInterval(() => setHlIdx(h => (h + 1) % ALL_COORDS.length), 750);
+        return () => clearInterval(tInterval);
     }, []);
 
     return (
         <div className="flex flex-col items-center gap-3">
             <p className="text-[11px] font-bold text-amber-700 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
-                ตารางมีผลไม้ต่างกันในแต่ละช่อง สังเกตดูนะ!
+                {t("tutorial.step1Label")}
             </p>
             <MiniGrid highlight={ALL_COORDS[hlIdx]} />
         </div>
@@ -96,13 +96,13 @@ function Step1Grid() {
 }
 
 /* ── Step 2: Read coordinates — grid + badge ─────────────────────── */
-function Step2CoordRead() {
+function Step2CoordRead({ t }: { t: any }) {
     const DEMO = ["A1", "B2", "C3", "A3", "C1"];
     const [idx, setIdx] = useState(0);
 
     useEffect(() => {
-        const t = setInterval(() => setIdx(i => (i + 1) % DEMO.length), 1400);
-        return () => clearInterval(t);
+        const tInterval = setInterval(() => setIdx(i => (i + 1) % DEMO.length), 1400);
+        return () => clearInterval(tInterval);
     }, []);
 
     const coord = DEMO[idx];
@@ -113,11 +113,11 @@ function Step2CoordRead() {
         <div className="flex flex-col items-center gap-3">
             <div key={coord} style={{ display: "flex", alignItems: "center", gap: 6, animation: "fmPop 0.3s ease-out" }}>
                 <div style={{ background: ROW_COLORS[ri], color: "#fff", borderRadius: 10, padding: "4px 12px", fontSize: 17, fontWeight: 900, boxShadow: `0 3px 0 ${ROW_COLORS[ri]}99` }}>
-                    แถว {coord[0]}
+                    {t("rowLabel", { row: coord[0] })}
                 </div>
                 <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 700 }}>+</span>
                 <div style={{ background: COL_COLORS[ci], color: "#fff", borderRadius: 10, padding: "4px 12px", fontSize: 17, fontWeight: 900, boxShadow: `0 3px 0 ${COL_COLORS[ci]}99` }}>
-                    คอลัมน์ {coord[1]}
+                    {t("colLabel", { col: coord[1] })}
                 </div>
                 <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 700 }}>=</span>
                 <div style={{ background: "#1D4ED8", color: "#fff", borderRadius: 10, padding: "4px 14px", fontSize: 18, fontWeight: 900, boxShadow: "0 3px 0 #1e40af" }}>
@@ -137,17 +137,22 @@ function Step2CoordRead() {
 }
 
 /* ── Step 3: FruitChoices — click to answer ─────────────────────── */
-function Step3FruitChoices() {
+function Step3FruitChoices({ t }: { t: any }) {
     const CHOICES = ["🍎", "🍓", "🍌", "🍋"];
     const CORRECT = "🍓";
-    const NAMES: Record<string, string> = { "🍎": "แอปเปิ้ล", "🍓": "สตรอว์เบอร์รี", "🍌": "กล้วย", "🍋": "มะนาว" };
+    const NAMES: Record<string, string> = { 
+        "🍎": t("fruits.🍎"), 
+        "🍓": t("fruits.🍓"), 
+        "🍌": t("fruits.🍌"), 
+        "🍋": t("fruits.🍋") 
+    };
     const [cycleKey, setCycleKey] = useState(0);
 
     return (
         <div className="flex flex-col items-center gap-3 w-full max-w-[260px]">
             <div className="flex items-center gap-2 px-4 py-2 rounded-2xl font-extrabold text-sm text-white"
                 style={{ background: "linear-gradient(135deg, #3B82F6, #2563EB)" }}>
-                <span>📍</span><span>B2 มีผลไม้อะไร?</span>
+                <span>📍</span><span>{t("tutorial.step3Label", { coord: "B2" })}</span>
             </div>
             <FruitChoices
                 key={cycleKey}
@@ -159,29 +164,31 @@ function Step3FruitChoices() {
                 disabled={false}
             />
             <p className="text-[11px] font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200">
-                👆 กดเลือกผลไม้ที่ถูกต้อง!
+                {t("tutorial.step3Instruction")}
             </p>
         </div>
     );
 }
 
-export const fruitMatchingTutorialSteps: TutorialStep[] = [
-    {
-        title: "สังเกตผลไม้ในตาราง",
-        content: <Step1Grid />,
-        hint: "ตารางมีผลไม้ต่างกันในแต่ละช่อง สังเกตให้ดีนะ!",
-        audio: "/audio/games/fruit-matching-grid/FruitMatchingGrid_step1.wav",
-    },
-    {
-        title: "อ่านพิกัด: แถว + คอลัมน์",
-        content: <Step2CoordRead />,
-        hint: "A1 หมายถึง แถว A คอลัมน์ 1 — อ่านตัวอักษรก่อน เสร็จแล้วตามด้วยตัวเลข!",
-        audio: "/audio/games/fruit-matching-grid/FruitMatchingGrid_step2.wav",
-    },
-    {
-        title: "กดเลือกผลไม้ที่ถูกต้อง",
-        content: <Step3FruitChoices />,
-        hint: "กดคลิกผลไม้ที่อยู่ในตำแหน่งที่โจทย์บอก!",
-        audio: "/audio/games/fruit-matching-grid/FruitMatchingGrid_step3.wav",
-    },
-];
+export function getFruitMatchingTutorialSteps(t: any): TutorialStep[] {
+    return [
+        {
+            title: t("tutorial.step1Title"),
+            content: <Step1Grid t={t} />,
+            hint: t("tutorial.step1Hint"),
+            audio: "/audio/games/fruit-matching-grid/FruitMatchingGrid_step1.wav",
+        },
+        {
+            title: t("tutorial.step2Title"),
+            content: <Step2CoordRead t={t} />,
+            hint: t("tutorial.step2Hint"),
+            audio: "/audio/games/fruit-matching-grid/FruitMatchingGrid_step2.wav",
+        },
+        {
+            title: t("tutorial.step3Title"),
+            content: <Step3FruitChoices t={t} />,
+            hint: t("tutorial.step3Hint"),
+            audio: "/audio/games/fruit-matching-grid/FruitMatchingGrid_step3.wav",
+        },
+    ];
+}

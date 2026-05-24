@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 export function HelpButton() {
     const [open, setOpen] = useState(false);
     const panelRef = useRef<HTMLDivElement>(null);
+    const t = useTranslations("PathNavigation.help");
 
     // Close when clicking outside
     useEffect(() => {
@@ -14,8 +16,8 @@ export function HelpButton() {
                 setOpen(false);
             }
         };
-        const t = setTimeout(() => document.addEventListener("mousedown", handler), 0);
-        return () => { clearTimeout(t); document.removeEventListener("mousedown", handler); };
+        const timer = setTimeout(() => document.addEventListener("mousedown", handler), 0);
+        return () => { clearTimeout(timer); document.removeEventListener("mousedown", handler); };
     }, [open]);
 
     return (
@@ -25,7 +27,7 @@ export function HelpButton() {
             <button
                 onClick={() => setOpen((v) => !v)}
                 className="flex flex-col items-center gap-1 group focus:outline-none shrink-0"
-                aria-label="วิธีเล่น"
+                aria-label={t("title")}
             >
                 <div className="w-16 h-16 rounded-full bg-white border-4 border-[#1E3A5F] flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200 overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -36,7 +38,7 @@ export function HelpButton() {
                     />
                 </div>
                 <div className="bg-[#1E3A5F] text-white text-xs font-bold px-3 py-1 rounded-lg shadow">
-                    วิธีการเล่น
+                    {t("title")}
                 </div>
             </button>
 
@@ -68,10 +70,10 @@ export function HelpButton() {
 
                     {/* Steps — simple for kids */}
                     <div className="flex flex-col gap-3">
-                        <Step emoji="👆" text="กดปุ่มลูกศร เพื่อสั่งให้เดิน" />
-                        <Step emoji="💙" text="ไปรับน้องไบร์ท" />
-                        <Step emoji="🏠" text="พาน้องกลับบ้าน" />
-                        <Step emoji="▶️" text="กด Run เพื่อเริ่ม!" />
+                        <Step emoji="👆" text={t("step1")} />
+                        <Step emoji="💙" text={t("step2")} />
+                        <Step emoji="🏠" text={t("step3")} />
+                        <Step emoji="▶️" text={t("step4")} />
                     </div>
                 </div>
             )}

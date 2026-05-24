@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { TutorialStep } from "../TutorialModal";
 
 /* ── Step 1: Reference pattern grid ─────────────────────────── */
-function Step1Reference() {
+function Step1Reference({ t }: { t: any }) {
     const pattern = [
         ["#EF4444", "#FFFFFF", "#EF4444"],
         ["#FFFFFF", "#3B82F6", "#FFFFFF"],
@@ -14,7 +14,7 @@ function Step1Reference() {
     return (
         <div className="flex flex-col items-center gap-3">
             <div className="flex items-center gap-2 text-xs font-bold text-gray-500 bg-gray-50 px-3 py-1.5 rounded-xl">
-                จดจำรูปต้นแบบให้ดี!
+                {t("tutorial.step1Label")}
             </div>
             <div
                 className="grid gap-2 p-4 bg-white rounded-2xl shadow border border-gray-100"
@@ -42,18 +42,17 @@ function Step1Reference() {
 }
 
 /* ── Step 2: Color palette selection ─────────────────────────── */
-function Step2Palette() {
+function Step2Palette({ t }: { t: any }) {
     const colors = ["#EF4444", "#3B82F6", "#22C55E", "#F59E0B", "#8B5CF6", "#FFFFFF"];
-    const labels = ["แดง", "น้ำเงิน", "เขียว", "เหลือง", "ม่วง", "ขาว"];
     const [selected, setSelected] = useState(0);
 
     useEffect(() => {
         let i = 0;
-        const t = setInterval(() => {
+        const tInterval = setInterval(() => {
             i = (i + 1) % colors.length;
             setSelected(i);
         }, 700);
-        return () => clearInterval(t);
+        return () => clearInterval(tInterval);
     }, []);
 
     return (
@@ -84,22 +83,22 @@ function Step2Palette() {
                     borderColor: "rgba(0,0,0,0.1)",
                 }}
             >
-                ✓ เลือกสี{labels[selected]}แล้ว
+                {t("tutorial.step2Label", { color: t("colors." + colors[selected]) })}
             </div>
         </div>
     );
 }
 
 /* ── Step 3: Cells filling in one by one ─────────────────────── */
-function Step3Fill() {
+function Step3Fill({ t }: { t: any }) {
     const pattern = ["#EF4444", "#FFFFFF", "#EF4444", "#FFFFFF", "#3B82F6", "#FFFFFF", "#EF4444", "#FFFFFF", "#EF4444"];
     const [filled, setFilled] = useState(0);
 
     useEffect(() => {
-        const t = setInterval(() => {
+        const tInterval = setInterval(() => {
             setFilled(f => (f >= 9 ? 0 : f + 1));
         }, 380);
-        return () => clearInterval(t);
+        return () => clearInterval(tInterval);
     }, []);
 
     return (
@@ -107,7 +106,7 @@ function Step3Fill() {
             <div className="flex gap-5 items-start">
                 {/* Reference */}
                 <div className="flex flex-col items-center gap-1">
-                    <p className="text-[10px] text-gray-400 font-bold">ต้นแบบ</p>
+                    <p className="text-[10px] text-gray-400 font-bold">{t("tutorial.reference")}</p>
                     <div
                         className="grid gap-1 p-2 bg-gray-50 rounded-xl border border-gray-200"
                         style={{ gridTemplateColumns: "repeat(3, 44px)", gridTemplateRows: "repeat(3, 44px)" }}
@@ -120,7 +119,7 @@ function Step3Fill() {
 
                 {/* Canvas being painted */}
                 <div className="flex flex-col items-center gap-1">
-                    <p className="text-[10px] text-gray-400 font-bold">กำลังระบาย</p>
+                    <p className="text-[10px] text-gray-400 font-bold">{t("tutorial.painting")}</p>
                     <div
                         className="grid gap-1 p-2 bg-gray-50 rounded-xl border border-gray-200"
                         style={{ gridTemplateColumns: "repeat(3, 44px)", gridTemplateRows: "repeat(3, 44px)" }}
@@ -145,30 +144,32 @@ function Step3Fill() {
                     className="text-xs text-green-600 font-bold bg-green-50 px-3 py-1.5 rounded-xl"
                     style={{ animation: "gcFadeCell 0.3s ease-out" }}
                 >
-                    ระบายครบแล้ว — กด ✓ ส่ง!
+                    {t("tutorial.doneInstruction")}
                 </div>
             )}
         </div>
     );
 }
 
-export const gridColoringTutorialSteps: TutorialStep[] = [
-    {
-        title: "ดูรูปแบบต้นแบบ",
-        content: <Step1Reference />,
-        hint: "จำสีและตำแหน่งของตารางต้นแบบให้ดี",
-        audio: "/audio/games/grid-based-coloring/GridColoring_step1.wav",
-    },
-    {
-        title: "เลือกสีจาก Palette",
-        content: <Step2Palette />,
-        hint: "คลิกที่วงสีเพื่อเลือก แล้วนำไประบายบนตาราง",
-        audio: "/audio/games/grid-based-coloring/GridColoring_step2.wav",
-    },
-    {
-        title: "ระบายสีให้ตรงต้นแบบ",
-        content: <Step3Fill />,
-        hint: "คลิกหรือลากบนช่องเพื่อระบาย แล้วกด ✓ ส่ง",
-        audio: "/audio/games/grid-based-coloring/GridColoring_step3.wav",
-    },
-];
+export function getGridColoringTutorialSteps(t: any): TutorialStep[] {
+    return [
+        {
+            title: t("tutorial.step1Title"),
+            content: <Step1Reference t={t} />,
+            hint: t("tutorial.step1Hint"),
+            audio: "/audio/games/grid-based-coloring/GridColoring_step1.wav",
+        },
+        {
+            title: t("tutorial.step2Title"),
+            content: <Step2Palette t={t} />,
+            hint: t("tutorial.step2Hint"),
+            audio: "/audio/games/grid-based-coloring/GridColoring_step2.wav",
+        },
+        {
+            title: t("tutorial.step3Title"),
+            content: <Step3Fill t={t} />,
+            hint: t("tutorial.step3Hint"),
+            audio: "/audio/games/grid-based-coloring/GridColoring_step3.wav",
+        },
+    ];
+}

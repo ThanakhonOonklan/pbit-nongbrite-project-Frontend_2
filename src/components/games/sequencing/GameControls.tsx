@@ -6,6 +6,7 @@ interface GameControlsProps {
   onReset: () => void;
   isAllFilled: boolean;
   isCompleted: boolean;
+  confirmText: string;
 }
 
 export function GameControls({
@@ -13,6 +14,7 @@ export function GameControls({
   onReset,
   isAllFilled,
   isCompleted,
+  confirmText,
 }: GameControlsProps) {
   return (
     <div className="flex justify-center gap-3 mt-2 pb-2">
@@ -53,10 +55,11 @@ export function GameControls({
           disabled={!isAllFilled || isCompleted}
         >
           <span className="font-bold text-xl flex items-center justify-center gap-2 drop-shadow-sm">
-            <FaPlay className="w-4 h-4" /> ยืนยัน!
+            <FaPlay className="w-4 h-4" /> {confirmText}
           </span>
         </TiltButton>
       </div>
     </div>
   );
 }
+

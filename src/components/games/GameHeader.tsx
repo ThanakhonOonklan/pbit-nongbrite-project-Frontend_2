@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import { ExitConfirmModal } from "@/components/games/ExitConfirmModal";
 import { GameHearts } from "@/components/games/GameHearts";
+import { useTranslations } from "next-intl";
 
 interface GameHeaderProps {
     level: string | number;
@@ -22,6 +23,7 @@ export function GameHeader({
     onBack,
 }: GameHeaderProps) {
     const router = useRouter();
+    const t = useTranslations("GameHeader");
     const [showExitModal, setShowExitModal] = useState(false);
 
     // เล่นเสียงเตือนสุ่ม (thing_1.wav หรือ thing_2.wav) เมื่ออยู่ในเกมนี้นานเกิน 1 นาที
@@ -65,7 +67,7 @@ export function GameHeader({
                     className="flex items-center gap-1 sm:gap-1.5 text-xs font-semibold text-white/60 hover:text-white transition-colors mr-2 sm:mr-4"
                 >
                     <FaArrowLeft className="w-3 h-3" />
-                    <span className="hidden sm:inline">กลับ</span>
+                    <span className="hidden sm:inline">{t("back")}</span>
                 </button>
                 <div className="h-4 w-px bg-white/20 mr-2 sm:mr-4" />
 
@@ -79,7 +81,7 @@ export function GameHeader({
                         style={{ filter: "brightness(0) invert(1) opacity(0.7)" }}
                     />
                     <span className="text-xs sm:text-sm font-bold text-white/90 truncate max-w-[120px] sm:max-w-none">{gameTitle}</span>
-                    <span className="text-xs text-white/40 shrink-0 hidden sm:inline">· ด่าน {level}</span>
+                    <span className="text-xs text-white/40 shrink-0 hidden sm:inline">· {t("level", { level })}</span>
                 </div>
 
                 {/* ❤️ Hearts — ชิดขวา */}

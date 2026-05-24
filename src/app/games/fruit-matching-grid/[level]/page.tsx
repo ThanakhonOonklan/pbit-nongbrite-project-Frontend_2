@@ -9,7 +9,8 @@ import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
 import { GameOverlay } from "@/components/games/GameOverlay";
 import { TutorialModal } from "@/components/games/TutorialModal";
-import { fruitMatchingTutorialSteps } from "@/components/games/tutorials";
+import { useTranslations } from "next-intl";
+import { getFruitMatchingTutorialSteps } from "@/components/games/tutorials";
 import { FruitMatchingGame } from "@/components/games/fruit-matching-grid";
 import { fruitMatchingGridLevels } from "@/constants/games/fruit-matching-grid-levels";
 import { type ScoreResult } from "@/utils/game-scoring";
@@ -23,6 +24,7 @@ export default function FruitMatchingGridGamePage({
 }: {
   params: Promise<{ level: string }>;
 }) {
+  const t = useTranslations("FruitMatching");
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
@@ -72,12 +74,12 @@ export default function FruitMatchingGridGamePage({
             height={110}
             className="object-contain drop-shadow-lg"
           />
-          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+          <p className="text-white text-xl font-bold">{t("levelNotFound")}</p>
           <button
             onClick={() => router.push("/courses")}
             className="mt-2 px-6 py-2 bg-[#A855F7] text-white rounded-xl font-bold hover:bg-[#9333EA] transition-colors"
           >
-            กลับหน้าหลัก
+            {t("backToHome")}
           </button>
         </div>
       </div>
@@ -98,7 +100,7 @@ export default function FruitMatchingGridGamePage({
       <div className="relative z-20">
         <GameHeader
           level={level}
-          gameTitle="Coordinate Crunch"
+          gameTitle={t("gameTitle")}
           characterSrc="/images/P_PingPing/pingping-01.svg"
           bgColor="#F0767C"
         />
@@ -120,7 +122,7 @@ export default function FruitMatchingGridGamePage({
       {/* Intro tutorial — Level 1 only */}
       {canShowTutorial && (
         <TutorialModal
-          steps={fruitMatchingTutorialSteps}
+          steps={getFruitMatchingTutorialSteps(t)}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_PingPing/pingping-01.svg"
           accentColor="#F0767C"

@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
 import type { ResolvedLoopConfig, LoopTheme } from "@/constants/games/step-counting-levels";
 import { BOBO_IMAGES } from "./constants";
 import { Glass } from "./Glass";
@@ -137,6 +138,7 @@ export function LoopScene({
   blenderCapacity,
   blenderResidueTheme,
 }: LoopSceneProps) {
+  const t = useTranslations("StepCounting");
   const tasks = config.tasks;
   
   // Split glasses into two rows if there are more than 4 glasses, to fit screen
@@ -210,15 +212,23 @@ export function LoopScene({
             tailSide="left"
             lines={(() => {
               if (boboMessage) return [boboMessage];
-              const t = tasks;
-              if (t.length === 1) {
+              const tkList = tasks;
+              const getYieldLabel = (yields: number) => {
+                if (yields === 0.5) return t("yieldHalf");
+                if (yields === 1) return t("yieldOne");
+                return t("yieldTwo");
+              };
+              if (tkList.length === 1) {
                 return [
-                  `${t[0].inputEmoji} 1 ลูก → ${t[0].yieldLabel}`,
-                  `ต้องการ ${t[0].targetAmount} แก้ว ใช้กี่ลูก?`,
+                  t("boboRecipeSingle", { emoji: tkList[0].inputEmoji, ratio: getYieldLabel(tkList[0].yieldsPerAction) }),
+                  t("boboTargetSingle", { target: tkList[0].targetAmount }),
                 ];
               }
-              const summary = t.map(tk => `${tk.inputEmoji}${tk.targetAmount}`).join(" ");
-              return [`${summary} แก้ว`, "ต้องใช้กี่ลูก?"];
+              const summary = tkList.map(tk => `${tk.inputEmoji}${tk.targetAmount}`).join(" ");
+              return [
+                t("boboTargetMulti", { summary }),
+                t("boboQuestionMulti"),
+              ];
             })()}
           />
           <motion.img
@@ -281,7 +291,7 @@ export function LoopScene({
             fontWeight: 900,
             color: "#00897B",
             letterSpacing: 1,
-          }}>ร้านคั้นน้ำผลไม้</span>
+          }}> {t("shopSign")} </span>
         </div>
 
         {/* ── z-5: Shop image ── */}

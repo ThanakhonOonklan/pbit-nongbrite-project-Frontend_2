@@ -3,6 +3,7 @@
 import { use, useState, useCallback, useRef, useEffect, useLayoutEffect, useId } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import {
   DndContext,
   DragEndEvent,
@@ -34,7 +35,7 @@ import { calculateGameScore, getStarRating, type ScoreResult } from "@/utils/gam
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
 import { TutorialModal } from "@/components/games/TutorialModal";
-import { pathNavigationTutorialSteps } from "@/components/games/tutorials";
+import { getPathNavigationTutorialSteps } from "@/components/games/tutorials";
 import { useUserStore } from "@/store/user.store";
 import { OutOfLivesModal } from "@/components/common";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
@@ -68,6 +69,7 @@ export default function PathNavigationClientPage({
   const levelNum = Number(level);
   const router = useRouter();
   const { user, reduceLife } = useUserStore();
+  const t = useTranslations("PathNavigation");
 
   const dndId = useId();
 
@@ -162,14 +164,14 @@ export default function PathNavigationClientPage({
   // ── auto-dismiss overlays ─────────────────────────────
   useEffect(() => {
     if (!errorMsg) return;
-    const t = setTimeout(() => setErrorMsg(null), 1500);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setErrorMsg(null), 1500);
+    return () => clearTimeout(timer);
   }, [errorMsg]);
 
   useEffect(() => {
     if (!hintMsg) return;
-    const t = setTimeout(() => setHintMsg(null), 1800);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setHintMsg(null), 1800);
+    return () => clearTimeout(timer);
   }, [hintMsg]);
 
 
@@ -245,16 +247,16 @@ export default function PathNavigationClientPage({
       reduceLife();
       if (type === "fall" && oobPos) setPlayerPos(oobPos);
       setPlayerFailType(type);
-      const t = setTimeout(() => {
+      const timer = setTimeout(() => {
         setIsRunning(false);
         setActiveStep(null);
         setPlayerFailType("none");
         setPlayerFallDir(null);
         setPlayerPos(activeStartPos);
         setHasNongBrite(false);
-        setErrorMsg("ลองอีกครั้ง");
+        setErrorMsg(t("tryAgain"));
       }, 700);
-      animTimers.current.push(t);
+      animTimers.current.push(timer);
     };
 
     const runStep = (idx: number) => {
@@ -325,7 +327,7 @@ export default function PathNavigationClientPage({
 
           } else if (samePos(next, cfg.homePos) && !pickedUp) {
             const ht = setTimeout(() => {
-              setHintMsg("อย่าทิ้งน้องง");
+              setHintMsg(t("dontLeaveNongBrite"));
               const rt = setTimeout(() => { setPlayerPos(activeStartPos); setHasNongBrite(false); }, 1600);
               animTimers.current.push(rt);
             }, 300);
@@ -333,12 +335,12 @@ export default function PathNavigationClientPage({
           } else {
             // Ran out of commands without reaching home
             reduceLife();
-            const t = setTimeout(() => {
-              setErrorMsg("ลองอีกครั้ง");
+            const timer = setTimeout(() => {
+              setErrorMsg(t("tryAgain"));
               const rt = setTimeout(() => { setPlayerPos(activeStartPos); setHasNongBrite(false); }, 1200);
               animTimers.current.push(rt);
             }, 500);
-            animTimers.current.push(t);
+            animTimers.current.push(timer);
           }
         }, STEP_MS);
         animTimers.current.push(finishTimer);
@@ -346,8 +348,8 @@ export default function PathNavigationClientPage({
       }
 
       // Schedule next step
-      const t = setTimeout(() => runStep(idx + 1), STEP_MS);
-      animTimers.current.push(t);
+      const timer = setTimeout(() => runStep(idx + 1), STEP_MS);
+      animTimers.current.push(timer);
     };
 
     const first = setTimeout(() => runStep(0), STEP_MS);
@@ -395,12 +397,12 @@ export default function PathNavigationClientPage({
         <div className="flex h-screen items-center justify-center bg-[#131F24]">
           <div className="flex flex-col items-center text-center gap-4">
             <Image src="/images/P_Bit/bit-03.svg" alt="Bit" width={110} height={110} className="object-contain drop-shadow-lg" />
-            <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+            <p className="text-white text-xl font-bold">{t("levelNotFound")}</p>
             <button
               onClick={() => router.push("/courses")}
               className="mt-2 px-6 py-2 bg-[#1CB0F6] text-white rounded-xl font-bold hover:bg-[#0e9fd8] transition-colors"
             >
-              กลับหน้าหลัก
+              {t("backToHome")}
             </button>
           </div>
         </div>
@@ -448,7 +450,7 @@ export default function PathNavigationClientPage({
             {/* ===== TOP/LEFT PANEL: Path Map ===== */}
             <Container className="lg:flex-[6] flex flex-col items-center justify-center p-2 lg:p-6 min-h-[260px] lg:min-h-0 lg:overflow-hidden" style={{ background: "rgba(13,27,42,0.7)", boxShadow: "none", border: "1px solid rgba(91,200,245,0.2)", backdropFilter: "blur(4px)" }}>
               <p className="hidden lg:block text-lg font-bold text-[#F1F7FB] mb-6">
-                LEVEL {config.level} - {config.difficulty === "easy" ? "ง่าย" : config.difficulty === "normal" ? "ปานกลาง" : "ยาก"}
+                {t("level", { level: config.level, difficulty: config.difficulty === "easy" ? t("easy") : config.difficulty === "normal" ? t("medium") : t("hard") })}
               </p>
 
               <div className="flex-1 w-full h-full">
@@ -513,7 +515,7 @@ export default function PathNavigationClientPage({
                     onClick={handleRun}
                   >
                     <span className="flex items-center gap-2 font-bold text-base">
-                      <FaPlay className="w-4 h-4" /> ยืนยัน!
+                      <FaPlay className="w-4 h-4" /> {t("run")}
                     </span>
                   </TiltButton>
                 </div>
@@ -537,7 +539,7 @@ export default function PathNavigationClientPage({
                     disabled={isRunning}
                   >
                     <span className="flex items-center gap-2 font-bold text-base">
-                      <FaUndo className="w-4 h-4" /> เริ่มใหม่
+                      <FaUndo className="w-4 h-4" /> {t("reset")}
                     </span>
                   </TiltButton>
                 </div>
@@ -562,7 +564,7 @@ export default function PathNavigationClientPage({
       {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
       {canShowTutorial && (
         <TutorialModal
-          steps={pathNavigationTutorialSteps}
+          steps={getPathNavigationTutorialSteps(t)}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_Bit/bit-01.svg"
           accentColor="#1E3A5F"
@@ -573,7 +575,7 @@ export default function PathNavigationClientPage({
       {canShowGameOverlay && errorMsg && (
         <GameOverlay
           type="error"
-          message="ลองอีกครั้ง"
+          message={t("tryAgain")}
           imageSrc="/images/P_Bit/bit-02.svg"
           imageAlt="Bit"
           autoDismissMs={1500}

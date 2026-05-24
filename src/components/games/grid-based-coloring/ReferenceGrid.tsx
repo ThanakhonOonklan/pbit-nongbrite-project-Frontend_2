@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Eye, SkipForward } from "lucide-react";
 import {
   getGridCellSizeClass,
@@ -35,6 +36,7 @@ export function ReferenceGrid({
   isPeeking = false,
   onSkip,
 }: ReferenceGridProps) {
+  const t = useTranslations("GridColoring");
   const cellSize = getGridCellSizeClass(gridSize);
 
   const isUnlimited = maxPeeks >= 999;
@@ -69,10 +71,10 @@ export function ReferenceGrid({
                 : "bg-white/50 border-amber-900/10 text-amber-900/40 cursor-not-allowed"
               }
             `}
-            title={!isReferenceHidden ? "กำลังแสดงรูปต้นแบบอยู่" : !canPeek ? "หมดโควต้าดูแล้ว" : isPenaltyPeek ? "ระวัง! หัก 1 คะแนน" : "ดูรูปต้นแบบ"}
+            title={!isReferenceHidden ? t("peeking.showingRef") : !canPeek ? t("peeking.outOfPeeks") : isPenaltyPeek ? t("peeking.penaltyWarning") : t("peeking.peekOriginal")}
           >
             <Eye className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
-            <span>ดูรูป {isUnlimited ? "∞" : `(${peekCount}/${maxPeeks})`}</span>
+            <span>{t("peeking.peekBtn")} {isUnlimited ? "∞" : `(${peekCount}/${maxPeeks})`}</span>
           </button>
         </div>
       )}
@@ -93,7 +95,7 @@ export function ReferenceGrid({
                 {timeLeft}
               </span>
               <span className="text-xs sm:text-sm font-bold text-white/80 mt-1 drop-shadow-md">
-                {isMemorizing ? "จดจำรูปภาพ" : "จดจำ..."}
+                {isMemorizing ? t("peeking.memorize") : t("peeking.peeking")}
               </span>
 
               {isMemorizing && onSkip && (
@@ -102,7 +104,7 @@ export function ReferenceGrid({
                   className="mt-4 px-4 py-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white rounded-full flex items-center gap-1.5 text-xs sm:text-sm font-bold transition-colors"
                 >
                   <SkipForward className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  ข้าม
+                  {t("peeking.skip")}
                 </button>
               )}
             </div>

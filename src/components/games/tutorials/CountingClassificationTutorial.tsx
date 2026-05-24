@@ -7,6 +7,7 @@ import {
     type ShapeType,
 } from "@/constants/games/counting-classification-levels";
 import type { TutorialStep } from "../TutorialModal";
+import { useTranslations } from "next-intl";
 
 
 const DEMO_ROWS: { type: ShapeType; answer: number }[] = [
@@ -56,6 +57,7 @@ function Step1Scene() {
 
 /* ── Step 2: Real ShapeIcon counter rows + auto-increment ──────── */
 function Step2Counters() {
+    const t = useTranslations("CountingClassification");
     const [counts, setCounts] = useState<Record<ShapeType, number>>({
         circle: 0, triangle: 0, square: 0, pentagon: 0, hexagon: 0,
     });
@@ -87,15 +89,15 @@ function Step2Counters() {
                 setTimeout(doNext, 500);
             }, 300);
         };
-        const t = setTimeout(doNext, 800);
-        return () => { alive = false; clearTimeout(t); };
+        const timer = setTimeout(doNext, 800);
+        return () => { alive = false; clearTimeout(timer); };
     }, []);
 
     return (
         <div className="flex flex-col gap-2 w-full max-w-[400px]">
             {DEMO_ROWS.map(({ type }) => {
                 const color = SHAPE_COLORS[type];
-                const label = SHAPE_LABELS[type];
+                const label = t(`shapes.${type}`);
                 const value = counts[type];
                 const ip = pressing === type;
                 return (
@@ -131,6 +133,7 @@ function Step2Counters() {
 
 /* ── Step 3: Filled rows + animated submit ────────────────────── */
 function Step3Submit() {
+    const t = useTranslations("CountingClassification");
     const [phase, setPhase] = useState<"idle" | "checking" | "correct">("idle");
 
     useEffect(() => {
@@ -160,7 +163,7 @@ function Step3Submit() {
                             <ShapeIcon type={type} size={32} className="drop-shadow-sm" hoverable />
                         </div>
                         <span className="flex-1 text-base font-black select-none" style={{ color: "#5C4D5D" }}>
-                            {SHAPE_LABELS[type]}
+                            {t(`shapes.${type}`)}
                         </span>
                         <div className="w-[46px] h-[46px] rounded-[16px] flex items-center justify-center text-xl font-black text-white mr-1"
                             style={{ background: color, boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
@@ -177,7 +180,7 @@ function Step3Submit() {
                     transform: phase === "checking" ? "translateY(4px) scale(0.97)" : phase === "correct" ? "scale(1.06)" : "scale(1)",
                     animation: phase === "idle" ? "ccBtnPulse 1.2s ease-in-out infinite" : "none",
                 }}>
-                {phase === "correct" ? "ถูกต้อง!" : phase === "checking" ? "⏳ กำลังตรวจ..." : "✓ ยืนยัน"}
+                {phase === "correct" ? t("tutorial.correct") : phase === "checking" ? t("tutorial.checking") : t("tutorial.confirm")}
             </button>
 
             <style>{`
@@ -190,23 +193,25 @@ function Step3Submit() {
     );
 }
 
-export const countingClassificationTutorialSteps: TutorialStep[] = [
-    {
-        title: "มองหารูปทรงในภาพ",
-        content: <Step1Scene />,
-        hint: "มองหารูปทรงต่างๆ แล้วนับจำนวนแต่ละแบบ",
-        audio: "/audio/games/counting-classification/CountingClassification_step1.wav",
-    },
-    {
-        title: "กด + เพื่อนับจำนวน",
-        content: <Step2Counters />,
-        hint: "กด + บนแถวของแต่ละรูปทรงเพื่อเพิ่มจำนวนที่นับได้",
-        audio: "/audio/games/counting-classification/CountingClassification_step2.wav",
-    },
-    {
-        title: "ยืนยัน",
-        content: <Step3Submit />,
-        hint: "เมื่อนับครบทุกรูปทรงแล้ว กดยืนยันคำตอบ!",
-        audio: "/audio/games/counting-classification/CountingClassification_step3.wav",
-    },
-];
+export function getCountingClassificationTutorialSteps(t: any): TutorialStep[] {
+    return [
+        {
+            title: t("tutorial.step1Title"),
+            content: <Step1Scene />,
+            hint: t("tutorial.step1Hint"),
+            audio: "/audio/games/counting-classification/CountingClassification_step1.wav",
+        },
+        {
+            title: t("tutorial.step2Title"),
+            content: <Step2Counters />,
+            hint: t("tutorial.step2Hint"),
+            audio: "/audio/games/counting-classification/CountingClassification_step2.wav",
+        },
+        {
+            title: t("tutorial.step3Title"),
+            content: <Step3Submit />,
+            hint: t("tutorial.step3Hint"),
+            audio: "/audio/games/counting-classification/CountingClassification_step3.wav",
+        },
+    ];
+}

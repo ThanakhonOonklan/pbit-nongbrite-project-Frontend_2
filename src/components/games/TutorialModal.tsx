@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 export interface TutorialStep {
     title: string;
@@ -24,6 +25,7 @@ export function TutorialModal({
     onClose,
     accentColor,
 }: TutorialModalProps) {
+    const t = useTranslations("TutorialModal");
     const [step, setStep] = useState(0);
     const [ready, setReady] = useState(false);
     const [countdown, setCountdown] = useState(3);
@@ -112,9 +114,9 @@ export function TutorialModal({
             <button
                 onClick={(e) => { e.stopPropagation(); stopAudio(); onClose(); }}
                 className="absolute top-5 right-5 text-white/40 hover:text-white/80 text-sm font-bold transition-colors px-3 py-1.5 rounded-xl hover:bg-white/10"
-                aria-label="ข้าม tutorial"
+                aria-label={t("skipAria")}
             >
-                ข้าม ✕
+                {t("skip")}
             </button>
 
             {/* Animated content — key forces remount on step change */}
@@ -151,11 +153,11 @@ export function TutorialModal({
             {/* Tap prompt / countdown */}
             {ready ? (
                 <p className="text-white/60 text-sm animate-pulse">
-                    {isLast ? "แตะที่ว่างเพื่อเริ่มเล่น!" : "แตะที่ว่างเพื่อถัดไป"}
+                    {isLast ? t("startPlay") : t("nextStep")}
                 </p>
             ) : (
                 <p className="text-white/35 text-sm">
-                    รอ {countdown} วิ...
+                    {t("wait", { seconds: countdown })}
                 </p>
             )}
 

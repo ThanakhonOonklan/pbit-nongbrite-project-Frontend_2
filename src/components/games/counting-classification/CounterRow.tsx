@@ -2,8 +2,9 @@
 
 import { useRef } from "react";
 import { TiltButton } from "react-tilt-button";
-import { type ShapeType, SHAPE_COLORS, SHAPE_LABELS } from "@/constants/games/counting-classification-levels";
+import { type ShapeType, SHAPE_COLORS } from "@/constants/games/counting-classification-levels";
 import { ShapeIcon } from "./ShapeIcon";
+import { useTranslations } from "next-intl";
 
 const playPopSound = () => {
     try {
@@ -25,8 +26,9 @@ interface CounterRowProps {
 }
 
 export function CounterRow({ type, value, maxValue, onIncrement, onDecrement, disabled = false }: CounterRowProps) {
+    const t = useTranslations("CountingClassification");
     const color = SHAPE_COLORS[type];
-    const label = SHAPE_LABELS[type];
+    const label = t(`shapes.${type}`);
     const canDec = value > 0 && !disabled;
     const canInc = value < maxValue && !disabled;
 

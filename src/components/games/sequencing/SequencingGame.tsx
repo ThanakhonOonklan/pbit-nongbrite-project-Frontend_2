@@ -5,6 +5,7 @@ import { type SequencingLevelConfig, type SequencingItem, SequencingPattern } fr
 import { type ScoreResult, calculateGameScore, getStarRating } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
+import { useTranslations } from "next-intl";
 
 import {
   DndContext,
@@ -60,6 +61,29 @@ export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, sta
   const [isCompleted, setIsCompleted] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
+
+  const t = useTranslations("Sequencing");
+
+  const getLocalizedItemLabel = (item: SequencingItem, theme: string) => {
+    const lowerTheme = theme.toLowerCase();
+    const stepNum = item.id.split("_")[1];
+    
+    // 1. Try theme-specific step translation (e.g. items.butterfly.1)
+    if (stepNum && t.has(`items.${lowerTheme}.${stepNum}`)) {
+      return t(`items.${lowerTheme}.${stepNum}`);
+    }
+    
+    // 2. Fallback to original label or empty string
+    return item.label || "";
+  };
+
+  const getLocalizedSequenceTitle = (p: SequencingPattern) => {
+    const lowerTheme = p.theme.toLowerCase();
+    if (t.has(`titles.${lowerTheme}`)) {
+      return t(`titles.${lowerTheme}`);
+    }
+    return p.sequenceTitle;
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
@@ -232,24 +256,25 @@ export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, sta
       <div className="flex flex-col gap-3 sm:gap-5 w-full relative">
         {/* Title */}
         <h2 className="text-center font-extrabold text-xl sm:text-2xl text-[#E9D5FF] px-2 tracking-wide" style={{ textShadow: '0 0 10px rgba(192,132,252,0.6), 0 0 20px rgba(168,85,247,0.4)' }}>
-          {pattern.sequenceTitle}
+          {getLocalizedSequenceTitle(pattern)}
         </h2>
 
         <SequencingSlots
-          slots={slots}
+          slots={slots.map(s => s ? { ...s, label: getLocalizedItemLabel(s, pattern.theme) } : null)}
           onRemove={handleSlotRemove}
-          correctSequence={pattern.correctSequence}
+          correctSequence={pattern.correctSequence.map(s => ({ ...s, label: getLocalizedItemLabel(s, pattern.theme) }))}
           showErrors={showErrors}
           shakeKey={wrongCount}
         />
 
-        <SequencingPool pool={pool} slotCount={slots.length} />
+        <SequencingPool pool={pool.map(p => p ? { ...p, label: getLocalizedItemLabel(p, pattern.theme) } : null)} slotCount={slots.length} />
 
         <GameControls
           onCheck={handleCheck}
           onReset={handleReset}
           isAllFilled={isAllFilled}
           isCompleted={isCompleted}
+          confirmText={t("confirm")}
         />
 
         {/* Interactive Momo Mascot */}
@@ -265,12 +290,12 @@ export function SequencingGame({ config, pattern, onGameEnd, onWrongAttempt, sta
             {/* Speech Bubbles */}
             {showErrors && (
               <div className="absolute -top-12 -right-16 bg-white text-red-500 font-bold px-4 py-2 rounded-2xl rounded-bl-none shadow-xl border-2 border-red-100 text-sm md:text-base animate-in zoom-in duration-300 whitespace-nowrap z-30">
-                ลองสลับดูใหม่นะ!
+                {t("mascotWrong")}
               </div>
             )}
             {isCompleted && (
               <div className="absolute -top-12 -right-12 bg-white text-green-500 font-bold px-4 py-2 rounded-2xl rounded-bl-none shadow-xl border-2 border-green-100 text-sm md:text-base animate-in zoom-in duration-300 whitespace-nowrap z-30">
-                ยอดเยี่ยมไปเลย!
+                {t("mascotSuccess")}
               </div>
             )}
 

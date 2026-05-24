@@ -4,6 +4,7 @@ import { type ShapeType } from "@/constants/games/counting-classification-levels
 import { CounterRow } from "./CounterRow";
 import { FaPlay } from "react-icons/fa";
 import { TiltButton } from "react-tilt-button";
+import { useTranslations } from "next-intl";
 
 interface CounterPanelProps {
     shapeTypes: ShapeType[];
@@ -24,6 +25,8 @@ export function CounterPanel({
     onReset,
     disabled = false,
 }: CounterPanelProps) {
+    const t = useTranslations("CountingClassification");
+
     return (
         <div className="flex flex-col gap-3 h-full">
 
@@ -36,7 +39,9 @@ export function CounterPanel({
                         textShadow: "0 2px 0 rgba(255,255,255,1), 0 4px 6px rgba(0,0,0,0.05)"
                     }}
                 >
-                    ใส่จำนวนรูปทรง<span style={{ color: "#F06292" }}>ที่นับได้</span>
+                    {t.rich("panelTitle", {
+                        highlight: (chunks) => <span style={{ color: "#F06292" }}>{chunks}</span>
+                    })}
                 </span>
             </div>
 
@@ -76,7 +81,7 @@ export function CounterPanel({
                         onClick={onSubmit}
                     >
                         <span style={{ fontSize: 22, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
-                            <FaPlay className="w-5 h-5" /> ยืนยัน
+                            <FaPlay className="w-5 h-5" /> {t("confirm")}
                         </span>
                     </TiltButton>
                 </div>
@@ -99,7 +104,7 @@ export function CounterPanel({
                             disabled={disabled}
                             onClick={onReset}
                         >
-                            <span style={{ fontSize: 18, fontWeight: 900 }}>เริ่มใหม่</span>
+                            <span style={{ fontSize: 18, fontWeight: 900 }}>{t("reset")}</span>
                         </TiltButton>
                     </div>
                 )}
