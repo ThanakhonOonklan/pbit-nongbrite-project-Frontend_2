@@ -1,11 +1,10 @@
 "use client";
 
-import { use, useState, useRef, useCallback, useEffect } from "react";
+import { use, useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
-import { GameOverlay } from "@/components/games/GameOverlay";
 import { TutorialModal } from "@/components/games/TutorialModal";
 import { getConditionalMatchingTutorialSteps } from "@/components/games/tutorials";
 import { condMatchLevels } from "@/constants/games/conditional-matching-levels";
@@ -128,7 +127,6 @@ export default function ConditionalMatchingGamePage({
       setShuffledLeftItems(shuffle(config.leftItems ?? []));
       setShuffledRightItems(shuffle(config.rightItems ?? []));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config, retryKey]);
 
   // Line Drawing State
@@ -172,22 +170,36 @@ export default function ConditionalMatchingGamePage({
   }, []);
 
   useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      updateNodePositions();
+    });
     const timer = setTimeout(() => {
       updateNodePositions();
     }, 150);
 
     window.addEventListener("resize", updateNodePositions);
     return () => {
+      cancelAnimationFrame(frame);
       clearTimeout(timer);
       window.removeEventListener("resize", updateNodePositions);
     };
-  }, [updateNodePositions, config]);
+  }, [updateNodePositions, config, retryKey, shuffledLeftItems, shuffledRightItems]);
 
   // Sync refs ให้ตรงกับ state เพื่อให้ window handlers อ่านค่าล่าสุดได้เสมอ
   useEffect(() => { activeLineRef.current = activeLine; }, [activeLine]);
   useEffect(() => { nodePositionsRef.current = nodePositions; }, [nodePositions]);
   useEffect(() => { errorLinesRef.current = errorLines; }, [errorLines]);
   useEffect(() => { correctLinesRef.current = correctLines; }, [correctLines]);
+
+  // Derive active items from pattern or fallback to config root
+  const activeLeftItems = useMemo(
+    () => config ? (activePattern?.leftItems ?? config.leftItems ?? []) : [],
+    [config, activePattern]
+  );
+  const activeRightItems = useMemo(
+    () => config ? (activePattern?.rightItems ?? config.rightItems ?? []) : [],
+    [config, activePattern]
+  );
 
   // ── Interaction Logic ────────────────────────────────────
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>, id: string) => {
@@ -395,7 +407,7 @@ export default function ConditionalMatchingGamePage({
         errorFlashTimeoutRef.current = null;
       }, 1000);
     }
-  }, [isCompleted, config, errorLines, connectedItems, handleSimulateWin, handleSimulateFail]);
+  }, [isCompleted, config, errorLines, connectedItems, activeLeftItems, handleSimulateWin, handleSimulateFail]);
 
   const handleReset = useCallback(() => {
     if (isCompleted) return;
@@ -430,10 +442,14 @@ export default function ConditionalMatchingGamePage({
     }
     // Clear accumulated nodeRefs from previous pattern
     nodeRefs.current = {};
+    nodePositionsRef.current = {};
+    activePointsRef.current = [];
     setIsCompleted(false);
     setWrongCount(0);
     setScoreResult(null);
     setElapsedSeconds(0);
+    setActiveLine(null);
+    setNodePositions({});
     setConnectedItems({});
     setConnectedPaths({});
     setErrorLines([]);
@@ -458,11 +474,6 @@ export default function ConditionalMatchingGamePage({
       </div>
     );
   }
-
-  // Derive active items from pattern or fallback to config root
-  const activeLeftItems = activePattern?.leftItems ?? config.leftItems ?? [];
-  const activeRightItems = activePattern?.rightItems ?? config.rightItems ?? [];
-
 
   const getConnColor = (leftId: string): string => {
     const idx = shuffledLeftItems.findIndex(item => item.id === leftId);
