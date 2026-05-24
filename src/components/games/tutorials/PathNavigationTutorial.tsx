@@ -33,7 +33,7 @@ function getSlotLeft(slotIdx: number) {
 }
 
 /* ── Step 1: Real PathMap with actual game characters ────────── */
-function Step1RealMap() {
+function Step1RealMap({ t }: { t: any }) {
     return (
         <div className="flex flex-col items-center gap-3">
             <div style={{ width: 300, height: 300 }}>
@@ -57,10 +57,10 @@ function Step1RealMap() {
                 </span>
                 <span className="flex items-center gap-1 text-xs font-medium text-white/80">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/images/Nong_brite/nong-brite-04.svg" className="w-5 h-5 object-contain" alt="น้องไบร์ท" />
-                    น้องไบร์ท
+                    <img src="/images/Nong_brite/nong-brite-04.svg" className="w-5 h-5 object-contain" alt={t("tutorial.legendBrite")} />
+                    {t("tutorial.legendBrite")}
                 </span>
-                <span className="text-xs font-medium text-white/80">🏠 บ้าน</span>
+                <span className="text-xs font-medium text-white/80">{t("tutorial.legendHome")}</span>
             </div>
         </div>
     );
@@ -76,7 +76,7 @@ type FlyState = {
     key: number;
 } | null;
 
-function Step2Commands() {
+function Step2Commands({ t }: { t: any }) {
     const [commands, setCommands] = useState<string[]>([]);
     const [pressing, setPressing] = useState<string | null>(null);
     const [fly, setFly] = useState<FlyState>(null);
@@ -137,7 +137,7 @@ function Step2Commands() {
                 style={{ top: 0, left: 0, right: 0, borderColor: "#9CA3AF" }}
             >
                 <span className="text-[10px] font-semibold text-gray-400 block mb-2">
-                    คำสั่ง {commands.length}/35
+                    {t("tutorial.commandsCount", { count: commands.length })}
                 </span>
                 <div className="flex flex-wrap" style={{ gap: TILE_GAP }}>
                     {/* Run */}
@@ -231,7 +231,7 @@ const RUN_POSITIONS = [
     { row: 2, col: 2 }, // home!
 ];
 
-function Step3RunMap() {
+function Step3RunMap({ t }: { t: any }) {
     const [posIdx, setPosIdx] = useState(0);
     const [cmdIdx, setCmdIdx] = useState(-1);
     const [running, setRunning] = useState(false);
@@ -288,7 +288,7 @@ function Step3RunMap() {
             {/* Command panel */}
             <div className="flex-1 rounded-xl border-2 bg-[#37464F] p-2.5 flex flex-col gap-2"
                 style={{ borderColor: "#9CA3AF" }}>
-                <span className="text-[10px] font-semibold text-gray-400">คำสั่ง 4/35</span>
+                <span className="text-[10px] font-semibold text-gray-400">{t("tutorial.commandsCount", { count: 4 })}</span>
                 <div className="flex flex-wrap gap-1.5">
                     {/* Run button */}
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300"
@@ -334,23 +334,25 @@ function Step3RunMap() {
     );
 }
 
-export const pathNavigationTutorialSteps: TutorialStep[] = [
-    {
-        title: "จดจำเส้นทาง",
-        content: <Step1RealMap />,
-        hint: "จดจำเส้นทาง แล้วไปรับน้องไบร์ท พากลับบ้านด้วยนะ!",
-        audio: "/audio/games/path-navigation/PathNavigation_step1.wav",
-    },
-    {
-        title: "กดหรือลากคำสั่ง",
-        content: <Step2Commands />,
-        hint: "กดปุ่มทิศทาง หรือลากไปวางในช่องคำสั่งได้เลย!",
-        audio: "/audio/games/path-navigation/PathNavigation_step2.wav",
-    },
-    {
-        title: "กด ▶ Run แล้วดูผล!",
-        content: <Step3RunMap />,
-        hint: "P_Bit จะเดินตามคำสั่ง — ไปรับน้องไบร์ท แล้วพากลับบ้าน!",
-        audio: "/audio/games/path-navigation/PathNavigation_step3.wav",
-    },
-];
+export function getPathNavigationTutorialSteps(t: any): TutorialStep[] {
+    return [
+        {
+            title: t("tutorial.step1Title"),
+            content: <Step1RealMap t={t} />,
+            hint: t("tutorial.step1Hint"),
+            audio: "/audio/games/path-navigation/PathNavigation_step1.wav",
+        },
+        {
+            title: t("tutorial.step2Title"),
+            content: <Step2Commands t={t} />,
+            hint: t("tutorial.step2Hint"),
+            audio: "/audio/games/path-navigation/PathNavigation_step2.wav",
+        },
+        {
+            title: t("tutorial.step3Title"),
+            content: <Step3RunMap t={t} />,
+            hint: t("tutorial.step3Hint"),
+            audio: "/audio/games/path-navigation/PathNavigation_step3.wav",
+        },
+    ];
+}

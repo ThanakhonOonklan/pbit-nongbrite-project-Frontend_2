@@ -5,6 +5,7 @@ import { TiltButton } from "react-tilt-button";
 import { type Direction } from "@/constants/games/path-navigation-levels";
 import { FaPlay, FaTimes, FaTrash } from "react-icons/fa";
 import { useDroppable } from "@dnd-kit/core";
+import { useTranslations } from "next-intl";
 
 interface CommandSequenceProps {
     commands: Direction[];
@@ -18,11 +19,14 @@ interface CommandSequenceProps {
     onMaxCommandsChange?: (max: number) => void;
 }
 
-const directionIcons: Record<Direction, React.ReactNode> = {
-    up: <img src="/icons/Arrow/ArrowUp.svg" alt="บน" className="w-5 h-5" />,
-    down: <img src="/icons/Arrow/ArrowDown.svg" alt="ล่าง" className="w-5 h-5" />,
-    left: <img src="/icons/Arrow/ArrowLeft.svg" alt="ซ้าย" className="w-5 h-5" />,
-    right: <img src="/icons/Arrow/ArrowRight.svg" alt="ขวา" className="w-5 h-5" />,
+const renderDirectionIcon = (dir: Direction, alt: string) => {
+    const srcMap: Record<Direction, string> = {
+        up: "/icons/Arrow/ArrowUp.svg",
+        down: "/icons/Arrow/ArrowDown.svg",
+        left: "/icons/Arrow/ArrowLeft.svg",
+        right: "/icons/Arrow/ArrowRight.svg",
+    };
+    return <img src={srcMap[dir]} alt={alt} className="w-5 h-5" />;
 };
 
 const VALID_DIRECTIONS: Direction[] = ["up", "down", "left", "right"];
@@ -39,6 +43,7 @@ export function CommandSequence({
     disabled = false,
     onMaxCommandsChange,
 }: CommandSequenceProps) {
+    const t = useTranslations("PathNavigation");
     const [isDragOver, setIsDragOver] = useState(false);
     const [maxCommands] = useState(MAX_COMMANDS);
     const [tileSize, setTileSize] = useState(58);
@@ -50,8 +55,8 @@ export function CommandSequence({
     useEffect(() => {
         if (commands.length > prevLengthRef.current) {
             setNewIndex(commands.length - 1);
-            const t = setTimeout(() => setNewIndex(null), 350);
-            return () => clearTimeout(t);
+            const timer = setTimeout(() => setNewIndex(null), 350);
+            return () => clearTimeout(timer);
         }
         prevLengthRef.current = commands.length;
     }, [commands.length]);
@@ -92,16 +97,16 @@ export function CommandSequence({
             {/* Header row: command count + Clear All button */}
             <div className="flex items-center justify-between mb-2 px-1">
                 <span className="text-xs font-semibold text-gray-400">
-                    คำสั่ง {commands.length}/{maxCommands}
+                    {t("commandsCount", { current: commands.length, max: maxCommands })}
                 </span>
                 {commands.length > 0 && !disabled && (
                     <button
                         onClick={onClearAll}
                         className="flex items-center gap-1 text-xs text-red-400 hover:text-red-300 transition-colors font-semibold"
-                        title="ล้างทั้งหมด"
+                        title={t("clearAll")}
                     >
                         <FaTrash className="w-3 h-3" />
-                        ล้าง
+                        {t("clearBtn")}
                     </button>
                 )}
             </div>
@@ -172,7 +177,7 @@ export function CommandSequence({
                                 >
                                     <div className="relative w-5 h-5">
                                         <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-150 ${!disabled ? "group-hover:opacity-0" : ""}`}>
-                                            {directionIcons[cmd]}
+                                            {renderDirectionIcon(cmd, t(`direction.${cmd}`))}
                                         </div>
                                         {!disabled && (
                                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">

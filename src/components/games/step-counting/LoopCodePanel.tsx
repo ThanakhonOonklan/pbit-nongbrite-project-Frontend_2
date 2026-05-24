@@ -3,6 +3,7 @@
 import React from "react";
 import type { ResolvedLoopConfig, LoopTask, LoopTheme } from "@/constants/games/step-counting-levels";
 import { TiltButton } from "react-tilt-button";
+import { useTranslations } from "next-intl";
 import { Glass } from "./Glass";
 import type { BlenderPhase } from "./Blender";
 
@@ -51,6 +52,7 @@ function TaskRow({
   taskIndex,
   onAddFruit,
   isBlending,
+  t,
 }: {
   task: LoopTask;
   blenderContents: { theme: LoopTheme; count: number } | null;
@@ -60,6 +62,7 @@ function TaskRow({
   taskIndex: number;
   onAddFruit: (theme: LoopTheme, delta: number) => void;
   isBlending: boolean;
+  t: any;
 }) {
   const rc = ROW_LIGHT[task.theme];
   const isDirty = blenderPhase === "dirty";
@@ -114,7 +117,7 @@ function TaskRow({
 
       {/* Name */}
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ color: nameColor, fontWeight: 800, fontSize: 14, lineHeight: 1.2, transition: "color 0.2s" }}>{task.inputUnit}</div>
+        <div style={{ color: nameColor, fontWeight: 800, fontSize: 14, lineHeight: 1.2, transition: "color 0.2s" }}>{t("fruits." + task.theme)}</div>
       </div>
 
       {/* Minus */}
@@ -186,6 +189,7 @@ export function LoopCodePanel({
   onBlend,
   isBlending,
 }: LoopCodePanelProps) {
+  const t = useTranslations("StepCounting");
   const isDirty = blenderPhase === "dirty";
   const isFilling = blenderPhase === "filling";
   const hasFruit = (blenderContents?.count ?? 0) > 0;
@@ -228,7 +232,7 @@ export function LoopCodePanel({
           }}>
             <span style={{ fontSize: "clamp(18px,2.5vw,32px)", flexShrink: 0 }}>{task.inputEmoji}</span>
             <div style={{ display: "flex", alignItems: "center", gap: "clamp(2px,0.4vw,4px)", minWidth: 0, overflow: "visible" }}>
-              <div style={{ fontSize: "clamp(9px,1.1vw,13px)", fontWeight: 700, color: "#00695C", whiteSpace: "nowrap" }}>1 ลูก →</div>
+              <div style={{ fontSize: "clamp(9px,1.1vw,13px)", fontWeight: 700, color: "#00695C", whiteSpace: "nowrap" }}>{t("oneFruitRatio", { fruit: t("fruits." + task.theme) })}</div>
               <div style={{ display: "flex", gap: 0, alignItems: "center", height: "clamp(30px,4.5vw,50px)", overflow: "visible" }}>
                 {task.yieldsPerAction <= 1
                   ? (
@@ -261,6 +265,7 @@ export function LoopCodePanel({
             totalFilled={totalFilled}
             onAddFruit={onAddFruit}
             isBlending={isBlending}
+            t={t}
           />
         ))}
       </div>
@@ -287,8 +292,8 @@ export function LoopCodePanel({
         >
           <span style={{ fontSize: 20, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
             {isBlending
-              ? <><span style={{ display: "inline-block", animation: "spin 1s linear infinite" }}>⏳</span> กำลังคั้น...</>
-              : <>คั้นน้ำเลย!</>
+              ? <><span style={{ display: "inline-block", animation: "spin 1s linear infinite" }}>⏳</span> {t("blending")}</>
+              : <>{t("blendBtn")}</>
             }
           </span>
         </TiltButton>

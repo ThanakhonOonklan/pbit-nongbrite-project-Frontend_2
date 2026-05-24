@@ -7,8 +7,9 @@ import { GameResultModal } from "@/components/games/GameResultModal";
 import { HelpButton } from "@/components/games/HelpButton";
 import { GameOverlay } from "@/components/games/GameOverlay";
 import { TutorialModal } from "@/components/games/TutorialModal";
-import { conditionalMatchingTutorialSteps } from "@/components/games/tutorials";
+import { getConditionalMatchingTutorialSteps } from "@/components/games/tutorials";
 import { condMatchLevels } from "@/constants/games/conditional-matching-levels";
+import { useTranslations } from "next-intl";
 import { calculateGameScore, getStarRating, type ScoreResult } from "@/utils/game-scoring";
 import { getAbsoluteLevelId } from "@/utils/level-mapper";
 import { gameService } from "@/services/game.service";
@@ -60,6 +61,24 @@ export default function ConditionalMatchingGamePage({
   const isOutOfLives = user?.life?.lifeCurrent !== undefined && user.life.lifeCurrent <= 0;
 
   const config = condMatchLevels[levelNum];
+
+  const t = useTranslations("ConditionalMatching");
+
+  const getLocalizedItemLabel = (item: MatchItem) => {
+    // Try matching specific id first
+    if (t.has(`items.${item.id}`)) {
+      return t(`items.${item.id}`);
+    }
+    
+    // Normalizer: strip level/pattern prefix (e.g. l8p3_ or p2_) to match base keys like 'wash', 'sick'
+    const baseId = item.id.replace(/^l\dp\d_/, "").replace(/^p\d_/, "");
+    if (t.has(`items.${baseId}`)) {
+      return t(`items.${baseId}`);
+    }
+    
+    // Fallback to default Thai label
+    return item.label;
+  };
 
   // ── State ─────────────────────────────────────────────────
   const [wrongCount, setWrongCount] = useState(0);
@@ -431,9 +450,9 @@ export default function ConditionalMatchingGamePage({
       <div className="flex flex-col h-screen bg-[#0B1021] overflow-hidden z-50">
         <GameHeader level={level} gameTitle="Conditional Matching" characterSrc="/images/P_Coco/coco-03.svg" />
         <div className="flex-1 flex flex-col items-center justify-center p-4">
-          <p className="text-white text-xl font-bold">ไม่พบด่านนี้</p>
+          <p className="text-white text-xl font-bold">{t("levelNotFound")}</p>
           <button onClick={() => router.push("/courses")} className="mt-4 px-6 py-2 bg-[#ffb356] text-white rounded-xl font-bold">
-            กลับหน้าหลัก
+            {t("backToHome")}
           </button>
         </div>
       </div>
@@ -614,7 +633,7 @@ export default function ConditionalMatchingGamePage({
                   textShadow: "0 1px 0 rgba(255,255,255,1)",
                 }}
               >
-                โยงเส้นจับคู่
+                {t("gameTitle")}
               </span>
             </div>
           </div>
@@ -691,7 +710,7 @@ export default function ConditionalMatchingGamePage({
                 {shuffledLeftItems.map((item, index) => (
                   <TopRowItem
                     key={item.id}
-                    item={item}
+                    item={{ ...item, label: getLocalizedItemLabel(item) }}
                     compact={compact}
                     index={index}
                     isConnected={Object.keys(connectedItems).includes(item.id)}
@@ -718,7 +737,7 @@ export default function ConditionalMatchingGamePage({
                   return (
                     <BottomRowItem
                       key={item.id}
-                      item={item}
+                      item={{ ...item, label: getLocalizedItemLabel(item) }}
                       compact={compact}
                       index={index}
                       isConnected={!!startId}
@@ -814,7 +833,7 @@ export default function ConditionalMatchingGamePage({
                 disabled={!isAllFilled || isCompleted}
               >
                 <span className="font-bold text-base sm:text-lg flex items-center justify-center gap-2 drop-shadow-sm">
-                  <FaPlay className="w-3 h-3" /> ยืนยัน!
+                  <FaPlay className="w-3 h-3" /> {t("confirm")}
                 </span>
               </TiltButton>
             </div>
@@ -827,7 +846,7 @@ export default function ConditionalMatchingGamePage({
 
       {canShowTutorial && (
         <TutorialModal
-          steps={conditionalMatchingTutorialSteps}
+          steps={getConditionalMatchingTutorialSteps(t)}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_Coco/coco-03.svg"
           accentColor="#FEAA50"

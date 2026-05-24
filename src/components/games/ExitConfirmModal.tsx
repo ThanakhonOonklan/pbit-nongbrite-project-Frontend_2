@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface ExitConfirmModalProps {
     onConfirm: () => void;
@@ -8,6 +9,8 @@ interface ExitConfirmModalProps {
 }
 
 export function ExitConfirmModal({ onConfirm, onCancel }: ExitConfirmModalProps) {
+    const t = useTranslations("GameHeader");
+
     return (
         <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm "
@@ -21,7 +24,7 @@ export function ExitConfirmModal({ onConfirm, onCancel }: ExitConfirmModalProps)
                 {/* Title */}
                 <div className="pt-6 pb-2 text-center">
                     <h2 className="text-2xl font-extrabold text-[#FF6B6B] mt-1">
-                        ออกจากเกม?
+                        {t("exitTitle")}
                     </h2>
                 </div>
 
@@ -38,7 +41,7 @@ export function ExitConfirmModal({ onConfirm, onCancel }: ExitConfirmModalProps)
 
                 {/* Message */}
                 <p className="text-center text-gray-400 text-xs pb-4 px-6">
-                    ความคืบหน้าในด่านนี้จะไม่ถูกบันทึก
+                    {t("exitMessage")}
                 </p>
 
                 {/* Action Buttons */}
@@ -47,13 +50,13 @@ export function ExitConfirmModal({ onConfirm, onCancel }: ExitConfirmModalProps)
                         onClick={onCancel}
                         className="flex-1 py-3 rounded-xl bg-gray-100 text-gray-700 text-sm font-bold hover:bg-gray-200 transition-colors"
                     >
-                        เล่นต่อ
+                        {t("continue")}
                     </button>
                     <button
                         onClick={onConfirm}
                         className="flex-1 py-3 rounded-xl bg-red-500 text-white text-sm font-bold hover:bg-red-600 transition-colors"
                     >
-                        ออก
+                        {t("exit")}
                     </button>
                 </div>
             </div>

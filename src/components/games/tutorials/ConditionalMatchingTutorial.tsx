@@ -4,25 +4,26 @@ import { useEffect, useState } from "react";
 import { MatchingCard } from "@/components/games/conditional-matching/MatchingCard";
 import type { TutorialStep } from "../TutorialModal";
 
-const PAIRS = [
-    { left: { emoji: "🐱", label: "ถ้าแมวหิว" }, right: { emoji: "🐟", label: "ให้กินปลา" } },
-    { left: { emoji: "🐇", label: "ถ้ากระต่ายหิว" }, right: { emoji: "🥕", label: "ให้กินแครอท" } },
-    { left: { emoji: "🐒", label: "ถ้าลิงหิว" }, right: { emoji: "🍌", label: "ให้กินกล้วย" } },
+const getPairs = (t: any) => [
+    { left: { emoji: "🐱", label: t("items.cat") }, right: { emoji: "🐟", label: t("items.fish") } },
+    { left: { emoji: "🐇", label: t("items.rabbit") }, right: { emoji: "🥕", label: t("items.carrot") } },
+    { left: { emoji: "🐒", label: t("items.monkey") }, right: { emoji: "🍌", label: t("items.banana") } },
 ];
 
 /* ── Step 1: Condition cards + responsive label ──────────────── */
-function Step1Cards() {
+function Step1Cards({ t }: { t: any }) {
+    const pairs = getPairs(t);
     return (
         <div className="flex flex-col items-center gap-3">
             {/* Mobile: ด้านซ้าย, PC: ด้านบน */}
             <p className="block md:hidden text-[11px] font-bold text-orange-400 uppercase tracking-wider text-center">
-                อ่านการ์ดเงื่อนไข&nbsp;<span className="text-white/80">ด้านซ้าย</span>&nbsp;และให้เข้าใจ
+                {t.rich("tutorial.step1ReadLeft", { highlight: (chunks: any) => <span className="text-white/80">{chunks}</span> })}
             </p>
             <p className="hidden md:block text-[11px] font-bold text-orange-400 uppercase tracking-wider text-center">
-                อ่านการ์ดเงื่อนไข&nbsp;<span className="text-white/80">ด้านบน</span>&nbsp;และให้เข้าใจ
+                {t.rich("tutorial.step1ReadTop", { highlight: (chunks: any) => <span className="text-white/80">{chunks}</span> })}
             </p>
             <div className="flex gap-4">
-                {PAIRS.map((p, i) => (
+                {pairs.map((p, i) => (
                     <div key={i} style={{ animation: `cmCardIn 0.45s cubic-bezier(0.34,1.56,0.64,1) ${i * 0.12}s both` }}>
                         <MatchingCard
                             emoji={p.left.emoji}
@@ -43,7 +44,8 @@ function Step1Cards() {
 }
 
 /* ── Step 2: 3 pairs (top/bottom), 1 animated vertical line ─────── */
-function Step2Connect() {
+function Step2Connect({ t }: { t: any }) {
+    const pairs = getPairs(t);
     const [progress, setProgress] = useState(0);
     const [correct, setCorrect] = useState(false);
 
@@ -69,7 +71,7 @@ function Step2Connect() {
 
     return (
         <div className="flex flex-col gap-2 w-full max-w-[320px]">
-            {PAIRS.map((pair, i) => (
+            {pairs.map((pair, i) => (
                 <div key={i} className="flex items-center gap-2">
                     {/* Left card (condition) */}
                     <MatchingCard
@@ -113,7 +115,8 @@ function Step2Connect() {
 }
 
 /* ── Step 3: 3 connected pairs + confirm button ───────────────── */
-function Step3AllCorrect() {
+function Step3AllCorrect({ t }: { t: any }) {
+    const pairs = getPairs(t);
     const [phase, setPhase] = useState<"idle" | "checking" | "correct">("idle");
 
     useEffect(() => {
@@ -135,7 +138,7 @@ function Step3AllCorrect() {
         <div className="flex flex-col items-center gap-3 w-full max-w-[320px]">
             {/* 3 pairs — each pair as a horizontal row stacked vertically */}
             <div className="flex flex-col gap-2 w-full">
-                {PAIRS.map((pair, i) => (
+                {pairs.map((pair, i) => (
                     <div key={i} className="flex items-center gap-2"
                         style={{ animation: `cmFadeUp 0.4s ease-out ${i * 0.1}s both` }}>
                         <MatchingCard emoji={pair.left.emoji} label={pair.left.label} align="top" isCorrect />
@@ -159,7 +162,7 @@ function Step3AllCorrect() {
                     animation: phase === "idle" ? "cmBtnPulse 1.2s ease-in-out infinite" : "none",
                 }}
             >
-                {phase === "correct" ? "✅ ถูกต้อง!" : phase === "checking" ? "⏳ กำลังตรวจ..." : "✓ ยืนยัน"}
+                {phase === "correct" ? t("tutorial.correct") : phase === "checking" ? t("tutorial.checking") : t("tutorial.confirm")}
             </button>
 
             <style>{`
@@ -176,23 +179,25 @@ function Step3AllCorrect() {
     );
 }
 
-export const conditionalMatchingTutorialSteps: TutorialStep[] = [
-    {
-        title: "อ่านการ์ดเงื่อนไข",
-        content: <Step1Cards />,
-        hint: 'อ่านการ์ดเงื่อนไข "ถ้า..." ให้เข้าใจก่อนเริ่มเล่น',
-        audio: "/audio/games/conditional-matching/ConditionalMatching_step1.wav",
-    },
-    {
-        title: "ลากเส้นโยงคู่ที่ตรงกัน",
-        content: <Step2Connect />,
-        hint: "ลากเส้นจากการ์ดเงื่อนไขไปหาคำตอบที่ตรงกัน",
-        audio: "/audio/games/conditional-matching/ConditionalMatching_step2.wav",
-    },
-    {
-        title: "โยงครบแล้วกดยืนยัน",
-        content: <Step3AllCorrect />,
-        hint: "เมื่อโยงครบทุกคู่แล้ว กดยืนยันเพื่อตรวจคำตอบ!",
-        audio: "/audio/games/conditional-matching/ConditionalMatching_step3.wav",
-    },
-];
+export function getConditionalMatchingTutorialSteps(t: any): TutorialStep[] {
+    return [
+        {
+            title: t("tutorial.step1Title"),
+            content: <Step1Cards t={t} />,
+            hint: t("tutorial.step1Hint"),
+            audio: "/audio/games/conditional-matching/ConditionalMatching_step1.wav",
+        },
+        {
+            title: t("tutorial.step2Title"),
+            content: <Step2Connect t={t} />,
+            hint: t("tutorial.step2Hint"),
+            audio: "/audio/games/conditional-matching/ConditionalMatching_step2.wav",
+        },
+        {
+            title: t("tutorial.step3Title"),
+            content: <Step3AllCorrect t={t} />,
+            hint: t("tutorial.step3Hint"),
+            audio: "/audio/games/conditional-matching/ConditionalMatching_step3.wav",
+        },
+    ];
+}

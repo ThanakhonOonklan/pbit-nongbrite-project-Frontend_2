@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import type { TutorialStep } from "../TutorialModal";
 
 // Butterfly lifecycle — correct order
-const SEQ = [
-    { src: "/images/sequencing/butterfly/egg.svg", label: "ไข่" },
-    { src: "/images/sequencing/butterfly/caterpillar.svg", label: "หนอน" },
-    { src: "/images/sequencing/butterfly/chrysalis.svg", label: "ดักแด้" },
-    { src: "/images/sequencing/butterfly/butterfly.svg", label: "ผีเสื้อ" },
+const getSeq = (t: any) => [
+    { src: "/images/sequencing/butterfly/egg.svg", label: t("items.butterfly.1") },
+    { src: "/images/sequencing/butterfly/caterpillar.svg", label: t("items.butterfly.2") },
+    { src: "/images/sequencing/butterfly/chrysalis.svg", label: t("items.butterfly.3") },
+    { src: "/images/sequencing/butterfly/butterfly.svg", label: t("items.butterfly.4") },
 ];
+
 // Pool order (shuffled display): chrysalis(2), egg(0), butterfly(3), caterpillar(1)
 const POOL_ORDER = [2, 0, 3, 1];
 // Which pool position corresponds to each slot's correct item
@@ -31,7 +32,8 @@ const cardStyle = (active: boolean, placed: boolean) => ({
 });
 
 /* ── Step 1: Shuffled pool — cards swap positions repeatedly ──── */
-function Step1Pool() {
+function Step1Pool({ t }: { t: any }) {
+    const seq = getSeq(t);
     const [displayOrder, setDisplayOrder] = useState([...POOL_ORDER]);
     const [flipping, setFlipping] = useState<number[]>([]);
 
@@ -56,15 +58,15 @@ function Step1Pool() {
                 setTimeout(() => { if (alive) cycle(); }, 950);
             }, 460);
         };
-        const t = setTimeout(cycle, 800);
-        return () => { alive = false; clearTimeout(t); };
+        const timer = setTimeout(cycle, 800);
+        return () => { alive = false; clearTimeout(timer); };
     }, []);
 
     return (
         <div className="flex flex-col items-center gap-4">
             <p className="text-[11px] font-bold text-purple-300 uppercase tracking-widest"
                 style={{ textShadow: "0 0 8px rgba(168,85,247,0.5)" }}>
-                ของจะถูกสุ่มลำดับทุกด่าน
+                {t("tutorial.step1Random")}
             </p>
             {/* Slots row */}
             <div className="flex" style={{ gap: GAP }}>
@@ -94,8 +96,8 @@ function Step1Pool() {
                                 animation: `seqCardIn 0.4s cubic-bezier(0.34,1.56,0.64,1) ${pos * 0.08}s both`,
                             }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={SEQ[itemIdx].src} alt="" width={46} height={46} className="object-contain" />
-                            <span className="text-[10px] text-purple-300 font-bold mt-0.5">{SEQ[itemIdx].label}</span>
+                            <img src={seq[itemIdx].src} alt="" width={46} height={46} className="object-contain" />
+                            <span className="text-[10px] text-purple-300 font-bold mt-0.5">{seq[itemIdx].label}</span>
                         </div>
                     );
                 })}
@@ -111,7 +113,8 @@ function Step1Pool() {
 }
 
 /* ── Step 2: Animated sequential pool → slot ─────────────────── */
-function Step2Drag() {
+function Step2Drag({ t }: { t: any }) {
+    const seq = getSeq(t);
     const [slots, setSlots] = useState<(number | null)[]>([null, null, null, null]);
     const [activePool, setActive] = useState<number | null>(null);
 
@@ -156,8 +159,8 @@ function Step2Drag() {
                         {itemIdx !== null ? (
                             <>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={SEQ[itemIdx].src} alt="" width={44} height={44} className="object-contain" />
-                                <span className="text-[10px] text-purple-300 font-bold mt-0.5">{SEQ[itemIdx].label}</span>
+                                <img src={seq[itemIdx].src} alt="" width={44} height={44} className="object-contain" />
+                                <span className="text-[10px] text-purple-300 font-bold mt-0.5">{seq[itemIdx].label}</span>
                             </>
                         ) : (
                             <span className="text-purple-700/50 text-sm font-bold">{si + 1}</span>
@@ -176,8 +179,8 @@ function Step2Drag() {
                         <div key={pi} className="flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-300"
                             style={{ width: CARD, height: CARD, ...cardStyle(active, placed) }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={SEQ[itemIdx].src} alt="" width={44} height={44} className="object-contain" style={{ opacity: placed ? 0.3 : 1 }} />
-                            <span className="text-[10px] text-purple-300 font-bold mt-0.5">{SEQ[itemIdx].label}</span>
+                            <img src={seq[itemIdx].src} alt="" width={44} height={44} className="object-contain" style={{ opacity: placed ? 0.3 : 1 }} />
+                            <span className="text-[10px] text-purple-300 font-bold mt-0.5">{seq[itemIdx].label}</span>
                         </div>
                     );
                 })}
@@ -193,7 +196,8 @@ function Step2Drag() {
 }
 
 /* ── Step 3: All slots filled + check button ─────────────────── */
-function Step3Complete() {
+function Step3Complete({ t }: { t: any }) {
+    const seq = getSeq(t);
     const [phase, setPhase] = useState<"idle" | "checking" | "correct">("idle");
 
     useEffect(() => {
@@ -215,7 +219,7 @@ function Step3Complete() {
         <div className="flex flex-col items-center gap-4">
             <div className="flex rounded-2xl border-2 border-[#2D1B69]/60 p-3"
                 style={{ background: "#0F0825", gap: GAP }}>
-                {SEQ.map((item, i) => (
+                {seq.map((item, i) => (
                     <div key={i} className="flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-300"
                         style={{
                             width: CARD, height: CARD, background: "#1A0938",
@@ -237,7 +241,7 @@ function Step3Complete() {
                     transform: phase === "checking" ? "translateY(4px)" : phase === "correct" ? "scale(1.05)" : "scale(1)",
                     animation: phase === "idle" ? "seqBtnPulse 1.2s ease-in-out infinite" : "none",
                 }}>
-                {phase === "correct" ? "✅ เรียงถูกต้อง!" : phase === "checking" ? "⏳ กำลังตรวจ..." : "✓ ตรวจคำตอบ"}
+                {phase === "correct" ? t("tutorial.correct") : phase === "checking" ? t("tutorial.checking") : t("tutorial.confirm")}
             </button>
 
             <style>{`
@@ -250,23 +254,25 @@ function Step3Complete() {
     );
 }
 
-export const sequencingTutorialSteps: TutorialStep[] = [
-    {
-        title: "ดูของในคลังที่สุ่มมา",
-        content: <Step1Pool />,
-        hint: "ของจะถูกสุ่มลำดับ คุณต้องเรียงให้ถูกต้องตามลำดับ",
-        audio: "/audio/games/sequencing/Sequencing_step1.wav",
-    },
-    {
-        title: "ลากของใส่ช่องตามลำดับ",
-        content: <Step2Drag />,
-        hint: "ลากของจากคลังขึ้นไปใส่ช่องหมายเลขให้ถูกลำดับ",
-        audio: "/audio/games/sequencing/Sequencing_step2.wav",
-    },
-    {
-        title: "เรียงครบแล้วกดตรวจ",
-        content: <Step3Complete />,
-        hint: "เมื่อวางครบทุกช่องแล้ว กดปุ่มตรวจคำตอบ!",
-        audio: "/audio/games/sequencing/Sequencing_step3.wav",
-    },
-];
+export function getSequencingTutorialSteps(t: any): TutorialStep[] {
+    return [
+        {
+            title: t("tutorial.step1Title"),
+            content: <Step1Pool t={t} />,
+            hint: t("tutorial.step1Hint"),
+            audio: "/audio/games/sequencing/Sequencing_step1.wav",
+        },
+        {
+            title: t("tutorial.step2Title"),
+            content: <Step2Drag t={t} />,
+            hint: t("tutorial.step2Hint"),
+            audio: "/audio/games/sequencing/Sequencing_step2.wav",
+        },
+        {
+            title: t("tutorial.step3Title"),
+            content: <Step3Complete t={t} />,
+            hint: t("tutorial.step3Hint"),
+            audio: "/audio/games/sequencing/Sequencing_step3.wav",
+        },
+    ];
+}

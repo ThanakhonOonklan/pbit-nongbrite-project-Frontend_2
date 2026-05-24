@@ -9,13 +9,13 @@ import { getRankBadgeImage, getRankBadgeInfo, RANKS } from "@/constants/ranks";
 import { useTranslations } from "next-intl";
 
 const RANK_GLOW: Record<string, { glow: string; card: string; text: string }> = {
-  Newbie:  { glow: "rgba(160, 160, 180, 0.8)",  card: "rgba(160, 160, 180, 0.15)", text: "#8A8E9A" },
-  Junior:  { glow: "rgba(180, 100, 40, 0.8)",   card: "rgba(180, 100, 40, 0.15)",  text: "#B46428" },
-  Smart:   { glow: "rgba(140, 180, 210, 0.8)",  card: "rgba(140, 180, 210, 0.15)", text: "#6090B0" },
-  Hero:    { glow: "rgba(230, 175, 0, 0.85)",   card: "rgba(230, 175, 0, 0.15)",   text: "#C48A00" },
-  Super:   { glow: "rgba(0, 210, 200, 0.85)",   card: "rgba(0, 210, 200, 0.15)",   text: "#00B8A0" },
-  Master:  { glow: "rgba(80, 140, 255, 0.9)",   card: "rgba(80, 140, 255, 0.15)",  text: "#3060E0" },
-  Legend:  { glow: "rgba(200, 0, 255, 0.9)",    card: "rgba(200, 0, 255, 0.13)",   text: "#A000E0" },
+  Newbie: { glow: "rgba(181, 105, 33, 1)", card: "rgba(139, 90, 43, 0.12)", text: "rgba(181, 105, 33, 1)" },
+  Junior: { glow: "rgba(160, 174, 192, 1)", card: "rgba(160, 174, 192, 0.12)", text: "rgba(160, 174, 192, 1)" },
+  Smart: { glow: "rgba(221, 108, 32, 1)", card: "rgba(221, 107, 32, 0.12)", text: "rgba(221, 108, 32, 1)" },
+  Hero: { glow: "rgba(49, 130, 206, 1)", card: "rgba(49, 130, 206, 0.14)", text: "rgba(49, 130, 206, 1)" },
+  Super: { glow: "rgba(238, 0, 255, 1)", card: "rgba(236, 72, 153, 0.12)", text: "rgba(238, 0, 255, 1)" },
+  Master: { glow: "rgba(237, 73, 18, 1)", card: "rgba(239, 68, 68, 0.12)", text: "rgba(237, 73, 18, 1)" },
+  Legend: { glow: "rgba(255, 217, 0, 1)", card: "rgba(234, 179, 8, 0.12)", text: "rgba(255, 217, 0, 1)" },
 };
 
 export interface MyRankCardProps {

@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { FaEraser, FaPaintBrush, FaFillDrip, FaTrashAlt, FaPlay } from "react-icons/fa";
 import { Undo2, Redo2 } from "lucide-react";
 import { type DrawingMode } from "./GridColoringGame";
@@ -110,7 +111,16 @@ export function ColorPalette({
   canRedo,
   isCheckDisabled = false,
 }: ColorPaletteProps) {
+  const t = useTranslations("GridColoring");
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const localizedColorNames = useMemo(() => {
+    const names: Record<string, string> = {};
+    Object.keys(colorNameMap).forEach((hex) => {
+      names[hex] = t("colors." + hex);
+    });
+    return names;
+  }, [t]);
 
   const playColor = useCallback((hex: string) => {
     playAudio(audioRef, COLOR_AUDIO[hex.toUpperCase()]);
@@ -139,7 +149,7 @@ export function ColorPalette({
       {/* ── Color swatches ── */}
       {displayPalette.map((color, swatchIdx) => {
         const isActive = drawingMode === "paint" && selectedColor?.toLowerCase() === color.toLowerCase();
-        const name = colorNameMap[color.toUpperCase()] || colorNameMap[color] || color;
+        const name = localizedColorNames[color.toUpperCase()] || localizedColorNames[color] || color;
         return (
           <button
             key={color}
@@ -163,8 +173,9 @@ export function ColorPalette({
       <div className="w-px self-stretch bg-amber-900/10 mx-1" />
 
       {/* ── Tool buttons ── */}
-      {TOOLS.map(({ mode, label, icon }, toolIdx) => {
+      {TOOLS.map(({ mode, icon }, toolIdx) => {
         const isActive = drawingMode === mode;
+        const label = t("tools." + mode);
         return (
           <button
             key={mode}
@@ -190,7 +201,7 @@ export function ColorPalette({
         <button
           onClick={() => { onUndo?.(); playTool("undo"); }}
           disabled={!canUndo}
-          title="เลิกทำ"
+          title={t("tools.undo")}
           className="w-[3.5rem] h-[3.5rem] rounded-full border-2 border-amber-900/10 bg-white hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center shadow-sm text-amber-900/60 hover:text-amber-900 transition-all duration-150 active:scale-90 shrink-0"
         >
           <Undo2 className="w-6 h-6" />
@@ -200,7 +211,7 @@ export function ColorPalette({
         <button
           onClick={() => { onRedo?.(); playTool("redo"); }}
           disabled={!canRedo}
-          title="ทำซ้ำ"
+          title={t("tools.redo")}
           className="w-[3.5rem] h-[3.5rem] rounded-full border-2 border-amber-900/10 bg-white hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center shadow-sm text-amber-900/60 hover:text-amber-900 transition-all duration-150 active:scale-90 shrink-0"
         >
           <Redo2 className="w-6 h-6" />
@@ -211,7 +222,7 @@ export function ColorPalette({
       {onReset && (
         <button
           onClick={() => { onReset?.(); playTool("reset"); }}
-          title="ล้างทั้งหมด"
+          title={t("tools.reset")}
           className="w-[3.5rem] h-[3.5rem] rounded-full border-2 border-amber-900/10 bg-white hover:bg-rose-50 hover:border-rose-300 flex items-center justify-center shadow-sm text-amber-900/60 hover:text-rose-600 transition-all duration-150 active:scale-90 shrink-0"
         >
           <span className="text-xl"><FaTrashAlt /></span>
@@ -241,7 +252,7 @@ export function ColorPalette({
             style={{ pointerEvents: isCheckDisabled ? 'none' : 'auto' }}
           >
             <span className="font-bold text-base flex items-center justify-center gap-2 drop-shadow-sm">
-              <FaPlay className="w-4 h-4" /> ยืนยัน!
+              <FaPlay className="w-4 h-4" /> {t("confirmBtn")}
             </span>
           </TiltButton>
         </div>

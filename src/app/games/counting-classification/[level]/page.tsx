@@ -3,6 +3,7 @@
 import { use, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { GameHeader } from "@/components/games/GameHeader";
 import { Container } from "@/components/common";
 import { ShapeScene, CounterPanel } from "@/components/games/counting-classification";
@@ -10,7 +11,7 @@ import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
 import { HelpButton } from "@/components/games/HelpButton";
 import { TutorialModal } from "@/components/games/TutorialModal";
-import { countingClassificationTutorialSteps } from "@/components/games/tutorials";
+import { getCountingClassificationTutorialSteps } from "@/components/games/tutorials";
 import { useUserStore } from "@/store/user.store";
 import { OutOfLivesModal } from "@/components/common";
 import {
@@ -31,6 +32,7 @@ export default function CountingClassificationGamePage({
   const levelNum = Number(level);
   const router = useRouter();
   const { user, reduceLife } = useUserStore();
+  const t = useTranslations("CountingClassification");
   // ── สุ่ม config หลัง hydration ───────────────────────────
   const [randomLevelConfig, setRandomLevelConfig] = useState<CountingClassificationLevelConfig | null>(null);
   const config = randomLevelConfig;
@@ -77,7 +79,7 @@ export default function CountingClassificationGamePage({
     if (!LEVEL_SPECS[levelNum]) return;
     const newConfig = buildLevelConfig(levelNum);
     setRandomLevelConfig(newConfig);
-    setCounts(Object.fromEntries(newConfig.shapeTypes.map((t) => [t, 0])) as Record<ShapeType, number>);
+    setCounts(Object.fromEntries(newConfig.shapeTypes.map((type) => [type, 0])) as Record<ShapeType, number>);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [levelNum]);
 
@@ -102,7 +104,7 @@ export default function CountingClassificationGamePage({
 
   const handleResetCounts = () => {
     if (!config) return;
-    setCounts(Object.fromEntries(config.shapeTypes.map((t) => [t, 0])) as Record<ShapeType, number>);
+    setCounts(Object.fromEntries(config.shapeTypes.map((type) => [type, 0])) as Record<ShapeType, number>);
   };
 
   // ── ตรวจคำตอบ ────────────────────────────────────────────
@@ -119,7 +121,7 @@ export default function CountingClassificationGamePage({
 
     // เช็คว่าทุกประเภทถูกต้อง
     const isCorrect = config.shapeTypes.every(
-      (t) => (counts[t] ?? 0) === (correctCounts[t] ?? 0)
+      (type) => (counts[type] ?? 0) === (correctCounts[type] ?? 0)
     );
 
     if (!isCorrect) {
@@ -156,7 +158,7 @@ export default function CountingClassificationGamePage({
   const handleRetry = () => {
     const newCfg = buildLevelConfig(levelNum);
     setRandomLevelConfig(newCfg);
-    setCounts(Object.fromEntries(newCfg.shapeTypes.map((t) => [t, 0])) as Record<ShapeType, number>);
+    setCounts(Object.fromEntries(newCfg.shapeTypes.map((type) => [type, 0])) as Record<ShapeType, number>);
     setSubmitted(false);
     elapsedRef.current = 0;
     setAttempts(0);
@@ -174,12 +176,12 @@ export default function CountingClassificationGamePage({
       <div className="flex h-screen items-center justify-center relative overflow-hidden" style={{ background: "linear-gradient(180deg, #87CEEB 0%, #C9E8F5 100%)" }}>
         <div className="flex flex-col items-center text-center gap-4 relative z-10">
           <Image src="/images/P_Minnie/minnie-06.svg" alt="Minnie" width={110} height={110} className="object-contain drop-shadow-lg" />
-          <p className="text-[#1E5A80] text-xl font-bold">ไม่พบด่านนี้</p>
+          <p className="text-[#1E5A80] text-xl font-bold">{t("levelNotFound")}</p>
           <button
             onClick={() => router.push("/courses")}
             className="mt-2 px-6 py-2 bg-[#4DB6E3] text-white rounded-xl font-bold hover:bg-[#2990BC] transition-colors"
           >
-            กลับหน้าหลัก
+            {t("backToHome")}
           </button>
         </div>
       </div>
@@ -288,7 +290,7 @@ export default function CountingClassificationGamePage({
       {/* ===== INTRO TUTORIAL (Level 1 only) ===== */}
       {canShowTutorial && (
         <TutorialModal
-          steps={countingClassificationTutorialSteps}
+          steps={getCountingClassificationTutorialSteps(t)}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/P_Minnie/minnie-01.svg"
           accentColor="#D946A8"
@@ -299,9 +301,9 @@ export default function CountingClassificationGamePage({
       {canShowGameOverlay && showWrongOverlay && (
         <GameOverlay
           type="error"
-          message={`ลองนับใหม่อีกครั้งนะ `}
+          message={t("wrongAnswer")}
           imageSrc="/images/P_Minnie/minnie-05.svg"
-          imageAlt="มินนี่"
+          imageAlt={t("minnie")}
           autoDismissMs={2000}
           onDismiss={() => setShowWrongOverlay(false)}
         />

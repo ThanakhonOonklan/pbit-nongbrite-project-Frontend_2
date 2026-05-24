@@ -3,6 +3,7 @@
 import React, { useRef, useCallback } from "react";
 import { type ShapePlacement, type ShapeType } from "@/constants/games/counting-classification-levels";
 import { ShapeIcon } from "./ShapeIcon";
+import { useTranslations } from "next-intl";
 
 const SHAPE_AUDIO: Record<ShapeType, string> = {
     circle:   "/audio/games/counting-classification/circle.wav",
@@ -21,6 +22,7 @@ interface ShapeSceneProps {
  */
 export const ShapeScene = React.memo(function ShapeScene({ placements }: ShapeSceneProps) {
     const shapeAudioRef = useRef<HTMLAudioElement | null>(null);
+    const t = useTranslations("CountingClassification");
 
     const playShapeAudio = useCallback((type: ShapeType) => {
         if (shapeAudioRef.current) {
@@ -64,7 +66,7 @@ export const ShapeScene = React.memo(function ShapeScene({ placements }: ShapeSc
                                 textShadow: "0 1px 0 rgba(255,255,255,1)"
                             }}
                         >
-                            มองหาและนับรูปทรงในภาพ!
+                            {t("searchPrompt")}
                         </span>
                     </div>
                 </div>

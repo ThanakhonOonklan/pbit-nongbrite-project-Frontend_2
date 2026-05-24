@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { Container } from "@/components/common";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 
 import { FruitGrid } from "./FruitGrid";
 import { FruitChoices } from "./FruitChoices";
@@ -67,6 +68,15 @@ interface FruitMatchingGameProps {
 
 export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps) {
   const { reduceLife } = useUserStore();
+  const t = useTranslations("FruitMatching");
+
+  const localizedFruitNames = useMemo(() => {
+    const names: Record<string, string> = {};
+    Object.keys(FRUIT_NAMES).forEach(emoji => {
+      names[emoji] = t("fruits." + emoji);
+    });
+    return names;
+  }, [t]);
 
   // ── Compute shuffled grid, target coordinates and choices ───────────────
   // Use state and useEffect to shuffle on the client side, avoiding hydration mismatch
@@ -180,7 +190,7 @@ export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps)
           {/* Title */}
           <div className="flex items-center justify-center gap-2 text-base sm:text-lg md:text-xl lg:text-2xl font-black text-green-700 tracking-wider">
             <FaMapMarkerAlt className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-red-500 drop-shadow-sm flex-shrink-0" />
-            <p>พิกัดนี้คือผลไม้อะไร?</p>
+            <p>{t("coordinateQuestion")}</p>
           </div>
 
           {/* Coordinate prompt card */}
@@ -217,7 +227,7 @@ export function FruitMatchingGame({ config, onGameEnd }: FruitMatchingGameProps)
           <FruitChoices
             choices={currentChoices}
             correctAnswer={correctFruit}
-            fruitNames={FRUIT_NAMES}
+            fruitNames={localizedFruitNames}
             onCorrect={handleCorrectChoice}
             onWrong={handleWrongChoice}
             disabled={isCompleted}

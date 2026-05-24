@@ -8,7 +8,8 @@ import { GameHeader } from "@/components/games/GameHeader";
 import { GameResultModal } from "@/components/games/GameResultModal";
 import { GameOverlay } from "@/components/games/GameOverlay";
 import { TutorialModal } from "@/components/games/TutorialModal";
-import { gridColoringTutorialSteps } from "@/components/games/tutorials";
+import { useTranslations } from "next-intl";
+import { getGridColoringTutorialSteps } from "@/components/games/tutorials";
 import { HelpButton } from "@/components/games/HelpButton";
 import { GridColoringGame } from "@/components/games/grid-based-coloring";
 import { gridColoringLevels } from "@/constants/games/grid-based-coloring-levels";
@@ -23,6 +24,7 @@ export default function GridBasedColoringGamePage({
 }: {
   params: Promise<{ level: string }>;
 }) {
+  const t = useTranslations("GridColoring");
   const { level } = use(params);
   const levelNum = Number(level);
   const router = useRouter();
@@ -68,12 +70,12 @@ export default function GridBasedColoringGamePage({
 
         <div className="flex flex-col items-center text-center gap-4 relative z-10">
           <Image src="/images/Nong_brite/nong-brite-06.svg" alt="Nong Brite" width={110} height={110} className="object-contain drop-shadow-lg" />
-          <p className="text-amber-900 text-xl font-bold">ไม่พบด่านนี้</p>
+          <p className="text-amber-900 text-xl font-bold">{t("levelNotFound")}</p>
           <button
             onClick={() => router.push("/courses")}
             className="mt-2 px-6 py-2 bg-[#AACE30] text-white rounded-xl font-bold hover:bg-[#8BB422] transition-colors"
           >
-            กลับหน้าหลัก
+            {t("backToHome")}
           </button>
         </div>
       </div>
@@ -90,7 +92,7 @@ export default function GridBasedColoringGamePage({
       {/* Header */}
       <GameHeader
         level={level}
-        gameTitle="Pixel Pattern"
+        gameTitle={t("gameTitle")}
         characterSrc="/images/Nong_brite/nong-brite-06.svg"
         bgColor="#AACE30"
       />
@@ -113,7 +115,7 @@ export default function GridBasedColoringGamePage({
       {/* Intro tutorial — level 1 เท่านั้น */}
       {canShowTutorial && (
         <TutorialModal
-          steps={gridColoringTutorialSteps}
+          steps={getGridColoringTutorialSteps(t)}
           onClose={() => setShowIntro(false)}
           mascotSrc="/images/Nong_brite/nong-brite-06.svg"
           accentColor="#7AAB28"

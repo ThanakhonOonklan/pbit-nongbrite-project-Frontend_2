@@ -9,13 +9,13 @@ import { getRankBadgeImage, getRankByScore } from "@/constants/ranks";
 import { useTranslations } from "next-intl";
 
 const RANK_BADGE_GLOW: Record<string, string> = {
-  Beginner: "rgba(180, 110, 40, 0.75)",
-  Explorer: "rgba(155, 160, 170, 0.75)",
-  Thinker: "rgba(230, 175, 0, 0.8)",
-  Solver: "rgba(28, 176, 246, 0.8)",
-  Strategist: "rgba(220, 50, 200, 0.8)",
-  Master: "rgba(235, 80, 50, 0.8)",
-  Legend: "rgba(235, 243, 0, 0.85)",
+  Newbie: "rgba(181, 105, 33, 0.85)",
+  Junior: "rgba(160, 174, 192, 1)",
+  Smart: "rgba(221, 108, 32, 0.85)",
+  Hero: "rgba(49, 130, 206, 0.85)",
+  Super: "rgba(238, 0, 255, 0.85)",
+  Master: "rgba(237, 73, 18, 0.85)",
+  Legend: "rgba(255, 217, 0, 0.9)",
 };
 
 export interface LeaderboardListProps {
