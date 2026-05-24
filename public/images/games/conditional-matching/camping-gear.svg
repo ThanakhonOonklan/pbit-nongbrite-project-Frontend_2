@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Soft shadow -->
+  <ellipse cx="64" cy="106" rx="43" ry="9" fill="#B0BEC5" opacity="0.35"/>
+
+  <!-- Backpack -->
+  <path d="M39 43 Q39 27 56 25 H70 Q87 27 87 43 V90 Q87 105 72 106 H54 Q39 105 39 90 Z" fill="#66BB6A"/>
+  <path d="M39 43 Q39 27 56 25 H70 Q87 27 87 43 V90 Q87 105 72 106 H54 Q39 105 39 90 Z" fill="none" stroke="#2E7D32" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M51 25 Q52 15 63 15 Q74 15 75 25" fill="none" stroke="#2E7D32" stroke-width="5" stroke-linecap="round"/>
+  <rect x="49" y="55" width="29" height="23" rx="6" fill="#A5D6A7" stroke="#388E3C" stroke-width="2.5"/>
+  <path d="M49 46 H78" stroke="#E8F5E9" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  <path d="M39 56 Q29 62 31 82" fill="none" stroke="#2E7D32" stroke-width="5" stroke-linecap="round"/>
+  <path d="M87 56 Q98 62 96 82" fill="none" stroke="#2E7D32" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Flashlight -->
+  <g transform="rotate(-22 93 72)">
+    <rect x="82" y="57" width="34" height="16" rx="6" fill="#455A64" stroke="#263238" stroke-width="2.5"/>
+    <rect x="76" y="59" width="11" height="12" rx="3" fill="#90A4AE" stroke="#546E7A" stroke-width="2"/>
+    <path d="M78 65 L60 57 L60 73 Z" fill="#FFF59D" opacity="0.55"/>
+    <path d="M91 61 H108" stroke="#CFD8DC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- Camp mug -->
+  <rect x="17" y="74" width="25" height="24" rx="5" fill="#90CAF9" stroke="#1976D2" stroke-width="2.5"/>
+  <path d="M42 80 Q52 82 48 91 Q45 99 42 93" fill="none" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 81 H36" stroke="#E3F2FD" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+  <path d="M25 68 Q22 62 28 57 M35 68 Q32 62 38 57" stroke="#B0BEC5" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- Rolled sleeping bag -->
+  <g transform="rotate(6 74 93)">
+    <rect x="53" y="84" width="50" height="17" rx="8.5" fill="#FFB74D" stroke="#EF6C00" stroke-width="2.5"/>
+    <circle cx="61" cy="92.5" r="8" fill="#FFE0B2" stroke="#EF6C00" stroke-width="2.5"/>
+    <path d="M71 85 V100 M86 85 V100" stroke="#EF6C00" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+  </g>
+
+  <!-- Small outdoor leaves -->
+  <path d="M18 103 Q22 93 28 101 M101 103 Q106 93 112 101" stroke="#43A047" stroke-width="3" stroke-linecap="round"/>
+  <path d="M28 108 Q33 99 39 107 M109 108 Q113 99 119 107" stroke="#66BB6A" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

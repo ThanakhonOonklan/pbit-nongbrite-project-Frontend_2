@@ -1,44 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <!-- Phone body -->
-  <rect x="32" y="10" width="64" height="108" rx="10" fill="#424242"/>
-  <rect x="32" y="10" width="64" height="108" rx="10" fill="none" stroke="#333" stroke-width="1.5"/>
-  <!-- Screen -->
-  <rect x="38" y="24" width="52" height="78" rx="4" fill="#E8F5E9"/>
-  <!-- Map content on screen -->
-  <!-- Roads grid -->
-  <line x1="38" y1="50" x2="90" y2="50" stroke="#BDBDBD" stroke-width="1.5"/>
-  <line x1="38" y1="70" x2="90" y2="70" stroke="#BDBDBD" stroke-width="1.5"/>
-  <line x1="55" y1="24" x2="55" y2="102" stroke="#BDBDBD" stroke-width="1.5"/>
-  <line x1="74" y1="24" x2="74" y2="102" stroke="#BDBDBD" stroke-width="1.5"/>
-  <!-- Buildings/blocks -->
-  <rect x="42" y="28" width="10" height="18" rx="2" fill="#A5D6A7" opacity="0.6"/>
-  <rect x="59" y="28" width="12" height="18" rx="2" fill="#81C784" opacity="0.6"/>
-  <rect x="78" y="28" width="8" height="18" rx="2" fill="#A5D6A7" opacity="0.6"/>
-  <rect x="42" y="54" width="10" height="12" rx="2" fill="#81C784" opacity="0.5"/>
-  <rect x="59" y="54" width="12" height="12" rx="2" fill="#A5D6A7" opacity="0.5"/>
-  <rect x="78" y="54" width="8" height="12" rx="2" fill="#81C784" opacity="0.5"/>
-  <rect x="42" y="74" width="10" height="16" rx="2" fill="#A5D6A7" opacity="0.6"/>
-  <rect x="59" y="74" width="12" height="16" rx="2" fill="#81C784" opacity="0.6"/>
-  <rect x="78" y="74" width="8" height="16" rx="2" fill="#A5D6A7" opacity="0.6"/>
-  <!-- Route line (blue) -->
-  <path d="M64 92 L64 70 L74 70 L74 50 L64 50 L64 36" stroke="#1E88E5" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Navigation arrow -->
-  <polygon points="64,30 58,40 64,36 70,40" fill="#1E88E5"/>
-  <!-- Current location dot -->
-  <circle cx="64" cy="92" r="5" fill="#1E88E5" opacity="0.3"/>
-  <circle cx="64" cy="92" r="3" fill="#1E88E5"/>
-  <circle cx="64" cy="92" r="1.5" fill="white"/>
-  <!-- Destination pin -->
-  <g transform="translate(64 30)">
-    <circle cx="0" cy="-6" r="5" fill="#EF5350"/>
-    <circle cx="0" cy="-6" r="2.5" fill="white"/>
-    <path d="M0 0 L-3 -4 Q0 2 3 -4 Z" fill="#EF5350"/>
+  <!-- Folded map shadow -->
+  <path d="M18 34 L48 26 L80 34 L110 26 L116 94 L84 104 L52 96 L20 104 Z" fill="#000" opacity="0.08"/>
+
+  <!-- Folded map panels -->
+  <path d="M14 28 L46 20 V92 L14 100 Z" fill="#E8F5E9"/>
+  <path d="M46 20 L80 28 V100 L46 92 Z" fill="#F6FFE9"/>
+  <path d="M80 28 L114 20 V92 L80 100 Z" fill="#E8F5E9"/>
+  <path d="M14 28 L46 20 L80 28 L114 20 V92 L80 100 L46 92 L14 100 Z" fill="none" stroke="#66BB6A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M46 20 V92 M80 28 V100" stroke="#A5D6A7" stroke-width="2" stroke-dasharray="5 4"/>
+
+  <!-- Map landmarks -->
+  <ellipse cx="31" cy="48" rx="10" ry="8" fill="#A5D6A7"/>
+  <ellipse cx="92" cy="48" rx="12" ry="9" fill="#A5D6A7"/>
+  <ellipse cx="64" cy="79" rx="14" ry="8" fill="#A5D6A7"/>
+  <path d="M20 74 C35 62 44 68 55 55 C68 41 82 45 98 34" fill="none" stroke="#8CCBFF" stroke-width="8" stroke-linecap="round"/>
+  <path d="M20 74 C35 62 44 68 55 55 C68 41 82 45 98 34" fill="none" stroke="#2D8ED6" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5"/>
+  <path d="M38 34 C48 46 58 44 66 57 C74 70 88 70 103 62" fill="none" stroke="#FFD166" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Start and destination pins -->
+  <g transform="translate(27 75)">
+    <circle cx="0" cy="0" r="8" fill="#43A047" opacity="0.25"/>
+    <circle cx="0" cy="0" r="5" fill="#43A047"/>
+    <circle cx="0" cy="0" r="2" fill="#FFFFFF"/>
   </g>
-  <!-- Speaker notch -->
-  <rect x="54" y="14" width="20" height="3" rx="1.5" fill="#333" opacity="0.5"/>
-  <!-- Home bar -->
-  <rect x="52" y="106" width="24" height="3" rx="1.5" fill="#555" opacity="0.5"/>
-  <!-- GPS signal -->
-  <path d="M92 18 Q96 14 100 18" stroke="#1E88E5" stroke-width="1.5" fill="none" opacity="0.5"/>
-  <path d="M94 14 Q98 8 102 14" stroke="#1E88E5" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <g transform="translate(96 36)">
+    <path d="M0 -18 C-10 -18 -16 -11 -16 -2 C-16 10 0 26 0 26 C0 26 16 10 16 -2 C16 -11 10 -18 0 -18 Z" fill="#EF5350"/>
+    <circle cx="0" cy="-2" r="6" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Route arrow -->
+  <path d="M66 52 L75 49 L71 58" fill="none" stroke="#2D8ED6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

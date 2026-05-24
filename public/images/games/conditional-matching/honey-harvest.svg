@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="16" y1="12" x2="112" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF8E1"/>
+      <stop offset="1" stop-color="#E8F5E9"/>
+    </linearGradient>
+    <linearGradient id="honey" x1="44" y1="54" x2="84" y2="104" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD54F"/>
+      <stop offset="1" stop-color="#F9A825"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="56" fill="url(#bg)"/>
+  <ellipse cx="66" cy="108" rx="38" ry="8" fill="#8D6E63" opacity="0.12"/>
+
+  <!-- Small hive in background -->
+  <g transform="translate(18 18) scale(0.7)">
+    <ellipse cx="45" cy="47" rx="29" ry="13" fill="#F6C94E" stroke="#D68910" stroke-width="3"/>
+    <ellipse cx="45" cy="34" rx="24" ry="12" fill="#F6C94E" stroke="#D68910" stroke-width="3"/>
+    <ellipse cx="45" cy="22" rx="18" ry="10" fill="#F6C94E" stroke="#D68910" stroke-width="3"/>
+    <ellipse cx="45" cy="60" rx="31" ry="13" fill="#F6C94E" stroke="#D68910" stroke-width="3"/>
+    <path d="M21 42 H69 M17 55 H73" stroke="#D68910" stroke-width="4" stroke-linecap="round" opacity="0.65"/>
+    <ellipse cx="45" cy="65" rx="8" ry="9" fill="#6D4C41"/>
+  </g>
+
+  <!-- Honey jar -->
+  <path d="M48 60 H84 L80 105 H52 Z" fill="url(#honey)" stroke="#D68910" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M53 50 H79 V62 H53 Z" fill="#FFFFFF" stroke="#B0BEC5" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="57" y="43" width="18" height="9" rx="3" fill="#8D6E63"/>
+  <path d="M53 76 H80" stroke="#FFF8E1" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+  <path d="M59 88 H74" stroke="#FFF8E1" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Honey dipper -->
+  <path d="M86 34 L105 53" stroke="#8D6E63" stroke-width="6" stroke-linecap="round"/>
+  <g transform="translate(78 26) rotate(45 16 16)">
+    <rect x="6" y="8" width="25" height="17" rx="6" fill="#F6B93B" stroke="#D68910" stroke-width="3"/>
+    <path d="M11 8 V25 M18 8 V25 M25 8 V25" stroke="#D68910" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <path d="M93 57 C88 64 90 72 97 76 C104 72 106 64 99 57 Z" fill="#FFD54F" stroke="#F9A825" stroke-width="3"/>
+
+  <!-- Bee -->
+  <ellipse cx="96" cy="84" rx="13" ry="9" fill="#FFD54F" stroke="#F9A825" stroke-width="3"/>
+  <path d="M90 77 V91 M97 76 V92" stroke="#5D4037" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="107" cy="84" r="4" fill="#5D4037"/>
+  <ellipse cx="91" cy="72" rx="7" ry="9" fill="#BBDEFB" opacity="0.85"/>
+  <ellipse cx="99" cy="72" rx="7" ry="9" fill="#BBDEFB" opacity="0.85"/>
+</svg>

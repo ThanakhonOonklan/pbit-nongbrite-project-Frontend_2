@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Soft shadow -->
+  <ellipse cx="64" cy="105" rx="45" ry="9" fill="#B0BEC5" opacity="0.35"/>
+
+  <!-- Outdoor ground patch -->
+  <path d="M13 76 Q22 56 43 58 Q54 42 74 52 Q93 48 105 65 Q119 69 116 91 Q107 109 76 108 H41 Q18 107 13 91 Z" fill="#A97A4A"/>
+  <path d="M13 76 Q22 56 43 58 Q54 42 74 52 Q93 48 105 65 Q119 69 116 91 Q107 109 76 108 H41 Q18 107 13 91 Z" fill="none" stroke="#7A4F2A" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- Wet puddles -->
+  <path d="M30 82 Q42 71 58 79 Q66 84 77 78 Q92 70 103 82 Q110 92 96 99 Q78 106 57 99 Q41 104 28 96 Q18 89 30 82 Z" fill="#4FC3F7" opacity="0.85"/>
+  <path d="M30 82 Q42 71 58 79 Q66 84 77 78 Q92 70 103 82 Q110 92 96 99 Q78 106 57 99 Q41 104 28 96 Q18 89 30 82 Z" fill="none" stroke="#0288D1" stroke-width="2.5" stroke-linejoin="round" opacity="0.75"/>
+  <ellipse cx="58" cy="86" rx="15" ry="5" fill="#B3E5FC" opacity="0.8"/>
+  <ellipse cx="86" cy="88" rx="12" ry="4" fill="#B3E5FC" opacity="0.65"/>
+
+  <!-- Mud spots -->
+  <ellipse cx="34" cy="67" rx="10" ry="5" fill="#6D4C41" opacity="0.55"/>
+  <ellipse cx="93" cy="66" rx="8" ry="4" fill="#6D4C41" opacity="0.45"/>
+  <circle cx="47" cy="101" r="4" fill="#6D4C41" opacity="0.45"/>
+  <circle cx="106" cy="94" r="3" fill="#6D4C41" opacity="0.4"/>
+
+  <!-- Grass around wet ground -->
+  <path d="M18 74 Q20 65 24 72 M25 69 Q27 59 31 70 M101 65 Q103 56 107 65 M109 70 Q113 61 115 72" stroke="#43A047" stroke-width="3" stroke-linecap="round"/>
+  <path d="M38 55 Q40 47 44 55 M75 50 Q77 42 81 52 M87 56 Q90 48 94 58" stroke="#66BB6A" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Rain drops -->
+  <path d="M38 20 Q32 31 38 39 Q44 31 38 20 Z" fill="#4DD0E1" opacity="0.8"/>
+  <path d="M72 13 Q66 24 72 32 Q78 24 72 13 Z" fill="#4DD0E1" opacity="0.75"/>
+  <path d="M100 27 Q95 36 100 43 Q105 36 100 27 Z" fill="#4DD0E1" opacity="0.65"/>
+  <path d="M22 39 Q18 47 22 53 Q26 47 22 39 Z" fill="#4DD0E1" opacity="0.55"/>
+
+  <!-- Splash marks -->
+  <path d="M43 83 Q47 78 51 83 M82 82 Q86 77 90 82 M64 98 Q68 94 72 98" stroke="#E1F5FE" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+</svg>

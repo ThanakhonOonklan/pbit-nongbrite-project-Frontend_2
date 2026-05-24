@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Soft shadow -->
+  <ellipse cx="70" cy="108" rx="42" ry="8" fill="#000" opacity="0.08"/>
+
+  <!-- Basket body -->
+  <path d="M34 43 H101 L94 82 H43 Z" fill="#7ED6C4"/>
+  <path d="M34 43 H101 L94 82 H43 Z" fill="none" stroke="#249B8B" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M29 31 H40 L46 88 H96" fill="none" stroke="#37474F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Basket rails -->
+  <path d="M42 56 H96" stroke="#249B8B" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+  <path d="M45 69 H94" stroke="#249B8B" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+  <path d="M54 45 L58 81" stroke="#249B8B" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+  <path d="M74 45 L72 81" stroke="#249B8B" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+  <path d="M91 45 L85 81" stroke="#249B8B" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+
+  <!-- Shopping bag -->
+  <path d="M50 28 H76 L80 58 H46 Z" fill="#FFD166"/>
+  <path d="M50 28 H76 L80 58 H46 Z" fill="none" stroke="#E59B23" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M55 30 C56 20 70 20 71 30" fill="none" stroke="#E59B23" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="57" cy="36" r="2.5" fill="#E59B23"/>
+  <circle cx="69" cy="36" r="2.5" fill="#E59B23"/>
+
+  <!-- Groceries -->
+  <path d="M79 31 C84 24 95 27 98 36 C101 47 91 57 82 53 C73 49 72 38 79 31 Z" fill="#EF5350"/>
+  <path d="M86 28 C87 23 91 20 96 19" stroke="#43A047" stroke-width="4" stroke-linecap="round"/>
+  <path d="M92 22 C98 21 102 24 103 29 C98 30 94 28 92 22 Z" fill="#66BB6A"/>
+  <rect x="39" y="34" width="16" height="26" rx="3" fill="#8CCBFF" stroke="#2D8ED6" stroke-width="3"/>
+  <path d="M43 43 H51" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- Wheels -->
+  <circle cx="53" cy="98" r="9" fill="#455A64"/>
+  <circle cx="53" cy="98" r="4" fill="#CFD8DC"/>
+  <circle cx="91" cy="98" r="9" fill="#455A64"/>
+  <circle cx="91" cy="98" r="4" fill="#CFD8DC"/>
+</svg>

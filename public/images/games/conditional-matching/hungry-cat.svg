@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs><linearGradient id="bg" x1="16" y1="12" x2="112" y2="116" gradientUnits="userSpaceOnUse"><stop stop-color="#F3E5F5"/><stop offset="1" stop-color="#FFF8E1"/></linearGradient></defs>
+  <circle cx="64" cy="64" r="56" fill="url(#bg)"/>
+  <ellipse cx="64" cy="108" rx="36" ry="8" fill="#6D4C41" opacity="0.12"/>
+  <path d="M38 50 L43 25 L58 41 C62 39 68 39 72 41 L87 25 L91 50 C99 72 86 95 64 95 C42 95 29 72 38 50 Z" fill="#FFB74D" stroke="#E57C23" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="54" cy="59" r="4" fill="#263238"/><circle cx="74" cy="59" r="4" fill="#263238"/>
+  <path d="M62 67 C64 64 66 64 68 67 C67 71 63 71 62 67 Z" fill="#263238"/>
+  <path d="M55 76 C61 81 69 81 75 76" stroke="#8D4E2A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M38 68 H20 M39 75 H23 M89 68 H108 M88 75 H105" stroke="#8D4E2A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M91 27 C102 28 109 36 109 47" fill="none" stroke="#EF5350" stroke-width="5" stroke-linecap="round"/>
+  <text x="103" y="35" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#EF5350">?</text>
+</svg>

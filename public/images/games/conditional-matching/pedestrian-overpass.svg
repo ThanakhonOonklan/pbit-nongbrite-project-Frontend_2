@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Road -->
+  <path d="M8 92 H120 V112 H8 Z" fill="#4B5563"/>
+  <path d="M15 102 H33 M47 102 H65 M79 102 H97 M108 102 H119" stroke="#FDE68A" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Overpass deck -->
+  <rect x="18" y="38" width="92" height="14" rx="4" fill="#8CCBFF"/>
+  <rect x="18" y="38" width="92" height="14" rx="4" fill="none" stroke="#2D8ED6" stroke-width="3"/>
+  <path d="M22 33 H106" stroke="#2D8ED6" stroke-width="4" stroke-linecap="round"/>
+  <path d="M27 33 V38 M41 33 V38 M55 33 V38 M69 33 V38 M83 33 V38 M97 33 V38" stroke="#2D8ED6" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Stairs -->
+  <path d="M18 52 H37 L25 88 H8 Z" fill="#DDEAF7"/>
+  <path d="M110 52 H91 L103 88 H120 Z" fill="#DDEAF7"/>
+  <path d="M18 52 H37 L25 88 H8 Z M110 52 H91 L103 88 H120 Z" fill="none" stroke="#6B7280" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M14 62 H33 M12 70 H30 M10 78 H27 M96 62 H114 M99 70 H116 M101 78 H118" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Supports -->
+  <rect x="37" y="52" width="7" height="39" rx="2" fill="#94A3B8"/>
+  <rect x="84" y="52" width="7" height="39" rx="2" fill="#94A3B8"/>
+  <path d="M34 91 H47 M81 91 H94" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Walking child/person -->
+  <circle cx="64" cy="20" r="7" fill="#FFB74D"/>
+  <path d="M64 28 V43" stroke="#374151" stroke-width="5" stroke-linecap="round"/>
+  <path d="M64 33 L54 39 M64 33 L75 38" stroke="#374151" stroke-width="4" stroke-linecap="round"/>
+  <path d="M64 43 L56 53 M64 43 L73 53" stroke="#374151" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Safety sign -->
+  <rect x="51" y="60" width="26" height="20" rx="4" fill="#FFFFFF" stroke="#2D8ED6" stroke-width="3"/>
+  <path d="M58 74 C60 67 68 67 70 74" fill="none" stroke="#2D8ED6" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="64" cy="66" r="3" fill="#2D8ED6"/>
+</svg>
