@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Soft shadow -->
+  <ellipse cx="64" cy="108" rx="38" ry="8" fill="#B0BEC5" opacity="0.35"/>
+
+  <!-- Hanging bar -->
+  <rect x="24" y="22" width="80" height="8" rx="4" fill="#90A4AE"/>
+  <circle cx="32" cy="26" r="4" fill="#607D8B"/>
+  <circle cx="96" cy="26" r="4" fill="#607D8B"/>
+
+  <!-- Main towel body -->
+  <path d="M34 30 H94 V93 Q94 104 84 104 H44 Q34 104 34 93 Z" fill="#FFFFFF"/>
+  <path d="M34 30 H94 V43 H34 Z" fill="#F5F7FA"/>
+  <path d="M34 30 H94 V93 Q94 104 84 104 H44 Q34 104 34 93 Z" fill="none" stroke="#B0BEC5" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- Folded side -->
+  <path d="M72 30 H94 V94 Q94 102 86 104 H72 Z" fill="#ECEFF1" opacity="0.9"/>
+  <path d="M72 34 V100" stroke="#B0BEC5" stroke-width="2.5" stroke-linecap="round" opacity="0.45"/>
+
+  <!-- Fluffy texture lines -->
+  <path d="M44 52 H60 M44 64 H66 M44 76 H58 M44 88 H64" stroke="#DDE4EA" stroke-width="3" stroke-linecap="round" opacity="0.95"/>
+  <path d="M78 54 H88 M78 68 H86 M78 82 H89" stroke="#DDE4EA" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- Bottom stitched edge -->
+  <rect x="39" y="91" width="50" height="7" rx="3.5" fill="#ECEFF1" opacity="0.95"/>
+  <path d="M45 94.5 H51 M57 94.5 H63 M69 94.5 H75 M81 94.5 H86" stroke="#90A4AE" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- Water drops to signal drying -->
+  <path d="M103 52 Q99 59 103 65 Q107 59 103 52 Z" fill="#4DD0E1" opacity="0.8"/>
+  <path d="M22 65 Q18 72 22 78 Q26 72 22 65 Z" fill="#4DD0E1" opacity="0.65"/>
+  <path d="M101 76 Q98 82 101 87 Q104 82 101 76 Z" fill="#4DD0E1" opacity="0.55"/>
+</svg>

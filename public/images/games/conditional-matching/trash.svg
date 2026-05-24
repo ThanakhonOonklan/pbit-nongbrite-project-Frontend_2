@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Ground shadow -->
+  <ellipse cx="64" cy="104" rx="44" ry="10" fill="#B0BEC5" opacity="0.35"/>
+
+  <!-- Trash bag -->
+  <path d="M35 44 Q42 30 54 34 Q60 22 70 34 Q86 30 92 46 Q106 62 100 94 Q94 110 66 112 Q36 110 28 94 Q22 66 35 44 Z" fill="#455A64"/>
+  <path d="M44 42 Q54 34 64 42 Q74 34 84 43" fill="none" stroke="#263238" stroke-width="4" stroke-linecap="round"/>
+  <path d="M50 35 Q58 44 64 48 Q72 42 78 35" fill="none" stroke="#263238" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  <path d="M36 58 Q54 64 50 98" fill="none" stroke="#607D8B" stroke-width="4" stroke-linecap="round" opacity="0.45"/>
+  <path d="M82 54 Q72 70 84 100" fill="none" stroke="#263238" stroke-width="3" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- Crumpled paper -->
+  <path d="M17 79 L31 66 L45 72 L42 91 L26 96 Z" fill="#FFF3C4" stroke="#E0B94C" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M25 76 L34 76 M28 85 L39 82" stroke="#D49B28" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- Can -->
+  <g transform="rotate(-17 96 80)">
+    <rect x="86" y="65" width="20" height="32" rx="5" fill="#EF5350"/>
+    <ellipse cx="96" cy="65" rx="10" ry="4" fill="#FFCDD2"/>
+    <ellipse cx="96" cy="97" rx="10" ry="4" fill="#C62828"/>
+    <path d="M91 72 L101 72 M90 84 L102 84" stroke="#FFCDD2" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+  </g>
+
+  <!-- Bottle -->
+  <g transform="rotate(20 31 51)">
+    <rect x="25" y="36" width="12" height="30" rx="5" fill="#80DEEA" stroke="#26A6B8" stroke-width="2"/>
+    <rect x="27" y="30" width="8" height="8" rx="2" fill="#4DD0E1"/>
+    <rect x="27" y="28" width="8" height="4" rx="1" fill="#00838F"/>
+    <path d="M28 50 L35 50" stroke="#E0F7FA" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  </g>
+
+  <!-- Banana peel / food scrap -->
+  <path d="M62 92 Q54 82 58 73 Q64 82 66 93 Z" fill="#FDD835" stroke="#F9A825" stroke-width="2"/>
+  <path d="M66 93 Q76 82 76 73 Q69 80 63 91 Z" fill="#FBC02D" stroke="#F9A825" stroke-width="2"/>
+  <path d="M60 93 Q50 88 45 80 Q54 84 64 91 Z" fill="#FFE082" stroke="#F9A825" stroke-width="2"/>
+
+  <!-- Small scraps -->
+  <circle cx="108" cy="103" r="4" fill="#8BC34A"/>
+  <path d="M15 103 L25 101 L23 111 L14 110 Z" fill="#90CAF9" stroke="#42A5F5" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M102 47 L113 43 L117 53 L106 58 Z" fill="#F8BBD0" stroke="#EC407A" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>

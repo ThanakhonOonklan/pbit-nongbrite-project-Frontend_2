@@ -396,7 +396,7 @@ export const condMatchLevels: Record<number, CondMatchLevelConfig> = {
                 leftItems: [
                     { id: "l6p1_thirsty", emoji: "🥵", label: "ถ้าหิวน้ำ", matchId: "l6p1_drink" },
                     { id: "l6p1_flat", emoji: "🚲", label: "ถ้ายางแบน", matchId: "l6p1_pump" },
-                    { id: "l6p1_trash", emoji: "🗑️", label: "ถ้ามีขยะ", matchId: "l6p1_bin" },
+                    { id: "l6p1_trash", emoji: "🗑️", label: "ถ้ามีขยะ", matchId: "l6p1_bin", icon: "/images/games/conditional-matching/trash.svg" },
                     { id: "l6p1_write", emoji: "📝", label: "ถ้าจะเขียน", matchId: "l6p1_pencil" },
                     { id: "l6p1_sleepy", emoji: "🥱", label: "ถ้าง่วงนอน", matchId: "l6p1_bed" },
                 ],
@@ -438,8 +438,8 @@ export const condMatchLevels: Record<number, CondMatchLevelConfig> = {
                     { id: "l6p3_soap", emoji: "🧼", label: "ฟอกสบู่" },
                     { id: "l6p3_brush", emoji: "🪥", label: "ใช้แปรงสีฟัน" },
                     { id: "l6p3_scissors", emoji: "💈", label: "ตัดผม" },
-                    { id: "l6p3_clipper", emoji: "✂️", label: "ตัดเล็บ" },
-                    { id: "l6p3_towel", emoji: "🧻", label: "เช็ดตัวให้แห้ง" },
+                    { id: "l6p3_clipper", emoji: "✂️", label: "ตัดเล็บ", icon: "/images/games/conditional-matching/nail-clipper.svg" },
+                    { id: "l6p3_towel", emoji: "🧻", label: "เช็ดตัวให้แห้ง", icon: "/images/games/conditional-matching/towel.svg" },
                 ],
             },
             {
@@ -447,14 +447,14 @@ export const condMatchLevels: Record<number, CondMatchLevelConfig> = {
                 leftItems: [
                     { id: "l6p4_batt", emoji: "🔋", label: "ถ้าแบตหมด", matchId: "l6p4_charge" },
                     { id: "l6p4_call", emoji: "📞", label: "ถ้าจะโทรหา", matchId: "l6p4_phone", icon: "/images/games/conditional-matching/phone-call.svg" },
-                    { id: "l6p4_photo", emoji: "📸", label: "ถ้าจะถ่ายรูป", matchId: "l6p4_camera" },
+                    { id: "l6p4_photo", emoji: "📸", label: "ถ้าจะถ่ายรูป", matchId: "l6p4_camera", icon: "/images/games/conditional-matching/photo.svg" },
                     { id: "l6p4_music", emoji: "🎵", label: "ถ้าอยากฟังเพลง", matchId: "l6p4_headphone", icon: "/images/games/conditional-matching/listen-music.svg" },
                     { id: "l6p4_print", emoji: "🖨️", label: "ถ้าจะปริ้นงาน", matchId: "l6p4_printer" },
                 ],
                 rightItems: [
                     { id: "l6p4_charge", emoji: "🔌", label: "ชาร์จแบต", icon: "/images/games/conditional-matching/charger.svg" },
                     { id: "l6p4_phone", emoji: "📱", label: "ใช้โทรศัพท์" },
-                    { id: "l6p4_camera", emoji: "📷", label: "ใช้กล้องถ่ายรูป", icon: "/images/games/conditional-matching/camera.svg" },
+                    { id: "l6p4_camera", emoji: "📸", label: "ใช้กล้องถ่ายรูป", icon: "/images/games/conditional-matching/camera.svg" },
                     { id: "l6p4_headphone", emoji: "🎧", label: "ใส่หูฟัง" },
                     { id: "l6p4_printer", emoji: "📄", label: "ใส่กระดาษ" },
                 ],
