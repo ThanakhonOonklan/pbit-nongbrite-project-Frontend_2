@@ -165,20 +165,14 @@ const TopThreeCards: React.FC<TopThreeCardsProps> = ({
             <div className="flex items-center gap-1.5 sm:gap-2">
               {/* Avatar */}
               <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 z-10">
-                {user.avatar ? (
-                  <Image
-                    src={user.avatar}
-                    alt={user.name}
-                    fill
-                    containerClassName="w-full h-full"
-                    className="object-cover"
-                    sizes="(max-width: 640px) 32px, 40px"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-[#1cb0f6] to-[#17a3e3] flex items-center justify-center text-white font-bold text-[14px] sm:text-[16px]">
-                    {user.name.charAt(0).toUpperCase()}
-                  </div>
-                )}
+                <Image
+                  src={user.avatar || "/icons/icon-Profile/icon_P_Bit.png"}
+                  alt={user.name}
+                  fill
+                  containerClassName="w-full h-full"
+                  className="object-cover"
+                  sizes="(max-width: 640px) 32px, 40px"
+                />
               </div>
 
               {/* Name, Gender, Score */}
