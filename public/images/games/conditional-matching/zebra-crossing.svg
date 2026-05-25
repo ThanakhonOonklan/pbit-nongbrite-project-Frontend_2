@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Road -->
+  <rect x="12" y="18" width="104" height="92" rx="10" fill="#4B5563"/>
+  <path d="M64 18 V110" stroke="#FDE68A" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 10"/>
+
+  <!-- Zebra crossing stripes -->
+  <g transform="rotate(-7 64 66)">
+    <rect x="23" y="44" width="82" height="9" rx="2" fill="#FFFFFF"/>
+    <rect x="21" y="58" width="86" height="9" rx="2" fill="#FFFFFF"/>
+    <rect x="19" y="72" width="90" height="9" rx="2" fill="#FFFFFF"/>
+    <rect x="17" y="86" width="94" height="9" rx="2" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Crossing sign -->
+  <rect x="18" y="15" width="28" height="28" rx="5" fill="#2D8ED6"/>
+  <path d="M32 20 L42 38 H22 Z" fill="#FFFFFF"/>
+  <circle cx="32" cy="26" r="3" fill="#2D8ED6"/>
+  <path d="M32 30 V36 M32 33 L27 38 M32 33 L37 38" stroke="#2D8ED6" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Pedestrian -->
+  <circle cx="83" cy="25" r="7" fill="#FFB74D"/>
+  <path d="M83 33 V49" stroke="#111827" stroke-width="5" stroke-linecap="round"/>
+  <path d="M83 39 L73 46 M83 39 L94 44" stroke="#111827" stroke-width="4" stroke-linecap="round"/>
+  <path d="M83 49 L75 63 M83 49 L95 61" stroke="#111827" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Direction arrow -->
+  <path d="M41 101 H76" stroke="#66BB6A" stroke-width="6" stroke-linecap="round"/>
+  <path d="M75 101 L66 93 M75 101 L66 109" stroke="#66BB6A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs><linearGradient id="bg" x1="16" y1="12" x2="112" y2="116" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF8E1"/><stop offset="1" stop-color="#E8F5E9"/></linearGradient></defs>
+  <circle cx="64" cy="64" r="56" fill="url(#bg)"/>
+  <ellipse cx="64" cy="108" rx="38" ry="8" fill="#8D6E63" opacity="0.13"/>
+  <ellipse cx="62" cy="67" rx="30" ry="26" fill="#FFFFFF" stroke="#B0BEC5" stroke-width="4"/>
+  <circle cx="82" cy="44" r="16" fill="#FFFFFF" stroke="#B0BEC5" stroke-width="4"/>
+  <path d="M94 45 L111 52 L94 59 Z" fill="#FFD166" stroke="#E59B23" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="86" cy="40" r="3" fill="#263238"/>
+  <path d="M76 28 C79 18 91 18 94 28 C87 25 82 25 76 28 Z" fill="#EF5350" stroke="#C62828" stroke-width="3"/>
+  <path d="M42 64 C31 63 24 55 22 45 C38 45 48 51 53 62" fill="#FFFFFF" stroke="#B0BEC5" stroke-width="4"/>
+  <ellipse cx="55" cy="95" rx="11" ry="14" fill="#FFFDE7" stroke="#D6CFA5" stroke-width="3"/>
+  <path d="M51 91 C55 88 60 89 63 93" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+</svg>

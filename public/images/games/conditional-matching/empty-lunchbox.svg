@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Shadow -->
+  <ellipse cx="66" cy="104" rx="46" ry="8" fill="#000" opacity="0.08"/>
+
+  <!-- Open lid -->
+  <path d="M28 23 H100 C105 23 109 27 109 32 V49 H19 V32 C19 27 23 23 28 23 Z" fill="#8CCBFF"/>
+  <path d="M28 23 H100 C105 23 109 27 109 32 V49 H19 V32 C19 27 23 23 28 23 Z" fill="none" stroke="#2D8ED6" stroke-width="3"/>
+  <path d="M35 35 H93" stroke="#D9F1FF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- Lunchbox body -->
+  <rect x="18" y="48" width="92" height="54" rx="10" fill="#FFD166"/>
+  <rect x="18" y="48" width="92" height="54" rx="10" fill="none" stroke="#E59B23" stroke-width="4"/>
+
+  <!-- Empty tray compartments -->
+  <rect x="28" y="58" width="34" height="32" rx="7" fill="#FFF8E1" stroke="#E59B23" stroke-width="2.5"/>
+  <rect x="69" y="58" width="31" height="32" rx="7" fill="#FFF8E1" stroke="#E59B23" stroke-width="2.5"/>
+  <path d="M64 56 V94" stroke="#E59B23" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Tiny leftovers to imply finished -->
+  <circle cx="41" cy="75" r="2.5" fill="#8D6E63"/>
+  <circle cx="52" cy="69" r="2" fill="#66BB6A"/>
+  <path d="M78 77 C83 73 88 74 92 78" fill="none" stroke="#EF5350" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="88" cy="68" r="2.3" fill="#8D6E63"/>
+
+  <!-- Clean empty shine -->
+  <path d="M34 63 C42 60 50 60 56 63" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <path d="M75 63 C82 60 90 60 96 63" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- Done check -->
+  <circle cx="99" cy="35" r="14" fill="#66BB6A"/>
+  <path d="M92 35 L97 40 L107 29" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

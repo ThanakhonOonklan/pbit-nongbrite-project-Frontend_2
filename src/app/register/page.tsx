@@ -4,14 +4,15 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 import { useAuthStore } from "@/store/auth.store";
+import { LoadingSpinner } from "@/components/common";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { isAuthenticated, registerStep, resetRegister } = useAuthStore();
+  const { isAuthenticated, hasHydrated, registerStep, resetRegister } = useAuthStore();
 
 
   useEffect(() => {
-    if (isAuthenticated && registerStep === 3) {
+    if (hasHydrated && isAuthenticated && registerStep === 3) {
       const timer = setTimeout(() => {
         router.push("/courses");
         resetRegister();
@@ -19,14 +20,22 @@ export default function RegisterPage() {
 
       return () => clearTimeout(timer);
     }
-  }, [isAuthenticated, registerStep, router, resetRegister]);
+  }, [hasHydrated, isAuthenticated, registerStep, router, resetRegister]);
 
 
   useEffect(() => {
-    if (isAuthenticated && registerStep === 1) {
+    if (hasHydrated && isAuthenticated && registerStep === 1) {
       router.push("/courses");
     }
-  }, [isAuthenticated, registerStep, router]);
+  }, [hasHydrated, isAuthenticated, registerStep, router]);
+
+  if (!hasHydrated || (isAuthenticated && registerStep === 1)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F0F7FF]">
+        <LoadingSpinner size="sm" />
+      </div>
+    );
+  }
 
   return (
     <div

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="16" y1="12" x2="111" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E3F2FD"/>
+      <stop offset="1" stop-color="#F3E5F5"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="56" fill="url(#bg)"/>
+  <rect x="17" y="22" width="92" height="60" rx="11" fill="#FFFFFF" stroke="#2D8ED6" stroke-width="4"/>
+  <rect x="26" y="34" width="43" height="7" rx="3.5" fill="#BBDEFB"/>
+  <rect x="26" y="49" width="35" height="7" rx="3.5" fill="#BBDEFB"/>
+  <rect x="26" y="64" width="51" height="7" rx="3.5" fill="#BBDEFB"/>
+  <circle cx="51" cy="98" r="13" fill="#FFB74D"/>
+  <path d="M34 120 C38 104 65 102 70 120 Z" fill="#66BB6A"/>
+  <path d="M40 92 C45 83 59 83 64 92 C56 88 48 88 40 92 Z" fill="#5D4037"/>
+  <path d="M46 99 C50 96 55 96 59 99" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="47" cy="95" r="2" fill="#374151"/>
+  <circle cx="57" cy="95" r="2" fill="#374151"/>
+  <circle cx="90" cy="55" r="22" fill="#FFE0E0"/>
+  <text x="90" y="68" font-family="Arial, sans-serif" font-size="43" font-weight="700" fill="#EF5350" text-anchor="middle">?</text>
+</svg>

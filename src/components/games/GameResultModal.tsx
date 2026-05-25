@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import { type ScoreResult, getStarRating } from "@/utils/game-scoring";
 import { StarRating } from "@/components/common/StarRating";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
+import { createGamePath, markGameNavigation } from "@/utils/game-navigation";
 
 interface GameResultModalProps {
   levelNum: number;
@@ -40,6 +41,14 @@ export function GameResultModal({
   const goHome = () => {
     setIsNavigating(true);
     router.push("/courses");
+  };
+
+  const goNextLevel = () => {
+    const nextGamePath = createGamePath(gamePath, levelNum + 1);
+
+    markGameNavigation(nextGamePath, { skipUnlockCheck: true });
+    setIsNavigating(true);
+    router.push(nextGamePath);
   };
 
   const formatTime = (sec: number) => {
@@ -200,7 +209,7 @@ export function GameResultModal({
                       glareOpacity={0}
                       glareWidth={0}
                       onClick={hasNextLevel
-                        ? () => router.push(`/games/${gamePath}/${levelNum + 1}`)
+                        ? goNextLevel
                         : goHome
                       }
                     >
