@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#FFFBEB"/>
+  <!-- Paper -->
+  <path d="M 20 15 L 80 15 L 80 85 L 20 85 Z" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="4"/>
+  
+  <!-- Lines -->
+  <line x1="30" y1="30" x2="70" y2="30" stroke="#E5E7EB" stroke-width="2"/>
+  <line x1="30" y1="50" x2="70" y2="50" stroke="#E5E7EB" stroke-width="2"/>
+  <line x1="30" y1="70" x2="70" y2="70" stroke="#E5E7EB" stroke-width="2"/>
+  
+  <!-- Writing -->
+  <text x="50" y="45" font-family="sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#374151">A B C</text>
+  <text x="50" y="65" font-family="sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#374151">1 2 E</text>
+  
+  <!-- Red X over the E -->
+  <line x1="60" y1="48" x2="75" y2="68" stroke="#EF4444" stroke-width="5" stroke-linecap="round"/>
+  <line x1="75" y1="48" x2="60" y2="68" stroke="#EF4444" stroke-width="5" stroke-linecap="round"/>
+</svg>

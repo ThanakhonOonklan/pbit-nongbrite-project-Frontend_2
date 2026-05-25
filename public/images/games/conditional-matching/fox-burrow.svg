@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sky background -->
+  <rect width="100" height="100" fill="#E8F4F8"/>
+  
+  <!-- Back trees/bushes -->
+  <circle cx="20" cy="40" r="15" fill="#86EFAC"/>
+  <circle cx="80" cy="45" r="20" fill="#86EFAC"/>
+  <circle cx="50" cy="35" r="25" fill="#4ADE80"/>
+  
+  <!-- Ground -->
+  <path d="M 0 50 Q 50 35 100 50 L 100 100 L 0 100 Z" fill="#22C55E"/>
+  
+  <!-- Dirt mound -->
+  <path d="M 20 70 Q 50 45 80 70 Z" fill="#A16207"/>
+  <path d="M 25 75 Q 50 50 75 75 Z" fill="#854D0E"/>
+  
+  <!-- The hole / burrow -->
+  <ellipse cx="50" cy="70" rx="18" ry="8" fill="#18181B"/>
+  
+  <!-- Fox tail sticking out (Orange with white tip) -->
+  <path d="M 50 72 C 65 80, 75 60, 68 55 C 65 52, 60 55, 50 65 Z" fill="#F97316"/>
+  <!-- White tail tip -->
+  <path d="M 68 55 C 65 52, 63 56, 62 57 C 65 58, 67 60, 66 63 C 69 61, 71 58, 68 55 Z" fill="#FFFFFF"/>
+  
+  <!-- Grass tufts -->
+  <path d="M 10 70 Q 12 60 15 70" stroke="#16A34A" stroke-width="2" fill="none"/>
+  <path d="M 85 75 Q 87 65 90 75" stroke="#16A34A" stroke-width="2" fill="none"/>
+  <path d="M 30 75 Q 32 68 35 75" stroke="#15803D" stroke-width="2" fill="none"/>
+  
+</svg>

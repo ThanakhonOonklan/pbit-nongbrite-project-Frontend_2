@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#E8F4F8"/>
+  <path d="M 0 85 L 100 85 L 100 100 L 0 100 Z" fill="#A3E635"/>
+  <!-- Stable structure -->
+  <rect x="15" y="30" width="70" height="55" fill="#991B1B"/>
+  <!-- Roof -->
+  <path d="M 5 30 L 50 10 L 95 30 Z" fill="#451A03"/>
+  <!-- Support beams -->
+  <rect x="15" y="30" width="5" height="55" fill="#78350F"/>
+  <rect x="80" y="30" width="5" height="55" fill="#78350F"/>
+  <!-- Stable Door (open & empty) -->
+  <rect x="35" y="45" width="30" height="40" fill="#1C1917"/> 
+  <!-- Split doors on sides -->
+  <rect x="20" y="45" width="15" height="40" fill="#78350F"/>
+  <line x1="20" y1="45" x2="35" y2="85" stroke="#451A03" stroke-width="2"/>
+  <line x1="20" y1="85" x2="35" y2="45" stroke="#451A03" stroke-width="2"/>
+  <rect x="20" y="45" width="15" height="40" stroke="#451A03" stroke-width="2" fill="none"/>
+  
+  <rect x="65" y="45" width="15" height="40" fill="#78350F"/>
+  <line x1="65" y1="45" x2="80" y2="85" stroke="#451A03" stroke-width="2"/>
+  <line x1="65" y1="85" x2="80" y2="45" stroke="#451A03" stroke-width="2"/>
+  <rect x="65" y="45" width="15" height="40" stroke="#451A03" stroke-width="2" fill="none"/>
+  
+  <!-- Small pile of hay -->
+  <circle cx="50" cy="80" r="10" fill="#FBBF24"/>
+  <path d="M 40 85 L 60 85 L 50 70 Z" fill="#D97706"/>
+</svg>

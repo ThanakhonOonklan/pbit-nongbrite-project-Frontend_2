@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <path d="M 10 50 Q 10 20 50 20 Q 90 20 90 50 Q 90 70 70 80 L 70 95 L 50 80 Q 10 80 10 50 Z" fill="#93C5FD"/>
+  <path d="M 10 45 Q 10 15 50 15 Q 90 15 90 45 Q 90 65 70 75 L 70 90 L 50 75 Q 10 75 10 45 Z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="4"/>
+  <text x="50" y="55" font-family="sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1E3A8A">มู</text>
+</svg>
