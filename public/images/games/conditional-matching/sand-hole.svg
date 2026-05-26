@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#FEF08A"/> <!-- Sand background -->
+  <path d="M 0 70 Q 50 50 100 70 L 100 100 L 0 100 Z" fill="#FDE047"/>
+  <!-- Ant hill / Sand mound -->
+  <path d="M 15 70 Q 50 30 85 70 Z" fill="#EAB308"/>
+  <ellipse cx="50" cy="45" rx="15" ry="6" fill="#A16207"/>
+  <ellipse cx="50" cy="46" rx="10" ry="4" fill="#1C1917"/> <!-- Deep hole -->
+  
+  <!-- Path leading down into the hole -->
+  <path d="M 50 50 Q 52 60 48 70" stroke="#CA8A04" stroke-width="2" fill="none" stroke-dasharray="2 3"/>
+  
+  <!-- Sand texture -->
+  <circle cx="30" cy="80" r="1.5" fill="#CA8A04"/>
+  <circle cx="70" cy="90" r="2" fill="#CA8A04"/>
+  <circle cx="80" cy="50" r="1.5" fill="#CA8A04"/>
+  <circle cx="20" cy="40" r="1.5" fill="#CA8A04"/>
+  <circle cx="40" cy="65" r="1" fill="#CA8A04"/>
+  <circle cx="65" cy="60" r="1" fill="#CA8A04"/>
+</svg>

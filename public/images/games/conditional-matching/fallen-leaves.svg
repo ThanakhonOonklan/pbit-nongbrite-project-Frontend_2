@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#FFFBEB"/>
+  <line x1="10" y1="85" x2="90" y2="85" stroke="#D1D5DB" stroke-width="4" stroke-linecap="round"/>
+  <g transform="translate(30, 75) rotate(-20) scale(1.5)">
+    <path d="M 0 0 C -10 -10, -5 -20, 0 -25 C 5 -20, 10 -10, 0 0 Z" fill="#F97316" stroke="#C2410C" stroke-width="2"/>
+    <line x1="0" y1="0" x2="0" y2="-22" stroke="#C2410C" stroke-width="1.5"/>
+    <line x1="0" y1="0" x2="0" y2="5" stroke="#C2410C" stroke-width="2"/>
+  </g>
+  <g transform="translate(60, 80) rotate(45) scale(1.2)">
+    <path d="M 0 0 C -10 -10, -5 -20, 0 -25 C 5 -20, 10 -10, 0 0 Z" fill="#FBBF24" stroke="#B45309" stroke-width="2"/>
+    <line x1="0" y1="0" x2="0" y2="-22" stroke="#B45309" stroke-width="1.5"/>
+    <line x1="0" y1="0" x2="0" y2="5" stroke="#B45309" stroke-width="2"/>
+  </g>
+  <g transform="translate(45, 60) rotate(15) scale(1)">
+    <path d="M 0 0 C -10 -10, -5 -20, 0 -25 C 5 -20, 10 -10, 0 0 Z" fill="#A16207" stroke="#713F12" stroke-width="2"/>
+    <line x1="0" y1="0" x2="0" y2="-22" stroke="#713F12" stroke-width="1.5"/>
+    <line x1="0" y1="0" x2="0" y2="5" stroke="#713F12" stroke-width="2"/>
+  </g>
+  <g transform="translate(75, 35) rotate(-40) scale(1.1)">
+    <path d="M 0 0 C -10 -10, -5 -20, 0 -25 C 5 -20, 10 -10, 0 0 Z" fill="#EF4444" stroke="#991B1B" stroke-width="2"/>
+    <line x1="0" y1="0" x2="0" y2="-22" stroke="#991B1B" stroke-width="1.5"/>
+    <line x1="0" y1="0" x2="0" y2="5" stroke="#991B1B" stroke-width="2"/>
+  </g>
+  <path d="M 85 15 Q 80 25 78 30" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="4,4" fill="none"/>
+</svg>
