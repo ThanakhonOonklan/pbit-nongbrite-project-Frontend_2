@@ -320,9 +320,9 @@ export const condMatchLevels: Record<number, CondMatchLevelConfig> = {
                 theme: "emergencies", title: "เหตุฉุกเฉิน",
                 leftItems: [
                     { id: "l5p1_fire", emoji: "🔥", label: "ถ้าไฟไหม้", matchId: "l5p1_firetruck" },
-                    { id: "l5p1_thief", emoji: "🥷", label: "ถ้าเจอขโมย", matchId: "l5p1_191" },
+                    { id: "l5p1_thief", emoji: "🥷", label: "ถ้าเจอขโมย", matchId: "l5p1_police" },
                     { id: "l5p1_drown", emoji: "🌊", label: "ถ้าจมน้ำ", matchId: "l5p1_rescue" },
-                    { id: "l5p1_lost", emoji: "😰", label: "ถ้าหลงทาง", matchId: "l5p1_police" },
+                    { id: "l5p1_accident", emoji: "💥", label: "ถ้าเจออุบัติเหตุ", matchId: "l5p1_1669" },
                     { id: "l5p1_sick", emoji: "🤕", label: "ถ้าไม่สบาย", matchId: "l5p1_doctor" },
                 ],
                 rightItems: [
@@ -330,7 +330,7 @@ export const condMatchLevels: Record<number, CondMatchLevelConfig> = {
                     { id: "l5p1_police", emoji: "👮", label: "แจ้งคุณตำรวจ" },
                     { id: "l5p1_doctor", emoji: "🏥", label: "ไปหาหมอ" },
                     { id: "l5p1_firetruck", emoji: "🚒", label: "เรียกรถดับเพลิง" },
-                    { id: "l5p1_191", emoji: "📞", label: "โทร 191" },
+                    { id: "l5p1_1669", emoji: "📞", label: "โทร 1669" },
                 ],
             },
             {
@@ -356,14 +356,14 @@ export const condMatchLevels: Record<number, CondMatchLevelConfig> = {
                     { id: "l5p3_rain", emoji: "🌧️", label: "ถ้าฝนตกหนัก", matchId: "l5p3_umbrella" },
                     { id: "l5p3_far", emoji: "🌍", label: "ถ้าไปต่างประเทศ", matchId: "l5p3_plane" },
                     { id: "l5p3_river", emoji: "🌉", label: "ถ้าข้ามแม่น้ำ", matchId: "l5p3_bridge" },
-                    { id: "l5p3_traffic", emoji: "🚦", label: "ถ้ารถติด", matchId: "l5p3_train" },
+                    { id: "l5p3_traffic", emoji: "🚦", label: "ถ้ารถติด", matchId: "l5p3_wait" },
                     { id: "l5p3_near", emoji: "🚶", label: "ถ้าไปใกล้ๆ", matchId: "l5p3_walk" },
                 ],
                 rightItems: [
                     { id: "l5p3_umbrella", emoji: "☂️", label: "กางร่ม" },
                     { id: "l5p3_plane", emoji: "✈️", label: "นั่งเครื่องบิน" },
                     { id: "l5p3_bridge", emoji: "🌁", label: "ข้ามสะพาน" },
-                    { id: "l5p3_train", emoji: "🚆", label: "ขึ้นรถไฟฟ้า" },
+                    { id: "l5p3_wait", emoji: "⏳", label: "ให้รอ" },
                     { id: "l5p3_walk", emoji: "👟", label: "เดินเท้า" },
                 ],
             },

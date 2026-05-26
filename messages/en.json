@@ -410,7 +410,7 @@
       "pig": "If pig is hungry...",
       "apple": "Feed it apple!",
       "duck": "If duck is hungry...",
-      "bug": "Feed it worm!",
+      "bug": "If bugs eat leaves...",
       "elephant": "If elephant is hungry...",
       "sugarcane": "Feed it sugarcane!",
       "giraffe": "If giraffe is hungry...",
@@ -484,7 +484,7 @@
       "shelf": "Put on the shelf!",
       "read": "Read the book!",
       "hot": "If pot is hot...",
-      "glove": "Wear oven gloves!",
+      "glove": "Wear gloves!",
       "spill": "If water spills...",
       "mop": "Wipe it up!",
       "cut": "If going to slice...",
@@ -527,6 +527,9 @@
       "boat": "Ride a boat!",
       "traffic": "If traffic is stuck...",
       "train": "Ride the train!",
+      "l5p3_wait": "Wait!",
+      "l5p1_accident": "If see an accident...",
+      "l5p1_1669": "Call 1669",
       "near": "If going nearby...",
       "bike": "Ride a bicycle!",
       "broom": "Use a broom!",
@@ -546,7 +549,6 @@
       "bed": "Go to bed!",
       "weed": "If grass is messy...",
       "pick": "Pick in basket!",
-      "bug": "If bugs eat leaves...",
       "bath": "If taking a bath...",
       "teeth": "If brushing teeth...",
       "scissors": "Cut hair!",
@@ -568,7 +570,6 @@
       "wind": "If wind is strong...",
       "kite": "Fly a kite!",
       "snow": "If it snows...",
-      "glove": "Wear gloves!",
       "sunny": "If weather is nice...",
       "park": "Go run in park!",
       "rainy": "If storm comes...",
@@ -607,7 +608,95 @@
       "lotion": "Apply sunscreen!",
       "rest": "Get some rest!",
       "cough": "If coughing...",
-      "plumber": "Call a plumber!"
+      "plumber": "Call a plumber!",
+      "p2_sheep": "If sheep is hungry...",
+      "p2_chicken": "If chicken is hungry...",
+      "p3_koala": "If koala is hungry...",
+      "p3_eucalyptus": "Feed it eucalyptus!",
+      "l2p1_fox": "If fox is cold...",
+      "l2p1_bear_sleepy": "If bear is sleepy...",
+      "l2p1_cave2": "Hide in the cave!",
+      "l2p2_chicken": "If chicken goes to sleep...",
+      "l2p3_rabbit_scared": "If rabbit is scared...",
+      "l2p4_worm": "If worm hides...",
+      "l2p4_snail": "If snail is scared...",
+      "l2p4_roach": "If cockroach is scared...",
+      "l2p4_sandhole": "Go into sand hole!",
+      "l2p4_crack": "Hide in the wall crack!",
+      "l3p1_frog": "If frog sees a bug...",
+      "l3p1_hen": "If hen lays an egg...",
+      "l3p2_fish_action": "If fish swims...",
+      "l3p2_snake": "If snake slithers...",
+      "l3p2_roo": "If kangaroo has a baby...",
+      "l3p3_turtle": "If turtle is scared...",
+      "l3p3_skunk": "If skunk is scared...",
+      "l3p3_chameleon": "If chameleon wants to hide...",
+      "l3p3_porcupine": "If enemy comes...",
+      "l3p4_frog": "If frog croaks...",
+      "l3p4_wolf": "If wolf howls...",
+      "l3p4_moo": "Sound \"Moo\"",
+      "l3p4_ribbit": "Sound \"Ribbit Ribbit\"",
+      "l3p4_meow": "Sound \"Meow\"",
+      "l3p4_howl": "Sound \"Howl\"",
+      "l4p2_test": "If taking a test...",
+      "l4p4_ac": "Turn down the AC!",
+      "l4p4_mask": "Wear a mask!",
+      "l5p1_drown": "If drowning...",
+      "l5p1_rescue": "Call for rescue!",
+      "l5p3_walk": "Walk!",
+      "l5p4_leaves": "If leaves cover the floor...",
+      "l5p4_trash": "If trash is full...",
+      "l5p4_shoes_clean": "Clean the shoes!",
+      "l6p1_trash": "If there is trash...",
+      "l6p1_bin": "Throw in the bin!",
+      "l6p2_plant": "If plant is dry...",
+      "l6p2_dig": "If going to dig...",
+      "l6p2_fruit": "If fruit is ripe...",
+      "l6p2_water": "Water the plant!",
+      "l6p2_shovel": "Use a shovel!",
+      "l6p4_camera": "Use a camera!",
+      "l7p1_sun": "If sun is hot...",
+      "l7p1_plant": "If planting...",
+      "l7p1_water": "Water the plant!",
+      "l7p2_windy": "If wind is cool...",
+      "l7p2_snowy": "If snow is thick...",
+      "l7p2_home": "Better stay home!",
+      "l7p3_sun": "If sun rises...",
+      "l7p3_plant": "Plant in the soil!",
+      "l7p3_sleep": "Go to sleep!",
+      "l7p4_zoo": "If going to the zoo...",
+      "l7p4_picnic": "If going on a picnic...",
+      "l7p4_camera": "Prepare a camera!",
+      "l8p1_flood": "If flooding...",
+      "l8p1_fog": "If foggy...",
+      "l8p1_rainbow": "If there is a rainbow...",
+      "l8p1_camp": "If night is cold...",
+      "l8p1_camera": "Take a photo!",
+      "l8p1_house": "Hide in the house!",
+      "l8p2_bus": "If going to ride a bus...",
+      "l8p2_bus_stop": "Wait at the bus stop!",
+      "l8p2_map": "Open a map!",
+      "l8p2_bin": "Throw in the bin!",
+      "l8p3_sunburn": "If exposed to sun...",
+      "l8p3_tired": "If feeling tired...",
+      "l8p3_dirty_hand": "If see germs...",
+      "l8p3_medicine": "Take medicine!",
+      "l8p3_mask": "Wear a mask!",
+      "l8p4_food": "If at a restaurant...",
+      "l8p4_pipe": "If pipe bursts...",
+      "l8p4_fireman": "Call a fireman!",
+      "l8p4_chef": "Order from the chef!",
+      "l8p4_barber": "Go to the barber!",
+      "l9p1_sun": "If sun is hot...",
+      "l9p1_plant": "If planting...",
+      "l9p1_flood": "If flooding...",
+      "l9p1_fog": "If foggy...",
+      "l9p1_house": "Hide in the house...",
+      "l9p1_water": "Water the plant!",
+      "l9p3_trash": "If there is trash...",
+      "l9p3_bin": "Throw in the bin!",
+      "l9p4_frog": "If frog sees a bug...",
+      "l9p4_hen": "If hen lays an egg..."
     }
   },
   "Sequencing": {
@@ -671,43 +760,274 @@
       "tooth-decay": "How Cavities Form"
     },
     "items": {
-      "butterfly": { "1": "Egg", "2": "Caterpillar", "3": "Chrysalis", "4": "Butterfly" },
-      "bee": { "1": "Bee Egg", "2": "Larva", "3": "Chrysalis", "4": "Adult Bee" },
-      "crab": { "1": "Crab Egg", "2": "Zoea Larva", "3": "Megalopa Larva", "4": "Adult Crab" },
-      "turtle": { "1": "Turtle Egg", "2": "Baby Turtle", "3": "Young Turtle", "4": "Adult Turtle" },
-      "chicken": { "1": "Egg", "2": "Hatching", "3": "Chick", "4": "Hen" },
-      "snake": { "1": "Snake Egg", "2": "Baby Snake", "3": "Young Snake", "4": "Adult Snake" },
-      "ladybug": { "1": "Ladybug Egg", "2": "Larva", "3": "Chrysalis", "4": "Ladybug" },
-      "beetle": { "1": "Beetle Egg", "2": "Larva", "3": "Chrysalis", "4": "Beetle" },
-      "tree": { "1": "Seed", "2": "Sprout", "3": "Small Tree", "4": "Big Tree" },
-      "mushroom": { "1": "Spores", "2": "Mycelium", "3": "Baby Mushroom", "4": "Mushroom" },
-      "strawberry": { "1": "Seed", "2": "Sprout", "3": "Flower", "4": "Fruit" },
-      "cactus": { "1": "Seed", "2": "Sprout", "3": "Small Cactus", "4": "Big Cactus" },
-      "fish": { "1": "Fish Eggs", "2": "Embryo", "3": "Larva", "4": "Baby Fish", "5": "Adult Fish" },
-      "octopus": { "1": "Egg", "2": "Larva", "3": "Baby Octopus", "4": "Young Octopus", "5": "Octopus" },
-      "clam": { "1": "Egg", "2": "Larva", "3": "Spat", "4": "Small Clam", "5": "Clam" },
-      "shrimp": { "1": "Egg", "2": "Larva", "3": "Baby Shrimp", "4": "Young Shrimp", "5": "Shrimp" },
-      "frog": { "1": "Frog Eggs", "2": "Tadpole", "3": "Tadpole with Legs", "4": "Froglet", "5": "Adult Frog" },
-      "dragonfly": { "1": "Dragonfly Egg", "2": "Naiad", "3": "Nymph", "4": "Molting", "5": "Dragonfly" },
-      "ant": { "1": "Egg", "2": "Larva", "3": "Chrysalis", "4": "Worker Ant", "5": "Winged Ant" },
-      "salamander": { "1": "Egg", "2": "Larva", "3": "Growing Larva", "4": "Young Salamander", "5": "Adult" },
-      "handwash": { "1": "Wet Hands", "2": "Use Soap", "3": "Rinse Hands", "4": "Dry Hands", "5": "Turn off Water" },
-      "noodles": { "1": "Boil Water", "2": "Add Noodles", "3": "Wait", "4": "Add Seasoning", "5": "Put in Bowl" },
-      "fried-egg": { "1": "Heat Pan", "2": "Add Oil", "3": "Crack Egg", "4": "Fry", "5": "Serve" },
-      "tea": { "1": "Boil Water", "2": "Add Tea Bag", "3": "Pour Hot Water", "4": "Wait", "5": "Drink" },
-      "watermelon": { "1": "Whole Slice", "2": "First Bite", "3": "More Bites", "4": "Half Eaten", "5": "Only Rind", "6": "Throw Away" },
-      "seatbelt": { "1": "Open Door", "2": "Get In", "3": "Sit Down", "4": "Fasten Belt", "5": "Drive Off", "6": "Arrive Safe" },
-      "plant-tree": { "1": "Plant", "2": "Water", "3": "Grow", "4": "Grow More", "5": "Grow Leaves", "6": "Bloom" },
-      "get-in-car": { "1": "Open Door", "2": "Get In", "3": "Sit Down", "4": "Fasten Belt", "5": "Drive Off", "6": "Arrive" },
-      "laundry": { "1": "Dirty Shirt", "2": "Put in Machine", "3": "Wash", "4": "Spin", "5": "Hang Dry", "6": "Dry" },
-      "juice": { "1": "Pick Orange", "2": "Wash Orange", "3": "Peel", "4": "Slice", "5": "Put in Blender", "6": "Blend", "7": "Pour" },
-      "water-cycle": { "1": "Water", "2": "Evaporate", "3": "Vapor", "4": "Condense", "5": "Cloud", "6": "Rain", "7": "Water Again" },
-      "rainbow": { "1": "Sun", "2": "Rain", "3": "Light thru Water", "4": "Refract", "5": "Split Colors", "6": "See Rainbow", "7": "Fade" },
-      "fog-formation": { "1": "Vapor", "2": "Float", "3": "Cool", "4": "Gather", "5": "Fog", "6": "Thick", "7": "Fade" },
-      "plant-dehydration": { "1": "Fresh", "2": "Needs Water", "3": "Drooping", "4": "Wilted", "5": "Dry", "6": "Yellow", "7": "Die" },
-      "leaves-changing": { "1": "Green", "2": "Light Green", "3": "Yellow", "4": "Dark Yellow", "5": "Dry", "6": "Brown", "7": "Fall" },
-      "apple-cycle": { "1": "Apple Seed", "2": "Sprout", "3": "Grow Tree", "4": "Flower", "5": "Green Apple", "6": "Red Apple", "7": "Eat Apple" },
-      "tooth-decay": { "1": "Clean Tooth", "2": "Eat Sweets", "3": "Plaque", "4": "Build Up", "5": "Cavity", "6": "Decay", "7": "Pain" }
+      "butterfly": {
+        "1": "Egg",
+        "2": "Caterpillar",
+        "3": "Chrysalis",
+        "4": "Butterfly"
+      },
+      "bee": {
+        "1": "Bee Egg",
+        "2": "Larva",
+        "3": "Chrysalis",
+        "4": "Adult Bee"
+      },
+      "crab": {
+        "1": "Crab Egg",
+        "2": "Zoea Larva",
+        "3": "Megalopa Larva",
+        "4": "Adult Crab"
+      },
+      "turtle": {
+        "1": "Turtle Egg",
+        "2": "Baby Turtle",
+        "3": "Young Turtle",
+        "4": "Adult Turtle"
+      },
+      "chicken": {
+        "1": "Egg",
+        "2": "Hatching",
+        "3": "Chick",
+        "4": "Hen"
+      },
+      "snake": {
+        "1": "Snake Egg",
+        "2": "Baby Snake",
+        "3": "Young Snake",
+        "4": "Adult Snake"
+      },
+      "ladybug": {
+        "1": "Ladybug Egg",
+        "2": "Larva",
+        "3": "Chrysalis",
+        "4": "Ladybug"
+      },
+      "beetle": {
+        "1": "Beetle Egg",
+        "2": "Larva",
+        "3": "Chrysalis",
+        "4": "Beetle"
+      },
+      "tree": {
+        "1": "Seed",
+        "2": "Sprout",
+        "3": "Small Tree",
+        "4": "Big Tree"
+      },
+      "mushroom": {
+        "1": "Spores",
+        "2": "Mycelium",
+        "3": "Baby Mushroom",
+        "4": "Mushroom"
+      },
+      "strawberry": {
+        "1": "Seed",
+        "2": "Sprout",
+        "3": "Flower",
+        "4": "Fruit"
+      },
+      "cactus": {
+        "1": "Seed",
+        "2": "Sprout",
+        "3": "Small Cactus",
+        "4": "Big Cactus"
+      },
+      "fish": {
+        "1": "Fish Eggs",
+        "2": "Embryo",
+        "3": "Larva",
+        "4": "Baby Fish",
+        "5": "Adult Fish"
+      },
+      "octopus": {
+        "1": "Egg",
+        "2": "Larva",
+        "3": "Baby Octopus",
+        "4": "Young Octopus",
+        "5": "Octopus"
+      },
+      "clam": {
+        "1": "Egg",
+        "2": "Larva",
+        "3": "Spat",
+        "4": "Small Clam",
+        "5": "Clam"
+      },
+      "shrimp": {
+        "1": "Egg",
+        "2": "Larva",
+        "3": "Baby Shrimp",
+        "4": "Young Shrimp",
+        "5": "Shrimp"
+      },
+      "frog": {
+        "1": "Frog Eggs",
+        "2": "Tadpole",
+        "3": "Tadpole with Legs",
+        "4": "Froglet",
+        "5": "Adult Frog"
+      },
+      "dragonfly": {
+        "1": "Dragonfly Egg",
+        "2": "Naiad",
+        "3": "Nymph",
+        "4": "Molting",
+        "5": "Dragonfly"
+      },
+      "ant": {
+        "1": "Egg",
+        "2": "Larva",
+        "3": "Chrysalis",
+        "4": "Worker Ant",
+        "5": "Winged Ant"
+      },
+      "salamander": {
+        "1": "Egg",
+        "2": "Larva",
+        "3": "Growing Larva",
+        "4": "Young Salamander",
+        "5": "Adult"
+      },
+      "handwash": {
+        "1": "Wet Hands",
+        "2": "Use Soap",
+        "3": "Rinse Hands",
+        "4": "Dry Hands",
+        "5": "Turn off Water"
+      },
+      "noodles": {
+        "1": "Boil Water",
+        "2": "Add Noodles",
+        "3": "Wait",
+        "4": "Add Seasoning",
+        "5": "Put in Bowl"
+      },
+      "fried-egg": {
+        "1": "Heat Pan",
+        "2": "Add Oil",
+        "3": "Crack Egg",
+        "4": "Fry",
+        "5": "Serve"
+      },
+      "tea": {
+        "1": "Boil Water",
+        "2": "Add Tea Bag",
+        "3": "Pour Hot Water",
+        "4": "Wait",
+        "5": "Drink"
+      },
+      "watermelon": {
+        "1": "Whole Slice",
+        "2": "First Bite",
+        "3": "More Bites",
+        "4": "Half Eaten",
+        "5": "Only Rind",
+        "6": "Throw Away"
+      },
+      "seatbelt": {
+        "1": "Open Door",
+        "2": "Get In",
+        "3": "Sit Down",
+        "4": "Fasten Belt",
+        "5": "Drive Off",
+        "6": "Arrive Safe"
+      },
+      "plant-tree": {
+        "1": "Plant",
+        "2": "Water",
+        "3": "Grow",
+        "4": "Grow More",
+        "5": "Grow Leaves",
+        "6": "Bloom"
+      },
+      "get-in-car": {
+        "1": "Open Door",
+        "2": "Get In",
+        "3": "Sit Down",
+        "4": "Fasten Belt",
+        "5": "Drive Off",
+        "6": "Arrive"
+      },
+      "laundry": {
+        "1": "Dirty Shirt",
+        "2": "Put in Machine",
+        "3": "Wash",
+        "4": "Spin",
+        "5": "Hang Dry",
+        "6": "Dry"
+      },
+      "juice": {
+        "1": "Pick Orange",
+        "2": "Wash Orange",
+        "3": "Peel",
+        "4": "Slice",
+        "5": "Put in Blender",
+        "6": "Blend",
+        "7": "Pour"
+      },
+      "water-cycle": {
+        "1": "Water",
+        "2": "Evaporate",
+        "3": "Vapor",
+        "4": "Condense",
+        "5": "Cloud",
+        "6": "Rain",
+        "7": "Water Again"
+      },
+      "rainbow": {
+        "1": "Sun",
+        "2": "Rain",
+        "3": "Light thru Water",
+        "4": "Refract",
+        "5": "Split Colors",
+        "6": "See Rainbow",
+        "7": "Fade"
+      },
+      "fog-formation": {
+        "1": "Vapor",
+        "2": "Float",
+        "3": "Cool",
+        "4": "Gather",
+        "5": "Fog",
+        "6": "Thick",
+        "7": "Fade"
+      },
+      "plant-dehydration": {
+        "1": "Fresh",
+        "2": "Needs Water",
+        "3": "Drooping",
+        "4": "Wilted",
+        "5": "Dry",
+        "6": "Yellow",
+        "7": "Die"
+      },
+      "leaves-changing": {
+        "1": "Green",
+        "2": "Light Green",
+        "3": "Yellow",
+        "4": "Dark Yellow",
+        "5": "Dry",
+        "6": "Brown",
+        "7": "Fall"
+      },
+      "apple-cycle": {
+        "1": "Apple Seed",
+        "2": "Sprout",
+        "3": "Grow Tree",
+        "4": "Flower",
+        "5": "Green Apple",
+        "6": "Red Apple",
+        "7": "Eat Apple"
+      },
+      "tooth-decay": {
+        "1": "Clean Tooth",
+        "2": "Eat Sweets",
+        "3": "Plaque",
+        "4": "Build Up",
+        "5": "Cavity",
+        "6": "Decay",
+        "7": "Pain"
+      }
     }
   },
   "StepCounting": {
@@ -777,14 +1097,34 @@
       "step3Instruction": "👆 Tap the correct fruit!"
     },
     "fruits": {
-      "🍎": "Apple", "🍊": "Orange", "🍇": "Grape", "🍌": "Banana",
-      "🍓": "Strawberry", "🥝": "Kiwi", "🍉": "Watermelon", "🍑": "Peach",
-      "🍒": "Cherry", "🍍": "Pineapple", "🫐": "Blueberry", "🥭": "Mango",
-      "🍋": "Lemon", "🍈": "Melon", "🥥": "Coconut",
-      "🍐": "Pear", "🥑": "Avocado", "🍅": "Tomato",
-      "🥕": "Carrot", "🧅": "Onion", "🥔": "Potato", "🌽": "Corn",
-      "🥦": "Broccoli", "🍄": "Mushroom", "🌶️": "Chili", "🥒": "Cucumber",
-      "🍆": "Eggplant", "🥬": "Lettuce"
+      "🍎": "Apple",
+      "🍊": "Orange",
+      "🍇": "Grape",
+      "🍌": "Banana",
+      "🍓": "Strawberry",
+      "🥝": "Kiwi",
+      "🍉": "Watermelon",
+      "🍑": "Peach",
+      "🍒": "Cherry",
+      "🍍": "Pineapple",
+      "🫐": "Blueberry",
+      "🥭": "Mango",
+      "🍋": "Lemon",
+      "🍈": "Melon",
+      "🥥": "Coconut",
+      "🍐": "Pear",
+      "🥑": "Avocado",
+      "🍅": "Tomato",
+      "🥕": "Carrot",
+      "🧅": "Onion",
+      "🥔": "Potato",
+      "🌽": "Corn",
+      "🥦": "Broccoli",
+      "🍄": "Mushroom",
+      "🌶️": "Chili",
+      "🥒": "Cucumber",
+      "🍆": "Eggplant",
+      "🥬": "Lettuce"
     }
   },
   "GridColoring": {
@@ -869,4 +1209,3 @@
     "tryAgain": "Try Again!"
   }
 }
-
