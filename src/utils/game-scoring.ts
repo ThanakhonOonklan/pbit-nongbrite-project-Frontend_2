@@ -25,17 +25,17 @@ const ATTEMPT_TABLES: Record<Difficulty, ScoreTable> = {
     easy: [
         [2, 60],
         [4, 40],
-        [6, 20],
+        [5, 20],
     ],
     normal: [
         [2, 60],
         [4, 40],
-        [6, 20],
+        [5, 20],
     ],
     hard: [
         [1, 60],
         [3, 40],
-        [5, 20],
+        [4, 20],
     ],
 };
 
@@ -126,7 +126,7 @@ const GRID_COLORING_WRONG_TABLES: Record<Difficulty, ScoreTable> = {
     easy: [
         [0, 60],
         [4, 40],
-        [6, 20],
+        [5, 20],
     ],
     normal: [
         [0, 60],
