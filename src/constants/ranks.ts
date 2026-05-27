@@ -59,15 +59,15 @@ export const RANKS: RankConfig[] = [
     name: "Master",
     label: "มาสเตอร์",
     minScore: 4500,
-    maxScore: 5499,
-    scoreRequired: 1000,
+    maxScore: 6299,
+    scoreRequired: 1800,
     iconPath: "/icons/rank/master-dark.png"
   },
   {
     id: 7,
     name: "Legend",
     label: "เลเจนด์",
-    minScore: 5500,
+    minScore: 6300,
     maxScore: Infinity,
     scoreRequired: Infinity,
     iconPath: "/icons/rank/legend-dark.png"
