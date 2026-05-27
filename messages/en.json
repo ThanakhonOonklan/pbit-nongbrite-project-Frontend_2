@@ -277,7 +277,9 @@
       "unranked": "Unranked",
       "unrankedDesc": "Start learning to enter the ranks!",
       "currentRank": "Rank #{rank}",
-      "scoreToNextRank": "{score} more points needed for next rank"
+      "scoreToNextRank": "{score} more points needed for next rank",
+      "maxRankReached": "You have reached the maximum rank! 🎉",
+      "maxRankCongratulations": "✨ Congratulations! You have reached the pinnacle of learning! ✨"
     },
     "LeaderboardList": {
       "title": "Leaderboard",

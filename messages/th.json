@@ -277,7 +277,9 @@
       "unranked": "ยังไม่มีอันดับ",
       "unrankedDesc": "เริ่มเรียนรู้เพื่อเข้าสู่อันดับกันเลย!",
       "currentRank": "อันดับ #{rank}",
-      "scoreToNextRank": "ขาดอีก {score} คะแนน เพื่อไปแรงค์ถัดไป"
+      "scoreToNextRank": "ขาดอีก {score} คะแนน เพื่อไปแรงค์ถัดไป",
+      "maxRankReached": "คุณอยู่แรงค์สูงสุดแล้ว 🎉",
+      "maxRankCongratulations": "✨ ยินดีด้วย! คุณมาถึงจุดสูงสุดของการเรียนรู้แล้ว ✨"
     },
     "LeaderboardList": {
       "title": "ตารางอันดับ",

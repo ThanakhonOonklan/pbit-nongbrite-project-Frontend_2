@@ -114,27 +114,35 @@ const MyRankCard: React.FC<MyRankCardProps> = ({ myRank, className }) => {
                 {tRanks(currentRank.name)}
               </h4>
               <p className="text-[12px] text-[#666]">
-                {scoreNeeded > 0
+                {nextRank
                   ? t("scoreToNextRank", { score: scoreNeeded.toLocaleString() })
-                  : null}
+                  : t("maxRankReached")}
               </p>
             </div>
 
             {/* Progress Bar */}
-            <div className="space-y-2">
-              <div className="relative w-full h-[10px] bg-[#E0F2FF] rounded-full overflow-hidden shadow-inner">
-                <div
-                  className="absolute left-0 top-0 h-full bg-[#1cb0f6] rounded-full transition-all duration-500"
-                  style={{ width: `${progressPercent}%` }}
-                />
+            {nextRank ? (
+              <div className="space-y-2">
+                <div className="relative w-full h-[10px] bg-[#E0F2FF] rounded-full overflow-hidden shadow-inner">
+                  <div
+                    className="absolute left-0 top-0 h-full bg-[#1cb0f6] rounded-full transition-all duration-500"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+                <div className="flex justify-center">
+                  <span className="text-[12px] font-bold text-[#1cb0f6]">
+                    {scoreInRank.toLocaleString()}/
+                    {totalScoreInRank.toLocaleString()}
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-center">
-                <span className="text-[12px] font-bold text-[#1cb0f6]">
-                  {scoreInRank.toLocaleString()}/
-                  {totalScoreInRank.toLocaleString()}
+            ) : (
+              <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-center text-center shadow-sm">
+                <span className="text-[13px] font-semibold text-amber-600 animate-pulse">
+                  {t("maxRankCongratulations")}
                 </span>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
