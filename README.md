@@ -1,4 +1,4 @@
-# 🎮 P'Bit & Nong-Brite — Gamified Learning Platform (Frontend)
+# P'Bit & Nong-Brite — Gamified Learning Platform (Frontend)
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -10,21 +10,22 @@
 
 ---
 
-## 📖 สารบัญ (Table of Contents)
+## Table of Contents
 
-- [ภาพรวมของโปรเจ็ค (Overview)](#-ภาพรวมของโปรเจ็ค-overview)
-- [ฟีเจอร์เด่น (Key Features)](#-ฟีเจอร์เด่น-key-features)
-- [รายละเอียดเกมทั้ง 7 เกม (The 7 Learning Games)](#-รายละเอียดเกมทั้ง-7-เกม-the-7-learning-games)
-- [ระบบสนับสนุนภายในแพลตฟอร์ม (Platform Systems)](#-ระบบสนับสนุนภายในแพลตฟอร์ม-platform-systems)
-- [เทคโนโลยีที่ใช้ (Tech Stack)](#-เทคโนโลยีที่ใช้-tech-stack)
-- [โครงสร้างโปรเจ็ค (Project Structure)](#-โครงสร้างโปรเจ็ค-project-structure)
-- [การติดตั้งและเริ่มต้นใช้งาน (Getting Started)](#-การติดตั้งและเริ่มต้นใช้งาน-getting-started)
-- [ตัวแปรสภาพแวดล้อม (Environment Variables)](#-ตัวแปรสภาพแวดล้อม-environment-variables)
-- [การเชื่อมต่อ API (API Integration)](#-การเชื่อมต่อ-api-api-integration)
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Learning Games](#learning-games)
+- [Platform Systems](#platform-systems)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [API Integration](#api-integration)
+- [Mascot Characters](#mascot-characters)
 
 ---
 
-## 🌟 ภาพรวมของโปรเจ็ค (Overview)
+## Overview
 
 **P'Bit & Nong-Brite** คือเว็บแอปพลิเคชัน Frontend ที่พัฒนาด้วย Next.js 16 (App Router), React 19 และ TypeScript เพื่อให้การเรียนรู้พื้นฐานวิทยาการคำนวณเป็นเรื่องง่ายและสนุกสนานสำหรับเด็กๆ โดยนำแนวคิด **Gamification** มาผสมผสานอย่างลงตัว เช่น ระบบหัวใจ (Lives), วันเล่นต่อเนื่อง (Streak), ระบบคะแนนและสะสมดาว (Stars), ตลอดจนระบบจัดอันดับผู้เล่น (Leaderboard & Ranks)
 
@@ -32,7 +33,7 @@
 
 ---
 
-## ✨ ฟีเจอร์เด่น (Key Features)
+## Key Features
 
 | ฟีเจอร์ | รายละเอียด |
 |---|---|
@@ -49,7 +50,7 @@
 
 ---
 
-## 🎮 รายละเอียดเกมทั้ง 7 เกม (The 7 Learning Games)
+## Learning Games
 
 ทุกเกมถูกออกแบบมาเพื่อพัฒนาทักษะเฉพาะด้าน พร้อมมีระดับความยากและตัวละครมาสคอตประจำเกม:
 
@@ -67,43 +68,43 @@
                   └──────────────────────┴────────────────────────────┘
 ```
 
-### 1. 🗺️ Path Navigation (เกมการนำทาง)
+### 1. Path Navigation
 - **Route**: `/games/path-navigation/[level]`
 - **มาสคอต**: **P'Bit** & **Nong Brite**
 - **ทักษะที่ฝึก**: การวางแผนอัลกอริทึม, ลำดับคำสั่ง (Sequence), การคิดเชิงระบบ
 - **วิธีเล่น**: ผู้เล่นต้องวางแผนและเรียงการ์ดคำสั่งทิศทาง (เดินหน้า, ถอยหลัง, เลี้ยวซ้าย, เลี้ยวขวา) ล่วงหน้า เพื่อพาน้องบิตฝ่าอุปสรรคไปรับน้องไบรท์และพากลับบ้านได้อย่างปลอดภัย
 
-### 2. 🔢 Counting & Classification (นับจำนวนและจัดหมวดหมู่สิ่งของ)
+### 2. Counting & Classification
 - **Route**: `/games/counting-classification/[level]`
 - **มาสคอต**: **P'Minnie**
 - **ทักษะที่ฝึก**: การสังเกต, การจำแนกหมวดหมู่, คณิตศาสตร์และการนับ
 - **วิธีเล่น**: สำรวจและค้นหารูปทรงเรขาคณิตต่างๆ (วงกลม, สามเหลี่ยม, สี่เหลี่ยม, ห้าเหลี่ยม, หกเหลี่ยม) ที่ซ่อนอยู่ตามเงื่อนไขในภาพ แล้วระบุจำนวนที่นับได้ลงในช่องคำตอบ
 
-### 3. 🔗 Conditional Matching (จับคู่ตามเงื่อนไขที่กำหนด)
+### 3. Conditional Matching
 - **Route**: `/games/conditional-matching/[level]`
 - **มาสคอต**: **P'Coco**
 - **ทักษะที่ฝึก**: ตรรกศาสตร์แบบมีเงื่อนไข (Conditional Logic / IF-THEN)
 - **วิธีเล่น**: วิเคราะห์การ์ดเงื่อนไข "ถ้า... (IF)" แล้วลากเส้นเชื่อมโยงไปยังผลลัพธ์ที่ถูกต้อง "แล้ว... (THEN)" เพื่อฝึกกระบวนการตัดสินใจเชิงตรรกะ
 
-### 4. 📋 Sequencing (เรียงลำดับขั้นตอน)
+### 4. Sequencing
 - **Route**: `/games/sequencing/[level]`
 - **มาสคอต**: **P'Momo**
 - **ทักษะที่ฝึก**: ลำดับขั้นตอนการทำงาน (Algorithmic Thinking), เหตุและผล
 - **วิธีเล่น**: ใช้การ Drag & Drop การ์ดเหตุการณ์หรือขั้นตอนต่างๆ (เช่น วงจรชีวิตผีเสื้อ, การทำกิจกรรมประจำวัน) จัดเรียงลงในช่องตามลำดับก่อน-หลังที่ถูกต้อง
 
-### 5. 🧮 Step Counting (การทำงานแบบวนซ้ำ / ร้านคั้นน้ำผลไม้)
+### 5. Step Counting
 - **Route**: `/games/step-counting/[level]`
 - **มาสคอต**: **P'Bobo**
 - **ทักษะที่ฝึก**: การทำงานแบบวนซ้ำ (Looping), การคำนวณอัตราส่วน, การจัดการทรัพยากร
 - **วิธีเล่น**: คำนวณจำนวนผลไม้ตามสูตรของร้านน้ำปั่น เพื่อผลิตน้ำผลไม้ให้ได้ตามจำนวนแก้วที่เพื่อนๆ ต้องการ แล้วสั่งเครื่องปั่นทำงานแบบวนรอบ
 
-### 6. 🍎 Fruit Matching Grid (จับคู่ผลไม้ในตารางสี่เหลี่ยม)
+### 6. Fruit Matching Grid
 - **Route**: `/games/fruit-matching-grid/[level]`
 - **มาสคอต**: **P'PingPing**
 - **ทักษะที่ฝึก**: การอ่านพิกัดสองมิติ (Grid Coordinates), ความจำ, รูปแบบ (Pattern)
 - **วิธีเล่น**: สังเกตตำแหน่งของผลไม้ในตารางตามพิกัดแถวและคอลัมน์ (เช่น A1, B2) แล้วตอบให้ถูกต้องว่าพิกัดที่ระบุคือผลไม้ชนิดใด
 
-### 7. 🎨 Grid-based Coloring (ระบายสีตามตารางพิกัด)
+### 7. Grid-based Coloring
 - **Route**: `/games/grid-based-coloring/[level]`
 - **มาสคอต**: **Nong Brite**
 - **ทักษะที่ฝึก**: การจับคู่พิกัดพิกเซล, ความจำระยะสั้น (Visual Memory), สมาธิและความแม่นยำ
@@ -111,19 +112,19 @@
 
 ---
 
-## ⚙️ ระบบสนับสนุนภายในแพลตฟอร์ม (Platform Systems)
+## Platform Systems
 
-### ❤️ ระบบหัวใจ (Life & Heart System)
+### Life & Heart System
 - มีหัวใจเริ่มต้น 5 ดวง (`lifeMax = 5`)
 - เมื่อตอบผิด ระบบจะเรียก `reduceLife()` เพื่อหักหัวใจ 1 ดวง พร้อมแสดงแอนิเมชันสั่นเตือน
 - หัวใจจะฟื้นฟูอัตโนมัติตามเวลา `lastResetAt`
 - ควบคุมการเข้าถึงด่านผ่าน `GameAccessGuard` (หากหัวใจหมดจะไม่สามารถเริ่มเล่นด่านใหม่ได้)
 
-### 🔥 ระบบ Streak
+### Streak System
 - บันทึกการเข้าเรียนและทำกิจกรรมอย่างต่อเนื่องรายวัน
 - แสดงผลในแถบ Resource Bars บนหน้าหลักบทเรียน และบนหน้าโปรไฟล์ส่วนตัว
 
-### 🏆 ระบบอันดับและแรงค์ (Rank System)
+### Rank & Leaderboard System
 แบ่งระดับผู้เล่นออกเป็น 7 ระดับ ตามคะแนนสะสม:
 1. **มือใหม่ (Newbie)**: 0 - 499 คะแนน
 2. **จูเนียร์ (Junior)**: 500 - 1,499 คะแนน
@@ -135,14 +136,14 @@
 
 พร้อมหน้ารวม **Leaderboard** แสดง Top 3 ผู้เล่นที่มีคะแนนสูงสุด และอันดับทั้งหมดในระบบ
 
-### 🌐 ระบบหลายภาษา (i18n)
+### Internationalization (i18n)
 - ขับเคลื่อนด้วย `next-intl`
 - ไฟล์ข้อความแปลอยู่ที่ `messages/th.json` (ภาษาไทย) และ `messages/en.json` (ภาษาอังกฤษ)
 - สลับภาษาได้ทันทีผ่านหน้าต่างการตั้งค่า (Settings)
 
 ---
 
-## 💻 เทคโนโลยีที่ใช้ (Tech Stack)
+## Tech Stack
 
 ### Core Technologies
 - **Framework**: [Next.js 16](https://nextjs.org/) (App Router, Turbopack ready)
@@ -169,7 +170,7 @@
 
 ---
 
-## 📁 โครงสร้างโปรเจ็ค (Project Structure)
+## Project Structure
 
 ```
 pbit-nongbrite-project-Frontend_2/
@@ -233,13 +234,13 @@ pbit-nongbrite-project-Frontend_2/
 
 ---
 
-## 🚀 การติดตั้งและเริ่มต้นใช้งาน (Getting Started)
+## Getting Started
 
-### ความต้องการของระบบ (Prerequisites)
+### Prerequisites
 - [Node.js](https://nodejs.org/) เวอร์ชั่น **18.18+** หรือ **20+**
 - แพ็กเกจเมเนเจอร์: **npm**, **yarn**, หรือ **pnpm**
 
-### ขั้นตอนการติดตั้ง
+### Installation Steps
 
 1. **โคลนคลังโค้ด (Clone Repository):**
    ```bash
@@ -278,7 +279,7 @@ pbit-nongbrite-project-Frontend_2/
 
 ---
 
-## 🔑 ตัวแปรสภาพแวดล้อม (Environment Variables)
+## Environment Variables
 
 | ตัวแปร | คำอธิบาย | ตัวอย่างค่า |
 |---|---|---|
@@ -286,11 +287,11 @@ pbit-nongbrite-project-Frontend_2/
 
 ---
 
-## 🔌 การเชื่อมต่อ API (API Integration)
+## API Integration
 
 แอปพลิเคชันเชื่อมต่อไปยัง Backend RESTful API ผ่าน Axios Client (`src/lib/api-client.ts`) โดยมี Endpoints หลักดังนี้:
 
-### 1. Authentication (`/auth`)
+### 1. Authentication (/auth)
 - `POST /auth/login` — เข้าสู่ระบบ
 - `POST /auth/logout` — ออกจากระบบและล้างเซสชัน
 - `POST /auth/register/step1` — สมัครสมาชิกขั้นที่ 1 (Username, Email, Password)
@@ -298,28 +299,28 @@ pbit-nongbrite-project-Frontend_2/
 - `POST /auth/forgot-password` — ขอรหัส PIN สำหรับรีเซ็ตรหัสผ่านทางอีเมล
 - `POST /auth/reset-password` — ตั้งรหัสผ่านใหม่ด้วยอีเมลและรหัส PIN
 
-### 2. User Profile & Status (`/user`, `/users`)
+### 2. User Profile & Status (/user, /users)
 - `GET /user/profile` — ดึงข้อมูลโปรไฟล์ผู้เล่น
 - `PUT /user/profile` — อัปเดตข้อมูลโปรไฟล์ (ชื่อ, อายุ, เพศ, ไอคอนมาสคอต)
 - `GET /users/lives` — ดึงสถานะหัวใจปัจจุบันและเวลา Reset
 - `PUT /users/lives` — หักจำนวนหัวใจเมื่อตอบผิด
 - `PUT /users/streak/update` — อัปเดตจำนวนวันเล่นติดต่อกัน (Streak)
 
-### 3. Chapters & Levels (`/chapters`)
+### 3. Chapters & Levels (/chapters)
 - `GET /chapters` — ดึงข้อมูลบทเรียน, ด่านทั้งหมด, จำนวนดาวที่ได้, และสถานะการปลดล็อก
 
-### 4. Game & Leaderboard (`/game`)
+### 4. Game & Leaderboard (/game)
 - `POST /game/submit` — ส่งผลการเล่นด่าน (คะแนน, จำนวนดาว, เวลาที่ใช้)
 - `GET /game/ranking` — ดึงข้อมูลอันดับ Leaderboard ของผู้เล่นทั้งหมด
 
 ---
 
-## 👥 ตัวละครมาสคอต (Mascot Characters)
+## Mascot Characters
 
-- 🤖 **P'Bit (พี่บิต)**: มาสคอตหุ่นยนต์ใจดี ผู้นำทางในการผจญภัย
-- 💡 **Nong Brite (น้องไบรท์)**: เพื่อนคู่หูตัวจิ๋วที่เปี่ยมไปด้วยความฉลาดสดใส
-- 🎀 **P'Minnie (พี่มินนี่)**: ผู้เชี่ยวชาญการสังเกตและจัดหมวดหมู่รูปทรง
-- 🥥 **P'Coco (พี่โคโค่)**: ตัวตึงด้านการคิดวิเคราะห์เชิงเงื่อนไข
-- 🍇 **P'Momo (พี่โมโม่)**: ผู้รักความถูกต้องและการจัดลำดับขั้นตอน
-- 🥤 **P'Bobo (พี่โบโบ้)**: เจ้าของร้านน้ำผลไม้ปั่น ผู้เชี่ยวชาญการทำงานแบบวนซ้ำ
-- 🍎 **P'PingPing (พี่ผิงผิง)**: ผู้เชี่ยวชาญการสำรวจพิกัดและตารางสองมิติ
+- **P'Bit (พี่บิต)**: มาสคอตหุ่นยนต์ใจดี ผู้นำทางในการผจญภัย
+- **Nong Brite (น้องไบรท์)**: เพื่อนคู่หูตัวจิ๋วที่เปี่ยมไปด้วยความฉลาดสดใส
+- **P'Minnie (พี่มินนี่)**: ผู้เชี่ยวชาญการสังเกตและจัดหมวดหมู่รูปทรง
+- **P'Coco (พี่โคโค่)**: ตัวตึงด้านการคิดวิเคราะห์เชิงเงื่อนไข
+- **P'Momo (พี่โมโม่)**: ผู้รักความถูกต้องและการจัดลำดับขั้นตอน
+- **P'Bobo (พี่โบโบ้)**: เจ้าของร้านน้ำผลไม้ปั่น ผู้เชี่ยวชาญการทำงานแบบวนซ้ำ
+- **P'PingPing (พี่ผิงผิง)**: ผู้เชี่ยวชาญการสำรวจพิกัดและตารางสองมิติ
